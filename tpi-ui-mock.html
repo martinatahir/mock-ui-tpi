@@ -1,0 +1,868 @@
+<!doctype html>
+<html lang="es-AR" data-theme="dark" data-skin="gamer">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TPI 2026 · Mock de navegación (sidebar)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Pixelify+Sans:wght@400;500;700&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+/* =========================================================================
+   TOKENS
+   Base values copied from @2026-p4-fe/ui theme.css (v0.3.2) for data-theme
+   light/dark ("gamer" / arcade skin, today's real look). The [data-skin='sobrio']
+   blocks are the NEW proposal from PLAN-AUDITORIA-UI.md Phase 4 — a real
+   professor-world palette, not just a font swap.
+   ========================================================================= */
+:root, :root[data-theme='light'] {
+  --bg-app: #efe6d4; --bg-surface: #f7f1e4; --bg-surface-alt: #eadfc8;
+  --border-subtle: #a68f66; --border-highlight: #8a6a1a;
+  --text-primary: #16130f; --text-muted: #3a342c;
+  --accent-primary: #0c2e32; --accent-primary-fill: #5eb8c2; --on-accent-primary:#0c2224;
+  --accent-secondary: #141c1e; --accent-secondary-fill: #3e7a88; --on-accent-secondary:#0c2224;
+  --accent-gold: #2a1c0a; --accent-gold-fill: #c4921a; --on-accent-gold:#241705;
+  --accent-danger: #b42318; --accent-danger-fill: #c83b35; --on-accent-danger:#2a0705;
+  --accent-success: #146c43; --accent-success-fill: #2a8a54; --on-accent-success:#062b16;
+  --focus-glow: rgba(12,46,50,.45);
+  --font-body: 'IBM Plex Sans', sans-serif; --font-display: 'Silkscreen', sans-serif;
+  --radius-control: 4px; --border-width: 2px; --press-y: -2px;
+}
+:root[data-theme='dark'] {
+  --bg-app: #141516; --bg-surface: #1e1f21; --bg-surface-alt: #18191b;
+  --border-subtle: #5b5e63; --border-highlight: #b8a87a;
+  --text-primary: #e4e2dc; --text-muted: #a9aba8;
+  --accent-primary: #c47a68; --accent-primary-fill: #c47a68; --on-accent-primary:#241209;
+  --accent-secondary: #6a92a3; --accent-secondary-fill: #6a92a3; --on-accent-secondary:#0c1c22;
+  --accent-gold: #c4ae78; --accent-gold-fill: #c4ae78; --on-accent-gold:#241c0a;
+  --accent-danger: #c45c52; --accent-danger-fill: #c45c52; --on-accent-danger:#2a0705;
+  --accent-success: #7a9450; --accent-success-fill: #7a9450; --on-accent-success:#0c1a06;
+  --focus-glow: rgba(196,122,104,.5);
+}
+/* --- Sobrio: real professor-world palette (Phase 4 proposal) --- */
+:root[data-theme='light'][data-skin='sobrio'] {
+  --bg-app: #f2f4f7; --bg-surface: #ffffff; --bg-surface-alt: #e8ecf1;
+  --border-subtle: #aab4c2; --border-highlight: #2f5fd0;
+  --text-primary: #161a21; --text-muted: #4b5563;
+  --accent-primary: #2f5fd0; --accent-primary-fill: #2f5fd0; --on-accent-primary:#ffffff;
+  --accent-secondary: #46586b; --accent-secondary-fill: #46586b; --on-accent-secondary:#ffffff;
+  --accent-gold: #8a5a06; --accent-gold-fill: #a86a0a; --on-accent-gold:#ffffff;
+  --accent-danger: #b3261e; --accent-danger-fill: #c1352b; --on-accent-danger:#ffffff;
+  --accent-success: #1c7a4d; --accent-success-fill: #1f7a4d; --on-accent-success:#ffffff;
+  --focus-glow: rgba(47,95,208,.35);
+  --font-display: 'IBM Plex Sans', sans-serif; --radius-control: 8px; --border-width: 1px; --press-y: 0px;
+}
+:root[data-theme='dark'][data-skin='sobrio'] {
+  --bg-app: #12161c; --bg-surface: #1a1f27; --bg-surface-alt: #151920;
+  --border-subtle: #3c4756; --border-highlight: #6f9bf0;
+  --text-primary: #eef1f5; --text-muted: #a7b0bd;
+  --accent-primary: #6f9bf0; --accent-primary-fill: #6f9bf0; --on-accent-primary:#0b1526;
+  --accent-secondary: #8aa0b8; --accent-secondary-fill: #7d93ac; --on-accent-secondary:#0b1526;
+  --accent-gold: #d9a441; --accent-gold-fill: #d9a441; --on-accent-gold:#241a04;
+  --accent-danger: #ef6a5d; --accent-danger-fill: #e2584c; --on-accent-danger:#2a0705;
+  --accent-success: #59c290; --accent-success-fill: #4caf7d; --on-accent-success:#04210f;
+  --focus-glow: rgba(111,155,240,.45);
+  --font-display: 'IBM Plex Sans', sans-serif; --radius-control: 8px; --border-width: 1px; --press-y: 0px;
+}
+
+* { box-sizing: border-box; }
+html, body { margin:0; padding:0; height:100%; }
+body {
+  background: var(--bg-app); color: var(--text-primary); font-family: var(--font-body);
+  font-size: 15px; line-height:1.5; -webkit-font-smoothing:antialiased;
+  transition: background-color .15s ease, color .15s ease;
+}
+a { color: var(--accent-secondary); text-underline-offset:.2em; }
+a:hover { color: var(--accent-primary); }
+a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
+  outline: 3px solid var(--focus-glow); outline-offset: 2px;
+}
+h1,h2,h3 { margin:0 0 .4em; }
+[data-skin='gamer'] .display { font-family: var(--font-display); letter-spacing:.02em; }
+[data-skin='sobrio'] .display { font-family: var(--font-body); font-weight:700; }
+[data-skin='sobrio'] .no-caps-in-sobrio { text-transform: none !important; }
+[data-skin='sobrio'] .arcade-only { display:none !important; }
+[data-skin='sobrio'] table { font-variant-numeric: tabular-nums; }
+[data-skin='sobrio'] .glow, [data-skin='sobrio'] [class*="glow"] { box-shadow:none !important; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+}
+
+/* ---- shell layout ---- */
+.topbar {
+  display:flex; align-items:center; gap:16px; padding:10px 18px;
+  background: var(--bg-surface); border-bottom: var(--border-width) solid var(--border-subtle);
+  position: sticky; top:0; z-index: 20;
+}
+.topbar .brand { font-family: var(--font-display); font-weight:700; font-size:18px; margin-right:auto; }
+.mode-switch { display:flex; border:var(--border-width) solid var(--border-subtle); border-radius: var(--radius-control); overflow:hidden; }
+.mode-switch button { border:0; background:transparent; color:var(--text-primary); padding:6px 12px; font:inherit; cursor:pointer; }
+.mode-switch button.active { background: var(--accent-primary-fill); color: var(--on-accent-primary); }
+.toggle-group { display:flex; gap:8px; align-items:center; font-size:13px; color:var(--text-muted); }
+.pill-toggle { display:flex; border:var(--border-width) solid var(--border-subtle); border-radius:999px; overflow:hidden; }
+.pill-toggle button { border:0; background:transparent; color:var(--text-primary); padding:5px 12px; font:inherit; font-size:13px; cursor:pointer; }
+.pill-toggle button.active { background: var(--accent-secondary-fill); color: var(--on-accent-secondary); }
+
+.shell { display:flex; min-height: calc(100vh - 53px); }
+.sidebar {
+  width: 248px; flex: 0 0 248px; background: var(--bg-surface); border-right: var(--border-width) solid var(--border-subtle);
+  padding: 16px 10px; overflow-y:auto;
+}
+.sidebar .group-label { font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--text-muted); margin:18px 8px 6px; }
+.sidebar .group-label:first-child { margin-top:4px; }
+.nav-item {
+  display:flex; align-items:center; gap:10px; width:100%; text-align:left; border:0; background:transparent;
+  color: var(--text-primary); padding:9px 10px; border-radius: var(--radius-control); font:inherit; font-size:14px; cursor:pointer; margin-bottom:2px;
+}
+.nav-item:hover { background: var(--bg-surface-alt); }
+.nav-item.active { background: var(--accent-primary-fill); color: var(--on-accent-primary); font-weight:600; }
+.nav-item .beta { margin-left:auto; font-size:10px; padding:1px 6px; border-radius:999px; background:var(--bg-surface-alt); color:var(--text-muted); border:1px solid var(--border-subtle); }
+.nav-item.active .beta { background: rgba(0,0,0,.15); color: inherit; border-color: transparent; }
+.sidebar-footer { margin-top:20px; padding-top:14px; border-top:var(--border-width) solid var(--border-subtle); display:flex; flex-direction:column; gap:10px; }
+
+.content { flex:1; padding: 24px 32px; max-width: 1100px; }
+.screen { display:none; }
+.screen.visible { display:block; }
+.subnav { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px; }
+.chip { border:var(--border-width) solid var(--border-subtle); background:var(--bg-surface); color:var(--text-primary); border-radius:999px; padding:6px 14px; font:inherit; font-size:13px; cursor:pointer; }
+.chip.active { background: var(--accent-secondary-fill); color: var(--on-accent-secondary); border-color: transparent; }
+.subscreen { display:none; }
+.subscreen.visible { display:block; }
+
+.card { background:var(--bg-surface); border:var(--border-width) solid var(--border-subtle); border-radius: calc(var(--radius-control) * 2); padding:18px; margin-bottom:16px; }
+.card-alt { background:var(--bg-surface-alt); }
+.grid { display:grid; gap:16px; }
+.grid.cols-2 { grid-template-columns: repeat(2,1fr); }
+.grid.cols-3 { grid-template-columns: repeat(3,1fr); }
+.grid.cols-4 { grid-template-columns: repeat(4,1fr); }
+@media (max-width: 900px){ .grid.cols-2,.grid.cols-3,.grid.cols-4{ grid-template-columns: 1fr; } }
+
+.btn { display:inline-flex; align-items:center; gap:6px; border:var(--border-width) solid transparent; border-radius: var(--radius-control); padding:9px 16px; font:inherit; font-weight:600; font-size:14px; cursor:pointer; transition: transform .1s ease; }
+.btn:active { transform: translateY(var(--press-y)); }
+.btn-cyan { background: var(--accent-secondary-fill); color: var(--on-accent-secondary); }
+.btn-magenta { background: var(--accent-primary-fill); color: var(--on-accent-primary); }
+.btn-gold { background: var(--accent-gold-fill); color: var(--on-accent-gold); }
+.btn-green { background: var(--accent-success-fill); color: var(--on-accent-success); }
+.btn-danger { background: var(--accent-danger-fill); color: var(--on-accent-danger); }
+.btn-ghost { background:transparent; color:var(--text-primary); border-color: var(--border-subtle); }
+
+.badge { display:inline-flex; align-items:center; gap:4px; font-size:12px; font-weight:600; padding:3px 9px; border-radius:999px; }
+.badge-cyan { background: var(--accent-secondary-fill); color: var(--on-accent-secondary); }
+.badge-magenta { background: var(--accent-primary-fill); color: var(--on-accent-primary); }
+.badge-gold { background: var(--accent-gold-fill); color: var(--on-accent-gold); }
+.badge-green { background: var(--accent-success-fill); color: var(--on-accent-success); }
+.badge-danger { background: var(--accent-danger-fill); color: var(--on-accent-danger); }
+.badge-outline { background:transparent; border:1px solid var(--border-subtle); color:var(--text-muted); }
+
+label.field { display:block; margin-bottom:14px; }
+label.field span.lbl { display:block; font-size:13px; font-weight:600; margin-bottom:5px; }
+label.field input, label.field select, label.field textarea {
+  width:100%; padding:10px 12px; border-radius: var(--radius-control); border: var(--border-width) solid var(--border-subtle);
+  background: var(--bg-app); color: var(--text-primary); font:inherit; font-size:14px;
+}
+label.field .hint { font-size:12px; color:var(--text-muted); margin-top:4px; }
+label.field .err { font-size:12px; color: var(--accent-danger); margin-top:4px; }
+
+table.data { width:100%; border-collapse:collapse; font-size:14px; }
+table.data th, table.data td { text-align:left; padding:10px 12px; border-bottom:1px solid var(--border-subtle); }
+table.data th { color:var(--text-muted); font-size:12px; text-transform:uppercase; letter-spacing:.04em; }
+table.data tr.me { background: var(--bg-surface-alt); font-weight:600; }
+
+.alert { border-radius: var(--radius-control); padding:14px 16px; margin-bottom:16px; border:var(--border-width) solid; display:flex; gap:10px; align-items:flex-start; }
+.alert-danger { border-color: var(--accent-danger); background: color-mix(in srgb, var(--accent-danger) 12%, var(--bg-surface)); }
+.alert-info { border-color: var(--accent-secondary); background: color-mix(in srgb, var(--accent-secondary) 10%, var(--bg-surface)); }
+.alert p { margin:2px 0 0; font-size:13px; color:var(--text-muted); }
+.alert .action { margin-top:8px; }
+
+.progress { height:12px; border-radius:999px; background:var(--bg-surface-alt); border:1px solid var(--border-subtle); overflow:hidden; }
+.progress > span { display:block; height:100%; background: var(--accent-primary-fill); transform-origin:left; }
+
+.avatar-circle { width:44px; height:44px; border-radius:50%; background:var(--accent-secondary-fill); color:var(--on-accent-secondary); display:flex; align-items:center; justify-content:center; font-weight:700; }
+.streak-flame { display:inline-flex; align-items:center; gap:6px; font-weight:700; }
+.empty-state { text-align:center; padding: 48px 20px; color: var(--text-muted); }
+.empty-state .icon { font-size:32px; margin-bottom:8px; }
+.placeholder-dev { border:2px dashed var(--border-subtle); border-radius:8px; padding:20px; color:var(--text-muted); font-size:13px; }
+
+.auth-shell { max-width: 420px; margin: 60px auto; }
+.auth-shell .card { padding:28px; }
+.tabs-row { display:flex; gap:4px; border-bottom: var(--border-width) solid var(--border-subtle); margin-bottom:18px; }
+.tabs-row button { border:0; background:transparent; padding:10px 16px; font:inherit; font-weight:600; color:var(--text-muted); cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-2px; }
+.tabs-row button.active { color:var(--text-primary); border-color: var(--accent-primary); }
+
+.mock-note { font-size:11px; color:var(--text-muted); background:var(--bg-surface-alt); border:1px dashed var(--border-subtle); padding:8px 12px; border-radius:6px; margin-bottom:16px; }
+.section-title-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; flex-wrap:wrap; gap:10px; }
+</style>
+</head>
+<body data-theme="dark" data-skin="gamer">
+
+<div class="topbar">
+  <div class="brand display">TPI · Plataforma Gamificada</div>
+  <div class="mode-switch">
+    <button id="mode-app" class="active" onclick="setMode('app')">Vista app</button>
+    <button id="mode-auth" onclick="setMode('auth')">Auth / Onboarding</button>
+  </div>
+  <div class="toggle-group">
+    Tema
+    <div class="pill-toggle">
+      <button id="theme-light" onclick="setTheme('light')">Claro</button>
+      <button id="theme-dark" class="active" onclick="setTheme('dark')">Oscuro</button>
+    </div>
+  </div>
+  <div class="toggle-group">
+    Modo
+    <div class="pill-toggle">
+      <button id="skin-gamer" class="active" onclick="setSkin('gamer')">Modo juego</button>
+      <button id="skin-sobrio" onclick="setSkin('sobrio')">Modo profesor</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================= APP SHELL (sidebar) ============================= -->
+<div class="shell" id="app-shell">
+  <aside class="sidebar">
+    <div class="group-label">Inicio</div>
+    <button class="nav-item active" data-screen="dashboard" onclick="showScreen('dashboard', this)">🏠 Panel principal</button>
+
+    <div class="group-label">Aprender</div>
+    <button class="nav-item" data-screen="cursos" onclick="showScreen('cursos', this)">📚 Cursos</button>
+    <button class="nav-item" data-screen="desafios" onclick="showScreen('desafios', this)">🔥 Desafíos</button>
+    <button class="nav-item" data-screen="roadmap" onclick="showScreen('roadmap', this)">🗺️ Roadmap</button>
+    <button class="nav-item" data-screen="ai-tutor" onclick="showScreen('ai-tutor', this)">🤖 Tutor IA <span class="beta">Beta</span></button>
+
+    <div class="group-label">Progreso</div>
+    <button class="nav-item" data-screen="ranking" onclick="showScreen('ranking', this)">🏆 Ranking</button>
+    <button class="nav-item" data-screen="banco" onclick="showScreen('banco', this)">🪙 Banco <span class="beta">Beta</span></button>
+
+    <div class="group-label">Tienda</div>
+    <button class="nav-item" data-screen="marketplace" onclick="showScreen('marketplace', this)">🎒 Marketplace <span class="beta">Beta</span></button>
+
+    <div class="group-label">Comunidad</div>
+    <button class="nav-item" data-screen="chat" onclick="showScreen('chat', this)">💬 Chat <span class="beta">Beta</span></button>
+    <button class="nav-item" data-screen="notificaciones" onclick="showScreen('notificaciones', this)">🔔 Notificaciones <span class="beta">Beta</span></button>
+    <button class="nav-item" data-screen="encuestas" onclick="showScreen('encuestas', this)">⭐ Encuestas <span class="beta">Beta</span></button>
+
+    <div class="group-label">Cuenta</div>
+    <button class="nav-item" data-screen="perfil" onclick="showScreen('perfil', this)">🙂 Mi perfil</button>
+
+    <div class="group-label">Administración <span class="beta">Rol: Gestor/Admin</span></div>
+    <button class="nav-item" data-screen="admin" onclick="showScreen('admin', this)">🔒 Backoffice</button>
+
+    <div class="sidebar-footer">
+      <div style="font-size:12px; color:var(--text-muted);">
+        Grupos <b>Aprender / Progreso / Tienda</b> son la propuesta final (≤5 destinos). Comunidad, Cuenta y Administración
+        quedan disponibles para que este mock cubra las ~50 pantallas reales; en producción cada ítem "Beta" se oculta
+        hasta que su feature deje de ser el scaffold genérico (ver Fase 3 del plan).
+      </div>
+    </div>
+  </aside>
+
+  <main class="content">
+
+    <!-- ============ DASHBOARD (Fase 3: home real) ============ -->
+    <section class="screen visible" id="screen-dashboard">
+      <div class="mock-note">Reemplaza el placeholder "My Dashboard" en inglés. Propuesta de home real (Fase 3).</div>
+      <h1 class="display">Hola, Manu 👋</h1>
+      <div class="grid cols-3">
+        <div class="card">
+          <div style="font-size:12px;color:var(--text-muted);text-transform:uppercase;">XP total</div>
+          <div style="font-size:28px;font-weight:700;margin:6px 0;">2.340 XP</div>
+          <div class="progress"><span style="width:64%"></span></div>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">Nivel 7 · faltan 460 XP para el nivel 8</div>
+        </div>
+        <div class="card">
+          <div style="font-size:12px;color:var(--text-muted);text-transform:uppercase;">Racha</div>
+          <div class="streak-flame" style="font-size:26px;margin:6px 0;">🔥 6 días</div>
+          <div style="font-size:12px;color:var(--text-muted);">Entrá hoy para no perderla</div>
+        </div>
+        <div class="card">
+          <div style="font-size:12px;color:var(--text-muted);text-transform:uppercase;">Monedas</div>
+          <div style="font-size:28px;font-weight:700;margin:6px 0;">🪙 1.280</div>
+          <div style="font-size:12px;color:var(--text-muted);">Usalas en el Marketplace</div>
+        </div>
+      </div>
+      <div class="alert alert-info">
+        <div>⚠️</div>
+        <div>
+          <b>Zona de riesgo de regularidad</b>
+          <p>Te faltan 2 desafíos obligatorios de "Estructuras de control" para salir de zona de riesgo.</p>
+          <div class="action"><button class="btn btn-cyan">Ir al desafío pendiente</button></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Tu próxima misión</h3>
+        <p style="color:var(--text-muted)">Práctica guiada · Funciones — dificultad básica</p>
+        <button class="btn btn-magenta">Continuar</button>
+      </div>
+    </section>
+
+    <!-- ============ CURSOS ============ -->
+    <section class="screen" id="screen-cursos">
+      <div class="subnav">
+        <button class="chip active" onclick="showSub('cursos','lista', this)">Mis cursos</button>
+        <button class="chip" onclick="showSub('cursos','detalle', this)">Detalle de curso</button>
+      </div>
+      <div class="subscreen visible" id="sub-cursos-lista">
+        <div class="section-title-row"><h1 class="display">Cursos</h1><button class="btn btn-magenta">+ Crear curso base</button></div>
+        <div class="tabs-row">
+          <button class="active">Activos</button><button>Borrador</button><button>Archivados</button>
+        </div>
+        <div class="grid cols-2">
+          <div class="card"><h3>Programación IV — Comisión A</h3><p style="color:var(--text-muted)">32 alumnos · 4 secciones</p><span class="badge badge-green">Activo</span></div>
+          <div class="card"><h3>Programación IV — Comisión B</h3><p style="color:var(--text-muted)">28 alumnos · 4 secciones</p><span class="badge badge-green">Activo</span></div>
+        </div>
+      </div>
+      <div class="subscreen" id="sub-cursos-detalle">
+        <h1 class="display">Programación IV — Comisión A</h1>
+        <div class="placeholder-dev">Vista en desarrollo — el detalle de curso todavía no está implementado, se muestra un estado vacío explícito en vez de un scaffold genérico.</div>
+      </div>
+    </section>
+
+    <!-- ============ DESAFÍOS ============ -->
+    <section class="screen" id="screen-desafios">
+      <div class="subnav">
+        <button class="chip active" onclick="showSub('desafios','lista', this)">Lista</button>
+        <button class="chip" onclick="showSub('desafios','detalle', this)">Detalle</button>
+        <button class="chip" onclick="showSub('desafios','resolver', this)">Resolver</button>
+      </div>
+      <div class="subscreen visible" id="sub-desafios-lista">
+        <h1 class="display">Desafíos</h1>
+        <div class="grid cols-2">
+          <div class="card"><span class="badge badge-gold">Práctico</span><h3>Ordenar una lista</h3><p style="color:var(--text-muted)">Dificultad básica · 40 XP</p></div>
+          <div class="card"><span class="badge badge-cyan">Teórico</span><h3>Complejidad algorítmica</h3><p style="color:var(--text-muted)">Dificultad media · 60 XP</p></div>
+        </div>
+      </div>
+      <div class="subscreen" id="sub-desafios-detalle">
+        <h1 class="display">Ordenar una lista</h1>
+        <p>Implementá un algoritmo de ordenamiento y explicá su complejidad temporal.</p>
+        <button class="btn btn-magenta">Empezar</button>
+      </div>
+      <div class="subscreen" id="sub-desafios-resolver">
+        <h1 class="display">Resolver desafío</h1>
+        <label class="field"><span class="lbl">Tu solución</span><textarea rows="8" placeholder="// escribí tu código acá"></textarea></label>
+        <button class="btn btn-green">Enviar</button>
+      </div>
+    </section>
+
+    <!-- ============ ROADMAP ============ -->
+    <section class="screen" id="screen-roadmap">
+      <div class="pill-toggle" style="margin-bottom:14px;">
+        <button class="active" onclick="toggleRoadmapRole('alumno', this)">Vista alumno</button>
+        <button onclick="toggleRoadmapRole('profesor', this)">Vista profesor</button>
+      </div>
+
+      <div id="roadmap-alumno">
+        <div class="subnav">
+          <button class="chip active" onclick="showSub('roadmap','mis-clases', this)">Mis clases</button>
+          <button class="chip" onclick="showSub('roadmap','mundo3d', this)">Mundo 3D</button>
+          <button class="chip" onclick="showSub('roadmap','avatar', this)">Editor de avatar</button>
+          <button class="chip" onclick="showSub('roadmap','seccion', this)">Mapa de sección</button>
+          <button class="chip" onclick="showSub('roadmap','materiales', this)">Materiales</button>
+          <button class="chip" onclick="showSub('roadmap','archipielago', this)">Archipiélago</button>
+          <button class="chip" onclick="showSub('roadmap','hex', this)">Mundo hexagonal</button>
+          <button class="chip" onclick="showSub('roadmap','insignias', this)">Insignias</button>
+        </div>
+        <div class="subscreen visible" id="sub-roadmap-mis-clases">
+          <h1 class="display">Mis clases</h1>
+          <div class="grid cols-2">
+            <div class="card"><h3>Programación IV</h3><p style="color:var(--text-muted)">5 secciones · Fundamentos, Estructuras de control, Funciones, Estructuras de datos, Concurrencia y Redes</p><button class="btn btn-cyan">Entrar al mundo</button></div>
+          </div>
+        </div>
+        <div class="subscreen" id="sub-roadmap-mundo3d">
+          <h1 class="display">Mundo 3D — Programación IV</h1>
+          <div class="card" style="height:220px; display:flex; align-items:center; justify-content:center; color:var(--text-muted);">[ escena 3D: islas por sección ]</div>
+        </div>
+        <div class="subscreen" id="sub-roadmap-avatar">
+          <h1 class="display">Tu personaje</h1>
+          <div class="grid cols-4">
+            <div class="avatar-circle" style="width:80px;height:80px;font-size:24px;">🧑</div>
+            <label class="field"><span class="lbl">Cabello</span><select><option>Corto</option><option>Largo</option></select></label>
+            <label class="field"><span class="lbl">Color</span><select><option>Azul</option><option>Verde</option></select></label>
+            <label class="field"><span class="lbl">Accesorio</span><select><option>Ninguno</option><option>Anteojos</option></select></label>
+          </div>
+        </div>
+        <div class="subscreen" id="sub-roadmap-seccion">
+          <h1 class="display">Fundamentos — mapa de la sección</h1>
+          <div class="card" style="height:180px; display:flex; align-items:center; justify-content:center; color:var(--text-muted);">[ nodos: intro → teoría → práctica guiada → práctica libre → desafío → boss ]</div>
+        </div>
+        <div class="subscreen" id="sub-roadmap-materiales">
+          <h1 class="display">Materiales</h1>
+          <div class="grid cols-2">
+            <div class="card">📄 Guía de estructuras de control</div>
+            <div class="card">📄 Apunte de funciones</div>
+          </div>
+        </div>
+        <div class="subscreen" id="sub-roadmap-archipielago">
+          <h1 class="display">Archipiélago de Programación IV</h1>
+          <p style="color:var(--text-muted)">Elegí una sección para entrar a su mundo hexagonal.</p>
+        </div>
+        <div class="subscreen" id="sub-roadmap-hex">
+          <h1 class="display">Fundamentos — mundo hexagonal</h1>
+          <div class="card" style="height:200px; display:flex; align-items:center; justify-content:center; color:var(--text-muted);">[ tablero hex, unidades completadas en verde ]</div>
+        </div>
+        <div class="subscreen" id="sub-roadmap-insignias">
+          <h1 class="display">Catálogo de insignias</h1>
+          <div class="grid cols-4">
+            <div class="card" style="text-align:center;">🥇<div>Primer desafío</div></div>
+            <div class="card" style="text-align:center;">🔥<div>Racha de 7 días</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="roadmap-profesor" style="display:none;">
+        <div class="subnav">
+          <button class="chip active" onclick="showSub('roadmap','p-inicio', this)">Inicio</button>
+          <button class="chip" onclick="showSub('roadmap','p-constructor', this)">Constructor</button>
+          <button class="chip" onclick="showSub('roadmap','p-mapa', this)">Mapa de curso</button>
+        </div>
+        <div class="subscreen visible" id="sub-roadmap-p-inicio">
+          <div class="section-title-row"><h1 class="display">Panel del profesor</h1><button class="btn btn-magenta">+ Nueva materia</button></div>
+          <div class="grid cols-2">
+            <div class="card"><h3>Programación IV</h3><p style="color:var(--text-muted)">5 secciones publicadas</p></div>
+          </div>
+        </div>
+        <div class="subscreen" id="sub-roadmap-p-constructor">
+          <h1 class="display">Constructor — Programación IV</h1>
+          <p style="color:var(--text-muted)">Niveles, unidades y nodos de la materia.</p>
+        </div>
+        <div class="subscreen" id="sub-roadmap-p-mapa">
+          <h1 class="display">Mapa de curso</h1>
+          <div class="card" style="height:200px; display:flex; align-items:center; justify-content:center; color:var(--text-muted);">[ grafo de secciones ]</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ RANKING ============ -->
+    <section class="screen" id="screen-ranking">
+      <div class="subnav">
+        <button class="chip active" onclick="showSub('ranking','alumno', this)">Vista alumno</button>
+        <button class="chip" onclick="showSub('ranking','staff', this)">Vista staff</button>
+        <button class="chip" onclick="showSub('ranking','detalle', this)">Detalle</button>
+      </div>
+      <div class="subscreen visible" id="sub-ranking-alumno">
+        <h1 class="display">Ranking — Programación IV</h1>
+        <div class="alert alert-danger">
+          <div>⚠️</div>
+          <div><b>Estás en zona de riesgo</b><p>Te faltan ejercicios obligatorios para mantener la regularidad.</p>
+          <div class="action"><button class="btn btn-cyan">Ver qué me falta</button></div></div>
+        </div>
+        <table class="data">
+          <thead><tr><th>#</th><th>Alumno</th><th>XP</th><th>Percentil</th><th>Estado</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Valentina R. — leg. 40213</td><td>4.820</td><td>P95</td><td><span class="badge badge-green">Promoción</span></td></tr>
+            <tr><td>2</td><td>Bruno S. — leg. 40088</td><td>4.510</td><td>P88</td><td><span class="badge badge-outline">Regular</span></td></tr>
+            <tr class="me"><td>7</td><td>· Vos — leg. 40510</td><td>2.340</td><td>P54</td><td><span class="badge badge-outline">Regular</span></td></tr>
+            <tr><td>11</td><td>Julián P. — leg. 40672</td><td>980</td><td>P12</td><td><span class="badge badge-danger">Riesgo</span></td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:12px;color:var(--text-muted);margin-top:8px;">P95/P88 = tu XP supera al 95%/88% de la cohorte. La zona de riesgo se calcula con los obligatorios pendientes, no solo el XP.</p>
+      </div>
+      <div class="subscreen" id="sub-ranking-staff">
+        <h1 class="display">Ranking — vista staff</h1>
+        <table class="data">
+          <thead><tr><th>#</th><th>Alumno</th><th>Legajo</th><th>XP</th><th>Percentil</th><th>Vidas</th><th>Estado</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Valentina R.</td><td>40213</td><td>4.820</td><td>P95</td><td>♥♥♥</td><td><span class="badge badge-green">Promoción</span></td></tr>
+            <tr><td>11</td><td>Julián P.</td><td>40672</td><td>980</td><td>P12</td><td>♥</td><td><span class="badge badge-danger">Riesgo</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="subscreen" id="sub-ranking-detalle">
+        <h1 class="display">Detalle — Valentina R.</h1>
+        <div class="grid cols-3">
+          <div class="card">XP: 4.820</div><div class="card">Insignias: 9</div><div class="card">Ejercicios completados: 46</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ BANCO ============ -->
+    <section class="screen" id="screen-banco">
+      <div class="mock-note">Hoy es el scaffold genérico "GET /v1/bank" — se muestra acá con datos de ejemplo para revisar el layout propuesto.</div>
+      <h1 class="display">Banco</h1>
+      <div class="grid cols-3">
+        <div class="card"><div style="color:var(--text-muted);font-size:12px;">Saldo actual</div><div style="font-size:26px;font-weight:700;">🪙 1.280</div></div>
+        <div class="card"><div style="color:var(--text-muted);font-size:12px;">XP acumulado</div><div style="font-size:26px;font-weight:700;">2.340</div></div>
+        <div class="card"><div style="color:var(--text-muted);font-size:12px;">Vidas</div><div style="font-size:26px;font-weight:700;">♥ ♥ ♥</div></div>
+      </div>
+      <table class="data">
+        <thead><tr><th>Fecha</th><th>Movimiento</th><th>Monto</th></tr></thead>
+        <tbody>
+          <tr><td>28/09</td><td>Desafío completado — Funciones</td><td>+60 🪙</td></tr>
+          <tr><td>27/09</td><td>Compra en Marketplace — Skin de avatar</td><td>-300 🪙</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ============ MARKETPLACE ============ -->
+    <section class="screen" id="screen-marketplace">
+      <div class="mock-note">Hoy es el scaffold genérico en las 3 sub-rutas — mockeado acá con contenido ilustrativo.</div>
+      <div class="subnav">
+        <button class="chip active" onclick="showSub('marketplace','catalogo', this)">Catálogo</button>
+        <button class="chip" onclick="showSub('marketplace','subastas', this)">Subastas</button>
+        <button class="chip" onclick="showSub('marketplace','inventario', this)">Inventario</button>
+      </div>
+      <div class="subscreen visible" id="sub-marketplace-catalogo">
+        <h1 class="display">Catálogo</h1>
+        <div class="grid cols-3">
+          <div class="card"><div style="height:70px;background:var(--bg-surface-alt);border-radius:6px;margin-bottom:8px;"></div><b>Skin "Explorador"</b><div style="color:var(--text-muted);font-size:13px;">300 🪙</div></div>
+          <div class="card"><div style="height:70px;background:var(--bg-surface-alt);border-radius:6px;margin-bottom:8px;"></div><b>Marco de perfil dorado</b><div style="color:var(--text-muted);font-size:13px;">500 🪙</div></div>
+        </div>
+      </div>
+      <div class="subscreen" id="sub-marketplace-subastas">
+        <h1 class="display">Subastas</h1>
+        <div class="card">Insignia "Fundador" — oferta actual: 1.200 🪙 · cierra en 2h</div>
+      </div>
+      <div class="subscreen" id="sub-marketplace-inventario">
+        <h1 class="display">Mi inventario</h1>
+        <div class="grid cols-4">
+          <div class="card" style="text-align:center;">🎒<div style="font-size:12px;">Vacío</div></div>
+          <div class="card" style="text-align:center;">🎒<div style="font-size:12px;">Vacío</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CHAT ============ -->
+    <section class="screen" id="screen-chat">
+      <div class="mock-note">Scaffold genérico hoy — mockeado con canales de ejemplo.</div>
+      <div class="subnav">
+        <button class="chip active" onclick="showSub('chat','lista', this)">Canales</button>
+        <button class="chip" onclick="showSub('chat','canal', this)">Canal</button>
+      </div>
+      <div class="subscreen visible" id="sub-chat-lista">
+        <h1 class="display">Canales</h1>
+        <div class="card">#comision-a</div>
+        <div class="card">Valentina R. (1:1)</div>
+      </div>
+      <div class="subscreen" id="sub-chat-canal">
+        <h1 class="display">#comision-a</h1>
+        <div class="card" style="height:160px;"></div>
+        <label class="field" style="margin-top:10px;"><input placeholder="Escribí un mensaje…" /></label>
+      </div>
+    </section>
+
+    <!-- ============ NOTIFICACIONES ============ -->
+    <section class="screen" id="screen-notificaciones">
+      <div class="mock-note">Scaffold genérico hoy — mockeado con notificaciones de ejemplo.</div>
+      <h1 class="display">Notificaciones</h1>
+      <div class="card">🏆 Subiste al puesto #7 del ranking</div>
+      <div class="card">🔥 ¡Tu racha llegó a 6 días!</div>
+    </section>
+
+    <!-- ============ ENCUESTAS ============ -->
+    <section class="screen" id="screen-encuestas">
+      <div class="mock-note">Scaffold genérico hoy — mockeado.</div>
+      <div class="subnav">
+        <button class="chip active" onclick="showSub('encuestas','lista', this)">Pendientes</button>
+        <button class="chip" onclick="showSub('encuestas','responder', this)">Responder</button>
+      </div>
+      <div class="subscreen visible" id="sub-encuestas-lista">
+        <h1 class="display">Encuestas pendientes</h1>
+        <div class="card">Satisfacción — Unidad "Funciones"</div>
+      </div>
+      <div class="subscreen" id="sub-encuestas-responder">
+        <h1 class="display">Satisfacción — Unidad "Funciones"</h1>
+        <p>Calificá de 1 a 5 estrellas: ⭐⭐⭐⭐☆</p>
+        <button class="btn btn-green">Enviar</button>
+      </div>
+    </section>
+
+    <!-- ============ IA TUTOR ============ -->
+    <section class="screen" id="screen-ai-tutor">
+      <div class="mock-note">Scaffold genérico hoy — mockeado como chat.</div>
+      <h1 class="display">Tutor IA</h1>
+      <div class="card" style="height:160px;"></div>
+      <label class="field" style="margin-top:10px;"><input placeholder="Preguntale algo al tutor…" /></label>
+    </section>
+
+    <!-- ============ PERFIL ============ -->
+    <section class="screen" id="screen-perfil">
+      <div class="subnav">
+        <button class="chip active" onclick="showSub('perfil','mi-perfil', this)">Mi perfil</button>
+        <button class="chip" onclick="showSub('perfil','publico', this)">Perfil público</button>
+        <button class="chip" onclick="showSub('perfil','solicitud', this)">Solicitud de acceso</button>
+      </div>
+      <div class="subscreen visible" id="sub-perfil-mi-perfil">
+        <h1 class="display">Mi perfil</h1>
+        <div class="card" style="display:flex; gap:16px; align-items:center;">
+          <div class="avatar-circle">MS</div>
+          <div>
+            <b>Manuel Sanchez</b><br/>
+            <span style="color:var(--text-muted); font-size:13px;">manuel.sanchez@frc.utn.edu.ar</span><br/>
+            <span class="badge badge-cyan" style="margin-top:6px;display:inline-block;">Alumno</span>
+            <span class="badge badge-green" style="margin-top:6px;display:inline-block;">Cuenta activa</span>
+          </div>
+        </div>
+        <button class="btn btn-ghost" style="margin-top:14px;">Cerrar sesión</button>
+      </div>
+      <div class="subscreen" id="sub-perfil-publico">
+        <h1 class="display">Perfil público — Valentina R.</h1>
+        <div class="card">GitHub: <a href="#">@valer</a></div>
+      </div>
+      <div class="subscreen" id="sub-perfil-solicitud">
+        <h1 class="display">Solicitud de acceso</h1>
+        <p style="color:var(--text-muted); font-size:13px;">Antes: "Whitelist" — renombrado para que el alumno entienda qué es.</p>
+        <label class="field"><span class="lbl">Email institucional</span><input type="email" /></label>
+        <label class="field"><span class="lbl">Motivo</span><textarea rows="3"></textarea></label>
+        <button class="btn btn-magenta">Enviar solicitud</button>
+      </div>
+    </section>
+
+    <!-- ============ ADMIN ============ -->
+    <section class="screen" id="screen-admin">
+      <div class="subnav">
+        <button class="chip active" onclick="showSub('admin','dashboard', this)">Dashboard</button>
+        <button class="chip" onclick="showSub('admin','usuarios', this)">Usuarios</button>
+        <button class="chip" onclick="showSub('admin','crear', this)">Crear usuario</button>
+        <button class="chip" onclick="showSub('admin','rol', this)">Rol de usuario</button>
+        <button class="chip" onclick="showSub('admin','eliminar', this)">Eliminar usuario</button>
+        <button class="chip" onclick="showSub('admin','whitelist', this)">Solicitudes de acceso</button>
+        <button class="chip" onclick="showSub('admin','config', this)">Configuración global</button>
+        <button class="chip" onclick="showSub('admin','parametros', this)">Parámetros</button>
+        <button class="chip" onclick="showSub('admin','llm', this)">Proveedores LLM</button>
+      </div>
+      <div class="subscreen visible" id="sub-admin-dashboard">
+        <h1 class="display">Backoffice</h1>
+        <p style="color:var(--text-muted)">Bienvenido/a al panel de administración.</p>
+      </div>
+      <div class="subscreen" id="sub-admin-usuarios">
+        <div class="section-title-row"><h1 class="display">Usuarios</h1><button class="btn btn-magenta">+ Nuevo usuario</button></div>
+        <label class="field"><input placeholder="Buscar por nombre o email…" /></label>
+        <table class="data">
+          <thead><tr><th>Nombre</th><th>Email</th><th>Rol</th><th>Estado</th></tr></thead>
+          <tbody>
+            <tr><td>Manuel Sanchez</td><td>manuel.sanchez@frc.utn.edu.ar</td><td><span class="badge badge-cyan">Alumno</span></td><td><span class="badge badge-green">Activo</span></td></tr>
+            <tr><td>Ana Torres</td><td>ana.torres@frc.utn.edu.ar</td><td><span class="badge badge-gold">Profesora</span></td><td><span class="badge badge-green">Activo</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="subscreen" id="sub-admin-crear">
+        <h1 class="display">Nuevo usuario administrador</h1>
+        <p style="color:var(--text-muted); font-size:13px;">Profesores y gestores ingresan por solicitud de acceso, no desde acá.</p>
+        <div class="grid cols-2">
+          <label class="field"><span class="lbl">Nombre</span><input /></label>
+          <label class="field"><span class="lbl">Apellido</span><input /></label>
+        </div>
+        <label class="field"><span class="lbl">Email</span><input type="email" /></label>
+        <button class="btn btn-magenta">Crear</button>
+      </div>
+      <div class="subscreen" id="sub-admin-rol">
+        <h1 class="display">Rol de usuario — Ana Torres</h1>
+        <div style="display:flex; gap:8px; margin-bottom:14px;">
+          <span class="badge badge-outline">Alumno</span><span class="badge badge-gold">Profesora ✓</span><span class="badge badge-outline">Gestor</span><span class="badge badge-outline">Admin</span>
+        </div>
+        <button class="btn btn-green">Guardar</button>
+      </div>
+      <div class="subscreen" id="sub-admin-eliminar">
+        <h1 class="display">Eliminar usuario</h1>
+        <div class="alert alert-danger"><div>⚠️</div><div><b>Esta acción no se puede deshacer</b><p>Ingresá el código de confirmación enviado por email.</p></div></div>
+        <label class="field"><span class="lbl">Código de confirmación</span><input /></label>
+        <button class="btn btn-danger">Eliminar cuenta</button>
+      </div>
+      <div class="subscreen" id="sub-admin-whitelist">
+        <h1 class="display">Solicitudes de acceso</h1>
+        <table class="data">
+          <thead><tr><th>Email</th><th>Rol solicitado</th><th>Motivo</th><th></th></tr></thead>
+          <tbody>
+            <tr><td>prof.gomez@frc.utn.edu.ar</td><td>Profesor</td><td>Dicta Programación IV, comisión C</td><td><button class="btn btn-green" style="padding:5px 10px;font-size:12px;">Aprobar</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="subscreen" id="sub-admin-config">
+        <h1 class="display">Configuración global</h1>
+        <div class="mock-note">Prototipo visual — todavía no existe el backend, "Guardar" no persiste nada.</div>
+        <div class="grid cols-2">
+          <label class="field"><span class="lbl">XP por desafío básico</span><input type="number" value="40" /></label>
+          <label class="field"><span class="lbl">XP por desafío avanzado</span><input type="number" value="120" /></label>
+        </div>
+        <button class="btn btn-gold">Guardar</button>
+      </div>
+      <div class="subscreen" id="sub-admin-parametros">
+        <h1 class="display">Parámetros globales</h1>
+        <div class="placeholder-dev">Scaffold genérico — pendiente de diseño.</div>
+      </div>
+      <div class="subscreen" id="sub-admin-llm">
+        <h1 class="display">Proveedores LLM</h1>
+        <div class="placeholder-dev">Scaffold genérico — pendiente de diseño.</div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ============================= AUTH / ONBOARDING (full-bleed, sin sidebar) ============================= -->
+<div id="auth-shell" style="display:none;">
+  <div class="content" style="max-width:1000px;margin:0 auto;">
+    <div class="subnav" style="justify-content:center;">
+      <button class="chip active" onclick="showSub('auth','login', this)">Login</button>
+      <button class="chip" onclick="showSub('auth','2fa', this)">Verificar código</button>
+      <button class="chip" onclick="showSub('auth','registro', this)">Registro</button>
+      <button class="chip" onclick="showSub('auth','confirmacion', this)">Confirmación</button>
+      <button class="chip" onclick="showSub('auth','activar', this)">Activar cuenta</button>
+      <button class="chip" onclick="showSub('auth','reenviar', this)">Reenviar activación</button>
+      <button class="chip" onclick="showSub('auth','pendiente', this)">Cuenta pendiente</button>
+      <button class="chip" onclick="showSub('auth','cambiar-pass', this)">Cambiar contraseña</button>
+      <button class="chip" onclick="showSub('auth','olvide-pass', this)">Olvidé mi contraseña</button>
+      <button class="chip" onclick="showSub('auth','restablecer', this)">Restablecer contraseña</button>
+      <button class="chip" onclick="showSub('auth','github', this)">Vincular GitHub</button>
+      <button class="chip" onclick="showSub('auth','callback', this)">Callback GitHub</button>
+      <button class="chip" onclick="showSub('auth','avatar-onb', this)">Elegir avatar</button>
+      <button class="chip" onclick="showSub('auth','tour', this)">Tour guiado</button>
+    </div>
+
+    <div class="subscreen visible auth-shell" id="sub-auth-login">
+      <div class="card">
+        <h1 class="display">Iniciar sesión</h1>
+        <label class="field"><span class="lbl">Email</span><input type="email" autocomplete="email" /></label>
+        <label class="field"><span class="lbl">Contraseña</span><input type="password" autocomplete="current-password" /></label>
+        <button class="btn btn-cyan" style="width:100%;justify-content:center;">Continuar</button>
+        <p style="text-align:center;margin-top:12px;"><a href="#">¿Olvidaste tu contraseña?</a></p>
+      </div>
+    </div>
+    <div class="subscreen auth-shell" id="sub-auth-2fa">
+      <div class="card">
+        <h1 class="display">Verificación en dos pasos</h1>
+        <p style="color:var(--text-muted)">Ingresá el código de 6 dígitos que te enviamos por email.</p>
+        <label class="field"><span class="lbl">Código</span><input inputmode="numeric" autocomplete="one-time-code" maxlength="6" /></label>
+        <button class="btn btn-cyan" style="width:100%;justify-content:center;">Verificar</button>
+        <p style="text-align:center;margin-top:10px;font-size:13px;color:var(--text-muted);">Reenviar código en 0:47 · <a href="#">Volver</a></p>
+      </div>
+    </div>
+    <div class="subscreen auth-shell" id="sub-auth-registro" style="max-width:560px;">
+      <div class="card">
+        <h1 class="display">Crear cuenta</h1>
+        <div class="tabs-row"><button class="active">Alumno</button><button>Profesor</button></div>
+        <div class="grid cols-2">
+          <label class="field"><span class="lbl">Nombre</span><input /></label>
+          <label class="field"><span class="lbl">Apellido</span><input /></label>
+        </div>
+        <label class="field"><span class="lbl">Legajo</span><input /></label>
+        <label class="field"><span class="lbl">Email institucional</span><input type="email" autocomplete="email" /></label>
+        <label class="field"><span class="lbl">Contraseña</span><input type="password" autocomplete="new-password" /></label>
+        <button class="btn btn-magenta" style="width:100%;justify-content:center;">Crear cuenta</button>
+      </div>
+    </div>
+    <div class="subscreen auth-shell" id="sub-auth-confirmacion">
+      <div class="card" style="text-align:center;">
+        <h1 class="display">Revisá tu email</h1>
+        <p style="color:var(--text-muted)">Te enviamos un link de confirmación a tu casilla institucional.</p>
+      </div>
+    </div>
+    <div class="subscreen auth-shell" id="sub-auth-activar">
+      <div class="card" style="text-align:center;">
+        <h1 class="display">Activar cuenta</h1>
+        <button class="btn btn-green">Activar mi cuenta</button>
+      </div>
+    </div>
+    <div class="subscreen auth-shell" id="sub-auth-reenviar">
+      <div class="card">
+        <h1 class="display">Reenviar activación</h1>
+        <label class="field"><span class="lbl">Email</span><input type="email" /></label>
+        <button class="btn btn-cyan" style="width:100%;justify-content:center;">Reenviar</button>
+      </div>
+    </div>
+    <div class="subscreen auth-shell" id="sub-auth-pendiente">
+      <div class="card" style="text-align:center;">
+        <h1 class="display">Cuenta en revisión</h1>
+        <p style="color:var(--text-muted)">Tu solicitud de acceso como profesor está siendo revisada por un gestor.</p>
+      </div>
+    </div>
+    <div class="subscreen auth-shell" id="sub-auth-cambiar-pass">
+      <div class="card">
+        <h1 class="display">Cambiar contraseña</h1>
+        <label class="field"><span class="lbl">Contraseña actual</span><input type="password" /></label>
+        <label class="field"><span class="lbl">Nueva contraseña</span><input type="password" /></label>
+        <label class="field"><span class="lbl">Confirmar nueva contraseña</span><input type="password" /></label>
+        <button class="btn btn-cyan" style="width:100%;justify-content:center;">Guardar</button>
+      </div>
+    </div>
+    <div class="subscreen auth-shell" id="sub-auth-olvide-pass">
+      <div class="card">
+        <h1 class="display">Olvidé mi contraseña</h1>
+        <label class="field"><span class="lbl">Email</span><input type="email" /></label>
+        <button class="btn btn-cyan" style="width:100%;justify-content:center;">Enviar link de recuperación</button>
+      </div>
+    </div>
+    <div class="subscreen auth-shell" id="sub-auth-restablecer">
+      <div class="card">
+        <h1 class="display">Restablecer contraseña</h1>
+        <label class="field"><span class="lbl">Nueva contraseña</span><input type="password" /></label>
+        <label class="field"><span class="lbl">Confirmar</span><input type="password" /></label>
+        <button class="btn btn-cyan" style="width:100%;justify-content:center;">Restablecer</button>
+      </div>
+    </div>
+    <div class="subscreen auth-shell" id="sub-auth-github">
+      <div class="card" style="text-align:center;">
+        <h1 class="display">Vinculá tu cuenta de GitHub</h1>
+        <p style="color:var(--text-muted)">Lo vamos a usar para tus entregas de código.</p>
+        <button class="btn btn-ghost">Vincular GitHub</button>
+        <p style="margin-top:8px;"><a href="#">Omitir por ahora</a></p>
+      </div>
+    </div>
+    <div class="subscreen auth-shell" id="sub-auth-callback">
+      <div class="card" style="text-align:center;">
+        <h1 class="display">Vinculando GitHub…</h1>
+        <p style="color:var(--text-muted)">Esperá un momento.</p>
+      </div>
+    </div>
+    <div class="subscreen auth-shell" id="sub-auth-avatar-onb">
+      <div class="card">
+        <h1 class="display">Elegí tu avatar</h1>
+        <div class="grid cols-4">
+          <div class="avatar-circle" style="width:64px;height:64px;">🧑</div>
+          <div class="avatar-circle" style="width:64px;height:64px;">🧑‍🦱</div>
+          <div class="avatar-circle" style="width:64px;height:64px;">🧑‍🎤</div>
+          <div class="avatar-circle" style="width:64px;height:64px;">🧑‍🚀</div>
+        </div>
+        <button class="btn btn-magenta" style="margin-top:14px;">Continuar</button>
+      </div>
+    </div>
+    <div class="subscreen auth-shell" id="sub-auth-tour" style="max-width:560px;">
+      <div class="card">
+        <h1 class="display">Bienvenido/a a la plataforma</h1>
+        <p style="color:var(--text-muted)">Un recorrido rápido antes de empezar: Panel principal, Roadmap, Ranking y Marketplace.</p>
+        <button class="btn btn-green">Empezar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function setTheme(t){
+  document.documentElement.setAttribute('data-theme', t);
+  document.body.setAttribute('data-theme', t);
+  ['light','dark'].forEach(v => document.getElementById('theme-'+v).classList.toggle('active', v===t));
+}
+function setSkin(s){
+  document.documentElement.setAttribute('data-skin', s);
+  document.body.setAttribute('data-skin', s);
+  ['gamer','sobrio'].forEach(v => document.getElementById('skin-'+v).classList.toggle('active', v===s));
+}
+function setMode(m){
+  document.getElementById('app-shell').style.display = m==='app' ? 'flex' : 'none';
+  document.getElementById('auth-shell').style.display = m==='auth' ? 'block' : 'none';
+  document.getElementById('mode-app').classList.toggle('active', m==='app');
+  document.getElementById('mode-auth').classList.toggle('active', m==='auth');
+}
+function showScreen(id, btn){
+  document.querySelectorAll('.sidebar .nav-item').forEach(el => el.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  document.querySelectorAll('#app-shell > main > .screen').forEach(el => el.classList.remove('visible'));
+  document.getElementById('screen-'+id).classList.add('visible');
+}
+function showSub(group, id, btn){
+  if (btn){
+    btn.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  document.querySelectorAll('[id^="sub-'+group+'-"]').forEach(el => el.classList.remove('visible'));
+  var target = document.getElementById('sub-'+group+'-'+id);
+  if (target) target.classList.add('visible');
+}
+function toggleRoadmapRole(role, btn){
+  btn.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('roadmap-alumno').style.display = role==='alumno' ? 'block' : 'none';
+  document.getElementById('roadmap-profesor').style.display = role==='profesor' ? 'block' : 'none';
+}
+</script>
+</body>
+</html>

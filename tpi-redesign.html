@@ -1,0 +1,2529 @@
+<!doctype html>
+<html lang="es-AR" data-theme="dark" data-skin="gamer" data-role="alumno">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TPI 2026 · Rediseño de páginas reales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+/* =========================================================================
+   TOKENS — @2026-p4-fe/ui theme.css v0.3.2 (gamer = modo arcade) plus the
+   sobrio palette proposed in tpi-ui-mock.html (modo normal).
+   ========================================================================= */
+:root, :root[data-theme='light'] {
+  --bg-app:#efe6d4; --bg-surface:#f7f1e4; --bg-surface-alt:#eadfc8;
+  --border-subtle:#a68f66; --border-highlight:#8a6a1a;
+  --text-primary:#16130f; --text-muted:#3a342c;
+  --accent-primary:#8f1f7c; --accent-primary-fill:#f275dc; --on-accent-primary:#1f0a1b;
+  --accent-secondary:#0b5f6c; --accent-secondary-fill:#29c9e0; --on-accent-secondary:#062127;
+  --accent-gold:#5f5500; --accent-gold-fill:#faf22f; --on-accent-gold:#221f00;
+  --accent-danger:#b3150f; --accent-danger-fill:#e62220; --on-accent-danger:#ffffff;
+  --accent-success:#1f6e10; --accent-success-fill:#4ce52b; --on-accent-success:#082303;
+  --focus-glow:rgba(242,117,220,.55);
+  --font-body:'IBM Plex Sans',sans-serif; --font-display:'Silkscreen',sans-serif;
+  --radius-control:4px; --border-width:2px; --press-y:-2px;
+}
+:root[data-theme='dark'] {
+  --bg-app:#141516; --bg-surface:#1e1f21; --bg-surface-alt:#18191b;
+  --border-subtle:#5b5e63; --border-highlight:#29c9e0;
+  --text-primary:#e4e2dc; --text-muted:#a9aba8;
+  --accent-primary:#f275dc; --accent-primary-fill:#f275dc; --on-accent-primary:#1f0a1b;
+  --accent-secondary:#29c9e0; --accent-secondary-fill:#29c9e0; --on-accent-secondary:#062127;
+  --accent-gold:#faf22f; --accent-gold-fill:#faf22f; --on-accent-gold:#221f00;
+  --accent-danger:#ff5a52; --accent-danger-fill:#e62220; --on-accent-danger:#ffffff;
+  --accent-success:#4ce52b; --accent-success-fill:#4ce52b; --on-accent-success:#082303;
+  --focus-glow:rgba(242,117,220,.6);
+}
+:root[data-theme='light'][data-skin='sobrio'] {
+  --bg-app:#f2f4f7; --bg-surface:#ffffff; --bg-surface-alt:#e8ecf1;
+  --border-subtle:#aab4c2; --border-highlight:#2f5fd0;
+  --text-primary:#161a21; --text-muted:#4b5563;
+  --accent-primary:#2f5fd0; --accent-primary-fill:#2f5fd0; --on-accent-primary:#ffffff;
+  --accent-secondary:#46586b; --accent-secondary-fill:#46586b; --on-accent-secondary:#ffffff;
+  --accent-gold:#8a5a06; --accent-gold-fill:#a86a0a; --on-accent-gold:#ffffff;
+  --accent-danger:#b3261e; --accent-danger-fill:#c1352b; --on-accent-danger:#ffffff;
+  --accent-success:#1c7a4d; --accent-success-fill:#1f7a4d; --on-accent-success:#ffffff;
+  --focus-glow:rgba(47,95,208,.35);
+  --font-display:'IBM Plex Sans',sans-serif; --radius-control:8px; --border-width:1px; --press-y:0px;
+}
+:root[data-theme='dark'][data-skin='sobrio'] {
+  --bg-app:#12161c; --bg-surface:#1a1f27; --bg-surface-alt:#151920;
+  --border-subtle:#3c4756; --border-highlight:#6f9bf0;
+  --text-primary:#eef1f5; --text-muted:#a7b0bd;
+  --accent-primary:#6f9bf0; --accent-primary-fill:#6f9bf0; --on-accent-primary:#0b1526;
+  --accent-secondary:#8aa0b8; --accent-secondary-fill:#7d93ac; --on-accent-secondary:#0b1526;
+  --accent-gold:#d9a441; --accent-gold-fill:#d9a441; --on-accent-gold:#241a04;
+  --accent-danger:#ef6a5d; --accent-danger-fill:#e2584c; --on-accent-danger:#2a0705;
+  --accent-success:#59c290; --accent-success-fill:#4caf7d; --on-accent-success:#04210f;
+  --focus-glow:rgba(111,155,240,.45);
+  --font-display:'IBM Plex Sans',sans-serif; --radius-control:8px; --border-width:1px; --press-y:0px;
+}
+/* Derived: readable status text on any surface (raw danger/success miss AA on dark). */
+:root {
+  --urgent: color-mix(in srgb, var(--accent-danger) 72%, var(--text-primary));
+  --good: color-mix(in srgb, var(--accent-success) 70%, var(--text-primary));
+  --ease-out: cubic-bezier(.16,1,.3,1);
+  --radius-card: calc(var(--radius-control) * 1.5);
+}
+[data-skin='gamer'] { --radius-card:2px; }
+
+/* ---- base ---- */
+* { box-sizing:border-box; }
+html, body { margin:0; padding:0; }
+body {
+  background:var(--bg-app); color:var(--text-primary); font-family:var(--font-body);
+  font-size:15px; line-height:1.5; -webkit-font-smoothing:antialiased;
+  transition:background-color .15s ease, color .15s ease; caret-color:var(--accent-primary-fill);
+}
+::selection { background:var(--accent-primary-fill); color:var(--on-accent-primary); }
+* { scrollbar-width:thin; scrollbar-color:var(--border-subtle) transparent; }
+a { color:var(--accent-secondary); text-underline-offset:.2em; }
+:focus-visible { outline:3px solid var(--focus-glow); outline-offset:2px; }
+h1,h2,h3,p { margin:0; }
+[hidden] { display:none !important; }
+.sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+.icon { width:18px; height:18px; flex:none; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.icon-sm { width:15px; height:15px; }
+.num { font-variant-numeric:tabular-nums; }
+.muted { color:var(--text-muted); }
+.pixel { image-rendering:pixelated; shape-rendering:crispEdges; display:block; }
+[data-skin='gamer'] .display { font-family:var(--font-display); font-weight:400; letter-spacing:.03em; }
+[data-skin='sobrio'] .display { font-family:var(--font-body); font-weight:700; letter-spacing:-.01em; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; }
+}
+
+/* ---- mock toolbar (not part of the product) ---- */
+.mockbar {
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding:6px 16px; font-size:12px;
+  background:repeating-linear-gradient(135deg, var(--bg-surface-alt) 0 10px, var(--bg-app) 10px 20px);
+  border-bottom:1px dashed var(--border-subtle); color:var(--text-muted);
+}
+.mockbar b { color:var(--text-primary); }
+.mockbar .seg button { height:26px; font-size:12px; }
+.mockbar label { display:inline-flex; align-items:center; gap:6px; cursor:pointer; }
+
+/* ---- topbar ---- */
+.topbar {
+  position:sticky; top:0; z-index:30; height:56px;
+  display:flex; align-items:center; gap:12px; padding:0 16px;
+  background:var(--bg-surface); border-bottom:var(--border-width) solid var(--border-subtle);
+}
+.brand { font-family:var(--font-display); font-weight:700; font-size:18px; margin-right:auto; white-space:nowrap; }
+.icon-btn {
+  display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; flex:none;
+  border:var(--border-width) solid var(--border-subtle); border-radius:var(--radius-control);
+  background:transparent; color:var(--text-primary); cursor:pointer; text-decoration:none;
+}
+.icon-btn:hover { background:var(--bg-surface-alt); }
+.icon-btn.sm { width:32px; height:32px; }
+.menu-btn .icon { transition:transform .25s var(--ease-out); }
+.menu-btn[aria-expanded='false'] .icon { transform:scaleX(-1); }
+.seg { display:flex; border:var(--border-width) solid var(--border-subtle); border-radius:var(--radius-control); overflow:hidden; flex:none; }
+.seg button {
+  display:inline-flex; align-items:center; gap:6px; border:0; background:transparent; color:var(--text-muted);
+  padding:0 12px; height:32px; font:inherit; font-size:13px; font-weight:600; cursor:pointer;
+}
+.seg button[aria-pressed='true'] { background:var(--accent-primary-fill); color:var(--on-accent-primary); }
+.me-chip { display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; text-decoration:none; color:inherit; }
+.initials {
+  width:34px; height:34px; display:inline-flex; align-items:center; justify-content:center; flex:none;
+  border-radius:50%; background:var(--accent-secondary-fill); color:var(--on-accent-secondary); font-weight:700; font-size:13px;
+}
+.initials.lg { width:72px; height:72px; font-size:24px; }
+[data-skin='gamer'] .initials { border-radius:var(--radius-control); font-family:var(--font-display); font-weight:400; font-size:12px; }
+[data-skin='gamer'] .initials.lg { font-size:22px; }
+
+/* ---- shell ---- */
+.shell { display:flex; min-height:calc(100vh - 56px); }
+.sidebar {
+  width:240px; flex:0 0 240px; background:var(--bg-surface); border-right:var(--border-width) solid var(--border-subtle);
+  padding:14px 10px; display:flex; flex-direction:column;
+  position:sticky; top:56px; height:calc(100vh - 56px); overflow-y:auto;
+}
+.group-label { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.08em; color:var(--text-muted); margin:16px 10px 6px; }
+[data-skin='gamer'] .group-label { font-family:var(--font-display); font-weight:400; }
+.group-label:first-child { margin-top:2px; }
+.group-toggle {
+  display:flex; align-items:center; gap:6px; width:calc(100% - 12px); margin-left:6px; margin-right:6px; padding:4px;
+  border:0; background:transparent; border-radius:var(--radius-control); cursor:pointer; text-align:left;
+}
+.group-toggle:hover { color:var(--text-primary); background:var(--bg-surface-alt); }
+.group-toggle .chev { margin-left:auto; transition:transform .2s var(--ease-out); }
+.group-toggle[aria-expanded='false'] .chev { transform:rotate(-90deg); }
+.cur-dot { width:6px; height:6px; border-radius:50%; background:var(--accent-primary-fill); display:none; }
+[data-skin='gamer'] .cur-dot { border-radius:0; }
+.group-toggle.has-current .cur-dot { display:inline-block; }
+/* sidebar hidden (desktop): slides out and gives its width back to the content */
+.sidebar { transition:margin-left .28s var(--ease-out), visibility 0s linear 0s; }
+.shell.nav-hidden .sidebar { margin-left:-240px; visibility:hidden; transition:margin-left .28s var(--ease-out), visibility 0s linear .28s; }
+.nav-item {
+  display:flex; align-items:center; gap:10px; width:100%; border:0; background:transparent; text-decoration:none;
+  color:var(--text-primary); padding:7px 10px; border-radius:var(--radius-control); font-size:14px; margin-bottom:2px;
+}
+.nav-item .icon { color:var(--text-muted); }
+.nav-item:hover { background:var(--bg-surface-alt); }
+.nav-item[aria-current='page'] { background:var(--accent-primary-fill); color:var(--on-accent-primary); font-weight:600; }
+.nav-item[aria-current='page'] .icon { color:inherit; }
+.nav-count {
+  margin-left:auto; font-size:11px; font-weight:700; min-width:20px; text-align:center; padding:1px 6px; border-radius:999px;
+  background:var(--accent-primary-fill); color:var(--on-accent-primary);
+}
+.nav-item[aria-current='page'] .nav-count { background:var(--on-accent-primary); color:var(--accent-primary-fill); }
+[data-skin='gamer'] .nav-count { border-radius:2px; }
+/* compact nav rhythm: whole sidebar fits a 720px-tall viewport without scrolling */
+.sidebar .nav-item { padding:6px 10px; margin-bottom:1px; }
+.sidebar .group-label { margin:12px 10px 4px; }
+.sidebar .group-toggle { margin:8px 6px 0; width:calc(100% - 12px); }
+.account { position:relative; }
+.me-chip { border:0; background:transparent; font:inherit; font-size:13px; cursor:pointer; padding:4px 6px 4px 4px; border-radius:var(--radius-control); }
+.me-chip:hover, .me-chip[aria-expanded='true'] { background:var(--bg-surface-alt); }
+.me-name { display:flex; flex-direction:column; line-height:1.15; text-align:left; }
+.me-level { font-size:11px; font-weight:600; color:var(--text-muted); }
+[data-skin='gamer'] .me-level { font-family:var(--font-display); font-weight:400; color:var(--accent-gold); }
+.me-chip .chev { color:var(--text-muted); transition:transform .2s var(--ease-out); }
+.me-chip[aria-expanded='true'] .chev { transform:rotate(180deg); }
+.account-menu {
+  position:absolute; right:0; top:calc(100% + 8px); min-width:220px; padding:6px; z-index:40;
+  background:var(--bg-surface); border:var(--border-width) solid var(--border-subtle); border-radius:var(--radius-card);
+  box-shadow:0 14px 30px -12px rgba(0,0,0,.45); animation:screen-in .18s var(--ease-out);
+}
+.account-menu hr { border:0; border-top:1px solid var(--border-subtle); margin:6px 0; }
+.account-menu .danger { color:var(--urgent); }
+.account-menu .danger .icon { color:inherit; }
+.identity-facts { width:100%; text-align:left; margin-top:10px; padding-top:14px; border-top:1px solid var(--border-subtle); font-size:13px; }
+.add-email { display:flex; flex-wrap:wrap; gap:10px 12px; align-items:end; padding:16px; }
+.add-email .grow { flex:1 1 260px; }
+.add-email .full { flex-basis:100%; font-size:12px; color:var(--text-muted); margin-top:-2px; }
+.add-email .err.full { color:var(--urgent); font-weight:600; }
+.req-card { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:10px 20px; align-items:start; padding:16px 18px; background:var(--bg-surface); border:var(--border-width) solid var(--border-subtle); border-radius:var(--radius-card); }
+.req-card h3 { font-size:16px; word-break:break-all; }
+.req-card .req-meta { display:flex; flex-wrap:wrap; gap:4px 14px; font-size:13px; color:var(--text-muted); margin-top:4px; }
+.req-card blockquote { margin:10px 0 0; padding:8px 12px; background:var(--bg-surface-alt); border-radius:var(--radius-control); font-size:14px; }
+.req-card .req-actions { display:flex; gap:8px; }
+.req-card .reject-box { grid-column:1 / -1; display:flex; flex-wrap:wrap; gap:10px; align-items:end; }
+.req-card .reject-box .field { flex:1 1 300px; }
+.pager { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-top:10px; font-size:13px; color:var(--text-muted); }
+.pager .btns { display:flex; gap:6px; }
+/* pagination: squares in arcade, circles in normal (idea 05 from the reference) */
+.pg { display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+.pg-btn {
+  width:38px; height:38px; display:inline-flex; align-items:center; justify-content:center; padding:0;
+  border:var(--border-width) solid color-mix(in srgb, var(--accent-secondary-fill) 55%, var(--border-subtle)); border-radius:50%;
+  background:transparent; color:var(--text-primary); font:inherit; font-size:14px; font-weight:600; cursor:pointer;
+  transition:background-color .15s ease, border-color .15s ease, transform .1s ease;
+}
+[data-skin='gamer'] .pg-btn { border-radius:var(--radius-control); }
+.pg-btn:hover:not(:disabled):not([aria-current]) { border-color:var(--accent-secondary-fill); background:color-mix(in srgb, var(--accent-secondary-fill) 14%, transparent); }
+.pg-btn[aria-current='page'] { background:var(--accent-secondary-fill); border-color:var(--accent-secondary-fill); color:var(--on-accent-secondary); }
+[data-skin='gamer'] .pg-btn[aria-current='page'] { box-shadow:inset 0 -3px 0 rgba(0,0,0,.28); }
+.pg-btn:active:not(:disabled) { transform:translateY(var(--press-y)); }
+.pg-arrow { border-color:var(--border-subtle); color:var(--text-muted); }
+.pg-btn:disabled { opacity:.35; cursor:not-allowed; }
+.pg-gap { width:24px; text-align:center; color:var(--text-muted); font-weight:700; letter-spacing:.1em; }
+@media (max-width: 600px) { .pager { flex-direction:column; align-items:flex-start; } .pg-btn { width:34px; height:34px; } }
+/* course admin */
+.invite { display:flex; align-items:center; gap:6px; flex-wrap:wrap; padding:8px 10px 8px 14px; border:var(--border-width) dashed var(--border-highlight); border-radius:var(--radius-card); background:var(--bg-surface); }
+.invite-label { font-size:12px; font-weight:600; color:var(--text-muted); margin-right:4px; }
+.invite-code { font-family:ui-monospace, 'Cascadia Mono', Consolas, monospace; font-size:16px; font-weight:700; letter-spacing:.12em; color:var(--accent-secondary); margin-right:4px; }
+.invite-status { flex-basis:100%; font-size:12px; color:var(--good); font-weight:600; min-height:0; }
+.invite-status:empty { display:none; }
+.course-desc { color:var(--text-muted); margin:-10px 0 18px; max-width:70ch; }
+.linkbtn.big { font-size:inherit; color:inherit; text-decoration-thickness:2px; font-family:inherit; }
+.two-col { display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1fr); gap:16px; align-items:start; }
+.stack { display:flex; flex-direction:column; gap:16px; }
+.people { list-style:none; margin:0; padding:0; }
+.people li { display:flex; align-items:center; gap:10px; padding:9px 0; border-bottom:1px solid var(--border-subtle); font-size:14px; }
+.people li:last-child { border-bottom:0; }
+.people .pname { flex:1; min-width:0; font-weight:600; }
+.people .initials { width:28px; height:28px; font-size:11px; }
+.pills { display:flex; flex-wrap:wrap; gap:6px; border:0; margin:0; }
+.pills .tab { border:var(--border-width) solid var(--border-subtle); border-radius:999px; padding:6px 14px; margin:0; font-size:14px; }
+[data-skin='gamer'] .pills .tab { border-radius:var(--radius-control); }
+.pills .tab[aria-selected='true'] { background:var(--accent-secondary-fill); color:var(--on-accent-secondary); border-color:transparent; }
+.pills .tab[aria-selected='true'] .count { background:rgba(0,0,0,.14); color:inherit; border-color:transparent; }
+.sec-list { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; }
+.sec-row { display:grid; grid-template-columns:28px minmax(0,1fr) auto auto; grid-template-areas:'ord main vis act'; gap:14px; align-items:center; padding:12px 14px; background:var(--bg-surface); border:var(--border-width) solid var(--border-subtle); border-radius:var(--radius-card); }
+.sec-row.is-hidden .sec-title { color:var(--text-muted); }
+.sec-order { font-weight:700; font-size:14px; color:var(--text-muted); text-align:center; }
+[data-skin='gamer'] .sec-order { font-family:var(--font-display); font-weight:400; }
+.sec-title { font-weight:600; text-decoration:none; color:inherit; }
+.sec-title:hover { text-decoration:underline; }
+.sec-sub { font-size:13px; color:var(--text-muted); }
+.sec-order { grid-area:ord; }
+.sec-main { grid-area:main; min-width:0; }
+.sec-vis { grid-area:vis; }
+.sec-row .row-actions { grid-area:act; }
+.sec-move { grid-area:move; display:none; flex-direction:column; gap:2px; }
+.reordering .sec-row { grid-template-columns:auto 28px minmax(0,1fr) auto auto; grid-template-areas:'move ord main vis act'; }
+.reordering .sec-move { display:flex; }
+.reordering .sec-row { border-style:dashed; }
+.sec-row .row-actions { gap:4px; }
+.activation { margin-bottom:14px; }
+.act-title { font-size:18px; display:flex; align-items:center; gap:8px; }
+.act-reqs { margin-top:12px; font-size:14px; }
+.act-reqs summary { cursor:pointer; font-weight:600; }
+.act-reqs ul { list-style:none; padding:0; margin:8px 0 0; display:flex; flex-direction:column; gap:6px; }
+.act-reqs li { display:flex; gap:8px; align-items:center; }
+.act-reqs li .icon { color:var(--good); }
+.cfg-fs { border:0; padding:0; margin:0; min-width:0; }
+.cfg-fs .disclosure + .disclosure { margin-top:12px; }
+.cfg-fs .form-grid .hint.full { grid-column:1 / -1; font-size:12px; color:var(--text-muted); }
+.save-bar { position:sticky; bottom:12px; margin-top:14px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; padding:12px 16px; background:var(--bg-surface); border:var(--border-width) solid var(--accent-primary-fill); border-radius:var(--radius-card); box-shadow:0 10px 26px -12px rgba(0,0,0,.5); animation:screen-in .2s var(--ease-out); }
+@media (max-width: 980px) { .two-col { grid-template-columns:1fr; } }
+@media (max-width: 700px) {
+  .sec-row { grid-template-columns:28px minmax(0,1fr) auto; grid-template-areas:'ord main vis' '. act act'; }
+  .reordering .sec-row { grid-template-columns:auto 28px minmax(0,1fr) auto; grid-template-areas:'move ord main vis' 'move . act act'; }
+  .sec-row .row-actions { justify-content:flex-start; }
+}
+.hud { margin-top:auto; padding:14px 10px 4px; border-top:var(--border-width) solid var(--border-subtle); display:flex; align-items:center; gap:10px; text-decoration:none; color:inherit; }
+.hud-name { font-weight:600; font-size:14px; line-height:1.2; }
+.hud-level { font-size:12px; color:var(--text-muted); }
+[data-skin='gamer'] .hud-level { font-family:var(--font-display); color:var(--accent-gold); }
+
+.content { flex:1; min-width:0; padding:28px 36px 64px; }
+.screen { max-width:1080px; animation:screen-in .28s var(--ease-out) both; }
+[data-skin='gamer'] .screen { animation-timing-function:steps(3,end); animation-duration:.2s; }
+@keyframes screen-in { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+
+/* ---- shared components ---- */
+.btn {
+  display:inline-flex; align-items:center; justify-content:center; gap:6px; white-space:nowrap; text-decoration:none;
+  border:var(--border-width) solid transparent; border-radius:var(--radius-control);
+  padding:0 16px; height:38px; font:inherit; font-weight:600; font-size:14px; cursor:pointer;
+  transition:transform .1s ease, background-color .15s ease, border-color .15s ease;
+}
+.btn:active { transform:translateY(var(--press-y)); }
+[data-skin='gamer'] .btn:not(.btn-ghost):not(.btn-quiet) { box-shadow:inset 0 -3px 0 rgba(0,0,0,.28); }
+.btn-primary { background:var(--accent-primary-fill); color:var(--on-accent-primary); }
+.btn-secondary { background:var(--accent-secondary-fill); color:var(--on-accent-secondary); }
+.btn-gold { background:var(--accent-gold-fill); color:var(--on-accent-gold); }
+.btn-danger { background:var(--accent-danger-fill); color:var(--on-accent-danger); }
+.btn-ghost { background:transparent; color:var(--text-primary); border-color:var(--border-subtle); }
+.btn-ghost:hover { background:var(--bg-surface-alt); border-color:var(--border-highlight); }
+.btn-quiet { background:transparent; color:var(--text-primary); }
+.btn-quiet:hover { background:var(--bg-surface-alt); }
+.btn-ghost.danger, .btn-quiet.danger { color:var(--urgent); }
+.btn-primary:hover, .btn-secondary:hover, .btn-gold:hover, .btn-danger:hover { filter:brightness(1.08); }
+.btn:disabled, .btn[aria-disabled='true'] { opacity:.45; cursor:not-allowed; filter:none; transform:none; }
+.btn-sm { height:32px; padding:0 12px; font-size:13px; }
+.btn-block { width:100%; }
+
+.badge { display:inline-flex; align-items:center; gap:4px; font-size:12px; font-weight:600; line-height:1; padding:5px 8px; border-radius:999px; white-space:nowrap; }
+[data-skin='gamer'] .badge { border-radius:2px; }
+.badge-required, .badge-primary { background:var(--accent-primary-fill); color:var(--on-accent-primary); }
+.badge-success { background:var(--accent-success-fill); color:var(--on-accent-success); }
+.badge-gold { background:var(--accent-gold-fill); color:var(--on-accent-gold); }
+.badge-danger { background:var(--accent-danger-fill); color:var(--on-accent-danger); }
+.badge-secondary { background:var(--accent-secondary-fill); color:var(--on-accent-secondary); }
+.badge-outline { background:transparent; border:1px solid var(--border-subtle); color:var(--text-muted); }
+
+.card { background:var(--bg-surface); border:var(--border-width) solid var(--border-subtle); border-radius:var(--radius-card); padding:20px; }
+/* arcade: pixel studs at the corners, like the library's arcade cards */
+[data-skin='gamer'] .studs {
+  background-image:
+    linear-gradient(var(--border-subtle),var(--border-subtle)), linear-gradient(var(--border-subtle),var(--border-subtle)),
+    linear-gradient(var(--border-subtle),var(--border-subtle)), linear-gradient(var(--border-subtle),var(--border-subtle));
+  background-size:4px 4px; background-repeat:no-repeat;
+  background-position:top 2px left 2px, top 2px right 2px, bottom 2px left 2px, bottom 2px right 2px;
+}
+.section { margin-top:32px; }
+.section-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; flex-wrap:wrap; }
+.section-head h2 { font-size:18px; font-weight:700; }
+[data-skin='gamer'] .section-head h2 { font-family:var(--font-display); font-weight:400; font-size:15px; letter-spacing:.04em; }
+.section-head p { font-size:14px; color:var(--text-muted); }
+
+.alert {
+  display:grid; grid-template-columns:auto 1fr auto; gap:6px 14px; align-items:center;
+  padding:14px 16px; border-radius:var(--radius-control); border:var(--border-width) solid var(--accent-danger);
+  background:color-mix(in srgb, var(--accent-danger) 11%, var(--bg-surface));
+}
+.alert > .icon { color:var(--urgent); width:22px; height:22px; }
+.alert.info { border-color:var(--accent-secondary-fill); background:color-mix(in srgb, var(--accent-secondary-fill) 10%, var(--bg-surface)); }
+.alert.info > .icon { color:var(--accent-secondary); }
+.alert-title { font-weight:700; }
+.alert-body { font-size:14px; color:var(--text-muted); }
+
+label.field, .field { display:flex; flex-direction:column; gap:5px; font-size:13px; font-weight:600; color:var(--text-primary); }
+.field .hint { font-size:12px; font-weight:400; color:var(--text-muted); }
+.field .err { font-size:12px; font-weight:600; color:var(--urgent); }
+.req::after { content:' *'; color:var(--urgent); }
+.control {
+  height:38px; padding:0 12px; border-radius:var(--radius-control); border:var(--border-width) solid var(--border-subtle);
+  background:var(--bg-app); color:var(--text-primary); font:inherit; font-size:14px; font-weight:400; width:100%;
+}
+textarea.control { height:auto; padding:10px 12px; resize:vertical; min-height:84px; }
+.control:hover { border-color:var(--border-highlight); }
+.control[aria-invalid='true'] { border-color:var(--accent-danger); }
+.control::placeholder { color:color-mix(in srgb, var(--text-muted) 85%, transparent); }
+select.control { padding-right:32px; appearance:none; cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 10px center;
+}
+.search { position:relative; }
+.search > .icon { position:absolute; left:11px; bottom:10px; color:var(--text-muted); pointer-events:none; }
+.search .control { padding-left:36px; }
+.toggle { display:inline-flex; align-items:center; gap:8px; min-height:38px; font-size:14px; font-weight:600; color:var(--text-primary); cursor:pointer; white-space:nowrap; }
+.toggle input { width:18px; height:18px; accent-color:var(--accent-primary-fill); margin:0; }
+.form-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.form-grid .full { grid-column:1 / -1; }
+
+.page-head { display:flex; align-items:flex-end; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:24px; }
+.page-head h1 { font-size:32px; line-height:1.15; }
+[data-skin='gamer'] .page-head h1 { font-size:28px; }
+.page-head p { color:var(--text-muted); margin-top:6px; max-width:64ch; }
+.back { display:inline-flex; align-items:center; gap:6px; font-size:14px; font-weight:600; text-decoration:none; color:var(--text-muted); margin-bottom:10px; }
+.back:hover { color:var(--text-primary); }
+.head-meta { display:flex; flex-wrap:wrap; gap:6px 18px; margin-top:8px; font-size:14px; color:var(--text-muted); }
+.head-meta span { display:inline-flex; align-items:center; gap:6px; }
+
+.tabs { display:flex; flex-wrap:wrap; gap:4px; border-bottom:var(--border-width) solid var(--border-subtle); margin-bottom:16px; }
+.tab {
+  display:inline-flex; align-items:center; gap:8px; border:0; background:transparent; cursor:pointer; white-space:nowrap; text-decoration:none;
+  padding:10px 14px; font:inherit; font-weight:600; color:var(--text-muted);
+  border-bottom:3px solid transparent; margin-bottom:calc(-1 * var(--border-width));
+}
+.tab:hover { color:var(--text-primary); }
+.tab[aria-selected='true'] { color:var(--text-primary); border-color:var(--accent-primary-fill); }
+.tab .count { font-size:12px; padding:1px 7px; border-radius:999px; background:var(--bg-surface-alt); border:1px solid var(--border-subtle); color:var(--text-muted); }
+[data-skin='gamer'] .tab .count { border-radius:2px; }
+
+.filters { display:grid; grid-template-columns:minmax(200px,1.6fr) repeat(3, minmax(130px,1fr)) auto; gap:12px; align-items:end; margin-bottom:10px; }
+.filters.no-course { grid-template-columns:minmax(200px,1.6fr) repeat(2, minmax(130px,1fr)) auto; }
+.results-bar { display:flex; justify-content:space-between; align-items:center; min-height:32px; font-size:13px; color:var(--text-muted); margin-bottom:6px; }
+.linkbtn { border:0; background:none; padding:4px 0; font:inherit; font-weight:600; color:var(--accent-secondary); cursor:pointer; text-decoration:underline; text-underline-offset:.2em; }
+
+.empty { text-align:center; padding:44px 20px; border:var(--border-width) dashed var(--border-subtle); border-radius:var(--radius-card); color:var(--text-muted); }
+.empty .icon { width:28px; height:28px; margin-bottom:8px; }
+.empty p { margin-bottom:14px; }
+.empty p:last-child { margin-bottom:0; }
+
+/* data table */
+.table-wrap { position:relative; overflow-x:auto; border:var(--border-width) solid var(--border-subtle); border-radius:var(--radius-card); background:var(--bg-surface); }
+table.data { width:100%; border-collapse:collapse; font-size:14px; font-variant-numeric:tabular-nums; }
+table.data th, table.data td { text-align:left; padding:9px 14px; border-bottom:1px solid var(--border-subtle); vertical-align:middle; }
+table.data tr:last-child td { border-bottom:0; }
+table.data th { font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); background:var(--bg-surface-alt); white-space:nowrap; }
+[data-skin='gamer'] table.data th { font-family:var(--font-display); font-weight:400; font-size:11px; }
+table.data td.r, table.data th.r { text-align:right; }
+table.data tbody tr:hover { background:color-mix(in srgb, var(--bg-surface-alt) 60%, transparent); }
+.cell-title { font-weight:600; }
+.cell-sub { font-size:12px; color:var(--text-muted); line-height:1.4; margin-top:4px; }
+.cell-title.with-badge { display:flex; flex-wrap:wrap; align-items:center; gap:6px 12px; }
+.cell-main { padding-top:14px !important; padding-bottom:14px !important; min-width:260px; }
+.cell-main .cell-sub { display:flex; flex-wrap:wrap; align-items:center; gap:6px 10px; margin-top:6px; }
+.reward-cell { white-space:nowrap; font-size:13px; line-height:1.4; }
+.reward-cell > span { display:block; }
+.reward-cell .xp-text { color:var(--accent-gold); font-weight:700; }
+.reward-cell > span:last-child { color:var(--text-muted); }
+.cell-main .cell-sub > span:last-child { white-space:nowrap; }
+.nowrap { white-space:nowrap; }
+.row-actions { display:flex; gap:4px; justify-content:flex-end; }
+
+/* drawer (side sheet) */
+dialog.drawer {
+  margin:0 0 0 auto; height:100vh; max-height:100vh; width:min(520px, 100vw); padding:0; border:0;
+  border-left:var(--border-width) solid var(--border-subtle); background:var(--bg-surface); color:var(--text-primary);
+}
+dialog.drawer[open] { display:flex; flex-direction:column; animation:drawer-in .3s var(--ease-out); }
+dialog.drawer::backdrop { background:rgba(8,10,14,.55); }
+@keyframes drawer-in { from { transform:translateX(40px); opacity:0; } to { transform:none; opacity:1; } }
+.drawer-head { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; padding:20px 22px 16px; border-bottom:var(--border-width) solid var(--border-subtle); }
+.drawer-head h2 { font-size:20px; }
+.drawer-head p { font-size:14px; color:var(--text-muted); margin-top:4px; }
+.drawer-body { flex:1; overflow-y:auto; padding:20px 22px; display:flex; flex-direction:column; gap:18px; }
+.drawer-foot { display:flex; justify-content:flex-end; gap:10px; padding:14px 22px; border-top:var(--border-width) solid var(--border-subtle); }
+fieldset.group { border:0; padding:0; margin:0; display:flex; flex-direction:column; gap:14px; }
+fieldset.group legend { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--text-muted); padding:0; margin-bottom:10px; }
+[data-skin='gamer'] fieldset.group legend { font-family:var(--font-display); font-weight:400; }
+
+.mock-note { font-size:12px; color:var(--text-muted); border:1px dashed var(--border-subtle); border-radius:6px; padding:8px 12px; margin-top:40px; }
+.placeholder { padding:60px 24px; text-align:center; border:var(--border-width) dashed var(--border-subtle); border-radius:var(--radius-card); color:var(--text-muted); }
+.placeholder h1 { color:var(--text-primary); font-size:26px; margin-bottom:8px; }
+.load-error { margin-bottom:20px; }
+.errored .data { display:none; }
+
+/* ---- Desafíos (alumno) ---- */
+.risk { margin-bottom:26px; }
+.group { margin-top:14px; }
+.group:not([open]) + .group { margin-top:4px; }
+.group-head { display:flex; align-items:baseline; gap:10px; margin-bottom:10px; }
+.group-head h2 { font-size:15px; font-weight:700; }
+[data-skin='gamer'] .group-head h2 { font-family:var(--font-display); font-weight:400; font-size:13px; text-transform:uppercase; letter-spacing:.06em; }
+.group-head span { font-size:13px; color:var(--text-muted); }
+details.group > summary { list-style:none; cursor:pointer; padding:6px 8px 6px 4px; margin:0 -8px 6px -4px; border-radius:var(--radius-control); }
+details.group > summary::-webkit-details-marker { display:none; }
+details.group > summary:hover { background:var(--bg-surface-alt); }
+details.group > summary::before {
+  content:''; flex:none; width:7px; height:7px; margin:0 6px 0 4px; align-self:center;
+  border-right:2px solid var(--text-muted); border-bottom:2px solid var(--text-muted);
+  transform:rotate(-45deg); transition:transform .2s var(--ease-out);
+}
+details.group[open] > summary::before { transform:rotate(45deg) translate(-2px, -2px); }
+.group-count { padding:1px 7px; border-radius:999px; border:1px solid var(--border-subtle); background:var(--bg-surface-alt); }
+[data-skin='gamer'] .group-count { border-radius:2px; }
+.group-hint { margin-left:auto; }
+details.group[open] .group-hint { display:none; }
+.list { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; }
+.row {
+  display:grid; align-items:center; gap:6px 20px;
+  grid-template-columns:24px minmax(0,1fr) 196px 150px 92px 118px;
+  grid-template-areas:"st main tags due rew act";
+  padding:14px 16px; background-color:var(--bg-surface);
+  border:var(--border-width) solid var(--border-subtle); border-radius:var(--radius-card);
+  transition:border-color .15s ease, box-shadow .2s ease;
+}
+.row:hover { border-color:var(--border-highlight); }
+[data-skin='sobrio'] .row:hover { box-shadow:0 4px 14px -6px rgba(15,23,42,.28); }
+.row.in-progress { border-color:color-mix(in srgb, var(--accent-primary-fill) 70%, var(--border-subtle)); }
+.st { grid-area:st; color:var(--text-muted); display:flex; }
+.row.in-progress .st { color:var(--accent-primary-fill); }
+.row.done .st { color:var(--accent-success-fill); }
+.main { grid-area:main; min-width:0; }
+.title { font-size:16px; font-weight:600; line-height:1.3; }
+.meta { font-size:13px; color:var(--text-muted); margin-top:2px; }
+.meta .meta-course { font-weight:600; color:var(--text-primary); }
+.tags { grid-area:tags; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.diff { display:inline-flex; align-items:center; gap:6px; font-size:13px; color:var(--text-muted); white-space:nowrap; }
+.pips { display:inline-flex; gap:2px; }
+.pips i { width:8px; height:12px; border-radius:2px; background:var(--bg-surface-alt); border:1px solid var(--border-subtle); }
+[data-skin='gamer'] .pips i { border-radius:0; width:7px; }
+.pips[data-level='1'] i:nth-child(-n+1) { background:var(--accent-success-fill); border-color:var(--accent-success-fill); }
+.pips[data-level='2'] i:nth-child(-n+2) { background:var(--accent-gold-fill); border-color:var(--accent-gold-fill); }
+.pips[data-level='3'] i:nth-child(-n+3) { background:var(--accent-danger-fill); border-color:var(--accent-danger-fill); }
+.due { grid-area:due; display:flex; gap:7px; align-items:flex-start; font-size:13px; color:var(--text-muted); line-height:1.35; }
+.due .icon { margin-top:1px; }
+.due b { display:block; color:var(--text-primary); font-weight:600; }
+.due.urgent, .due.urgent b { color:var(--urgent); }
+.rew { grid-area:rew; font-size:13px; line-height:1.35; }
+.rew .xp { display:block; font-weight:700; color:var(--accent-gold); }
+[data-skin='gamer'] .rew .xp, [data-skin='gamer'] .xp-text { font-family:var(--font-display); font-weight:400; font-size:12px; }
+.rew .coins { display:inline-flex; align-items:center; gap:4px; color:var(--text-muted); }
+.act { grid-area:act; justify-self:end; }
+.act .btn { min-width:108px; }
+.list.animate .row { animation:land .32s var(--ease-out) both; animation-delay:calc(var(--i) * 28ms); }
+[data-skin='gamer'] .list.animate .row { animation-timing-function:steps(3, end); animation-duration:.24s; }
+@keyframes land { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+
+/* ---- Cursos ---- */
+.course-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:16px; }
+.course { display:flex; flex-direction:column; gap:16px; }
+.course-top { display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+.course h2 { font-size:22px; line-height:1.2; }
+[data-skin='gamer'] .course h2 { font-family:var(--font-display); font-weight:400; font-size:20px; }
+.course-sub { font-size:13px; color:var(--text-muted); margin-top:4px; }
+dl.facts { margin:0; display:grid; grid-template-columns:auto 1fr; gap:8px 14px; font-size:14px; }
+dl.facts dt { color:var(--text-muted); display:flex; align-items:center; gap:6px; }
+dl.facts dd { margin:0; font-weight:600; }
+dl.facts dd small { display:block; font-weight:400; color:var(--text-muted); font-size:12px; }
+.course-foot { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:auto; padding-top:14px; border-top:1px solid var(--border-subtle); }
+.progress-line { display:flex; align-items:center; gap:10px; font-size:13px; color:var(--text-muted); }
+.bar { height:10px; flex:1; background:var(--bg-surface-alt); border:1px solid var(--border-subtle); border-radius:999px; overflow:hidden; min-width:80px; }
+.bar > span { display:block; height:100%; background:var(--accent-gold-fill); }
+[data-skin='gamer'] .bar { border-radius:0; height:12px; }
+.stat-strip { display:flex; flex-wrap:wrap; gap:0; border:var(--border-width) solid var(--border-subtle); border-radius:var(--radius-card); background:var(--bg-surface); margin-bottom:28px; }
+.stat-strip > div { flex:1 1 150px; padding:14px 18px; border-right:1px solid var(--border-subtle); }
+.stat-strip > div:last-child { border-right:0; }
+.stat-strip .k { font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:6px; }
+.stat-strip .v { font-size:20px; font-weight:700; margin-top:2px; }
+[data-skin='gamer'] .stat-strip .v { font-family:var(--font-display); font-weight:400; font-size:18px; }
+.stat-strip .v.coin { color:var(--accent-gold); }
+.stat-strip .v.heart { color:var(--urgent); display:flex; gap:3px; align-items:center; }
+.hearts { color:var(--accent-danger-fill); display:inline-flex; gap:2px; }
+.hearts .icon { width:18px; height:18px; fill:currentColor; }
+.hearts .icon.lost { fill:none; opacity:.55; }
+.quick-links { display:flex; gap:8px; flex-wrap:wrap; }
+
+/* ---- Inventario ---- */
+.inv-layout { display:grid; grid-template-columns:260px 1fr; gap:20px; align-items:start; }
+.backpack-card { text-align:center; }
+.backpack-card .pixel { margin:6px auto 14px; width:120px; height:120px; }
+.backpack-card h2 { font-size:16px; }
+.slot-group + .slot-group { margin-top:20px; }
+.slot-head { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px; }
+.slot-head h3 { font-size:14px; font-weight:700; display:flex; align-items:center; gap:8px; }
+.slot-head span { font-size:12px; color:var(--text-muted); }
+.slots { display:grid; grid-template-columns:repeat(3, 72px); gap:10px; }
+.slot { width:72px; height:72px; border:var(--border-width) dashed var(--border-subtle); border-radius:var(--radius-control); display:flex; align-items:center; justify-content:center; color:var(--text-muted); background:var(--bg-surface-alt); }
+.slot .icon { opacity:.5; }
+.dot { width:10px; height:10px; border-radius:50%; display:inline-block; }
+[data-skin='gamer'] .dot { border-radius:0; }
+
+/* ---- Personaje ---- */
+.avatar-layout { display:grid; grid-template-columns:minmax(0,1fr) 340px; gap:24px; align-items:start; }
+.avatar-preview { position:sticky; top:84px; }
+.stage { aspect-ratio:3/4; border-radius:var(--radius-card); display:flex; align-items:center; justify-content:center; position:relative;
+  background:radial-gradient(ellipse at 50% 85%, color-mix(in srgb, var(--accent-secondary-fill) 35%, transparent), transparent 60%), var(--bg-surface-alt);
+  border:var(--border-width) solid var(--border-subtle); overflow:hidden; }
+.stage .pixel { width:62%; height:auto; }
+.stage-note { position:absolute; bottom:10px; left:50%; transform:translateX(-50%); font-size:12px; padding:4px 10px; border-radius:999px; background:var(--bg-surface); border:1px solid var(--border-subtle); color:var(--text-muted); white-space:nowrap; }
+.save-state { display:flex; align-items:center; gap:6px; font-size:13px; color:var(--good); margin-top:10px; font-weight:600; }
+.opt-section { padding:18px 20px; }
+.opt-section + .opt-section { margin-top:14px; }
+
+/* ---- disclosures: dense blocks fold behind their heading ---- */
+details.disclosure { padding:0; }
+details.disclosure > summary { list-style:none; cursor:pointer; padding:16px 20px; display:flex; align-items:center; gap:14px; border-radius:var(--radius-card); }
+details.disclosure > summary::-webkit-details-marker { display:none; }
+details.disclosure > summary:hover { background:var(--bg-surface-alt); }
+details.disclosure > summary::after {
+  content:''; flex:none; margin-left:auto; width:8px; height:8px;
+  border-right:2px solid var(--text-muted); border-bottom:2px solid var(--text-muted);
+  transform:rotate(45deg) translateY(-2px); transition:transform .2s var(--ease-out);
+}
+details.disclosure[open] > summary::after { transform:rotate(-135deg) translateY(-2px); }
+details.disclosure > summary h2 { display:flex; flex-direction:column; gap:2px; font-size:17px; min-width:0; }
+[data-skin='gamer'] details.disclosure > summary h2 > span:first-child { font-family:var(--font-display); font-weight:400; font-size:14px; letter-spacing:.04em; }
+.disc-sum { font-family:var(--font-body); font-size:13px; font-weight:400; color:var(--text-muted); letter-spacing:0; display:flex; flex-wrap:wrap; align-items:center; gap:4px 8px; }
+details.disclosure[open] .disc-sum { display:none; }
+.disc-sum .dot { width:12px; height:12px; border:1px solid var(--border-subtle); }
+details.disclosure > :not(summary) { margin:0 20px 20px; }
+details.disclosure[open] > summary { border-bottom-left-radius:0; border-bottom-right-radius:0; }
+@media (prefers-reduced-motion: no-preference) {
+  details.disclosure[open] > :not(summary) { animation:screen-in .25s var(--ease-out); }
+}
+
+/* ---- filter bar: search always visible, the rest folds ---- */
+.filter-top { display:flex; gap:10px; align-items:center; margin-bottom:10px; }
+.filter-top .search { flex:1; display:block; }
+.filter-top .search > .icon { bottom:11px; }
+.filter-top .btn .chev { transition:transform .2s var(--ease-out); }
+.filter-top .btn[aria-expanded='true'] .chev { transform:rotate(180deg); }
+.filter-top .btn[aria-expanded='true'] { border-color:var(--border-highlight); background:var(--bg-surface-alt); }
+.fcount { min-width:20px; height:20px; padding:0 6px; border-radius:999px; font-size:12px; display:inline-flex; align-items:center; justify-content:center; background:var(--accent-primary-fill); color:var(--on-accent-primary); }
+[data-skin='gamer'] .fcount { border-radius:2px; }
+.filter-panel {
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:12px 16px; align-items:end;
+  padding:14px 16px; margin-bottom:10px; background:var(--bg-surface); border:var(--border-width) solid var(--border-subtle); border-radius:var(--radius-card);
+}
+.filter-panel:not([hidden]) { animation:screen-in .22s var(--ease-out); }
+.opt-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px 18px; }
+.swatches { display:flex; flex-wrap:wrap; gap:6px; border:0; padding:0; margin:0; }
+.swatches legend { font-size:13px; font-weight:600; margin-bottom:6px; padding:0; }
+.swatch { position:relative; }
+.swatch input { position:absolute; opacity:0; inset:0; margin:0; cursor:pointer; }
+.swatch span { display:block; width:30px; height:30px; border-radius:var(--radius-control); border:2px solid var(--border-subtle); box-shadow:inset 0 0 0 2px var(--bg-surface); }
+.swatch input:checked + span { border-color:var(--text-primary); box-shadow:inset 0 0 0 2px var(--bg-surface), 0 0 0 2px var(--accent-primary-fill); }
+.swatch input:focus-visible + span { outline:3px solid var(--focus-glow); outline-offset:2px; }
+
+/* ---- Ranking ---- */
+.rank-you { display:grid; grid-template-columns:auto 1fr auto; gap:6px 20px; align-items:center; margin-bottom:20px; }
+.rank-pos { font-size:40px; font-weight:700; line-height:1; }
+[data-skin='gamer'] .rank-pos { font-family:var(--font-display); font-weight:400; font-size:36px; }
+.rank-pos small { font-size:14px; color:var(--text-muted); font-weight:400; }
+.rank-pct { text-align:right; }
+.rank-pct b { display:block; font-size:24px; }
+[data-skin='gamer'] .rank-pct b { font-family:var(--font-display); font-weight:400; font-size:20px; }
+.rank-name { display:flex; align-items:center; gap:10px; }
+.rank-name .pixel { width:32px; height:32px; border-radius:var(--radius-control); background:var(--bg-surface-alt); }
+tr.me td { background:color-mix(in srgb, var(--accent-primary-fill) 13%, var(--bg-surface)); font-weight:700; }
+tr.zone td { padding:6px 14px; background:var(--bg-surface-alt); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; }
+[data-skin='gamer'] tr.zone td { font-family:var(--font-display); font-weight:400; font-size:11px; }
+tr.zone.promo td { color:var(--good); }
+tr.zone.risk td { color:var(--urgent); }
+.status-promo { color:var(--good); font-weight:600; }
+.status-risk { color:var(--urgent); font-weight:600; }
+
+/* ---- Perfil ---- */
+.profile-layout { display:grid; grid-template-columns:320px 1fr; gap:20px; align-items:stretch; }
+.identity { position:relative; display:flex; flex-direction:column; gap:18px; }
+.identity-head { display:flex; flex-direction:column; align-items:center; gap:8px; text-align:center; padding-top:32px; }
+.status-corner { position:absolute; top:12px; right:12px; background:color-mix(in srgb, var(--accent-success-fill) 16%, transparent); color:var(--good); border:1px solid color-mix(in srgb, var(--accent-success-fill) 55%, transparent); }
+/* list rows spread over the card height so it lines up with the right column */
+.identity-list { flex:1; margin:0; display:flex; flex-direction:column; justify-content:space-evenly; border-top:1px solid var(--border-subtle); }
+.identity-list > div { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:11px 0; border-bottom:1px solid var(--border-subtle); font-size:14px; }
+.identity-list > div:last-child { border-bottom:0; }
+.identity-list dt { color:var(--text-muted); }
+.identity-list dd { margin:0; font-weight:600; text-align:right; }
+.identity-list dd.ok { color:var(--good); display:inline-flex; align-items:center; gap:5px; }
+.identity h1 { font-size:22px; }
+[data-skin='gamer'] .identity h1 { font-family:var(--font-display); font-weight:400; font-size:18px; }
+.identity .chips { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; }
+.panel + .panel { margin-top:16px; }
+.panel h2 { font-size:17px; margin-bottom:4px; }
+[data-skin='gamer'] .panel h2 { font-family:var(--font-display); font-weight:400; font-size:14px; letter-spacing:.04em; }
+.panel > p { font-size:14px; color:var(--text-muted); margin-bottom:14px; }
+.link-row { display:flex; align-items:center; gap:12px; justify-content:space-between; flex-wrap:wrap; }
+.link-row .who { display:flex; align-items:center; gap:10px; font-size:14px; }
+
+/* ---- Profesor: cuestionario builder & quiz ---- */
+.builder { display:grid; grid-template-columns:300px minmax(0,1fr); gap:20px; align-items:start; }
+.builder aside { position:sticky; top:84px; display:flex; flex-direction:column; gap:14px; }
+.q-card { padding:0; overflow:hidden; }
+.q-card + .q-card { margin-top:12px; }
+.q-head { display:flex; align-items:center; gap:12px; padding:14px 16px; background:var(--bg-surface-alt); border-bottom:1px solid var(--border-subtle); }
+.q-num { font-weight:700; min-width:24px; }
+[data-skin='gamer'] .q-num { font-family:var(--font-display); font-weight:400; }
+.q-head .q-title { flex:1; min-width:0; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.q-head .points { width:92px; }
+.q-body { padding:16px; display:flex; flex-direction:column; gap:14px; }
+.q-issues { list-style:none; margin:0; padding:0; font-size:13px; color:var(--urgent); font-weight:600; display:flex; flex-direction:column; gap:2px; }
+.opt-row { display:flex; gap:8px; align-items:center; }
+.opt-row .mark { flex:none; display:inline-flex; align-items:center; gap:6px; height:38px; padding:0 10px; border:var(--border-width) dashed var(--border-subtle); border-radius:var(--radius-control); font-size:12px; font-weight:700; color:var(--text-muted); background:transparent; cursor:pointer; }
+.opt-row .mark[aria-pressed='true'] { border-style:solid; border-color:var(--accent-success-fill); background:var(--accent-success-fill); color:var(--on-accent-success); }
+.sum-bar { position:sticky; bottom:0; margin-top:16px; padding:14px 16px; display:flex; align-items:center; gap:16px; flex-wrap:wrap; background:var(--bg-surface); border:var(--border-width) solid var(--border-subtle); border-radius:var(--radius-card); box-shadow:0 -8px 20px -12px rgba(0,0,0,.35); }
+.sum-bar .meter { flex:1 1 200px; }
+.sum-bar .meter .bar > span { background:var(--accent-gold-fill); transition:width .3s var(--ease-out); }
+.sum-bar .meter.ok .bar > span { background:var(--accent-success-fill); }
+.sum-bar .meter.over .bar > span { background:var(--accent-danger-fill); }
+.sum-label { font-size:13px; font-weight:600; margin-bottom:6px; display:flex; justify-content:space-between; }
+.sum-msg { font-size:13px; color:var(--urgent); font-weight:600; flex-basis:100%; }
+.sum-msg.ok { color:var(--good); }
+
+.quiz { max-width:760px; }
+.quiz-head { display:flex; justify-content:space-between; align-items:flex-end; gap:12px; flex-wrap:wrap; margin-bottom:20px; }
+.quiz-progress { font-size:13px; color:var(--text-muted); text-align:right; min-width:180px; }
+.quiz-progress .bar { margin-top:6px; }
+fieldset.question { border:var(--border-width) solid var(--border-subtle); border-radius:var(--radius-card); background:var(--bg-surface); padding:18px 20px 16px; margin:0 0 14px; }
+fieldset.question legend { float:left; width:100%; padding:0; margin-bottom:4px; font-size:16px; font-weight:600; display:flex; justify-content:space-between; gap:12px; }
+fieldset.question .q-hint { clear:both; font-size:13px; color:var(--text-muted); margin-bottom:12px; }
+.choice { display:flex; align-items:center; gap:10px; padding:10px 12px; border:1px solid var(--border-subtle); border-radius:var(--radius-control); cursor:pointer; font-size:15px; }
+.choice + .choice { margin-top:6px; }
+.choice:hover { border-color:var(--border-highlight); }
+.choice input { width:18px; height:18px; accent-color:var(--accent-primary-fill); margin:0; }
+.choice:has(input:checked) { border-color:var(--accent-primary-fill); background:color-mix(in srgb, var(--accent-primary-fill) 10%, var(--bg-surface)); }
+
+/* ---- Roadmap / Insignias / Admin ---- */
+.inline-create { display:flex; gap:10px; align-items:end; }
+.inline-create .field { flex:1; }
+.badge-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(240px,1fr)); gap:12px; }
+.badge-tile { display:grid; grid-template-columns:56px 1fr; gap:4px 14px; align-items:start; padding:16px; }
+.badge-tile .pixel { width:56px; height:56px; grid-row:span 3; }
+.badge-tile h3 { font-size:15px; }
+.badge-tile p { font-size:13px; color:var(--text-muted); }
+.badge-tile .chips { display:flex; gap:6px; flex-wrap:wrap; margin-top:6px; }
+.icon-picker { display:flex; flex-wrap:wrap; gap:8px; border:0; margin:0; padding:0; }
+.icon-picker legend { font-size:13px; font-weight:600; margin-bottom:6px; padding:0; }
+.icon-opt { position:relative; }
+.icon-opt input { position:absolute; opacity:0; inset:0; margin:0; cursor:pointer; }
+.icon-opt span { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; width:64px; height:64px; border:var(--border-width) solid var(--border-subtle); border-radius:var(--radius-control); background:var(--bg-surface-alt); }
+.icon-opt .pixel { width:32px; height:32px; }
+.icon-opt small { font-size:10px; font-weight:700; color:var(--accent-gold); line-height:1; }
+.icon-opt input:checked + span { border-color:var(--accent-primary-fill); box-shadow:0 0 0 2px var(--accent-primary-fill); }
+.icon-opt input:focus-visible + span { outline:3px solid var(--focus-glow); outline-offset:2px; }
+.new-badge { margin-bottom:16px; }
+.module-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(230px,1fr)); gap:12px; }
+.module { display:flex; gap:14px; align-items:flex-start; padding:16px; text-decoration:none; color:inherit; transition:border-color .15s ease; }
+.module:hover { border-color:var(--border-highlight); }
+.module .ic { width:40px; height:40px; flex:none; display:flex; align-items:center; justify-content:center; border-radius:var(--radius-control); background:var(--bg-surface-alt); color:var(--accent-secondary); }
+.module h2 { font-size:15px; display:flex; align-items:center; gap:8px; }
+.module p { font-size:13px; color:var(--text-muted); margin-top:2px; }
+.export-row { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 0; border-bottom:1px solid var(--border-subtle); flex-wrap:wrap; }
+.export-row:last-child { border-bottom:0; }
+.export-row .btns { display:flex; gap:6px; }
+
+/* ---- responsive ---- */
+@media (max-width: 1180px) {
+  .row { grid-template-columns:24px minmax(0,1fr) auto; grid-template-areas:"st main act" ". info info"; }
+  .tags, .due, .rew { grid-area:auto; }
+  .row .info { grid-area:info; display:flex; flex-wrap:wrap; gap:8px 22px; align-items:center; }
+  .filters, .filters.no-course { grid-template-columns:1fr 1fr 1fr; }
+  .filters .search { grid-column:1 / -1; }
+  .avatar-layout { grid-template-columns:minmax(0,1fr) 280px; }
+}
+@media (min-width: 1181px) { .row .info { display:contents; } }
+@media (max-width: 980px) {
+  .inv-layout, .profile-layout, .builder { grid-template-columns:1fr; }
+  .builder aside { position:static; }
+  .avatar-layout { grid-template-columns:1fr; }
+  .avatar-preview { position:static; max-width:320px; margin:0 auto; width:100%; }
+}
+@media (max-width: 860px) {
+  .sidebar, .shell.nav-hidden .sidebar { margin-left:0; visibility:visible; }
+  .sidebar { position:fixed; top:56px; left:0; z-index:25; height:calc(100vh - 56px); transform:translateX(-100%); transition:transform .25s var(--ease-out); box-shadow:0 12px 32px rgba(0,0,0,.35); }
+  .sidebar.open { transform:none; }
+  .content { padding:20px 16px 48px; }
+  .me-chip .me-name, .seg .seg-label { display:none; }
+  .seg button { padding:0 10px; }
+}
+@media (max-width: 600px) {
+  .filters, .filters.no-course { grid-template-columns:1fr 1fr; }
+  .page-head h1 { font-size:26px; }
+  .row { grid-template-columns:20px minmax(0,1fr); grid-template-areas:"st main" ". info" ". act"; padding:14px; }
+  .act { justify-self:stretch; }
+  .act .btn { width:100%; }
+  .alert { grid-template-columns:auto 1fr; }
+  .alert > .btn { grid-column:1 / -1; }
+  .brand { font-size:16px; }
+  .form-grid, .opt-grid { grid-template-columns:1fr; }
+  .course-grid { grid-template-columns:1fr; }
+  .inline-create { flex-direction:column; align-items:stretch; }
+  .rank-you { grid-template-columns:auto 1fr; }
+  .rank-you .rank-pct { grid-column:1 / -1; text-align:left; }
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3z"/><path d="M9 3v15"/><path d="M15 6v15"/></symbol>
+  <symbol id="i-bot" viewBox="0 0 24 24"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></symbol>
+  <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></symbol>
+  <symbol id="i-backpack" viewBox="0 0 24 24"><path d="M4 10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M8 10h8"/><path d="M8 18h8"/><path d="M8 22v-6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v6"/><path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></symbol>
+  <symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+  <symbol id="i-survey" viewBox="0 0 24 24"><rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-shirt" viewBox="0 0 24 24"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></symbol>
+  <symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.48 12.89 17 22l-5-3-5 3 1.52-9.11"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></symbol>
+  <symbol id="i-tick" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-todo" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></symbol>
+  <symbol id="i-half" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z" fill="currentColor"/></symbol>
+  <symbol id="i-panel" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="m16 15-3-3 3-3"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"/></symbol>
+  <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.53 13.53 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><path d="m2 2 20 20"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v10"/><path d="M15 9.5c-.6-.9-1.7-1.5-3-1.5-1.7 0-3 .9-3 2s1.3 1.7 3 2 3 .9 3 2-1.3 2-3 2c-1.3 0-2.4-.6-3-1.5"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></symbol>
+  <symbol id="i-gamepad" viewBox="0 0 24 24"><path d="M6 12h4"/><path d="M8 10v4"/><path d="M15 13h.01"/><path d="M18 11h.01"/><rect width="20" height="12" x="2" y="6" rx="2"/></symbol>
+  <symbol id="i-briefcase" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol>
+  <symbol id="i-filter-off" viewBox="0 0 24 24"><path d="M22 3H2l8 9.46V19l4 2v-8.54z"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><path d="M1 14h6"/><path d="M9 8h6"/><path d="M17 16h6"/></symbol>
+  <symbol id="i-cpu" viewBox="0 0 24 24"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></symbol>
+  <symbol id="i-github" viewBox="0 0 24 24"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></symbol>
+  <symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
+  <symbol id="i-grip" viewBox="0 0 24 24"><path d="M9 5h.01M9 12h.01M9 19h.01M15 5h.01M15 12h.01M15 19h.01" stroke-width="3"/></symbol>
+</svg>
+
+<div class="mockbar" role="region" aria-label="Controles del mock">
+  <b>Mock</b>
+  <span>Ver como</span>
+  <div class="seg" role="group" aria-label="Rol">
+    <button data-role-btn="alumno" aria-pressed="true">Alumno</button>
+    <button data-role-btn="profesor" aria-pressed="false">Profesor</button>
+    <button data-role-btn="admin" aria-pressed="false">Admin</button>
+  </div>
+  <label><input type="checkbox" id="sim-error" /> Simular error de carga</label>
+  <span>Datos sintéticos · hoy = mar 30/09/2026</span>
+</div>
+
+<header class="topbar">
+  <button class="icon-btn menu-btn" id="menu-btn" aria-label="Ocultar menú" aria-expanded="true" aria-controls="sidebar" title="Mostrar u ocultar el menú"><svg class="icon"><use href="#i-panel"/></svg></button>
+  <div class="brand">TPI 2026</div>
+  <div class="seg" role="group" aria-label="Modo de visualización">
+    <button data-skin-btn="gamer" aria-pressed="true"><svg class="icon icon-sm"><use href="#i-gamepad"/></svg><span class="seg-label">Arcade</span></button>
+    <button data-skin-btn="sobrio" aria-pressed="false"><svg class="icon icon-sm"><use href="#i-briefcase"/></svg><span class="seg-label">Normal</span></button>
+  </div>
+  <button class="icon-btn" id="theme-btn" aria-label="Cambiar a tema claro"><svg class="icon"><use href="#i-sun"/></svg></button>
+  <div class="account">
+    <button class="me-chip" id="account-btn" type="button" aria-expanded="false" aria-controls="account-menu" aria-haspopup="true">
+      <span class="initials" aria-hidden="true" data-me-initials>MS</span>
+      <span class="me-name"><span data-me-short>Manuel S.</span><span class="me-level" data-me-level>Nivel 7</span></span>
+      <svg class="icon icon-sm chev" aria-hidden="true"><use href="#i-chevron"/></svg>
+    </button>
+    <div class="account-menu" id="account-menu" hidden>
+      <a class="nav-item" href="#perfil"><svg class="icon"><use href="#i-user"/></svg>Mi perfil</a>
+      <a class="nav-item" href="#personaje" data-alumno-only><svg class="icon"><use href="#i-shirt"/></svg>Mi personaje</a>
+      <a class="nav-item" href="#inventario" data-alumno-only><svg class="icon"><use href="#i-backpack"/></svg>Inventario</a>
+      <hr />
+      <button class="nav-item danger" type="button"><svg class="icon"><use href="#i-logout"/></svg>Cerrar sesión</button>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="sidebar" id="sidebar" aria-label="Navegación principal"></nav>
+
+  <main class="content" id="main">
+
+    <!-- ================= DESAFÍOS · alumno ================= -->
+    <section class="screen" id="screen-desafios-alumno" aria-labelledby="h-desafios" data-error="No pudimos traer tus desafíos. Probá de nuevo en unos segundos.">
+      <div class="page-head">
+        <div>
+          <h1 class="display" id="h-desafios">Desafíos</h1>
+          <p>Resolvé desafíos para sumar XP y monedas. Los obligatorios cuentan para tu regularidad.</p>
+        </div>
+      </div>
+      <div class="data">
+        <div class="alert risk" role="status">
+          <svg class="icon" aria-hidden="true"><use href="#i-alert"/></svg>
+          <div>
+            <div class="alert-title">Estás en zona de riesgo en MSI</div>
+            <div class="alert-body">Te faltan 2 desafíos obligatorios para mantener la regularidad. El próximo vence el jueves 02/10.</div>
+          </div>
+          <a class="btn btn-secondary" href="#curso/MSI">Ver obligatorios de MSI</a>
+        </div>
+        <div data-challenge-list></div>
+      </div>
+    </section>
+
+    <!-- ================= DESAFÍO TEÓRICO · alumno ================= -->
+    <section class="screen quiz" id="screen-quiz-alumno" aria-labelledby="h-quiz" data-error="El servicio de desafíos teóricos no respondió. Tus respuestas guardadas no se perdieron.">
+      <a class="back" href="#desafios"><svg class="icon icon-sm"><use href="#i-left"/></svg>Desafíos</a>
+      <div class="quiz-head">
+        <div>
+          <h1 class="display" id="h-quiz">Tipado y protocolos</h1>
+          <div class="head-meta">
+            <span><b>MSI</b></span><span>Cuestionario teórico</span><span class="xp-text" style="color:var(--accent-gold)">+50 XP</span><span>Vence el mié 08/10</span>
+          </div>
+        </div>
+        <div class="quiz-progress" aria-live="polite">
+          <span id="quiz-count">0 de 2 respondidas</span> · <span id="quiz-save">Sin cambios</span>
+          <div class="bar"><span id="quiz-bar" style="width:0%"></span></div>
+        </div>
+      </div>
+      <form class="data" id="quiz-form" onsubmit="return false">
+        <fieldset class="question">
+          <legend><span>1. ¿Cuáles de estos lenguajes tienen tipado estático?</span><span class="badge badge-outline num">50 pts</span></legend>
+          <p class="q-hint">Podés marcar más de una.</p>
+          <label class="choice"><input type="checkbox" name="q1" value="java" />Java</label>
+          <label class="choice"><input type="checkbox" name="q1" value="ts" />TypeScript</label>
+          <label class="choice"><input type="checkbox" name="q1" value="py" />Python</label>
+          <label class="choice"><input type="checkbox" name="q1" value="go" />Go</label>
+        </fieldset>
+        <fieldset class="question">
+          <legend><span>2. ¿Qué protocolo de la capa de transporte es orientado a conexión?</span><span class="badge badge-outline num">50 pts</span></legend>
+          <p class="q-hint">Elegí una opción.</p>
+          <label class="choice"><input type="radio" name="q2" value="udp" />UDP</label>
+          <label class="choice"><input type="radio" name="q2" value="tcp" />TCP</label>
+          <label class="choice"><input type="radio" name="q2" value="icmp" />ICMP</label>
+        </fieldset>
+        <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+          <button class="btn btn-primary" id="quiz-submit" type="button" disabled>Entregar</button>
+          <span class="muted" style="font-size:13px" id="quiz-hint">Respondé todas las preguntas para poder entregar. Se guarda solo mientras avanzás.</span>
+        </div>
+      </form>
+    </section>
+
+    <!-- ================= CURSOS · alumno ================= -->
+    <section class="screen" id="screen-cursos-alumno" aria-labelledby="h-cursos-a" data-error="No pudimos traer tus cursos.">
+      <div class="page-head">
+        <div><h1 class="display" id="h-cursos-a">Mis cursos</h1><p>Los cursos en los que estás inscripto. Entrá a uno para ver sus desafíos y tu progreso.</p></div>
+      </div>
+      <div class="data course-grid" id="student-courses"></div>
+    </section>
+
+    <!-- ================= CURSO (detalle) · alumno ================= -->
+    <section class="screen" id="screen-curso-alumno" aria-labelledby="h-curso-a" data-error="No pudimos traer este curso.">
+      <a class="back" href="#cursos"><svg class="icon icon-sm"><use href="#i-left"/></svg>Mis cursos</a>
+      <div class="page-head">
+        <div>
+          <h1 class="display" id="h-curso-a" data-course-name>MSI</h1>
+          <div class="head-meta" data-course-meta></div>
+        </div>
+        <div class="quick-links">
+          <a class="btn btn-ghost btn-sm" href="#roadmap"><svg class="icon icon-sm"><use href="#i-map"/></svg>Roadmap</a>
+          <a class="btn btn-ghost btn-sm" href="#ranking"><svg class="icon icon-sm"><use href="#i-trophy"/></svg>Ranking</a>
+          <a class="btn btn-ghost btn-sm" href="#inventario"><svg class="icon icon-sm"><use href="#i-backpack"/></svg>Inventario</a>
+        </div>
+      </div>
+      <div class="data">
+        <div class="stat-strip" data-course-stats></div>
+        <div class="section-head"><h2>Desafíos del curso</h2></div>
+        <div data-challenge-list data-locked-course></div>
+      </div>
+    </section>
+
+    <!-- ================= INVENTARIO · alumno ================= -->
+    <section class="screen" id="screen-inventario-alumno" aria-labelledby="h-inv" data-error="No pudimos traer tu inventario.">
+      <div class="page-head">
+        <div><h1 class="display" id="h-inv">Inventario</h1><p>Tus vidas, monedas, nivel e ítems en cada curso.</p></div>
+      </div>
+      <div class="data">
+        <div class="tabs" role="tablist" aria-label="Curso" id="inv-tabs"></div>
+        <div class="stat-strip" id="inv-stats"></div>
+        <div class="inv-layout">
+          <div class="card studs backpack-card">
+            <h2>Mochila</h2>
+            <div id="inv-backpack"></div>
+            <a class="btn btn-ghost btn-sm" href="#personaje"><svg class="icon icon-sm"><use href="#i-shirt"/></svg>Cambiar color</a>
+          </div>
+          <div class="card studs">
+            <div class="section-head" style="margin-bottom:16px"><h2>Ítems equipados</h2><span class="muted" style="font-size:13px">3 ranuras por tipo de desafío</span></div>
+            <div id="inv-slots"></div>
+            <div class="section" style="margin-top:24px">
+              <div class="section-head"><h2>Disponibles</h2></div>
+              <div class="empty">
+                <svg class="icon" aria-hidden="true"><use href="#i-bag"/></svg>
+                <p>Todavía no desbloqueaste ítems en este curso.</p>
+                <a class="btn btn-secondary btn-sm" href="#marketplace">Ir al Marketplace</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PERSONAJE · alumno ================= -->
+    <section class="screen" id="screen-personaje-alumno" aria-labelledby="h-pj" data-error="No pudimos traer tu personaje.">
+      <a class="back" href="#roadmap"><svg class="icon icon-sm"><use href="#i-left"/></svg>Volver al mapa</a>
+      <div class="page-head">
+        <div><h1 class="display" id="h-pj">Tu personaje</h1><p>Así aparecés en las islas y en los desafíos. Cada cambio se guarda solo.</p></div>
+      </div>
+      <form class="data avatar-layout" id="avatar-form" onsubmit="return false">
+        <div>
+          <details class="card studs opt-section disclosure" name="pj" open data-sum="cuerpo">
+            <summary><h2><span>Cuerpo</span><span class="disc-sum"></span></h2></summary>
+            <div class="opt-grid">
+              <label class="field">Arquetipo<select class="control" name="arquetipo"><option>Arquetipo A (Caballero)</option><option>Arquetipo B (Exploradora)</option><option>Arquetipo C (Hacker)</option></select></label>
+              <label class="field">Cabeza<select class="control" name="cabeza"><option>Cabeza A (Caballero)</option><option>Cabeza B</option></select></label>
+              <label class="field">Cabello<select class="control" name="cabello"><option>Original / por defecto</option><option>Corto</option><option>Largo</option></select></label>
+              <fieldset class="swatches" data-swatches="hair"><legend>Color de pelo</legend></fieldset>
+              <label class="field">Cosmético de cara<select class="control" name="cosmetico"><option>Ninguno</option><option>Anteojos</option><option>Barba</option></select></label>
+              <fieldset class="swatches" data-swatches="skin"><legend>Color de piel</legend></fieldset>
+            </div>
+          </details>
+          <details class="card studs opt-section disclosure" name="pj" data-sum="ropa">
+            <summary><h2><span>Ropa</span><span class="disc-sum"></span></h2></summary>
+            <div class="opt-grid">
+              <label class="field">Parte superior<select class="control" name="top"><option>Parte superior A (Caballero)</option><option>Buzo UTN</option></select></label>
+              <label class="field">Pantalón<select class="control" name="pantalon"><option>Pantalón A (Caballero)</option><option>Jean</option></select></label>
+              <label class="field">Zapatos<select class="control" name="zapatos"><option>Zapatos A (Caballero)</option><option>Zapatillas</option></select></label>
+              <fieldset class="swatches" data-swatches="shoes"><legend>Color de calzado</legend></fieldset>
+              <label class="field">Espalda<select class="control" name="espalda"><option>Mochila</option><option>Nada</option></select></label>
+              <fieldset class="swatches" data-swatches="pack"><legend>Color de mochila</legend></fieldset>
+            </div>
+          </details>
+          <details class="card studs opt-section disclosure" name="pj" data-sum="acc">
+            <summary><h2><span>Accesorios</span><span class="disc-sum"></span></h2></summary>
+            <div class="opt-grid">
+              <label class="field">Cabeza<select class="control" name="cabezaItem"><option>Auriculares gamer</option><option>Ninguno</option><option>Gorra</option></select></label>
+              <label class="field">Mascota<select class="control" name="mascota"><option>Dron</option><option>Ninguna</option><option>Gato</option></select></label>
+              <label class="field">Mano derecha<select class="control" name="manoDer"><option>Mouse gamer</option><option>Nada</option></select></label>
+              <label class="field">Mano izquierda<select class="control" name="manoIzq"><option>Mate</option><option>Nada</option><option>Café</option></select></label>
+            </div>
+          </details>
+        </div>
+        <aside class="avatar-preview" aria-label="Vista previa">
+          <div class="stage" id="avatar-stage"><span class="stage-note">Arrastrá para rotar · rueda para zoom</span></div>
+          <div class="save-state" id="avatar-save" role="status"><svg class="icon icon-sm"><use href="#i-tick"/></svg>Guardado</div>
+          <p class="muted" style="font-size:12px; margin-top:6px">En la app real acá va el visor 3D existente; el mock dibuja una versión pixel que reacciona a los colores.</p>
+        </aside>
+      </form>
+    </section>
+
+    <!-- ================= RANKING (alumno y profesor) ================= -->
+    <section class="screen" id="screen-ranking" aria-labelledby="h-rank" data-error="No pudimos traer el ranking.">
+      <div class="page-head">
+        <div><h1 class="display" id="h-rank">Ranking</h1><p>Posición por XP dentro de la cohorte. La zona de riesgo depende de los obligatorios pendientes, no solo del XP.</p></div>
+        <label class="field" style="min-width:160px">Cohorte<select class="control" id="rank-course"><option>MSI</option><option>MSII</option></select></label>
+      </div>
+      <div class="data">
+        <div class="card studs alert-card rank-you" id="rank-you"></div>
+        <div class="table-wrap"><table class="data" id="rank-table"></table></div>
+        <div class="pager" id="rank-pager"></div>
+        <p class="muted" style="font-size:13px; margin-top:10px">Percentil: P92 significa que tu XP supera al 92% de la cohorte. Zona de promoción: P90 o más.</p>
+      </div>
+    </section>
+
+    <!-- ================= PERFIL (todos) ================= -->
+    <section class="screen" id="screen-perfil" aria-labelledby="h-perfil" data-error="No pudimos traer tu perfil.">
+      <div class="page-head"><div><h1 class="display" id="h-perfil">Mi perfil</h1></div></div>
+      <div class="data profile-layout">
+        <aside class="card studs identity">
+          <span class="badge status-corner"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-tick"/></svg>Cuenta activa</span>
+          <div class="identity-head">
+            <span class="initials lg" data-me-initials>MS</span>
+            <h1 data-me-name>Manuel Sanchez</h1>
+            <span class="muted" data-me-email>manuel.sanchez@frc.utn.edu.ar</span>
+          </div>
+          <dl class="identity-list" aria-label="Información de la cuenta">
+            <div><dt>Rol</dt><dd><span class="badge badge-secondary" data-me-role>Alumno</span></dd></div>
+            <div><dt>Email</dt><dd class="ok"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-tick"/></svg>Verificado</dd></div>
+            <div data-legajo-row><dt>Legajo</dt><dd class="num" data-me-legajo>40510</dd></div>
+            <div><dt>Miembro desde</dt><dd class="num" data-me-since>28/09/2026</dd></div>
+            <div><dt>Términos aceptados</dt><dd>Versión 1</dd></div>
+          </dl>
+        </aside>
+        <div>
+          <section class="card studs panel" aria-labelledby="h-access-p" data-admin-only>
+            <h2 id="h-access-p">Accesos a la plataforma</h2>
+            <p>Aprobá solicitudes pendientes y habilitá emails docentes sin esperar su pedido.</p>
+            <div class="link-row">
+              <span class="who"><span class="badge badge-primary num">1</span>solicitud pendiente</span>
+              <a class="btn btn-secondary" href="#accesos"><svg class="icon icon-sm"><use href="#i-key"/></svg>Gestionar accesos</a>
+            </div>
+          </section>
+          <section class="card studs panel" aria-labelledby="h-gh">
+            <h2 id="h-gh">GitHub</h2>
+            <p>Vinculá tu cuenta para las entregas y los repositorios de la cátedra.</p>
+            <div class="link-row">
+              <span class="who"><svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>Sin cuenta vinculada</span>
+              <button class="btn btn-secondary" type="button"><svg class="icon icon-sm"><use href="#i-github"/></svg>Vincular GitHub</button>
+            </div>
+          </section>
+          <section class="card studs panel" aria-labelledby="h-sec">
+            <h2 id="h-sec">Seguridad y sesión</h2>
+            <p>Cambiá tu contraseña o cerrá la sesión en este dispositivo.</p>
+            <div class="link-row">
+              <a class="btn btn-ghost" href="#"><svg class="icon icon-sm"><use href="#i-key"/></svg>Cambiar contraseña</a>
+              <button class="btn btn-ghost danger" type="button"><svg class="icon icon-sm"><use href="#i-logout"/></svg>Cerrar sesión</button>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CURSOS · profesor ================= -->
+    <section class="screen" id="screen-cursos-profesor" aria-labelledby="h-cursos-p" data-error="No pudimos traer las cohortes.">
+      <div class="page-head">
+        <div><h1 class="display" id="h-cursos-p">Cursos</h1><p>Las cohortes a las que estás asociado. Lo que podés editar depende de tus permisos en cada una.</p></div>
+        <button class="btn btn-primary" type="button" data-open="drawer-cohorte"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Crear cohorte</button>
+      </div>
+      <div class="data">
+        <div class="tabs" role="tablist" aria-label="Estado de las cohortes" id="cohort-tabs"></div>
+        <div class="course-grid" id="cohort-grid"></div>
+      </div>
+    </section>
+
+    <!-- ================= CURSO (detalle) · profesor ================= -->
+    <section class="screen" id="screen-curso-profesor" aria-labelledby="h-curso-p" data-error="No pudimos traer esta cohorte.">
+      <a class="back" href="#cursos"><svg class="icon icon-sm"><use href="#i-left"/></svg>Cursos</a>
+      <div class="page-head">
+        <div>
+          <h1 class="display" id="h-curso-p" data-course-name>MSII</h1>
+          <div class="head-meta" data-course-meta></div>
+        </div>
+        <div class="invite" role="group" aria-label="Código de invitación">
+          <span class="invite-label">Código de invitación</span>
+          <code class="invite-code" id="invite-code">GSLSFFFUVE</code>
+          <button class="icon-btn sm" type="button" id="invite-copy" aria-label="Copiar código de invitación"><svg class="icon icon-sm"><use href="#i-copy"/></svg></button>
+          <button class="icon-btn sm" type="button" id="invite-regen" aria-label="Regenerar código de invitación"><svg class="icon icon-sm"><use href="#i-refresh"/></svg></button>
+          <span class="invite-status" id="invite-status" role="status"></span>
+        </div>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Secciones del curso" data-tabgroup="curso">
+        <button class="tab" role="tab" aria-selected="true" data-subtab="c-resumen">Resumen</button>
+        <button class="tab" role="tab" aria-selected="false" data-subtab="c-contenido">Contenido</button>
+        <button class="tab" role="tab" aria-selected="false" data-subtab="c-alumnos">Alumnos <span class="count num" data-req-count>2</span></button>
+        <button class="tab" role="tab" aria-selected="false" data-subtab="c-config">Configuración</button>
+      </div>
+
+      <div class="data">
+        <!-- Resumen -->
+        <div data-subpanel="c-resumen" data-group="curso">
+          <p class="course-desc">Espacio principal de la cursada: estructura de contenidos, unidades temáticas y actividades evaluativas.</p>
+          <div class="stat-strip">
+            <div><div class="k">Alumnos</div><div class="v num">28</div></div>
+            <div><div class="k">Solicitudes pendientes</div><div class="v num" style="color:var(--urgent)"><button class="linkbtn big" type="button" data-goto="c-alumnos" data-goto-pill="a-solicitudes">2</button></div></div>
+            <div><div class="k">Desafíos publicados</div><div class="v num" data-pub-count>6</div></div>
+            <div><div class="k">Secciones visibles</div><div class="v num" data-sec-visible>2 de 3</div></div>
+          </div>
+          <div class="two-col">
+            <section class="card studs" aria-labelledby="h-team">
+              <div class="section-head"><h2 id="h-team">Equipo docente <span class="muted num" style="font-weight:400">(7)</span></h2><button class="btn btn-ghost btn-sm" type="button"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Asignar profesores</button></div>
+              <ul class="people" id="team-list"></ul>
+            </section>
+            <div class="stack">
+              <section class="card studs" aria-labelledby="h-next">
+                <div class="section-head"><h2 id="h-next">Próximos vencimientos</h2><button class="btn btn-quiet btn-sm" type="button" data-goto="c-contenido" data-goto-pill="k-desafios">Ver desafíos<svg class="icon icon-sm"><use href="#i-right"/></svg></button></div>
+                <ul class="people" id="next-due"></ul>
+              </section>
+              <section class="card studs" aria-labelledby="h-vitrina">
+                <div class="link-row"><div><h2 id="h-vitrina" style="font-size:16px">Vitrina</h2><p class="muted" style="font-size:13px">Cómo se presenta esta cohorte.</p></div><button class="btn btn-ghost btn-sm" type="button">Gestionar vitrina</button></div>
+              </section>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contenido -->
+        <div data-subpanel="c-contenido" data-group="curso" hidden>
+          <div class="section-head">
+            <div class="pills" role="tablist" aria-label="Contenido" data-tabgroup="contenido">
+              <button class="tab" role="tab" aria-selected="true" data-subtab="k-secciones">Secciones <span class="count num">3</span></button>
+              <button class="tab" role="tab" aria-selected="false" data-subtab="k-desafios">Desafíos <span class="count num" data-course-ch-count>8</span></button>
+            </div>
+            <div class="quick-links" data-subpanel="k-secciones" data-group="contenido-actions">
+              <button class="btn btn-ghost btn-sm" type="button" id="reorder-btn" aria-pressed="false"><svg class="icon icon-sm"><use href="#i-grip"/></svg>Ordenar</button>
+              <button class="btn btn-primary btn-sm" type="button"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Nueva sección</button>
+            </div>
+          </div>
+          <div data-subpanel="k-secciones" data-group="contenido">
+            <p class="muted" style="font-size:13px; margin-bottom:10px">Los alumnos ven las secciones visibles en este orden. Las dadas de baja no aparecen.</p>
+            <ol class="sec-list" id="sec-list"></ol>
+          </div>
+          <div data-subpanel="k-desafios" data-group="contenido" hidden>
+            <div class="section-head"><p>Desafíos de esta cohorte.</p><button class="btn btn-primary btn-sm" type="button" data-open="drawer-desafio"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Crear desafío</button></div>
+            <div data-catalog data-locked-course></div>
+          </div>
+        </div>
+
+        <!-- Alumnos -->
+        <div data-subpanel="c-alumnos" data-group="curso" hidden>
+          <div class="pills" role="tablist" aria-label="Alumnos" data-tabgroup="alumnos" style="margin-bottom:14px">
+            <button class="tab" role="tab" aria-selected="true" data-subtab="a-padron">Padrón <span class="count num">28</span></button>
+            <button class="tab" role="tab" aria-selected="false" data-subtab="a-solicitudes">Solicitudes <span class="count num" data-req-count>2</span></button>
+            <button class="tab" role="tab" aria-selected="false" data-subtab="a-asistencias">Asistencias</button>
+            <button class="tab" role="tab" aria-selected="false" data-subtab="a-calificaciones">Calificaciones</button>
+          </div>
+          <div data-subpanel="a-padron" data-group="alumnos">
+            <div class="filter-top">
+              <label class="search"><span class="sr-only">Buscar alumno</span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-search"/></svg><input class="control" type="search" id="roster-q" placeholder="Buscar por nombre, legajo o email" /></label>
+              <div class="seg" role="group" aria-label="Filtrar por estado" id="roster-filter">
+                <button type="button" aria-pressed="true" data-rf="">Todos</button><button type="button" aria-pressed="false" data-rf="Riesgo">En riesgo</button>
+              </div>
+            </div>
+            <div class="table-wrap"><table class="data" id="roster-table"></table></div>
+            <div class="pager" id="roster-pager"></div>
+          </div>
+          <div data-subpanel="a-solicitudes" data-group="alumnos" hidden>
+            <p class="muted" style="font-size:13px; margin-bottom:10px">Pedidos de inscripción hechos con el código de invitación.</p>
+            <ul class="list" id="enroll-list"></ul>
+          </div>
+          <div data-subpanel="a-asistencias" data-group="alumnos" hidden>
+            <div class="empty">
+              <svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg>
+              <p>Todavía no registraste ninguna clase en esta cohorte.</p>
+              <button class="btn btn-primary btn-sm" type="button"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Registrar la clase de hoy</button>
+            </div>
+          </div>
+          <div data-subpanel="a-calificaciones" data-group="alumnos" hidden>
+            <div class="empty">
+              <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+              <p>Todavía no hay calificaciones cargadas para esta cohorte.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Configuración -->
+        <div data-subpanel="c-config" data-group="curso" hidden>
+          <div class="card studs activation">
+            <div class="link-row" style="align-items:flex-start">
+              <div>
+                <h2 class="act-title"><svg class="icon" aria-hidden="true" style="color:var(--good)"><use href="#i-check"/></svg>Cohorte activa</h2>
+                <p class="muted" style="font-size:14px; margin-top:4px">El código de invitación está habilitado y la cursada está disponible para los alumnos.</p>
+              </div>
+            </div>
+            <details class="act-reqs">
+              <summary>Requisitos de activación <span class="muted">· 3 de 3 cumplidos</span></summary>
+              <ul>
+                <li><svg class="icon icon-sm" aria-hidden="true"><use href="#i-tick"/></svg>Estaba en estado Borrador al activarla</li>
+                <li><svg class="icon icon-sm" aria-hidden="true"><use href="#i-tick"/></svg>El padrón tiene al menos un estudiante activo</li>
+                <li><svg class="icon icon-sm" aria-hidden="true"><use href="#i-tick"/></svg>La calibración está aprobada</li>
+              </ul>
+            </details>
+          </div>
+
+          <form id="cfg-form" onsubmit="return false" novalidate>
+            <fieldset class="cfg-fs" id="cfg-fs">
+              <details class="card studs disclosure" name="cfg" open>
+                <summary><h2><span>Identificación</span><span class="disc-sum">Nombre, descripción y color</span></h2></summary>
+                <div class="form-grid">
+                  <label class="field">Nombre visible<input class="control" name="nombre" value="MSII" /><span class="hint">Si lo dejás vacío se muestra el nombre del curso base (MSII).</span></label>
+                  <label class="field">Color<select class="control" name="color"><option>Sin color</option><option>Terracota</option><option>Petróleo</option><option>Oliva</option></select></label>
+                  <label class="field full">Descripción<textarea class="control" name="desc" rows="2">Espacio principal de la cursada: estructura de contenidos, unidades temáticas y actividades evaluativas.</textarea></label>
+                </div>
+              </details>
+              <details class="card studs disclosure" name="cfg">
+                <summary><h2><span>Cursada</span><span class="disc-sum">Modalidad sin definir · 01/04/2026 – 20/12/2026 · sin horario</span></h2></summary>
+                <div class="form-grid">
+                  <label class="field">Modalidad<select class="control" name="modalidad"><option>Sin definir</option><option>Presencial</option><option>Virtual</option><option>Híbrida</option></select></label>
+                  <label class="field">Aula, espacio o enlace<input class="control" name="aula" placeholder="Aula 304 o https://meet.google.com/…" /></label>
+                  <label class="field">Fecha de inicio<input class="control" type="date" name="inicio" value="2026-04-01" /></label>
+                  <label class="field">Fecha de fin<input class="control" type="date" name="fin" value="2026-12-20" /></label>
+                  <label class="field">Horario desde<input class="control" type="time" name="hdesde" /></label>
+                  <label class="field">Horario hasta<input class="control" type="time" name="hhasta" /></label>
+                </div>
+              </details>
+              <details class="card studs disclosure" name="cfg">
+                <summary><h2><span>Inscripción</span><span class="disc-sum">Abierta mientras la cohorte esté activa · sin cupo</span></h2></summary>
+                <div class="form-grid">
+                  <label class="field">Inscripción desde<input class="control" type="date" name="idesde" /></label>
+                  <label class="field">Fecha límite<input class="control" type="date" name="ihasta" /></label>
+                  <p class="hint full" style="margin-top:-6px">Fuera de este período no se aceptan inscripciones con el código. Si no lo definís, los alumnos pueden inscribirse mientras la cohorte esté activa.</p>
+                  <label class="field">Cupo máximo de alumnos<input class="control num" type="number" name="cupo" min="1" max="350" placeholder="Sin límite" /><span class="hint">Cuenta inscriptos y solicitudes pendientes. Vacío = sin límite (máximo 350).</span></label>
+                </div>
+              </details>
+            </fieldset>
+            <div class="save-bar" id="save-bar" hidden>
+              <span><b>Tenés cambios sin guardar.</b></span>
+              <div class="quick-links"><button class="btn btn-quiet" type="button" id="cfg-discard">Descartar</button><button class="btn btn-primary" type="button" id="cfg-save">Guardar cambios</button></div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= DESAFÍOS · profesor ================= -->
+    <section class="screen" id="screen-desafios-profesor" aria-labelledby="h-cat" data-error="Ocurrió un error al consultar los desafíos con el servidor.">
+      <div class="page-head">
+        <div><h1 class="display" id="h-cat">Desafíos</h1><p>El catálogo de todas tus cohortes: desafíos prácticos, cuestionarios teóricos y el banco de preguntas.</p></div>
+        <button class="btn btn-primary" type="button" data-open="drawer-desafio"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Crear desafío</button>
+      </div>
+      <div class="tabs" role="tablist" aria-label="Sección">
+        <button class="tab" role="tab" aria-selected="true" data-subtab="cat-practicos">Catálogo <span class="count num">14</span></button>
+        <button class="tab" role="tab" aria-selected="false" data-subtab="cat-cuestionarios">Cuestionarios teóricos <span class="count num">3</span></button>
+        <button class="tab" role="tab" aria-selected="false" data-subtab="cat-banco">Banco de preguntas <span class="count num">24</span></button>
+      </div>
+      <div class="data">
+        <div data-subpanel="cat-practicos"><div data-catalog></div></div>
+        <div data-subpanel="cat-cuestionarios" hidden>
+          <div class="section-head"><p>Cuestionarios armados con preguntas de tu banco.</p>
+            <div class="quick-links">
+              <a class="btn btn-ghost btn-sm" href="#quiz"><svg class="icon icon-sm"><use href="#i-eye"/></svg>Vista previa como alumno</a>
+              <a class="btn btn-primary btn-sm" href="#cuestionario-nuevo"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Armar cuestionario</a>
+            </div>
+          </div>
+          <div class="table-wrap"><table class="data">
+            <thead><tr><th>Cuestionario</th><th>Cohorte</th><th class="r">Preguntas</th><th class="r">Intentos</th><th>Estado</th><th><span class="sr-only">Acciones</span></th></tr></thead>
+            <tbody>
+              <tr><td><div class="cell-title">Tipado y protocolos</div><div class="cell-sub">Vence mié 08/10</div></td><td>MSI</td><td class="r">2</td><td class="r">14</td><td><span class="badge badge-success">Publicado</span></td><td><div class="row-actions"><button class="icon-btn sm" aria-label="Editar Tipado y protocolos"><svg class="icon icon-sm"><use href="#i-pencil"/></svg></button></div></td></tr>
+              <tr><td><div class="cell-title">Complejidad algorítmica</div><div class="cell-sub">Sin fecha límite</div></td><td>MSII</td><td class="r">8</td><td class="r">0</td><td><span class="badge badge-outline">Borrador</span></td><td><div class="row-actions"><button class="icon-btn sm" aria-label="Editar Complejidad algorítmica"><svg class="icon icon-sm"><use href="#i-pencil"/></svg></button></div></td></tr>
+              <tr><td><div class="cell-title">Estructuras de control</div><div class="cell-sub">Vencido el 20/09</div></td><td>MSI</td><td class="r">10</td><td class="r">31</td><td><span class="badge badge-success">Publicado</span></td><td><div class="row-actions"><button class="icon-btn sm" aria-label="Editar Estructuras de control"><svg class="icon icon-sm"><use href="#i-pencil"/></svg></button></div></td></tr>
+            </tbody>
+          </table></div>
+        </div>
+        <div data-subpanel="cat-banco" hidden>
+          <div class="section-head"><p>Preguntas reutilizables. Se agregan a un cuestionario desde "Armar cuestionario".</p><button class="btn btn-ghost btn-sm" type="button"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Nueva pregunta</button></div>
+          <div class="table-wrap"><table class="data">
+            <thead><tr><th>Pregunta</th><th>Tema</th><th>Corrección</th><th class="r">Usada en</th></tr></thead>
+            <tbody>
+              <tr><td class="cell-title">¿Cuáles de estos lenguajes tienen tipado estático?</td><td>Tipado</td><td>Varias correctas</td><td class="r">1</td></tr>
+              <tr><td class="cell-title">¿Qué protocolo de transporte es orientado a conexión?</td><td>Redes</td><td>Una correcta</td><td class="r">1</td></tr>
+              <tr><td class="cell-title">¿Cuál es la complejidad de la búsqueda binaria?</td><td>Complejidad</td><td>Una correcta</td><td class="r">2</td></tr>
+              <tr><td class="cell-title">¿Qué imprime un for que recorre de 0 a n−1 sin break?</td><td>Estructuras de control</td><td>Una correcta</td><td class="r">0</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= ARMAR CUESTIONARIO · profesor ================= -->
+    <section class="screen" id="screen-cuestionario-nuevo-profesor" aria-labelledby="h-build" data-error="No pudimos cargar el banco de preguntas.">
+      <a class="back" href="#desafios"><svg class="icon icon-sm"><use href="#i-left"/></svg>Desafíos</a>
+      <div class="page-head">
+        <div><h1 class="display" id="h-build">Armar cuestionario</h1><p>Agregá preguntas nuevas o de tu banco, ordenalas y repartí el puntaje hasta llegar a 100.</p></div>
+      </div>
+      <div class="data builder">
+        <aside>
+          <div class="card studs">
+            <div class="section-head"><h2>Agregar preguntas</h2></div>
+            <button class="btn btn-primary btn-block" type="button" id="add-custom"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Pregunta nueva</button>
+            <div style="border-top:1px solid var(--border-subtle); margin:16px 0; "></div>
+            <div style="display:flex; flex-direction:column; gap:12px">
+              <label class="field">Del banco<select class="control" id="bank-pick"><option value="">Elegí una pregunta…</option><option>¿Cuál es la complejidad de la búsqueda binaria?</option><option>¿Qué imprime un for que recorre de 0 a n−1 sin break?</option></select></label>
+              <button class="btn btn-ghost btn-block" type="button" id="add-bank" disabled><svg class="icon icon-sm"><use href="#i-database"/></svg>Agregar del banco</button>
+            </div>
+          </div>
+          <div class="card studs">
+            <label class="field">Título del cuestionario<input class="control" value="Complejidad y búsqueda" /></label>
+            <label class="field" style="margin-top:12px">Cohorte<select class="control"><option>MSII</option><option>MSI</option></select></label>
+          </div>
+        </aside>
+        <div>
+          <div id="q-list"></div>
+          <div class="sum-bar" id="sum-bar"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= ROADMAP · profesor ================= -->
+    <section class="screen" id="screen-roadmap-profesor" aria-labelledby="h-road" data-error="No pudimos traer las asignaturas.">
+      <div class="page-head">
+        <div><h1 class="display" id="h-road">Roadmap</h1><p>Creá una asignatura y construila por unidades y nodos. Los alumnos la recorren como un mapa.</p></div>
+        <a class="btn btn-ghost" href="#insignias"><svg class="icon icon-sm"><use href="#i-award"/></svg>Insignias</a>
+      </div>
+      <div class="data">
+        <form class="card studs inline-create" onsubmit="return false" style="margin-bottom:20px">
+          <label class="field">Nueva asignatura<input class="control" placeholder="Por ejemplo: Programación I" /></label>
+          <button class="btn btn-primary" type="submit"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Crear</button>
+        </form>
+        <div class="table-wrap"><table class="data">
+          <thead><tr><th>Asignatura</th><th class="r">Unidades</th><th class="r">Nodos</th><th><span class="sr-only">Acciones</span></th></tr></thead>
+          <tbody>
+            <tr><td><div class="cell-title">MSII</div><div class="cell-sub">Todavía sin contenido: empezá por la primera unidad.</div></td><td class="r">0</td><td class="r">0</td>
+              <td><div class="row-actions"><a class="btn btn-secondary btn-sm" href="#"><svg class="icon icon-sm"><use href="#i-pencil"/></svg>Editar</a><a class="btn btn-ghost btn-sm" href="#"><svg class="icon icon-sm"><use href="#i-map"/></svg>Mapa</a><button class="icon-btn sm" aria-label="Eliminar MSII" style="color:var(--urgent)"><svg class="icon icon-sm"><use href="#i-trash"/></svg></button></div></td></tr>
+            <tr><td><div class="cell-title">MSI</div><div class="cell-sub">Todavía sin contenido: empezá por la primera unidad.</div></td><td class="r">0</td><td class="r">0</td>
+              <td><div class="row-actions"><a class="btn btn-secondary btn-sm" href="#"><svg class="icon icon-sm"><use href="#i-pencil"/></svg>Editar</a><a class="btn btn-ghost btn-sm" href="#"><svg class="icon icon-sm"><use href="#i-map"/></svg>Mapa</a><button class="icon-btn sm" aria-label="Eliminar MSI" style="color:var(--urgent)"><svg class="icon icon-sm"><use href="#i-trash"/></svg></button></div></td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </section>
+
+    <!-- ================= INSIGNIAS · profesor ================= -->
+    <section class="screen" id="screen-insignias-profesor" aria-labelledby="h-ins" data-error="No pudimos traer el catálogo de insignias.">
+      <a class="back" href="#roadmap"><svg class="icon icon-sm"><use href="#i-left"/></svg>Roadmap</a>
+      <div class="page-head">
+        <div><h1 class="display" id="h-ins">Insignias</h1><p><span class="num">14</span> insignias en el catálogo. Se otorgan solas cuando el alumno cumple el criterio.</p></div>
+        <button class="btn btn-primary" type="button" id="new-badge-btn" aria-expanded="false" aria-controls="new-badge"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Nueva insignia</button>
+      </div>
+      <div class="data">
+        <form class="card studs new-badge" id="new-badge" hidden onsubmit="return false" aria-labelledby="h-newb">
+          <div class="section-head"><h2 id="h-newb">Nueva insignia</h2></div>
+          <div class="form-grid">
+            <label class="field"><span class="req">Nombre</span><input class="control" id="nb-name" maxlength="40" placeholder="Por ejemplo: Racha de 7 días" /></label>
+            <label class="field"><span class="req">Tipo</span><select class="control"><option>Transversal</option><option>De curso</option></select></label>
+            <fieldset class="icon-picker full" id="nb-icons"><legend class="req">Ícono</legend></fieldset>
+            <label class="field full"><span class="req">Criterio</span><select class="control" id="nb-crit"><option value="">Elegí un criterio…</option><option>Completar una sección sin perder vidas</option><option>Superar un nodo sin reintentos</option><option>Alcanzar un umbral de XP</option><option>Entrar en la zona P90</option></select></label>
+          </div>
+          <div style="display:flex; gap:10px; margin-top:18px; align-items:center">
+            <button class="btn btn-primary" id="nb-create" type="submit" disabled>Crear insignia</button>
+            <button class="btn btn-quiet" type="button" id="nb-cancel">Cancelar</button>
+            <span class="muted" style="font-size:13px" id="nb-hint">Completá nombre, ícono y criterio.</span>
+          </div>
+        </form>
+        <div class="badge-grid" id="badge-grid"></div>
+      </div>
+    </section>
+
+    <!-- ================= BACKOFFICE · admin ================= -->
+    <section class="screen" id="screen-backoffice" aria-labelledby="h-bo" data-error="No se pudieron cargar los datos del backoffice.">
+      <div class="page-head">
+        <div><h1 class="display" id="h-bo">Backoffice</h1><p>Parámetros globales, auditoría de la plataforma y monitoreo de eventos.</p></div>
+      </div>
+      <div class="data">
+        <div class="module-grid">
+          <a class="card studs module" href="#"><span class="ic"><svg class="icon"><use href="#i-users"/></svg></span><div><h2>Usuarios</h2><p>Altas, roles y bajas. <span class="num">412</span> cuentas.</p></div></a>
+          <a class="card studs module" href="#accesos"><span class="ic"><svg class="icon"><use href="#i-key"/></svg></span><div><h2>Accesos <span class="badge badge-primary num">1</span></h2><p>Solicitudes pendientes y emails habilitados.</p></div></a>
+          <a class="card studs module" href="#"><span class="ic"><svg class="icon"><use href="#i-sliders"/></svg></span><div><h2>Parámetros globales</h2><p>XP por dificultad, vidas, umbrales.</p></div></a>
+          <a class="card studs module" href="#"><span class="ic"><svg class="icon"><use href="#i-cpu"/></svg></span><div><h2>Proveedores LLM</h2><p>Modelos del tutor IA y corrección.</p></div></a>
+          <a class="card studs module" href="#"><span class="ic"><svg class="icon"><use href="#i-file"/></svg></span><div><h2>Auditoría</h2><p>Quién cambió qué y cuándo.</p></div></a>
+        </div>
+
+        <section class="section" aria-labelledby="h-audit">
+          <div class="section-head"><h2 id="h-audit">Actividad reciente</h2><a class="btn btn-quiet btn-sm" href="#">Ver auditoría<svg class="icon icon-sm"><use href="#i-right"/></svg></a></div>
+          <div class="table-wrap"><table class="data">
+            <thead><tr><th>Cuándo</th><th>Quién</th><th>Acción</th></tr></thead>
+            <tbody>
+              <tr><td class="num">30/09 14:12</td><td>Ana Torres</td><td>Creó el desafío "Recursión de Fibonacci" en MSI</td></tr>
+              <tr><td class="num">30/09 11:40</td><td>admin@frc.utn.edu.ar</td><td>Cambió "XP por desafío avanzado" de 100 a 120</td></tr>
+              <tr><td class="num">29/09 18:03</td><td>admin@frc.utn.edu.ar</td><td>Aprobó la solicitud de prof.gomez@frc.utn.edu.ar</td></tr>
+              <tr><td class="num">29/09 09:27</td><td>Sistema</td><td>Otorgó 6 insignias "Primeros pasos"</td></tr>
+            </tbody>
+          </table></div>
+        </section>
+
+        <details class="section card studs disclosure">
+          <summary><h2><span>Exportar datos</span><span class="disc-sum">Se generan en tu navegador, sin pasar por el servidor.</span></h2></summary>
+          <div class="export-row"><span>Catálogo de parámetros</span><div class="btns"><button class="btn btn-ghost btn-sm"><svg class="icon icon-sm"><use href="#i-download"/></svg>JSON</button><button class="btn btn-ghost btn-sm"><svg class="icon icon-sm"><use href="#i-download"/></svg>CSV</button></div></div>
+          <div class="export-row"><span>Historial de auditoría</span><div class="btns"><button class="btn btn-ghost btn-sm"><svg class="icon icon-sm"><use href="#i-download"/></svg>JSON</button><button class="btn btn-ghost btn-sm"><svg class="icon icon-sm"><use href="#i-download"/></svg>CSV</button></div></div>
+        </details>
+      </div>
+    </section>
+
+    <!-- ================= ACCESOS (whitelist) · admin ================= -->
+    <section class="screen" id="screen-accesos" aria-labelledby="h-acc-page" data-error="No pudimos traer las solicitudes ni los emails habilitados.">
+      <a class="back" href="#backoffice"><svg class="icon icon-sm"><use href="#i-left"/></svg>Backoffice</a>
+      <div class="page-head">
+        <div><h1 class="display" id="h-acc-page">Accesos</h1><p>Resolvé los pedidos de habilitación y gestioná qué emails docentes pueden entrar a la plataforma.</p></div>
+      </div>
+      <div class="data">
+        <div class="tabs" role="tablist" aria-label="Accesos">
+          <button class="tab" role="tab" aria-selected="true" data-subtab="acc-pend">Pendientes <span class="count num" data-pend-count>1</span></button>
+          <button class="tab" role="tab" aria-selected="false" data-subtab="acc-ok">Habilitados <span class="count num" data-ok-count>12</span></button>
+        </div>
+
+        <div data-subpanel="acc-pend">
+          <ul class="list" id="req-list"></ul>
+        </div>
+
+        <div data-subpanel="acc-ok" hidden>
+          <form class="card studs add-email" id="add-email" onsubmit="return false" novalidate>
+            <label class="field grow"><span class="req">Habilitar email</span><input class="control" type="email" id="ae-email" placeholder="docente@frc.utn.edu.ar" aria-describedby="ae-hint" /></label>
+            <label class="field">Rol<select class="control" id="ae-role"><option>Profesor</option><option>Gestor</option></select></label>
+            <button class="btn btn-primary" type="submit"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Habilitar</button>
+            <span class="hint full" id="ae-hint">Entra directo, sin esperar a que lo pida.</span>
+          </form>
+          <div class="filter-top" style="margin-top:16px">
+            <label class="search"><span class="sr-only">Buscar email</span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-search"/></svg><input class="control" type="search" id="ok-q" placeholder="Buscar email" /></label>
+            <div class="seg" role="group" aria-label="Filtrar por rol" id="ok-role">
+              <button type="button" aria-pressed="true" data-r="">Todos</button><button type="button" aria-pressed="false" data-r="Profesor">Profesores</button><button type="button" aria-pressed="false" data-r="Gestor">Gestores</button>
+            </div>
+          </div>
+          <div class="table-wrap"><table class="data" id="ok-table"></table></div>
+          <div class="pager" id="ok-pager"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= placeholder ================= -->
+    <section class="screen" id="screen-pending">
+      <div class="placeholder">
+        <h1 class="display" id="pending-title">Página</h1>
+        <p>Esta página todavía no está rediseñada en el mock.</p>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- ================= Drawer: crear desafío ================= -->
+<dialog class="drawer" id="drawer-desafio" aria-labelledby="h-dd">
+  <form method="dialog" style="display:contents" id="form-desafio" novalidate>
+    <div class="drawer-head">
+      <div><h2 id="h-dd" class="display">Crear desafío</h2><p>Definí la consigna y cómo se evalúa.</p></div>
+      <button class="icon-btn sm" value="cancel" aria-label="Cerrar"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="drawer-body">
+      <fieldset class="group"><legend>Consigna</legend>
+        <label class="field"><span class="req">Título</span><input class="control" name="titulo" maxlength="100" placeholder="Por ejemplo: Introducción a algoritmos" aria-describedby="t-hint" /><span class="hint" id="t-hint">Hasta 100 caracteres.</span></label>
+        <label class="field">Descripción <span class="hint">Opcional</span><textarea class="control" name="desc" maxlength="500" placeholder="Consigna inicial del desafío"></textarea></label>
+      </fieldset>
+      <fieldset class="group"><legend>Evaluación</legend>
+        <div class="form-grid">
+          <label class="field"><span class="req">Tipo</span><select class="control" name="tipo"><option>Algoritmo con pruebas automáticas</option><option>Refactorización</option><option>Cuestionario teórico</option></select></label>
+          <label class="field"><span class="req">Dificultad</span><select class="control" name="dif"><option>Básica</option><option>Media</option><option>Avanzada</option></select></label>
+          <label class="field"><span class="req">Reintentos</span><input class="control num" type="number" min="0" max="3" value="2" name="reint" /><span class="hint">De 0 a 3.</span></label>
+          <label class="field"><span class="req">Aprobación</span><input class="control num" type="number" min="0" max="100" value="70" name="aprob" /><span class="hint">Porcentaje mínimo, de 0 a 100.</span></label>
+        </div>
+        <label class="toggle"><input type="checkbox" name="oblig" checked />Obligatorio: cuenta para la regularidad</label>
+      </fieldset>
+      <fieldset class="group"><legend>Publicación</legend>
+        <div class="form-grid">
+          <label class="field"><span class="req">Cohorte</span><select class="control" name="curso"><option>MSI</option><option>MSII</option></select></label>
+          <label class="field">Fecha límite<input class="control" type="date" name="due" /></label>
+          <label class="field"><span class="req">XP</span><input class="control num" type="number" min="0" value="40" name="xp" /></label>
+          <label class="field"><span class="req">Monedas</span><input class="control num" type="number" min="0" value="10" name="coins" /></label>
+        </div>
+      </fieldset>
+    </div>
+    <div class="drawer-foot">
+      <button class="btn btn-quiet" value="cancel">Cancelar</button>
+      <button class="btn btn-primary" id="dd-submit" type="button">Crear desafío</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- ================= Drawer: crear cohorte ================= -->
+<dialog class="drawer" id="drawer-cohorte" aria-labelledby="h-dc">
+  <form method="dialog" style="display:contents" novalidate>
+    <div class="drawer-head">
+      <div><h2 id="h-dc" class="display">Crear cohorte</h2><p>Arranca como borrador hasta que la publiques.</p></div>
+      <button class="icon-btn sm" value="cancel" aria-label="Cerrar"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="drawer-body">
+      <label class="field"><span class="req">Nombre</span><input class="control" placeholder="Por ejemplo: MSIII" /></label>
+      <div class="form-grid">
+        <label class="field"><span class="req">Inicio de inscripción</span><input class="control" type="date" /></label>
+        <label class="field"><span class="req">Fin de inscripción</span><input class="control" type="date" /></label>
+      </div>
+      <label class="field">Asignatura del roadmap<select class="control"><option>MSI</option><option>MSII</option></select></label>
+    </div>
+    <div class="drawer-foot">
+      <button class="btn btn-quiet" value="cancel">Cancelar</button>
+      <button class="btn btn-primary" value="ok">Crear borrador</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+/* ======================= data (synthetic) ======================= */
+const TODAY = new Date(2026, 8, 30);
+const DIFF = { 1: 'Básica', 2: 'Media', 3: 'Avanzada' };
+const DAYS = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'];
+const USERS = {
+  alumno:   { name: 'Manuel Sanchez', short: 'Manuel S.', initials: 'MS', email: 'manuel.sanchez@frc.utn.edu.ar', legajo: '40510', role: 'Alumno', level: 'Nivel 7' },
+  profesor: { name: 'Ana Torres', short: 'Ana T.', initials: 'AT', email: 'ana.torres@frc.utn.edu.ar', legajo: '12877', role: 'Profesora', level: 'Profesora' },
+  admin:    { name: 'Admin 2 Demo', short: 'Admin 2', initials: 'A2', email: 'admin2@frc.utn.edu.ar', legajo: '', role: 'Administrador', level: 'Administrador', since: '27/09/2026' },
+};
+const COURSES = {
+  MSI:  { name: 'MSI',  status: 'Activa', from: '01/03/2026', to: '31/07/2026', weeks: '5 meses (22 semanas)', teacher: 'Ana Torres', students: 32, level: 2, xp: 60, xpMax: 100, coins: 120, lives: 2, pending: 2, readOnly: true },
+  MSII: { name: 'MSII', status: 'Activa', from: '01/04/2026', to: '20/12/2026', weeks: '9 meses (38 semanas)', teacher: 'Ana Torres', students: 28, level: 1, xp: 40, xpMax: 100, coins: 35, lives: 3, pending: 1, readOnly: false },
+};
+const COHORTS = [
+  { ...COURSES.MSII }, { ...COURSES.MSI },
+  { name: 'MSIII', status: 'Borrador', from: '01/03/2027', to: '31/07/2027', weeks: '5 meses (22 semanas)', teacher: 'Sin asignar', students: 0, readOnly: false },
+  { name: 'MSI 2025', status: 'Archivada', from: '01/03/2025', to: '31/07/2025', weeks: '5 meses (22 semanas)', teacher: 'Ana Torres', students: 41, readOnly: true },
+];
+const T_ALG = 'Algoritmo con pruebas automáticas', T_REF = 'Refactorización', T_QUIZ = 'Cuestionario teórico';
+const CHALLENGES = [
+  { id: 1, title: 'Suma de dos números', course: 'MSI', type: T_ALG, diff: 1, status: 'progress', req: true, due: '2026-10-02', xp: 40, coins: 10, retries: 2, pass: 70, published: true, attempts: 29 },
+  { id: 2, title: 'Validar un CUIT', course: 'MSII', type: T_ALG, diff: 2, status: 'progress', req: false, due: null, xp: 60, coins: 15, retries: 3, pass: 70, published: true, attempts: 12 },
+  { id: 3, title: 'Recursión de Fibonacci', course: 'MSI', type: T_ALG, diff: 2, status: 'todo', req: true, due: '2026-10-04', xp: 60, coins: 15, retries: 2, pass: 80, published: true, attempts: 8 },
+  { id: 4, title: 'Separar un switch gigante en estrategias', course: 'MSII', type: T_REF, diff: 2, status: 'todo', req: true, due: '2026-10-06', xp: 80, coins: 20, retries: 1, pass: 70, published: true, attempts: 3 },
+  { id: 14, title: 'Tipado y protocolos', course: 'MSI', type: T_QUIZ, diff: 1, status: 'todo', req: false, due: '2026-10-08', xp: 50, coins: 10, retries: 1, pass: 60, published: true, attempts: 14 },
+  { id: 5, title: 'Sumar sin operadores aritméticos', course: 'MSI', type: T_ALG, diff: 3, status: 'todo', req: false, due: '2026-10-15', xp: 120, coins: 30, retries: 3, pass: 90, published: true, attempts: 2 },
+  { id: 6, title: 'Ordenar una lista', course: 'MSI', type: T_ALG, diff: 2, status: 'todo', req: false, due: '2026-10-20', xp: 60, coins: 15, retries: 2, pass: 70, published: false, attempts: 0 },
+  { id: 7, title: 'Detectar palíndromos', course: 'MSII', type: T_ALG, diff: 1, status: 'todo', req: false, due: null, xp: 40, coins: 10, retries: 2, pass: 70, published: true, attempts: 6 },
+  { id: 8, title: 'Hola mundo con pruebas', course: 'MSI', type: T_ALG, diff: 1, status: 'done', req: true, done: '2026-09-22', xp: 40, coins: 10, retries: 3, pass: 50, published: true, attempts: 32 },
+  { id: 9, title: 'Máximo de un arreglo', course: 'MSI', type: T_ALG, diff: 1, status: 'done', req: true, done: '2026-09-24', xp: 40, coins: 10, retries: 2, pass: 70, published: true, attempts: 30 },
+  { id: 10, title: 'Extraer métodos de un main', course: 'MSII', type: T_REF, diff: 2, status: 'done', req: false, done: '2026-09-25', xp: 80, coins: 20, retries: 1, pass: 70, published: true, attempts: 15 },
+  { id: 11, title: 'Contar vocales', course: 'MSII', type: T_ALG, diff: 1, status: 'done', req: false, done: '2026-09-26', xp: 40, coins: 10, retries: 2, pass: 70, published: true, attempts: 20 },
+  { id: 12, title: 'FizzBuzz', course: 'MSI', type: T_ALG, diff: 1, status: 'done', req: false, done: '2026-09-27', xp: 40, coins: 10, retries: 2, pass: 70, published: true, attempts: 27 },
+  { id: 13, title: 'Búsqueda binaria', course: 'MSI', type: T_ALG, diff: 2, status: 'done', req: true, done: '2026-09-29', xp: 60, coins: 15, retries: 2, pass: 70, published: true, attempts: 25 },
+];
+
+/* ======================= helpers ======================= */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const store = { get: k => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch {} } };
+const parse = s => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
+const daysUntil = s => Math.round((parse(s) - TODAY) / 86400000);
+const short = s => { const d = parse(s); return `${DAYS[d.getDay()]} ${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}`; };
+const icon = (id, cls = 'icon') => `<svg class="${cls}" aria-hidden="true"><use href="#${id}"/></svg>`;
+const hearts = (n, max = 3) => `<span class="hearts" aria-label="${n} de ${max} vidas">${Array.from({ length: max }, (_, i) => `<svg class="icon ${i < n ? '' : 'lost'}" aria-hidden="true"><use href="#i-heart"/></svg>`).join('')}</span>`;
+
+/* Pixel art: rows of chars mapped to fills. Colors can be CSS vars. */
+function pixel(rows, pal, label = '') {
+  const h = rows.length, w = rows[0].length;
+  let rects = '';
+  rows.forEach((r, y) => [...r].forEach((ch, x) => { if (pal[ch]) rects += `<rect x="${x}" y="${y}" width="1.02" height="1.02" style="fill:${pal[ch]}"/>`; }));
+  return `<svg class="pixel" viewBox="0 0 ${w} ${h}" ${label ? `role="img" aria-label="${label}"` : 'aria-hidden="true"'}>${rects}</svg>`;
+}
+const shade = (c, p) => `color-mix(in srgb, ${c} ${p}%, #000)`;
+const tint = (c, p) => `color-mix(in srgb, ${c} ${p}%, #fff)`;
+
+/* ======================= challenge list (alumno) ======================= */
+function dueLabel(c) {
+  if (c.status === 'done') return { main: 'Completado', sub: short(c.done), urgent: false, ic: 'i-check' };
+  if (!c.due) return { main: 'Sin fecha límite', sub: '', urgent: false, ic: 'i-clock' };
+  const n = daysUntil(c.due);
+  if (n > 7) return { main: `Vence el ${short(c.due)}`, sub: '', urgent: false, ic: 'i-clock' };
+  const main = n <= 0 ? 'Vence hoy' : n === 1 ? 'Vence mañana' : `Vence en ${n} días`;
+  return { main, sub: short(c.due), urgent: n <= 3, ic: 'i-clock' };
+}
+function groupOf(c) {
+  if (c.status === 'done') return 'Completados';
+  if (c.status === 'progress') return 'En curso';
+  if (!c.due) return 'Sin fecha límite';
+  return daysUntil(c.due) <= 7 ? 'Vencen esta semana' : 'Más adelante';
+}
+const GROUP_ORDER = ['En curso', 'Vencen esta semana', 'Más adelante', 'Sin fecha límite', 'Completados'];
+const hrefFor = c => c.type === T_QUIZ ? '#quiz' : '#';
+
+function rowHTML(c, i, showCourse) {
+  const due = dueLabel(c);
+  const cls = c.status === 'progress' ? 'in-progress' : c.status === 'done' ? 'done' : '';
+  const st = c.status === 'progress' ? 'i-half' : c.status === 'done' ? 'i-check' : 'i-todo';
+  const stLabel = c.status === 'progress' ? 'En curso' : c.status === 'done' ? 'Completado' : 'Pendiente';
+  const action = c.status === 'progress'
+    ? `<a class="btn btn-primary" href="${hrefFor(c)}">Continuar<span class="sr-only"> ${c.title}</span></a>`
+    : c.status === 'done'
+      ? `<a class="btn btn-ghost" href="#">Ver entrega<span class="sr-only"> de ${c.title}</span></a>`
+      : `<a class="btn btn-secondary" href="${hrefFor(c)}">Empezar<span class="sr-only"> ${c.title}</span></a>`;
+  return `<li class="row studs ${cls}" style="--i:${i}">
+    <span class="st" title="${stLabel}">${icon(st)}<span class="sr-only">${stLabel}</span></span>
+    <div class="main">
+      <h3 class="title">${c.title}</h3>
+      <p class="meta">${showCourse ? `<span class="meta-course">${c.course}</span> · ` : ''}${c.type}</p>
+    </div>
+    <div class="info">
+      <div class="tags">
+        ${c.req ? '<span class="badge badge-required">Obligatorio</span>' : ''}
+        <span class="diff"><span class="pips" data-level="${c.diff}" aria-hidden="true"><i></i><i></i><i></i></span>${DIFF[c.diff]}</span>
+      </div>
+      <div class="due ${due.urgent ? 'urgent' : ''}">${icon(due.ic, 'icon icon-sm')}<span><b>${due.main}</b>${due.sub}</span></div>
+      <div class="rew num"><span class="xp">+${c.xp} XP</span><span class="coins">${icon('i-coin', 'icon icon-sm')}${c.coins} monedas</span></div>
+    </div>
+    <div class="act">${action}</div>
+  </li>`;
+}
+
+/* Search stays visible; the rest of the filters fold into a panel with an active-count badge. */
+function filterBar(id, placeholder, fields) {
+  return `<form class="filterbar" role="search" aria-label="Filtrar" onsubmit="return false">
+    <div class="filter-top">
+      <label class="search"><span class="sr-only">Buscar</span>${icon('i-search', 'icon icon-sm')}<input class="control" type="search" name="q" placeholder="${placeholder}" autocomplete="off" /></label>
+      <button class="btn btn-ghost" type="button" aria-expanded="false" aria-controls="${id}-fp" data-filter-toggle>${icon('i-sliders', 'icon icon-sm')}Filtros<span class="fcount num" data-fcount hidden></span>${icon('i-chevron', 'icon icon-sm chev')}</button>
+    </div>
+    <div class="filter-panel" id="${id}-fp" hidden>${fields}</div>
+  </form>`;
+}
+function syncFilterCount(root, n) {
+  const b = $('[data-fcount]', root);
+  b.hidden = !n; b.textContent = n;
+  $('[data-filter-toggle]', root).setAttribute('aria-label', n ? `Filtros, ${n} activos` : 'Filtros');
+}
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-filter-toggle]'); if (!t) return;
+  const open = t.getAttribute('aria-expanded') !== 'true';
+  t.setAttribute('aria-expanded', String(open));
+  $('#' + t.getAttribute('aria-controls')).hidden = !open;
+});
+
+const listInstances = [];
+function ChallengeList(root) {
+  const locked = root.hasAttribute('data-locked-course');
+  const uid = 'cl' + listInstances.length;
+  const st = { tab: 'todo', q: '', course: '', type: '', diff: '', req: false };
+  root.innerHTML = `
+    <div class="tabs" role="tablist" aria-label="Estado de los desafíos">
+      <button class="tab" role="tab" id="${uid}-todo" aria-selected="true" aria-controls="${uid}-res" data-tab="todo">Por hacer <span class="count num"></span></button>
+      <button class="tab" role="tab" id="${uid}-done" aria-selected="false" aria-controls="${uid}-res" data-tab="done">Completados <span class="count num"></span></button>
+    </div>
+    ${filterBar(uid, "Buscar por nombre del desafío", `
+      ${locked ? '' : '<label class="field">Curso<select class="control" name="course"><option value="">Todos</option><option>MSI</option><option>MSII</option></select></label>'}
+      <label class="field">Tipo<select class="control" name="type"><option value="">Todos</option><option>${T_ALG}</option><option>${T_REF}</option><option>${T_QUIZ}</option></select></label>
+      <label class="field">Dificultad<select class="control" name="diff"><option value="">Todas</option><option value="1">Básica</option><option value="2">Media</option><option value="3">Avanzada</option></select></label>
+      <label class="toggle"><input type="checkbox" name="req" /> Solo obligatorios</label>
+    `)}
+    <div class="results-bar"><span aria-live="polite" data-count></span><button class="linkbtn" type="button" data-clear hidden>Limpiar filtros</button></div>
+    <div id="${uid}-res" role="tabpanel" aria-labelledby="${uid}-todo" data-res></div>`;
+  const form = $('form', root), res = $('[data-res]', root);
+  // Urgent groups start open; the rest start folded. The viewer's choice sticks across re-renders.
+  const closedGroups = new Set(['Más adelante', 'Sin fecha límite']);
+  res.addEventListener('toggle', e => {
+    const d = e.target; if (!d.matches?.('details.group') || active()) return;
+    d.open ? closedGroups.delete(d.dataset.g) : closedGroups.add(d.dataset.g);
+  }, true);
+
+  const matches = c => {
+    const q = st.q.trim().toLowerCase();
+    return (!q || c.title.toLowerCase().includes(q)) && (!st.course || c.course === st.course) && (!st.type || c.type === st.type)
+      && (!st.diff || c.diff === Number(st.diff)) && (!st.req || c.req);
+  };
+  const active = () => !!(st.q || (!locked && st.course) || st.type || st.diff || st.req);
+
+  function render(animate = true) {
+    const counts = $$('.tab .count', root);
+    counts[0].textContent = CHALLENGES.filter(c => c.status !== 'done' && matches(c)).length;
+    counts[1].textContent = CHALLENGES.filter(c => c.status === 'done' && matches(c)).length;
+    const list = CHALLENGES.filter(c => (st.tab === 'done' ? c.status === 'done' : c.status !== 'done') && matches(c));
+    const groups = new Map(); // group -> items: O(n) bucketing, then read in fixed GROUP_ORDER
+    for (const c of list) { const g = groupOf(c); (groups.get(g) || groups.set(g, []).get(g)).push(c); }
+    const noun = st.tab === 'done' ? 'completados' : 'por hacer';
+    $('[data-count]', root).textContent = `${list.length} ${list.length === 1 ? 'desafío' : 'desafíos'} ${noun}${active() ? ' con estos filtros' : ''}`;
+    $('[data-clear]', root).hidden = !active();
+    syncFilterCount(root, [!locked && st.course, st.type, st.diff, st.req].filter(Boolean).length);
+    if (!list.length) {
+      res.innerHTML = `<div class="empty">${icon('i-filter-off')}<p>${active() ? 'Ningún desafío coincide con estos filtros.' : st.tab === 'done' ? 'Todavía no completaste ningún desafío.' : 'No tenés desafíos pendientes. ¡Buen trabajo!'}</p>${active() ? '<button class="btn btn-ghost" type="button" data-clear>Limpiar filtros</button>' : ''}</div>`;
+      return;
+    }
+    let i = 0;
+    res.innerHTML = GROUP_ORDER.filter(g => groups.has(g)).map(g => {
+      const items = groups.get(g).sort((a, b) => (b.req - a.req) || ((a.due || '9') < (b.due || '9') ? -1 : 1));
+      if (g === 'Completados') items.sort((a, b) => (a.done < b.done ? 1 : -1));
+      // Searching or filtering opens every group so no match hides behind a fold.
+      const open = active() || !closedGroups.has(g);
+      const req = items.filter(c => c.req).length;
+      const next = items.find(c => c.due && c.status !== 'done');
+      const hint = [req ? `${req} ${req === 1 ? 'obligatorio' : 'obligatorios'}` : '', next ? `próximo: ${short(next.due)}` : ''].filter(Boolean).join(' · ');
+      return `<details class="group" data-g="${g}" ${open ? 'open' : ''}>
+        <summary class="group-head"><h2>${g}</h2><span class="num group-count">${items.length}</span>${hint ? `<span class="group-hint">${hint}</span>` : ''}</summary>
+        <ul class="list ${animate ? 'animate' : ''}">${items.map(c => rowHTML(c, i++, !locked)).join('')}</ul></details>`;
+    }).join('');
+  }
+  function clear() { form.reset(); Object.assign(st, { q: '', type: '', diff: '', req: false }); if (!locked) st.course = ''; render(); }
+  function selectTab(tab) {
+    st.tab = tab;
+    $$('.tab', root).forEach(t => t.setAttribute('aria-selected', String(t.dataset.tab === tab)));
+    res.setAttribute('aria-labelledby', `${uid}-${tab}`);
+    render();
+  }
+  form.addEventListener('input', e => { const { name, value, checked, type } = e.target; st[name] = type === 'checkbox' ? checked : value; render(); });
+  root.addEventListener('click', e => { if (e.target.closest('[data-clear]')) clear(); });
+  $$('.tab', root).forEach(t => t.addEventListener('click', () => selectTab(t.dataset.tab)));
+  $('.tabs', root).addEventListener('keydown', e => {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    const next = st.tab === 'todo' ? 'done' : 'todo'; selectTab(next); $(`#${uid}-${next}`).focus();
+  });
+  const api = { render, setCourse(c, onlyReq = false) { st.course = c; if (onlyReq) { st.req = true; form.elements.req.checked = true; } render(false); } };
+  listInstances.push(api);
+  render(false);
+  return api;
+}
+
+/* ======================= catalog table (profesor) ======================= */
+const catalogInstances = [];
+function Catalog(root) {
+  const locked = root.hasAttribute('data-locked-course');
+  const st = { q: '', course: '', type: '', diff: '', state: '', req: false, page: 0 };
+  const SIZE = 8;
+  root.innerHTML = `
+    ${filterBar("cat" + catalogInstances.length, "Buscar por título del desafío", `
+      ${locked ? '' : '<label class="field">Cohorte<select class="control" name="course"><option value="">Todas</option><option>MSI</option><option>MSII</option></select></label>'}
+      <label class="field">Tipo<select class="control" name="type"><option value="">Todos</option><option>${T_ALG}</option><option>${T_REF}</option><option>${T_QUIZ}</option></select></label>
+      <label class="field">Dificultad<select class="control" name="diff"><option value="">Todas</option><option value="1">Básica</option><option value="2">Media</option><option value="3">Avanzada</option></select></label>
+      <label class="field">Estado<select class="control" name="state"><option value="">Todos</option><option value="pub">Publicado</option><option value="draft">Borrador</option></select></label>
+      <label class="toggle"><input type="checkbox" name="req" /> Solo obligatorios</label>
+    `)}
+    <div class="results-bar"><span aria-live="polite" data-count></span></div>
+    <div data-res></div>
+    <div class="pager" data-pager></div>`;
+  const form = $('form', root), res = $('[data-res]', root), pagerEl = $('[data-pager]', root);
+  function render() {
+    const q = st.q.trim().toLowerCase();
+    const list = CHALLENGES.filter(c => (!q || c.title.toLowerCase().includes(q)) && (!st.course || c.course === st.course) && (!st.type || c.type === st.type)
+      && (!st.diff || c.diff === Number(st.diff)) && (!st.state || (st.state === 'pub') === c.published) && (!st.req || c.req));
+    $('[data-count]', root).textContent = `${list.length} ${list.length === 1 ? 'desafío' : 'desafíos'}`;
+    syncFilterCount(root, [!locked && st.course, st.type, st.diff, st.state, st.req].filter(Boolean).length);
+    if (!list.length) { res.innerHTML = `<div class="empty">${icon('i-filter-off')}<p>Ningún desafío coincide con estos filtros.</p></div>`; pagerEl.innerHTML = ''; return; }
+    st.page = Math.min(st.page, Math.ceil(list.length / SIZE) - 1);
+    pagerEl.innerHTML = list.length > SIZE ? pagerHTML(st.page, SIZE, list.length) : '';
+    const pageItems = list.slice(st.page * SIZE, st.page * SIZE + SIZE);
+    res.innerHTML = `<div class="table-wrap"><table class="data">
+      <thead><tr><th>Desafío</th>${locked ? '' : '<th>Cohorte</th>'}<th>Dificultad</th><th>Vence</th><th>Evaluación</th><th>Recompensa</th><th>Estado</th><th><span class="sr-only">Acciones</span></th></tr></thead>
+      <tbody>${pageItems.map(c => `<tr>
+        <td class="cell-main"><div class="cell-title">${c.title}</div><div class="cell-sub">${c.req ? '<span class="badge badge-required">Obligatorio</span>' : ''}<span>${c.type}</span></div></td>
+        ${locked ? '' : `<td>${c.course}</td>`}
+        <td><span class="diff"><span class="pips" data-level="${c.diff}" aria-hidden="true"><i></i><i></i><i></i></span>${DIFF[c.diff]}</span></td>
+        <td class="num" style="white-space:nowrap">${c.due ? short(c.due) : c.done ? '—' : 'Sin fecha'}</td>
+        <td class="reward-cell"><span>${c.pass}% para aprobar</span><span>${c.retries} ${c.retries === 1 ? 'reintento' : 'reintentos'}</span></td><td class="reward-cell"><span class="xp-text">+${c.xp} XP</span><span>${c.coins} monedas</span></td>
+        <td>${c.published ? '<span class="badge badge-success">Publicado</span>' : '<span class="badge badge-outline">Borrador</span>'}</td>
+        <td><div class="row-actions"><button class="icon-btn sm" aria-label="Editar ${c.title}"><svg class="icon icon-sm"><use href="#i-pencil"/></svg></button><button class="icon-btn sm" aria-label="Vista previa de ${c.title}"><svg class="icon icon-sm"><use href="#i-eye"/></svg></button></div></td>
+      </tr>`).join('')}</tbody></table></div>`;
+  }
+  form.addEventListener('input', e => { const { name, value, checked, type } = e.target; st[name] = type === 'checkbox' ? checked : value; st.page = 0; render(); });
+  onPager(pagerEl, n => { st.page = n; render(); });
+  const api = { render, setCourse(c) { st.course = c; st.page = 0; render(); } };
+  catalogInstances.push(api);
+  render();
+  return api;
+}
+
+/* ======================= pagination ======================= */
+/* Numbered pages: first, last and the current ±1 stay visible; gaps collapse to "…". */
+function pageList(page, pages) {
+  const keep = new Set([0, pages - 1, page - 1, page, page + 1].filter(i => i >= 0 && i < pages));
+  const out = [];
+  [...keep].sort((a, b) => a - b).forEach((i, k, arr) => { if (k && i - arr[k - 1] > 1) out.push('…'); out.push(i); });
+  return out;
+}
+function pagerHTML(page, size, total) {
+  const pages = Math.max(1, Math.ceil(total / size));
+  const from = total ? page * size + 1 : 0, to = Math.min(total, (page + 1) * size);
+  return `<span class="num">${from}–${to} de ${total}</span>
+    <nav class="pg" aria-label="Paginación">
+      <button class="pg-btn pg-arrow" type="button" data-pg-to="${page - 1}" aria-label="Página anterior" ${page === 0 ? 'disabled' : ''}>${icon('i-left', 'icon icon-sm')}</button>
+      ${pageList(page, pages).map(i => i === '…' ? '<span class="pg-gap" aria-hidden="true">…</span>'
+        : `<button class="pg-btn num" type="button" data-pg-to="${i}" ${i === page ? 'aria-current="page"' : ''} aria-label="Página ${i + 1}">${i + 1}</button>`).join('')}
+      <button class="pg-btn pg-arrow" type="button" data-pg-to="${page + 1}" aria-label="Página siguiente" ${page >= pages - 1 ? 'disabled' : ''}>${icon('i-right', 'icon icon-sm')}</button>
+    </nav>`;
+}
+/* One delegated handler for every pager: reads the target page, hands it to that pager's setter. */
+function onPager(el, set) {
+  el.addEventListener('click', e => { const b = e.target.closest('[data-pg-to]'); if (b && !b.disabled) { set(Number(b.dataset.pgTo)); el.querySelector('[aria-current="page"]')?.focus(); } });
+}
+
+/* ======================= cursos ======================= */
+function courseMeta(c) {
+  return `<span><span class="badge ${c.status === 'Activa' ? 'badge-success' : c.status === 'Borrador' ? 'badge-outline' : 'badge-secondary'}">${c.status}</span></span>
+    <span>${icon('i-calendar', 'icon icon-sm')}<span class="num">${c.from} – ${c.to}</span></span>
+    <span>${icon('i-user', 'icon icon-sm')}${c.teacher}</span>`;
+}
+function renderStudentCourses() {
+  $('#student-courses').innerHTML = Object.values(COURSES).map(c => `
+    <article class="card studs course">
+      <div class="course-top">
+        <div><h2>${c.name}</h2><div class="course-sub">${c.teacher} · <span class="num">${c.from} – ${c.to}</span></div></div>
+        <span class="badge badge-success">${c.status}</span>
+      </div>
+      <div class="progress-line"><span class="xp-text" style="color:var(--accent-gold)">Nivel ${c.level}</span><div class="bar" role="progressbar" aria-label="XP del nivel" aria-valuemin="0" aria-valuemax="${c.xpMax}" aria-valuenow="${c.xp}"><span style="width:${c.xp / c.xpMax * 100}%"></span></div><span class="num">${c.xp}/${c.xpMax} XP</span></div>
+      <dl class="facts">
+        <dt>${icon('i-flame', 'icon icon-sm')}Obligatorios</dt><dd class="num" style="${c.pending ? 'color:var(--urgent)' : ''}">${c.pending} ${c.pending === 1 ? 'pendiente' : 'pendientes'}</dd>
+        <dt>${icon('i-coin', 'icon icon-sm')}Monedas</dt><dd class="num">${c.coins}</dd>
+        <dt>${icon('i-heart', 'icon icon-sm')}Vidas</dt><dd>${hearts(c.lives)}</dd>
+      </dl>
+      <div class="course-foot"><span class="muted" style="font-size:13px">${c.weeks}</span><a class="btn btn-primary" href="#curso/${c.name}">Entrar<svg class="icon icon-sm"><use href="#i-right"/></svg></a></div>
+    </article>`).join('');
+}
+let cohortTab = 'Activa';
+function renderCohorts() {
+  const tabs = [['Activa', 'Activas'], ['Borrador', 'Borradores'], ['Archivada', 'Archivadas'], ['', 'Todas']];
+  $('#cohort-tabs').innerHTML = tabs.map(([v, l]) => `<button class="tab" role="tab" aria-selected="${v === cohortTab}" data-cohort="${v}">${l} <span class="count num">${COHORTS.filter(c => !v || c.status === v).length}</span></button>`).join('');
+  const list = COHORTS.filter(c => !cohortTab || c.status === cohortTab);
+  $('#cohort-grid').innerHTML = list.length ? list.map(c => `
+    <article class="card studs course">
+      <div class="course-top">
+        <div><h2>${c.name}</h2><div class="course-sub">${c.students} alumnos</div></div>
+        <span class="badge ${c.status === 'Activa' ? 'badge-success' : c.status === 'Borrador' ? 'badge-outline' : 'badge-secondary'}">${c.status}</span>
+      </div>
+      <dl class="facts">
+        <dt>${icon('i-calendar', 'icon icon-sm')}Inscripción</dt><dd class="num">${c.from} – ${c.to}<small>${c.weeks}</small></dd>
+        <dt>${icon('i-user', 'icon icon-sm')}Docentes</dt><dd>${c.teacher}</dd>
+      </dl>
+      <div class="course-foot">
+        ${c.readOnly ? `<span class="muted" style="font-size:13px; display:inline-flex; gap:6px; align-items:center">${icon('i-lock', 'icon icon-sm')}Solo lectura</span>` : '<span></span>'}
+        <a class="btn btn-secondary" href="#curso/${c.name}">Ver curso<svg class="icon icon-sm"><use href="#i-right"/></svg></a>
+      </div>
+    </article>`).join('') : `<div class="empty">${icon('i-book')}<p>No hay cohortes en este estado.</p></div>`;
+}
+document.addEventListener('click', e => { const t = e.target.closest('[data-cohort]'); if (t) { cohortTab = t.dataset.cohort; renderCohorts(); } });
+
+function fillCourseDetail(name) {
+  const c = COURSES[name] || COHORTS.find(x => x.name === name) || COURSES.MSI;
+  $$('[data-course-name]').forEach(el => el.textContent = c.name);
+  $$('[data-course-meta]').forEach(el => el.innerHTML = courseMeta(c) + (currentRole === 'alumno' ? '' :
+    `<span>${icon(c.readOnly ? 'i-lock' : 'i-key', 'icon icon-sm')}Tu permiso: <b>${c.readOnly ? 'Solo lectura' : 'Gestor'}</b></span>`));
+  if (currentRole !== 'alumno') renderCourseAdmin(c);
+  $$('[data-course-stats]').forEach(el => el.innerHTML = c.level ? `
+    <div><div class="k">Nivel en el curso</div><div class="v num">${c.level}</div></div>
+    <div><div class="k">XP</div><div class="v num">${c.xp}/${c.xpMax}</div></div>
+    <div><div class="k">Monedas</div><div class="v coin num">${c.coins}</div></div>
+    <div><div class="k">Vidas</div><div class="v heart">${hearts(c.lives)}</div></div>
+    <div><div class="k">Obligatorios pendientes</div><div class="v num" style="${c.pending ? 'color:var(--urgent)' : ''}">${c.pending}</div></div>` : '');
+  listInstances.filter((_, i) => $$('[data-challenge-list]')[i].hasAttribute('data-locked-course')).forEach(l => l.setCourse(c.name));
+  $$('[data-catalog]').forEach((el, i) => { if (el.hasAttribute('data-locked-course')) catalogInstances[i].setCourse(c.name); });
+}
+
+/* ======================= curso · profesor ======================= */
+const TEAM = [['Ana Torres', 'Gestor'], ['Martín Ríos', 'Profesor con escritura'], ['Laura Pérez', 'Profesor con escritura'], ['Diego Suárez', 'Gestor'],
+  ['Carla Méndez', 'Profesor con escritura'], ['Pablo Giménez', 'Profesor con escritura'], ['Sol Ferreyra', 'Profesor con escritura']];
+const SECTIONS = [
+  { title: 'Unidad 1 · Fundamentos', desc: 'Variables, tipos y entrada/salida.', visible: true, acts: 4 },
+  { title: 'Unidad 2 · Estructuras de control', desc: 'Condicionales y ciclos.', visible: true, acts: 3 },
+  { title: 'Unidad 3', desc: '', visible: false, acts: 0 },
+];
+let ROSTER; // built on first render: ranking data is declared further down
+const buildRoster = () => NAMES.map((n, i) => ({ name: n, legajo: String(40100 + i * 13), email: n.normalize('NFD').toLowerCase().replace(/[^a-z]/g, '') + '@frc.utn.edu.ar', xp: RANK[i][0], pend: RISK_ROWS.has(i) ? 2 : i % 5 === 0 ? 1 : 0 })).slice(0, 28);
+const ENROLL = [
+  { name: 'Joaquín Paredes', legajo: '41022', email: 'joaquin.paredes@frc.utn.edu.ar', date: '29/09/2026 18:40' },
+  { name: 'Brenda Ortiz', legajo: '41057', email: 'brenda.ortiz@frc.utn.edu.ar', date: '30/09/2026 09:12' },
+];
+const rosterState = { q: '', f: '', page: 0 };
+let teamOpen = false, currentCourse = null;
+const initials = n => n.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+function renderCourseAdmin(c) {
+  currentCourse = c;
+  const shown = teamOpen ? TEAM : TEAM.slice(0, 4);
+  $('#team-list').innerHTML = shown.map(([n, perm]) => `<li><span class="initials" aria-hidden="true">${initials(n)}</span><span class="pname">${n}</span><span class="badge ${perm === 'Gestor' ? 'badge-gold' : 'badge-outline'}">${perm}</span></li>`).join('')
+    + (TEAM.length > 4 ? `<li><button class="linkbtn" type="button" data-team-more aria-expanded="${teamOpen}">${teamOpen ? 'Mostrar menos' : `Ver todo el equipo (${TEAM.length})`}</button></li>` : '');
+  const due = CHALLENGES.filter(x => x.course === c.name && x.due && daysUntil(x.due) >= 0).sort((a, b) => a.due < b.due ? -1 : 1).slice(0, 4);
+  $('#next-due').innerHTML = due.length ? due.map(x => `<li><span class="pname">${x.title}${x.req ? ' <span class="badge badge-required">Obligatorio</span>' : ''}</span><span class="num muted">${short(x.due)}</span></li>`).join('') : '<li class="muted">Sin vencimientos próximos.</li>';
+  const mine = CHALLENGES.filter(x => x.course === c.name);
+  $$('[data-course-ch-count]').forEach(el => el.textContent = mine.length);
+  $$('[data-pub-count]').forEach(el => el.textContent = mine.filter(x => x.published).length);
+  renderSections(); renderRoster(); renderEnroll();
+  $('#cfg-fs').disabled = !!c.readOnly;
+}
+function renderSections() {
+  $$('[data-sec-visible]').forEach(el => el.textContent = `${SECTIONS.filter(x => x.visible).length} de ${SECTIONS.length}`);
+  $('#sec-list').innerHTML = SECTIONS.map((x, i) => `
+    <li class="sec-row ${x.visible ? '' : 'is-hidden'}" data-sec="${i}">
+      <span class="sec-move">
+        <button class="icon-btn sm" type="button" data-mv="-1" aria-label="Subir ${x.title}" ${i === 0 ? 'disabled' : ''}>${icon('i-up', 'icon icon-sm')}</button>
+        <button class="icon-btn sm" type="button" data-mv="1" aria-label="Bajar ${x.title}" ${i === SECTIONS.length - 1 ? 'disabled' : ''}>${icon('i-chevron', 'icon icon-sm')}</button>
+      </span>
+      <span class="sec-order num">${i + 1}</span>
+      <div class="sec-main"><a class="sec-title" href="#">${x.title}</a><div class="sec-sub">${x.desc || 'Sin descripción'} · <span class="num">${x.acts}</span> ${x.acts === 1 ? 'actividad activa' : 'actividades activas'}</div></div>
+      <span class="sec-vis badge ${x.visible ? 'badge-success' : 'badge-outline'}">${x.visible ? 'Visible' : 'Oculta'}</span>
+      <div class="row-actions">
+        <button class="icon-btn sm" type="button" data-vis aria-label="${x.visible ? 'Ocultar' : 'Mostrar'} ${x.title}" title="${x.visible ? 'Ocultar a los alumnos' : 'Mostrar a los alumnos'}">${icon(x.visible ? 'i-eye-off' : 'i-eye', 'icon icon-sm')}</button>
+        <button class="icon-btn sm" type="button" aria-label="Editar ${x.title}">${icon('i-pencil', 'icon icon-sm')}</button>
+        <button class="icon-btn sm" type="button" data-del aria-label="Dar de baja ${x.title}" style="color:var(--urgent)">${icon('i-trash', 'icon icon-sm')}</button>
+      </div>
+    </li>`).join('') || `<div class="empty">${icon('i-list')}<p>Todavía no hay secciones.</p></div>`;
+}
+$('#sec-list').addEventListener('click', e => {
+  const li = e.target.closest('[data-sec]'); if (!li) return;
+  const i = Number(li.dataset.sec);
+  const mv = e.target.closest('[data-mv]');
+  if (mv) { const j = i + Number(mv.dataset.mv); [SECTIONS[i], SECTIONS[j]] = [SECTIONS[j], SECTIONS[i]]; renderSections(); $(`[data-sec="${j}"] [data-mv="${mv.dataset.mv}"]`)?.focus(); return; }
+  if (e.target.closest('[data-vis]')) SECTIONS[i].visible = !SECTIONS[i].visible;
+  else if (e.target.closest('[data-del]')) { if (!confirm(`¿Dar de baja "${SECTIONS[i].title}"? Deja de mostrarse y sale del orden.`)) return; SECTIONS.splice(i, 1); }
+  else return;
+  renderSections();
+});
+$('#team-list').addEventListener('click', e => { if (e.target.closest('[data-team-more]')) { teamOpen = !teamOpen; renderCourseAdmin(currentCourse); } });
+$('#reorder-btn').addEventListener('click', e => {
+  const on = e.currentTarget.getAttribute('aria-pressed') !== 'true';
+  e.currentTarget.setAttribute('aria-pressed', String(on));
+  e.currentTarget.lastChild.textContent = on ? 'Listo' : 'Ordenar';
+  $('#sec-list').classList.toggle('reordering', on);
+});
+function renderRoster() {
+  ROSTER ||= buildRoster();
+  const q = rosterState.q.trim().toLowerCase(), SIZE = 8;
+  const list = ROSTER.filter(r => (!q || (r.name + r.legajo + r.email).toLowerCase().includes(q)) && (!rosterState.f || r.pend >= 2));
+  rosterState.page = Math.min(rosterState.page, Math.max(0, Math.ceil(list.length / SIZE) - 1));
+  const slice = list.slice(rosterState.page * SIZE, rosterState.page * SIZE + SIZE);
+  $('#roster-table').innerHTML = `<thead><tr><th>Alumno</th><th>Legajo</th><th class="r">XP</th><th class="r">Obligatorios pendientes</th><th>Estado</th></tr></thead><tbody>${
+    slice.length ? slice.map(r => `<tr><td><div class="cell-title">${r.name}</div><div class="cell-sub">${r.email}</div></td><td class="num">${r.legajo}</td><td class="r num">${r.xp.toLocaleString('es-AR')}</td><td class="r num" style="${r.pend ? 'color:var(--urgent); font-weight:700' : ''}">${r.pend}</td><td>${r.pend >= 2 ? '<span class="status-risk">Riesgo</span>' : '<span class="muted">Regular</span>'}</td></tr>`).join('')
+    : '<tr><td colspan="5" class="muted">Ningún alumno coincide con la búsqueda.</td></tr>'}</tbody>`;
+  $('#roster-pager').innerHTML = list.length > SIZE ? pagerHTML(rosterState.page, SIZE, list.length) : '';
+}
+$('#roster-q').addEventListener('input', e => { rosterState.q = e.target.value; rosterState.page = 0; renderRoster(); });
+$('#roster-filter').addEventListener('click', e => { const b = e.target.closest('[data-rf]'); if (!b) return; $$('[data-rf]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); rosterState.f = b.dataset.rf; rosterState.page = 0; renderRoster(); });
+onPager($('#roster-pager'), n => { rosterState.page = n; renderRoster(); });
+function renderEnroll() {
+  $$('[data-req-count]').forEach(el => { el.textContent = ENROLL.length; el.hidden = !ENROLL.length; });
+  $('#enroll-list').innerHTML = ENROLL.length ? ENROLL.map((r, i) => `
+    <li class="req-card" data-en="${i}">
+      <div><h3>${r.name}</h3><div class="req-meta"><span class="num">Legajo ${r.legajo}</span><span>${r.email}</span><span class="num">${r.date}</span></div></div>
+      <div class="req-actions"><button class="btn btn-ghost danger btn-sm" type="button" data-en-no>Rechazar</button><button class="btn btn-primary btn-sm" type="button" data-en-ok>${icon('i-tick', 'icon icon-sm')}Aceptar</button></div>
+    </li>`).join('') : `<div class="empty">${icon('i-check')}<p>No hay pedidos de inscripción pendientes.</p></div>`;
+}
+$('#enroll-list').addEventListener('click', e => {
+  const li = e.target.closest('[data-en]'); if (!li) return;
+  if (e.target.closest('[data-en-ok], [data-en-no]')) { ENROLL.splice(Number(li.dataset.en), 1); renderEnroll(); }
+});
+$('#invite-copy').addEventListener('click', () => {
+  const code = $('#invite-code').textContent;
+  try { navigator.clipboard?.writeText(code); } catch {}
+  $('#invite-status').textContent = 'Código copiado.';
+});
+$('#invite-regen').addEventListener('click', () => {
+  if (!confirm('¿Regenerar el código? El actual deja de servir para inscribirse.')) return;
+  $('#invite-code').textContent = Array.from({ length: 10 }, () => 'ABCDEFGHJKLMNPQRSTUVWXYZ'[Math.floor(Math.random() * 24)]).join('');
+  $('#invite-status').textContent = 'Código nuevo generado. El anterior ya no funciona.';
+});
+const cfgForm = $('#cfg-form');
+let cfgSnapshot = null;
+cfgForm.addEventListener('input', () => { $('#save-bar').hidden = false; });
+$('#cfg-discard').addEventListener('click', () => { cfgForm.reset(); $('#save-bar').hidden = true; });
+$('#cfg-save').addEventListener('click', () => { $('#save-bar').hidden = true; });
+
+/* ======================= inventario ======================= */
+let invCourse = 'MSI';
+const BACKPACK = ['..bbbb..', '.b....b.', 'bbbbbbbb', 'baaaaaab', 'baccccab', 'bacddcab', 'baccccab', 'baaaaaab', 'bbbbbbbb'];
+function renderInventory() {
+  const c = COURSES[invCourse];
+  $('#inv-tabs').innerHTML = Object.keys(COURSES).map(k => `<button class="tab" role="tab" aria-selected="${k === invCourse}" data-inv="${k}">${k}</button>`).join('');
+  $('#inv-stats').innerHTML = `
+    <div><div class="k">${icon('i-heart', 'icon icon-sm')}Vidas</div><div class="v heart">${hearts(c.lives)} <span class="num" style="font-size:14px; margin-left:4px">${c.lives}/3</span></div></div>
+    <div><div class="k">${icon('i-coin', 'icon icon-sm')}Monedas</div><div class="v coin num">${c.coins}</div></div>
+    <div><div class="k">${icon('i-star', 'icon icon-sm')}Nivel</div><div class="v num">${c.level}</div></div>
+    <div style="flex-basis:260px"><div class="k">XP hacia el nivel ${c.level + 1}</div><div class="progress-line" style="margin-top:8px"><div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="${c.xpMax}" aria-valuenow="${c.xp}" aria-label="XP"><span style="width:${c.xp / c.xpMax * 100}%"></span></div><span class="num">${c.xp}/${c.xpMax}</span></div></div>`;
+  const pc = avatarState.pack;
+  $('#inv-backpack').innerHTML = pixel(BACKPACK, { a: pc, b: shade(pc, 55), c: tint(pc, 70), d: shade(pc, 75) }, `Mochila de ${USERS.alumno.name}`);
+  const cats = [['Prácticos', 'var(--accent-primary-fill)'], ['Teóricos', 'var(--accent-secondary-fill)'], ['LLM', 'var(--accent-success-fill)']];
+  $('#inv-slots').innerHTML = cats.map(([n, col]) => `
+    <div class="slot-group"><div class="slot-head"><h3><span class="dot" style="background:${col}"></span>${n}</h3><span class="num">0 de 3</span></div>
+    <div class="slots">${'<div class="slot" aria-label="Ranura vacía">' + icon('i-plus') + '</div>'}${'<div class="slot" aria-label="Ranura vacía">' + icon('i-plus') + '</div>'}${'<div class="slot" aria-label="Ranura vacía">' + icon('i-plus') + '</div>'}</div></div>`).join('');
+}
+document.addEventListener('click', e => { const t = e.target.closest('[data-inv]'); if (t) { invCourse = t.dataset.inv; renderInventory(); } });
+
+/* ======================= personaje ======================= */
+const SWATCHES = {
+  hair: ['#f5f1e8', '#241a2b', '#6b4226', '#e2b86f', '#c75b2e', '#cfc9d6'],
+  skin: ['#f6d7bd', '#e7b48f', '#b97a50', '#8a5431', '#5a3620', '#cfc9d6'],
+  shoes: ['#f5f1e8', '#222222', '#d62828', '#2563eb', '#16a34a', '#eab308'],
+  pack: ['#2563eb', '#dc2626', '#1f2937', '#16a34a', '#7c3aed', '#ea580c'],
+};
+const avatarState = { hair: '#e2b86f', skin: '#e7b48f', shoes: '#f5f1e8', pack: '#dc2626' };
+const HERO = [
+  '....hhhhhh....',
+  '...hhhhhhhh...',
+  '..ohhhhhhhho..',
+  '..ossssssssoo.',
+  '...sseesees...',
+  '...ssssssss...',
+  '....ssmmss....',
+  '.....ssss.....',
+  '.k.tttttttt.k.',
+  'kkttttttttttkk',
+  'k.sttttttts.k.',
+  '..s.tttttt.s..',
+  '..s.pppppp.s..',
+  '....pppppp....',
+  '....ppp.ppp...',
+  '....ppp.ppp...',
+  '...zzzz.zzzz..',
+];
+function renderHero() {
+  const a = avatarState;
+  $('#avatar-stage').querySelector('.pixel')?.remove();
+  $('#avatar-stage').insertAdjacentHTML('afterbegin', pixel(HERO, {
+    h: a.hair, s: a.skin, e: '#1b1b1b', m: shade(a.skin, 75), t: 'var(--accent-secondary-fill)', p: '#3b4252', z: a.shoes, k: a.pack, o: '#1f2937',
+  }, 'Vista previa de tu personaje'));
+}
+$$('[data-swatches]').forEach(fs => {
+  const key = fs.dataset.swatches;
+  fs.insertAdjacentHTML('beforeend', SWATCHES[key].map((col, i) =>
+    `<label class="swatch"><input type="radio" name="sw-${key}" value="${col}" ${col === avatarState[key] ? 'checked' : ''} aria-label="Color ${i + 1}"><span style="background:${col}"></span></label>`).join(''));
+});
+/* Closed sections summarize what is chosen inside them. */
+function renderAvatarSums() {
+  const f = $('#avatar-form').elements;
+  const v = n => f[n].value.replace(/ \(.*\)$/, '');
+  const sw = k => `<span class="dot" style="background:${avatarState[k]}" aria-hidden="true"></span>`;
+  const sums = {
+    cuerpo: `<span>${v('arquetipo')}</span>·<span>${v('cabello')}</span>${sw('hair')}${sw('skin')}`,
+    ropa: `<span>${v('top')}</span>·<span>${v('pantalon')}</span>·<span>${v('zapatos')}</span>${sw('shoes')}·<span>${v('espalda')}</span>${sw('pack')}`,
+    acc: `<span>${v('cabezaItem')}</span>·<span>${v('mascota')}</span>·<span>${v('manoDer')}</span>·<span>${v('manoIzq')}</span>`,
+  };
+  $$('details[data-sum]').forEach(d => $('.disc-sum', d).innerHTML = sums[d.dataset.sum]);
+}
+renderAvatarSums();
+let saveTimer;
+$('#avatar-form').addEventListener('change', e => {
+  const m = e.target.name.match(/^sw-(\w+)/);
+  if (m) avatarState[m[1]] = e.target.value;
+  renderHero(); renderInventory(); renderAvatarSums();
+  const s = $('#avatar-save');
+  s.innerHTML = `${icon('i-refresh', 'icon icon-sm')}Guardando…`; s.style.color = 'var(--text-muted)';
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => { s.innerHTML = `${icon('i-tick', 'icon icon-sm')}Guardado`; s.style.color = ''; }, 700);
+});
+
+/* ======================= ranking ======================= */
+const RANK_N = 32;
+// [xp, level, percentile]: synthetic, strictly descending XP
+const RANK = Array.from({ length: RANK_N }, (_, i) => { const xp = Math.round(4820 - i * 142 - i * i * 0.5); return [xp, Math.max(1, Math.round(xp / 265)), Math.round(100 - i * (100 / RANK_N))]; });
+const NAMES = ['Valentina R.', 'Bruno S.', 'Camila G.', 'Tomás L.', 'Lucía M.', 'Joaquín P.', 'Sofía D.', 'Mateo A.', 'Martina F.', 'Julián P.', 'Agustina B.',
+  'Franco V.', 'Micaela T.', 'Ignacio C.', 'Paula N.', 'Santiago H.', 'Florencia E.', 'Nicolás Q.', 'Abril K.', 'Lautaro Z.', 'Julieta O.', 'Benjamín I.',
+  'Catalina U.', 'Thiago W.', 'Renata J.', 'Felipe Y.', 'Emilia X.', 'Gonzalo R.', 'Delfina S.', 'Ramiro B.', 'Pilar M.', 'Manuel S.'];
+const RISK_ROWS = new Set([29, 30, 31]); // 0-based indexes with pending obligatorios
+const RANK_SIZE = 10;
+let rankPage = 0;
+const zoneOf = (i, pct) => RISK_ROWS.has(i) ? 'risk' : pct >= 90 ? 'promo' : 'reg';
+const ZONE_LABEL = { promo: ['promo', 'Zona de promoción · P90 o más'], reg: ['', 'Regulares'], risk: ['risk', 'Zona de riesgo · obligatorios pendientes'] };
+function face(seed) {
+  const hairs = ['#241a2b', '#6b4226', '#e2b86f', '#c75b2e', '#7c3aed', '#cfc9d6'];
+  const skins = ['#f6d7bd', '#e7b48f', '#b97a50', '#8a5431'];
+  const tops = [['.hhhhhh.', 'hhhhhhhh'], ['..hhhh..', '.hhhhhh.'], ['h.hhhh.h', 'hhhhhhhh']];
+  const t = tops[seed % 3];
+  return pixel([t[0], t[1], 'hssssssh', '.sesses.', '.ssssss.', '.ssmmss.', '..ssss..', '.cccccc.'],
+    { h: hairs[seed % hairs.length], s: skins[(seed * 7) % skins.length], e: '#1b1b1b', m: '#8a3b2e', c: ['var(--accent-primary-fill)', 'var(--accent-secondary-fill)', 'var(--accent-gold-fill)'][seed % 3] });
+}
+function renderRanking() {
+  const staff = currentRole !== 'alumno';
+  const meIdx = staff ? -1 : RANK_N - 1;
+  const you = $('#rank-you');
+  you.hidden = staff;
+  if (!staff) you.innerHTML = `
+    <div class="rank-pos num">${meIdx + 1}<small> / ${RANK_N}</small></div>
+    <div><div class="alert-title" style="color:var(--urgent); display:flex; gap:8px; align-items:center">${icon('i-alert', 'icon icon-sm')}Estás en zona de riesgo</div>
+      <div class="alert-body">Tenés 2 obligatorios sin cerrar en MSI: tu regularidad está en juego.</div>
+      <div class="quick-links" style="margin-top:10px"><a class="btn btn-secondary btn-sm" href="#curso/MSI">Ver qué me falta</a><button class="btn btn-ghost btn-sm" type="button" data-rank-me>Ir a mi posición</button></div></div>
+    <div class="rank-pct"><span class="muted" style="font-size:13px">Percentil</span><b class="num">P${RANK[meIdx][2]}</b><span class="muted xp-text">${RANK[meIdx][0]} XP · Nivel ${RANK[meIdx][1]}</span></div>`;
+  let body = '', prevZone = null;
+  const start = rankPage * RANK_SIZE;
+  RANK.slice(start, start + RANK_SIZE).forEach(([xp, lvl, pct], j) => {
+    const i = start + j;
+    const name = i === meIdx ? 'Vos' : staff ? (NAMES[i] || 'Manuel S.') : `Estudiante #${String(i + 1).padStart(2, '0')}`;
+    const status = RISK_ROWS.has(i) ? '<span class="status-risk">Riesgo</span>' : pct >= 90 ? '<span class="status-promo">Promoción</span>' : '<span class="muted">Regular</span>';
+    const z = zoneOf(i, pct);
+    if (z !== prevZone) { body += `<tr class="zone ${ZONE_LABEL[z][0]}"><td colspan="6">${ZONE_LABEL[z][1]}</td></tr>`; prevZone = z; }
+    body += `<tr class="${i === meIdx ? 'me' : ''}"><td class="num">${i + 1}</td><td><span class="rank-name">${face(i + 3)}${name}</span></td><td class="r num">P${pct}</td><td class="r num">${lvl}</td><td class="r num">${xp.toLocaleString('es-AR')}</td><td>${status}</td></tr>`;
+  });
+  $('#rank-pager').innerHTML = pagerHTML(rankPage, RANK_SIZE, RANK_N);
+  $('#rank-table').innerHTML = `<thead><tr><th>#</th><th>${staff ? 'Alumno' : 'Estudiante'}</th><th class="r">Percentil</th><th class="r">Nivel</th><th class="r">XP</th><th>Estado</th></tr></thead><tbody>${body}</tbody>`;
+}
+$('#rank-course').addEventListener('change', () => { rankPage = 0; renderRanking(); });
+onPager($('#rank-pager'), n => { rankPage = n; renderRanking(); });
+$('#rank-you').addEventListener('click', e => { if (e.target.closest('[data-rank-me]')) { rankPage = Math.floor((RANK_N - 1) / RANK_SIZE); renderRanking(); $('#rank-table tr.me')?.scrollIntoView({ block: 'center', behavior: 'smooth' }); } });
+
+/* ======================= perfil ======================= */
+function renderProfile() {
+  const u = USERS[currentRole];
+  $$('[data-me-initials]').forEach(el => el.textContent = u.initials);
+  $$('[data-me-short]').forEach(el => el.textContent = u.short);
+  $$('[data-me-name]').forEach(el => el.textContent = u.name);
+  $$('[data-me-email]').forEach(el => el.textContent = u.email);
+  $$('[data-me-legajo]').forEach(el => el.textContent = u.legajo);
+  $$('[data-legajo-row]').forEach(el => el.hidden = !u.legajo);
+  $$('[data-me-since]').forEach(el => el.textContent = u.since || '28/09/2026');
+  $$('[data-me-level]').forEach(el => el.textContent = u.level);
+  $$('[data-admin-only]').forEach(el => el.hidden = currentRole !== 'admin');
+  $$('[data-alumno-only]').forEach(el => el.hidden = currentRole !== 'alumno');
+  $$('[data-me-role]').forEach(el => el.textContent = u.role);
+}
+
+/* ======================= quiz (alumno) ======================= */
+$('#quiz-form').addEventListener('change', () => {
+  const answered = ['q1', 'q2'].filter(n => $$(`[name="${n}"]:checked`).length).length;
+  $('#quiz-count').textContent = `${answered} de 2 respondidas`;
+  $('#quiz-bar').style.width = `${answered * 50}%`;
+  $('#quiz-save').textContent = 'Guardado';
+  $('#quiz-submit').disabled = answered < 2;
+  $('#quiz-hint').textContent = answered < 2 ? 'Respondé todas las preguntas para poder entregar. Se guarda solo mientras avanzás.' : 'Listo para entregar. Después de entregar no vas a poder cambiar las respuestas.';
+});
+
+/* ======================= cuestionario builder (profesor) ======================= */
+const questions = [
+  { text: '¿Cuál es la complejidad de la búsqueda binaria?', mode: 'Una correcta', options: ['O(log n)', 'O(n)', 'O(n log n)'], correct: [0], points: 40, penalty: false, open: false },
+  { text: '', mode: 'Una correcta', options: ['', ''], correct: [0], points: '', penalty: false, open: true },
+];
+function qIssues(q) {
+  const out = [];
+  if (!q.text.trim()) out.push('Falta el enunciado.');
+  const empty = q.options.map((o, i) => o.trim() ? null : i + 1).filter(Boolean);
+  if (empty.length) out.push(`${empty.length > 1 ? 'Las opciones' : 'La opción'} ${empty.join(' y ')} ${empty.length > 1 ? 'están vacías' : 'está vacía'}.`);
+  if (!Number(q.points)) out.push('Falta el puntaje.');
+  return out;
+}
+function renderBuilder() {
+  $('#q-list').innerHTML = questions.map((q, qi) => {
+    const issues = qIssues(q);
+    return `<article class="card studs q-card" data-q="${qi}">
+      <div class="q-head">
+        <span class="q-num">${qi + 1}</span>
+        <span class="q-title">${q.text || '<span class="muted">Pregunta sin enunciado</span>'}</span>
+        ${issues.length ? '<span class="badge badge-gold">Incompleta</span>' : '<span class="badge badge-success">Lista</span>'}
+        <label class="sr-only" for="pts-${qi}">Puntaje de la pregunta ${qi + 1}</label>
+        <input class="control num points" id="pts-${qi}" type="number" min="0" max="100" placeholder="Puntaje" value="${q.points}" data-field="points" ${!Number(q.points) ? 'aria-invalid="true"' : ''} />
+        <button class="icon-btn sm" type="button" data-toggle aria-expanded="${q.open}" aria-label="${q.open ? 'Contraer' : 'Editar'} pregunta ${qi + 1}">${icon(q.open ? 'i-x' : 'i-pencil', 'icon icon-sm')}</button>
+        <button class="icon-btn sm" type="button" data-del aria-label="Quitar pregunta ${qi + 1}" style="color:var(--urgent)">${icon('i-trash', 'icon icon-sm')}</button>
+      </div>
+      ${q.open ? `<div class="q-body">
+        ${issues.length ? `<ul class="q-issues">${issues.map(s => `<li>${s}</li>`).join('')}</ul>` : ''}
+        <label class="field"><span class="req">Enunciado</span><textarea class="control" data-field="text" placeholder="Escribí la consigna" ${!q.text ? 'aria-invalid="true"' : ''}>${q.text}</textarea></label>
+        <div class="form-grid">
+          <label class="field">Cómo se corrige<select class="control" data-field="mode"><option ${q.mode === 'Una correcta' ? 'selected' : ''}>Una correcta</option><option ${q.mode === 'Varias correctas' ? 'selected' : ''}>Varias correctas</option></select>
+            <span class="hint">${q.mode === 'Una correcta' ? 'El alumno elige una sola opción. Si es la correcta, suma el puntaje.' : 'El alumno puede marcar varias. Suma en proporción a las correctas.'}</span></label>
+          <label class="toggle" style="align-self:start; margin-top:22px"><input type="checkbox" data-field="penalty" ${q.penalty ? 'checked' : ''} />Resta si elige una incorrecta</label>
+        </div>
+        <div class="field"><span>Opciones</span>
+          ${q.options.map((o, oi) => `<div class="opt-row">
+            <button class="mark" type="button" data-mark="${oi}" aria-pressed="${q.correct.includes(oi)}">${icon('i-tick', 'icon icon-sm')}${q.correct.includes(oi) ? 'Correcta' : 'Marcar'}</button>
+            <input class="control" data-opt="${oi}" value="${o}" placeholder="Texto de la opción ${oi + 1}" aria-label="Opción ${oi + 1}" ${!o ? 'aria-invalid="true"' : ''} />
+          </div>`).join('')}
+          <div><button class="btn btn-quiet btn-sm" type="button" data-addopt>${icon('i-plus', 'icon icon-sm')}Agregar opción</button></div>
+        </div>
+      </div>` : ''}
+    </article>`;
+  }).join('') || `<div class="empty">${icon('i-list')}<p>Agregá una pregunta nueva o del banco para empezar.</p></div>`;
+  renderSum();
+}
+function renderSum() {
+  const sum = questions.reduce((s, q) => s + (Number(q.points) || 0), 0);
+  const firstBad = questions.findIndex(q => qIssues(q).length);
+  const cls = sum === 100 ? 'ok' : sum > 100 ? 'over' : '';
+  const msg = !questions.length ? 'Agregá al menos una pregunta.'
+    : firstBad >= 0 ? `Completá la pregunta ${firstBad + 1}: ${qIssues(questions[firstBad]).join(' ')}`
+    : sum !== 100 ? `Los puntajes tienen que sumar 100 (${sum > 100 ? 'sobran' : 'faltan'} ${Math.abs(100 - sum)}).` : 'Todo listo para guardar.';
+  const ok = questions.length && firstBad < 0 && sum === 100;
+  $('#sum-bar').innerHTML = `
+    <div class="meter ${cls}"><div class="sum-label"><span>Puntaje total</span><span class="num">${sum} / 100</span></div><div class="bar"><span style="width:${Math.min(sum, 100)}%"></span></div></div>
+    <button class="btn btn-ghost btn-sm" type="button" data-even ${questions.length ? '' : 'disabled'}>Repartir en partes iguales</button>
+    <button class="btn btn-primary" type="button" ${ok ? '' : 'disabled'}>Guardar cuestionario</button>
+    <p class="sum-msg ${ok ? 'ok' : ''}" role="status">${msg}</p>`;
+}
+$('#q-list').addEventListener('input', e => {
+  const card = e.target.closest('[data-q]'); if (!card) return;
+  const q = questions[card.dataset.q];
+  if (e.target.dataset.field === 'penalty') q.penalty = e.target.checked;
+  else if (e.target.dataset.field) q[e.target.dataset.field] = e.target.value;
+  if (e.target.dataset.opt) q.options[e.target.dataset.opt] = e.target.value;
+  const t = card.querySelector('.q-title'); if (t) t.innerHTML = q.text || '<span class="muted">Pregunta sin enunciado</span>';
+  renderSum();
+});
+$('#q-list').addEventListener('change', e => { if (e.target.dataset.field === 'mode') { questions[e.target.closest('[data-q]').dataset.q].mode = e.target.value; renderBuilder(); } });
+$('#q-list').addEventListener('focusout', e => { if (e.target.matches('[data-opt],[data-field="text"],[data-field="points"]')) setTimeout(renderBuilder, 0); });
+$('#q-list').addEventListener('click', e => {
+  const card = e.target.closest('[data-q]'); if (!card) return;
+  const qi = Number(card.dataset.q), q = questions[qi];
+  if (e.target.closest('[data-toggle]')) q.open = !q.open;
+  else if (e.target.closest('[data-del]')) questions.splice(qi, 1);
+  else if (e.target.closest('[data-addopt]')) q.options.push('');
+  else if (e.target.closest('[data-mark]')) {
+    const oi = Number(e.target.closest('[data-mark]').dataset.mark);
+    q.correct = q.mode === 'Una correcta' ? [oi] : q.correct.includes(oi) ? q.correct.filter(x => x !== oi) : [...q.correct, oi];
+  } else return;
+  renderBuilder();
+});
+$('#sum-bar').addEventListener('click', e => {
+  if (!e.target.closest('[data-even]') || !questions.length) return;
+  const base = Math.floor(100 / questions.length);
+  questions.forEach((q, i) => q.points = base + (i < 100 - base * questions.length ? 1 : 0));
+  renderBuilder();
+});
+$('#add-custom').addEventListener('click', () => { questions.forEach(q => q.open = false); questions.push({ text: '', mode: 'Una correcta', options: ['', ''], correct: [0], points: '', penalty: false, open: true }); renderBuilder(); });
+$('#bank-pick').addEventListener('change', e => { $('#add-bank').disabled = !e.target.value; });
+$('#add-bank').addEventListener('click', () => {
+  const v = $('#bank-pick').value; if (!v) return;
+  questions.push({ text: v, mode: 'Una correcta', options: ['Opción A', 'Opción B', 'Opción C'], correct: [0], points: '', penalty: false, open: false });
+  $('#bank-pick').value = ''; $('#add-bank').disabled = true; renderBuilder();
+});
+
+/* ======================= insignias ======================= */
+const BADGE_ART = {
+  shield: ['bbbbbbbb', 'baaaaaab', 'baaddaab', 'baddddab', 'baaddaab', '.baaaab.', '..baab..', '...bb...'],
+  target: ['..bbbb..', '.baaaab.', 'bacccab.', 'bacddcab', 'bacddcab', 'baccccab', '.baaaab.', '..bbbb..'],
+  heart:  ['.bb..bb.', 'baabbaab', 'baacaaab', 'baaaaaab', '.baaaab.', '..baab..', '...bb...', '........'],
+  trophy: ['bbbbbbbb', 'baaccaab', 'baaccaab', '.baaaab.', '..baab..', '...bb...', '..bbbb..', '.bddddb.'],
+  crown:  ['b..bb..b', 'bb.bb.bb', 'baabbaab', 'baaaaaab', 'bacdcdab', 'baaaaaab', 'bbbbbbbb', '........'],
+  flag:   ['bb......', 'baaaab..', 'baaaaab.', 'baaaab..', 'bb......', 'b.......', 'b.......', 'bbb.....'],
+  bolt:   ['....bbb.', '...bab..', '..bab...', '.baaaab.', '...bab..', '..bab...', '.bb.....', 'b.......'],
+  up:     ['...bb...', '..baab..', '.baaaab.', 'baaaaaab', '..baab..', '..baab..', '..baab..', '..bbbb..'],
+};
+const BADGES = [
+  ['Sección perfecta', 'Completaste una sección entera sin perder vidas.', 'shield', 'var(--accent-primary-fill)'],
+  ['A la primera', 'Superaste un nodo sin usar reintentos.', 'target', 'var(--accent-primary-fill)'],
+  ['Segunda oportunidad', 'Recuperaste una vida perdida.', 'heart', 'var(--accent-danger-fill)', true],
+  ['Hito de XP · Bronce', 'Alcanzaste el primer umbral de XP del curso.', 'trophy', '#b87333'],
+  ['Hito de XP · Plata', 'Alcanzaste el segundo umbral de XP del curso.', 'trophy', '#a8b2bd'],
+  ['Hito de XP · Oro', 'Alcanzaste el tercer umbral de XP del curso.', 'trophy', 'var(--accent-gold-fill)'],
+  ['Subiste de nivel', 'Llegaste a un nuevo nivel.', 'up', 'var(--accent-secondary-fill)', true],
+  ['Zona de élite', 'Entraste a la zona P90 del ranking de la cohorte.', 'crown', 'var(--accent-gold-fill)'],
+  ['Primeros pasos', 'Completaste tu primer nodo obligatorio.', 'flag', 'var(--accent-primary-fill)'],
+];
+const artFor = (kind, col, label) => pixel(BADGE_ART[kind], { a: col, b: shade(col, 50), c: tint(col, 55), d: 'var(--accent-gold-fill)' }, label);
+function renderBadges() {
+  $('#badge-grid').innerHTML = BADGES.map(([n, d, k, col, pending]) => `
+    <article class="card studs badge-tile">${artFor(k, col, '')}<h3>${n}</h3><p>${d}</p>
+      <div class="chips"><span class="badge badge-outline">Transversal</span><span class="badge badge-outline">Sistema</span>${pending ? '<span class="badge badge-gold">Ícono pendiente</span>' : ''}</div></article>`).join('');
+  const picks = Object.keys(BADGE_ART);
+  $('#nb-icons').insertAdjacentHTML('beforeend', picks.map((k, i) =>
+    `<label class="icon-opt"><input type="radio" name="nb-icon" value="${k}" aria-label="Ícono ${k}${i % 3 === 2 ? ', arte pendiente' : ''}"><span>${artFor(k, 'var(--accent-secondary-fill)', '')}${i % 3 === 2 ? '<small>pendiente</small>' : ''}</span></label>`).join(''));
+}
+const nbForm = $('#new-badge');
+function nbCheck() {
+  const ok = $('#nb-name').value.trim() && $('[name="nb-icon"]:checked') && $('#nb-crit').value;
+  $('#nb-create').disabled = !ok; $('#nb-hint').textContent = ok ? '' : 'Completá nombre, ícono y criterio.';
+}
+nbForm.addEventListener('input', nbCheck); nbForm.addEventListener('change', nbCheck);
+$('#new-badge-btn').addEventListener('click', () => { nbForm.hidden = !nbForm.hidden; $('#new-badge-btn').setAttribute('aria-expanded', String(!nbForm.hidden)); if (!nbForm.hidden) $('#nb-name').focus(); });
+$('#nb-cancel').addEventListener('click', () => { nbForm.reset(); nbForm.hidden = true; $('#new-badge-btn').setAttribute('aria-expanded', 'false'); nbCheck(); });
+
+/* ======================= drawers ======================= */
+document.addEventListener('click', e => { const t = e.target.closest('[data-open]'); if (t) $('#' + t.dataset.open).showModal(); });
+$('#dd-submit').addEventListener('click', () => {
+  const t = $('#form-desafio [name="titulo"]');
+  const bad = !t.value.trim();
+  t.setAttribute('aria-invalid', String(bad));
+  $('#t-hint').className = bad ? 'err' : 'hint';
+  $('#t-hint').textContent = bad ? 'Escribí un título para el desafío.' : 'Hasta 100 caracteres.';
+  if (bad) { t.focus(); return; }
+  $('#drawer-desafio').close();
+});
+
+/* ======================= sub-tabs (static panels) ======================= */
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-subtab]'); if (!t) return;
+  selectSubtab(t);
+});
+function selectSubtab(t) {
+  const scope = t.closest('.screen');
+  const group = t.closest('[data-tabgroup]')?.dataset.tabgroup;
+  const tabs = group ? $$(`[data-tabgroup="${group}"] [data-subtab]`, scope) : $$('[data-subtab]', scope);
+  tabs.forEach(b => b.setAttribute('aria-selected', String(b === t)));
+  const panels = group ? $$(`[data-subpanel][data-group="${group}"], [data-subpanel][data-group="${group}-actions"]`, scope) : $$('[data-subpanel]', scope);
+  panels.forEach(p => p.hidden = p.dataset.subpanel !== t.dataset.subtab);
+}
+document.addEventListener('click', e => {
+  const g = e.target.closest('[data-goto]'); if (!g) return;
+  const scope = g.closest('.screen');
+  selectSubtab($(`[data-subtab="${g.dataset.goto}"]`, scope));
+  if (g.dataset.gotoPill) selectSubtab($(`[data-subtab="${g.dataset.gotoPill}"]`, scope));
+});
+
+/* ======================= account menu ======================= */
+const accBtn = $('#account-btn'), accMenu = $('#account-menu');
+function setAccount(open) { accMenu.hidden = !open; accBtn.setAttribute('aria-expanded', String(open)); }
+accBtn.addEventListener('click', () => { const open = accMenu.hidden; setAccount(open); if (open) $('.nav-item', accMenu).focus(); });
+document.addEventListener('click', e => { if (!e.target.closest('.account')) setAccount(false); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !accMenu.hidden) { setAccount(false); accBtn.focus(); } });
+accMenu.addEventListener('click', e => { if (e.target.closest('a')) setAccount(false); });
+
+/* ======================= accesos (admin) ======================= */
+const REQUESTS = [
+  { email: 'alumno1.tpi@frc.utn.edu.ar', date: '27/09/2026 21:51', role: 'Profesor', reason: 'Designación de cátedra', state: 'pending' },
+];
+const ENABLED = [
+  ['gestor5@frc.utn.edu.ar', 'Gestor', '28/09/2026 21:11'], ['manuuusanchez@gmail.com', 'Gestor', '28/09/2026 20:10'],
+  ['gestor4.tpi@frc.utn.edu.ar', 'Gestor', '27/09/2026 14:54'], ['profesor4.tpi@frc.utn.edu.ar', 'Profesor', '27/09/2026 14:54'],
+  ['gestor3.tpi@frc.utn.edu.ar', 'Gestor', '27/09/2026 14:54'], ['profesor3.tpi@frc.utn.edu.ar', 'Profesor', '27/09/2026 14:54'],
+  ['gestor2.tpi@frc.utn.edu.ar', 'Gestor', '27/09/2026 14:54'], ['profesor2.tpi@frc.utn.edu.ar', 'Profesor', '27/09/2026 14:54'],
+  ['gestor1.tpi@frc.utn.edu.ar', 'Gestor', '27/09/2026 14:54'], ['profesor1.tpi@frc.utn.edu.ar', 'Profesor', '27/09/2026 14:54'],
+  ['gestor.tpi@frc.utn.edu.ar', 'Gestor', '24/09/2026 00:49'], ['profesor.tpi@frc.utn.edu.ar', 'Profesor', '24/09/2026 00:49'],
+];
+const PAGE = 6;
+const okState = { q: '', role: '', page: 0 };
+function renderRequests() {
+  const pending = REQUESTS.filter(r => r.state === 'pending').length;
+  $$('[data-pend-count]').forEach(el => el.textContent = pending);
+  $('#req-list').innerHTML = REQUESTS.length ? REQUESTS.map((r, i) => `
+    <li class="req-card" data-req="${i}">
+      <div>
+        <h3>${r.email}</h3>
+        <div class="req-meta"><span>Pide rol <b>${r.role}</b></span><span class="num">${r.date}</span></div>
+        <blockquote>${r.reason}</blockquote>
+      </div>
+      ${r.state === 'pending' ? `<div class="req-actions">
+        <button class="btn btn-ghost danger" type="button" data-reject aria-expanded="${!!r.rejecting}">Rechazar</button>
+        <button class="btn btn-primary" type="button" data-approve>${icon('i-tick', 'icon icon-sm')}Aprobar</button>
+      </div>` : `<span class="badge ${r.state === 'approved' ? 'badge-success' : 'badge-danger'}">${r.state === 'approved' ? 'Aprobada' : 'Rechazada'}</span>`}
+      ${r.state === 'pending' && r.rejecting ? `<div class="reject-box">
+        <label class="field"><span class="req">Motivo del rechazo</span><textarea class="control" rows="2" data-reason placeholder="Por ejemplo: el email no corresponde a la cátedra"></textarea><span class="hint" data-reason-hint>La persona lo va a ver en el email de respuesta.</span></label>
+        <button class="btn btn-danger" type="button" data-confirm-reject>Confirmar rechazo</button>
+      </div>` : ''}
+    </li>`).join('') : `<div class="empty">${icon('i-check')}<p>No hay solicitudes pendientes.</p></div>`;
+}
+$('#req-list').addEventListener('click', e => {
+  const li = e.target.closest('[data-req]'); if (!li) return;
+  const r = REQUESTS[li.dataset.req];
+  if (e.target.closest('[data-approve]')) { r.state = 'approved'; ENABLED.unshift([r.email, r.role, '30/09/2026 15:02']); renderEnabled(); }
+  else if (e.target.closest('[data-reject]')) r.rejecting = !r.rejecting;
+  else if (e.target.closest('[data-confirm-reject]')) {
+    const ta = $('[data-reason]', li);
+    if (!ta.value.trim()) { ta.setAttribute('aria-invalid', 'true'); const h = $('[data-reason-hint]', li); h.className = 'err'; h.textContent = 'Escribí el motivo para poder rechazar.'; ta.focus(); return; }
+    r.state = 'rejected';
+  } else return;
+  renderRequests();
+});
+function renderEnabled() {
+  const q = okState.q.trim().toLowerCase();
+  const list = ENABLED.filter(([m, role]) => (!q || m.includes(q)) && (!okState.role || role === okState.role));
+  const pages = Math.max(1, Math.ceil(list.length / PAGE));
+  okState.page = Math.min(okState.page, pages - 1);
+  const slice = list.slice(okState.page * PAGE, okState.page * PAGE + PAGE);
+  $$('[data-ok-count]').forEach(el => el.textContent = ENABLED.length);
+  $('#ok-table').innerHTML = `<thead><tr><th>Email</th><th>Rol</th><th>Habilitado</th><th><span class="sr-only">Acciones</span></th></tr></thead><tbody>${
+    slice.length ? slice.map(([m, role, d]) => `<tr><td class="cell-title">${m}</td><td><span class="badge ${role === 'Gestor' ? 'badge-gold' : 'badge-secondary'}">${role}</span></td><td class="num muted">${d}</td>
+      <td><div class="row-actions"><button class="btn btn-quiet btn-sm danger" type="button" data-remove="${m}">${icon('i-x', 'icon icon-sm')}Quitar<span class="sr-only"> ${m}</span></button></div></td></tr>`).join('')
+    : `<tr><td colspan="4" class="muted">Ningún email coincide con la búsqueda.</td></tr>`}</tbody>`;
+  $('#ok-pager').innerHTML = list.length > PAGE ? pagerHTML(okState.page, PAGE, list.length) : '';
+}
+$('#ok-q').addEventListener('input', e => { okState.q = e.target.value; okState.page = 0; renderEnabled(); });
+$('#ok-role').addEventListener('click', e => {
+  const b = e.target.closest('[data-r]'); if (!b) return;
+  $$('[data-r]', $('#ok-role')).forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  okState.role = b.dataset.r; okState.page = 0; renderEnabled();
+});
+onPager($('#ok-pager'), n => { okState.page = n; renderEnabled(); });
+$('#ok-table').addEventListener('click', e => {
+  const b = e.target.closest('[data-remove]'); if (!b) return;
+  const i = ENABLED.findIndex(([m]) => m === b.dataset.remove);
+  if (i >= 0 && confirm(`¿Quitar el acceso de ${b.dataset.remove}? Va a dejar de poder ingresar.`)) { ENABLED.splice(i, 1); renderEnabled(); }
+});
+$('#add-email').addEventListener('submit', () => {
+  const inp = $('#ae-email'), hint = $('#ae-hint'), v = inp.value.trim().toLowerCase();
+  const err = !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v) ? 'Escribí un email válido.' : ENABLED.some(([m]) => m === v) ? 'Ese email ya está habilitado.' : '';
+  inp.setAttribute('aria-invalid', String(!!err));
+  hint.className = err ? 'err full' : 'hint full';
+  hint.textContent = err || `${v} quedó habilitado como ${$('#ae-role').value.toLowerCase()}.`;
+  if (err) { inp.focus(); return; }
+  ENABLED.unshift([v, $('#ae-role').value, '30/09/2026 15:05']); inp.value = ''; okState.page = 0; renderEnabled();
+});
+renderRequests(); renderEnabled();
+
+/* ======================= role / nav / routing ======================= */
+const NAV = {
+  alumno: [
+    ['Inicio', [['panel', 'i-home', 'Panel principal']]],
+    ['Aprender', [['cursos', 'i-book', 'Mis cursos'], ['desafios', 'i-flame', 'Desafíos', 3], ['roadmap', 'i-map', 'Roadmap'], ['tutor', 'i-bot', 'Tutor IA']]],
+    ['Progreso', [['ranking', 'i-trophy', 'Ranking'], ['inventario', 'i-backpack', 'Inventario'], ['marketplace', 'i-bag', 'Marketplace']]],
+    ['Comunidad', [['chat', 'i-chat', 'Chat'], ['notificaciones', 'i-bell', 'Notificaciones'], ['encuestas', 'i-survey', 'Encuestas']]],
+  ],
+  profesor: [
+    ['Inicio', [['panel', 'i-home', 'Panel principal']]],
+    ['Enseñar', [['cursos', 'i-book', 'Cursos'], ['desafios', 'i-flame', 'Desafíos'], ['roadmap', 'i-map', 'Roadmap'], ['insignias', 'i-award', 'Insignias']]],
+    ['Seguimiento', [['ranking', 'i-trophy', 'Ranking'], ['encuestas', 'i-survey', 'Encuestas']]],
+    ['Comunidad', [['chat', 'i-chat', 'Chat'], ['notificaciones', 'i-bell', 'Notificaciones']]],
+  ],
+};
+NAV.admin = [...NAV.profesor, ['Administración', [['backoffice', 'i-shield', 'Backoffice'], ['accesos', 'i-key', 'Accesos', 1]]]];
+const ACCOUNT_SCREENS = { alumno: ['perfil', 'personaje', 'inventario'], profesor: ['perfil'], admin: ['perfil'] };
+const PARENT = { curso: 'cursos', quiz: 'desafios', 'cuestionario-nuevo': 'desafios' };
+
+let currentRole = 'alumno', currentScreen = 'desafios';
+const sidebar = $('#sidebar'), menuBtn = $('#menu-btn'), shell = $('.shell');
+const COLLAPSIBLE = new Set(['Progreso', 'Comunidad']);
+const collapsed = new Set(JSON.parse(store.get('tpi-nav-collapsed') || '[]'));
+function renderNav() {
+  const u = USERS[currentRole];
+  const link = ([id, ic, label, count]) =>
+    `<a class="nav-item" href="#${id}" data-screen="${id}">${icon(ic)}${label}${count ? `<span class="nav-count" title="${id === 'accesos' ? 'Solicitudes pendientes' : 'Obligatorios pendientes'}">${count}</span>` : ''}</a>`;
+  sidebar.innerHTML = NAV[currentRole].map(([g, items]) => {
+    if (!COLLAPSIBLE.has(g)) return `<div class="group-label">${g}</div>` + items.map(link).join('');
+    const open = !collapsed.has(g), gid = 'grp-' + g.toLowerCase();
+    return `<button class="group-label group-toggle" type="button" aria-expanded="${open}" aria-controls="${gid}" data-group="${g}">
+        <span>${g}</span><span class="cur-dot" aria-hidden="true"></span>${icon('i-chevron', 'icon icon-sm chev')}</button>
+      <div class="group-items" id="${gid}" ${open ? '' : 'hidden'}>${items.map(link).join('')}</div>`;
+  }).join('');
+}
+function screenEl(id) {
+  const rk = currentRole === 'admin' ? 'profesor' : currentRole;
+  return $(`#screen-${id}-${rk}`) || $(`#screen-${id}`);
+}
+function applyError(el) {
+  $$('.load-error').forEach(x => x.remove());
+  $$('.errored').forEach(x => x.classList.remove('errored'));
+  if (!$('#sim-error').checked || !el.dataset.error) return;
+  el.classList.add('errored');
+  const head = $('.page-head', el);
+  head.insertAdjacentHTML('afterend', `<div class="alert load-error" role="alert">${icon('i-alert')}<div><div class="alert-title">No se pudo cargar esta página</div><div class="alert-body">${el.dataset.error}</div></div><button class="btn btn-ghost" type="button" onclick="document.getElementById('sim-error').checked=false; route()">${icon('i-refresh', 'icon icon-sm')}Reintentar</button></div>`);
+}
+function route() {
+  const [id, arg] = (location.hash.slice(1) || 'desafios').split('/');
+  currentScreen = id;
+  const navId = PARENT[id] || id;
+  $$('.nav-item').forEach(a => a.dataset.screen === navId ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));
+  markCollapsedCurrent();
+  $$('.screen').forEach(s => s.hidden = true);
+  let el = screenEl(id);
+  if (id === 'curso') fillCourseDetail(decodeURIComponent(arg || 'MSI'));
+  if (id === 'ranking') renderRanking();
+  if (!el) {
+    el = $('#screen-pending');
+    const link = $(`.nav-item[data-screen="${id}"]`);
+    $('#pending-title').textContent = link ? link.textContent.trim() : 'Página';
+  }
+  el.hidden = false;
+  el.style.animation = 'none'; el.offsetHeight; el.style.animation = '';
+  applyError(el);
+  if (isMobile()) setNav(false);
+  window.scrollTo(0, 0);
+}
+window.addEventListener('hashchange', route);
+
+/* Collapsed groups keep a dot when they hide the current page. */
+function markCollapsedCurrent() {
+  $$('.group-toggle').forEach(b => b.classList.toggle('has-current', b.getAttribute('aria-expanded') === 'false' && !!$('[aria-current]', $('#' + b.getAttribute('aria-controls')))));
+}
+sidebar.addEventListener('click', e => {
+  const b = e.target.closest('.group-toggle'); if (!b) return;
+  const open = b.getAttribute('aria-expanded') !== 'true';
+  b.setAttribute('aria-expanded', String(open));
+  $('#' + b.getAttribute('aria-controls')).hidden = !open;
+  open ? collapsed.delete(b.dataset.group) : collapsed.add(b.dataset.group);
+  store.set('tpi-nav-collapsed', JSON.stringify([...collapsed]));
+  markCollapsedCurrent();
+});
+
+/* Sidebar show/hide: docked panel on desktop (remembered), overlay drawer on mobile. */
+const mq = matchMedia('(max-width: 860px)');
+const isMobile = () => mq.matches;
+function setNav(open) {
+  if (isMobile()) sidebar.classList.toggle('open', open);
+  else { shell.classList.toggle('nav-hidden', !open); store.set('tpi-nav-hidden', open ? '0' : '1'); }
+  sidebar.inert = !open;
+  menuBtn.setAttribute('aria-expanded', String(open));
+  menuBtn.setAttribute('aria-label', open ? 'Ocultar menú' : 'Mostrar menú');
+}
+const navOpen = () => isMobile() ? sidebar.classList.contains('open') : !shell.classList.contains('nav-hidden');
+menuBtn.addEventListener('click', () => setNav(!navOpen()));
+mq.addEventListener('change', () => { sidebar.classList.remove('open'); setNav(isMobile() ? false : store.get('tpi-nav-hidden') !== '1'); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && isMobile() && navOpen()) { setNav(false); menuBtn.focus(); } });
+$('#sim-error').addEventListener('change', route);
+
+/* ---- theme / mode / role (persisted per viewer) ---- */
+const root = document.documentElement;
+function setTheme(t) {
+  root.dataset.theme = t; store.set('tpi-theme', t);
+  $('#theme-btn').setAttribute('aria-label', t === 'dark' ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro');
+  $('#theme-btn use').setAttribute('href', t === 'dark' ? '#i-sun' : '#i-moon');
+}
+function setSkin(s) {
+  root.dataset.skin = s; store.set('tpi-skin', s);
+  $$('[data-skin-btn]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.skinBtn === s)));
+}
+function setRole(r) {
+  currentRole = r; root.dataset.role = r; store.set('tpi-role', r);
+  $$('[data-role-btn]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.roleBtn === r)));
+  renderNav(); renderProfile();
+  const allowed = [...NAV[r].flatMap(([, items]) => items.map(i => i[0])), ...ACCOUNT_SCREENS[r]];
+  const target = PARENT[currentScreen] || currentScreen;
+  if (!allowed.includes(target)) location.hash = allowed.includes('desafios') ? 'desafios' : 'perfil';
+  route();
+}
+$('#theme-btn').addEventListener('click', () => setTheme(root.dataset.theme === 'dark' ? 'light' : 'dark'));
+$$('[data-skin-btn]').forEach(b => b.addEventListener('click', () => setSkin(b.dataset.skinBtn)));
+$$('[data-role-btn]').forEach(b => b.addEventListener('click', () => setRole(b.dataset.roleBtn)));
+
+/* ---- boot ---- */
+$$('[data-challenge-list]').forEach(el => ChallengeList(el));
+$$('[data-catalog]').forEach(el => Catalog(el));
+renderStudentCourses(); renderCohorts(); renderInventory(); renderHero(); renderBuilder(); renderBadges();
+setTheme(store.get('tpi-theme') || 'dark');
+setSkin(store.get('tpi-skin') || 'gamer');
+setNav(isMobile() ? false : store.get('tpi-nav-hidden') !== '1');
+setRole(store.get('tpi-role') || 'alumno');
+</script>
+</body>
+</html>

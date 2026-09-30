@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "tpi-redesign.html"
+        ],
+        "createdAt": "2026-09-30T21:09:04.322Z",
+        "reason": "Claude triage: flagged wrappers (.table-wrap, dialog.drawer) inset their text through child padding (td 12px/14px, drawer head/body/foot 20px/22px)"
+      }
+    ]
+  }
+}
