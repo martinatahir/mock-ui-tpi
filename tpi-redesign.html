@@ -43,6 +43,8 @@
   <symbol id="i-copy" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
   <symbol id="i-up" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"/></symbol>
   <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.53 13.53 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><path d="m2 2 20 20"/></symbol>
+  <symbol id="i-cards" viewBox="0 0 24 24"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></symbol>
+  <symbol id="i-table" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/></symbol>
   <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
   <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></symbol>
   <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
@@ -263,7 +265,10 @@
       <div class="page-head">
         <div><h1 class="display" id="h-cursos-a">Mis cursos</h1><p>Los cursos en los que estás inscripto. Entrá a uno para ver sus desafíos y tu progreso.</p></div>
       </div>
-      <div class="data course-grid" id="student-courses"></div>
+      <div class="data">
+        <div class="view-bar"><span data-view-toggle="cursos"></span></div>
+        <div class="course-grid" id="student-courses" data-view-target="cursos"></div>
+      </div>
     </section>
 
     <!-- ================= CURSO (detalle) · alumno ================= -->
@@ -369,11 +374,11 @@
     <section class="screen" id="screen-ranking" aria-labelledby="h-rank" data-error="No pudimos traer el ranking.">
       <div class="page-head">
         <div><h1 class="display" id="h-rank">Ranking</h1><p>Posición por XP dentro de la cohorte. La zona de riesgo depende de los obligatorios pendientes, no solo del XP.</p></div>
-        <label class="field" style="min-width:160px">Cohorte<select class="control" id="rank-course"><option>MSI</option><option>MSII</option></select></label>
+        <div class="head-tools"><label class="field" style="min-width:160px">Cohorte<select class="control" id="rank-course"><option>MSI</option><option>MSII</option></select></label><span data-view-toggle="ranking"></span></div>
       </div>
       <div class="data">
         <div class="card studs alert-card rank-you" id="rank-you"></div>
-        <div class="table-wrap"><table class="data" id="rank-table"></table></div>
+        <div class="table-wrap" data-view-target="ranking"><table class="data" id="rank-table"></table></div>
         <div class="pager" id="rank-pager"></div>
         <p class="muted" style="font-size:13px; margin-top:10px">Percentil: P92 significa que tu XP supera al 92% de la cohorte. Zona de promoción: P90 o más.</p>
       </div>
@@ -431,11 +436,11 @@
     <section class="screen" id="screen-cursos-profesor" aria-labelledby="h-cursos-p" data-error="No pudimos traer las cohortes.">
       <div class="page-head">
         <div><h1 class="display" id="h-cursos-p">Cursos</h1><p>Las cohortes a las que estás asociado. Lo que podés editar depende de tus permisos en cada una.</p></div>
-        <button class="btn btn-primary" type="button" data-open="drawer-cohorte"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Crear cohorte</button>
+        <div class="head-tools"><span data-view-toggle="cohortes"></span><button class="btn btn-primary" type="button" data-open="drawer-cohorte"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Crear cohorte</button></div>
       </div>
       <div class="data">
         <div class="tabs" role="tablist" aria-label="Estado de las cohortes" id="cohort-tabs"></div>
-        <div class="course-grid" id="cohort-grid"></div>
+        <div class="course-grid" id="cohort-grid" data-view-target="cohortes"></div>
       </div>
     </section>
 
@@ -498,13 +503,14 @@
               <button class="tab" role="tab" aria-selected="false" data-subtab="k-desafios">Desafíos <span class="count num" data-course-ch-count>8</span></button>
             </div>
             <div class="quick-links" data-subpanel="k-secciones" data-group="contenido-actions">
+              <span data-view-toggle="secciones"></span>
               <button class="btn btn-ghost btn-sm" type="button" id="reorder-btn" aria-pressed="false"><svg class="icon icon-sm"><use href="#i-grip"/></svg>Ordenar</button>
               <button class="btn btn-primary btn-sm" type="button"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Nueva sección</button>
             </div>
           </div>
           <div data-subpanel="k-secciones" data-group="contenido">
             <p class="muted" style="font-size:13px; margin-bottom:10px">Los alumnos ven las secciones visibles en este orden. Las dadas de baja no aparecen.</p>
-            <ol class="sec-list" id="sec-list"></ol>
+            <ol class="sec-list" id="sec-list" data-view-target="secciones"></ol>
           </div>
           <div data-subpanel="k-desafios" data-group="contenido" hidden>
             <div class="section-head"><p>Desafíos de esta cohorte.</p><button class="btn btn-primary btn-sm" type="button" data-open="drawer-desafio"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Crear desafío</button></div>
@@ -526,8 +532,9 @@
               <div class="seg" role="group" aria-label="Filtrar por estado" id="roster-filter">
                 <button type="button" aria-pressed="true" data-rf="">Todos</button><button type="button" aria-pressed="false" data-rf="Riesgo">En riesgo</button>
               </div>
+              <span data-view-toggle="padron"></span>
             </div>
-            <div class="table-wrap"><table class="data" id="roster-table"></table></div>
+            <div class="table-wrap" data-view-target="padron"><table class="data" id="roster-table"></table></div>
             <div class="pager" id="roster-pager"></div>
           </div>
           <div data-subpanel="a-solicitudes" data-group="alumnos" hidden>
@@ -625,10 +632,11 @@
           <div class="section-head"><p>Cuestionarios armados con preguntas de tu banco.</p>
             <div class="quick-links">
               <a class="btn btn-ghost btn-sm" href="#quiz"><svg class="icon icon-sm"><use href="#i-eye"/></svg>Vista previa como alumno</a>
+              <span data-view-toggle="cuestionarios"></span>
               <a class="btn btn-primary btn-sm" href="#cuestionario-nuevo"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Armar cuestionario</a>
             </div>
           </div>
-          <div class="table-wrap"><table class="data">
+          <div class="table-wrap" data-view-target="cuestionarios"><table class="data">
             <thead><tr><th>Cuestionario</th><th>Cohorte</th><th class="r">Preguntas</th><th class="r">Intentos</th><th>Estado</th><th><span class="sr-only">Acciones</span></th></tr></thead>
             <tbody>
               <tr><td><div class="cell-title">Tipado y protocolos</div><div class="cell-sub">Vence mié 08/10</div></td><td>MSI</td><td class="r">2</td><td class="r">14</td><td><span class="badge badge-success">Publicado</span></td><td><div class="row-actions"><button class="icon-btn sm" aria-label="Editar Tipado y protocolos"><svg class="icon icon-sm"><use href="#i-pencil"/></svg></button></div></td></tr>
@@ -638,8 +646,8 @@
           </table></div>
         </div>
         <div data-subpanel="cat-banco" hidden>
-          <div class="section-head"><p>Preguntas reutilizables. Se agregan a un cuestionario desde "Armar cuestionario".</p><button class="btn btn-ghost btn-sm" type="button"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Nueva pregunta</button></div>
-          <div class="table-wrap"><table class="data">
+          <div class="section-head"><p>Preguntas reutilizables. Se agregan a un cuestionario desde "Armar cuestionario".</p><div class="quick-links"><span data-view-toggle="banco"></span><button class="btn btn-ghost btn-sm" type="button"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Nueva pregunta</button></div></div>
+          <div class="table-wrap" data-view-target="banco"><table class="data">
             <thead><tr><th>Pregunta</th><th>Tema</th><th>Corrección</th><th class="r">Usada en</th></tr></thead>
             <tbody>
               <tr><td class="cell-title">¿Cuáles de estos lenguajes tienen tipado estático?</td><td>Tipado</td><td>Varias correctas</td><td class="r">1</td></tr>
@@ -692,7 +700,8 @@
           <label class="field">Nueva asignatura<input class="control" placeholder="Por ejemplo: Programación I" /></label>
           <button class="btn btn-primary" type="submit"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Crear</button>
         </form>
-        <div class="table-wrap"><table class="data">
+        <div class="view-bar"><span data-view-toggle="asignaturas"></span></div>
+        <div class="table-wrap" data-view-target="asignaturas"><table class="data">
           <thead><tr><th>Asignatura</th><th class="r">Unidades</th><th class="r">Nodos</th><th><span class="sr-only">Acciones</span></th></tr></thead>
           <tbody>
             <tr><td><div class="cell-title">MSII</div><div class="cell-sub">Todavía sin contenido: empezá por la primera unidad.</div></td><td class="r">0</td><td class="r">0</td>
@@ -709,7 +718,7 @@
       <a class="back" href="#roadmap"><svg class="icon icon-sm"><use href="#i-left"/></svg>Roadmap</a>
       <div class="page-head">
         <div><h1 class="display" id="h-ins">Insignias</h1><p><span class="num">14</span> insignias en el catálogo. Se otorgan solas cuando el alumno cumple el criterio.</p></div>
-        <button class="btn btn-primary" type="button" id="new-badge-btn" aria-expanded="false" aria-controls="new-badge"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Nueva insignia</button>
+        <div class="head-tools"><span data-view-toggle="insignias"></span><button class="btn btn-primary" type="button" id="new-badge-btn" aria-expanded="false" aria-controls="new-badge"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Nueva insignia</button></div>
       </div>
       <div class="data">
         <form class="card studs new-badge" id="new-badge" hidden onsubmit="return false" aria-labelledby="h-newb">
@@ -726,7 +735,7 @@
             <span class="muted" style="font-size:13px" id="nb-hint">Completá nombre, ícono y criterio.</span>
           </div>
         </form>
-        <div class="badge-grid" id="badge-grid"></div>
+        <div class="badge-grid" id="badge-grid" data-view-target="insignias"></div>
       </div>
     </section>
 
@@ -745,8 +754,8 @@
         </div>
 
         <section class="section" aria-labelledby="h-audit">
-          <div class="section-head"><h2 id="h-audit">Actividad reciente</h2><a class="btn btn-quiet btn-sm" href="#">Ver auditoría<svg class="icon icon-sm"><use href="#i-right"/></svg></a></div>
-          <div class="table-wrap"><table class="data">
+          <div class="section-head"><h2 id="h-audit">Actividad reciente</h2><div class="quick-links"><span data-view-toggle="auditoria"></span><a class="btn btn-quiet btn-sm" href="#">Ver auditoría<svg class="icon icon-sm"><use href="#i-right"/></svg></a></div></div>
+          <div class="table-wrap" data-view-target="auditoria"><table class="data">
             <thead><tr><th>Cuándo</th><th>Quién</th><th>Acción</th></tr></thead>
             <tbody>
               <tr><td class="num">30/09 14:12</td><td>Ana Torres</td><td>Creó el desafío "Recursión de Fibonacci" en MSI</td></tr>
@@ -793,8 +802,9 @@
             <div class="seg" role="group" aria-label="Filtrar por rol" id="ok-role">
               <button type="button" aria-pressed="true" data-r="">Todos</button><button type="button" aria-pressed="false" data-r="Profesor">Profesores</button><button type="button" aria-pressed="false" data-r="Gestor">Gestores</button>
             </div>
+            <span data-view-toggle="habilitados"></span>
           </div>
-          <div class="table-wrap"><table class="data" id="ok-table"></table></div>
+          <div class="table-wrap" data-view-target="habilitados"><table class="data" id="ok-table"></table></div>
           <div class="pager" id="ok-pager"></div>
         </div>
       </div>
@@ -1469,8 +1479,8 @@ function ChallengeList(root) {
       <label class="field">Dificultad<select class="control" name="diff"><option value="">Todas</option><option value="1">Básica</option><option value="2">Media</option><option value="3">Avanzada</option></select></label>
       <label class="toggle"><input type="checkbox" name="req" /> Solo obligatorios</label>
     `)}
-    <div class="results-bar"><span aria-live="polite" data-count></span><button class="linkbtn" type="button" data-clear hidden>Limpiar filtros</button></div>
-    <div id="${uid}-res" role="tabpanel" aria-labelledby="${uid}-todo" data-res></div>`;
+    <div class="results-bar"><span aria-live="polite" data-count></span><span class="quick-links"><button class="linkbtn" type="button" data-clear hidden>Limpiar filtros</button><span data-view-toggle="desafios"></span></span></div>
+    <div id="${uid}-res" role="tabpanel" aria-labelledby="${uid}-todo" data-res data-view-target="desafios"></div>`;
   const form = $('form', root), res = $('[data-res]', root);
   // Urgent groups start open; the rest start folded. The viewer's choice sticks across re-renders.
   const closedGroups = new Set(['Más adelante', 'Sin fecha límite']);
@@ -1549,8 +1559,8 @@ function Catalog(root) {
       <label class="field">Estado<select class="control" name="state"><option value="">Todos</option><option value="pub">Publicado</option><option value="draft">Borrador</option></select></label>
       <label class="toggle"><input type="checkbox" name="req" /> Solo obligatorios</label>
     `)}
-    <div class="results-bar"><span aria-live="polite" data-count></span></div>
-    <div data-res></div>
+    <div class="results-bar"><span aria-live="polite" data-count></span><span data-view-toggle="catalogo"></span></div>
+    <div data-res data-view-target="catalogo"></div>
     <div class="pager" data-pager></div>`;
   const form = $('form', root), res = $('[data-res]', root), pagerEl = $('[data-pager]', root);
   function render() {
@@ -2212,6 +2222,38 @@ $('#add-email').addEventListener('submit', () => {
 });
 renderRequests(); renderEnabled();
 
+/* ======================= view toggle: cards | grilla ======================= */
+// Natural layout of each list; the viewer's choice per list is remembered.
+const VIEW_DEFAULTS = { cursos: 'cards', cohortes: 'cards', insignias: 'cards' };
+const views = JSON.parse(store.get('tpi-views') || '{}');
+const viewOf = key => views[key] || VIEW_DEFAULTS[key] || 'list';
+function viewToggleHTML(key) {
+  const v = viewOf(key);
+  return `<div class="seg view-toggle" role="group" aria-label="Cómo ver la lista" data-view-key="${key}">
+    <button type="button" data-v="cards" aria-pressed="${v === 'cards'}" title="Ver como cards">${icon('i-cards', 'icon icon-sm')}<span class="seg-label">Cards</span></button>
+    <button type="button" data-v="list" aria-pressed="${v === 'list'}" title="Ver como grilla">${icon('i-table', 'icon icon-sm')}<span class="seg-label">Grilla</span></button>
+  </div>`;
+}
+function applyViews() {
+  $$('[data-view-toggle]').forEach(el => { el.outerHTML = viewToggleHTML(el.dataset.viewToggle); });
+  $$('[data-view-target]').forEach(el => el.dataset.view = viewOf(el.dataset.viewTarget));
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('.view-toggle [data-v]'); if (!b) return;
+  const key = b.closest('[data-view-key]').dataset.viewKey;
+  views[key] = b.dataset.v; store.set('tpi-views', JSON.stringify(views));
+  $$(`[data-view-key="${key}"] [data-v]`).forEach(x => x.setAttribute('aria-pressed', String(x.dataset.v === b.dataset.v)));
+  $$(`[data-view-target="${key}"]`).forEach(el => el.dataset.view = b.dataset.v);
+});
+/* Every table cell learns its column name, so the cards view can label each value. */
+function labelTables() {
+  $$('table.data').forEach(t => {
+    const heads = $$('thead th', t).map(th => th.querySelector('.sr-only') ? '' : th.textContent.trim());
+    $$('tbody tr', t).forEach(tr => [...tr.children].forEach((td, i) => { if (!td.hasAttribute('colspan') && td.dataset.label !== heads[i]) td.dataset.label = heads[i] ?? ''; }));
+  });
+}
+new MutationObserver(() => { labelTables(); if ($('[data-view-toggle]')) applyViews(); }).observe($('#main'), { childList: true, subtree: true });
+
 /* ======================= role / nav / routing ======================= */
 const NAV_TABS = {
   alumno: [
@@ -2351,6 +2393,12 @@ document.addEventListener('click', e => {
   }
 });
 
+/* Viewport change */
+const mq = matchMedia('(max-width: 860px)');
+mq.addEventListener('change', () => {
+  applyViews();
+  labelTables();
+});
 $('#sim-error').addEventListener('change', route);
 
 /* ---- theme / mode / role (persisted per viewer) ---- */
