@@ -1532,16 +1532,18 @@ function pageList(page, pages) {
   [...keep].sort((a, b) => a - b).forEach((i, k, arr) => { if (k && i - arr[k - 1] > 1) out.push('…'); out.push(i); });
   return out;
 }
-function pagerHTML(page, size, total) {
+function pagerHTML(page, size, total, noun = 'registros') {
   const pages = Math.max(1, Math.ceil(total / size));
   const from = total ? page * size + 1 : 0, to = Math.min(total, (page + 1) * size);
-  return `<span class="num">${from}–${to} de ${total}</span>
-    <nav class="pg" aria-label="Paginación">
-      <button class="pg-btn pg-arrow" type="button" data-pg-to="${page - 1}" aria-label="Página anterior" ${page === 0 ? 'disabled' : ''}>${icon('i-left', 'icon icon-sm')}</button>
-      ${pageList(page, pages).map(i => i === '…' ? '<span class="pg-gap" aria-hidden="true">…</span>'
-        : `<button class="pg-btn num" type="button" data-pg-to="${i}" ${i === page ? 'aria-current="page"' : ''} aria-label="Página ${i + 1}">${i + 1}</button>`).join('')}
-      <button class="pg-btn pg-arrow" type="button" data-pg-to="${page + 1}" aria-label="Página siguiente" ${page >= pages - 1 ? 'disabled' : ''}>${icon('i-right', 'icon icon-sm')}</button>
-    </nav>`;
+  return `<div class="pager-summary"><span>Mostrando <b>${from}–${to}</b> de <b>${total}</b> ${noun}</span></div>
+    <div class="pager-controls">
+      <nav class="pg" aria-label="Paginación de ${noun}">
+        <button class="pg-btn pg-arrow" type="button" data-pg-to="${page - 1}" aria-label="Página anterior" ${page === 0 ? 'disabled' : ''}>${icon('i-left', 'icon icon-sm')}</button>
+        ${pageList(page, pages).map(i => i === '…' ? '<span class="pg-gap" aria-hidden="true">…</span>'
+          : `<button class="pg-btn num" type="button" data-pg-to="${i}" ${i === page ? 'aria-current="page"' : ''} aria-label="Página ${i + 1}">${i + 1}</button>`).join('')}
+        <button class="pg-btn pg-arrow" type="button" data-pg-to="${page + 1}" aria-label="Página siguiente" ${page >= pages - 1 ? 'disabled' : ''}>${icon('i-right', 'icon icon-sm')}</button>
+      </nav>
+    </div>`;
 }
 /* One delegated handler for every pager: reads the target page, hands it to that pager's setter. */
 function onPager(el, set) {
@@ -1683,7 +1685,7 @@ function renderRoster() {
   $('#roster-table').innerHTML = `<thead><tr><th>Alumno</th><th>Legajo</th><th class="r">XP</th><th class="r">Obligatorios pendientes</th><th>Estado</th></tr></thead><tbody>${
     slice.length ? slice.map(r => `<tr><td><div class="cell-title">${r.name}</div><div class="cell-sub">${r.email}</div></td><td class="num">${r.legajo}</td><td class="r num">${r.xp.toLocaleString('es-AR')}</td><td class="r num" style="${r.pend ? 'color:var(--urgent); font-weight:700' : ''}">${r.pend}</td><td>${r.pend >= 2 ? '<span class="status-risk">Riesgo</span>' : '<span class="muted">Regular</span>'}</td></tr>`).join('')
     : '<tr><td colspan="5" class="muted">Ningún alumno coincide con la búsqueda.</td></tr>'}</tbody>`;
-  $('#roster-pager').innerHTML = list.length > SIZE ? pagerHTML(rosterState.page, SIZE, list.length) : '';
+  $('#roster-pager').innerHTML = list.length > SIZE ? pagerHTML(rosterState.page, SIZE, list.length, 'alumnos') : '';
 }
 $('#roster-q').addEventListener('input', e => { rosterState.q = e.target.value; rosterState.page = 0; renderRoster(); });
 $('#roster-filter').addEventListener('click', e => { const b = e.target.closest('[data-rf]'); if (!b) return; $$('[data-rf]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); rosterState.f = b.dataset.rf; rosterState.page = 0; renderRoster(); });
@@ -1714,7 +1716,16 @@ const cfgForm = $('#cfg-form');
 let cfgSnapshot = null;
 cfgForm.addEventListener('input', () => { $('#save-bar').hidden = false; });
 $('#cfg-discard').addEventListener('click', () => { cfgForm.reset(); $('#save-bar').hidden = true; });
-$('#cfg-save').addEventListener('click', () => { $('#save-bar').hidden = true; });
+$('#cfg-save').addEventListener('click', () => {
+  const btn = $('#cfg-save');
+  btn.classList.add('is-loading');
+  btn.innerHTML = `<span class="spinner spinner-sm"></span><span class="btn-text">Guardando...</span>`;
+  setTimeout(() => {
+    btn.classList.remove('is-loading');
+    btn.textContent = 'Guardar cambios';
+    $('#save-bar').hidden = true;
+  }, 650);
+});
 
 /* ======================= inventario ======================= */
 let invCourse = 'MSI';
@@ -1840,7 +1851,7 @@ function renderRanking() {
     if (z !== prevZone) { body += `<tr class="zone ${ZONE_LABEL[z][0]}"><td colspan="6">${ZONE_LABEL[z][1]}</td></tr>`; prevZone = z; }
     body += `<tr class="${i === meIdx ? 'me' : ''}"><td class="num">${i + 1}</td><td><span class="rank-name">${face(i + 3)}${name}</span></td><td class="r num">P${pct}</td><td class="r num">${lvl}</td><td class="r num">${xp.toLocaleString('es-AR')}</td><td>${status}</td></tr>`;
   });
-  $('#rank-pager').innerHTML = pagerHTML(rankPage, RANK_SIZE, RANK_N);
+  $('#rank-pager').innerHTML = pagerHTML(rankPage, RANK_SIZE, RANK_N, 'posiciones');
   $('#rank-table').innerHTML = `<thead><tr><th>#</th><th>${staff ? 'Alumno' : 'Estudiante'}</th><th class="r">Percentil</th><th class="r">Nivel</th><th class="r">XP</th><th>Estado</th></tr></thead><tbody>${body}</tbody>`;
 }
 $('#rank-course').addEventListener('change', () => { rankPage = 0; renderRanking(); });
@@ -2107,7 +2118,7 @@ function renderEnabled() {
     slice.length ? slice.map(([m, role, d]) => `<tr><td class="cell-title">${m}</td><td><span class="badge ${role === 'Gestor' ? 'badge-gold' : 'badge-secondary'}">${role}</span></td><td class="num muted">${d}</td>
       <td><div class="row-actions"><button class="btn btn-quiet btn-sm danger" type="button" data-remove="${m}">${icon('i-x', 'icon icon-sm')}Quitar<span class="sr-only"> ${m}</span></button></div></td></tr>`).join('')
     : `<tr><td colspan="4" class="muted">Ningún email coincide con la búsqueda.</td></tr>`}</tbody>`;
-  $('#ok-pager').innerHTML = list.length > PAGE ? pagerHTML(okState.page, PAGE, list.length) : '';
+  $('#ok-pager').innerHTML = list.length > PAGE ? pagerHTML(okState.page, PAGE, list.length, 'cuentas') : '';
 }
 $('#ok-q').addEventListener('input', e => { okState.q = e.target.value; okState.page = 0; renderEnabled(); });
 $('#ok-role').addEventListener('click', e => {
@@ -2123,12 +2134,22 @@ $('#ok-table').addEventListener('click', e => {
 });
 $('#add-email').addEventListener('submit', () => {
   const inp = $('#ae-email'), hint = $('#ae-hint'), v = inp.value.trim().toLowerCase();
+  const btn = $('#add-email button[type="submit"]');
   const err = !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v) ? 'Escribí un email válido.' : ENABLED.some(([m]) => m === v) ? 'Ese email ya está habilitado.' : '';
   inp.setAttribute('aria-invalid', String(!!err));
   hint.className = err ? 'err full' : 'hint full';
   hint.textContent = err || `${v} quedó habilitado como ${$('#ae-role').value.toLowerCase()}.`;
   if (err) { inp.focus(); return; }
-  ENABLED.unshift([v, $('#ae-role').value, '30/09/2026 15:05']); inp.value = ''; okState.page = 0; renderEnabled();
+  btn.classList.add('is-loading');
+  btn.innerHTML = `<span class="spinner spinner-sm"></span><span class="btn-text">Habilitando...</span>`;
+  setTimeout(() => {
+    btn.classList.remove('is-loading');
+    btn.innerHTML = `<svg class="icon icon-sm"><use href="#i-plus"/></svg>Habilitar`;
+    ENABLED.unshift([v, $('#ae-role').value, '30/09/2026 15:05']);
+    inp.value = '';
+    okState.page = 0;
+    renderEnabled();
+  }, 500);
 });
 renderRequests(); renderEnabled();
 
