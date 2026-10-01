@@ -106,3 +106,21 @@
   --radius-card: calc(var(--radius-control) * 1.5);
 }
 [data-skin='gamer'] { --radius-card:2px; }
+
+/* --- Variantes de Tipografía Retro en Modo Arcade --- */
+:root[data-skin='gamer'][data-font='chakra'] {
+  --font-display: 'Chakra Petch', sans-serif;
+  --font-tooltip: 'Chakra Petch', sans-serif;
+}
+:root[data-skin='gamer'][data-font='rajdhani'] {
+  --font-display: 'Rajdhani', sans-serif;
+  --font-tooltip: 'Rajdhani', sans-serif;
+}
+:root[data-skin='gamer'][data-font='pixelify'] {
+  --font-display: 'Pixelify Sans', sans-serif;
+  --font-tooltip: 'Pixelify Sans', sans-serif;
+}
+:root[data-skin='gamer'][data-font='hybrid'] {
+  --font-display: 'Silkscreen', sans-serif;
+  --font-tooltip: 'IBM Plex Sans', sans-serif;
+}

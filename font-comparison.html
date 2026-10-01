@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="es-AR" data-theme="dark" data-skin="gamer" data-palette="electric">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Comparativa de Tipografías Retro · TPI 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<!-- Cargamos las 5 fuentes para comparar lado a lado -->
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,400;0,600;0,700;1,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Pixelify+Sans:wght@400;600;700&family=Rajdhani:wght@500;600;700&family=Silkscreen:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/tokens.css" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #090d16;
+    color: #e2e8f0;
+    font-family: 'IBM Plex Sans', sans-serif;
+    padding: 32px 24px 64px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .header {
+    margin-bottom: 32px;
+    border-bottom: 2px solid #1e293b;
+    padding-bottom: 20px;
+  }
+  .header h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #00e5ff;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .header p {
+    color: #94a3b8;
+    margin-top: 6px;
+    font-size: 15px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 24px;
+  }
+  .card {
+    background: #101726;
+    border: 2px solid #1e293b;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 3px 3px 0 #000;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    position: relative;
+  }
+  .card.recommended {
+    border-color: #00e5ff;
+    box-shadow: 4px 4px 0 #00e5ff;
+  }
+  .badge-rec {
+    position: absolute;
+    top: -12px;
+    right: 16px;
+    background: #00e5ff;
+    color: #050b14;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 4px;
+    letter-spacing: .06em;
+    border: 1px solid #000;
+  }
+  .card-head {
+    border-bottom: 1px solid #1e293b;
+    padding-bottom: 12px;
+  }
+  .font-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #f8fafc;
+  }
+  .font-meta {
+    font-size: 12px;
+    color: #a855f7;
+    font-weight: 600;
+    margin-top: 2px;
+  }
+  .font-desc {
+    font-size: 13px;
+    color: #94a3b8;
+    margin-top: 8px;
+    line-height: 1.4;
+  }
+
+  /* Specimen blocks */
+  .specimen-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: #64748b;
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+  .ui-demo {
+    background: #070b12;
+    border: 1px solid #1e293b;
+    border-radius: 6px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  /* Mock Tooltip */
+  .mock-tooltip-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .mock-dock-btn {
+    width: 38px;
+    height: 38px;
+    background: #1e293b;
+    border: 2px solid #334155;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    box-shadow: 2px 2px 0 #000;
+  }
+  .mock-tooltip {
+    background: #101726;
+    border: 2px solid #000;
+    box-shadow: 3px 3px 0 #000;
+    color: #fff;
+    padding: 5px 12px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .mock-tooltip .badge {
+    background: #00e5ff;
+    color: #050b14;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  /* Mock Button */
+  .mock-btn-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .mock-btn {
+    padding: 8px 16px;
+    border: 2px solid #000;
+    border-radius: 4px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 #000;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .mock-btn-primary { background: #00e5ff; color: #050b14; }
+  .mock-btn-cta { background: #a855f7; color: #fff; }
+
+  /* Mock HUD */
+  .mock-hud {
+    background: #101726;
+    border: 1px solid #1e293b;
+    border-radius: 4px;
+    padding: 8px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+  }
+  .hud-stat {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Specific font classes */
+  .f-silkscreen { font-family: 'Silkscreen', sans-serif; }
+  .f-chakra { font-family: 'Chakra Petch', sans-serif; }
+  .f-rajdhani { font-family: 'Rajdhani', sans-serif; }
+  .f-pixelify { font-family: 'Pixelify Sans', sans-serif; }
+  .f-hybrid-title { font-family: 'Silkscreen', sans-serif; }
+  .f-hybrid-ui { font-family: 'IBM Plex Sans', sans-serif; font-weight: 600; letter-spacing: 0.02em; }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #00e5ff;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 32px;
+    padding: 8px 16px;
+    border: 1px solid #00e5ff;
+    border-radius: 4px;
+    background: rgba(0, 229, 255, 0.08);
+  }
+  .back-link:hover {
+    background: #00e5ff;
+    color: #050b14;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🕹️ Comparativa de Fuentes Retro · TPI 2026</h1>
+  <p>Evaluación de legibilidad en <strong>Tooltips (11px–12px)</strong>, <strong>Botones</strong>, <strong>Badges</strong> y <strong>HUD</strong>.</p>
+</div>
+
+<div class="grid">
+
+  <!-- 1. Silkscreen (Actual) -->
+  <div class="card">
+    <div class="card-head">
+      <div class="font-title f-silkscreen">1. Silkscreen</div>
+      <div class="font-meta">Fuente actual (Pixel Art Monospace)</div>
+      <div class="font-desc">
+        ⚠️ <strong>Diagnóstico:</strong> Muy nostálgica pero con problemas serios de renderizado en Windows a tamaños chicos (&lt;14px). Las letras con curvas o tildes (como en <em>"Desafíos"</em> o <em>"Tutor IA"</em>) se empastan y cansan la vista.
+      </div>
+    </div>
+
+    <div>
+      <div class="specimen-label">Tooltip en Dock Lateral (11px)</div>
+      <div class="ui-demo">
+        <div class="mock-tooltip-row">
+          <div class="mock-dock-btn">🔥</div>
+          <div class="mock-tooltip f-silkscreen" style="font-size:11px;">
+            Desafíos <span class="badge">3</span>
+          </div>
+        </div>
+        <div class="mock-tooltip-row">
+          <div class="mock-dock-btn">🤖</div>
+          <div class="mock-tooltip f-silkscreen" style="font-size:11px;">
+            Tutor IA (Tutoría virtual)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="specimen-label">Botones y HUD</div>
+      <div class="ui-demo">
+        <div class="mock-btn-row">
+          <button class="mock-btn mock-btn-primary f-silkscreen" style="font-size:11px;">Empezar</button>
+          <button class="mock-btn mock-btn-cta f-silkscreen" style="font-size:11px;">Canjear</button>
+        </div>
+        <div class="mock-hud f-silkscreen" style="font-size:11px;">
+          <span class="hud-stat" style="color:#ffd600;">🪙 340 COINS</span>
+          <span class="hud-stat" style="color:#00e5ff;">⚡ LVL 5 · 1,420 XP</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Chakra Petch (Recomendada) -->
+  <div class="card recommended">
+    <div class="badge-rec">⭐ Recomendada Arcade</div>
+    <div class="card-head">
+      <div class="font-title f-chakra" style="font-size:24px; font-weight:700; letter-spacing:0.02em;">2. Chakra Petch</div>
+      <div class="font-meta">Arcade Japonés / Capcom / Neo-Geo / Mecha</div>
+      <div class="font-desc">
+        ✨ <strong>Ventajas:</strong> Esquinas cortadas a 45° que dan estética de fichín/consola clásica, pero con <strong>definición vectorial impecable</strong>. A 11px–12px se lee al 100% de forma nítida, sin fatiga visual.
+      </div>
+    </div>
+
+    <div>
+      <div class="specimen-label">Tooltip en Dock Lateral (12px)</div>
+      <div class="ui-demo">
+        <div class="mock-tooltip-row">
+          <div class="mock-dock-btn">🔥</div>
+          <div class="mock-tooltip f-chakra" style="font-size:12px; font-weight:700; letter-spacing:0.04em;">
+            DESAFÍOS <span class="badge">3</span>
+          </div>
+        </div>
+        <div class="mock-tooltip-row">
+          <div class="mock-dock-btn">🤖</div>
+          <div class="mock-tooltip f-chakra" style="font-size:12px; font-weight:700; letter-spacing:0.04em;">
+            TUTOR IA (TUTORÍA VIRTUAL)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="specimen-label">Botones y HUD</div>
+      <div class="ui-demo">
+        <div class="mock-btn-row">
+          <button class="mock-btn mock-btn-primary f-chakra" style="font-size:13px; letter-spacing:0.04em;">EMPEZAR</button>
+          <button class="mock-btn mock-btn-cta f-chakra" style="font-size:13px; letter-spacing:0.04em;">CANJEAR</button>
+        </div>
+        <div class="mock-hud f-chakra" style="font-size:13px; font-weight:700; letter-spacing:0.04em;">
+          <span class="hud-stat" style="color:#ffd600;">🪙 340 MONEDAS</span>
+          <span class="hud-stat" style="color:#00e5ff;">⚡ NIVEL 5 · 1.420 XP</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Rajdhani -->
+  <div class="card">
+    <div class="card-head">
+      <div class="font-title f-rajdhani" style="font-size:24px; font-weight:700;">3. Rajdhani</div>
+      <div class="font-meta">HUD Técnico / Sci-Fi / Retro-Computing</div>
+      <div class="font-desc">
+        🎯 <strong>Ventajas:</strong> Condensada y cuadrada. Ocupa muy poco espacio horizontal, por lo que permite títulos largos sin desbordes. Excelente contraste en pantallas oscuras.
+      </div>
+    </div>
+
+    <div>
+      <div class="specimen-label">Tooltip en Dock Lateral (13px)</div>
+      <div class="ui-demo">
+        <div class="mock-tooltip-row">
+          <div class="mock-dock-btn">🔥</div>
+          <div class="mock-tooltip f-rajdhani" style="font-size:13px; font-weight:700; letter-spacing:0.04em;">
+            DESAFÍOS <span class="badge">3</span>
+          </div>
+        </div>
+        <div class="mock-tooltip-row">
+          <div class="mock-dock-btn">🤖</div>
+          <div class="mock-tooltip f-rajdhani" style="font-size:13px; font-weight:700; letter-spacing:0.04em;">
+            TUTOR IA (Tutoría virtual)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="specimen-label">Botones y HUD</div>
+      <div class="ui-demo">
+        <div class="mock-btn-row">
+          <button class="mock-btn mock-btn-primary f-rajdhani" style="font-size:14px; font-weight:700; letter-spacing:0.05em;">EMPEZAR DESAFÍO</button>
+          <button class="mock-btn mock-btn-cta f-rajdhani" style="font-size:14px; font-weight:700; letter-spacing:0.05em;">CANJEAR</button>
+        </div>
+        <div class="mock-hud f-rajdhani" style="font-size:14px; font-weight:700; letter-spacing:0.04em;">
+          <span class="hud-stat" style="color:#ffd600;">🪙 340 COINS</span>
+          <span class="hud-stat" style="color:#00e5ff;">⚡ NIVEL 5 · 1.420 XP</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Pixelify Sans -->
+  <div class="card">
+    <div class="card-head">
+      <div class="font-title f-pixelify" style="font-size:22px; font-weight:700;">4. Pixelify Sans</div>
+      <div class="font-meta">Pixel Art Moderno Optimizado</div>
+      <div class="font-desc">
+        👾 <strong>Ventajas:</strong> Para los que insisten en que "se vean los píxeles cuadraditos". Creada recientemente para web, tiene proporciones abiertas para evitar que las letras se peguen entre sí.
+      </div>
+    </div>
+
+    <div>
+      <div class="specimen-label">Tooltip en Dock Lateral (12px)</div>
+      <div class="ui-demo">
+        <div class="mock-tooltip-row">
+          <div class="mock-dock-btn">🔥</div>
+          <div class="mock-tooltip f-pixelify" style="font-size:12px; font-weight:600;">
+            Desafíos <span class="badge">3</span>
+          </div>
+        </div>
+        <div class="mock-tooltip-row">
+          <div class="mock-dock-btn">🤖</div>
+          <div class="mock-tooltip f-pixelify" style="font-size:12px; font-weight:600;">
+            Tutor IA (Tutoría virtual)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="specimen-label">Botones y HUD</div>
+      <div class="ui-demo">
+        <div class="mock-btn-row">
+          <button class="mock-btn mock-btn-primary f-pixelify" style="font-size:13px;">Empezar</button>
+          <button class="mock-btn mock-btn-cta f-pixelify" style="font-size:13px;">Canjear</button>
+        </div>
+        <div class="mock-hud f-pixelify" style="font-size:12px; font-weight:600;">
+          <span class="hud-stat" style="color:#ffd600;">🪙 340 COINS</span>
+          <span class="hud-stat" style="color:#00e5ff;">⚡ LVL 5 · 1.420 XP</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Híbrida: Silkscreen + IBM Plex Sans -->
+  <div class="card">
+    <div class="card-head">
+      <div class="font-title" style="font-size:20px; font-weight:700;">
+        <span class="f-hybrid-title" style="font-size:17px; color:#00e5ff;">5. Híbrida</span> (Gaming UX)
+      </div>
+      <div class="font-meta">Silkscreen en Títulos + IBM Plex en Tooltips</div>
+      <div class="font-desc">
+        ⚖️ <strong>Ventajas:</strong> El enfoque estándar en la industria de videojuegos. Mantiene el logo, números de ranking y carteles grandes en Silkscreen, pero todo texto de utilidad funcional (tooltips, tablas, botones) pasa a sans-serif nítida.
+      </div>
+    </div>
+
+    <div>
+      <div class="specimen-label">Tooltip en Dock Lateral (12px limpio)</div>
+      <div class="ui-demo">
+        <div class="mock-tooltip-row">
+          <div class="mock-dock-btn">🔥</div>
+          <div class="mock-tooltip f-hybrid-ui" style="font-size:12px;">
+            Desafíos <span class="badge">3</span>
+          </div>
+        </div>
+        <div class="mock-tooltip-row">
+          <div class="mock-dock-btn">🤖</div>
+          <div class="mock-tooltip f-hybrid-ui" style="font-size:12px;">
+            Tutor IA (Tutoría virtual)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="specimen-label">Botones y HUD</div>
+      <div class="ui-demo">
+        <div class="mock-btn-row">
+          <button class="mock-btn mock-btn-primary f-hybrid-ui" style="font-size:13px;">Empezar</button>
+          <button class="mock-btn mock-btn-cta f-hybrid-ui" style="font-size:13px;">Canjear</button>
+        </div>
+        <div class="mock-hud f-hybrid-title" style="font-size:11px;">
+          <span class="hud-stat" style="color:#ffd600;">🪙 340 COINS</span>
+          <span class="hud-stat" style="color:#00e5ff;">⚡ LVL 5 · 1,420 XP</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div style="text-align: center; margin-top: 36px;">
+  <a class="back-link" href="tpi-redesign.html">⬅️ Volver a la maqueta interactiva principal</a>
+</div>
+
+</body>
+</html>
