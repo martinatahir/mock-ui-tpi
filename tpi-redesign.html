@@ -2263,13 +2263,13 @@ function renderNav() {
   if (hud) hud.hidden = (currentRole !== 'alumno');
 
   if (sidebarNav) {
-    sidebarNav.innerHTML = NAV_TABS[currentRole].map(([id, ic, label, count]) => `
-      <a class="rail-item" href="#${id}" data-screen="${id}" data-tooltip="${label}" title="${label}">
+    sidebarNav.innerHTML = NAV_TABS[currentRole].map(([id, ic, label, count]) => {
+      const tip = count ? `${label} (${count})` : label;
+      return `<a class="rail-item" href="#${id}" data-screen="${id}" data-tooltip="${tip}" aria-label="${tip}">
         ${icon(ic)}
-        <span class="rail-label">${label}</span>
         ${count ? `<span class="nav-count" title="${id === 'accesos' ? 'Solicitudes pendientes' : 'Obligatorios pendientes'}">${count}</span>` : ''}
-      </a>
-    `).join('');
+      </a>`;
+    }).join('');
   }
 
   if (bottomNav) {

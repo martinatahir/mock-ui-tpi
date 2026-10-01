@@ -121,57 +121,76 @@ h1,h2,h3,p { margin:0; }
 [data-skin='gamer'] .initials { border-radius:var(--radius-control); font-family:var(--font-display); font-weight:400; font-size:12px; }
 [data-skin='gamer'] .initials.lg { font-size:22px; }
 
-/* ---- Layout Shell con Rail Lateral (68px) ---- */
+/* ---- Layout Shell con Icon Dock Lateral (64px) ---- */
 .shell { display:flex; min-height:calc(100vh - 56px); width:100%; }
 
 .sidebar {
-  width:68px; flex:0 0 68px; background:var(--bg-surface);
+  width:64px; flex:0 0 64px; background:var(--bg-surface);
   border-right:var(--border-width) solid var(--border-subtle);
   display:flex; flex-direction:column; align-items:center;
-  padding:12px 6px 16px; position:sticky; top:56px; height:calc(100vh - 56px);
+  padding:14px 0 16px; position:sticky; top:56px; height:calc(100vh - 56px);
   z-index:20; overscroll-behavior:contain;
 }
 .sidebar-nav {
-  display:flex; flex-direction:column; align-items:center; gap:8px;
+  display:flex; flex-direction:column; align-items:center; gap:10px;
   width:100%; flex:1;
 }
 
-/* Pulsadores del Rail Lateral */
+/* Pulsadores del Icon Dock (Sin textos apretados, solo iconos nítidos) */
 .rail-item {
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  width:54px; height:54px; border-radius:var(--radius-control);
+  display:flex; align-items:center; justify-content:center;
+  width:44px; height:44px; border-radius:10px;
   color:var(--text-muted); text-decoration:none; position:relative;
-  transition:all .12s ease; cursor:pointer; background:transparent; border:0;
-  padding:4px 2px;
+  transition:all .15s ease; cursor:pointer; background:transparent; border:0;
+  padding:0;
 }
-.rail-item .icon { width:20px; height:20px; margin-bottom:3px; transition:transform .12s ease; }
-.rail-item .rail-label {
-  font-size:10px; font-weight:600; line-height:1; letter-spacing:-.01em;
-  white-space:nowrap; text-align:center;
-}
+.rail-item .icon { width:22px; height:22px; transition:transform .15s ease, color .15s ease; }
 .rail-item:hover { color:var(--text-primary); background:var(--bg-surface-alt); }
-.rail-item:hover .icon { transform:scale(1.1); }
-.rail-item[aria-current='page'] {
-  color:var(--text-primary); font-weight:700;
-  background:color-mix(in srgb, var(--accent-primary-fill) 15%, transparent);
-  border:1px solid color-mix(in srgb, var(--accent-primary-fill) 40%, transparent);
+.rail-item:hover .icon { transform:scale(1.12); }
+
+/* Indicador de barra vertical activa (Estilo Discord / Slack / Arc) */
+.rail-item::before {
+  content:'';
+  position:absolute; left:-10px; top:50%;
+  transform:translateY(-50%) scaleY(0);
+  width:4px; height:24px; border-radius:0 4px 4px 0;
+  background:var(--accent-primary);
+  opacity:0;
+  transition:transform .18s var(--ease-out), opacity .15s ease;
 }
+.rail-item:hover::before {
+  transform:translateY(-50%) scaleY(0.45);
+  opacity:0.6;
+}
+.rail-item[aria-current='page']::before {
+  transform:translateY(-50%) scaleY(1);
+  opacity:1;
+  height:28px;
+  box-shadow:0 0 12px var(--accent-primary-fill);
+}
+.rail-item[aria-current='page'] {
+  color:var(--text-primary);
+  background:color-mix(in srgb, var(--accent-primary-fill) 15%, transparent);
+}
+.rail-item[aria-current='page'] .icon {
+  color:var(--accent-primary-fill);
+}
+
+/* Badge de pendientes */
 .rail-item .nav-count {
-  position:absolute; top:2px; right:4px; font-size:9px; font-weight:700;
-  min-width:15px; height:15px; line-height:15px; text-align:center;
-  padding:0 3px; border-radius:999px; background:var(--accent-primary-fill);
+  position:absolute; top:-2px; right:-2px; font-size:10px; font-weight:700;
+  min-width:18px; height:18px; line-height:18px; text-align:center;
+  padding:0 4px; border-radius:999px; background:var(--accent-primary-fill);
   color:var(--on-accent-primary); box-shadow:0 0 0 2px var(--bg-surface);
 }
 
-/* === Modo Arcade: Pulsadores Mecánicos de Fichín 3D === */
+/* === Modo Arcade: Pulsadores Físicos de Fichín 3D === */
 [data-skin='gamer'] .rail-item {
   border:2px solid var(--border-subtle);
   border-radius:4px;
   background:var(--bg-surface-alt);
   box-shadow:2px 2px 0 #000;
-  font-family:var(--font-display);
 }
-[data-skin='gamer'] .rail-item .rail-label { font-size:9px; }
 [data-skin='gamer'] .rail-item:hover {
   border-color:var(--accent-primary-fill);
   box-shadow:3px 3px 0 var(--accent-primary-fill);
@@ -186,25 +205,30 @@ h1,h2,h3,p { margin:0; }
   transform:translate(1px, 1px);
 }
 [data-skin='gamer'] .rail-item[aria-current='page'] .icon { color:var(--on-accent-primary); }
-[data-skin='gamer'] .rail-item .nav-count { border-radius:2px; }
+[data-skin='gamer'] .rail-item::before {
+  width:5px; border-radius:0; left:-10px; box-shadow:2px 0 0 #000;
+}
+[data-skin='gamer'] .rail-item .nav-count { border-radius:2px; border:1px solid #000; }
 
 /* Tooltip lateral instantáneo */
-.rail-item[data-tooltip]:hover::after {
+.rail-item[data-tooltip]::after {
   content:attr(data-tooltip);
-  position:absolute; left:calc(100% + 10px); top:50%; transform:translateY(-50%);
+  position:absolute; left:calc(100% + 14px); top:50%; transform:translateY(-50%) translateX(-4px);
   background:var(--bg-surface); color:var(--text-primary);
   border:var(--border-width) solid var(--border-subtle); border-radius:var(--radius-control);
-  padding:4px 10px; font-size:12px; font-weight:600; white-space:nowrap;
-  box-shadow:0 6px 18px rgba(0,0,0,.35); pointer-events:none; z-index:50;
-  animation:tooltip-in .12s var(--ease-out);
+  padding:5px 12px; font-size:12px; font-weight:600; white-space:nowrap;
+  box-shadow:0 8px 24px rgba(0,0,0,.45); pointer-events:none; z-index:50;
+  opacity:0; transition:opacity .15s ease, transform .15s var(--ease-out);
 }
-[data-skin='gamer'] .rail-item[data-tooltip]:hover::after {
+.rail-item[data-tooltip]:hover::after {
+  opacity:1; transform:translateY(-50%) translateX(0);
+}
+[data-skin='gamer'] .rail-item[data-tooltip]::after {
   font-family:var(--font-display); font-size:11px;
   border:2px solid #000; box-shadow:3px 3px 0 #000;
 }
-@keyframes tooltip-in { from { opacity:0; transform:translateY(-50%) translateX(-4px); } to { opacity:1; transform:translateY(-50%) translateX(0); } }
 
-.content { width:calc(100% - 68px); max-width:1360px; margin:0 auto; padding:24px 32px 72px; min-width:0; }
+.content { width:calc(100% - 64px); max-width:1360px; margin:0 auto; padding:24px 32px 72px; min-width:0; }
 .screen { max-width:100%; animation:screen-in .28s var(--ease-out) both; }
 [data-skin='gamer'] .screen { animation-timing-function:steps(3,end); animation-duration:.2s; }
 @keyframes screen-in { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
