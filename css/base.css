@@ -3,14 +3,28 @@
    ========================================================================= */
 
 * { box-sizing:border-box; }
-html, body { margin:0; padding:0; }
+html, body {
+  margin:0; padding:0;
+  overscroll-behavior-y:none;
+}
 body {
   background:var(--bg-app); color:var(--text-primary); font-family:var(--font-body);
   font-size:15px; line-height:1.5; -webkit-font-smoothing:antialiased;
   transition:background-color .15s ease, color .15s ease; caret-color:var(--accent-primary-fill);
 }
 ::selection { background:var(--accent-primary-fill); color:var(--on-accent-primary); }
+
+/* Bloquear scroll de fondo cuando hay un modal o drawer abierto */
+body:has(dialog[open]:not([hidden])) {
+  overflow:hidden;
+}
+
+/* Scrollbars sutiles universales */
 * { scrollbar-width:thin; scrollbar-color:var(--border-subtle) transparent; }
+*::-webkit-scrollbar { width:6px; height:6px; }
+*::-webkit-scrollbar-track { background:transparent; }
+*::-webkit-scrollbar-thumb { background:var(--border-subtle); border-radius:4px; }
+*::-webkit-scrollbar-thumb:hover { background:var(--border-highlight); }
 a { color:var(--accent-secondary); text-underline-offset:.2em; }
 :focus-visible { outline:3px solid var(--focus-glow); outline-offset:2px; }
 h1,h2,h3,p { margin:0; }
@@ -79,9 +93,29 @@ h1,h2,h3,p { margin:0; }
 .shell { display:flex; min-height:calc(100vh - 56px); }
 .sidebar {
   width:240px; flex:0 0 240px; background:var(--bg-surface); border-right:var(--border-width) solid var(--border-subtle);
-  padding:14px 10px; display:flex; flex-direction:column;
-  position:sticky; top:56px; height:calc(100vh - 56px); overflow-y:auto;
+  padding:14px 8px 8px; display:flex; flex-direction:column;
+  position:sticky; top:56px; height:calc(100vh - 56px);
+  overscroll-behavior:contain;
+  transition:width .22s var(--ease-out), flex-basis .22s var(--ease-out), margin-left .28s var(--ease-out), padding .22s var(--ease-out);
+  z-index:20;
 }
+.sidebar-nav {
+  flex:1; overflow-y:auto; overscroll-behavior:contain;
+  margin:0 -4px; padding:0 4px;
+}
+.sidebar-foot {
+  flex:none; padding-top:8px; margin-top:auto; border-top:1px solid var(--border-subtle);
+}
+.sidebar-collapse-btn {
+  cursor:pointer; font-weight:600; font-size:13px; color:var(--text-muted);
+}
+.sidebar-collapse-btn:hover {
+  color:var(--text-primary);
+}
+.sidebar-collapse-btn .icon {
+  transition:transform .22s var(--ease-out);
+}
+
 .group-label { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.08em; color:var(--text-muted); margin:16px 10px 6px; }
 [data-skin='gamer'] .group-label { font-family:var(--font-display); font-weight:400; }
 .group-label:first-child { margin-top:2px; }
@@ -95,9 +129,53 @@ h1,h2,h3,p { margin:0; }
 .cur-dot { width:6px; height:6px; border-radius:50%; background:var(--accent-primary-fill); display:none; }
 [data-skin='gamer'] .cur-dot { border-radius:0; }
 .group-toggle.has-current .cur-dot { display:inline-block; }
+
 /* sidebar hidden (desktop): slides out and gives its width back to the content */
 .sidebar { transition:margin-left .28s var(--ease-out), visibility 0s linear 0s; }
 .shell.nav-hidden .sidebar { margin-left:-240px; visibility:hidden; transition:margin-left .28s var(--ease-out), visibility 0s linear .28s; }
+
+/* sidebar compact / mini-rail (desktop): se comprime a 68px, solo iconos centrados con tooltips */
+.shell.nav-compact .sidebar {
+  width:68px; flex:0 0 68px; padding:12px 6px 8px;
+}
+.shell.nav-compact .sidebar .group-label:not(.group-toggle) {
+  height:1px; margin:12px 6px; background:var(--border-subtle); font-size:0; padding:0; overflow:hidden;
+}
+.shell.nav-compact .sidebar .group-toggle {
+  height:1px; margin:12px 6px; background:var(--border-subtle); font-size:0; padding:0; overflow:hidden; border:0;
+}
+.shell.nav-compact .sidebar .group-items {
+  display:block !important;
+}
+.shell.nav-compact .sidebar .nav-item {
+  justify-content:center; padding:9px 0; position:relative;
+}
+.shell.nav-compact .sidebar .nav-item .nav-label {
+  display:none;
+}
+.shell.nav-compact .sidebar .nav-item .icon {
+  margin:0; width:20px; height:20px;
+}
+.shell.nav-compact .sidebar .nav-count {
+  position:absolute; top:2px; right:6px; font-size:10px; min-width:16px; height:16px; line-height:16px;
+  padding:0 3px; box-shadow:0 0 0 2px var(--bg-surface);
+}
+.shell.nav-compact .sidebar .sidebar-collapse-btn .icon {
+  transform:rotate(180deg);
+}
+
+/* Tooltip flotante instantáneo en modo compacto */
+.shell.nav-compact .sidebar .nav-item[data-tooltip]:hover::after {
+  content:attr(data-tooltip);
+  position:absolute; left:calc(100% + 10px); top:50%; transform:translateY(-50%);
+  background:var(--bg-surface); color:var(--text-primary);
+  border:var(--border-width) solid var(--border-subtle); border-radius:var(--radius-control);
+  padding:5px 11px; font-size:12px; font-weight:600; white-space:nowrap;
+  box-shadow:0 6px 18px rgba(0,0,0,.35); pointer-events:none; z-index:50;
+  animation:tooltip-in .12s var(--ease-out);
+}
+@keyframes tooltip-in { from { opacity:0; transform:translateY(-50%) translateX(-4px); } to { opacity:1; transform:translateY(-50%) translateX(0); } }
+
 .nav-item {
   display:flex; align-items:center; gap:10px; width:100%; border:0; background:transparent; text-decoration:none;
   color:var(--text-primary); padding:7px 10px; border-radius:var(--radius-control); font-size:14px; margin-bottom:2px;

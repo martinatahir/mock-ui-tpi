@@ -93,6 +93,12 @@
     <button data-skin-btn="gamer" aria-pressed="true">🎮 Arcade</button>
     <button data-skin-btn="sobrio" aria-pressed="false">💼 Normal</button>
   </div>
+  <span>Barra lateral:</span>
+  <div class="seg" role="group" aria-label="Modo de barra lateral">
+    <button data-nav-mode="full" aria-pressed="true">Expandida</button>
+    <button data-nav-mode="compact" aria-pressed="false">Mini-rail</button>
+    <button data-nav-mode="hidden" aria-pressed="false">Oculta</button>
+  </div>
   <label><input type="checkbox" id="sim-error" /> Simular error</label>
   <a class="uikit-link" href="#uikit" title="Ver catálogo de componentes y tokens de diseño">🎨 UI Kit / Componentes</a>
 </div>
@@ -125,7 +131,15 @@
 </header>
 
 <div class="shell">
-  <nav class="sidebar" id="sidebar" aria-label="Navegación principal"></nav>
+  <nav class="sidebar" id="sidebar" aria-label="Navegación principal">
+    <div class="sidebar-nav" id="sidebar-nav"></div>
+    <div class="sidebar-foot">
+      <button class="nav-item sidebar-collapse-btn" id="sidebar-collapse-btn" type="button" title="Colapsar menú (modo mini-rail)">
+        <svg class="icon"><use href="#i-panel"/></svg>
+        <span class="nav-label">Colapsar menú</span>
+      </button>
+    </div>
+  </nav>
 
   <main class="content" id="main">
 
@@ -819,22 +833,37 @@
 
       <!-- 2. Botones -->
       <section class="card studs uikit-section">
-        <h3>3. Variantes de Botones (.btn)</h3>
+        <h3>3. Escala y Variantes de Botones (.btn)</h3>
+        <p class="hint" style="margin-bottom:14px;">Escala fija y predecible: <b>.btn-lg (44px)</b> para acciones heroicas o modales principales, <b>.btn (38px)</b> estándar de sistema, y <b>.btn-sm (32px)</b> para tablas y filtros.</p>
+        
+        <div style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); margin-bottom:8px;">Escala de tamaños:</div>
+        <div class="uikit-row" style="align-items:center;">
+          <button class="btn btn-primary btn-lg" type="button"><svg class="icon"><use href="#i-plus"/></svg>Grande (.btn-lg · 44px)</button>
+          <button class="btn btn-primary" type="button"><svg class="icon icon-sm"><use href="#i-check"/></svg>Estándar (.btn · 38px)</button>
+          <button class="btn btn-primary btn-sm" type="button"><svg class="icon icon-sm"><use href="#i-check"/></svg>Pequeño (.btn-sm · 32px)</button>
+          <button class="btn btn-ghost btn-icon btn-lg" type="button" title="Icono 44px"><svg class="icon"><use href="#i-bell"/></svg></button>
+          <button class="btn btn-ghost btn-icon" type="button" title="Icono 38px"><svg class="icon icon-sm"><use href="#i-pencil"/></svg></button>
+          <button class="btn btn-ghost btn-icon btn-sm" type="button" title="Icono 32px"><svg class="icon icon-sm"><use href="#i-trash"/></svg></button>
+        </div>
+
+        <div style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); margin:16px 0 8px;">Variantes semánticas:</div>
         <div class="uikit-row">
-          <button class="btn btn-primary" type="button"><svg class="icon icon-sm"><use href="#i-check"/></svg>Primario</button>
-          <button class="btn btn-secondary" type="button"><svg class="icon icon-sm"><use href="#i-copy"/></svg>Secundario</button>
+          <button class="btn btn-primary" type="button">Primario</button>
+          <button class="btn btn-secondary" type="button">Secundario</button>
           <button class="btn btn-gold" type="button"><svg class="icon icon-sm"><use href="#i-trophy"/></svg>Recompensa</button>
           <button class="btn btn-danger" type="button"><svg class="icon icon-sm"><use href="#i-trash"/></svg>Peligro</button>
-          <button class="btn btn-ghost" type="button">Fantasma / Borde</button>
+          <button class="btn btn-ghost" type="button">Fantasma</button>
           <button class="btn btn-quiet" type="button">Silencioso</button>
-          <button class="btn btn-primary" type="button" disabled>Deshabilitado</button>
+          <button class="linkbtn" type="button">Enlace (.linkbtn)</button>
         </div>
+
+        <div style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); margin:16px 0 8px;">Estados de carga y bloqueo:</div>
         <div class="uikit-row">
-          <button class="btn btn-primary btn-sm" type="button">Pequeño Primario</button>
-          <button class="btn btn-secondary btn-sm" type="button">Pequeño Secundario</button>
-          <button class="btn btn-ghost btn-sm" type="button">Pequeño Fantasma</button>
-          <button class="btn btn-ghost danger btn-sm" type="button"><svg class="icon icon-sm"><use href="#i-trash"/></svg>Eliminar</button>
-          <button class="linkbtn" type="button">Enlace interactivo (.linkbtn)</button>
+          <button class="btn btn-primary is-loading" type="button" aria-disabled="true"><span class="spinner spinner-sm"></span><span class="btn-text">Guardando...</span></button>
+          <button class="btn btn-secondary is-loading" type="button" aria-disabled="true"><span class="spinner spinner-sm"></span><span class="btn-text">Sincronizando</span></button>
+          <button class="btn btn-ghost is-loading" type="button" aria-disabled="true"><span class="spinner spinner-sm"></span><span class="btn-text">Cargando</span></button>
+          <button class="btn btn-primary" type="button" disabled>Deshabilitado</button>
+          <button class="btn btn-ghost danger" type="button" disabled>Borrado bloqueado</button>
         </div>
       </section>
 
@@ -945,6 +974,92 @@
           </div>
         </div>
       </section>
+
+      <!-- 8. Sistema de Modales Centrados y Control de Scroll -->
+      <section class="card studs uikit-section">
+        <h3>8. Modales Centrados (.modal) y Control de Scroll</h3>
+        <p class="hint" style="margin-bottom:14px;">Diálogos nativos con la API HTML5 <code>&lt;dialog&gt;</code>. Tienen backdrop desenfocado, cierre nativo con tecla <b>Escape</b>, bloqueo automático del scroll de fondo y contención interna en el cuerpo (cabecera y botones siempre fijos).</p>
+        
+        <div class="uikit-row">
+          <button class="btn btn-ghost danger" type="button" data-open="modal-demo-confirm"><svg class="icon icon-sm"><use href="#i-trash"/></svg>Modal Chico (.modal-sm · 400px)</button>
+          <button class="btn btn-primary" type="button" data-open="modal-demo-form"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Modal Mediano (.modal-md · 560px)</button>
+          <button class="btn btn-secondary" type="button" data-open="modal-demo-table"><svg class="icon icon-sm"><use href="#i-list"/></svg>Modal Grande (.modal-lg · 760px)</button>
+        </div>
+      </section>
+
+      <!-- 9. Sistema Universal de Paginado -->
+      <section class="card studs uikit-section">
+        <h3>9. Sistema Universal de Paginación (.pager)</h3>
+        <p class="hint" style="margin-bottom:14px;">Componente único estandarizado con resumen descriptivo en español rioplatense, selector opcional de registros por página y botones de navegación adaptables al estilo activo.</p>
+        
+        <div style="background:var(--bg-surface); padding:16px; border:1px solid var(--border-subtle); border-radius:var(--radius-card);">
+          <div class="pager" style="margin-top:0;">
+            <div class="pager-summary">
+              <span>Mostrando <b>1–10</b> de <b>48</b> registros</span>
+              <span class="muted">·</span>
+              <label class="pager-size">Por página:
+                <select class="control">
+                  <option selected>10</option>
+                  <option>25</option>
+                  <option>50</option>
+                </select>
+              </label>
+            </div>
+            <div class="pager-controls">
+              <nav class="pg" aria-label="Paginación de ejemplo">
+                <button class="pg-btn pg-arrow" type="button" disabled aria-label="Página anterior"><svg class="icon icon-sm"><use href="#i-left"/></svg></button>
+                <button class="pg-btn" type="button" aria-current="page">1</button>
+                <button class="pg-btn" type="button">2</button>
+                <button class="pg-btn" type="button">3</button>
+                <span class="pg-gap">...</span>
+                <button class="pg-btn" type="button">5</button>
+                <button class="pg-btn pg-arrow" type="button" aria-label="Página siguiente"><svg class="icon icon-sm"><use href="#i-right"/></svg></button>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 10. Loadings, Spinners y Skeletons -->
+      <section class="card studs uikit-section">
+        <h3>10. Estados de Carga: Spinners y Skeletons (.spinner · .skeleton)</h3>
+        <p class="hint" style="margin-bottom:14px;">El spinner rota en <b>8 pasos discretos</b> en Modo Arcade (estilo 8-bit retro) y en <b>giro continuo fluido</b> en Modo Normal. Los skeletons previenen saltos de diseño (CLS).</p>
+        
+        <div style="display:grid; grid-template-columns:auto 1fr; gap:24px; align-items:start;">
+          <div>
+            <div style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); margin-bottom:12px;">Spinners universales:</div>
+            <div style="display:flex; align-items:center; gap:16px;">
+              <div style="display:flex; flex-direction:column; align-items:center; gap:6px;">
+                <span class="spinner spinner-sm" style="color:var(--accent-primary-fill);"></span>
+                <span class="hint" style="font-size:11px;">14px (sm)</span>
+              </div>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:6px;">
+                <span class="spinner spinner-md" style="color:var(--accent-secondary-fill);"></span>
+                <span class="hint" style="font-size:11px;">22px (md)</span>
+              </div>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:6px;">
+                <span class="spinner spinner-lg" style="color:var(--accent-gold);"></span>
+                <span class="hint" style="font-size:11px;">36px (lg)</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); margin-bottom:12px;">Estructuras esqueléticas (Skeletons):</div>
+            <div class="card skeleton-card" style="background:var(--bg-surface-alt);">
+              <div style="display:flex; align-items:center; gap:12px;">
+                <div class="skeleton skeleton-avatar"></div>
+                <div style="flex:1;">
+                  <div class="skeleton skeleton-title"></div>
+                  <div class="skeleton skeleton-text" style="width:40%;"></div>
+                </div>
+              </div>
+              <div class="skeleton skeleton-text"></div>
+              <div class="skeleton skeleton-text" style="width:75%;"></div>
+            </div>
+          </div>
+        </div>
+      </section>
     </section>
 
     <!-- ================= placeholder ================= -->
@@ -990,6 +1105,144 @@
     <div class="drawer-foot">
       <button class="btn btn-quiet" value="cancel">Cancelar</button>
       <button class="btn btn-primary" id="dd-submit" type="button">Crear desafío</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- ================= Modales Centrados de Demostración ================= -->
+
+<!-- 1. Modal Chico: Confirmación de borrado -->
+<dialog class="modal modal-sm" id="modal-demo-confirm" aria-labelledby="h-modal-confirm">
+  <form method="dialog" style="display:contents">
+    <div class="modal-head">
+      <div>
+        <h2 id="h-modal-confirm" class="display" style="color:var(--urgent);">¿Eliminar cohorte?</h2>
+        <p>Esta acción no se puede deshacer.</p>
+      </div>
+      <button class="icon-btn sm" value="cancel" aria-label="Cerrar"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:14px; line-height:1.5;">Vas a eliminar la cohorte <b>MSI 2026</b> y desvincular a los 34 alumnos inscriptos. Se perderá el registro de entregas y calificaciones parciales.</p>
+      <div class="alert" style="padding:10px 14px; margin:0;">
+        <svg class="icon icon-sm"><use href="#i-alert"/></svg>
+        <div style="font-size:13px;">Los desafíos creados en el banco seguirán guardados.</div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" value="cancel" type="button" onclick="this.closest('dialog').close()">Cancelar</button>
+      <button class="btn btn-danger" type="button" onclick="this.closest('dialog').close()"><svg class="icon icon-sm"><use href="#i-trash"/></svg>Sí, eliminar</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- 2. Modal Mediano: Formulario con scroll contenido -->
+<dialog class="modal modal-md" id="modal-demo-form" aria-labelledby="h-modal-form">
+  <form method="dialog" style="display:contents">
+    <div class="modal-head">
+      <div>
+        <h2 id="h-modal-form" class="display">Crear nuevo curso</h2>
+        <p>Ingresá la información general para habilitar la materia.</p>
+      </div>
+      <button class="icon-btn sm" value="cancel" aria-label="Cerrar"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <label class="field full">
+          <span class="req">Nombre del curso</span>
+          <input class="control" type="text" placeholder="Ej. Algoritmos y Estructuras de Datos" required />
+        </label>
+        <label class="field">
+          <span class="req">Código de cátedra</span>
+          <input class="control" type="text" placeholder="Ej. AED-2026" required />
+        </label>
+        <label class="field">
+          <span class="req">Año lectivo</span>
+          <select class="control">
+            <option>2026</option>
+            <option>2027</option>
+          </select>
+        </label>
+        <label class="field full">
+          <span>Descripción para los alumnos</span>
+          <textarea class="control" placeholder="Contenido analítico, objetivos y modalidad de cursado..."></textarea>
+          <span class="hint">Hasta 500 caracteres.</span>
+        </label>
+        <label class="field">
+          <span>Profesor titular</span>
+          <input class="control" type="text" value="Ing. Manuel Sánchez" />
+        </label>
+        <label class="field">
+          <span>Cupo estimado</span>
+          <input class="control num" type="number" value="45" />
+        </label>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" checked />
+        <span>Habilitar matriculación automática con legajo UTN</span>
+      </label>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" value="cancel" type="button" onclick="this.closest('dialog').close()">Cancelar</button>
+      <button class="btn btn-primary" type="button" onclick="this.closest('dialog').close()"><svg class="icon icon-sm"><use href="#i-check"/></svg>Crear curso</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- 3. Modal Grande: Vista previa y tabla con scroll horizontal contenido -->
+<dialog class="modal modal-lg" id="modal-demo-table" aria-labelledby="h-modal-table">
+  <form method="dialog" style="display:contents">
+    <div class="modal-head">
+      <div>
+        <h2 id="h-modal-table" class="display">Alumnos inscriptos · Cohorte MSI</h2>
+        <p>Listado de regularidad y puntos acumulados en tiempo real.</p>
+      </div>
+      <button class="icon-btn sm" value="cancel" aria-label="Cerrar"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="table-wrap">
+        <table class="data">
+          <thead>
+            <tr>
+              <th>Alumno</th>
+              <th>Legajo</th>
+              <th>Desafíos</th>
+              <th>Puntaje</th>
+              <th>Estado</th>
+              <th class="r">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Lucas Benítez</b></td>
+              <td><code>84920</code></td>
+              <td>12 / 14</td>
+              <td><span style="color:var(--accent-gold); font-weight:700;">850 XP</span></td>
+              <td><span class="badge badge-success">Regular</span></td>
+              <td class="r"><button class="btn btn-ghost btn-sm" type="button">Detalle</button></td>
+            </tr>
+            <tr>
+              <td><b>Camila Morales</b></td>
+              <td><code>85104</code></td>
+              <td>14 / 14</td>
+              <td><span style="color:var(--accent-gold); font-weight:700;">1120 XP</span></td>
+              <td><span class="badge badge-gold">Promoción</span></td>
+              <td class="r"><button class="btn btn-ghost btn-sm" type="button">Detalle</button></td>
+            </tr>
+            <tr>
+              <td><b>Agustín Romero</b></td>
+              <td><code>84319</code></td>
+              <td>6 / 14</td>
+              <td><span style="color:var(--accent-gold); font-weight:700;">320 XP</span></td>
+              <td><span class="badge badge-danger">En riesgo</span></td>
+              <td class="r"><button class="btn btn-ghost btn-sm" type="button">Detalle</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" value="cancel" type="button" onclick="this.closest('dialog').close()">Cerrar</button>
+      <button class="btn btn-primary" type="button" onclick="this.closest('dialog').close()"><svg class="icon icon-sm"><use href="#i-download"/></svg>Exportar reporte CSV</button>
     </div>
   </form>
 </dialog>
@@ -1905,8 +2158,11 @@ const collapsed = new Set(JSON.parse(store.get('tpi-nav-collapsed') || '[]'));
 function renderNav() {
   const u = USERS[currentRole];
   const link = ([id, ic, label, count]) =>
-    `<a class="nav-item" href="#${id}" data-screen="${id}">${icon(ic)}${label}${count ? `<span class="nav-count" title="${id === 'accesos' ? 'Solicitudes pendientes' : 'Obligatorios pendientes'}">${count}</span>` : ''}</a>`;
-  sidebar.innerHTML = NAV[currentRole].map(([g, items]) => {
+    `<a class="nav-item" href="#${id}" data-screen="${id}" data-tooltip="${label}" title="${label}">
+       ${icon(ic)}<span class="nav-label">${label}</span>${count ? `<span class="nav-count" title="${id === 'accesos' ? 'Solicitudes pendientes' : 'Obligatorios pendientes'}">${count}</span>` : ''}
+     </a>`;
+  const navContainer = $('#sidebar-nav') || sidebar;
+  navContainer.innerHTML = NAV[currentRole].map(([g, items]) => {
     if (!COLLAPSIBLE.has(g)) return `<div class="group-label">${g}</div>` + items.map(link).join('');
     const open = !collapsed.has(g), gid = 'grp-' + g.toLowerCase();
     return `<button class="group-label group-toggle" type="button" aria-expanded="${open}" aria-controls="${gid}" data-group="${g}">
@@ -1944,7 +2200,7 @@ function route() {
   el.hidden = false;
   el.style.animation = 'none'; el.offsetHeight; el.style.animation = '';
   applyError(el);
-  if (isMobile()) setNav(false);
+  if (isMobile()) setNavMode('hidden');
   window.scrollTo(0, 0);
 }
 window.addEventListener('hashchange', route);
@@ -1963,20 +2219,89 @@ sidebar.addEventListener('click', e => {
   markCollapsedCurrent();
 });
 
-/* Sidebar show/hide: docked panel on desktop (remembered), overlay drawer on mobile. */
+/* Sidebar show/hide & mini-rail compact mode */
 const mq = matchMedia('(max-width: 860px)');
 const isMobile = () => mq.matches;
-function setNav(open) {
-  if (isMobile()) sidebar.classList.toggle('open', open);
-  else { shell.classList.toggle('nav-hidden', !open); store.set('tpi-nav-hidden', open ? '0' : '1'); }
-  sidebar.inert = !open;
-  menuBtn.setAttribute('aria-expanded', String(open));
-  menuBtn.setAttribute('aria-label', open ? 'Ocultar menú' : 'Mostrar menú');
+
+function setNavMode(mode) {
+  if (isMobile()) {
+    const open = mode !== 'hidden';
+    sidebar.classList.toggle('open', open);
+    menuBtn.setAttribute('aria-expanded', String(open));
+    menuBtn.setAttribute('aria-label', open ? 'Ocultar menú' : 'Mostrar menú');
+    return;
+  }
+  shell.classList.toggle('nav-compact', mode === 'compact');
+  shell.classList.toggle('nav-hidden', mode === 'hidden');
+  store.set('tpi-nav-mode', mode);
+  $$('[data-nav-mode]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.navMode === mode)));
+
+  const isHidden = mode === 'hidden';
+  sidebar.inert = isHidden;
+  menuBtn.setAttribute('aria-expanded', String(!isHidden));
+  menuBtn.setAttribute('aria-label', isHidden ? 'Mostrar menú' : 'Ocultar menú');
+
+  const collapseBtn = $('#sidebar-collapse-btn');
+  if (collapseBtn) {
+    const isCompact = mode === 'compact';
+    collapseBtn.setAttribute('title', isCompact ? 'Expandir menú' : 'Colapsar menú (modo mini-rail)');
+    const lbl = $('.nav-label', collapseBtn);
+    if (lbl) lbl.textContent = isCompact ? 'Expandir' : 'Colapsar menú';
+  }
 }
-const navOpen = () => isMobile() ? sidebar.classList.contains('open') : !shell.classList.contains('nav-hidden');
-menuBtn.addEventListener('click', () => setNav(!navOpen()));
-mq.addEventListener('change', () => { sidebar.classList.remove('open'); setNav(isMobile() ? false : store.get('tpi-nav-hidden') !== '1'); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape' && isMobile() && navOpen()) { setNav(false); menuBtn.focus(); } });
+
+function currentNavMode() {
+  if (isMobile()) return sidebar.classList.contains('open') ? 'full' : 'hidden';
+  if (shell.classList.contains('nav-hidden')) return 'hidden';
+  if (shell.classList.contains('nav-compact')) return 'compact';
+  return 'full';
+}
+
+menuBtn.addEventListener('click', () => {
+  if (isMobile()) {
+    const open = !sidebar.classList.contains('open');
+    setNavMode(open ? 'full' : 'hidden');
+  } else {
+    const cur = currentNavMode();
+    if (cur === 'hidden') {
+      const prev = store.get('tpi-nav-prev') || 'full';
+      setNavMode(prev);
+    } else {
+      store.set('tpi-nav-prev', cur);
+      setNavMode('hidden');
+    }
+  }
+});
+
+document.addEventListener('click', e => {
+  const collapse = e.target.closest('#sidebar-collapse-btn');
+  if (collapse) {
+    const cur = currentNavMode();
+    setNavMode(cur === 'compact' ? 'full' : 'compact');
+    return;
+  }
+  const modeBtn = e.target.closest('[data-nav-mode]');
+  if (modeBtn) {
+    setNavMode(modeBtn.dataset.navMode);
+    return;
+  }
+  /* Cierre de modales/drawers al cliquear el backdrop oscuro */
+  if (e.target.tagName === 'DIALOG' && (e.target.classList.contains('modal') || e.target.classList.contains('drawer'))) {
+    e.target.close();
+  }
+});
+
+mq.addEventListener('change', () => {
+  sidebar.classList.remove('open');
+  setNavMode(isMobile() ? 'hidden' : (store.get('tpi-nav-mode') || 'full'));
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && isMobile() && sidebar.classList.contains('open')) {
+    setNavMode('hidden');
+    menuBtn.focus();
+  }
+});
 $('#sim-error').addEventListener('change', route);
 
 /* ---- theme / mode / role (persisted per viewer) ---- */
@@ -2008,7 +2333,7 @@ $$('[data-catalog]').forEach(el => Catalog(el));
 renderStudentCourses(); renderCohorts(); renderInventory(); renderHero(); renderBuilder(); renderBadges();
 setTheme(store.get('tpi-theme') || 'dark');
 setSkin(store.get('tpi-skin') || 'gamer');
-setNav(isMobile() ? false : store.get('tpi-nav-hidden') !== '1');
+setNavMode(isMobile() ? 'hidden' : (store.get('tpi-nav-mode') || 'full'));
 setRole(store.get('tpi-role') || 'alumno');
 </script>
 </body>
