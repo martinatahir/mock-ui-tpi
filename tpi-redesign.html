@@ -77,14 +77,23 @@
 
 <div class="mockbar" role="region" aria-label="Controles del mock">
   <b>Mock</b>
-  <span>Ver como</span>
+  <span>Rol:</span>
   <div class="seg" role="group" aria-label="Rol">
     <button data-role-btn="alumno" aria-pressed="true">Alumno</button>
     <button data-role-btn="profesor" aria-pressed="false">Profesor</button>
     <button data-role-btn="admin" aria-pressed="false">Admin</button>
   </div>
-  <label><input type="checkbox" id="sim-error" /> Simular error de carga</label>
-  <span>Datos sintéticos · hoy = mar 30/09/2026</span>
+  <span>Tema:</span>
+  <div class="seg" role="group" aria-label="Tema">
+    <button data-theme-btn="dark" aria-pressed="true"><svg class="icon icon-sm"><use href="#i-moon"/></svg> Oscuro</button>
+    <button data-theme-btn="light" aria-pressed="false"><svg class="icon icon-sm"><use href="#i-sun"/></svg> Claro</button>
+  </div>
+  <span>Estilo:</span>
+  <div class="seg" role="group" aria-label="Estilo">
+    <button data-skin-btn="gamer" aria-pressed="true">🎮 Arcade</button>
+    <button data-skin-btn="sobrio" aria-pressed="false">💼 Normal</button>
+  </div>
+  <label><input type="checkbox" id="sim-error" /> Simular error</label>
   <a class="uikit-link" href="#uikit" title="Ver catálogo de componentes y tokens de diseño">🎨 UI Kit / Componentes</a>
 </div>
 
@@ -95,7 +104,10 @@
     <button data-skin-btn="gamer" aria-pressed="true"><svg class="icon icon-sm"><use href="#i-gamepad"/></svg><span class="seg-label">Arcade</span></button>
     <button data-skin-btn="sobrio" aria-pressed="false"><svg class="icon icon-sm"><use href="#i-briefcase"/></svg><span class="seg-label">Normal</span></button>
   </div>
-  <button class="icon-btn" id="theme-btn" aria-label="Cambiar a tema claro"><svg class="icon"><use href="#i-sun"/></svg></button>
+  <div class="seg" role="group" aria-label="Tema de color">
+    <button data-theme-btn="dark" aria-pressed="true" title="Cambiar a tema oscuro"><svg class="icon icon-sm"><use href="#i-moon"/></svg><span class="seg-label">Oscuro</span></button>
+    <button data-theme-btn="light" aria-pressed="false" title="Cambiar a tema claro"><svg class="icon icon-sm"><use href="#i-sun"/></svg><span class="seg-label">Claro</span></button>
+  </div>
   <div class="account">
     <button class="me-chip" id="account-btn" type="button" aria-expanded="false" aria-controls="account-menu" aria-haspopup="true">
       <span class="initials" aria-hidden="true" data-me-initials>MS</span>
@@ -723,7 +735,26 @@
       <div class="page-head">
         <div>
           <h1 class="display" id="h-uikit">🎨 Catálogo de Componentes & UI Kit</h1>
-          <p>Muestrario de tokens de diseño, botones, badges, inputs y componentes gamificados. Cambiá de modo (Arcade/Normal) y de tema (Claro/Oscuro) en la barra superior para validar la coherencia visual en tiempo real.</p>
+          <p>Muestrario de tokens de diseño, botones, badges, inputs y componentes gamificados. Cambiá de modo (Arcade/Normal) y de tema (Claro/Oscuro) para validar la coherencia visual en tiempo real.</p>
+        </div>
+      </div>
+
+      <!-- Barra de control de pruebas en el UI Kit -->
+      <div class="card studs" style="display:flex; flex-wrap:wrap; gap:20px; align-items:center; margin-bottom:24px; padding:14px 18px; background:var(--bg-surface-alt);">
+        <span style="font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:.05em;">Probar variante aquí:</span>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="meta" style="font-weight:600;">Tema:</span>
+          <div class="seg" role="group" aria-label="Tema">
+            <button data-theme-btn="dark" aria-pressed="true"><svg class="icon icon-sm"><use href="#i-moon"/></svg> Modo Oscuro</button>
+            <button data-theme-btn="light" aria-pressed="false"><svg class="icon icon-sm"><use href="#i-sun"/></svg> Modo Claro</button>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="meta" style="font-weight:600;">Estilo:</span>
+          <div class="seg" role="group" aria-label="Estilo">
+            <button data-skin-btn="gamer" aria-pressed="true">🎮 Arcade (Gamer)</button>
+            <button data-skin-btn="sobrio" aria-pressed="false">💼 Normal (Sobrio)</button>
+          </div>
         </div>
       </div>
 
@@ -1952,8 +1983,7 @@ $('#sim-error').addEventListener('change', route);
 const root = document.documentElement;
 function setTheme(t) {
   root.dataset.theme = t; store.set('tpi-theme', t);
-  $('#theme-btn').setAttribute('aria-label', t === 'dark' ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro');
-  $('#theme-btn use').setAttribute('href', t === 'dark' ? '#i-sun' : '#i-moon');
+  $$('[data-theme-btn]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.themeBtn === t)));
 }
 function setSkin(s) {
   root.dataset.skin = s; store.set('tpi-skin', s);
@@ -1968,7 +1998,7 @@ function setRole(r) {
   if (!allowed.includes(target)) location.hash = allowed.includes('desafios') ? 'desafios' : 'perfil';
   route();
 }
-$('#theme-btn').addEventListener('click', () => setTheme(root.dataset.theme === 'dark' ? 'light' : 'dark'));
+$$('[data-theme-btn]').forEach(b => b.addEventListener('click', () => setTheme(b.dataset.themeBtn)));
 $$('[data-skin-btn]').forEach(b => b.addEventListener('click', () => setSkin(b.dataset.skinBtn)));
 $$('[data-role-btn]').forEach(b => b.addEventListener('click', () => setRole(b.dataset.roleBtn)));
 

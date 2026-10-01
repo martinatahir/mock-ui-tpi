@@ -4,7 +4,9 @@
    ========================================================================= */
 
 /* --- Gamer / Arcade (Light) --- */
-:root, :root[data-theme='light'] {
+:root,
+:root[data-theme='light'],
+:root[data-theme='light'][data-skin='gamer'] {
   --bg-app:#efe6d4; --bg-surface:#f7f1e4; --bg-surface-alt:#eadfc8;
   --border-subtle:#a68f66; --border-highlight:#8a6a1a;
   --text-primary:#16130f; --text-muted:#3a342c;
@@ -19,7 +21,8 @@
 }
 
 /* --- Gamer / Arcade (Dark) --- */
-:root[data-theme='dark'] {
+:root[data-theme='dark'],
+:root[data-theme='dark'][data-skin='gamer'] {
   --bg-app:#141516; --bg-surface:#1e1f21; --bg-surface-alt:#18191b;
   --border-subtle:#5b5e63; --border-highlight:#29c9e0;
   --text-primary:#e4e2dc; --text-muted:#a9aba8;
@@ -29,6 +32,8 @@
   --accent-danger:#ff5a52; --accent-danger-fill:#e62220; --on-accent-danger:#ffffff;
   --accent-success:#4ce52b; --accent-success-fill:#4ce52b; --on-accent-success:#082303;
   --focus-glow:rgba(242,117,220,.6);
+  --font-body:'IBM Plex Sans',sans-serif; --font-display:'Silkscreen',sans-serif;
+  --radius-control:4px; --border-width:2px; --press-y:-2px;
 }
 
 /* --- Sobrio / Normal (Light - Modo Profesor / Institucional) --- */
@@ -42,7 +47,8 @@
   --accent-danger:#b3261e; --accent-danger-fill:#c1352b; --on-accent-danger:#ffffff;
   --accent-success:#1c7a4d; --accent-success-fill:#1f7a4d; --on-accent-success:#ffffff;
   --focus-glow:rgba(47,95,208,.35);
-  --font-display:'IBM Plex Sans',sans-serif; --radius-control:8px; --border-width:1px; --press-y:0px;
+  --font-body:'IBM Plex Sans',sans-serif; --font-display:'IBM Plex Sans',sans-serif;
+  --radius-control:8px; --border-width:1px; --press-y:0px;
 }
 
 /* --- Sobrio / Normal (Dark - Modo Profesor / Institucional) --- */
@@ -56,7 +62,8 @@
   --accent-danger:#ef6a5d; --accent-danger-fill:#e2584c; --on-accent-danger:#2a0705;
   --accent-success:#59c290; --accent-success-fill:#4caf7d; --on-accent-success:#04210f;
   --focus-glow:rgba(111,155,240,.45);
-  --font-display:'IBM Plex Sans',sans-serif; --radius-control:8px; --border-width:1px; --press-y:0px;
+  --font-body:'IBM Plex Sans',sans-serif; --font-display:'IBM Plex Sans',sans-serif;
+  --radius-control:8px; --border-width:1px; --press-y:0px;
 }
 
 /* Derived tokens: readable status text on any surface */
