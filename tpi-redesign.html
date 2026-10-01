@@ -94,20 +94,20 @@
     <button data-skin-btn="sobrio" aria-pressed="false">💼 Normal</button>
   </div>
   <span>Propuesta:</span>
-  <span style="font-weight:700; color:var(--accent-primary-fill); font-size:12px;">🔝 Menú Superior Horizontal (Topbar Tabs + 100% Espacio Libre)</span>
+  <span style="font-weight:700; color:var(--accent-primary-fill); font-size:12px;">🕹️ HUD Topbar + Rail Arcade Lateral (68px)</span>
   <label><input type="checkbox" id="sim-error" /> Simular error</label>
   <a class="uikit-link" href="#uikit" title="Ver catálogo de componentes y tokens de diseño">🎨 UI Kit / Componentes</a>
 </div>
 
 <header class="topbar">
-  <div class="brand"><a href="#cursos" style="text-decoration:none; color:inherit;">TPI 2026</a></div>
-
-  <!-- Navegación Horizontal Superior (Pestañas solo texto, despejadas) -->
-  <nav class="top-nav" id="top-nav" aria-label="Navegación principal"></nav>
+  <div class="brand-wrap">
+    <div class="brand"><a href="#cursos" style="text-decoration:none; color:inherit;">🕹️ TPI 2026</a></div>
+    <span class="brand-cohort">MSI · 2026</span>
+  </div>
 
   <!-- Extremo Derecho: HUD del Alumno + Perfil de Usuario -->
   <div class="topbar-actions">
-    <!-- HUD Gamificado Alumno (Compacto junto al usuario) -->
+    <!-- HUD Gamificado Alumno (Compacto y despejado) -->
     <div class="hud-bar" id="student-hud" aria-label="Estado del alumno">
       <span class="hud-item lives" title="3 de 3 vidas disponibles">
         <svg class="icon icon-sm"><use href="#i-heart"/></svg>
@@ -161,6 +161,11 @@
 </header>
 
 <div class="shell">
+  <!-- Rail Lateral de Destinos Arcade (68px) -->
+  <nav class="sidebar" id="sidebar" aria-label="Navegación principal">
+    <div class="sidebar-nav" id="sidebar-nav"></div>
+  </nav>
+
   <main class="content" id="main">
 
     <!-- ================= DESAFÍOS · alumno ================= -->
@@ -2238,17 +2243,19 @@ const PARENT = { curso: 'cursos', quiz: 'desafios', 'cuestionario-nuevo': 'desaf
 let currentRole = 'alumno', currentScreen = 'desafios';
 
 function renderNav() {
-  const topNav = $('#top-nav');
+  const sidebarNav = $('#sidebar-nav');
   const bottomNav = $('#bottom-nav');
   const hud = $('#student-hud');
 
   // Solo mostramos el HUD del estudiante si el rol es alumno
   if (hud) hud.hidden = (currentRole !== 'alumno');
 
-  if (topNav) {
-    topNav.innerHTML = NAV_TABS[currentRole].map(([id, ic, label, count]) => `
-      <a class="top-nav-item" href="#${id}" data-screen="${id}">
-        <span>${label}</span>${count ? `<span class="top-nav-count" title="${id === 'accesos' ? 'Solicitudes pendientes' : 'Obligatorios pendientes'}">${count}</span>` : ''}
+  if (sidebarNav) {
+    sidebarNav.innerHTML = NAV_TABS[currentRole].map(([id, ic, label, count]) => `
+      <a class="rail-item" href="#${id}" data-screen="${id}" data-tooltip="${label}" title="${label}">
+        ${icon(ic)}
+        <span class="rail-label">${label}</span>
+        ${count ? `<span class="nav-count" title="${id === 'accesos' ? 'Solicitudes pendientes' : 'Obligatorios pendientes'}">${count}</span>` : ''}
       </a>
     `).join('');
   }
@@ -2281,7 +2288,7 @@ function route() {
   currentScreen = id;
   const navId = PARENT[id] || id;
 
-  $$('.top-nav-item, .bottom-nav-item').forEach(a => {
+  $$('.rail-item, .bottom-nav-item').forEach(a => {
     if (a.dataset.screen === navId) {
       a.setAttribute('aria-current', 'page');
     } else {
@@ -2295,8 +2302,8 @@ function route() {
   if (id === 'ranking') renderRanking();
   if (!el) {
     el = $('#screen-pending');
-    const link = $(`.top-nav-item[data-screen="${id}"]`);
-    $('#pending-title').textContent = link ? link.textContent.trim() : 'Página';
+    const link = $(`.rail-item[data-screen="${id}"]`);
+    $('#pending-title').textContent = link ? link.getAttribute('data-tooltip') || link.textContent.trim() : 'Página';
   }
   el.hidden = false;
   el.style.animation = 'none'; el.offsetHeight; el.style.animation = '';
