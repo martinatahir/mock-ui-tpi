@@ -104,14 +104,13 @@
     <button data-sidebar-btn="collapsed" aria-pressed="true" title="Icon Dock compacto (64px)">🔘 Iconos</button>
     <button data-sidebar-btn="pinned" aria-pressed="false" title="Fijar con textos (210px)">📌 Fijada</button>
   </div>
-  <span>Tipografía Arcade:</span>
-  <div class="seg" role="group" aria-label="Tipografía Arcade">
-    <button data-font-btn="silkscreen" aria-pressed="true" title="Silkscreen (Pixel art actual)">Silkscreen</button>
-    <button data-font-btn="chakra" aria-pressed="false" title="Chakra Petch (Arcade Japonés / Recomendada)">⚡ Chakra Petch</button>
+  <span>Fuente Títulos/Display:</span>
+  <div class="seg" role="group" aria-label="Fuente Títulos y Logo">
+    <button data-font-btn="pixelify" aria-pressed="true" title="Pixelify Sans (Pixel art moderno, estético y con peso)">✨ Pixelify Sans</button>
     <button data-font-btn="pressstart" aria-pressed="false" title="Press Start 2P (Clásico Arcade 80s/90s)">🕹️ Press Start</button>
-    <button data-font-btn="pixelify" aria-pressed="false" title="Pixelify Sans (Pixel Art Moderno)">Pixelify</button>
+    <button data-font-btn="chakra" aria-pressed="false" title="Chakra Petch (Arcade Mecha / Capcom)">⚡ Chakra Petch</button>
     <button data-font-btn="orbitron" aria-pressed="false" title="Orbitron (HUD Sci-Fi / Cyberpunk)">Orbitron</button>
-    <button data-font-btn="hybrid" aria-pressed="false" title="Híbrida (Títulos en Silkscreen + Tooltips en IBM Plex)">⚖️ Híbrida</button>
+    <button data-font-btn="silkscreen" aria-pressed="false" title="Silkscreen (La anterior, trazo fino)">Silkscreen</button>
   </div>
   <a class="uikit-link" href="font-comparison.html" target="_blank" title="Abrir comparativa lado a lado de tipografías retro" style="color:#a855f7;">🔍 Comparador</a>
   <label><input type="checkbox" id="sim-error" /> Simular error</label>
@@ -2415,7 +2414,7 @@ renderStudentCourses(); renderCohorts(); renderInventory(); renderHero(); render
 setTheme(store.get('tpi-theme') || 'dark');
 setSkin(store.get('tpi-skin') || 'gamer');
 setPalette(store.get('tpi-palette') || 'electric');
-setFont(store.get('tpi-font') || 'silkscreen');
+setFont(store.get('tpi-font') || 'pixelify');
 setSidebarPinned(store.get('tpi-sidebar-pinned') === 'true');
 setRole(store.get('tpi-role') || 'alumno');
 </script>

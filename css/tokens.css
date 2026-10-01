@@ -107,28 +107,9 @@
 }
 [data-skin='gamer'] { --radius-card:2px; }
 
-/* --- Variantes de Tipografía Retro en Modo Arcade --- */
-:root[data-skin='gamer'][data-font='chakra'] {
-  --font-display: 'Chakra Petch', sans-serif;
-  --font-tooltip: 'Chakra Petch', sans-serif;
-}
-:root[data-skin='gamer'][data-font='rajdhani'] {
-  --font-display: 'Rajdhani', sans-serif;
-  --font-tooltip: 'Rajdhani', sans-serif;
-}
-:root[data-skin='gamer'][data-font='pixelify'] {
-  --font-display: 'Pixelify Sans', sans-serif;
-  --font-tooltip: 'Pixelify Sans', sans-serif;
-}
-:root[data-skin='gamer'][data-font='pressstart'] {
-  --font-display: 'Press Start 2P', monospace;
-  --font-tooltip: 'Chakra Petch', sans-serif;
-}
-:root[data-skin='gamer'][data-font='orbitron'] {
-  --font-display: 'Orbitron', sans-serif;
-  --font-tooltip: 'Orbitron', sans-serif;
-}
-:root[data-skin='gamer'][data-font='hybrid'] {
-  --font-display: 'Silkscreen', sans-serif;
-  --font-tooltip: 'IBM Plex Sans', sans-serif;
-}
+/* --- Reemplazo de Silkscreen para Títulos / Logo / Display --- */
+:root[data-skin='gamer'][data-font='pixelify'] { --font-display: 'Pixelify Sans', sans-serif; }
+:root[data-skin='gamer'][data-font='pressstart'] { --font-display: 'Press Start 2P', monospace; }
+:root[data-skin='gamer'][data-font='chakra'] { --font-display: 'Chakra Petch', sans-serif; }
+:root[data-skin='gamer'][data-font='orbitron'] { --font-display: 'Orbitron', sans-serif; }
+:root[data-skin='gamer'][data-font='silkscreen'] { --font-display: 'Silkscreen', sans-serif; }
