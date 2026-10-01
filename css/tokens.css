@@ -120,6 +120,14 @@
   --font-display: 'Pixelify Sans', sans-serif;
   --font-tooltip: 'Pixelify Sans', sans-serif;
 }
+:root[data-skin='gamer'][data-font='pressstart'] {
+  --font-display: 'Press Start 2P', monospace;
+  --font-tooltip: 'Chakra Petch', sans-serif;
+}
+:root[data-skin='gamer'][data-font='orbitron'] {
+  --font-display: 'Orbitron', sans-serif;
+  --font-tooltip: 'Orbitron', sans-serif;
+}
 :root[data-skin='gamer'][data-font='hybrid'] {
   --font-display: 'Silkscreen', sans-serif;
   --font-tooltip: 'IBM Plex Sans', sans-serif;

@@ -6,8 +6,8 @@
 <title>Comparativa de Tipografías Retro · TPI 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<!-- Cargamos las 5 fuentes para comparar lado a lado -->
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,400;0,600;0,700;1,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Pixelify+Sans:wght@400;600;700&family=Rajdhani:wght@500;600;700&family=Silkscreen:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet" />
+<!-- Cargamos las fuentes gamer para comparar lado a lado -->
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,400;0,600;0,700;1,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Orbitron:wght@700;900&family=Pixelify+Sans:wght@400;600;700&family=Press+Start+2P&family=Rajdhani:wght@500;600;700&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="css/tokens.css" />
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -16,14 +16,109 @@
     color: #e2e8f0;
     font-family: 'IBM Plex Sans', sans-serif;
     padding: 32px 24px 64px;
-    max-width: 1280px;
+    max-width: 1320px;
     margin: 0 auto;
   }
   .header {
-    margin-bottom: 32px;
+    margin-bottom: 28px;
     border-bottom: 2px solid #1e293b;
     padding-bottom: 20px;
   }
+  .header h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #00e5ff;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .header p {
+    color: #94a3b8;
+    margin-top: 6px;
+    font-size: 15px;
+  }
+
+  /* Sección Duelo Gamer Display */
+  .battle-section {
+    background: #0c121e;
+    border: 2px solid #00e5ff;
+    border-radius: 10px;
+    padding: 24px;
+    margin-bottom: 40px;
+    box-shadow: 0 0 24px rgba(0,229,255,0.15), 4px 4px 0 #000;
+  }
+  .battle-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffd600;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .battle-sub {
+    color: #94a3b8;
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+  .battle-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .battle-card {
+    background: #101726;
+    border: 2px solid #1e293b;
+    border-radius: 6px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .battle-card.active-target {
+    border-color: #ffd600;
+    box-shadow: 2px 2px 0 #ffd600;
+  }
+  .battle-card.highlight {
+    border-color: #00e5ff;
+    box-shadow: 2px 2px 0 #00e5ff;
+  }
+  .battle-tag {
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    padding: 2px 6px;
+    border-radius: 3px;
+    display: inline-block;
+    align-self: flex-start;
+  }
+  .tag-current { background: #334155; color: #94a3b8; }
+  .tag-win { background: #00e5ff; color: #050b14; }
+  .tag-arcade { background: #ff0055; color: #fff; }
+  .tag-scifi { background: #a855f7; color: #fff; }
+
+  .specimen-box {
+    background: #05080e;
+    border: 1px solid #1e293b;
+    border-radius: 4px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .specimen-title { font-size: 18px; color: #00e5ff; font-weight: 700; line-height: 1.2; }
+  .specimen-hud { font-size: 13px; color: #ffd600; font-weight: 700; }
+  .specimen-rank { font-size: 22px; color: #fff; font-weight: 700; }
+  .specimen-alert { font-size: 11px; color: #a855f7; font-weight: 700; }
+
+  .font-f-silkscreen { font-family: 'Silkscreen', sans-serif; }
+  .font-f-pressstart { font-family: 'Press Start 2P', monospace; }
+  .font-f-pixelify { font-family: 'Pixelify Sans', sans-serif; }
+  .font-f-orbitron { font-family: 'Orbitron', sans-serif; }
+  .font-f-chakra { font-family: 'Chakra Petch', sans-serif; }
   .header h1 {
     font-size: 26px;
     font-weight: 700;
@@ -218,8 +313,100 @@
 
 <div class="header">
   <h1>🕹️ Comparativa de Fuentes Retro · TPI 2026</h1>
-  <p>Evaluación de legibilidad en <strong>Tooltips (11px–12px)</strong>, <strong>Botones</strong>, <strong>Badges</strong> y <strong>HUD</strong>.</p>
+  <p>Evaluación de legibilidad y estética gamer para <strong>Títulos / Logos / HUD</strong> y <strong>Tooltips / Controles</strong>.</p>
 </div>
+
+<!-- ============================================================ -->
+<!-- ⚔️ DUELO GAMER DISPLAY: SILKSCREEN VS SUS RIVALES DIRECTAS -->
+<!-- ============================================================ -->
+<section class="battle-section">
+  <div class="battle-title">⚔️ Duelo Gamer Display: ¿Silkscreen o una alternativa con más peso?</div>
+  <div class="battle-sub">Comparación directa en los 4 elementos de mayor impacto visual: <strong>Logo</strong>, <strong>HUD de Jugador</strong>, <strong>Posición de Ranking</strong> y <strong>Cartel de Recompensa</strong>.</div>
+
+  <div class="battle-grid">
+
+    <!-- 1. Silkscreen -->
+    <div class="battle-card active-target">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <strong style="color:#ffd600; font-size:16px;">1. Silkscreen</strong>
+        <span class="battle-tag tag-current">ACTUAL</span>
+      </div>
+      <div style="font-size:12px; color:#94a3b8; line-height:1.4;">
+        Pixel Art de 2001. Trazo fino (1px) y proporciones rígidas. A veces se siente más "web vieja" que "fichín potente".
+      </div>
+      <div class="specimen-box font-f-silkscreen">
+        <div class="specimen-title" style="font-size:16px;">🕹️ TPI 2026</div>
+        <div class="specimen-hud" style="font-size:12px;">LVL 5 · 1,420 XP · 340 🪙</div>
+        <div class="specimen-rank" style="font-size:20px;">#1 CAMPEON</div>
+        <div class="specimen-alert" style="font-size:10px;">¡DESAFIO OK! +50 🪙</div>
+      </div>
+      <div style="font-size:11px; color:#cbd5e1;">
+        🎮 <strong>Gamer DNA:</strong> 7/10 · 👓 <strong>Legibilidad:</strong> 5/10 · 🎨 <strong>Estética:</strong> 6/10
+      </div>
+    </div>
+
+    <!-- 2. Press Start 2P -->
+    <div class="battle-card highlight">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <strong style="color:#ff0055; font-size:16px;">2. Press Start 2P</strong>
+        <span class="battle-tag tag-arcade">REY DEL ARCADE</span>
+      </div>
+      <div style="font-size:12px; color:#94a3b8; line-height:1.4;">
+        La fuente de las máquinas arcade de Namco y Capcom (1985). Trazo grueso, pesado y 100% auténtico de fichín.
+      </div>
+      <div class="specimen-box font-f-pressstart">
+        <div class="specimen-title" style="font-size:15px; color:#ff0055;">🕹️ TPI 2026</div>
+        <div class="specimen-hud" style="font-size:10px;">LVL 5 · 1,420 XP</div>
+        <div class="specimen-rank" style="font-size:18px;">#1 CAMPEON</div>
+        <div class="specimen-alert" style="font-size:9px; color:#00e5ff;">STAGE CLEAR! +50 🪙</div>
+      </div>
+      <div style="font-size:11px; color:#cbd5e1;">
+        🎮 <strong>Gamer DNA:</strong> 10/10 · 👓 <strong>Legibilidad:</strong> 7/10 · 🎨 <strong>Estética:</strong> 9/10
+      </div>
+    </div>
+
+    <!-- 3. Pixelify Sans -->
+    <div class="battle-card highlight">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <strong style="color:#00e5ff; font-size:16px;">3. Pixelify Sans</strong>
+        <span class="battle-tag tag-win">PIXEL MODERNO</span>
+      </div>
+      <div style="font-size:12px; color:#94a3b8; line-height:1.4;">
+        Pixel Art de juegos indie contemporáneos (*Celeste, Undertale*). Trazo con peso Bold, curvas definidas y tildes perfectas.
+      </div>
+      <div class="specimen-box font-f-pixelify">
+        <div class="specimen-title" style="font-size:20px; font-weight:700;">🕹️ TPI 2026</div>
+        <div class="specimen-hud" style="font-size:13px; font-weight:700;">LVL 5 · 1.420 XP · 340 🪙</div>
+        <div class="specimen-rank" style="font-size:24px; font-weight:700;">#1 CAMPEÓN</div>
+        <div class="specimen-alert" style="font-size:12px; font-weight:700; color:#00e5ff;">¡DESAFÍO OK! +50 🪙</div>
+      </div>
+      <div style="font-size:11px; color:#cbd5e1;">
+        🎮 <strong>Gamer DNA:</strong> 9/10 · 👓 <strong>Legibilidad:</strong> 8.5/10 · 🎨 <strong>Estética:</strong> 9.5/10
+      </div>
+    </div>
+
+    <!-- 4. Orbitron -->
+    <div class="battle-card highlight">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <strong style="color:#a855f7; font-size:16px;">4. Orbitron (Black)</strong>
+        <span class="battle-tag tag-scifi">ESPORTS / SCI-FI</span>
+      </div>
+      <div style="font-size:12px; color:#94a3b8; line-height:1.4;">
+        Arcade futurista / Simulador / HUD Cyberpunk. Cero píxeles, máxima agresividad geométrica y definición ultra-HD.
+      </div>
+      <div class="specimen-box font-f-orbitron">
+        <div class="specimen-title" style="font-size:18px; font-weight:900; letter-spacing:0.04em; color:#a855f7;">🕹️ TPI 2026</div>
+        <div class="specimen-hud" style="font-size:12px; font-weight:900;">LVL 5 · 1,420 XP · 340 🪙</div>
+        <div class="specimen-rank" style="font-size:22px; font-weight:900;">#1 CAMPEÓN</div>
+        <div class="specimen-alert" style="font-size:11px; font-weight:900; color:#ffd600;">VICTORY! +50 🪙</div>
+      </div>
+      <div style="font-size:11px; color:#cbd5e1;">
+        🎮 <strong>Gamer DNA:</strong> 9/10 · 👓 <strong>Legibilidad:</strong> 10/10 · 🎨 <strong>Estética:</strong> 9/10
+      </div>
+    </div>
+
+  </div>
+</section>
 
 <div class="grid">
 
