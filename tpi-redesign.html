@@ -93,6 +93,11 @@
     <button data-skin-btn="gamer" aria-pressed="true">🎮 Arcade</button>
     <button data-skin-btn="sobrio" aria-pressed="false">💼 Normal</button>
   </div>
+  <span>Paleta Arcade:</span>
+  <div class="seg" role="group" aria-label="Paleta Arcade">
+    <button data-palette-btn="electric" aria-pressed="true" title="Paleta Cian Eléctrico y Oro (Recomendada)">⚡ Cian Eléctrico</button>
+    <button data-palette-btn="neon" aria-pressed="false" title="Paleta Magenta Original (Vaporwave)">🌸 Magenta Original</button>
+  </div>
   <span>Propuesta:</span>
   <span style="font-weight:700; color:var(--accent-primary-fill); font-size:12px;">🕹️ HUD Topbar + Rail Arcade Lateral (68px)</span>
   <label><input type="checkbox" id="sim-error" /> Simular error</label>
@@ -151,6 +156,13 @@
           <div class="seg sm" role="group" aria-label="Tema">
             <button data-theme-btn="dark" aria-pressed="true">Oscuro</button>
             <button data-theme-btn="light" aria-pressed="false">Claro</button>
+          </div>
+        </div>
+        <div class="menu-pref-title">Paleta Arcade</div>
+        <div class="menu-pref-row">
+          <div class="seg sm" role="group" aria-label="Paleta Arcade">
+            <button data-palette-btn="electric" aria-pressed="true">⚡ Cian</button>
+            <button data-palette-btn="neon" aria-pressed="false">🌸 Magenta</button>
           </div>
         </div>
         <hr />
@@ -2331,6 +2343,10 @@ function setSkin(s) {
   root.dataset.skin = s; store.set('tpi-skin', s);
   $$('[data-skin-btn]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.skinBtn === s)));
 }
+function setPalette(p) {
+  root.dataset.palette = p; store.set('tpi-palette', p);
+  $$('[data-palette-btn]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.paletteBtn === p)));
+}
 function setRole(r) {
   currentRole = r; root.dataset.role = r; store.set('tpi-role', r);
   $$('[data-role-btn]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.roleBtn === r)));
@@ -2342,6 +2358,7 @@ function setRole(r) {
 }
 $$('[data-theme-btn]').forEach(b => b.addEventListener('click', () => setTheme(b.dataset.themeBtn)));
 $$('[data-skin-btn]').forEach(b => b.addEventListener('click', () => setSkin(b.dataset.skinBtn)));
+$$('[data-palette-btn]').forEach(b => b.addEventListener('click', () => setPalette(b.dataset.paletteBtn)));
 $$('[data-role-btn]').forEach(b => b.addEventListener('click', () => setRole(b.dataset.roleBtn)));
 
 /* ---- boot ---- */
@@ -2350,6 +2367,7 @@ $$('[data-catalog]').forEach(el => Catalog(el));
 renderStudentCourses(); renderCohorts(); renderInventory(); renderHero(); renderBuilder(); renderBadges();
 setTheme(store.get('tpi-theme') || 'dark');
 setSkin(store.get('tpi-skin') || 'gamer');
+setPalette(store.get('tpi-palette') || 'electric');
 setRole(store.get('tpi-role') || 'alumno');
 </script>
 </body>

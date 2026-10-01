@@ -3,10 +3,26 @@
    sobrio palette proposed in tpi-ui-mock.html (modo normal).
    ========================================================================= */
 
-/* --- Gamer / Arcade (Light) --- */
+/* --- Gamer / Arcade (Light) · Paleta Eléctrica / Cyber Blue (Recomendada) --- */
 :root,
 :root[data-theme='light'],
-:root[data-theme='light'][data-skin='gamer'] {
+:root[data-theme='light'][data-skin='gamer'],
+:root[data-theme='light'][data-skin='gamer'][data-palette='electric'] {
+  --bg-app:#eaf0f6; --bg-surface:#f5f8fc; --bg-surface-alt:#dfe8f2;
+  --border-subtle:#94a3b8; --border-highlight:#0284c7;
+  --text-primary:#0f172a; --text-muted:#334155;
+  --accent-primary:#0284c7; --accent-primary-fill:#0284c7; --on-accent-primary:#ffffff;
+  --accent-secondary:#7c3aed; --accent-secondary-fill:#7c3aed; --on-accent-secondary:#ffffff;
+  --accent-gold:#b45309; --accent-gold-fill:#d97706; --on-accent-gold:#ffffff;
+  --accent-danger:#e11d48; --accent-danger-fill:#e11d48; --on-accent-danger:#ffffff;
+  --accent-success:#059669; --accent-success-fill:#059669; --on-accent-success:#ffffff;
+  --focus-glow:rgba(2,132,199,.45);
+  --font-body:'IBM Plex Sans',sans-serif; --font-display:'Silkscreen',sans-serif;
+  --radius-control:4px; --border-width:2px; --press-y:-2px;
+}
+
+/* --- Gamer / Arcade (Light) · Paleta Neón Magenta (Original) --- */
+:root[data-theme='light'][data-skin='gamer'][data-palette='neon'] {
   --bg-app:#efe6d4; --bg-surface:#f7f1e4; --bg-surface-alt:#eadfc8;
   --border-subtle:#a68f66; --border-highlight:#8a6a1a;
   --text-primary:#16130f; --text-muted:#3a342c;
@@ -20,9 +36,25 @@
   --radius-control:4px; --border-width:2px; --press-y:-2px;
 }
 
-/* --- Gamer / Arcade (Dark) --- */
+/* --- Gamer / Arcade (Dark) · Paleta Eléctrica / Cyber Cyan (Recomendada) --- */
 :root[data-theme='dark'],
-:root[data-theme='dark'][data-skin='gamer'] {
+:root[data-theme='dark'][data-skin='gamer'],
+:root[data-theme='dark'][data-skin='gamer'][data-palette='electric'] {
+  --bg-app:#10141a; --bg-surface:#181d26; --bg-surface-alt:#13171f;
+  --border-subtle:#3b4758; --border-highlight:#00e5ff;
+  --text-primary:#f1f5f9; --text-muted:#94a3b8;
+  --accent-primary:#00e5ff; --accent-primary-fill:#00d2f0; --on-accent-primary:#031520;
+  --accent-secondary:#a855f7; --accent-secondary-fill:#9333ea; --on-accent-secondary:#ffffff;
+  --accent-gold:#ffd600; --accent-gold-fill:#facc15; --on-accent-gold:#221f00;
+  --accent-danger:#ff3366; --accent-danger-fill:#f43f5e; --on-accent-danger:#ffffff;
+  --accent-success:#00e676; --accent-success-fill:#10b981; --on-accent-success:#022c15;
+  --focus-glow:rgba(0,229,255,.55);
+  --font-body:'IBM Plex Sans',sans-serif; --font-display:'Silkscreen',sans-serif;
+  --radius-control:4px; --border-width:2px; --press-y:-2px;
+}
+
+/* --- Gamer / Arcade (Dark) · Paleta Neón Magenta (Original) --- */
+:root[data-theme='dark'][data-skin='gamer'][data-palette='neon'] {
   --bg-app:#141516; --bg-surface:#1e1f21; --bg-surface-alt:#18191b;
   --border-subtle:#5b5e63; --border-highlight:#29c9e0;
   --text-primary:#e4e2dc; --text-muted:#a9aba8;
