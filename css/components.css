@@ -231,6 +231,7 @@ fieldset.group legend { font-size:12px; font-weight:700; text-transform:uppercas
 [data-skin='gamer'] fieldset.group legend { font-family:var(--font-display); font-weight:400; }
 
 /* ---- Spinners y Skeletons de Carga ---- */
+/* Modo Normal: Giro fluido suave */
 .spinner {
   display:inline-block; border-radius:50%;
   border:2.5px solid currentColor;
@@ -238,14 +239,367 @@ fieldset.group legend { font-size:12px; font-weight:700; text-transform:uppercas
   animation:spin .75s linear infinite;
   flex:none;
 }
-[data-skin='gamer'] .spinner {
-  animation-timing-function:steps(8,end);
-  border-radius:2px;
-}
 .spinner-sm { width:14px; height:14px; border-width:2px; }
 .spinner-md { width:22px; height:22px; border-width:2.5px; }
 .spinner-lg { width:36px; height:36px; border-width:3px; }
 @keyframes spin { to { transform:rotate(360deg); } }
+
+/* Modo Arcade: 8-Bit Pixel Spinner (Inspirado en Codepen _fbrz/pen/QwYLGV) */
+[data-skin='gamer'] .spinner {
+  border:none !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:visible;
+  animation:none;
+}
+[data-skin='gamer'] .spinner::before {
+  content:'';
+  display:block;
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:1em;
+  height:1em;
+  margin:-0.5em 0 0 -0.5em;
+  animation:arcade-spinner-8bit 1s linear infinite;
+}
+[data-skin='gamer'] .spinner-sm { width:14px; height:14px; }
+[data-skin='gamer'] .spinner-sm::before { font-size:2px; }
+[data-skin='gamer'] .spinner-md { width:22px; height:22px; }
+[data-skin='gamer'] .spinner-md::before { font-size:3px; }
+[data-skin='gamer'] .spinner-lg { width:36px; height:36px; }
+[data-skin='gamer'] .spinner-lg::before { font-size:5px; }
+
+@keyframes arcade-spinner-8bit {
+  0% {
+    box-shadow:
+      0 -3em currentColor,
+      1em -3em currentColor,
+      2em -2em currentColor,
+      3em -1em currentColor,
+      3em 0 currentColor,
+      3em 1em currentColor,
+      2em 2em currentColor,
+      1em 3em currentColor,
+      0 3em transparent,
+      -1em 3em transparent,
+      -2em 2em transparent,
+      -3em 1em transparent,
+      -3em 0 transparent,
+      -3em -1em transparent,
+      -2em -2em transparent,
+      -1em -3em transparent;
+  }
+  6.25% {
+    box-shadow:
+      0 -3em transparent,
+      1em -3em currentColor,
+      2em -2em currentColor,
+      3em -1em currentColor,
+      3em 0 currentColor,
+      3em 1em currentColor,
+      2em 2em currentColor,
+      1em 3em currentColor,
+      0 3em currentColor,
+      -1em 3em transparent,
+      -2em 2em transparent,
+      -3em 1em transparent,
+      -3em 0 transparent,
+      -3em -1em transparent,
+      -2em -2em transparent,
+      -1em -3em transparent;
+  }
+  12.5% {
+    box-shadow:
+      0 -3em transparent,
+      1em -3em transparent,
+      2em -2em currentColor,
+      3em -1em currentColor,
+      3em 0 currentColor,
+      3em 1em currentColor,
+      2em 2em currentColor,
+      1em 3em currentColor,
+      0 3em currentColor,
+      -1em 3em currentColor,
+      -2em 2em transparent,
+      -3em 1em transparent,
+      -3em 0 transparent,
+      -3em -1em transparent,
+      -2em -2em transparent,
+      -1em -3em transparent;
+  }
+  18.75% {
+    box-shadow:
+      0 -3em transparent,
+      1em -3em transparent,
+      2em -2em transparent,
+      3em -1em currentColor,
+      3em 0 currentColor,
+      3em 1em currentColor,
+      2em 2em currentColor,
+      1em 3em currentColor,
+      0 3em currentColor,
+      -1em 3em currentColor,
+      -2em 2em currentColor,
+      -3em 1em transparent,
+      -3em 0 transparent,
+      -3em -1em transparent,
+      -2em -2em transparent,
+      -1em -3em transparent;
+  }
+  25% {
+    box-shadow:
+      0 -3em transparent,
+      1em -3em transparent,
+      2em -2em transparent,
+      3em -1em transparent,
+      3em 0 currentColor,
+      3em 1em currentColor,
+      2em 2em currentColor,
+      1em 3em currentColor,
+      0 3em currentColor,
+      -1em 3em currentColor,
+      -2em 2em currentColor,
+      -3em 1em currentColor,
+      -3em 0 transparent,
+      -3em -1em transparent,
+      -2em -2em transparent,
+      -1em -3em transparent;
+  }
+  31.25% {
+    box-shadow:
+      0 -3em transparent,
+      1em -3em transparent,
+      2em -2em transparent,
+      3em -1em transparent,
+      3em 0 transparent,
+      3em 1em currentColor,
+      2em 2em currentColor,
+      1em 3em currentColor,
+      0 3em currentColor,
+      -1em 3em currentColor,
+      -2em 2em currentColor,
+      -3em 1em currentColor,
+      -3em 0 currentColor,
+      -3em -1em transparent,
+      -2em -2em transparent,
+      -1em -3em transparent;
+  }
+  37.5% {
+    box-shadow:
+      0 -3em transparent,
+      1em -3em transparent,
+      2em -2em transparent,
+      3em -1em transparent,
+      3em 0 transparent,
+      3em 1em transparent,
+      2em 2em currentColor,
+      1em 3em currentColor,
+      0 3em currentColor,
+      -1em 3em currentColor,
+      -2em 2em currentColor,
+      -3em 1em currentColor,
+      -3em 0 currentColor,
+      -3em -1em currentColor,
+      -2em -2em transparent,
+      -1em -3em transparent;
+  }
+  43.75% {
+    box-shadow:
+      0 -3em transparent,
+      1em -3em transparent,
+      2em -2em transparent,
+      3em -1em transparent,
+      3em 0 transparent,
+      3em 1em transparent,
+      2em 2em transparent,
+      1em 3em currentColor,
+      0 3em currentColor,
+      -1em 3em currentColor,
+      -2em 2em currentColor,
+      -3em 1em currentColor,
+      -3em 0 currentColor,
+      -3em -1em currentColor,
+      -2em -2em currentColor,
+      -1em -3em transparent;
+  }
+  50% {
+    box-shadow:
+      0 -3em transparent,
+      1em -3em transparent,
+      2em -2em transparent,
+      3em -1em transparent,
+      3em 0 transparent,
+      3em 1em transparent,
+      2em 2em transparent,
+      1em 3em transparent,
+      0 3em currentColor,
+      -1em 3em currentColor,
+      -2em 2em currentColor,
+      -3em 1em currentColor,
+      -3em 0 currentColor,
+      -3em -1em currentColor,
+      -2em -2em currentColor,
+      -1em -3em currentColor;
+  }
+  56.25% {
+    box-shadow:
+      0 -3em currentColor,
+      1em -3em transparent,
+      2em -2em transparent,
+      3em -1em transparent,
+      3em 0 transparent,
+      3em 1em transparent,
+      2em 2em transparent,
+      1em 3em transparent,
+      0 3em transparent,
+      -1em 3em currentColor,
+      -2em 2em currentColor,
+      -3em 1em currentColor,
+      -3em 0 currentColor,
+      -3em -1em currentColor,
+      -2em -2em currentColor,
+      -1em -3em currentColor;
+  }
+  62.5% {
+    box-shadow:
+      0 -3em currentColor,
+      1em -3em currentColor,
+      2em -2em transparent,
+      3em -1em transparent,
+      3em 0 transparent,
+      3em 1em transparent,
+      2em 2em transparent,
+      1em 3em transparent,
+      0 3em transparent,
+      -1em 3em transparent,
+      -2em 2em currentColor,
+      -3em 1em currentColor,
+      -3em 0 currentColor,
+      -3em -1em currentColor,
+      -2em -2em currentColor,
+      -1em -3em currentColor;
+  }
+  68.75% {
+    box-shadow:
+      0 -3em currentColor,
+      1em -3em currentColor,
+      2em -2em currentColor,
+      3em -1em transparent,
+      3em 0 transparent,
+      3em 1em transparent,
+      2em 2em transparent,
+      1em 3em transparent,
+      0 3em transparent,
+      -1em 3em transparent,
+      -2em 2em transparent,
+      -3em 1em currentColor,
+      -3em 0 currentColor,
+      -3em -1em currentColor,
+      -2em -2em currentColor,
+      -1em -3em currentColor;
+  }
+  75% {
+    box-shadow:
+      0 -3em currentColor,
+      1em -3em currentColor,
+      2em -2em currentColor,
+      3em -1em currentColor,
+      3em 0 transparent,
+      3em 1em transparent,
+      2em 2em transparent,
+      1em 3em transparent,
+      0 3em transparent,
+      -1em 3em transparent,
+      -2em 2em transparent,
+      -3em 1em transparent,
+      -3em 0 currentColor,
+      -3em -1em currentColor,
+      -2em -2em currentColor,
+      -1em -3em currentColor;
+  }
+  81.25% {
+    box-shadow:
+      0 -3em currentColor,
+      1em -3em currentColor,
+      2em -2em currentColor,
+      3em -1em currentColor,
+      3em 0 currentColor,
+      3em 1em transparent,
+      2em 2em transparent,
+      1em 3em transparent,
+      0 3em transparent,
+      -1em 3em transparent,
+      -2em 2em transparent,
+      -3em 1em transparent,
+      -3em 0 transparent,
+      -3em -1em currentColor,
+      -2em -2em currentColor,
+      -1em -3em currentColor;
+  }
+  87.5% {
+    box-shadow:
+      0 -3em currentColor,
+      1em -3em currentColor,
+      2em -2em currentColor,
+      3em -1em currentColor,
+      3em 0 currentColor,
+      3em 1em currentColor,
+      2em 2em transparent,
+      1em 3em transparent,
+      0 3em transparent,
+      -1em 3em transparent,
+      -2em 2em transparent,
+      -3em 1em transparent,
+      -3em 0 transparent,
+      -3em -1em transparent,
+      -2em -2em currentColor,
+      -1em -3em currentColor;
+  }
+  93.75% {
+    box-shadow:
+      0 -3em currentColor,
+      1em -3em currentColor,
+      2em -2em currentColor,
+      3em -1em currentColor,
+      3em 0 currentColor,
+      3em 1em currentColor,
+      2em 2em currentColor,
+      1em 3em transparent,
+      0 3em transparent,
+      -1em 3em transparent,
+      -2em 2em transparent,
+      -3em 1em transparent,
+      -3em 0 transparent,
+      -3em -1em transparent,
+      -2em -2em transparent,
+      -1em -3em currentColor;
+  }
+  100% {
+    box-shadow:
+      0 -3em currentColor,
+      1em -3em currentColor,
+      2em -2em currentColor,
+      3em -1em currentColor,
+      3em 0 currentColor,
+      3em 1em currentColor,
+      2em 2em currentColor,
+      1em 3em currentColor,
+      0 3em transparent,
+      -1em 3em transparent,
+      -2em 2em transparent,
+      -3em 1em transparent,
+      -3em 0 transparent,
+      -3em -1em transparent,
+      -2em -2em transparent,
+      -1em -3em transparent;
+  }
+}
+
 
 .skeleton {
   background:linear-gradient(90deg, var(--bg-surface-alt) 25%, color-mix(in srgb, var(--border-subtle) 50%, var(--bg-surface-alt)) 50%, var(--bg-surface-alt) 75%);
