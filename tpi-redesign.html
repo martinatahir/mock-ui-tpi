@@ -100,11 +100,16 @@
 </div>
 
 <header class="topbar">
-  <div class="brand-group">
-    <div class="brand">TPI 2026</div>
-    <!-- HUD Gamificado Alumno -->
+  <div class="brand"><a href="#cursos" style="text-decoration:none; color:inherit;">TPI 2026</a></div>
+
+  <!-- Navegación Horizontal Superior (Pestañas solo texto, despejadas) -->
+  <nav class="top-nav" id="top-nav" aria-label="Navegación principal"></nav>
+
+  <!-- Extremo Derecho: HUD del Alumno + Perfil de Usuario -->
+  <div class="topbar-actions">
+    <!-- HUD Gamificado Alumno (Compacto junto al usuario) -->
     <div class="hud-bar" id="student-hud" aria-label="Estado del alumno">
-      <span class="hud-item lives" title="3 vidas restantes">
+      <span class="hud-item lives" title="3 de 3 vidas disponibles">
         <svg class="icon icon-sm"><use href="#i-heart"/></svg>
         <span class="num">3/3</span>
       </span>
@@ -124,21 +129,8 @@
         <span>Niv. 7</span>
       </span>
     </div>
-  </div>
 
-  <!-- Navegación Horizontal Superior -->
-  <nav class="top-nav" id="top-nav" aria-label="Navegación principal"></nav>
-
-  <!-- Acciones y Perfil -->
-  <div class="topbar-actions">
-    <div class="seg" role="group" aria-label="Estilo">
-      <button data-skin-btn="gamer" aria-pressed="true" title="Modo Arcade"><svg class="icon icon-sm"><use href="#i-gamepad"/></svg><span class="seg-label">Arcade</span></button>
-      <button data-skin-btn="sobrio" aria-pressed="false" title="Modo Normal"><svg class="icon icon-sm"><use href="#i-briefcase"/></svg><span class="seg-label">Normal</span></button>
-    </div>
-    <div class="seg" role="group" aria-label="Tema">
-      <button data-theme-btn="dark" aria-pressed="true" title="Modo Oscuro"><svg class="icon icon-sm"><use href="#i-moon"/></svg></button>
-      <button data-theme-btn="light" aria-pressed="false" title="Modo Claro"><svg class="icon icon-sm"><use href="#i-sun"/></svg></button>
-    </div>
+    <!-- Menú de Cuenta y Preferencias -->
     <div class="account">
       <button class="me-chip" id="account-btn" type="button" aria-expanded="false" aria-controls="account-menu" aria-haspopup="true">
         <span class="initials" aria-hidden="true" data-me-initials>MS</span>
@@ -149,6 +141,18 @@
         <a class="nav-item" href="#perfil"><svg class="icon"><use href="#i-user"/></svg>Mi perfil</a>
         <a class="nav-item" href="#personaje" data-alumno-only><svg class="icon"><use href="#i-shirt"/></svg>Mi personaje</a>
         <a class="nav-item" href="#inventario" data-alumno-only><svg class="icon"><use href="#i-backpack"/></svg>Inventario</a>
+        <hr />
+        <div class="menu-pref-title">Apariencia</div>
+        <div class="menu-pref-row">
+          <div class="seg sm" role="group" aria-label="Estilo">
+            <button data-skin-btn="gamer" aria-pressed="true">Arcade</button>
+            <button data-skin-btn="sobrio" aria-pressed="false">Normal</button>
+          </div>
+          <div class="seg sm" role="group" aria-label="Tema">
+            <button data-theme-btn="dark" aria-pressed="true">Oscuro</button>
+            <button data-theme-btn="light" aria-pressed="false">Claro</button>
+          </div>
+        </div>
         <hr />
         <button class="nav-item danger" type="button"><svg class="icon"><use href="#i-logout"/></svg>Cerrar sesión</button>
       </div>
@@ -2244,7 +2248,7 @@ function renderNav() {
   if (topNav) {
     topNav.innerHTML = NAV_TABS[currentRole].map(([id, ic, label, count]) => `
       <a class="top-nav-item" href="#${id}" data-screen="${id}">
-        ${icon(ic)}<span>${label}</span>${count ? `<span class="top-nav-count" title="${id === 'accesos' ? 'Solicitudes pendientes' : 'Obligatorios pendientes'}">${count}</span>` : ''}
+        <span>${label}</span>${count ? `<span class="top-nav-count" title="${id === 'accesos' ? 'Solicitudes pendientes' : 'Obligatorios pendientes'}">${count}</span>` : ''}
       </a>
     `).join('');
   }
