@@ -2359,9 +2359,23 @@ function setTheme(t) {
   root.dataset.theme = t; store.set('tpi-theme', t);
   $$('[data-theme-btn]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.themeBtn === t)));
 }
+const FONT_MAP = {
+  pixelify: "'Pixelify Sans', sans-serif",
+  pressstart: "'Press Start 2P', monospace",
+  chakra: "'Chakra Petch', sans-serif",
+  orbitron: "'Orbitron', sans-serif",
+  silkscreen: "'Silkscreen', sans-serif"
+};
+
 function setSkin(s) {
   root.dataset.skin = s; store.set('tpi-skin', s);
   $$('[data-skin-btn]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.skinBtn === s)));
+  if (s === 'sobrio') {
+    root.style.setProperty('--font-display', "'IBM Plex Sans', sans-serif");
+  } else {
+    const f = store.get('tpi-font') || 'pixelify';
+    root.style.setProperty('--font-display', FONT_MAP[f] || FONT_MAP.pixelify);
+  }
 }
 function setPalette(p) {
   root.dataset.palette = p; store.set('tpi-palette', p);
@@ -2385,6 +2399,10 @@ function setSidebarPinned(pinned) {
 }
 function setFont(f) {
   root.dataset.font = f; store.set('tpi-font', f);
+  if (root.dataset.skin !== 'sobrio') {
+    const fontVal = FONT_MAP[f] || FONT_MAP.pixelify;
+    root.style.setProperty('--font-display', fontVal);
+  }
   $$('[data-font-btn]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.fontBtn === f)));
 }
 function setRole(r) {

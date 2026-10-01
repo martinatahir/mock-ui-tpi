@@ -17,7 +17,6 @@
   --accent-danger:#e11d48; --accent-danger-fill:#e11d48; --on-accent-danger:#ffffff;
   --accent-success:#059669; --accent-success-fill:#059669; --on-accent-success:#ffffff;
   --focus-glow:rgba(2,132,199,.45);
-  --font-body:'IBM Plex Sans',sans-serif; --font-display:'Silkscreen',sans-serif;
   --radius-control:4px; --border-width:2px; --press-y:-2px;
 }
 
@@ -32,7 +31,6 @@
   --accent-danger:#b3150f; --accent-danger-fill:#e62220; --on-accent-danger:#ffffff;
   --accent-success:#1f6e10; --accent-success-fill:#4ce52b; --on-accent-success:#082303;
   --focus-glow:rgba(242,117,220,.55);
-  --font-body:'IBM Plex Sans',sans-serif; --font-display:'Silkscreen',sans-serif;
   --radius-control:4px; --border-width:2px; --press-y:-2px;
 }
 
@@ -49,7 +47,6 @@
   --accent-danger:#ff3366; --accent-danger-fill:#f43f5e; --on-accent-danger:#ffffff;
   --accent-success:#00e676; --accent-success-fill:#10b981; --on-accent-success:#022c15;
   --focus-glow:rgba(0,229,255,.55);
-  --font-body:'IBM Plex Sans',sans-serif; --font-display:'Silkscreen',sans-serif;
   --radius-control:4px; --border-width:2px; --press-y:-2px;
 }
 
@@ -64,7 +61,6 @@
   --accent-danger:#ff5a52; --accent-danger-fill:#e62220; --on-accent-danger:#ffffff;
   --accent-success:#4ce52b; --accent-success-fill:#4ce52b; --on-accent-success:#082303;
   --focus-glow:rgba(242,117,220,.6);
-  --font-body:'IBM Plex Sans',sans-serif; --font-display:'Silkscreen',sans-serif;
   --radius-control:4px; --border-width:2px; --press-y:-2px;
 }
 
@@ -79,7 +75,6 @@
   --accent-danger:#b3261e; --accent-danger-fill:#c1352b; --on-accent-danger:#ffffff;
   --accent-success:#1c7a4d; --accent-success-fill:#1f7a4d; --on-accent-success:#ffffff;
   --focus-glow:rgba(47,95,208,.35);
-  --font-body:'IBM Plex Sans',sans-serif; --font-display:'IBM Plex Sans',sans-serif;
   --radius-control:8px; --border-width:1px; --press-y:0px;
 }
 
@@ -94,22 +89,24 @@
   --accent-danger:#ef6a5d; --accent-danger-fill:#e2584c; --on-accent-danger:#2a0705;
   --accent-success:#59c290; --accent-success-fill:#4caf7d; --on-accent-success:#04210f;
   --focus-glow:rgba(111,155,240,.45);
-  --font-body:'IBM Plex Sans',sans-serif; --font-display:'IBM Plex Sans',sans-serif;
   --radius-control:8px; --border-width:1px; --press-y:0px;
 }
 
 /* Derived tokens: readable status text on any surface */
 :root {
+  --font-body:'IBM Plex Sans',sans-serif;
+  --font-display:'Pixelify Sans',sans-serif;
   --urgent: color-mix(in srgb, var(--accent-danger) 72%, var(--text-primary));
   --good: color-mix(in srgb, var(--accent-success) 70%, var(--text-primary));
   --ease-out: cubic-bezier(.16,1,.3,1);
   --radius-card: calc(var(--radius-control) * 1.5);
 }
 [data-skin='gamer'] { --radius-card:2px; }
+[data-skin='sobrio'] { --font-display:'IBM Plex Sans',sans-serif; }
 
-/* --- Reemplazo de Silkscreen para Títulos / Logo / Display --- */
-:root[data-skin='gamer'][data-font='pixelify'] { --font-display: 'Pixelify Sans', sans-serif; }
-:root[data-skin='gamer'][data-font='pressstart'] { --font-display: 'Press Start 2P', monospace; }
-:root[data-skin='gamer'][data-font='chakra'] { --font-display: 'Chakra Petch', sans-serif; }
-:root[data-skin='gamer'][data-font='orbitron'] { --font-display: 'Orbitron', sans-serif; }
-:root[data-skin='gamer'][data-font='silkscreen'] { --font-display: 'Silkscreen', sans-serif; }
+/* --- Reemplazo dinámico de Silkscreen para Títulos / Logo / Display --- */
+:root[data-skin='gamer'][data-font='pixelify'], :root[data-font='pixelify'] { --font-display: 'Pixelify Sans', sans-serif; }
+:root[data-skin='gamer'][data-font='pressstart'], :root[data-font='pressstart'] { --font-display: 'Press Start 2P', monospace; }
+:root[data-skin='gamer'][data-font='chakra'], :root[data-font='chakra'] { --font-display: 'Chakra Petch', sans-serif; }
+:root[data-skin='gamer'][data-font='orbitron'], :root[data-font='orbitron'] { --font-display: 'Orbitron', sans-serif; }
+:root[data-skin='gamer'][data-font='silkscreen'], :root[data-font='silkscreen'] { --font-display: 'Silkscreen', sans-serif; }

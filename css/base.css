@@ -121,6 +121,15 @@ h1,h2,h3,p { margin:0; }
 [data-skin='gamer'] .initials { border-radius:var(--radius-control); font-family:var(--font-display); font-weight:400; font-size:12px; }
 [data-skin='gamer'] .initials.lg { font-size:22px; }
 
+/* Ajustes proporcionales específicos para Press Start 2P (fuente ancha de 8x8) */
+[data-font='pressstart'] .brand { font-size:13px; letter-spacing:0; }
+[data-font='pressstart'] .brand-cohort { font-size:9px; }
+[data-font='pressstart'] [data-skin='gamer'] .me-level { font-size:10px; }
+[data-font='pressstart'] [data-skin='gamer'] .rank-pos { font-size:24px; }
+[data-font='pressstart'] [data-skin='gamer'] .display { font-size:20px; line-height:1.4; }
+[data-font='pressstart'] [data-skin='gamer'] .section-head h2 { font-size:13px; }
+[data-font='pressstart'] [data-skin='gamer'] .rew .xp { font-size:10px; }
+
 /* ---- Layout Shell con Icon Dock Lateral (64px) / Expandible (210px) ---- */
 .shell { display:flex; min-height:calc(100vh - 56px); width:100%; }
 
