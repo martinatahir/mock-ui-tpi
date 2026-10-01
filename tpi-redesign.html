@@ -39,6 +39,7 @@
   <symbol id="i-todo" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></symbol>
   <symbol id="i-half" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20z" fill="currentColor"/></symbol>
   <symbol id="i-panel" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="m16 15-3-3 3-3"/></symbol>
+  <symbol id="i-panel-open" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="m14 9 3 3-3 3"/></symbol>
   <symbol id="i-copy" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
   <symbol id="i-up" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"/></symbol>
   <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.53 13.53 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><path d="m2 2 20 20"/></symbol>
@@ -98,8 +99,13 @@
     <button data-palette-btn="electric" aria-pressed="true" title="Paleta Cian Eléctrico y Oro (Recomendada)">⚡ Cian Eléctrico</button>
     <button data-palette-btn="neon" aria-pressed="false" title="Paleta Magenta Original (Vaporwave)">🌸 Magenta Original</button>
   </div>
+  <span>Barra Lateral:</span>
+  <div class="seg" role="group" aria-label="Barra Lateral">
+    <button data-sidebar-btn="collapsed" aria-pressed="true" title="Icon Dock compacto (64px)">🔘 Iconos</button>
+    <button data-sidebar-btn="pinned" aria-pressed="false" title="Fijar con textos (210px)">📌 Fijada</button>
+  </div>
   <span>Propuesta:</span>
-  <span style="font-weight:700; color:var(--accent-primary-fill); font-size:12px;">🕹️ HUD Topbar + Rail Arcade Lateral (68px)</span>
+  <span style="font-weight:700; color:var(--accent-primary-fill); font-size:12px;">🕹️ HUD Topbar + Icon Dock (Pin/Unpin)</span>
   <label><input type="checkbox" id="sim-error" /> Simular error</label>
   <a class="uikit-link" href="#uikit" title="Ver catálogo de componentes y tokens de diseño">🎨 UI Kit / Componentes</a>
 </div>
@@ -173,9 +179,15 @@
 </header>
 
 <div class="shell">
-  <!-- Rail Lateral de Destinos Arcade (68px) -->
+  <!-- Rail / Icon Dock Lateral con Pin/Unpin (64px ↔ 210px) -->
   <nav class="sidebar" id="sidebar" aria-label="Navegación principal">
     <div class="sidebar-nav" id="sidebar-nav"></div>
+    <div class="sidebar-footer">
+      <button type="button" class="rail-toggle" id="sidebar-toggle" aria-label="Fijar menú abierto" data-tooltip="Fijar menú abierto" aria-expanded="false">
+        <svg class="icon"><use href="#i-panel-open"/></svg>
+        <span class="rail-label">Fijar menú</span>
+      </button>
+    </div>
   </nav>
 
   <main class="content" id="main">
@@ -2267,6 +2279,7 @@ function renderNav() {
       const tip = count ? `${label} (${count})` : label;
       return `<a class="rail-item" href="#${id}" data-screen="${id}" data-tooltip="${tip}" aria-label="${tip}">
         ${icon(ic)}
+        <span class="rail-label">${label}</span>
         ${count ? `<span class="nav-count" title="${id === 'accesos' ? 'Solicitudes pendientes' : 'Obligatorios pendientes'}">${count}</span>` : ''}
       </a>`;
     }).join('');
@@ -2347,6 +2360,22 @@ function setPalette(p) {
   root.dataset.palette = p; store.set('tpi-palette', p);
   $$('[data-palette-btn]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.paletteBtn === p)));
 }
+function setSidebarPinned(pinned) {
+  const isPinned = Boolean(pinned);
+  root.dataset.sidebarPinned = String(isPinned);
+  store.set('tpi-sidebar-pinned', String(isPinned));
+  $$('[data-sidebar-btn]').forEach(b => b.setAttribute('aria-pressed', String((b.dataset.sidebarBtn === 'pinned') === isPinned)));
+  const btn = $('#sidebar-toggle');
+  if (btn) {
+    btn.setAttribute('aria-expanded', String(isPinned));
+    btn.setAttribute('data-tooltip', isPinned ? 'Colapsar menú' : 'Fijar menú abierto');
+    btn.setAttribute('aria-label', isPinned ? 'Colapsar menú' : 'Fijar menú abierto');
+    const label = btn.querySelector('.rail-label');
+    if (label) label.textContent = isPinned ? 'Colapsar' : 'Fijar menú';
+    const use = btn.querySelector('use');
+    if (use) use.setAttribute('href', isPinned ? '#i-panel' : '#i-panel-open');
+  }
+}
 function setRole(r) {
   currentRole = r; root.dataset.role = r; store.set('tpi-role', r);
   $$('[data-role-btn]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.roleBtn === r)));
@@ -2359,7 +2388,12 @@ function setRole(r) {
 $$('[data-theme-btn]').forEach(b => b.addEventListener('click', () => setTheme(b.dataset.themeBtn)));
 $$('[data-skin-btn]').forEach(b => b.addEventListener('click', () => setSkin(b.dataset.skinBtn)));
 $$('[data-palette-btn]').forEach(b => b.addEventListener('click', () => setPalette(b.dataset.paletteBtn)));
+$$('[data-sidebar-btn]').forEach(b => b.addEventListener('click', () => setSidebarPinned(b.dataset.sidebarBtn === 'pinned')));
 $$('[data-role-btn]').forEach(b => b.addEventListener('click', () => setRole(b.dataset.roleBtn)));
+$('#sidebar-toggle')?.addEventListener('click', () => {
+  const current = root.dataset.sidebarPinned === 'true';
+  setSidebarPinned(!current);
+});
 
 /* ---- boot ---- */
 $$('[data-challenge-list]').forEach(el => ChallengeList(el));
@@ -2368,6 +2402,7 @@ renderStudentCourses(); renderCohorts(); renderInventory(); renderHero(); render
 setTheme(store.get('tpi-theme') || 'dark');
 setSkin(store.get('tpi-skin') || 'gamer');
 setPalette(store.get('tpi-palette') || 'electric');
+setSidebarPinned(store.get('tpi-sidebar-pinned') === 'true');
 setRole(store.get('tpi-role') || 'alumno');
 </script>
 </body>
