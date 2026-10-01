@@ -93,54 +93,70 @@
     <button data-skin-btn="gamer" aria-pressed="true">🎮 Arcade</button>
     <button data-skin-btn="sobrio" aria-pressed="false">💼 Normal</button>
   </div>
-  <span>Barra lateral:</span>
-  <div class="seg" role="group" aria-label="Modo de barra lateral">
-    <button data-nav-mode="full" aria-pressed="true">Expandida</button>
-    <button data-nav-mode="compact" aria-pressed="false">Mini-rail</button>
-    <button data-nav-mode="hidden" aria-pressed="false">Oculta</button>
-  </div>
+  <span>Propuesta:</span>
+  <span style="font-weight:700; color:var(--accent-primary-fill); font-size:12px;">🔝 Menú Superior Horizontal (Topbar Tabs + 100% Espacio Libre)</span>
   <label><input type="checkbox" id="sim-error" /> Simular error</label>
   <a class="uikit-link" href="#uikit" title="Ver catálogo de componentes y tokens de diseño">🎨 UI Kit / Componentes</a>
 </div>
 
 <header class="topbar">
-  <button class="icon-btn menu-btn" id="menu-btn" aria-label="Ocultar menú" aria-expanded="true" aria-controls="sidebar" title="Mostrar u ocultar el menú"><svg class="icon"><use href="#i-panel"/></svg></button>
-  <div class="brand">TPI 2026</div>
-  <div class="seg" role="group" aria-label="Modo de visualización">
-    <button data-skin-btn="gamer" aria-pressed="true"><svg class="icon icon-sm"><use href="#i-gamepad"/></svg><span class="seg-label">Arcade</span></button>
-    <button data-skin-btn="sobrio" aria-pressed="false"><svg class="icon icon-sm"><use href="#i-briefcase"/></svg><span class="seg-label">Normal</span></button>
+  <div class="brand-group">
+    <div class="brand">TPI 2026</div>
+    <!-- HUD Gamificado Alumno -->
+    <div class="hud-bar" id="student-hud" aria-label="Estado del alumno">
+      <span class="hud-item lives" title="3 vidas restantes">
+        <svg class="icon icon-sm"><use href="#i-heart"/></svg>
+        <span class="num">3/3</span>
+      </span>
+      <span class="hud-divider"></span>
+      <span class="hud-item coins" title="120 monedas acumuladas">
+        <svg class="icon icon-sm"><use href="#i-coin"/></svg>
+        <span class="num">120</span>
+      </span>
+      <span class="hud-divider"></span>
+      <span class="hud-item streak" title="5 días seguidos de racha de estudio">
+        <svg class="icon icon-sm"><use href="#i-flame"/></svg>
+        <span class="num">5d</span>
+      </span>
+      <span class="hud-divider"></span>
+      <span class="hud-item level" title="Nivel 7 actual">
+        <svg class="icon icon-sm"><use href="#i-star"/></svg>
+        <span>Niv. 7</span>
+      </span>
+    </div>
   </div>
-  <div class="seg" role="group" aria-label="Tema de color">
-    <button data-theme-btn="dark" aria-pressed="true" title="Cambiar a tema oscuro"><svg class="icon icon-sm"><use href="#i-moon"/></svg><span class="seg-label">Oscuro</span></button>
-    <button data-theme-btn="light" aria-pressed="false" title="Cambiar a tema claro"><svg class="icon icon-sm"><use href="#i-sun"/></svg><span class="seg-label">Claro</span></button>
-  </div>
-  <div class="account">
-    <button class="me-chip" id="account-btn" type="button" aria-expanded="false" aria-controls="account-menu" aria-haspopup="true">
-      <span class="initials" aria-hidden="true" data-me-initials>MS</span>
-      <span class="me-name"><span data-me-short>Manuel S.</span><span class="me-level" data-me-level>Nivel 7</span></span>
-      <svg class="icon icon-sm chev" aria-hidden="true"><use href="#i-chevron"/></svg>
-    </button>
-    <div class="account-menu" id="account-menu" hidden>
-      <a class="nav-item" href="#perfil"><svg class="icon"><use href="#i-user"/></svg>Mi perfil</a>
-      <a class="nav-item" href="#personaje" data-alumno-only><svg class="icon"><use href="#i-shirt"/></svg>Mi personaje</a>
-      <a class="nav-item" href="#inventario" data-alumno-only><svg class="icon"><use href="#i-backpack"/></svg>Inventario</a>
-      <hr />
-      <button class="nav-item danger" type="button"><svg class="icon"><use href="#i-logout"/></svg>Cerrar sesión</button>
+
+  <!-- Navegación Horizontal Superior -->
+  <nav class="top-nav" id="top-nav" aria-label="Navegación principal"></nav>
+
+  <!-- Acciones y Perfil -->
+  <div class="topbar-actions">
+    <div class="seg" role="group" aria-label="Estilo">
+      <button data-skin-btn="gamer" aria-pressed="true" title="Modo Arcade"><svg class="icon icon-sm"><use href="#i-gamepad"/></svg><span class="seg-label">Arcade</span></button>
+      <button data-skin-btn="sobrio" aria-pressed="false" title="Modo Normal"><svg class="icon icon-sm"><use href="#i-briefcase"/></svg><span class="seg-label">Normal</span></button>
+    </div>
+    <div class="seg" role="group" aria-label="Tema">
+      <button data-theme-btn="dark" aria-pressed="true" title="Modo Oscuro"><svg class="icon icon-sm"><use href="#i-moon"/></svg></button>
+      <button data-theme-btn="light" aria-pressed="false" title="Modo Claro"><svg class="icon icon-sm"><use href="#i-sun"/></svg></button>
+    </div>
+    <div class="account">
+      <button class="me-chip" id="account-btn" type="button" aria-expanded="false" aria-controls="account-menu" aria-haspopup="true">
+        <span class="initials" aria-hidden="true" data-me-initials>MS</span>
+        <span class="me-name"><span data-me-short>Manuel S.</span><span class="me-level" data-me-level>Nivel 7</span></span>
+        <svg class="icon icon-sm chev" aria-hidden="true"><use href="#i-chevron"/></svg>
+      </button>
+      <div class="account-menu" id="account-menu" hidden>
+        <a class="nav-item" href="#perfil"><svg class="icon"><use href="#i-user"/></svg>Mi perfil</a>
+        <a class="nav-item" href="#personaje" data-alumno-only><svg class="icon"><use href="#i-shirt"/></svg>Mi personaje</a>
+        <a class="nav-item" href="#inventario" data-alumno-only><svg class="icon"><use href="#i-backpack"/></svg>Inventario</a>
+        <hr />
+        <button class="nav-item danger" type="button"><svg class="icon"><use href="#i-logout"/></svg>Cerrar sesión</button>
+      </div>
     </div>
   </div>
 </header>
 
 <div class="shell">
-  <nav class="sidebar" id="sidebar" aria-label="Navegación principal">
-    <div class="sidebar-nav" id="sidebar-nav"></div>
-    <div class="sidebar-foot">
-      <button class="nav-item sidebar-collapse-btn" id="sidebar-collapse-btn" type="button" title="Colapsar menú (modo mini-rail)">
-        <svg class="icon"><use href="#i-panel"/></svg>
-        <span class="nav-label">Colapsar menú</span>
-      </button>
-    </div>
-  </nav>
-
   <main class="content" id="main">
 
     <!-- ================= DESAFÍOS · alumno ================= -->
@@ -1071,6 +1087,9 @@
     </section>
   </main>
 </div>
+
+<!-- ================= Navegación Móvil Inferior (Bottom Bar) ================= -->
+<nav class="bottom-nav" id="bottom-nav" aria-label="Navegación móvil"></nav>
 
 <!-- ================= Drawer: crear desafío ================= -->
 <dialog class="drawer" id="drawer-desafio" aria-labelledby="h-dd">
@@ -2154,47 +2173,96 @@ $('#add-email').addEventListener('submit', () => {
 renderRequests(); renderEnabled();
 
 /* ======================= role / nav / routing ======================= */
-const NAV = {
+const NAV_TABS = {
   alumno: [
-    ['Inicio', [['panel', 'i-home', 'Panel principal']]],
-    ['Aprender', [['cursos', 'i-book', 'Mis cursos'], ['desafios', 'i-flame', 'Desafíos', 3], ['roadmap', 'i-map', 'Roadmap'], ['tutor', 'i-bot', 'Tutor IA']]],
-    ['Progreso', [['ranking', 'i-trophy', 'Ranking'], ['inventario', 'i-backpack', 'Inventario'], ['marketplace', 'i-bag', 'Marketplace']]],
-    ['Comunidad', [['chat', 'i-chat', 'Chat'], ['notificaciones', 'i-bell', 'Notificaciones'], ['encuestas', 'i-survey', 'Encuestas']]],
+    ['desafios', 'i-flame', 'Desafíos', 3],
+    ['cursos', 'i-book', 'Mis cursos'],
+    ['roadmap', 'i-map', 'Roadmap'],
+    ['ranking', 'i-trophy', 'Ranking'],
+    ['tutor', 'i-bot', 'Tutor IA'],
+    ['chat', 'i-chat', 'Comunidad'],
   ],
   profesor: [
-    ['Inicio', [['panel', 'i-home', 'Panel principal']]],
-    ['Enseñar', [['cursos', 'i-book', 'Cursos'], ['desafios', 'i-flame', 'Desafíos'], ['roadmap', 'i-map', 'Roadmap'], ['insignias', 'i-award', 'Insignias']]],
-    ['Seguimiento', [['ranking', 'i-trophy', 'Ranking'], ['encuestas', 'i-survey', 'Encuestas']]],
-    ['Comunidad', [['chat', 'i-chat', 'Chat'], ['notificaciones', 'i-bell', 'Notificaciones']]],
+    ['cursos', 'i-book', 'Cursos'],
+    ['desafios', 'i-flame', 'Desafíos'],
+    ['roadmap', 'i-map', 'Roadmap'],
+    ['ranking', 'i-trophy', 'Ranking'],
+    ['insignias', 'i-award', 'Insignias'],
+    ['chat', 'i-chat', 'Comunidad'],
+  ],
+  admin: [
+    ['accesos', 'i-key', 'Accesos', 1],
+    ['cursos', 'i-book', 'Cursos'],
+    ['desafios', 'i-flame', 'Desafíos'],
+    ['roadmap', 'i-map', 'Roadmap'],
+    ['backoffice', 'i-shield', 'Backoffice'],
+    ['insignias', 'i-award', 'Insignias'],
   ],
 };
-NAV.admin = [...NAV.profesor, ['Administración', [['backoffice', 'i-shield', 'Backoffice'], ['accesos', 'i-key', 'Accesos', 1]]]];
-const ACCOUNT_SCREENS = { alumno: ['perfil', 'personaje', 'inventario'], profesor: ['perfil'], admin: ['perfil'] };
+
+const BOTTOM_NAV_ITEMS = {
+  alumno: [
+    ['desafios', 'i-flame', 'Desafíos'],
+    ['cursos', 'i-book', 'Cursos'],
+    ['roadmap', 'i-map', 'Roadmap'],
+    ['ranking', 'i-trophy', 'Ranking'],
+    ['perfil', 'i-user', 'Perfil'],
+  ],
+  profesor: [
+    ['cursos', 'i-book', 'Cursos'],
+    ['desafios', 'i-flame', 'Desafíos'],
+    ['roadmap', 'i-map', 'Roadmap'],
+    ['insignias', 'i-award', 'Insignias'],
+    ['perfil', 'i-user', 'Perfil'],
+  ],
+  admin: [
+    ['accesos', 'i-key', 'Accesos'],
+    ['cursos', 'i-book', 'Cursos'],
+    ['desafios', 'i-flame', 'Desafíos'],
+    ['backoffice', 'i-shield', 'Admin'],
+    ['perfil', 'i-user', 'Perfil'],
+  ],
+};
+
+const ACCOUNT_SCREENS = {
+  alumno: ['perfil', 'personaje', 'inventario', 'marketplace', 'notificaciones', 'encuestas', 'panel'],
+  profesor: ['perfil', 'encuestas', 'notificaciones', 'panel'],
+  admin: ['perfil', 'encuestas', 'notificaciones', 'panel'],
+};
 const PARENT = { curso: 'cursos', quiz: 'desafios', 'cuestionario-nuevo': 'desafios' };
 
 let currentRole = 'alumno', currentScreen = 'desafios';
-const sidebar = $('#sidebar'), menuBtn = $('#menu-btn'), shell = $('.shell');
-const COLLAPSIBLE = new Set(['Progreso', 'Comunidad']);
-const collapsed = new Set(JSON.parse(store.get('tpi-nav-collapsed') || '[]'));
+
 function renderNav() {
-  const u = USERS[currentRole];
-  const link = ([id, ic, label, count]) =>
-    `<a class="nav-item" href="#${id}" data-screen="${id}" data-tooltip="${label}" title="${label}">
-       ${icon(ic)}<span class="nav-label">${label}</span>${count ? `<span class="nav-count" title="${id === 'accesos' ? 'Solicitudes pendientes' : 'Obligatorios pendientes'}">${count}</span>` : ''}
-     </a>`;
-  const navContainer = $('#sidebar-nav') || sidebar;
-  navContainer.innerHTML = NAV[currentRole].map(([g, items]) => {
-    if (!COLLAPSIBLE.has(g)) return `<div class="group-label">${g}</div>` + items.map(link).join('');
-    const open = !collapsed.has(g), gid = 'grp-' + g.toLowerCase();
-    return `<button class="group-label group-toggle" type="button" aria-expanded="${open}" aria-controls="${gid}" data-group="${g}">
-        <span>${g}</span><span class="cur-dot" aria-hidden="true"></span>${icon('i-chevron', 'icon icon-sm chev')}</button>
-      <div class="group-items" id="${gid}" ${open ? '' : 'hidden'}>${items.map(link).join('')}</div>`;
-  }).join('');
+  const topNav = $('#top-nav');
+  const bottomNav = $('#bottom-nav');
+  const hud = $('#student-hud');
+
+  // Solo mostramos el HUD del estudiante si el rol es alumno
+  if (hud) hud.hidden = (currentRole !== 'alumno');
+
+  if (topNav) {
+    topNav.innerHTML = NAV_TABS[currentRole].map(([id, ic, label, count]) => `
+      <a class="top-nav-item" href="#${id}" data-screen="${id}">
+        ${icon(ic)}<span>${label}</span>${count ? `<span class="top-nav-count" title="${id === 'accesos' ? 'Solicitudes pendientes' : 'Obligatorios pendientes'}">${count}</span>` : ''}
+      </a>
+    `).join('');
+  }
+
+  if (bottomNav) {
+    bottomNav.innerHTML = BOTTOM_NAV_ITEMS[currentRole].map(([id, ic, label]) => `
+      <a class="bottom-nav-item" href="#${id}" data-screen="${id}">
+        ${icon(ic)}<span>${label}</span>
+      </a>
+    `).join('');
+  }
 }
+
 function screenEl(id) {
   const rk = currentRole === 'admin' ? 'profesor' : currentRole;
   return $(`#screen-${id}-${rk}`) || $(`#screen-${id}`);
 }
+
 function applyError(el) {
   $$('.load-error').forEach(x => x.remove());
   $$('.errored').forEach(x => x.classList.remove('errored'));
@@ -2203,126 +2271,43 @@ function applyError(el) {
   const head = $('.page-head', el);
   head.insertAdjacentHTML('afterend', `<div class="alert load-error" role="alert">${icon('i-alert')}<div><div class="alert-title">No se pudo cargar esta página</div><div class="alert-body">${el.dataset.error}</div></div><button class="btn btn-ghost" type="button" onclick="document.getElementById('sim-error').checked=false; route()">${icon('i-refresh', 'icon icon-sm')}Reintentar</button></div>`);
 }
+
 function route() {
   const [id, arg] = (location.hash.slice(1) || 'desafios').split('/');
   currentScreen = id;
   const navId = PARENT[id] || id;
-  $$('.nav-item').forEach(a => a.dataset.screen === navId ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));
-  markCollapsedCurrent();
+
+  $$('.top-nav-item, .bottom-nav-item').forEach(a => {
+    if (a.dataset.screen === navId) {
+      a.setAttribute('aria-current', 'page');
+    } else {
+      a.removeAttribute('aria-current');
+    }
+  });
+
   $$('.screen').forEach(s => s.hidden = true);
   let el = screenEl(id);
   if (id === 'curso') fillCourseDetail(decodeURIComponent(arg || 'MSI'));
   if (id === 'ranking') renderRanking();
   if (!el) {
     el = $('#screen-pending');
-    const link = $(`.nav-item[data-screen="${id}"]`);
+    const link = $(`.top-nav-item[data-screen="${id}"]`);
     $('#pending-title').textContent = link ? link.textContent.trim() : 'Página';
   }
   el.hidden = false;
   el.style.animation = 'none'; el.offsetHeight; el.style.animation = '';
   applyError(el);
-  if (isMobile()) setNavMode('hidden');
   window.scrollTo(0, 0);
 }
 window.addEventListener('hashchange', route);
 
-/* Collapsed groups keep a dot when they hide the current page. */
-function markCollapsedCurrent() {
-  $$('.group-toggle').forEach(b => b.classList.toggle('has-current', b.getAttribute('aria-expanded') === 'false' && !!$('[aria-current]', $('#' + b.getAttribute('aria-controls')))));
-}
-sidebar.addEventListener('click', e => {
-  const b = e.target.closest('.group-toggle'); if (!b) return;
-  const open = b.getAttribute('aria-expanded') !== 'true';
-  b.setAttribute('aria-expanded', String(open));
-  $('#' + b.getAttribute('aria-controls')).hidden = !open;
-  open ? collapsed.delete(b.dataset.group) : collapsed.add(b.dataset.group);
-  store.set('tpi-nav-collapsed', JSON.stringify([...collapsed]));
-  markCollapsedCurrent();
-});
-
-/* Sidebar show/hide & mini-rail compact mode */
-const mq = matchMedia('(max-width: 860px)');
-const isMobile = () => mq.matches;
-
-function setNavMode(mode) {
-  if (isMobile()) {
-    const open = mode !== 'hidden';
-    sidebar.classList.toggle('open', open);
-    menuBtn.setAttribute('aria-expanded', String(open));
-    menuBtn.setAttribute('aria-label', open ? 'Ocultar menú' : 'Mostrar menú');
-    return;
-  }
-  shell.classList.toggle('nav-compact', mode === 'compact');
-  shell.classList.toggle('nav-hidden', mode === 'hidden');
-  store.set('tpi-nav-mode', mode);
-  $$('[data-nav-mode]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.navMode === mode)));
-
-  const isHidden = mode === 'hidden';
-  sidebar.inert = isHidden;
-  menuBtn.setAttribute('aria-expanded', String(!isHidden));
-  menuBtn.setAttribute('aria-label', isHidden ? 'Mostrar menú' : 'Ocultar menú');
-
-  const collapseBtn = $('#sidebar-collapse-btn');
-  if (collapseBtn) {
-    const isCompact = mode === 'compact';
-    collapseBtn.setAttribute('title', isCompact ? 'Expandir menú' : 'Colapsar menú (modo mini-rail)');
-    const lbl = $('.nav-label', collapseBtn);
-    if (lbl) lbl.textContent = isCompact ? 'Expandir' : 'Colapsar menú';
-  }
-}
-
-function currentNavMode() {
-  if (isMobile()) return sidebar.classList.contains('open') ? 'full' : 'hidden';
-  if (shell.classList.contains('nav-hidden')) return 'hidden';
-  if (shell.classList.contains('nav-compact')) return 'compact';
-  return 'full';
-}
-
-menuBtn.addEventListener('click', () => {
-  if (isMobile()) {
-    const open = !sidebar.classList.contains('open');
-    setNavMode(open ? 'full' : 'hidden');
-  } else {
-    const cur = currentNavMode();
-    if (cur === 'hidden') {
-      const prev = store.get('tpi-nav-prev') || 'full';
-      setNavMode(prev);
-    } else {
-      store.set('tpi-nav-prev', cur);
-      setNavMode('hidden');
-    }
-  }
-});
-
+/* Cierre de modales/drawers al cliquear el backdrop oscuro */
 document.addEventListener('click', e => {
-  const collapse = e.target.closest('#sidebar-collapse-btn');
-  if (collapse) {
-    const cur = currentNavMode();
-    setNavMode(cur === 'compact' ? 'full' : 'compact');
-    return;
-  }
-  const modeBtn = e.target.closest('[data-nav-mode]');
-  if (modeBtn) {
-    setNavMode(modeBtn.dataset.navMode);
-    return;
-  }
-  /* Cierre de modales/drawers al cliquear el backdrop oscuro */
   if (e.target.tagName === 'DIALOG' && (e.target.classList.contains('modal') || e.target.classList.contains('drawer'))) {
     e.target.close();
   }
 });
 
-mq.addEventListener('change', () => {
-  sidebar.classList.remove('open');
-  setNavMode(isMobile() ? 'hidden' : (store.get('tpi-nav-mode') || 'full'));
-});
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && isMobile() && sidebar.classList.contains('open')) {
-    setNavMode('hidden');
-    menuBtn.focus();
-  }
-});
 $('#sim-error').addEventListener('change', route);
 
 /* ---- theme / mode / role (persisted per viewer) ---- */
@@ -2339,7 +2324,7 @@ function setRole(r) {
   currentRole = r; root.dataset.role = r; store.set('tpi-role', r);
   $$('[data-role-btn]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.roleBtn === r)));
   renderNav(); renderProfile();
-  const allowed = [...NAV[r].flatMap(([, items]) => items.map(i => i[0])), ...ACCOUNT_SCREENS[r], 'uikit'];
+  const allowed = [...NAV_TABS[r].map(i => i[0]), ...ACCOUNT_SCREENS[r], 'uikit'];
   const target = PARENT[currentScreen] || currentScreen;
   if (!allowed.includes(target)) location.hash = allowed.includes('desafios') ? 'desafios' : 'perfil';
   route();
@@ -2354,7 +2339,6 @@ $$('[data-catalog]').forEach(el => Catalog(el));
 renderStudentCourses(); renderCohorts(); renderInventory(); renderHero(); renderBuilder(); renderBadges();
 setTheme(store.get('tpi-theme') || 'dark');
 setSkin(store.get('tpi-skin') || 'gamer');
-setNavMode(isMobile() ? 'hidden' : (store.get('tpi-nav-mode') || 'full'));
 setRole(store.get('tpi-role') || 'alumno');
 </script>
 </body>
