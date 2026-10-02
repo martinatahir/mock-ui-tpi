@@ -4452,6 +4452,98 @@ function buildSubpanelHTML(menuConfig, hashFull, activeCourseCode) {
   `).join('');
 }
 
+function buildCourseSubpanelHTML(cObj, hashFull, activeUnitNum) {
+  const units = cObj?.units || [];
+  const currentUnit = activeUnitNum ? Number(activeUnitNum) : null;
+
+  return `
+    <div style="padding: 0 4px 10px;">
+      <a class="subpanel-item" href="#cursos" style="text-decoration:none; margin-bottom:8px; border-radius:var(--radius-control); background:var(--bg-surface-alt); font-size:12px; font-weight:600;">
+        <svg class="icon icon-sm" style="color:var(--text-muted);"><use href="#i-left"/></svg>
+        <span class="subpanel-item-text" style="color:var(--text-muted);">← Todas las materias</span>
+      </a>
+    </div>
+
+    <!-- SECCIÓN 1: UNIDADES TEMÁTICAS -->
+    <div class="subpanel-section">
+      <span class="subpanel-section-label">UNIDADES TEMÁTICAS</span>
+      <button type="button" class="subpanel-item ${currentUnit === null ? 'active' : ''}" data-subpanel-unit="all" style="width:100%; text-align:left; border:0; background:transparent; cursor:pointer;">
+        <svg class="icon"><use href="#i-cards"/></svg>
+        <div class="subpanel-item-content">
+          <span class="subpanel-item-text">Todas las unidades</span>
+          <span class="subpanel-item-meta">${units.length} unidades temáticas</span>
+        </div>
+      </button>
+      ${units.map(u => {
+        const isActive = currentUnit === u.num;
+        const isDone = u.status === 'done';
+        const iconName = isDone ? 'i-tick' : 'i-flame';
+        const colorVar = isDone ? 'var(--accent-success)' : 'var(--accent-primary)';
+        return `
+          <button type="button" class="subpanel-item ${isActive ? 'active' : ''}" data-subpanel-unit="${u.num}" style="width:100%; text-align:left; border:0; background:transparent; cursor:pointer;">
+            <span class="subpanel-course-icon" style="--course-accent:${colorVar}; --course-accent-bg:${colorVar}22;">
+              <svg class="icon"><use href="#${iconName}"/></svg>
+            </span>
+            <div class="subpanel-item-content">
+              <span class="subpanel-item-text" style="font-size:12px;">Unidad ${u.num}</span>
+              <span class="subpanel-item-meta" title="${u.title}">${u.title.split(':')[1]?.trim() || u.title}</span>
+            </div>
+            <span class="subpanel-badge ${isDone ? 'badge-success' : 'badge-neutral'} num">${u.progress}%</span>
+          </button>
+        `;
+      }).join('')}
+    </div>
+
+    <!-- SECCIÓN 2: ACCESOS RÁPIDOS -->
+    <div class="subpanel-section" style="margin-top:14px; padding-top:12px; border-top:1px solid var(--border-subtle);">
+      <span class="subpanel-section-label">ACCESOS RÁPIDOS</span>
+      <button type="button" class="subpanel-item" data-subpanel-action="proximo-desafio" style="width:100%; text-align:left; border:0; background:transparent; cursor:pointer;">
+        <span class="subpanel-course-icon" style="--course-accent:var(--accent-gold); --course-accent-bg:rgba(234,179,8,0.15);">
+          <svg class="icon"><use href="#i-sparkle"/></svg>
+        </span>
+        <div class="subpanel-item-content">
+          <span class="subpanel-item-text">Tu Próximo Desafío</span>
+          <span class="subpanel-item-meta">U2 · En 5 días</span>
+        </div>
+        <span class="badge badge-warning xs num">Pendiente</span>
+      </button>
+
+      <button type="button" class="subpanel-item" data-subpanel-action="estado" style="width:100%; text-align:left; border:0; background:transparent; cursor:pointer;">
+        <span class="subpanel-course-icon" style="--course-accent:var(--accent-gold); --course-accent-bg:rgba(234,179,8,0.15);">
+          <svg class="icon"><use href="#i-trophy"/></svg>
+        </span>
+        <div class="subpanel-item-content">
+          <span class="subpanel-item-text">Mi Estado &amp; P90</span>
+          <span class="subpanel-item-meta">Percentil P88</span>
+        </div>
+        <span class="badge badge-gold xs num">P88</span>
+      </button>
+
+      <button type="button" class="subpanel-item" data-subpanel-action="material" style="width:100%; text-align:left; border:0; background:transparent; cursor:pointer;">
+        <span class="subpanel-course-icon" style="--course-accent:var(--accent-secondary); --course-accent-bg:rgba(168,85,247,0.15);">
+          <svg class="icon"><use href="#i-backpack"/></svg>
+        </span>
+        <div class="subpanel-item-content">
+          <span class="subpanel-item-text">Material &amp; Bibliografía</span>
+          <span class="subpanel-item-meta">3 recursos oficiales</span>
+        </div>
+        <span class="subpanel-badge num">3</span>
+      </button>
+
+      <a class="subpanel-item" href="#chat" style="text-decoration:none;">
+        <span class="subpanel-course-icon" style="--course-accent:var(--accent-secondary); --course-accent-bg:rgba(168,85,247,0.15);">
+          <svg class="icon"><use href="#i-chat"/></svg>
+        </span>
+        <div class="subpanel-item-content">
+          <span class="subpanel-item-text">Canal de Cátedra</span>
+          <span class="subpanel-item-meta">Consultas docentes</span>
+        </div>
+        <span class="badge badge-neutral xs num">12</span>
+      </a>
+    </div>
+  `;
+}
+
 function updateSubpanel(navId, hashFull, forceOpen = false) {
   const subpanel = $('#subpanel');
   if (!subpanel) return;
@@ -4487,12 +4579,27 @@ function updateSubpanel(navId, hashFull, forceOpen = false) {
   const bodyEl = $('#subpanel-body');
 
   const cleanHash = hashFull.split('?')[0];
-  let activeCourseCode = null;
+
+  // CASO ESPECIAL: Si estamos dentro del detalle de una materia (curso/:id)
   if (cleanHash.startsWith('curso/')) {
     const cName = cleanHash.split('/')[1];
     const cObj = findCourse(cName);
-    activeCourseCode = cObj?.code || 'MSI';
-  } else if (cleanHash === 'cursos') {
+    const activeCourseCode = cObj?.code || 'MSI';
+
+    subpanel.dataset.currentCourse = activeCourseCode;
+    if (tagEl) tagEl.textContent = 'Materia';
+    if (titleEl) titleEl.textContent = cObj?.name ? (cObj.name.length > 20 ? (cObj.code || 'MSI') : cObj.name) : 'Metodología Sist. II';
+
+    if (bodyEl) {
+      bodyEl.innerHTML = buildCourseSubpanelHTML(cObj, hashFull, currentActiveUnit);
+    }
+    openSubpanel(navId);
+    return;
+  }
+
+  // CASO GENERAL: Listado de cursos u otras secciones
+  let activeCourseCode = null;
+  if (cleanHash === 'cursos') {
     activeCourseCode = 'MSI';
   }
 
@@ -4531,6 +4638,51 @@ function updateSubpanel(navId, hashFull, forceOpen = false) {
 
   openSubpanel(navId);
 }
+
+// Delegación de clics para unidades y accesos rápidos en el subpanel del curso
+document.addEventListener('click', e => {
+  // Clic en unidad del subpanel
+  const unitBtn = e.target.closest('[data-subpanel-unit]');
+  if (unitBtn) {
+    const unitVal = unitBtn.dataset.subpanelUnit;
+    const targetUnit = unitVal === 'all' ? null : Number(unitVal);
+
+    // Asegurar que la pestaña Desafíos esté activa
+    const tabDesafios = $('#tab-mat-desafios');
+    if (tabDesafios && !tabDesafios.classList.contains('active')) {
+      tabDesafios.click();
+    }
+
+    const cleanHash = location.hash.split('?')[0];
+    const cName = cleanHash.startsWith('#curso/') ? cleanHash.split('/')[1] : 'MSI';
+    const cObj = findCourse(cName);
+
+    renderCourseUnits(cObj, targetUnit);
+
+    listInstances.filter((_, i) => $$('[data-challenge-list]')[i]?.hasAttribute('data-locked-course')).forEach(l => {
+      l.setCourse(cObj.code || cObj.name);
+      l.setUnit(targetUnit);
+    });
+
+    $$('[data-subpanel-unit]').forEach(b => b.classList.toggle('active', b === unitBtn));
+    return;
+  }
+
+  // Clic en acción rápida del subpanel
+  const actionBtn = e.target.closest('[data-subpanel-action]');
+  if (actionBtn) {
+    const act = actionBtn.dataset.subpanelAction;
+    if (act === 'proximo-desafio') {
+      $('#tab-mat-desafios')?.click();
+      $('.next-action-card')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } else if (act === 'estado') {
+      $('#tab-mat-estado')?.click();
+    } else if (act === 'material') {
+      $('#tab-mat-material')?.click();
+    }
+    return;
+  }
+});
 
 function renderNav() {
   const sidebarNav = $('#sidebar-nav');

@@ -1830,6 +1830,22 @@ fieldset.question .q-hint { clear:both; font-size:13px; color:var(--text-muted);
   flex-wrap: wrap;
 }
 
+[data-course-meta] {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+[data-course-meta] > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+#screen-curso-alumno {
+  padding-bottom: 56px;
+}
+
 /* ================= Tarjeta de Enfoque: Tu Próximo Paso ================= */
 .next-action-card {
   padding: 18px 20px;
