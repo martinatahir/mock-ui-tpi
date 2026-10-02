@@ -415,46 +415,329 @@
 
     <!-- ================= CURSO (detalle) · alumno ================= -->
     <section class="screen" id="screen-curso-alumno" aria-labelledby="h-curso-a" data-error="No pudimos traer este curso.">
-      <a class="back" href="#cursos"><svg class="icon icon-sm"><use href="#i-left"/></svg>Mis cursos</a>
-      <div class="page-head">
-        <div>
-          <h1 class="display" id="h-curso-a" data-course-name>MSI</h1>
-          <div class="head-meta" data-course-meta></div>
+      <nav class="campus-breadcrumb" aria-label="Miga de pan">
+        <a href="#cursos">Mis Cursos</a>
+        <span class="sep">&gt;</span>
+        <span data-course-name>Metodología de Sistemas II</span>
+        <span class="sep">&gt;</span>
+        <span class="current" id="materia-breadcrumb-active">General &amp; Modalidad</span>
+      </nav>
+
+      <!-- Hero Header Contextual de la Materia -->
+      <div class="materia-hero card studs">
+        <div class="materia-hero-main">
+          <div class="materia-hero-info">
+            <div class="materia-hero-tag">
+              <span class="badge badge-success sm">■ Cursada Activa · 2026</span>
+              <span class="muted" data-course-meta>4to Cuatrimestre · Prof. Ana Torres</span>
+            </div>
+            <h1 class="display materia-hero-title" id="h-curso-a" data-course-name>Metodología de Sistemas II</h1>
+            <p class="muted materia-hero-sub">Espacio oficial de cursada: desafíos de código, seguimiento académico, bibliografía y pautas de promoción directa.</p>
+          </div>
+
+          <!-- Ficha de Nivel / Vidas / Estado en el Header -->
+          <div class="materia-hero-status">
+            <div class="materia-hero-level-chip">
+              <div class="materia-level-head">
+                <span style="color:var(--accent-primary); display:flex; align-items:center; gap:5px; font-weight:700;">
+                  <svg class="icon icon-sm"><use href="#i-star"/></svg>Nivel 05
+                </span>
+                <span class="num muted" style="font-size:11px;">1450 / 2000 XP</span>
+              </div>
+              <div class="bar" style="height:6px; background:var(--bg-surface);">
+                <span style="width:72.5%; background:var(--accent-primary-fill); height:100%; display:block; border-radius:999px;"></span>
+              </div>
+              <div class="materia-level-foot">
+                <span title="3 vidas disponibles" style="display:flex; align-items:center; gap:4px; font-size:12px;">
+                  <span class="heart">❤️❤️❤️</span> <small class="muted num">3/3</small>
+                </span>
+                <button type="button" class="btn btn-ghost btn-xs is-active" id="btn-toggle-ficha" aria-expanded="true" aria-controls="materia-ficha-inline" style="margin-left:auto; display:inline-flex; align-items:center; gap:5px;" title="Mostrar u ocultar Ficha de Cursada en pantalla">
+                  <svg class="icon icon-sm" style="color:var(--accent-gold);"><use href="#i-trophy"/></svg>
+                  <span id="btn-toggle-ficha-text">Ficha de Cursada</span>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="quick-links">
-          <a class="btn btn-ghost btn-sm" href="#roadmap"><svg class="icon icon-sm"><use href="#i-map"/></svg>Roadmap</a>
-          <a class="btn btn-ghost btn-sm" href="#ranking"><svg class="icon icon-sm"><use href="#i-trophy"/></svg>Ranking</a>
-          <a class="btn btn-ghost btn-sm" href="#inventario"><svg class="icon icon-sm"><use href="#i-backpack"/></svg>Inventario</a>
-          <button type="button" class="btn btn-ghost btn-sm" id="course-quick-tutor-btn"><svg class="icon icon-sm"><use href="#i-bot"/></svg>Tutor IA</button>
+
+        <!-- Top Tabs Horizontales Integradas al Header -->
+        <div class="tabs materia-tabs" role="tablist" aria-label="Secciones de la materia">
+          <button class="tab active" role="tab" id="tab-mat-general" aria-selected="true" data-mat-tab="general">
+            <svg class="icon icon-sm" style="color:var(--accent-gold);"><use href="#i-file"/></svg>General &amp; Modalidad
+          </button>
+          <button class="tab" role="tab" id="tab-mat-desafios" aria-selected="false" data-mat-tab="desafios">
+            <svg class="icon icon-sm" style="color:var(--accent-primary);"><use href="#i-flame"/></svg>Desafíos &amp; Unidades <span class="count num">9</span>
+          </button>
+          <button class="tab" role="tab" id="tab-mat-material" aria-selected="false" data-mat-tab="material">
+            <svg class="icon icon-sm" style="color:var(--accent-secondary);"><use href="#i-backpack"/></svg>Material &amp; Bibliografía <span class="count num">3</span>
+          </button>
         </div>
       </div>
-      <div class="data">
-        <div class="stat-strip" data-course-stats></div>
 
-        <!-- Unidades de Aprendizaje del Curso -->
-        <div class="section-head" style="margin-top:20px; align-items:center;">
-          <div>
-            <h2 id="course-units-heading">Unidades de Aprendizaje</h2>
-            <p class="muted" style="font-size:13px; margin:2px 0 0;">Seleccioná una unidad temática para explorar sus contenidos y filtrar desafíos específicos.</p>
+      <!-- Contenedor Split: Contenido Principal + Ficha de Cursada Lateral en la misma pantalla -->
+      <div class="materia-split-container" id="materia-split-container">
+        <!-- Columna Izquierda: Pestañas de contenido -->
+        <div class="materia-content-area">
+          <!-- 1. Pestaña General: Modalidad de cursada + P90 Promoción Directa -->
+          <div id="materia-pane-general" style="display:flex; flex-direction:column; gap:20px;">
+            <section class="card studs">
+            <div class="section-head" style="margin-bottom:14px;">
+              <h2 style="font-size:17px; display:flex; align-items:center; gap:8px;">
+                <svg class="icon icon-sm" style="color:var(--accent-primary);"><use href="#i-book"/></svg>
+                Modalidad de Cursada y Régimen Académico
+              </h2>
+              <span class="muted" style="font-size:11px; text-transform:uppercase; letter-spacing:0.05em;">Guía de la cursada 2026</span>
+            </div>
+
+            <div style="display:grid; grid-template-columns:minmax(0, 1.35fr) minmax(0, 1fr); gap:24px; align-items:start;">
+              <div style="font-size:13.5px; line-height:1.65; display:flex; flex-direction:column; gap:14px;">
+                <p style="margin:0;">La materia combina encuentros presenciales y desafíos de código interactivo en el campus. Cada semana vas a desarrollar soluciones prácticas, revisar tus algoritmos con pruebas automatizadas y compartir lo aprendido con la comisión.</p>
+                <p style="margin:0;"><b>Reglas de cursada:</b> Se requiere un <b>80% de asistencia</b> y la entrega aprobada de todos los trabajos prácticos obligatorios. Respetá las fechas del calendario; el trabajo en equipo no reemplaza las entregas de código individuales.</p>
+                <p style="margin:0;"><b>Evaluación con IA:</b> La IA brinda una primera devolución según la rúbrica de pruebas; el equipo docente revisa y valida la calificación final. Podés usar asistentes siempre que declares su uso y defiendas tu solución en clase.</p>
+                <div style="font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:8px; padding:10px 12px; background:var(--bg-surface-alt); border-radius:var(--radius-control); border:1px solid var(--border-subtle);">
+                  <svg class="icon icon-sm" style="color:var(--accent-gold); flex-shrink:0;"><use href="#i-sparkle"/></svg>
+                  <span><b>Nota académica:</b> promedio de notas de TP y parciales. Los XP y monedas gamificadas recompensan tu constancia pero no alteran la escala de notas formal.</span>
+                </div>
+              </div>
+
+              <!-- Tarjeta Dorada Promoción Directa P90 (con amplio espacio) -->
+              <div class="promo-card-gold">
+                <div class="promo-badge">
+                  <svg class="icon icon-sm"><use href="#i-trophy"/></svg>Promoción Directa
+                </div>
+                <h3 class="promo-title">Percentil P90 o superior</h3>
+                <div class="promo-desc">
+                  Al cierre del cuatrimestre, tu puntaje académico debe situarse en el <b>10% superior</b> de la comisión.
+                </div>
+                <div class="promo-sub">
+                  <div><b>Requisitos concurrentes:</b> Asistencia &ge; 80%, 100% de desafíos obligatorios aprobados y ambos exámenes parciales &ge; 8/10.</div>
+                  <div style="margin-top:6px; font-size:11px; opacity:0.9;"><b>Régimen Regular:</b> Con asistencia y TP obligatorios cumplidos y parciales &ge; 6/10, regularizás la asignatura y rendís examen final ordinario.</div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- 2. Pestaña Desafíos & Unidades (ancho completo) -->
+        <div id="materia-pane-desafios" style="display:none; flex-direction:column; gap:20px;">
+          <div class="section-head" style="align-items:center;">
+            <div>
+              <h2 id="course-units-heading" style="font-size:17px;">Unidades de Aprendizaje</h2>
+              <p class="muted" style="font-size:13px; margin:2px 0 0;">Seleccioná una unidad temática para explorar sus contenidos y filtrar desafíos específicos.</p>
+            </div>
+            <div class="quick-links">
+              <button type="button" class="btn btn-ghost btn-sm active" id="btn-all-units" data-unit-all>
+                <svg class="icon icon-sm"><use href="#i-cards"/></svg>Ver todas las unidades
+              </button>
+            </div>
           </div>
-          <div class="quick-links">
-            <button type="button" class="btn btn-ghost btn-sm active" id="btn-all-units" data-unit-all>
-              <svg class="icon icon-sm"><use href="#i-cards"/></svg>Ver todas las unidades
+          <div class="course-units-grid" id="course-units-list"></div>
+
+          <div class="section-head" style="margin-top:14px;">
+            <div>
+              <h2 id="challenges-section-title" style="font-size:17px;">Desafíos de la materia</h2>
+              <span class="muted" style="font-size:13px;" id="unit-active-filter-label">Mostrando todas las unidades</span>
+            </div>
+          </div>
+          <div data-challenge-list data-locked-course></div>
+        </div>
+
+        <!-- 3. Pestaña Material & Bibliografía (ancho completo) -->
+        <div id="materia-pane-material" style="display:none; flex-direction:column; gap:20px;">
+          <section class="card studs">
+            <div class="section-head" style="margin-bottom:6px;">
+              <h2 style="font-size:17px; display:flex; align-items:center; gap:8px;">
+                <svg class="icon icon-sm" style="color:var(--accent-secondary);"><use href="#i-backpack"/></svg>
+                Material Bibliográfico, Guías y Enlaces Oficiales
+              </h2>
+              <span class="muted" style="font-size:11px; text-transform:uppercase; letter-spacing:0.05em;">3 Recursos Disponibles</span>
+            </div>
+            <p class="muted" style="font-size:13.5px; margin:0 0 20px;">Archivos descargables oficiales de cátedra y recursos multimedia para acompañar tus clases.</p>
+
+            <div class="resources-grid">
+              <!-- Recurso 1: PDF -->
+              <div class="resource-card">
+                <div class="resource-info">
+                  <span class="resource-icon"><svg class="icon icon-sm"><use href="#i-file"/></svg></span>
+                  <div>
+                    <div class="resource-name" title="Programa_Oficial_2026.pdf">Programa_Oficial_2026.pdf</div>
+                    <div class="resource-meta">PDF · 1.2 MB · Cátedra MSI</div>
+                  </div>
+                </div>
+                <button class="btn btn-quiet btn-xs" type="button" onclick="alert('Descargando Programa_Oficial_2026.pdf...')">
+                  <svg class="icon icon-sm"><use href="#i-download"/></svg>Descargar
+                </button>
+              </div>
+
+              <!-- Recurso 2: DOCX -->
+              <div class="resource-card">
+                <div class="resource-info">
+                  <span class="resource-icon"><svg class="icon icon-sm"><use href="#i-file"/></svg></span>
+                  <div>
+                    <div class="resource-name" title="Guia_de_Trabajos_Practicos.docx">Guia_de_Trabajos_Practicos.docx</div>
+                    <div class="resource-meta">DOCX · 800 KB · Guía TP1 &amp; TP2</div>
+                  </div>
+                </div>
+                <button class="btn btn-quiet btn-xs" type="button" onclick="alert('Descargando Guia_de_Trabajos_Practicos.docx...')">
+                  <svg class="icon icon-sm"><use href="#i-download"/></svg>Descargar
+                </button>
+              </div>
+
+              <!-- Recurso 3: Video Enlace Externo -->
+              <div class="resource-card">
+                <div class="resource-info">
+                  <span class="resource-icon" style="color:var(--accent-gold);"><svg class="icon icon-sm"><use href="#i-gamepad"/></svg></span>
+                  <div>
+                    <div class="resource-name" title="Clase_Introductoria (Enlace Externo)">Clase_Introductoria</div>
+                    <div class="resource-meta">VIDEO / MEET · Grabación oficial</div>
+                  </div>
+                </div>
+                <a class="btn btn-quiet btn-xs" href="https://meet.google.com/xyz" target="_blank" rel="noopener">
+                  <svg class="icon icon-sm"><use href="#i-right"/></svg>Abrir enlace
+                </a>
+              </div>
+            </div>
+            <div class="hint" style="margin-top:16px;">ℹ️ Los enlaces externos se abren en una pestaña nueva sin interrumpir tu sesión de ejercicios.</div>
+          </section>
+        </div>
+      </div>
+      <!-- Fin Columna Izquierda (materia-content-area) -->
+
+      <!-- Columna Derecha: Ficha de Cursada Inline (En la misma pantalla, colapsable) -->
+      <aside class="materia-ficha-panel" id="materia-ficha-inline" aria-label="Ficha de Cursada del Alumno">
+        <div class="materia-ficha-panel-head">
+          <div>
+            <h2 class="materia-ficha-panel-title">
+              <svg class="icon icon-sm" style="color:var(--accent-gold);"><use href="#i-trophy"/></svg>
+              FICHA DE CURSADA
+            </h2>
+            <p class="muted" style="font-size:12px; margin:2px 0 0;">Metodología de Sistemas II · Rafael C. Castro</p>
+          </div>
+          <button class="icon-btn xs" type="button" id="btn-close-ficha-inline" title="Ocultar ficha lateral" aria-label="Ocultar ficha lateral">
+            <svg class="icon icon-sm"><use href="#i-x"/></svg>
+          </button>
+        </div>
+
+        <!-- Tarjeta 1: Percentil P88 y Régimen Académico -->
+        <div class="drawer-stat-card">
+          <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px;">
+            <div>
+              <span class="badge badge-warning sm">En Carrera para Promoción</span>
+              <div style="font-size:15px; font-weight:700; margin-top:6px; display:flex; align-items:baseline; gap:6px;">
+                <span class="display num" style="font-size:26px; color:var(--accent-primary-fill); line-height:1;">P88</span>
+                <span class="muted" style="font-size:13px;">Percentil de Cátedra</span>
+              </div>
+            </div>
+            <div style="text-align:right;">
+              <span class="badge badge-gold sm" style="font-weight:700;">Meta: P90+</span>
+              <div class="muted num" style="font-size:11px; margin-top:4px;">Corte: 15 Dic</div>
+            </div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:4px; margin-top:4px;">
+            <div class="bar" style="height:8px; background:var(--bg-surface);">
+              <span style="width:88%; background:var(--accent-primary-fill); height:100%; display:block; border-radius:999px;"></span>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:11px;" class="muted num">
+              <span>P70 Regular</span>
+              <span style="color:var(--accent-gold); font-weight:700;">▲ P90 Directa</span>
+              <span>P100</span>
+            </div>
+          </div>
+
+          <p class="muted" style="font-size:12px; margin:2px 0 0; line-height:1.4;">
+            Estás a <strong>2 puntos percentiles</strong> de la Promoción Directa sin examen final. Completá los desafíos de la Unidad 3 para superar el umbral.
+          </p>
+        </div>
+
+        <!-- Tarjeta 2: Desafíos y Cumplimiento -->
+        <div class="drawer-stat-card">
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <span style="font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em;" class="muted">Desafíos de Código</span>
+            <span class="badge badge-neutral sm num">4 / 6 Obligatorios</span>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div style="background:var(--bg-surface); padding:10px 12px; border-radius:var(--radius-card); border:1px solid var(--border-subtle);">
+              <div class="muted" style="font-size:11px;">Entregas al día</div>
+              <div class="num" style="font-size:18px; font-weight:700; color:var(--accent-primary-fill);">66.7%</div>
+            </div>
+            <div style="background:var(--bg-surface); padding:10px 12px; border-radius:var(--radius-card); border:1px solid var(--border-subtle);">
+              <div class="muted" style="font-size:11px;">Bonus acumulado</div>
+              <div class="num" style="font-size:18px; font-weight:700; color:var(--accent-gold);">+150 XP</div>
+            </div>
+          </div>
+          <div style="background:var(--bg-surface); padding:10px 12px; border-radius:var(--radius-card); border:1px solid var(--border-subtle); display:flex; align-items:center; justify-content:space-between;">
+            <div>
+              <div style="font-size:12px; font-weight:600;">Próximo Vencimiento</div>
+              <div class="muted" style="font-size:11px;">Desafío U3 · Arquitectura</div>
+            </div>
+            <span class="badge badge-warning sm num">En 5 días</span>
+          </div>
+        </div>
+
+        <!-- Tarjeta 3: Nivel Gamer y Recursos de Cursada -->
+        <div class="drawer-stat-card">
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <span style="font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em;" class="muted">Estado Gamer &amp; Recursos</span>
+            <span class="badge badge-primary sm">Nivel 05</span>
+          </div>
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:18px;">❤️❤️❤️</span>
+              <div>
+                <div style="font-size:12px; font-weight:600;">3 Vidas disponibles</div>
+                <div class="muted" style="font-size:11px;">Sin penalizaciones de autograder</div>
+              </div>
+            </div>
+            <div style="text-align:right;">
+              <div class="num" style="font-size:15px; font-weight:700; color:var(--accent-gold);">🪙 140</div>
+              <div class="muted" style="font-size:11px;">Monedas MSI</div>
+            </div>
+          </div>
+          <div style="display:flex; gap:8px; margin-top:4px;">
+            <a href="#mercado" class="btn btn-quiet btn-sm" style="flex:1; justify-content:center; text-decoration:none;">
+              <svg class="icon icon-sm" style="color:var(--accent-gold);"><use href="#i-backpack"/></svg>Mercado
+            </a>
+            <a href="#inventario" class="btn btn-quiet btn-sm" style="flex:1; justify-content:center; text-decoration:none;">
+              <svg class="icon icon-sm"><use href="#i-cube"/></svg>Inventario
+            </a>
+          </div>
+        </div>
+
+        <!-- Tarjeta 4: Asistencia & Cátedra -->
+        <div class="drawer-stat-card">
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <span style="font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em;" class="muted">Asistencia &amp; Cátedra</span>
+            <span class="badge badge-success sm">Online</span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <a href="#chat" class="btn btn-quiet btn-sm" style="justify-content:flex-start; text-decoration:none; width:100%;">
+              <svg class="icon icon-sm" style="color:var(--accent-secondary);"><use href="#i-chat"/></svg>
+              <div style="text-align:left; flex:1;">
+                <div style="font-size:12px; font-weight:600;">Canal General MSI</div>
+                <div class="muted" style="font-size:11px;">12 mensajes sin leer</div>
+              </div>
+              <span class="count num">12</span>
+            </a>
+            <button type="button" class="btn btn-quiet btn-sm" style="justify-content:flex-start; width:100%;" onclick="alert('Abriendo consulta asistida con Tutor IA de MSI...')">
+              <svg class="icon icon-sm" style="color:var(--accent-primary);"><use href="#i-sparkles"/></svg>
+              <div style="text-align:left; flex:1;">
+                <div style="font-size:12px; font-weight:600;">Consultar al Tutor IA</div>
+                <div class="muted" style="font-size:11px;">Resolución de dudas 24/7</div>
+              </div>
             </button>
           </div>
         </div>
-        <div class="course-units-grid" id="course-units-list"></div>
 
-        <!-- Desafíos del curso -->
-        <div class="section-head" style="margin-top:28px;">
-          <div>
-            <h2 id="challenges-section-title">Desafíos del curso</h2>
-            <span class="muted" style="font-size:13px;" id="unit-active-filter-label">Mostrando todas las unidades</span>
-          </div>
+        <!-- Pie del panel: Acceso al Ranking -->
+        <div style="margin-top:auto; padding-top:12px; border-top:1px solid var(--border-subtle); display:flex; flex-direction:column; gap:8px;">
+          <a href="#ranking" class="btn btn-primary btn-sm" style="width:100%; justify-content:center; text-decoration:none;">
+            <svg class="icon icon-sm"><use href="#i-trophy"/></svg>Ver Ranking Completo
+          </a>
         </div>
-        <div data-challenge-list data-locked-course></div>
-      </div>
-    </section>
+      </aside>
+    </div>
+  </section>
 
     <!-- ================= INVENTARIO · alumno ================= -->
     <section class="screen" id="screen-inventario-alumno" aria-labelledby="h-inv" data-error="No pudimos traer tu inventario.">
@@ -814,7 +1097,11 @@
     <section class="screen" id="screen-cursos-profesor" aria-labelledby="h-cursos-p" data-error="No pudimos traer las cohortes.">
       <div class="page-head">
         <div><h1 class="display" id="h-cursos-p">Cursos</h1><p>Las cohortes a las que estás asociado. Lo que podés editar depende de tus permisos en cada una.</p></div>
-        <div class="head-tools"><span data-view-toggle="cohortes"></span><button class="btn btn-primary" type="button" data-open="drawer-cohorte"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Crear cohorte</button></div>
+        <div class="head-tools">
+          <span data-view-toggle="cohortes"></span>
+          <button class="btn btn-quiet" type="button" id="btn-crear-curso-base" title="Crear un curso base"><svg class="icon icon-sm"><use href="#i-book"/></svg>Crear curso base</button>
+          <button class="btn btn-primary" type="button" data-open="dialog-crear-cohorte"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Crear cohorte</button>
+        </div>
       </div>
       <div class="data">
         <div class="tabs" role="tablist" aria-label="Estado de las cohortes" id="cohort-tabs"></div>
@@ -824,113 +1111,171 @@
 
     <!-- ================= CURSO (detalle) · profesor ================= -->
     <section class="screen" id="screen-curso-profesor" aria-labelledby="h-curso-p" data-error="No pudimos traer esta cohorte.">
-      <a class="back" href="#cursos"><svg class="icon icon-sm"><use href="#i-left"/></svg>Cursos</a>
+      <a class="back" href="#cursos"><svg class="icon icon-sm"><use href="#i-left"/></svg>Volver a Mis Cursos</a>
       <div class="page-head">
         <div>
-          <h1 class="display" id="h-curso-p" data-course-name>Programación IV</h1>
+          <h1 class="display" id="h-curso-p" data-course-name>Ingles II</h1>
           <div class="head-meta" data-course-meta></div>
         </div>
         <div class="invite" role="group" aria-label="Código de invitación">
-          <span class="invite-label">Código de invitación</span>
-          <code class="invite-code" id="invite-code">GSLSFFFUVE</code>
+          <span class="invite-label">CÓDIGO DE INVITACIÓN</span>
+          <code class="invite-code" id="invite-code">KAS5ZNBRT3</code>
           <button class="icon-btn sm" type="button" id="invite-copy" aria-label="Copiar código de invitación"><svg class="icon icon-sm"><use href="#i-copy"/></svg></button>
           <button class="icon-btn sm" type="button" id="invite-regen" aria-label="Regenerar código de invitación"><svg class="icon icon-sm"><use href="#i-refresh"/></svg></button>
           <span class="invite-status" id="invite-status" role="status"></span>
         </div>
       </div>
 
+      <!-- 7 Pestañas planas de Cohorte (Sprint 2) -->
       <div class="tabs" role="tablist" aria-label="Secciones del curso" data-tabgroup="curso">
-        <button class="tab" role="tab" aria-selected="true" data-subtab="c-resumen">Resumen</button>
-        <button class="tab" role="tab" aria-selected="false" data-subtab="c-contenido">Contenido</button>
-        <button class="tab" role="tab" aria-selected="false" data-subtab="c-alumnos">Alumnos <span class="count num" data-req-count>2</span></button>
-        <button class="tab" role="tab" aria-selected="false" data-subtab="c-config">Configuración</button>
+        <button class="tab" role="tab" aria-selected="true" data-subtab="c-general"><svg class="icon icon-sm" style="color:var(--accent-gold);"><use href="#i-file"/></svg>General</button>
+        <button class="tab" role="tab" aria-selected="false" data-subtab="c-secciones"><svg class="icon icon-sm"><use href="#i-list"/></svg>Secciones</button>
+        <button class="tab" role="tab" aria-selected="false" data-subtab="c-padron"><svg class="icon icon-sm"><use href="#i-users"/></svg>Padrón de Alumnos <span class="count num" id="tab-padron-count">9</span></button>
+        <button class="tab" role="tab" aria-selected="false" data-subtab="c-solicitudes"><svg class="icon icon-sm"><use href="#i-clock"/></svg>Solicitudes Pendientes <span class="count num" data-req-count>2</span></button>
+        <button class="tab" role="tab" aria-selected="false" data-subtab="c-asistencias"><svg class="icon icon-sm"><use href="#i-check"/></svg>Asistencias</button>
+        <button class="tab" role="tab" aria-selected="false" data-subtab="c-calificaciones"><svg class="icon icon-sm"><use href="#i-star"/></svg>Calificaciones</button>
+        <button class="tab" role="tab" aria-selected="false" data-subtab="c-config"><svg class="icon icon-sm"><use href="#i-lock"/></svg>Configuración</button>
       </div>
 
       <div class="data">
-        <!-- Resumen -->
-        <div data-subpanel="c-resumen" data-group="curso">
-          <p class="course-desc">Espacio principal de la cursada: estructura de contenidos, unidades temáticas y actividades evaluativas.</p>
-          <div class="stat-strip">
-            <div><div class="k">Alumnos</div><div class="v num">28</div></div>
-            <div><div class="k">Solicitudes pendientes</div><div class="v num" style="color:var(--urgent)"><button class="linkbtn big" type="button" data-goto="c-alumnos" data-goto-pill="a-solicitudes">2</button></div></div>
-            <div><div class="k">Desafíos publicados</div><div class="v num" data-pub-count>6</div></div>
-            <div><div class="k">Secciones visibles</div><div class="v num" data-sec-visible>2 de 3</div></div>
-          </div>
-          <div class="two-col">
-            <section class="card studs" aria-labelledby="h-team">
-              <div class="section-head"><h2 id="h-team">Equipo docente <span class="muted num" style="font-weight:400">(7)</span></h2><button class="btn btn-ghost btn-sm" type="button"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Asignar profesores</button></div>
-              <ul class="people" id="team-list"></ul>
-            </section>
-            <div class="stack">
-              <section class="card studs" aria-labelledby="h-next">
-                <div class="section-head"><h2 id="h-next">Próximos vencimientos</h2><button class="btn btn-quiet btn-sm" type="button" data-goto="c-contenido" data-goto-pill="k-desafios">Ver desafíos<svg class="icon icon-sm"><use href="#i-right"/></svg></button></div>
-                <ul class="people" id="next-due"></ul>
-              </section>
-              <section class="card studs" aria-labelledby="h-vitrina">
-                <div class="link-row"><div><h2 id="h-vitrina" style="font-size:16px">Vitrina</h2><p class="muted" style="font-size:13px">Cómo se presenta esta cohorte.</p></div><button class="btn btn-ghost btn-sm" type="button">Gestionar vitrina</button></div>
-              </section>
-            </div>
-          </div>
-        </div>
-
-        <!-- Contenido -->
-        <div data-subpanel="c-contenido" data-group="curso" hidden>
-          <div class="section-head">
-            <div class="pills" role="tablist" aria-label="Contenido" data-tabgroup="contenido">
-              <button class="tab" role="tab" aria-selected="true" data-subtab="k-secciones">Secciones <span class="count num">3</span></button>
-              <button class="tab" role="tab" aria-selected="false" data-subtab="k-desafios">Desafíos <span class="count num" data-course-ch-count>8</span></button>
-            </div>
-            <div class="quick-links" data-subpanel="k-secciones" data-group="contenido-actions">
-              <span data-view-toggle="secciones"></span>
-              <button class="btn btn-ghost btn-sm" type="button" id="reorder-btn" aria-pressed="false"><svg class="icon icon-sm"><use href="#i-grip"/></svg>Ordenar</button>
-              <button class="btn btn-primary btn-sm" type="button"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Nueva sección</button>
-            </div>
-          </div>
-          <div data-subpanel="k-secciones" data-group="contenido">
-            <p class="muted" style="font-size:13px; margin-bottom:10px">Los alumnos ven las secciones visibles en este orden. Las dadas de baja no aparecen.</p>
-            <ol class="sec-list" id="sec-list" data-view-target="secciones"></ol>
-          </div>
-          <div data-subpanel="k-desafios" data-group="contenido" hidden>
-            <div class="section-head"><p>Desafíos de esta cohorte.</p><button class="btn btn-primary btn-sm" type="button" data-open="drawer-desafio"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Crear desafío</button></div>
-            <div data-catalog data-locked-course></div>
-          </div>
-        </div>
-
-        <!-- Alumnos -->
-        <div data-subpanel="c-alumnos" data-group="curso" hidden>
-          <div class="pills" role="tablist" aria-label="Alumnos" data-tabgroup="alumnos" style="margin-bottom:14px">
-            <button class="tab" role="tab" aria-selected="true" data-subtab="a-padron">Padrón <span class="count num">28</span></button>
-            <button class="tab" role="tab" aria-selected="false" data-subtab="a-solicitudes">Solicitudes <span class="count num" data-req-count>2</span></button>
-            <button class="tab" role="tab" aria-selected="false" data-subtab="a-asistencias">Asistencias</button>
-            <button class="tab" role="tab" aria-selected="false" data-subtab="a-calificaciones">Calificaciones</button>
-          </div>
-          <div data-subpanel="a-padron" data-group="alumnos">
-            <div class="filter-top">
-              <label class="search"><span class="sr-only">Buscar alumno</span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-search"/></svg><input class="control" type="search" id="roster-q" placeholder="Buscar por nombre, legajo o email" /></label>
-              <div class="seg" role="group" aria-label="Filtrar por estado" id="roster-filter">
-                <button type="button" aria-pressed="true" data-rf="">Todos</button><button type="button" aria-pressed="false" data-rf="Riesgo">En riesgo</button>
+        <!-- 1. GENERAL (general.jpg) -->
+        <div data-subpanel="c-general" data-group="curso">
+          <div class="card studs" style="margin-bottom:16px;">
+            <div class="course-top" style="align-items:center;">
+              <div>
+                <h2 data-course-name style="margin:0 0 6px;">Ingles II</h2>
+                <p class="muted" style="margin:0; font-size:13px; max-width:70ch;">Espacio principal de la cursada. Aquí se organiza la estructura de contenidos, unidades temáticas y actividades evaluativas.</p>
               </div>
-              <span data-view-toggle="padron"></span>
+              <div class="quick-links" style="align-items:center;">
+                <span class="badge badge-gold">Gestor</span>
+                <button class="btn btn-quiet btn-sm" type="button"><svg class="icon icon-sm"><use href="#i-user"/></svg>Asignar profesores</button>
+                <button class="btn btn-ghost btn-sm" type="button"><svg class="icon icon-sm"><use href="#i-eye"/></svg>Gestionar vitrina</button>
+              </div>
             </div>
-            <div class="table-wrap" data-view-target="padron"><table class="data" id="roster-table"></table></div>
-            <div class="pager" id="roster-pager"></div>
           </div>
-          <div data-subpanel="a-solicitudes" data-group="alumnos" hidden>
-            <p class="muted" style="font-size:13px; margin-bottom:10px">Pedidos de inscripción hechos con el código de invitación.</p>
-            <ul class="list" id="enroll-list"></ul>
+
+          <section class="card studs" style="margin-bottom:16px;" aria-labelledby="h-team-title">
+            <div class="section-head" style="margin-bottom:12px;">
+              <h2 id="h-team-title">Equipo docente <span class="muted num" style="font-weight:400" id="team-count-label">(2)</span></h2>
+            </div>
+            <div class="filter-top" style="margin-bottom:12px; display:flex; gap:12px; flex-wrap:wrap;">
+              <label class="search" style="flex:1; min-width:200px;">
+                <svg class="icon icon-sm" aria-hidden="true"><use href="#i-search"/></svg>
+                <input class="control" type="search" id="team-search-q" placeholder="Buscar..." />
+              </label>
+              <select class="control" id="team-filter-perm" style="width:auto; min-width:180px;" aria-label="Filtrar por permiso">
+                <option value="">Permiso: Todos</option>
+                <option value="Gestor">Gestor</option>
+                <option value="Profesor con escritura">Profesor con escritura</option>
+              </select>
+            </div>
+            <div class="table-wrap">
+              <table class="data" id="team-table">
+                <thead>
+                  <tr>
+                    <th>Nombre ▴</th>
+                    <th>Permiso ▴</th>
+                    <th>Incorporado ▴</th>
+                  </tr>
+                </thead>
+                <tbody id="team-table-body"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="card studs" aria-labelledby="h-cont-act">
+            <div class="section-head" style="margin-bottom:12px;">
+              <h2 id="h-cont-act"><svg class="icon icon-sm" style="color:var(--accent-gold);"><use href="#i-file"/></svg>Contenidos y Actividades</h2>
+              <span class="muted" style="font-size:12px;">Vista principal de la cursada</span>
+            </div>
+            <div style="text-align:center; padding:36px 16px; background:var(--bg-surface-alt); border-radius:var(--radius-control); border:1px dashed var(--border-subtle);">
+              <h3 style="font-size:16px; margin:0 0 6px;">Estructura del Curso (Secciones y Actividades)</h3>
+              <p class="muted" style="font-size:13px; max-width:55ch; margin:0 auto 16px;">Contenedor preparado para la gestión de unidades temáticas, recursos y actividades pedagógicas al estilo Moodle.</p>
+              <button class="btn btn-primary btn-sm" type="button" data-goto="c-secciones"><svg class="icon icon-sm"><use href="#i-list"/></svg>Ver Secciones del Curso</button>
+            </div>
+          </section>
+        </div>
+
+        <!-- 2. SECCIONES (vista-curso-3.png & nueva_seccion.jpg) -->
+        <div data-subpanel="c-secciones" data-group="curso" hidden>
+          <div class="page-head" style="margin-bottom:16px;">
+            <div>
+              <h2 style="font-size:20px; margin:0;">Secciones</h2>
+              <p class="muted" style="font-size:13px; margin:2px 0 0;">Organizá el contenido de la cohorte. Las secciones dadas de baja no se muestran.</p>
+            </div>
+            <div class="quick-links">
+              <button class="btn btn-ghost btn-sm" type="button" id="reorder-btn"><svg class="icon icon-sm"><use href="#i-grip"/></svg>Ordenar</button>
+              <button class="btn btn-primary btn-sm" type="button" data-open="dialog-nueva-seccion"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Nueva sección</button>
+            </div>
           </div>
-          <div data-subpanel="a-asistencias" data-group="alumnos" hidden>
-            <div class="empty">
-              <svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg>
-              <p>Todavía no registraste ninguna clase en esta cohorte.</p>
+          <div class="sec-grid" id="sections-cards-list" style="display:flex; flex-direction:column; gap:12px;"></div>
+        </div>
+
+        <!-- 3. PADRÓN DE ALUMNOS (padron_alumnos.jpg) -->
+        <div data-subpanel="c-padron" data-group="curso" hidden>
+          <div class="page-head" style="margin-bottom:14px;">
+            <div>
+              <h2 style="font-size:20px; margin:0;">Padrón de la cohorte</h2>
+              <p class="muted" style="font-size:13px; margin:2px 0 0;">Consultá los alumnos registrados en el padrón oficial de la cohorte.</p>
+            </div>
+            <div class="quick-links">
+              <button class="btn btn-primary btn-sm" type="button" data-open="dialog-gestion-padron"><svg class="icon icon-sm"><use href="#i-file"/></svg>Cargar padrón</button>
+              <button class="btn btn-quiet btn-sm" type="button" data-goto="c-general"><svg class="icon icon-sm"><use href="#i-left"/></svg>Volver al detalle</button>
+            </div>
+          </div>
+          <div style="margin-bottom:14px;">
+            <label class="field" style="max-width:600px;">
+              <span style="font-size:12px; font-weight:600; color:var(--text-muted);">Buscar alumno</span>
+              <div class="search-input-wrap" style="position:relative; display:flex; align-items:center;">
+                <svg class="icon icon-sm" style="position:absolute; left:10px; color:var(--text-muted);" aria-hidden="true"><use href="#i-search"/></svg>
+                <input class="control" type="search" id="padron-search-q" placeholder="Buscar por legajo o email institucional" style="padding-left:34px;" />
+              </div>
+              <span class="hint">La búsqueda se aplica en tiempo real sobre el legajo y el email institucional.</span>
+            </label>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <span class="num muted" style="font-size:13px;"><b id="padron-realtime-count">9</b> alumnos en el padrón</span>
+            <button class="btn btn-primary btn-sm" type="button" data-open="dialog-gestion-padron"><svg class="icon icon-sm"><use href="#i-file"/></svg>Cargar padrón</button>
+          </div>
+          <div class="table-wrap">
+            <table class="data" id="padron-official-table">
+              <thead>
+                <tr>
+                  <th style="width:140px;">Legajo ▴</th>
+                  <th>Nombre y Apellido ▴</th>
+                  <th>Email Institucional ▴</th>
+                </tr>
+              </thead>
+              <tbody id="padron-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 4. SOLICITUDES PENDIENTES -->
+        <div data-subpanel="c-solicitudes" data-group="curso" hidden>
+          <div class="section-head" style="margin-bottom:10px;"><p class="muted" style="font-size:13px;">Pedidos de inscripción hechos con el código de invitación.</p></div>
+          <ul class="list" id="enroll-list"></ul>
+        </div>
+
+        <!-- 5. ASISTENCIAS (vista-curso6.png) -->
+        <div data-subpanel="c-asistencias" data-group="curso" hidden>
+          <div class="empty" style="padding:48px 24px; text-align:center;">
+            <svg class="icon" aria-hidden="true" style="width:48px; height:48px; color:var(--accent-primary); margin-bottom:12px;"><use href="#i-calendar"/></svg>
+            <h2 style="font-size:18px; margin:0 0 6px;">Asistencias</h2>
+            <p class="muted" style="margin:0 0 20px;">Registro y seguimiento de asistencias a clase.</p>
+            <div class="quick-links" style="justify-content:center;">
               <button class="btn btn-primary btn-sm" type="button"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Registrar la clase de hoy</button>
+              <button class="btn btn-quiet btn-sm" type="button" data-goto="c-general">Volver a General</button>
             </div>
           </div>
-          <div data-subpanel="a-calificaciones" data-group="alumnos" hidden>
-            <div class="empty">
-              <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
-              <p>Todavía no hay calificaciones cargadas para esta cohorte.</p>
-            </div>
+        </div>
+
+        <!-- 6. CALIFICACIONES -->
+        <div data-subpanel="c-calificaciones" data-group="curso" hidden>
+          <div class="empty" style="padding:48px 24px; text-align:center;">
+            <svg class="icon" aria-hidden="true" style="width:48px; height:48px; color:var(--accent-gold); margin-bottom:12px;"><use href="#i-star"/></svg>
+            <h2 style="font-size:18px; margin:0 0 6px;">Calificaciones</h2>
+            <p class="muted" style="margin:0;">Todavía no hay calificaciones cargadas para esta cohorte.</p>
           </div>
         </div>
 
@@ -989,6 +1334,86 @@
               <div class="quick-links"><button class="btn btn-quiet" type="button" id="cfg-discard">Descartar</button><button class="btn btn-primary" type="button" id="cfg-save">Guardar cambios</button></div>
             </div>
           </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CONFIGURACIÓN DE LA ACTIVIDAD · profesor (nueva_seccion.jpg derecha) ================= -->
+    <section class="screen" id="screen-actividad-editar" aria-labelledby="h-act-edit" data-error="No pudimos cargar la configuración de la actividad.">
+      <nav class="campus-breadcrumb" aria-label="Miga de pan">
+        <a href="#cursos">Mis Cursos</a>
+        <span class="sep">&gt;</span>
+        <a href="#curso" data-course-name>Programación IV</a>
+        <span class="sep">&gt;</span>
+        <span class="current">Editar Actividad</span>
+      </nav>
+
+      <div class="page-head" style="margin-bottom:18px;">
+        <div>
+          <h1 class="display" id="h-act-edit">Configuración de la actividad</h1>
+          <p class="muted" style="font-size:13px; margin:4px 0 0;">Definí los requerimientos pedagógicos, criterios de evaluación y fechas límites.</p>
+        </div>
+        <div class="quick-links">
+          <a class="btn btn-quiet" href="#curso">Cancelar</a>
+          <button class="btn btn-primary" type="button" id="btn-save-actividad">Guardar cambios</button>
+        </div>
+      </div>
+
+      <div class="data" style="max-width:860px; display:flex; flex-direction:column; gap:20px;">
+        <!-- Fechas Apertura y Vencimiento -->
+        <div class="card studs" style="padding:14px 18px; display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px; font-size:13px;">
+          <div>
+            <span class="muted">Apertura:</span>
+            <b class="num" style="margin-left:6px;">28/06/2026, 12:00 AM</b>
+          </div>
+          <div>
+            <span class="muted">Vencimiento:</span>
+            <b class="num" style="margin-left:6px; color:var(--accent-gold);">05/07/2026, 12:00 AM</b>
+          </div>
+        </div>
+
+        <!-- Editor Enriquecido -->
+        <div class="editor-box">
+          <div class="editor-toolbar">
+            <button class="icon-btn sm" type="button" title="Negrita (Ctrl+B)"><b>B</b></button>
+            <button class="icon-btn sm" type="button" title="Cursiva (Ctrl+I)"><i>I</i></button>
+            <button class="icon-btn sm" type="button" title="Enlace"><svg class="icon icon-sm"><use href="#i-copy"/></svg></button>
+            <button class="icon-btn sm" type="button" title="Imagen"><svg class="icon icon-sm"><use href="#i-cards"/></svg></button>
+            <button class="icon-btn sm" type="button" title="Video"><svg class="icon icon-sm"><use href="#i-gamepad"/></svg></button>
+            <button class="icon-btn sm" type="button" title="Audio / Grabación de voz"><svg class="icon icon-sm"><use href="#i-chat"/></svg></button>
+            <div style="margin-left:auto; display:flex; align-items:center; gap:6px;">
+              <select class="control sm" style="width:auto; font-size:12px;" aria-label="Formato de texto">
+                <option>Format ▾</option>
+                <option>Encabezado 1</option>
+                <option>Encabezado 2</option>
+                <option>Párrafo</option>
+                <option>Código</option>
+              </select>
+            </div>
+          </div>
+          <textarea class="editor-textarea" id="activity-desc-editor" placeholder="Escribí el enunciado de la actividad en al menos 500 palabras..."></textarea>
+          <div class="editor-foot">
+            <span id="activity-word-count">0 palabras ✎</span>
+          </div>
+        </div>
+
+        <!-- Dropzone de Archivos Adjuntos -->
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <span style="font-size:13px; font-weight:600;">Archivos adjuntos</span>
+            <span class="muted" style="font-size:11px;">(Máximo 1 MB, 20 archivos)</span>
+          </div>
+          <div class="dropzone" id="dropzone-actividad">
+            <svg class="icon dropzone-icon"><use href="#i-download"/></svg>
+            <div class="dropzone-title">Arrastrá y soltá los archivos aquí para añadirlos</div>
+            <div class="dropzone-sub">o hacé clic para explorar tus carpetas locales</div>
+          </div>
+        </div>
+
+        <!-- Botones de Acción al Pie -->
+        <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:10px;">
+          <a class="btn btn-quiet" href="#curso">Cancelar</a>
+          <button class="btn btn-primary" type="button" id="btn-save-actividad-foot">Guardar cambios</button>
         </div>
       </div>
     </section>
@@ -1571,26 +1996,201 @@
   </form>
 </dialog>
 
-<!-- ================= Drawer: crear cohorte ================= -->
-<dialog class="drawer" id="drawer-cohorte" aria-labelledby="h-dc">
-  <form method="dialog" style="display:contents" novalidate>
-    <div class="drawer-head">
-      <div><h2 id="h-dc" class="display">Crear cohorte</h2><p>Arranca como borrador hasta que la publiques.</p></div>
-      <button class="icon-btn sm" value="cancel" aria-label="Cerrar"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
-    </div>
-    <div class="drawer-body">
-      <label class="field"><span class="req">Nombre</span><input class="control" placeholder="Por ejemplo: Programación IV 2027" /></label>
-      <div class="form-grid">
-        <label class="field"><span class="req">Inicio de inscripción</span><input class="control" type="date" /></label>
-        <label class="field"><span class="req">Fin de inscripción</span><input class="control" type="date" /></label>
+<!-- ================= Modal: Crear Nueva Cohorte (Wizard 3 Pasos - crear_cohorte.jpg) ================= -->
+<dialog class="modal modal-lg studs" id="dialog-crear-cohorte" aria-labelledby="h-wz-title">
+  <div style="display:flex; flex-direction:column; width:100%; height:100%;">
+    <div class="modal-head">
+      <div>
+        <h2 id="h-wz-title" class="display" style="font-size:18px; margin:0;">CREAR NUEVA COHORTE</h2>
+        <p class="muted" style="font-size:13px; margin:2px 0 0;">Configuración académica integral de comisión y período de cursada.</p>
       </div>
-      <label class="field">Asignatura del roadmap<select class="control"><option value="ProgIV">Programación IV</option><option value="InglesII">Inglés II</option><option value="BDII">BD II</option><option value="MSI" selected>MSI</option></select></label>
+      <button class="icon-btn sm" type="button" onclick="$('#dialog-crear-cohorte').close()" aria-label="Cerrar"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
     </div>
-    <div class="drawer-foot">
-      <button class="btn btn-quiet" value="cancel">Cancelar</button>
-      <button class="btn btn-primary" value="ok">Crear borrador</button>
+
+    <!-- Indicador de 3 pasos -->
+    <div class="wizard-steps" id="cohorte-wizard-steps">
+      <div class="wizard-step active" id="wz-step-indicator-1">
+        <span class="wizard-step-num">1</span>
+        <span>1. Curso y Docentes</span>
+      </div>
+      <span class="wizard-step-line"></span>
+      <div class="wizard-step" id="wz-step-indicator-2">
+        <span class="wizard-step-num">2</span>
+        <span>2. Período y Modalidad</span>
+      </div>
+      <span class="wizard-step-line"></span>
+      <div class="wizard-step" id="wz-step-indicator-3">
+        <span class="wizard-step-num">3</span>
+        <span>3. Cupos y Confirmación</span>
+      </div>
     </div>
-  </form>
+
+    <form class="modal-body" id="form-wizard-cohorte" onsubmit="return false;">
+      <!-- PASO 1: Curso y Docentes -->
+      <div class="wizard-pane" id="wz-pane-1" style="display:flex; flex-direction:column; gap:16px;">
+        <label class="field">
+          <span class="req">Curso Base</span>
+          <select class="control" id="wz-curso-base" required>
+            <option value="MSI" selected>Metodología de Sistemas II (MSI)</option>
+            <option value="ProgIV">Programación IV</option>
+            <option value="InglesII">Inglés II</option>
+            <option value="GDS">Gestión de Desarrollo de Software</option>
+            <option value="BDII">Base de Datos II</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Cuerpo Docente Asignado</span>
+          <div class="chips-wrap" id="wz-docentes-chips" style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px;">
+            <span class="chip active" style="font-size:12px; display:inline-flex; align-items:center; gap:6px;">
+              Gestor Demo <button type="button" style="border:0; background:transparent; color:inherit; cursor:pointer; font-weight:700;">×</button>
+            </span>
+            <span class="chip" style="font-size:12px; display:inline-flex; align-items:center; gap:6px;">
+              Ana Torres <button type="button" style="border:0; background:transparent; color:inherit; cursor:pointer; font-weight:700;">×</button>
+            </span>
+          </div>
+          <div class="search-input-wrap">
+            <svg class="icon icon-sm"><use href="#i-search"/></svg>
+            <input class="control sm" id="wz-search-docentes" placeholder="Buscar y añadir profesores por nombre o email..." />
+          </div>
+        </label>
+      </div>
+
+      <!-- PASO 2: Período y Modalidad -->
+      <div class="wizard-pane" id="wz-pane-2" style="display:none; flex-direction:column; gap:16px;">
+        <div class="form-grid">
+          <label class="field"><span class="req">Fecha de inicio</span><input class="control" type="date" id="wz-fecha-inicio" value="2026-10-09" /></label>
+          <label class="field"><span class="req">Fecha de fin</span><input class="control" type="date" id="wz-fecha-fin" value="2026-11-08" /></label>
+        </div>
+
+        <div class="field">
+          <span>Modalidad de cursada</span>
+          <div class="seg" role="group" aria-label="Modalidad de cursada" id="wz-modalidad-seg" style="display:flex; width:100%;">
+            <button type="button" data-mod="presencial" aria-pressed="false" style="flex:1;">Presencial (Física)</button>
+            <button type="button" data-mod="virtual" aria-pressed="true" style="flex:1;">Virtual (Online)</button>
+            <button type="button" data-mod="hibrida" aria-pressed="false" style="flex:1;">Híbrida (Combinada)</button>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <label class="field"><span>Horario desde (opcional)</span><input class="control" type="time" id="wz-hora-desde" value="18:30" /></label>
+          <label class="field"><span>Horario hasta (opcional)</span><input class="control" type="time" id="wz-hora-hasta" value="22:30" /></label>
+        </div>
+
+        <label class="field">
+          <span>Aula / Espacio o enlace de reunión (opcional)</span>
+          <input class="control" id="wz-aula" placeholder="Ej. Aula 304 / https://meet.google.com/xyz" value="https://meet.google.com/xyz" />
+        </label>
+      </div>
+
+      <!-- PASO 3: Cupos y Confirmación -->
+      <div class="wizard-pane" id="wz-pane-3" style="display:none; flex-direction:column; gap:16px;">
+        <div class="form-grid">
+          <label class="field">
+            <span>Cupo máximo de estudiantes (opcional)</span>
+            <input class="control num" type="number" id="wz-cupo" placeholder="Ilimitado si queda vacío" />
+          </label>
+          <label class="field">
+            <span>Fecha límite de inscripción (opcional)</span>
+            <input class="control" type="date" id="wz-limite-inscripcion" />
+          </label>
+        </div>
+
+        <div class="card studs" style="padding:16px; background:var(--bg-surface-alt); border-radius:var(--radius-control);">
+          <h3 style="font-size:14px; margin:0 0 10px; color:var(--accent-gold);">Resumen de la Cohorte</h3>
+          <dl class="facts" style="font-size:13px;">
+            <dt>Curso Base:</dt><dd><b id="wz-resumen-curso">MSI</b></dd>
+            <dt>Docentes:</dt><dd id="wz-resumen-docentes">Gestor Demo, Ana Torres</dd>
+            <dt>Período:</dt><dd id="wz-resumen-periodo">2026-10-09 al 2026-11-08</dd>
+            <dt>Modalidad:</dt><dd id="wz-resumen-modalidad">Virtual (Online)</dd>
+          </dl>
+        </div>
+      </div>
+    </form>
+
+    <div class="modal-foot">
+      <button class="btn btn-quiet" type="button" id="wz-btn-prev" style="display:none;">Anterior</button>
+      <button class="btn btn-quiet" type="button" id="wz-btn-cancel" onclick="$('#dialog-crear-cohorte').close()">Cancelar</button>
+      <button class="btn btn-primary" type="button" id="wz-btn-next">Siguiente</button>
+      <button class="btn btn-primary" type="button" id="wz-btn-finish" style="display:none;">Confirmar y Crear Cohorte</button>
+    </div>
+  </div>
+</dialog>
+
+<!-- ================= Modal: Gestión de Padrón CSV (gestioss_padron.jpg) ================= -->
+<dialog class="modal modal-md studs" id="dialog-gestion-padron" aria-labelledby="h-gp-title">
+  <div style="display:flex; flex-direction:column; width:100%;">
+    <div class="modal-head">
+      <div>
+        <h2 id="h-gp-title" class="display" style="font-size:18px; margin:0;">GESTIÓN DE PADRÓN</h2>
+        <p class="muted" style="font-size:13px; margin:2px 0 0;">Seleccioná si deseás cargar alumnos mediante un archivo CSV o descargar el padrón actual de la cohorte.</p>
+      </div>
+      <button class="icon-btn sm" type="button" onclick="$('#dialog-gestion-padron').close()" aria-label="Cerrar"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="modal-body" style="gap:20px;">
+      <!-- Zona Drag and Drop -->
+      <div class="dropzone" id="dropzone-padron">
+        <svg class="icon dropzone-icon"><use href="#i-download"/></svg>
+        <div class="dropzone-title">Arrastrá tu archivo CSV o Excel completado aquí</div>
+        <div class="dropzone-sub">o hacé clic para buscar en tus carpetas</div>
+        <a class="dropzone-link" href="javascript:void(0)" onclick="alert('Descargando plantilla_alumnos_utn.csv...')">📥 Descargar plantilla oficial CSV</a>
+      </div>
+
+      <!-- Exportar padrón a CSV -->
+      <div class="card studs" style="padding:16px; display:flex; align-items:center; justify-content:space-between; gap:12px; background:var(--bg-surface-alt);">
+        <div>
+          <h3 style="font-size:14px; margin:0 0 4px; display:flex; align-items:center; gap:6px;">
+            <svg class="icon icon-sm" style="color:var(--accent-gold);"><use href="#i-file"/></svg>
+            Exportar padrón a CSV
+          </h3>
+          <p class="muted" style="font-size:12px; margin:0;">Descargá la lista completa de alumnos actualmente matriculados en esta cohorte.</p>
+        </div>
+        <button class="btn btn-quiet btn-sm" type="button" onclick="alert('Exportando padron_alumnos.csv...')">Descargar CSV</button>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-quiet" type="button" onclick="$('#dialog-gestion-padron').close()">Cerrar</button>
+    </div>
+  </div>
+</dialog>
+
+<!-- ================= Modal: Nueva Sección (nueva_seccion.jpg izquierda) ================= -->
+<dialog class="modal modal-md studs" id="dialog-nueva-seccion" aria-labelledby="h-ns-title">
+  <div style="display:flex; flex-direction:column; width:100%;">
+    <div class="modal-head">
+      <div>
+        <h2 id="h-ns-title" class="display" style="font-size:18px; margin:0;">NUEVA SECCIÓN</h2>
+        <p class="muted" style="font-size:13px; margin:2px 0 0;">Se crea oculta y se agrega al final de la cohorte.</p>
+      </div>
+      <button class="icon-btn sm" type="button" onclick="$('#dialog-nueva-seccion').close()" aria-label="Cerrar"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
+    </div>
+    <form class="modal-body" id="form-nueva-seccion" onsubmit="return false;" style="gap:16px;">
+      <label class="field">
+        <span class="req">Título</span>
+        <input class="control" id="nueva-sec-titulo" placeholder="Ej. Unidad 1" value="Unidad 1" required />
+      </label>
+
+      <label class="field">
+        <span>Descripción</span>
+        <textarea class="control" id="nueva-sec-desc" rows="3" maxlength="1000" placeholder="Descripción opcional de la sección"></textarea>
+        <div class="char-counter" id="sec-char-count">0/1000</div>
+      </label>
+
+      <div class="field" style="margin-top:4px;">
+        <label class="switch-label">
+          <div class="switch-toggle">
+            <input type="checkbox" id="nueva-sec-visible" />
+            <span class="switch-track"></span>
+          </div>
+          <span>Visible para estudiantes</span>
+        </label>
+      </div>
+    </form>
+    <div class="modal-foot">
+      <button class="btn btn-quiet" type="button" onclick="$('#dialog-nueva-seccion').close()">Cancelar</button>
+      <button class="btn btn-primary" type="button" id="btn-crear-seccion-confirm">Crear sección</button>
+    </div>
+  </div>
 </dialog>
 
 <script>
@@ -1734,11 +2334,126 @@ const COURSES = {
     units: [
       { num: 1, title: 'Unidad 1: Marco Legal del Software & PI', desc: 'Propiedad intelectual, licencias open source, contratos y responsabilidad legal.', progress: 0, status: 'active', challenges: 1 }
     ]
+  },
+  InglesII: {
+    name: 'Inglés II',
+    fullName: '2026 - Inglés II',
+    code: 'InglesII',
+    status: 'Activa',
+    period: '4to Cuatrimestre',
+    from: '10/10/2026',
+    to: '31/12/2026',
+    weeks: '3 meses (12 semanas)',
+    teacher: 'Gestor Académico / Titular',
+    students: 30,
+    level: 3,
+    xp: 310,
+    xpMax: 500,
+    lives: 3,
+    pending: 1,
+    completedPct: 60,
+    readOnly: false,
+    bannerTheme: 'blueprint',
+    themeColor: '#10b981',
+    icon: 'i-globe',
+    inviteCode: 'KAS5ZNBRT3',
+    units: [
+      { num: 1, title: 'Unidad 1: Technical Documentation & Reading', desc: 'Lectura comprensiva de especificaciones técnicas y documentación de APIs.', progress: 100, status: 'done', challenges: 3 },
+      { num: 2, title: 'Unidad 2: Oral Presentations & Demos', desc: 'Presentación de proyectos ágiles y defensa de arquitectura técnica en inglés.', progress: 40, status: 'active', challenges: 2 }
+    ]
+  },
+  MAT: {
+    name: 'Matemática',
+    fullName: 'Programación 2 - Matemática',
+    code: 'MAT',
+    status: 'Activa',
+    period: '2do Cuatrimestre',
+    from: '01/10/2026',
+    to: '28/10/2026',
+    weeks: '1 mes (4 semanas)',
+    teacher: 'Gestor Académico / Titular',
+    students: 25,
+    level: 2,
+    xp: 180,
+    xpMax: 350,
+    lives: 3,
+    pending: 0,
+    completedPct: 50,
+    readOnly: false,
+    bannerTheme: 'devspace',
+    themeColor: '#f59e0b',
+    icon: 'i-sparkle',
+    inviteCode: 'YTSBZH5DXF',
+    units: [
+      { num: 1, title: 'Unidad 1: Lógica Proposicional y Conjuntos', desc: 'Álgebra de Boole, tablas de verdad y operaciones sobre conjuntos.', progress: 80, status: 'active', challenges: 2 }
+    ]
+  },
+  Prog2: {
+    name: 'Programación 2',
+    fullName: '2026 - Programación 2',
+    code: 'Prog2',
+    status: 'Activa',
+    period: '2do Cuatrimestre',
+    from: '01/03/2026',
+    to: '31/07/2026',
+    weeks: '5 meses (22 semanas)',
+    teacher: 'Gestor Académico / Titular',
+    students: 42,
+    level: 5,
+    xp: 520,
+    xpMax: 700,
+    lives: 3,
+    pending: 1,
+    completedPct: 70,
+    readOnly: false,
+    bannerTheme: 'cyber',
+    themeColor: '#8b5cf6',
+    icon: 'i-cpu',
+    inviteCode: 'GUB8Z96YQP',
+    units: [
+      { num: 1, title: 'Unidad 1: POO Avanzada y Colecciones', desc: 'Polimorfismo, interfaces, genéricos y colecciones indexadas.', progress: 100, status: 'done', challenges: 4 }
+    ]
+  },
+  Prog3: {
+    name: 'Programación 3',
+    fullName: '2026 - Programación 3',
+    code: 'Prog3',
+    status: 'Activa',
+    period: '3er Cuatrimestre',
+    from: '01/03/2026',
+    to: '31/07/2026',
+    weeks: '5 meses (22 semanas)',
+    teacher: 'Gestor Académico / Titular',
+    students: 39,
+    level: 6,
+    xp: 610,
+    xpMax: 800,
+    lives: 3,
+    pending: 2,
+    completedPct: 75,
+    readOnly: false,
+    bannerTheme: 'blueprint',
+    themeColor: '#00e5ff',
+    icon: 'i-shield',
+    inviteCode: 'UTN-FRC-PROG3-2026',
+    units: [
+      { num: 1, title: 'Unidad 1: Arquitectura en Capas y REST', desc: 'Patrón MVC, controladores REST y persistencia con ORM.', progress: 100, status: 'done', challenges: 3 },
+      { num: 2, title: 'Unidad 2: Autenticación JWT y Middlewares', desc: 'Seguridad en APIs y control de acceso basado en roles.', progress: 65, status: 'active', challenges: 3 }
+    ]
   }
 };
 const COHORTS = [
-  { ...COURSES.ProgIV }, { ...COURSES.GDS }, { ...COURSES.IAD }, { ...COURSES.MSI }, { ...COURSES.LEG },
-  { name: 'MSI 2025', status: 'Archivada', from: '01/03/2025', to: '31/07/2025', weeks: '5 meses (22 semanas)', teacher: 'Ana Torres', students: 41, readOnly: true },
+  { ...COURSES.InglesII, inviteCode: 'KAS5ZNBRT3' },
+  { ...COURSES.MAT, inviteCode: 'YTSBZH5DXF' },
+  { ...COURSES.MSI, name: 'MSII', fullName: '2026 - Metodología de Sistemas II', inviteCode: 'GSLSFFFUVE' },
+  { ...COURSES.Prog2, inviteCode: 'GUB8Z96YQP' },
+  { ...COURSES.Prog3, inviteCode: 'UTN-FRC-PROG3-2026' },
+  { ...COURSES.MSI, inviteCode: 'UTN-FRC-TEST-2026' },
+  { ...COURSES.ProgIV, inviteCode: 'UTN-FRC-PROG4-2026' },
+  { ...COURSES.GDS, inviteCode: 'GDS-2026-X89' },
+  { ...COURSES.IAD, inviteCode: 'IAD-2026-F12' },
+  { ...COURSES.LEG, inviteCode: 'LEG-2026-K01' },
+  { name: 'MSI 2025', status: 'Archivada', from: '01/03/2025', to: '31/07/2025', weeks: '5 meses (22 semanas)', teacher: 'Ana Torres', students: 41, readOnly: true, inviteCode: 'ARCH-2025-MSI' },
 ];
 
 const TIMELINE_ACTIVITIES = [
@@ -2379,16 +3094,32 @@ function renderCohorts() {
   $('#cohort-grid').innerHTML = list.length ? list.map(c => `
     <article class="card studs course">
       <div class="course-top">
-        <div><h2>${c.name}</h2><div class="course-sub">${c.students} alumnos</div></div>
+        <div>
+          <h2>${c.name}</h2>
+          <div class="course-sub">${c.fullName && c.fullName !== c.name ? c.fullName : `${c.students || 0} alumnos`}</div>
+        </div>
         <span class="badge ${c.status === 'Activa' ? 'badge-success' : c.status === 'Borrador' ? 'badge-outline' : 'badge-secondary'}">${c.status}</span>
       </div>
       <dl class="facts">
         <dt>${icon('i-calendar', 'icon icon-sm')}Inscripción</dt><dd class="num">${c.from} – ${c.to}<small>${c.weeks}</small></dd>
         <dt>${icon('i-user', 'icon icon-sm')}Docentes</dt><dd>${c.teacher}</dd>
       </dl>
+      <div class="cohort-invite-box">
+        <div class="cohort-invite-info">
+          <span class="invite-label">CÓDIGO DE INVITACIÓN</span>
+          <code class="invite-code">${c.inviteCode || 'KAS5ZNBRT3'}</code>
+        </div>
+        <div class="cohort-invite-actions">
+          <span class="hint">Compartí con tus alumnos</span>
+          <button class="btn btn-quiet btn-xs" type="button" data-copy-code="${c.inviteCode || 'KAS5ZNBRT3'}">Copiar</button>
+        </div>
+      </div>
       <div class="course-foot">
         ${c.readOnly ? `<span class="muted" style="font-size:13px; display:inline-flex; gap:6px; align-items:center">${icon('i-lock', 'icon icon-sm')}Solo lectura</span>` : '<span></span>'}
-        <a class="btn btn-secondary" href="#curso/${c.code || c.name}">Ver curso<svg class="icon icon-sm"><use href="#i-right"/></svg></a>
+        <div class="quick-links">
+          <a class="btn btn-secondary btn-sm" href="#curso/${c.code || c.name}">Ver curso</a>
+          <a class="btn btn-quiet btn-sm" href="#curso/${c.code || c.name}">Gestionar</a>
+        </div>
       </div>
     </article>`).join('') : `<div class="empty">${icon('i-book')}<p>No hay cohortes en este estado.</p></div>`;
 }
@@ -2500,92 +3231,123 @@ document.addEventListener('click', e => {
   }
 });
 
-/* ======================= curso · profesor ======================= */
-const TEAM = [['Ana Torres', 'Gestor'], ['Martín Ríos', 'Profesor con escritura'], ['Laura Pérez', 'Profesor con escritura'], ['Diego Suárez', 'Gestor'],
-  ['Carla Méndez', 'Profesor con escritura'], ['Pablo Giménez', 'Profesor con escritura'], ['Sol Ferreyra', 'Profesor con escritura']];
-const SECTIONS = [
-  { title: 'Unidad 1 · Fundamentos', desc: 'Variables, tipos y entrada/salida.', visible: true, acts: 4 },
-  { title: 'Unidad 2 · Estructuras de control', desc: 'Condicionales y ciclos.', visible: true, acts: 3 },
-  { title: 'Unidad 3', desc: '', visible: false, acts: 0 },
+/* ======================= curso · profesor (Sprint 2) ======================= */
+const DOCENTES_COHORTE = [
+  { name: 'Usuario ...d0ca47b8 (Ana Torres)', perm: 'Gestor', date: '02/10/2026' },
+  { name: 'Usuario ...07a366ba (Martín Ríos)', perm: 'Profesor con escritura', date: '02/10/2026' },
+  { name: 'Usuario ...5bd75e22 (Laura Pérez)', perm: 'Profesor con escritura', date: '28/09/2026' },
+  { name: 'Usuario ...74d674b6 (Diego Suárez)', perm: 'Gestor', date: '28/09/2026' },
 ];
-let ROSTER; // built on first render: ranking data is declared further down
-const buildRoster = () => NAMES.map((n, i) => ({ name: n, legajo: String(40100 + i * 13), email: n.normalize('NFD').toLowerCase().replace(/[^a-z]/g, '') + '@frc.utn.edu.ar', xp: RANK[i][0], pend: RISK_ROWS.has(i) ? 2 : i % 5 === 0 ? 1 : 0 })).slice(0, 28);
+
+const SECTIONS = [
+  { title: 'Unidad 1', desc: 'Sin descripción.', visible: false, acts: 0 },
+  { title: 'Unidad 2 · Modelado y Requerimientos', desc: 'Historias de usuario, especificación por ejemplos y contratos.', visible: true, acts: 4 },
+  { title: 'Unidad 3 · Calidad y Testing', desc: 'Pruebas unitarias automatizadas y refactorización continua.', visible: true, acts: 3 },
+];
+
+const ROSTER_OFFICIAL = [
+  { legajo: '1001', name: 'Ana Gomez', email: 'ana@utn.edu' },
+  { legajo: '1002', name: 'Bruno Diaz', email: 'bruno@utn.edu' },
+  { legajo: '1003', name: 'Carla Gomez', email: 'carla@utn.edu' },
+  { legajo: '1004', name: 'Diego Sosa', email: 'diego@utn.edu' },
+  { legajo: '1005', name: 'Elena Gomez', email: 'elena@utn.edu' },
+  { legajo: '1006', name: 'Facundo Ruiz', email: 'facundo@utn.edu' },
+  { legajo: '1007', name: 'Gabriela Diaz', email: 'gabriela@utn.edu' },
+  { legajo: '2001', name: 'Ines Acosta', email: 'ines@utn.edu' },
+  { legajo: '2002', name: 'Juan Peres', email: 'juan@utn.edu' }
+];
+
 const ENROLL = [
   { name: 'Joaquín Paredes', legajo: '41022', email: 'joaquin.paredes@frc.utn.edu.ar', date: '29/09/2026 18:40' },
   { name: 'Brenda Ortiz', legajo: '41057', email: 'brenda.ortiz@frc.utn.edu.ar', date: '30/09/2026 09:12' },
 ];
-const rosterState = { q: '', f: '', page: 0 };
-let teamOpen = false, currentCourse = null;
-const initials = n => n.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
-function renderCourseAdmin(c) {
-  currentCourse = c;
-  const shown = teamOpen ? TEAM : TEAM.slice(0, 4);
-  $('#team-list').innerHTML = shown.map(([n, perm]) => `<li><span class="initials" aria-hidden="true">${initials(n)}</span><span class="pname">${n}</span><span class="badge ${perm === 'Gestor' ? 'badge-gold' : 'badge-outline'}">${perm}</span></li>`).join('')
-    + (TEAM.length > 4 ? `<li><button class="linkbtn" type="button" data-team-more aria-expanded="${teamOpen}">${teamOpen ? 'Mostrar menos' : `Ver todo el equipo (${TEAM.length})`}</button></li>` : '');
-  const due = CHALLENGES.filter(x => x.course === c.name && x.due && daysUntil(x.due) >= 0).sort((a, b) => a.due < b.due ? -1 : 1).slice(0, 4);
-  $('#next-due').innerHTML = due.length ? due.map(x => `<li><span class="pname">${x.title}${x.req ? ' <span class="badge badge-required">Obligatorio</span>' : ''}</span><span class="num muted">${short(x.due)}</span></li>`).join('') : '<li class="muted">Sin vencimientos próximos.</li>';
-  const mine = CHALLENGES.filter(x => x.course === c.name);
-  $$('[data-course-ch-count]').forEach(el => el.textContent = mine.length);
-  $$('[data-pub-count]').forEach(el => el.textContent = mine.filter(x => x.published).length);
-  renderSections(); renderRoster(); renderEnroll();
-  $('#cfg-fs').disabled = !!c.readOnly;
+
+let currentCourse = null;
+
+function renderTeamTable() {
+  const q = ($('#team-search-q')?.value || '').toLowerCase().trim();
+  const perm = $('#team-filter-perm')?.value || '';
+  const filtered = DOCENTES_COHORTE.filter(d => (!q || d.name.toLowerCase().includes(q)) && (!perm || d.perm === perm));
+  const tbody = $('#team-table-body');
+  if (tbody) {
+    tbody.innerHTML = filtered.length ? filtered.map(d => `
+      <tr>
+        <td><div class="cell-title font-bold">${d.name}</div></td>
+        <td><span class="badge ${d.perm === 'Gestor' ? 'badge-gold' : 'badge-outline'}">${d.perm}</span></td>
+        <td class="num muted">${d.date}</td>
+      </tr>
+    `).join('') : '<tr><td colspan="3" class="muted">No se encontraron docentes con esos filtros.</td></tr>';
+  }
+  const label = $('#team-count-label');
+  if (label) label.textContent = `(${filtered.length})`;
 }
+
+function renderOfficialPadron() {
+  const q = ($('#padron-search-q')?.value || '').toLowerCase().trim();
+  const filtered = ROSTER_OFFICIAL.filter(r => !q || r.name.toLowerCase().includes(q) || r.legajo.includes(q) || r.email.toLowerCase().includes(q));
+  const tbody = $('#padron-table-body');
+  if (tbody) {
+    tbody.innerHTML = filtered.length ? filtered.map(r => `
+      <tr>
+        <td class="num font-bold"><b>${r.legajo}</b></td>
+        <td><div class="cell-title">${r.name}</div></td>
+        <td><span class="muted">${r.email}</span></td>
+      </tr>
+    `).join('') : '<tr><td colspan="3" class="muted">Ningún alumno coincide con la búsqueda.</td></tr>';
+  }
+  const countEl = $('#padron-realtime-count');
+  if (countEl) countEl.textContent = filtered.length;
+  const tabBadge = $('#tab-padron-count');
+  if (tabBadge) tabBadge.textContent = filtered.length;
+}
+
 function renderSections() {
-  $$('[data-sec-visible]').forEach(el => el.textContent = `${SECTIONS.filter(x => x.visible).length} de ${SECTIONS.length}`);
-  $('#sec-list').innerHTML = SECTIONS.map((x, i) => `
-    <li class="sec-row ${x.visible ? '' : 'is-hidden'}" data-sec="${i}">
-      <span class="sec-move">
-        <button class="icon-btn sm" type="button" data-mv="-1" aria-label="Subir ${x.title}" ${i === 0 ? 'disabled' : ''}>${icon('i-up', 'icon icon-sm')}</button>
-        <button class="icon-btn sm" type="button" data-mv="1" aria-label="Bajar ${x.title}" ${i === SECTIONS.length - 1 ? 'disabled' : ''}>${icon('i-chevron', 'icon icon-sm')}</button>
-      </span>
-      <span class="sec-order num">${i + 1}</span>
-      <div class="sec-main"><a class="sec-title" href="#">${x.title}</a><div class="sec-sub">${x.desc || 'Sin descripción'} · <span class="num">${x.acts}</span> ${x.acts === 1 ? 'actividad activa' : 'actividades activas'}</div></div>
-      <span class="sec-vis badge ${x.visible ? 'badge-success' : 'badge-outline'}">${x.visible ? 'Visible' : 'Oculta'}</span>
-      <div class="row-actions">
-        <button class="icon-btn sm" type="button" data-vis aria-label="${x.visible ? 'Ocultar' : 'Mostrar'} ${x.title}" title="${x.visible ? 'Ocultar a los alumnos' : 'Mostrar a los alumnos'}">${icon(x.visible ? 'i-eye-off' : 'i-eye', 'icon icon-sm')}</button>
-        <button class="icon-btn sm" type="button" aria-label="Editar ${x.title}">${icon('i-pencil', 'icon icon-sm')}</button>
-        <button class="icon-btn sm" type="button" data-del aria-label="Dar de baja ${x.title}" style="color:var(--urgent)">${icon('i-trash', 'icon icon-sm')}</button>
+  const wrap = $('#sections-cards-list');
+  if (!wrap) return;
+  wrap.innerHTML = SECTIONS.map((x, i) => `
+    <article class="card studs" style="padding:16px; display:flex; flex-direction:column; gap:10px;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h3 style="font-size:16px; margin:0; display:flex; align-items:center; gap:8px;">
+          <span class="muted num" style="font-size:13px;">#${i + 1}</span>
+          <span>${x.title}</span>
+        </h3>
+        <span class="badge ${x.visible ? 'badge-success' : 'badge-outline'}">${x.visible ? 'Visible' : '🔒 Oculta'}</span>
       </div>
-    </li>`).join('') || `<div class="empty">${icon('i-list')}<p>Todavía no hay secciones.</p></div>`;
+      <p class="muted" style="margin:0; font-size:13px;">${x.desc || 'Sin descripción.'}</p>
+      <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+        <span class="badge badge-secondary sm">Orden ${i + 1}</span>
+        <span class="badge badge-quiet sm">${icon('i-file', 'icon icon-sm')}${x.acts} actividad(es) activa(s)</span>
+      </div>
+      <div class="quick-links" style="border-top:1px solid var(--border-subtle); padding-top:10px; margin-top:4px;">
+        <a class="btn btn-secondary btn-sm" href="#actividad-editar">Ver detalle</a>
+        <button class="btn btn-ghost btn-sm" type="button" data-sec-toggle="${i}">${x.visible ? 'Ocultar' : 'Mostrar'}</button>
+        <button class="btn btn-ghost btn-sm" type="button" data-sec-edit="${i}">Editar</button>
+        <button class="btn btn-quiet btn-sm" type="button" data-sec-del="${i}" style="color:var(--urgent);">Dar de baja</button>
+      </div>
+    </article>
+  `).join('') || `<div class="empty">${icon('i-list')}<p>Todavía no hay secciones.</p></div>`;
 }
-$('#sec-list').addEventListener('click', e => {
-  const li = e.target.closest('[data-sec]'); if (!li) return;
-  const i = Number(li.dataset.sec);
-  const mv = e.target.closest('[data-mv]');
-  if (mv) { const j = i + Number(mv.dataset.mv); [SECTIONS[i], SECTIONS[j]] = [SECTIONS[j], SECTIONS[i]]; renderSections(); $(`[data-sec="${j}"] [data-mv="${mv.dataset.mv}"]`)?.focus(); return; }
-  if (e.target.closest('[data-vis]')) SECTIONS[i].visible = !SECTIONS[i].visible;
-  else if (e.target.closest('[data-del]')) { if (!confirm(`¿Dar de baja "${SECTIONS[i].title}"? Deja de mostrarse y sale del orden.`)) return; SECTIONS.splice(i, 1); }
-  else return;
-  renderSections();
-});
-$('#team-list').addEventListener('click', e => { if (e.target.closest('[data-team-more]')) { teamOpen = !teamOpen; renderCourseAdmin(currentCourse); } });
-$('#reorder-btn').addEventListener('click', e => {
-  const on = e.currentTarget.getAttribute('aria-pressed') !== 'true';
-  e.currentTarget.setAttribute('aria-pressed', String(on));
-  e.currentTarget.lastChild.textContent = on ? 'Listo' : 'Ordenar';
-  $('#sec-list').classList.toggle('reordering', on);
-});
-function renderRoster() {
-  ROSTER ||= buildRoster();
-  const q = rosterState.q.trim().toLowerCase(), SIZE = 8;
-  const list = ROSTER.filter(r => (!q || (r.name + r.legajo + r.email).toLowerCase().includes(q)) && (!rosterState.f || r.pend >= 2));
-  rosterState.page = Math.min(rosterState.page, Math.max(0, Math.ceil(list.length / SIZE) - 1));
-  const slice = list.slice(rosterState.page * SIZE, rosterState.page * SIZE + SIZE);
-  $('#roster-table').innerHTML = `<thead><tr><th>Alumno</th><th>Legajo</th><th class="r">XP</th><th class="r">Obligatorios pendientes</th><th>Estado</th></tr></thead><tbody>${
-    slice.length ? slice.map(r => `<tr><td><div class="cell-title">${r.name}</div><div class="cell-sub">${r.email}</div></td><td class="num">${r.legajo}</td><td class="r num">${r.xp.toLocaleString('es-AR')}</td><td class="r num" style="${r.pend ? 'color:var(--urgent); font-weight:700' : ''}">${r.pend}</td><td>${r.pend >= 2 ? '<span class="status-risk">Riesgo</span>' : '<span class="muted">Regular</span>'}</td></tr>`).join('')
-    : '<tr><td colspan="5" class="muted">Ningún alumno coincide con la búsqueda.</td></tr>'}</tbody>`;
-  $('#roster-pager').innerHTML = list.length > SIZE ? pagerHTML(rosterState.page, SIZE, list.length, 'alumnos') : '';
-}
-$('#roster-q').addEventListener('input', e => { rosterState.q = e.target.value; rosterState.page = 0; renderRoster(); });
-$('#roster-filter').addEventListener('click', e => { const b = e.target.closest('[data-rf]'); if (!b) return; $$('[data-rf]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); rosterState.f = b.dataset.rf; rosterState.page = 0; renderRoster(); });
-onPager($('#roster-pager'), n => { rosterState.page = n; renderRoster(); });
+
 function renderEnroll() {
   $$('[data-req-count]').forEach(el => { el.textContent = ENROLL.length; el.hidden = !ENROLL.length; });
-  $('#enroll-list').innerHTML = ENROLL.length ? ENROLL.map((r, i) => `
-    <li class="req-card" data-en="${i}">
-      <div><h3>${r.name}</h3><div class="req-meta"><span class="num">Legajo ${r.legajo}</span><span>${r.email}</span><span class="num">${r.date}</span></div></div>
-      <div class="req-actions"><button class="btn btn-ghost danger btn-sm" type="button" data-en-no>Rechazar</button><button class="btn btn-primary btn-sm" type="button" data-en-ok>${icon('i-tick', 'icon icon-sm')}Aceptar</button></div>
-    </li>`).join('') : `<div class="empty">${icon('i-check')}<p>No hay pedidos de inscripción pendientes.</p></div>`;
+  const listEl = $('#enroll-list');
+  if (listEl) {
+    listEl.innerHTML = ENROLL.length ? ENROLL.map((r, i) => `
+      <li class="req-card" data-en="${i}">
+        <div><h3>${r.name}</h3><div class="req-meta"><span class="num">Legajo ${r.legajo}</span><span>${r.email}</span><span class="num">${r.date}</span></div></div>
+        <div class="req-actions"><button class="btn btn-ghost danger btn-sm" type="button" data-en-no>Rechazar</button><button class="btn btn-primary btn-sm" type="button" data-en-ok>${icon('i-tick', 'icon icon-sm')}Aceptar</button></div>
+      </li>`).join('') : `<div class="empty">${icon('i-check')}<p>No hay pedidos de inscripción pendientes.</p></div>`;
+  }
+}
+
+function renderCourseAdmin(c) {
+  currentCourse = c;
+  if ($('#invite-code')) $('#invite-code').textContent = c.inviteCode || 'KAS5ZNBRT3';
+  renderTeamTable();
+  renderSections();
+  renderOfficialPadron();
+  renderEnroll();
+  if ($('#cfg-fs')) $('#cfg-fs').disabled = !!c.readOnly;
 }
 $('#enroll-list').addEventListener('click', e => {
   const li = e.target.closest('[data-en]'); if (!li) return;
@@ -2614,6 +3376,287 @@ $('#cfg-save').addEventListener('click', () => {
     btn.textContent = 'Guardar cambios';
     $('#save-bar').hidden = true;
   }, 650);
+});
+
+/* ======================= Eventos Sprint 2 (Cursos & Cohortes) ======================= */
+/* 1. Búsqueda y filtrado en tiempo real en Padrón y Docentes */
+$('#padron-search-q')?.addEventListener('input', renderOfficialPadron);
+$('#team-search-q')?.addEventListener('input', renderTeamTable);
+$('#team-filter-perm')?.addEventListener('change', renderTeamTable);
+
+/* 2. Acciones de Secciones (Mostrar/Ocultar y Dar de baja) */
+$('#sections-cards-list')?.addEventListener('click', e => {
+  const toggleBtn = e.target.closest('[data-sec-toggle]');
+  if (toggleBtn) {
+    const idx = Number(toggleBtn.dataset.secToggle);
+    if (SECTIONS[idx]) {
+      SECTIONS[idx].visible = !SECTIONS[idx].visible;
+      renderSections();
+      showToast(SECTIONS[idx].visible ? 'Sección ahora visible para estudiantes' : 'Sección ocultada a estudiantes', 'info', 'i-eye');
+    }
+    return;
+  }
+  const delBtn = e.target.closest('[data-sec-del]');
+  if (delBtn) {
+    const idx = Number(delBtn.dataset.secDel);
+    if (SECTIONS[idx] && confirm(`¿Dar de baja la sección "${SECTIONS[idx].title}"?`)) {
+      const removed = SECTIONS.splice(idx, 1)[0];
+      renderSections();
+      showToast(`Sección "${removed.title}" dada de baja`, 'danger', 'i-trash');
+    }
+    return;
+  }
+});
+
+/* 3. Modal Nueva Sección */
+$('#nueva-sec-desc')?.addEventListener('input', e => {
+  const counter = $('#sec-char-count');
+  if (counter) counter.textContent = `${e.target.value.length}/1000`;
+});
+$('#btn-crear-seccion-confirm')?.addEventListener('click', () => {
+  const titInput = $('#nueva-sec-titulo');
+  const title = titInput?.value.trim();
+  if (!title) {
+    titInput?.focus();
+    return;
+  }
+  const desc = $('#nueva-sec-desc')?.value.trim() || 'Sin descripción.';
+  const visible = $('#nueva-sec-visible')?.checked || false;
+  SECTIONS.push({
+    title,
+    desc,
+    visible,
+    acts: 0
+  });
+  renderSections();
+  $('#dialog-nueva-seccion')?.close();
+  if (titInput) titInput.value = '';
+  if ($('#nueva-sec-desc')) $('#nueva-sec-desc').value = '';
+  if ($('#sec-char-count')) $('#sec-char-count').textContent = '0/1000';
+  if ($('#nueva-sec-visible')) $('#nueva-sec-visible').checked = false;
+  showToast(`Sección "${title}" creada con éxito`, 'success', 'i-tick');
+});
+
+/* 4. Wizard Crear Cohorte (3 Pasos) */
+let wzCurrentStep = 1;
+let wzModalidad = 'virtual';
+
+function setWizardStep(step) {
+  wzCurrentStep = step;
+  for (let i = 1; i <= 3; i++) {
+    const ind = $(`#wz-step-indicator-${i}`);
+    if (ind) {
+      ind.classList.toggle('active', i === step);
+      ind.classList.toggle('completed', i < step);
+    }
+    const pane = $(`#wz-pane-${i}`);
+    if (pane) {
+      pane.style.display = (i === step) ? 'flex' : 'none';
+    }
+  }
+
+  const btnPrev = $('#wz-btn-prev');
+  const btnNext = $('#wz-btn-next');
+  const btnFinish = $('#wz-btn-finish');
+
+  if (btnPrev) btnPrev.style.display = (step > 1) ? 'inline-flex' : 'none';
+  if (btnNext) btnNext.style.display = (step < 3) ? 'inline-flex' : 'none';
+  if (btnFinish) btnFinish.style.display = (step === 3) ? 'inline-flex' : 'none';
+
+  if (step === 3) {
+    const cursoSel = $('#wz-curso-base');
+    const cursoName = cursoSel ? cursoSel.options[cursoSel.selectedIndex].text : 'Metodología de Sistemas II (MSI)';
+    const fIni = $('#wz-fecha-inicio')?.value || '2026-10-09';
+    const fFin = $('#wz-fecha-fin')?.value || '2026-11-08';
+    const modLabel = wzModalidad === 'presencial' ? 'Presencial (Física)' : wzModalidad === 'virtual' ? 'Virtual (Online)' : 'Híbrida (Combinada)';
+
+    if ($('#wz-resumen-curso')) $('#wz-resumen-curso').textContent = cursoName;
+    if ($('#wz-resumen-periodo')) $('#wz-resumen-periodo').textContent = `${fIni} al ${fFin}`;
+    if ($('#wz-resumen-modalidad')) $('#wz-resumen-modalidad').textContent = modLabel;
+  }
+}
+
+$$('#wz-modalidad-seg [data-mod]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    wzModalidad = btn.dataset.mod;
+    $$('#wz-modalidad-seg [data-mod]').forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+  });
+});
+
+$('#wz-btn-next')?.addEventListener('click', () => {
+  if (wzCurrentStep < 3) setWizardStep(wzCurrentStep + 1);
+});
+$('#wz-btn-prev')?.addEventListener('click', () => {
+  if (wzCurrentStep > 1) setWizardStep(wzCurrentStep - 1);
+});
+$('#wz-btn-finish')?.addEventListener('click', () => {
+  const cursoSel = $('#wz-curso-base');
+  const cursoCode = cursoSel ? cursoSel.value : 'MSI';
+  const baseCourse = COURSES[cursoCode] || COURSES.MSI;
+  const fIni = $('#wz-fecha-inicio')?.value || '2026-10-09';
+  const fFin = $('#wz-fecha-fin')?.value || '2026-11-08';
+  const newInvite = 'UTN-' + Math.random().toString(36).substring(2, 7).toUpperCase();
+
+  const newCohort = {
+    ...baseCourse,
+    name: `${baseCourse.name} (Nueva Cohorte)`,
+    fullName: `2026 - ${baseCourse.name} - Comisión B`,
+    status: 'Activa',
+    from: fIni.split('-').reverse().join('/'),
+    to: fFin.split('-').reverse().join('/'),
+    students: 0,
+    inviteCode: newInvite
+  };
+
+  COHORTS.unshift(newCohort);
+  renderCohorts();
+  $('#dialog-crear-cohorte')?.close();
+  showToast(`¡Cohorte de ${baseCourse.name} creada exitosamente con código ${newInvite}!`, 'success', 'i-tick');
+  setWizardStep(1);
+});
+
+document.addEventListener('click', e => {
+  if (e.target.closest('[data-open="dialog-crear-cohorte"]')) {
+    setWizardStep(1);
+  }
+});
+
+/* 5. Copiar código de invitación en tarjetas de cohorte */
+document.addEventListener('click', e => {
+  const btn = e.target.closest('[data-copy-code]');
+  if (!btn) return;
+  const code = btn.dataset.copyCode;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(code).then(() => {
+      showToast(`Código ${code} copiado al portapapeles`, 'success', 'i-copy');
+    }).catch(() => {
+      showToast(`Código de invitación: ${code}`, 'info', 'i-copy');
+    });
+  } else {
+    showToast(`Código de invitación: ${code}`, 'info', 'i-copy');
+  }
+});
+
+/* 6. Editor de Actividad (Contador de palabras y guardado) */
+$('#activity-desc-editor')?.addEventListener('input', e => {
+  const text = e.target.value.trim();
+  const words = text ? text.split(/\s+/).length : 0;
+  const counter = $('#activity-word-count');
+  if (counter) counter.textContent = `${words} ${words === 1 ? 'palabra' : 'palabras'} ✎`;
+});
+
+const handleSaveActivity = () => {
+  const saveBtns = [$('#btn-save-actividad'), $('#btn-save-actividad-foot')].filter(Boolean);
+  saveBtns.forEach(b => {
+    b.classList.add('is-loading');
+    b.disabled = true;
+  });
+  setTimeout(() => {
+    saveBtns.forEach(b => {
+      b.classList.remove('is-loading');
+      b.disabled = false;
+    });
+    showToast('Configuración de la actividad guardada correctamente', 'success', 'i-tick');
+    location.hash = '#curso';
+  }, 450);
+};
+
+$('#btn-save-actividad')?.addEventListener('click', handleSaveActivity);
+$('#btn-save-actividad-foot')?.addEventListener('click', handleSaveActivity);
+
+/* 7. Navegación en Pestañas Horizontales y Ficha de Cursada de la Materia */
+document.addEventListener('click', e => {
+  // Manejo de pestañas del curso (General, Desafíos, Material)
+  const tabBtn = e.target.closest('[data-mat-tab]');
+  if (tabBtn) {
+    const target = tabBtn.dataset.matTab;
+    $$('[data-mat-tab]').forEach(b => {
+      const isCurrent = b === tabBtn;
+      b.classList.toggle('active', isCurrent);
+      b.setAttribute('aria-selected', String(isCurrent));
+    });
+
+    const panes = {
+      general: $('#materia-pane-general'),
+      desafios: $('#materia-pane-desafios'),
+      material: $('#materia-pane-material')
+    };
+
+    Object.entries(panes).forEach(([k, pane]) => {
+      if (pane) pane.style.display = (k === target) ? 'flex' : 'none';
+    });
+
+    const bc = $('#materia-breadcrumb-active');
+    if (bc) {
+      if (target === 'general') bc.textContent = 'General & Modalidad';
+      else if (target === 'desafios') bc.textContent = 'Desafíos & Unidades';
+      else if (target === 'material') bc.textContent = 'Material & Bibliografía';
+    }
+    return;
+  }
+
+  // Toggle de la Ficha de Cursada Lateral (en la misma pantalla)
+  const toggleBtn = e.target.closest('#btn-toggle-ficha');
+  const closeInlineBtn = e.target.closest('#btn-close-ficha-inline');
+  const container = $('#materia-split-container');
+  const btnToggle = $('#btn-toggle-ficha');
+
+  if (toggleBtn && container) {
+    const isCurrentlyCollapsed = container.classList.toggle('ficha-collapsed');
+    if (btnToggle) {
+      btnToggle.classList.toggle('is-active', !isCurrentlyCollapsed);
+      btnToggle.setAttribute('aria-expanded', String(!isCurrentlyCollapsed));
+    }
+    return;
+  }
+
+  if (closeInlineBtn && container) {
+    container.classList.add('ficha-collapsed');
+    if (btnToggle) {
+      btnToggle.classList.remove('is-active');
+      btnToggle.setAttribute('aria-expanded', 'false');
+    }
+    return;
+  }
+});
+
+/* 8. Feedback para dropzones */
+$$('.dropzone').forEach(dz => {
+  dz.addEventListener('dragover', e => {
+    e.preventDefault();
+    dz.style.borderColor = 'var(--accent-primary)';
+    dz.style.background = 'var(--bg-surface-alt)';
+  });
+  dz.addEventListener('dragleave', () => {
+    dz.style.borderColor = '';
+    dz.style.background = '';
+  });
+  dz.addEventListener('drop', e => {
+    e.preventDefault();
+    dz.style.borderColor = '';
+    dz.style.background = '';
+    const files = e.dataTransfer.files;
+    if (files.length) {
+      showToast(`Archivo "${files[0].name}" cargado con éxito`, 'success', 'i-tick');
+      if (dz.id === 'dropzone-padron') {
+        setTimeout(() => $('#dialog-gestion-padron')?.close(), 700);
+      }
+    }
+  });
+  dz.addEventListener('click', e => {
+    if (e.target.closest('.dropzone-link')) return;
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.onchange = ev => {
+      if (ev.target.files.length) {
+        showToast(`Archivo "${ev.target.files[0].name}" seleccionado`, 'success', 'i-tick');
+        if (dz.id === 'dropzone-padron') {
+          setTimeout(() => $('#dialog-gestion-padron')?.close(), 700);
+        }
+      }
+    };
+    input.click();
+  });
 });
 
 /* ======================= inventario ======================= */
@@ -3283,6 +4326,7 @@ const PARENT = {
   // Cursos
   curso: 'cursos',
   roadmap: 'cursos',
+  'actividad-editar': 'cursos',
 
   // Desafíos
   quiz: 'desafios',
