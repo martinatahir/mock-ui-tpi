@@ -4517,20 +4517,39 @@ function buildSubpanelHTML(menuConfig, hashFull, activeCourseCode) {
   `).join('');
 }
 
-function buildCourseSubpanelHTML(cObj, hashFull, activeItem) {
-  const units = cObj?.units || [];
+const DEFAULT_UNIT_ITEMS = {
+  1: [
+    { id: 'u1-teorico', title: 'Material Teórico', action: 'material' },
+    { id: 'u1-guia', title: 'Guía de Actividades', action: 'desafio' },
+    { id: 'u1-apoyo', title: 'Material de Apoyo', action: 'material' },
+    { id: 'u1-entrega', title: 'Entrega actividad - CLASE 1', action: 'desafio' }
+  ],
+  2: [
+    { id: 'u2-t1', title: 'Material Teórico - Parte I', action: 'material' },
+    { id: 'u2-t2', title: 'Material Teórico - Parte II', action: 'material' },
+    { id: 'u2-a1', title: 'Material de apoyo - CLASE I', action: 'material' },
+    { id: 'u2-a2', title: 'Material de Apoyo - CLASE II', action: 'material' },
+    { id: 'u2-cp1', title: 'Caso práctico - Consignas', action: 'desafio' },
+    { id: 'u2-cp2', title: 'Caso práctico RESUELTO', action: 'material' }
+  ],
+  3: [
+    { id: 'u3-t', title: 'Material Teórico - Testing', action: 'material' },
+    { id: 'u3-tdd', title: 'Guía de TDD y Cobertura', action: 'desafio' },
+    { id: 'u3-entrega', title: 'Entrega Práctica: Test Suite', action: 'desafio' }
+  ],
+  4: [
+    { id: 'u4-cicd', title: 'Material Teórico - CI/CD y DevOps', action: 'material' },
+    { id: 'u4-guia', title: 'Guía de Despliegue en la Nube', action: 'desafio' },
+    { id: 'u4-entrega', title: 'Entrega Proyecto Final', action: 'desafio' }
+  ]
+};
 
-  // Determinar ítem activo: 'general', 'info', o número de unidad
-  let currentSelection = activeItem || null;
-  if (!currentSelection) {
-    if (currentActiveUnit !== null) {
-      currentSelection = `unit-${currentActiveUnit}`;
-    } else if ($('#tab-mat-estado')?.classList.contains('active')) {
-      currentSelection = 'info';
-    } else {
-      currentSelection = 'general';
-    }
-  }
+let currentExpandedGroups = new Set(['general', 'info', 'u-2']);
+let currentActiveAccordionItem = 'avisos';
+let currentActiveAccordionUnit = 2;
+
+function buildCourseSubpanelHTML(cObj, hashFull) {
+  const units = cObj?.units || [];
 
   return `
     <div style="padding: 0 4px 10px;">
@@ -4540,7 +4559,7 @@ function buildCourseSubpanelHTML(cObj, hashFull, activeItem) {
       </a>
     </div>
 
-    <!-- SECCIÓN: SECCIONES DEL CURSO (Árbol jerárquico fiel a la imagen) -->
+    <!-- SECCIÓN: SECCIONES DEL CURSO (Acordeón desplegable fiel a capturas) -->
     <div class="subpanel-section">
       <div style="display:flex; align-items:center; justify-content:space-between; padding:4px 8px 6px;">
         <span class="subpanel-section-label" style="padding:0; font-size:11px; font-weight:700; color:var(--text-muted); letter-spacing:0.06em;">SECCIONES DEL CURSO</span>
@@ -4549,27 +4568,76 @@ function buildCourseSubpanelHTML(cObj, hashFull, activeItem) {
         </button>
       </div>
 
-      <div class="course-tree-menu" id="course-tree-menu">
+      <div class="course-accordion" id="course-accordion">
         <!-- 1. General -->
-        <button type="button" class="course-tree-item ${currentSelection === 'general' ? 'active' : ''}" data-course-nav="general" ${currentSelection === 'general' ? 'aria-current="true"' : ''}>
-          <svg class="icon course-tree-chevron"><use href="#i-chevron-right"/></svg>
-          <span class="tree-item-title">General</span>
-        </button>
+        <div class="course-accordion-group ${currentExpandedGroups.has('general') ? 'is-expanded' : ''}" data-accordion-group="general">
+          <button type="button" class="course-accordion-header" data-accordion-toggle="general">
+            <svg class="icon course-accordion-chevron"><use href="#i-chevron"/></svg>
+            <span>General</span>
+          </button>
+          <div class="course-accordion-items">
+            <button type="button" class="course-accordion-item ${currentActiveAccordionItem === 'avisos' ? 'active' : ''}" data-accordion-item="avisos" data-action="avisos" ${currentActiveAccordionItem === 'avisos' ? 'aria-current="true"' : ''}>
+              <span>Avisos</span>
+            </button>
+          </div>
+        </div>
 
         <!-- 2. Información General -->
-        <button type="button" class="course-tree-item ${currentSelection === 'info' ? 'active' : ''}" data-course-nav="info" ${currentSelection === 'info' ? 'aria-current="true"' : ''}>
-          <svg class="icon course-tree-chevron"><use href="#i-chevron-right"/></svg>
-          <span class="tree-item-title">Información General</span>
-        </button>
-
-        <!-- 3. Unidades dinámicas (Unidad 1, Unidad 2, Unidad 3, Unidad 4... y nuevas creadas) -->
-        ${units.map(u => {
-          const isUActive = currentSelection === `unit-${u.num}`;
-          return `
-            <button type="button" class="course-tree-item ${isUActive ? 'active' : ''}" data-course-nav="unit" data-unit-num="${u.num}" ${isUActive ? 'aria-current="true"' : ''}>
-              <svg class="icon course-tree-chevron"><use href="#i-chevron-right"/></svg>
-              <span class="tree-item-title">Unidad ${u.num}</span>
+        <div class="course-accordion-group ${currentExpandedGroups.has('info') ? 'is-expanded' : ''}" data-accordion-group="info">
+          <button type="button" class="course-accordion-header" data-accordion-toggle="info">
+            <svg class="icon course-accordion-chevron"><use href="#i-chevron"/></svg>
+            <span>Información General</span>
+          </button>
+          <div class="course-accordion-items">
+            <button type="button" class="course-accordion-item ${currentActiveAccordionItem === 'prereq' ? 'active' : ''}" data-accordion-item="prereq" data-action="estado" title="Pre requisitos y Fundamentos">
+              <span>Pre requisitos y Fundament...</span>
             </button>
+            <button type="button" class="course-accordion-item ${currentActiveAccordionItem === 'estructura' ? 'active' : ''}" data-accordion-item="estructura" data-action="estado" title="Estructura Temática">
+              <span>Estructura Temática</span>
+            </button>
+            <button type="button" class="course-accordion-item ${currentActiveAccordionItem === 'objetivos' ? 'active' : ''}" data-accordion-item="objetivos" data-action="estado" title="Objetivos y competencias">
+              <span>Objetivos y competencias</span>
+            </button>
+            <button type="button" class="course-accordion-item ${currentActiveAccordionItem === 'evaluacion' ? 'active' : ''}" data-accordion-item="evaluacion" data-action="estado" title="Metodología de Evaluación">
+              <span>Metodología de Evaluación</span>
+            </button>
+            <button type="button" class="course-accordion-item ${currentActiveAccordionItem === 'parciales' ? 'active' : ''}" data-accordion-item="parciales" data-action="estado" title="Fechas de Parciales">
+              <span>Fechas de Parciales</span>
+            </button>
+            <button type="button" class="course-accordion-item ${currentActiveAccordionItem === 'bibliografia' ? 'active' : ''}" data-accordion-item="bibliografia" data-action="material" title="Bibliografía">
+              <span>Bibliografía</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 3. Unidades dinámicas (Unidad 1, 2, 3, 4... y cualquier nueva sección creada) -->
+        ${units.map(u => {
+          const gId = `u-${u.num}`;
+          const isExp = currentExpandedGroups.has(gId);
+          const isCurrentUnit = currentActiveAccordionUnit === u.num;
+          const items = DEFAULT_UNIT_ITEMS[u.num] || [
+            { id: `u${u.num}-teorico`, title: 'Material Teórico', action: 'material' },
+            { id: `u${u.num}-guia`, title: 'Guía de Actividades', action: 'desafio' },
+            { id: `u${u.num}-entrega`, title: 'Entrega de Actividad', action: 'desafio' }
+          ];
+
+          return `
+            <div class="course-accordion-group ${isExp ? 'is-expanded' : ''} ${isCurrentUnit ? 'is-current-unit' : ''}" data-accordion-group="${gId}" data-unit-num="${u.num}">
+              <button type="button" class="course-accordion-header" data-accordion-toggle="${gId}" data-unit-num="${u.num}">
+                <svg class="icon course-accordion-chevron"><use href="#i-chevron"/></svg>
+                <span>Unidad ${u.num}</span>
+              </button>
+              <div class="course-accordion-items">
+                ${items.map(it => {
+                  const isItemActive = currentActiveAccordionItem === it.id;
+                  return `
+                    <button type="button" class="course-accordion-item ${isItemActive ? 'active' : ''}" data-accordion-item="${it.id}" data-action="${it.action}" data-unit-num="${u.num}" ${isItemActive ? 'aria-current="true"' : ''} title="${it.title}">
+                      <span>${it.title}</span>
+                    </button>
+                  `;
+                }).join('')}
+              </div>
+            </div>
           `;
         }).join('')}
       </div>
@@ -4726,65 +4794,97 @@ document.addEventListener('click', e => {
     return;
   }
 
-  // Clic en ítems de navegación de la materia en el subpanel
-  const courseNavBtn = e.target.closest('[data-course-nav]');
-  if (courseNavBtn) {
-    const navTarget = courseNavBtn.dataset.courseNav;
+  // Clic en encabezado del acordeón (toggle expand/collapse y selección de unidad)
+  const toggleBtn = e.target.closest('[data-accordion-toggle]');
+  if (toggleBtn) {
+    const gId = toggleBtn.dataset.accordionToggle;
+    const group = toggleBtn.closest('.course-accordion-group');
+    if (group) {
+      const isCurrentlyExpanded = group.classList.contains('is-expanded');
+      if (isCurrentlyExpanded) {
+        group.classList.remove('is-expanded');
+        currentExpandedGroups.delete(gId);
+      } else {
+        group.classList.add('is-expanded');
+        currentExpandedGroups.add(gId);
+      }
+    }
+
+    if (toggleBtn.dataset.unitNum) {
+      const uNum = Number(toggleBtn.dataset.unitNum);
+      currentActiveAccordionUnit = uNum;
+      $$('.course-accordion-group').forEach(g => {
+        g.classList.toggle('is-current-unit', Number(g.dataset.unitNum) === uNum);
+      });
+
+      const cleanHash = location.hash.split('?')[0];
+      const cName = cleanHash.startsWith('#curso/') ? cleanHash.split('/')[1] : 'MSI';
+      const cObj = findCourse(cName) || COURSES.MSI;
+      if (cObj) {
+        $('#tab-mat-desafios')?.click();
+        renderCourseUnits(cObj, uNum);
+        listInstances.filter((_, i) => $$('[data-challenge-list]')[i]?.hasAttribute('data-locked-course')).forEach(l => {
+          l.setCourse(cObj.code || cObj.name);
+          l.setUnit(uNum);
+        });
+        const unitCard = $(`[data-unit-card="${uNum}"]`);
+        if (unitCard) {
+          unitCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+    }
+    return;
+  }
+
+  // Clic en ítem interno del acordeón
+  const itemBtn = e.target.closest('[data-accordion-item]');
+  if (itemBtn) {
+    const itemId = itemBtn.dataset.accordionItem;
+    const action = itemBtn.dataset.action;
+    currentActiveAccordionItem = itemId;
+
+    $$('.course-accordion-item').forEach(b => {
+      const isTarget = b === itemBtn;
+      b.classList.toggle('active', isTarget);
+      b.setAttribute('aria-current', isTarget ? 'true' : 'false');
+    });
+
+    if (itemBtn.dataset.unitNum) {
+      const uNum = Number(itemBtn.dataset.unitNum);
+      currentActiveAccordionUnit = uNum;
+      $$('.course-accordion-group').forEach(g => {
+        g.classList.toggle('is-current-unit', Number(g.dataset.unitNum) === uNum);
+      });
+    }
+
     const cleanHash = location.hash.split('?')[0];
     const cName = cleanHash.startsWith('#curso/') ? cleanHash.split('/')[1] : 'MSI';
     const cObj = findCourse(cName) || COURSES.MSI;
 
-    if (navTarget === 'general') {
-      if (!cleanHash.startsWith('#curso/')) {
-        location.hash = `#curso/${cObj.code || 'MSI'}`;
-      }
+    if (action === 'avisos') {
       $('#tab-mat-desafios')?.click();
-      renderCourseUnits(cObj, null);
-      listInstances.filter((_, i) => $$('[data-challenge-list]')[i]?.hasAttribute('data-locked-course')).forEach(l => {
-        l.setCourse(cObj.code || cObj.name);
-        l.setUnit(null);
-      });
-      $$('#course-tree-menu .course-tree-item').forEach(b => {
-        const isTarget = b === courseNavBtn;
-        b.classList.toggle('active', isTarget);
-        b.setAttribute('aria-current', isTarget ? 'true' : 'false');
-      });
-    } else if (navTarget === 'info') {
-      if (!cleanHash.startsWith('#curso/')) {
-        location.hash = `#curso/${cObj.code || 'MSI'}`;
-      }
+      if (cObj) renderCourseUnits(cObj, null);
+      $('.next-action-card')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } else if (action === 'estado') {
       $('#tab-mat-estado')?.click();
-      $$('#course-tree-menu .course-tree-item').forEach(b => {
-        const isTarget = b === courseNavBtn;
-        b.classList.toggle('active', isTarget);
-        b.setAttribute('aria-current', isTarget ? 'true' : 'false');
-      });
-    } else if (navTarget === 'unit') {
-      const uNum = Number(courseNavBtn.dataset.unitNum);
-      if (!cleanHash.startsWith('#curso/')) {
-        location.hash = `#curso/${cObj.code || 'MSI'}?u=${uNum}`;
-      } else {
-        history.replaceState(null, '', `#curso/${cObj.code || 'MSI'}?u=${uNum}`);
-      }
+    } else if (action === 'material') {
+      $('#tab-mat-material')?.click();
+    } else if (action === 'desafio') {
       $('#tab-mat-desafios')?.click();
-      renderCourseUnits(cObj, uNum);
-      listInstances.filter((_, i) => $$('[data-challenge-list]')[i]?.hasAttribute('data-locked-course')).forEach(l => {
-        l.setCourse(cObj.code || cObj.name);
-        l.setUnit(uNum);
-      });
-      $$('#course-tree-menu .course-tree-item').forEach(b => {
-        const isTarget = b === courseNavBtn;
-        b.classList.toggle('active', isTarget);
-        b.setAttribute('aria-current', isTarget ? 'true' : 'false');
-      });
-      // Scroll suave a la tarjeta de la unidad o sección
-      const unitCard = $(`[data-unit-card="${uNum}"]`);
-      if (unitCard) {
-        unitCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      } else {
-        $('#course-units-list')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (itemBtn.dataset.unitNum && cObj) {
+        const uNum = Number(itemBtn.dataset.unitNum);
+        renderCourseUnits(cObj, uNum);
+        $(`[data-unit-card="${uNum}"]`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
-    } else if (navTarget === 'chat') {
+    }
+    return;
+  }
+
+  // Clic en accesos rápidos del subpanel
+  const courseNavBtn = e.target.closest('[data-course-nav]');
+  if (courseNavBtn) {
+    const navTarget = courseNavBtn.dataset.courseNav;
+    if (navTarget === 'chat') {
       const tutorPopup = $('#tutor-chat-popup');
       const tutorFab = $('#tutor-fab-btn');
       if (tutorPopup && tutorPopup.hidden) {

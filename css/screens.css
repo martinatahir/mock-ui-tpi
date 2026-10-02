@@ -2085,72 +2085,131 @@ fieldset.question .q-hint { clear:both; font-size:13px; color:var(--text-muted);
   color: var(--text-muted);
 }
 
-/* ================= Menú Jerárquico / Desplegable de Secciones del Curso ================= */
-.course-tree-menu {
+/* ================= Acordeón Jerárquico de Secciones del Curso (Moodle / Campus Style) ================= */
+.course-accordion {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
 }
 
-.course-tree-item {
+.course-accordion-group {
+  border: 1.5px solid transparent;
+  border-radius: var(--radius-control);
+  transition: all 0.18s ease;
+  background: transparent;
+}
+
+/* Estado de unidad activa seleccionada: Recuadro verde/turquesa contorneado (como Unidad 2 en la imagen) */
+.course-accordion-group.is-current-unit {
+  border-color: var(--accent-primary-fill, #00e5ff);
+  background: color-mix(in srgb, var(--accent-primary-fill, #00e5ff) 4%, transparent);
+}
+
+.course-accordion-header {
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 8px;
   width: 100%;
-  text-align: left;
   padding: 8px 10px;
-  border-radius: var(--radius-control);
-  border: 1px solid transparent;
+  border: none;
   background: transparent;
-  color: var(--text-secondary);
+  color: var(--text-primary);
   font-size: 13.5px;
-  font-weight: 500;
-  line-height: 1.25;
+  font-weight: 700;
+  text-align: left;
   cursor: pointer;
+  border-radius: var(--radius-control);
   transition: all 0.15s ease;
   user-select: none;
-  text-decoration: none;
 }
 
-.course-tree-item:hover {
+.course-accordion-header:hover {
+  background: var(--bg-surface-alt);
+  color: var(--text-primary);
+}
+
+.course-accordion-chevron {
+  width: 14px;
+  height: 14px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.15s ease;
+}
+
+.course-accordion-group.is-expanded > .course-accordion-header .course-accordion-chevron {
+  transform: rotate(0deg);
+  color: var(--text-primary);
+}
+
+.course-accordion-group:not(.is-expanded) > .course-accordion-header .course-accordion-chevron {
+  transform: rotate(-90deg);
+}
+
+.course-accordion-header:hover .course-accordion-chevron {
+  color: var(--text-primary);
+}
+
+.course-accordion-items {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 2px 6px 8px 24px;
+}
+
+.course-accordion-group:not(.is-expanded) .course-accordion-items {
+  display: none;
+}
+
+.course-accordion-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  text-align: left;
+  padding: 6px 10px;
+  border-radius: var(--radius-control);
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.35;
+  cursor: pointer;
+  transition: all 0.14s ease;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  user-select: none;
+}
+
+.course-accordion-item:hover {
   background: var(--bg-surface-alt);
   color: var(--text-primary);
   transform: translateX(2px);
 }
 
-.course-tree-item:active {
+.course-accordion-item:active {
   transform: scale(0.99);
 }
 
-.course-tree-chevron {
-  width: 14px;
-  height: 14px;
-  color: var(--text-muted);
-  flex-shrink: 0;
-  transition: transform 0.15s ease, color 0.15s ease;
+/* Ítem activo con bloque azul sólido (como "Avisos" en la imagen del usuario) */
+.course-accordion-item.active,
+.course-accordion-item[aria-current="true"] {
+  background: #0284c7;
+  color: #ffffff;
+  font-weight: 600;
 }
 
-.course-tree-item:hover .course-tree-chevron {
-  color: var(--text-primary);
-}
-
-/* Estado activo: Recuadro verde/turquesa idéntico a la imagen del usuario */
-.course-tree-item.active,
-.course-tree-item[aria-current="true"] {
-  border: 1.5px solid var(--accent-primary-fill, #00e5ff);
-  background: color-mix(in srgb, var(--accent-primary-fill, #00e5ff) 10%, transparent);
-  color: var(--text-primary);
+[data-skin='gamer'] .course-accordion-item.active {
+  background: var(--accent-primary-fill, #00e5ff);
+  color: #031520;
   font-weight: 700;
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
 }
 
-.course-tree-item.active .course-tree-chevron,
-.course-tree-item[aria-current="true"] .course-tree-chevron {
-  color: var(--accent-primary-fill, #00e5ff);
-  transform: translateX(2px);
-}
-
-[data-skin='gamer'] .course-tree-item.active {
+[data-skin='gamer'] .course-accordion-group.is-current-unit {
   border-color: #00e5ff;
-  box-shadow: 0 0 10px rgba(0, 229, 255, 0.28);
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.25);
 }
 
