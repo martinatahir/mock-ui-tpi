@@ -11,6 +11,24 @@
         ],
         "createdAt": "2026-09-30T21:09:04.322Z",
         "reason": "Claude triage: flagged wrappers (.table-wrap, dialog.drawer) inset their text through child padding (td 12px/14px, drawer head/body/foot 20px/22px)"
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "login-ideas.html"
+        ],
+        "createdAt": "2026-10-01T14:07:09.221Z",
+        "reason": "Claude triage: the colored band is the top edge of the credential card in idea E (role color of the ID), not a side tab on a card"
+      },
+      {
+        "rule": "clipped-overflow-container",
+        "value": "*",
+        "files": [
+          "login-ideas.html"
+        ],
+        "createdAt": "2026-10-01T14:37:50.541Z",
+        "reason": "Claude triage: each concept frame clips its own stage decor (perspective floor, NPC, CRT scanlines) on purpose; no menus or popovers live inside"
       }
     ]
   }

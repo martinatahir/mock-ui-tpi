@@ -115,6 +115,7 @@
     <button data-font-btn="silkscreen" aria-pressed="false" title="Silkscreen (La anterior, trazo fino)">Silkscreen</button>
   </div>
   <a class="uikit-link" href="font-comparison.html" target="_blank" title="Abrir comparativa lado a lado de tipografías retro" style="color:#a855f7;">🔍 Comparador</a>
+  <a class="uikit-link" href="#login" title="Ver la pantalla de inicio de sesión">🔑 Login</a>
   <label><input type="checkbox" id="sim-error" /> Simular error</label>
   <a class="uikit-link" href="#uikit" title="Ver catálogo de componentes y tokens de diseño">🎨 UI Kit / Componentes</a>
 </div>
@@ -181,7 +182,7 @@
           </div>
         </div>
         <hr />
-        <button class="nav-item danger" type="button"><svg class="icon"><use href="#i-logout"/></svg>Cerrar sesión</button>
+        <a class="nav-item danger" href="#login"><svg class="icon"><use href="#i-logout"/></svg>Cerrar sesión</a>
       </div>
     </div>
   </div>
@@ -1140,6 +1141,111 @@
 
 <!-- ================= Navegación Móvil Inferior (Bottom Bar) ================= -->
 <nav class="bottom-nav" id="bottom-nav" aria-label="Navegación móvil"></nav>
+
+
+<!-- ================= LOGIN (pantalla completa, sin topbar ni rail) ================= -->
+<section class="auth" id="login" hidden aria-labelledby="h-login">
+  <div class="auth-stage">
+    <div class="auth-floor" aria-hidden="true"></div>
+    <div class="auth-brand">
+      <span class="auth-logo">TPI 2026</span>
+      <span class="auth-sub">Programación IV · UTN FRC</span>
+    </div>
+    <div class="auth-prompt">
+      <h1 id="h-login">Elegí tu rol</h1>
+      <p>Cada rol entra a su parte de la plataforma.</p>
+    </div>
+    <fieldset class="roster" id="roster">
+      <legend class="sr-only">Rol con el que vas a entrar</legend>
+      <label class="hero-pick" data-hero="alumno">
+        <input type="radio" name="login-role" value="alumno" checked />
+        <span class="hero-card">
+          <span class="hero-spot" aria-hidden="true"></span>
+          <span class="hero-drone" aria-hidden="true"></span>
+          <span class="hero-sprite" aria-hidden="true"></span>
+          <span class="hero-shadow" aria-hidden="true"></span>
+          <span class="hero-plate"><b>Alumno</b><small>Desafíos, ranking y tu personaje</small></span>
+        </span>
+      </label>
+      <label class="hero-pick" data-hero="profesor">
+        <input type="radio" name="login-role" value="profesor" />
+        <span class="hero-card">
+          <span class="hero-spot" aria-hidden="true"></span>
+          <span class="hero-drone" aria-hidden="true"></span>
+          <span class="hero-sprite" aria-hidden="true"></span>
+          <span class="hero-shadow" aria-hidden="true"></span>
+          <span class="hero-plate"><b>Profesor</b><small>Cohortes, contenidos y seguimiento</small></span>
+        </span>
+      </label>
+      <label class="hero-pick" data-hero="admin">
+        <input type="radio" name="login-role" value="admin" />
+        <span class="hero-card">
+          <span class="hero-spot" aria-hidden="true"></span>
+          <span class="hero-drone" aria-hidden="true"></span>
+          <span class="hero-sprite" aria-hidden="true"></span>
+          <span class="hero-shadow" aria-hidden="true"></span>
+          <span class="hero-plate"><b>Admin</b><small>Accesos y configuración</small></span>
+        </span>
+      </label>
+    </fieldset>
+  </div>
+
+  <div class="auth-panel">
+    <div class="auth-prefs">
+      <div class="seg sm" role="group" aria-label="Estilo">
+        <button data-skin-btn="gamer" aria-pressed="true">Arcade</button>
+        <button data-skin-btn="sobrio" aria-pressed="false">Normal</button>
+      </div>
+      <div class="seg sm" role="group" aria-label="Tema">
+        <button data-theme-btn="dark" aria-pressed="true" aria-label="Tema oscuro"><svg class="icon icon-sm"><use href="#i-moon"/></svg></button>
+        <button data-theme-btn="light" aria-pressed="false" aria-label="Tema claro"><svg class="icon icon-sm"><use href="#i-sun"/></svg></button>
+      </div>
+    </div>
+
+    <!-- Paso 1: credenciales -->
+    <form class="auth-step" id="login-form" novalidate data-step="1">
+      <h2 class="auth-title" id="login-title">Entrar como alumno</h2>
+      <p class="auth-lead">Usá tu email institucional y tu contraseña.</p>
+      <label class="field">Email institucional
+        <input class="control" type="email" name="email" id="login-email" autocomplete="username" placeholder="nombre.apellido@frc.utn.edu.ar" aria-describedby="login-email-msg" />
+        <span class="hint" id="login-email-msg"></span>
+      </label>
+      <div class="field">
+        <span class="field-row"><label for="login-pass">Contraseña</label><a class="auth-link" href="#login" data-forgot>¿Olvidaste tu contraseña?</a></span>
+        <span class="pass-wrap">
+          <input class="control" type="password" name="password" id="login-pass" autocomplete="current-password" aria-describedby="login-pass-msg" />
+          <button class="pass-toggle" type="button" id="pass-toggle" aria-label="Mostrar contraseña" aria-pressed="false"><svg class="icon icon-sm"><use href="#i-eye"/></svg></button>
+        </span>
+        <span class="hint" id="login-pass-msg"></span>
+      </div>
+      <p class="auth-notice" id="forgot-msg" role="status" hidden>Si el email está registrado, te va a llegar un link para elegir una contraseña nueva.</p>
+      <button class="btn btn-primary btn-block auth-cta" type="submit"><span>Entrar</span><svg class="icon icon-sm"><use href="#i-right"/></svg></button>
+    </form>
+
+    <!-- Paso 2: código de verificación -->
+    <form class="auth-step" id="otp-form" novalidate data-step="2" hidden>
+      <h2 class="auth-title">Verificá que sos vos</h2>
+      <p class="auth-lead">Te mandamos un código de 6 dígitos a <b id="otp-email">m•••••@frc.utn.edu.ar</b>. Vence en 10 minutos.</p>
+      <fieldset class="otp" id="otp" aria-describedby="otp-msg">
+        <legend class="sr-only">Código de verificación</legend>
+      </fieldset>
+      <p class="hint" id="otp-msg" role="status"></p>
+      <button class="btn btn-primary btn-block auth-cta" type="submit" id="otp-submit" disabled><span>Verificar y entrar</span><svg class="icon icon-sm"><use href="#i-tick"/></svg></button>
+      <div class="otp-foot">
+        <button class="auth-link" type="button" id="otp-resend" disabled>Reenviar código en 0:30</button>
+        <button class="auth-link" type="button" id="otp-back">Usar otra cuenta</button>
+      </div>
+    </form>
+
+    <!-- Paso 3: entrando -->
+    <div class="auth-step auth-done" data-step="3" hidden role="status">
+      <h2 class="auth-title"><svg class="icon" aria-hidden="true"><use href="#i-tick"/></svg>¡Adentro!</h2>
+      <p class="auth-lead" id="done-msg">Cargando tu partida…</p>
+    </div>
+
+    <p class="auth-foot">¿Problemas para entrar? Escribile a la cátedra desde el campus.</p>
+  </div>
+</section>
 
 <!-- ================= Drawer: crear desafío ================= -->
 <dialog class="drawer" id="drawer-desafio" aria-labelledby="h-dd">
@@ -2359,6 +2465,11 @@ function applyError(el) {
 
 function route() {
   const [id, arg] = (location.hash.slice(1) || 'desafios').split('/');
+  // Login lives outside the app shell.
+  const auth = id === 'login';
+  document.body.classList.toggle('auth-mode', auth);
+  $('#login').hidden = !auth;
+  if (auth) { openLogin(); window.scrollTo(0, 0); return; }
   currentScreen = id;
   const navId = PARENT[id] || id;
 
@@ -2457,7 +2568,7 @@ function setRole(r) {
   currentRole = r; root.dataset.role = r; store.set('tpi-role', r);
   $$('[data-role-btn]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.roleBtn === r)));
   renderNav(); renderProfile();
-  const allowed = [...NAV_TABS[r].map(i => i[0]), ...ACCOUNT_SCREENS[r], 'uikit'];
+  const allowed = [...NAV_TABS[r].map(i => i[0]), ...ACCOUNT_SCREENS[r], 'uikit', 'login'];
   const target = PARENT[currentScreen] || currentScreen;
   if (!allowed.includes(target)) location.hash = allowed.includes('desafios') ? 'desafios' : 'perfil';
   route();
@@ -2472,6 +2583,164 @@ $('#sidebar-toggle')?.addEventListener('click', () => {
   const current = root.dataset.sidebarPinned === 'true';
   setSidebarPinned(!current);
 });
+
+/* ======================= login ======================= */
+/* Three role characters from the avatar world: chibi body, headphones with lit cups, a mic and a drone. */
+const HERO_ROWS = [
+  '....bbbbbbbb....',
+  '...bhhhhhhhhb...',
+  '..bhhhhhhhhhhb..',
+  '..bhhhhhhhhhhb..',
+  '.cchhssssssshcc.',
+  '.ccsssssssssscc.',
+  '.ccseessseesscc.',
+  '.ccsssssssssscc.',
+  '..kssssmmsssss..',
+  '..kKsssssssss...',
+  '....ssssssss....',
+  '...tttttttttt...',
+  '..tttttttttttt..',
+  '.sttttrrtttttts.',
+  '.stttttttttttts.',
+  '..aaaaaaaaaaaa..',
+  '...pppppppppp...',
+  '...pppp..pppp...',
+  '...pppp..pppp...',
+  '..zzzzz..zzzzz..',
+  '..zzzzz..zzzzz..',
+];
+const GLASSES_ROW = '.ccgeegsgeegscc.';
+const DRONE_ROWS = [
+  'rrr..ww..rrr',
+  '.r.wwwwww.r.',
+  '.dwwweewwwd.',
+  '..wwwwwwww..',
+  '...l....g...',
+];
+const HEROES = {
+  alumno:   { hair: '#e2b86f', top: '#9aa3ad', emblem: '#d33a3a', belt: '#8a5a3c', pants: '#7d8590', shoes: '#e6e8ee', glasses: false },
+  profesor: { hair: '#6b4226', top: 'var(--accent-secondary-fill)', emblem: '#f5f1e8', belt: '#2b2f3a', pants: '#3b4252', shoes: '#4a2f20', glasses: true },
+  admin:    { hair: '#2e3440', top: '#3f4654', emblem: 'var(--accent-gold-fill)', belt: '#1f232b', pants: '#262a33', shoes: '#e6e8ee', glasses: false },
+};
+function heroSVG(role) {
+  const h = HEROES[role];
+  const rows = HERO_ROWS.map((r, i) => (i === 6 && h.glasses ? GLASSES_ROW : r));
+  return pixel(rows, {
+    b: '#1d1d26', h: h.hair, s: '#e9b78f', e: '#1b1b22', m: '#b97a5a', g: '#d4d8e0',
+    c: 'var(--accent-primary-fill)', k: '#1d1d26', K: 'var(--accent-primary-fill)',
+    t: h.top, r: h.emblem, a: h.belt, p: h.pants, z: h.shoes,
+  });
+}
+const droneSVG = () => pixel(DRONE_ROWS, { r: '#2a2a35', w: '#eef0f5', d: '#2a2a35', e: 'var(--accent-primary-fill)', l: '#22c55e', g: '#ef4444' });
+$$('.hero-pick').forEach(el => {
+  $('.hero-sprite', el).innerHTML = heroSVG(el.dataset.hero);
+  $('.hero-drone', el).innerHTML = droneSVG();
+});
+
+const ROLE_TITLE = { alumno: 'Entrar como alumno', profesor: 'Entrar como profesor', admin: 'Entrar como admin' };
+const ROLE_HOME = { alumno: 'desafios', profesor: 'cursos', admin: 'backoffice' };
+const loginRole = () => $('input[name="login-role"]:checked').value;
+$('#roster').addEventListener('change', e => {
+  $('#login-title').textContent = ROLE_TITLE[e.target.value];
+  const card = e.target.closest('.hero-pick');
+  card.classList.remove('hop'); card.offsetWidth; card.classList.add('hop');
+});
+
+function showStep(n) {
+  $$('#login .auth-step').forEach(x => x.hidden = x.dataset.step !== String(n));
+  const first = $(`#login .auth-step[data-step="${n}"] input, #login .auth-step[data-step="${n}"] button`);
+  if (n !== 3) first?.focus({ preventScroll: true });
+}
+function openLogin() {
+  $('#login-form').reset(); $('#forgot-msg').hidden = true;
+  setFieldMsg('email', ''); setFieldMsg('pass', '');
+  $('#login-title').textContent = ROLE_TITLE[loginRole()];
+  showStep(1);
+}
+function setFieldMsg(which, msg) {
+  const input = which === 'email' ? $('#login-email') : $('#login-pass');
+  const out = $(`#login-${which}-msg`);
+  input.setAttribute('aria-invalid', String(!!msg));
+  out.textContent = msg; out.className = msg ? 'err' : 'hint';
+}
+$('#pass-toggle').addEventListener('click', e => {
+  const b = e.currentTarget, inp = $('#login-pass'), show = inp.type === 'password';
+  inp.type = show ? 'text' : 'password';
+  b.setAttribute('aria-pressed', String(show));
+  b.setAttribute('aria-label', show ? 'Ocultar contraseña' : 'Mostrar contraseña');
+  $('use', b).setAttribute('href', show ? '#i-eye-off' : '#i-eye');
+});
+$('[data-forgot]').addEventListener('click', e => {
+  e.preventDefault();
+  const email = $('#login-email').value.trim();
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { setFieldMsg('email', 'Escribí tu email para mandarte el link de recuperación.'); $('#login-email').focus(); return; }
+  setFieldMsg('email', ''); $('#forgot-msg').hidden = false;
+});
+
+const maskEmail = m => { const [u, d] = m.split('@'); return `${u[0]}${'•'.repeat(Math.max(3, u.length - 1))}@${d}`; };
+$('#login-form').addEventListener('submit', e => {
+  e.preventDefault();
+  const email = $('#login-email').value.trim(), pass = $('#login-pass').value;
+  const emailErr = !email ? 'Escribí tu email institucional.' : !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) ? 'Revisá el email: tiene que ser como nombre.apellido@frc.utn.edu.ar.' : '';
+  const passErr = !pass ? 'Escribí tu contraseña.' : '';
+  setFieldMsg('email', emailErr); setFieldMsg('pass', passErr);
+  if (emailErr || passErr) { (emailErr ? $('#login-email') : $('#login-pass')).focus(); return; }
+  $('#otp-email').textContent = maskEmail(email);
+  buildOtp(); startResend(); showStep(2);
+});
+
+/* 6-box code: typing advances, backspace goes back, pasting fills every box. */
+function buildOtp() {
+  $('#otp').innerHTML = '<legend class="sr-only">Código de verificación</legend>' + Array.from({ length: 6 }, (_, i) =>
+    `<input class="control otp-box num" inputmode="numeric" autocomplete="${i ? 'off' : 'one-time-code'}" maxlength="1" aria-label="Dígito ${i + 1} de 6" />`).join('');
+  $('#otp-msg').textContent = ''; $('#otp-msg').className = 'hint';
+  $('#otp-submit').disabled = true;
+}
+const otpBoxes = () => $$('#otp .otp-box');
+const otpValue = () => otpBoxes().map(b => b.value).join('');
+$('#otp').addEventListener('input', e => {
+  const b = e.target; b.value = b.value.replace(/\D/g, '').slice(-1);
+  b.removeAttribute('aria-invalid');
+  if (b.value) b.nextElementSibling?.focus();
+  $('#otp-submit').disabled = otpValue().length !== 6;
+});
+$('#otp').addEventListener('keydown', e => {
+  if (e.key === 'Backspace' && !e.target.value) e.target.previousElementSibling?.focus();
+  if (e.key === 'ArrowLeft') e.target.previousElementSibling?.focus();
+  if (e.key === 'ArrowRight') e.target.nextElementSibling?.focus();
+});
+$('#otp').addEventListener('paste', e => {
+  const digits = (e.clipboardData.getData('text') || '').replace(/\D/g, '').slice(0, 6);
+  if (!digits) return;
+  e.preventDefault();
+  otpBoxes().forEach((b, i) => b.value = digits[i] || '');
+  (otpBoxes()[Math.min(digits.length, 5)]).focus();
+  $('#otp-submit').disabled = digits.length !== 6;
+});
+let otpTries = 3;
+$('#otp-form').addEventListener('submit', e => {
+  e.preventDefault();
+  if (otpValue() === '000000') { // mock: 000000 simulates a wrong code
+    otpTries = Math.max(0, otpTries - 1);
+    otpBoxes().forEach(b => b.setAttribute('aria-invalid', 'true'));
+    $('#otp-msg').className = 'err';
+    $('#otp-msg').textContent = otpTries ? `El código no es correcto. Te ${otpTries === 1 ? 'queda 1 intento' : `quedan ${otpTries} intentos`}.` : 'Se terminaron los intentos. Pedí un código nuevo.';
+    otpBoxes()[0].focus(); return;
+  }
+  const role = loginRole();
+  $('#done-msg').textContent = `Entrando como ${role}…`;
+  showStep(3);
+  setTimeout(() => { otpTries = 3; location.hash = ROLE_HOME[role]; setRole(role); }, 900);
+});
+let resendTimer;
+function startResend() {
+  let left = 30; const b = $('#otp-resend');
+  b.disabled = true; clearInterval(resendTimer);
+  const tick = () => { b.textContent = left ? `Reenviar código en 0:${String(left).padStart(2, '0')}` : 'Reenviar código'; if (!left) { b.disabled = false; clearInterval(resendTimer); } left--; };
+  tick(); resendTimer = setInterval(tick, 1000);
+}
+$('#otp-resend').addEventListener('click', () => { otpTries = 3; buildOtp(); startResend(); $('#otp-msg').textContent = 'Te mandamos un código nuevo.'; otpBoxes()[0].focus(); });
+$('#otp-back').addEventListener('click', () => { clearInterval(resendTimer); showStep(1); });
 
 /* ---- boot ---- */
 $$('[data-challenge-list]').forEach(el => ChallengeList(el));
