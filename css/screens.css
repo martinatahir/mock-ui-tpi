@@ -1797,6 +1797,106 @@ fieldset.question .q-hint { clear:both; font-size:13px; color:var(--text-muted);
   cursor: pointer;
 }
 
+/* ================= Hero Compacto Zen (Single-Line Header) ================= */
+.materia-hero-compact {
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  border-radius: var(--radius-card);
+  margin-bottom: 16px;
+}
+
+.materia-hero-compact-left {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.materia-hero-compact-title {
+  font-size: 18px;
+  font-weight: 800;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.materia-hero-compact-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ================= Tarjeta de Enfoque: Tu Próximo Paso ================= */
+.next-action-card {
+  padding: 18px 20px;
+  background: color-mix(in srgb, var(--accent-primary-fill) 6%, var(--bg-surface));
+  border: var(--border-width) solid color-mix(in srgb, var(--accent-primary-fill) 35%, var(--border-subtle));
+  border-radius: var(--radius-card);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+[data-skin='gamer'] .next-action-card {
+  box-shadow: 2px 2px 0 #000;
+}
+
+.next-action-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-primary-fill);
+}
+
+.next-action-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.next-action-info {
+  flex: 1;
+  min-width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.next-action-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.next-action-sub {
+  font-size: 13px;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.next-action-tags {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+
+.next-action-cta {
+  flex-shrink: 0;
+}
+
 /* ================= HUD Horizontal de Métricas del Alumno (Hero Cursada) ================= */
 .materia-hud {
   display: grid;
