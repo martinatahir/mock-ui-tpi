@@ -10,7 +10,10 @@
   transition:transform .1s ease, background-color .15s ease, border-color .15s ease;
 }
 .btn:active { transform:translateY(var(--press-y)); }
-[data-skin='gamer'] .btn:not(.btn-ghost):not(.btn-quiet) { box-shadow:inset 0 -3px 0 rgba(0,0,0,.28); }
+[data-skin='gamer'] .btn:not(.btn-quiet) { box-shadow:inset 0 -3px 0 rgba(0,0,0,.28); }
+[data-skin='gamer'] .btn-ghost { background:var(--bg-surface); border-color:var(--border-subtle); box-shadow:inset 0 -3px 0 rgba(0,0,0,.45); }
+[data-skin='gamer'] .btn-ghost:hover { background:var(--bg-surface-alt); border-color:var(--border-highlight); box-shadow:inset 0 -3px 0 rgba(0,0,0,.55); }
+[data-skin='gamer'] .btn:active { transform:translateY(1px); box-shadow:inset 0 -1px 0 rgba(0,0,0,.35); }
 .btn-primary { background:var(--accent-primary-fill); color:var(--on-accent-primary); }
 .btn-secondary { background:var(--accent-secondary-fill); color:var(--on-accent-secondary); }
 .btn-gold { background:var(--accent-gold-fill); color:var(--on-accent-gold); }
@@ -70,7 +73,7 @@
 .alert-title { font-weight:700; }
 .alert-body { font-size:14px; color:var(--text-muted); }
 .load-error { margin-bottom:20px; }
-.errored .data { display:none; }
+.errored .data { opacity:0.45; pointer-events:none; filter:grayscale(0.4); user-select:none; transition:opacity .2s ease; }
 
 /* ---- Formularios e Inputs ---- */
 label.field, .field { display:flex; flex-direction:column; gap:5px; font-size:13px; font-weight:600; color:var(--text-primary); }
@@ -706,5 +709,44 @@ fieldset.group legend { font-size:12px; font-weight:700; text-transform:uppercas
 .empty p { margin-bottom:14px; }
 .empty p:last-child { margin-bottom:0; }
 .placeholder { padding:60px 24px; text-align:center; border:var(--border-width) dashed var(--border-subtle); border-radius:var(--radius-card); color:var(--text-muted); }
-.placeholder h1 { color:var(--text-primary); font-size:26px; margin-bottom:8px; }
 .mock-note { font-size:12px; color:var(--text-muted); border:1px dashed var(--border-subtle); border-radius:6px; padding:8px 12px; margin-top:40px; }
+
+/* ---- Toast Notifications System ---- */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+  max-width: 380px;
+}
+.toast {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  border-radius: var(--radius-control);
+  background: var(--bg-surface);
+  border: var(--border-width) solid var(--border-subtle);
+  color: var(--text-primary);
+  box-shadow: 0 10px 25px -5px rgba(0,0,0,0.4);
+  font-size: 13px;
+  font-weight: 500;
+  animation: toast-in .24s var(--ease-out);
+  transition: opacity .2s, transform .2s;
+}
+[data-skin='gamer'] .toast {
+  border-color: var(--accent-primary-fill);
+  box-shadow: 0 4px 16px -2px rgba(0,0,0,0.6);
+}
+.toast.toast-success { border-color: var(--accent-success); }
+.toast.toast-danger { border-color: var(--accent-danger); }
+.toast.toast-info { border-color: var(--accent-secondary); }
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
