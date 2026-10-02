@@ -2085,3 +2085,72 @@ fieldset.question .q-hint { clear:both; font-size:13px; color:var(--text-muted);
   color: var(--text-muted);
 }
 
+/* ================= Menú Jerárquico / Desplegable de Secciones del Curso ================= */
+.course-tree-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.course-tree-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  text-align: left;
+  padding: 8px 10px;
+  border-radius: var(--radius-control);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.25;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+  text-decoration: none;
+}
+
+.course-tree-item:hover {
+  background: var(--bg-surface-alt);
+  color: var(--text-primary);
+  transform: translateX(2px);
+}
+
+.course-tree-item:active {
+  transform: scale(0.99);
+}
+
+.course-tree-chevron {
+  width: 14px;
+  height: 14px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.course-tree-item:hover .course-tree-chevron {
+  color: var(--text-primary);
+}
+
+/* Estado activo: Recuadro verde/turquesa idéntico a la imagen del usuario */
+.course-tree-item.active,
+.course-tree-item[aria-current="true"] {
+  border: 1.5px solid var(--accent-primary-fill, #00e5ff);
+  background: color-mix(in srgb, var(--accent-primary-fill, #00e5ff) 10%, transparent);
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.course-tree-item.active .course-tree-chevron,
+.course-tree-item[aria-current="true"] .course-tree-chevron {
+  color: var(--accent-primary-fill, #00e5ff);
+  transform: translateX(2px);
+}
+
+[data-skin='gamer'] .course-tree-item.active {
+  border-color: #00e5ff;
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.28);
+}
+

@@ -47,6 +47,7 @@
   <symbol id="i-cards" viewBox="0 0 24 24"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></symbol>
   <symbol id="i-table" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/></symbol>
   <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
   <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></symbol>
   <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
   <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
@@ -2111,7 +2112,8 @@ const COURSES = {
     units: [
       { num: 1, title: 'Unidad 1: Requerimientos y Modelado de Dominio', desc: 'Historias de usuario, especificación por ejemplos y tipado estricto.', progress: 100, status: 'done', challenges: 4 },
       { num: 2, title: 'Unidad 2: Patrones y Algoritmos Fundamentales', desc: 'Estructuras de datos dinámicas, diseño de contratos y recursión.', progress: 75, status: 'active', challenges: 4 },
-      { num: 3, title: 'Unidad 3: Calidad, Testing Automatizado y Refactor', desc: 'Pruebas unitarias con cobertura, TDD y reducción de deuda técnica.', progress: 60, status: 'active', challenges: 3 }
+      { num: 3, title: 'Unidad 3: Calidad, Testing Automatizado y Refactor', desc: 'Pruebas unitarias con cobertura, TDD y reducción de deuda técnica.', progress: 60, status: 'active', challenges: 3 },
+      { num: 4, title: 'Unidad 4: Arquitectura y Despliegue en Producción', desc: 'Contenerización Docker, pipelines de CI/CD y despliegue en la nube.', progress: 20, status: 'active', challenges: 2 }
     ]
   },
   GDS: {
@@ -3296,6 +3298,18 @@ $('#nueva-sec-desc')?.addEventListener('input', e => {
   const counter = $('#sec-char-count');
   if (counter) counter.textContent = `${e.target.value.length}/1000`;
 });
+// Pre-completar título con la próxima unidad al abrir el diálogo de nueva sección
+document.addEventListener('click', e => {
+  if (e.target.closest('[data-open="dialog-nueva-seccion"]')) {
+    const cleanHash = location.hash.split('?')[0];
+    const cName = cleanHash.startsWith('#curso/') ? cleanHash.split('/')[1] : 'MSI';
+    const cObj = findCourse(cName) || COURSES.MSI;
+    const nextNum = (cObj?.units?.length || 0) + 1;
+    const titInput = $('#nueva-sec-titulo');
+    if (titInput) titInput.value = `Unidad ${nextNum}`;
+  }
+});
+
 $('#btn-crear-seccion-confirm')?.addEventListener('click', () => {
   const titInput = $('#nueva-sec-titulo');
   const title = titInput?.value.trim();
@@ -3305,6 +3319,8 @@ $('#btn-crear-seccion-confirm')?.addEventListener('click', () => {
   }
   const desc = $('#nueva-sec-desc')?.value.trim() || 'Sin descripción.';
   const visible = $('#nueva-sec-visible')?.checked || false;
+
+  // 1. Agregar a SECTIONS para el panel de profesor
   SECTIONS.push({
     title,
     desc,
@@ -3312,12 +3328,43 @@ $('#btn-crear-seccion-confirm')?.addEventListener('click', () => {
     acts: 0
   });
   renderSections();
+
+  // 2. Agregar a la materia activa (cObj.units) para la vista de cursada y el subpanel desplegable
+  const cleanHash = location.hash.split('?')[0];
+  const cName = cleanHash.startsWith('#curso/') ? cleanHash.split('/')[1] : 'MSI';
+  const cObj = findCourse(cName) || COURSES.MSI;
+
+  if (cObj) {
+    if (!cObj.units) cObj.units = [];
+    const nextNum = cObj.units.length + 1;
+    cObj.units.push({
+      num: nextNum,
+      title: title.startsWith('Unidad') ? title : `Unidad ${nextNum}: ${title}`,
+      desc: desc,
+      progress: 0,
+      status: 'active',
+      challenges: 0
+    });
+
+    // Re-renderizar unidades en la pantalla de la materia
+    renderCourseUnits(cObj, currentActiveUnit);
+
+    // Re-renderizar subpanel desplegable para mostrar la nueva sección de inmediato
+    const subpanel = $('#subpanel');
+    if (subpanel && subpanel.dataset.subpanelMode === 'course-detail') {
+      const bodyEl = $('#subpanel-body');
+      if (bodyEl) {
+        bodyEl.innerHTML = buildCourseSubpanelHTML(cObj, location.hash.slice(1));
+      }
+    }
+  }
+
   $('#dialog-nueva-seccion')?.close();
   if (titInput) titInput.value = '';
   if ($('#nueva-sec-desc')) $('#nueva-sec-desc').value = '';
   if ($('#sec-char-count')) $('#sec-char-count').textContent = '0/1000';
   if ($('#nueva-sec-visible')) $('#nueva-sec-visible').checked = false;
-  showToast(`Sección "${title}" creada con éxito`, 'success', 'i-tick');
+  showToast(`Sección "${title}" creada con éxito y agregada al menú desplegable`, 'success', 'i-tick');
 });
 
 /* 4. Wizard Crear Cohorte (3 Pasos) */
@@ -3475,16 +3522,21 @@ document.addEventListener('click', e => {
       else if (target === 'material') bc.textContent = 'Material & Bibliografía';
     }
 
-    // Sincronizar estado activo en el subpanel de la materia
+    // Sincronizar estado activo en el subpanel de la materia (árbol de secciones)
     const subpanel = $('#subpanel');
     if (subpanel && subpanel.dataset.subpanelMode === 'course-detail') {
       const navItemGeneral = $('[data-course-nav="general"]', subpanel);
-      const navItemDesafios = $('[data-course-nav="desafios"]', subpanel);
-      if (navItemGeneral && navItemDesafios) {
-        navItemGeneral.classList.toggle('active', target === 'estado');
-        navItemGeneral.setAttribute('aria-current', target === 'estado' ? 'true' : 'false');
-        navItemDesafios.classList.toggle('active', target === 'desafios');
-        navItemDesafios.setAttribute('aria-current', target === 'desafios' ? 'true' : 'false');
+      const navItemInfo = $('[data-course-nav="info"]', subpanel);
+      if (target === 'estado' && navItemInfo) {
+        $$('#course-tree-menu .course-tree-item', subpanel).forEach(b => {
+          b.classList.toggle('active', b === navItemInfo);
+          b.setAttribute('aria-current', b === navItemInfo ? 'true' : 'false');
+        });
+      } else if (target === 'desafios' && currentActiveUnit === null && navItemGeneral) {
+        $$('#course-tree-menu .course-tree-item', subpanel).forEach(b => {
+          b.classList.toggle('active', b === navItemGeneral);
+          b.setAttribute('aria-current', b === navItemGeneral ? 'true' : 'false');
+        });
       }
     }
     return;
@@ -4465,75 +4517,88 @@ function buildSubpanelHTML(menuConfig, hashFull, activeCourseCode) {
   `).join('');
 }
 
-function buildCourseSubpanelHTML(cObj, hashFull, activeSection) {
-  // Por defecto, determinar si está en 'general' (estado) o 'desafíos'
-  const isGeneralActive = activeSection === 'general' || ($('#tab-mat-estado')?.classList.contains('active') && activeSection !== 'desafios');
-  const isDesafiosActive = !isGeneralActive;
+function buildCourseSubpanelHTML(cObj, hashFull, activeItem) {
+  const units = cObj?.units || [];
+
+  // Determinar ítem activo: 'general', 'info', o número de unidad
+  let currentSelection = activeItem || null;
+  if (!currentSelection) {
+    if (currentActiveUnit !== null) {
+      currentSelection = `unit-${currentActiveUnit}`;
+    } else if ($('#tab-mat-estado')?.classList.contains('active')) {
+      currentSelection = 'info';
+    } else {
+      currentSelection = 'general';
+    }
+  }
 
   return `
-    <div style="padding: 0 4px 12px;">
+    <div style="padding: 0 4px 10px;">
       <a class="subpanel-item subpanel-back-btn" href="#cursos" id="btn-subpanel-back" style="text-decoration:none; margin-bottom:0; border-radius:var(--radius-control); background:var(--bg-surface-alt); font-size:12px; font-weight:600; color:var(--text-secondary); border:1px solid var(--border-subtle); display:flex; align-items:center; gap:8px; padding:8px 12px; transition:all 0.15s ease;">
         <svg class="icon icon-sm" style="color:var(--text-muted);"><use href="#i-left"/></svg>
         <span class="subpanel-item-text" style="color:var(--text-primary);">Mis materias</span>
       </a>
     </div>
 
-    <!-- SECCIÓN: EXPLORAR MATERIA (Fiel a Maqueta Original) -->
+    <!-- SECCIÓN: SECCIONES DEL CURSO (Árbol jerárquico fiel a la imagen) -->
     <div class="subpanel-section">
-      <span class="subpanel-section-label" style="font-size:11px; font-weight:700; color:var(--text-muted); padding:4px 8px 6px; letter-spacing:0.06em;">EXPLORAR MATERIA</span>
+      <div style="display:flex; align-items:center; justify-content:space-between; padding:4px 8px 6px;">
+        <span class="subpanel-section-label" style="padding:0; font-size:11px; font-weight:700; color:var(--text-muted); letter-spacing:0.06em;">SECCIONES DEL CURSO</span>
+        <button type="button" class="icon-btn xs" data-open="dialog-nueva-seccion" title="Crear nueva sección en esta materia" style="width:22px; height:22px; border-radius:var(--radius-control); display:flex; align-items:center; justify-content:center; border:1px solid var(--border-subtle); background:transparent; cursor:pointer;" aria-label="Nueva sección">
+          <svg class="icon icon-xs"><use href="#i-plus"/></svg>
+        </button>
+      </div>
 
-      <!-- 1. General (Estado, Criterios y Promoción) -->
-      <button type="button" class="subpanel-item ${isGeneralActive ? 'active' : ''}" data-course-nav="general" style="width:100%; text-align:left; border:1px solid transparent; background:transparent; cursor:pointer;" ${isGeneralActive ? 'aria-current="true"' : ''}>
-        <svg class="icon"><use href="#i-cards"/></svg>
-        <div class="subpanel-item-content">
-          <span class="subpanel-item-text">General</span>
-        </div>
-      </button>
+      <div class="course-tree-menu" id="course-tree-menu">
+        <!-- 1. General -->
+        <button type="button" class="course-tree-item ${currentSelection === 'general' ? 'active' : ''}" data-course-nav="general" ${currentSelection === 'general' ? 'aria-current="true"' : ''}>
+          <svg class="icon course-tree-chevron"><use href="#i-chevron-right"/></svg>
+          <span class="tree-item-title">General</span>
+        </button>
 
-      <!-- 2. Desafíos (Retos y Entregas) -->
-      <button type="button" class="subpanel-item ${isDesafiosActive ? 'active' : ''}" data-course-nav="desafios" style="width:100%; text-align:left; border:1px solid transparent; background:transparent; cursor:pointer;" ${isDesafiosActive ? 'aria-current="true"' : ''}>
-        <svg class="icon"><use href="#i-flame"/></svg>
-        <div class="subpanel-item-content">
-          <span class="subpanel-item-text">Desafíos</span>
-        </div>
-      </button>
+        <!-- 2. Información General -->
+        <button type="button" class="course-tree-item ${currentSelection === 'info' ? 'active' : ''}" data-course-nav="info" ${currentSelection === 'info' ? 'aria-current="true"' : ''}>
+          <svg class="icon course-tree-chevron"><use href="#i-chevron-right"/></svg>
+          <span class="tree-item-title">Información General</span>
+        </button>
 
-      <!-- 3. Mercado -->
-      <a class="subpanel-item" href="#marketplace" data-course-nav="marketplace" style="text-decoration:none;">
+        <!-- 3. Unidades dinámicas (Unidad 1, Unidad 2, Unidad 3, Unidad 4... y nuevas creadas) -->
+        ${units.map(u => {
+          const isUActive = currentSelection === `unit-${u.num}`;
+          return `
+            <button type="button" class="course-tree-item ${isUActive ? 'active' : ''}" data-course-nav="unit" data-unit-num="${u.num}" ${isUActive ? 'aria-current="true"' : ''}>
+              <svg class="icon course-tree-chevron"><use href="#i-chevron-right"/></svg>
+              <span class="tree-item-title">Unidad ${u.num}</span>
+            </button>
+          `;
+        }).join('')}
+      </div>
+    </div>
+
+    <!-- SECCIÓN: ACCESOS RÁPIDOS -->
+    <div class="subpanel-section" style="margin-top:14px; padding-top:12px; border-top:1px solid var(--border-subtle);">
+      <span class="subpanel-section-label" style="font-size:11px; font-weight:700; color:var(--text-muted); padding:2px 8px 6px; letter-spacing:0.06em;">ACCESOS RÁPIDOS</span>
+      <a class="subpanel-item" href="#marketplace" style="text-decoration:none;">
         <svg class="icon"><use href="#i-bag"/></svg>
-        <div class="subpanel-item-content">
-          <span class="subpanel-item-text">Mercado</span>
-        </div>
+        <div class="subpanel-item-content"><span class="subpanel-item-text">Mercado</span></div>
       </a>
-
-      <!-- 4. Inventario -->
-      <a class="subpanel-item" href="#inventario" data-course-nav="inventario" style="text-decoration:none;">
+      <a class="subpanel-item" href="#inventario" style="text-decoration:none;">
         <svg class="icon"><use href="#i-backpack"/></svg>
-        <div class="subpanel-item-content">
-          <span class="subpanel-item-text">Inventario</span>
-        </div>
+        <div class="subpanel-item-content"><span class="subpanel-item-text">Inventario</span></div>
       </a>
-
-      <!-- 5. Ranking -->
-      <a class="subpanel-item" href="#ranking" data-course-nav="ranking" style="text-decoration:none;">
+      <a class="subpanel-item" href="#ranking" style="text-decoration:none;">
         <svg class="icon"><use href="#i-trophy"/></svg>
-        <div class="subpanel-item-content">
-          <span class="subpanel-item-text">Ranking</span>
-        </div>
+        <div class="subpanel-item-content"><span class="subpanel-item-text">Ranking</span></div>
       </a>
-
-      <!-- 6. Chat -->
       <button type="button" class="subpanel-item" data-course-nav="chat" style="width:100%; text-align:left; border:1px solid transparent; background:transparent; cursor:pointer;">
         <svg class="icon"><use href="#i-chat"/></svg>
-        <div class="subpanel-item-content">
-          <span class="subpanel-item-text">Chat</span>
-        </div>
+        <div class="subpanel-item-content"><span class="subpanel-item-text">Chat</span></div>
         <span class="badge badge-neutral xs num" style="margin-left:auto; font-size:11px; padding:1px 6px;">2</span>
       </button>
     </div>
 
     <!-- TARJETA GAMER INFERIOR (PINNED) -->
-    <div class="subpanel-gamer-card" style="margin-top:auto; padding-top:20px;">
+    <div class="subpanel-gamer-card" style="margin-top:auto; padding-top:16px;">
       <div style="background:var(--bg-surface-alt); border:1px solid var(--border-subtle); border-radius:var(--radius-control); padding:12px; box-shadow:0 1px 3px rgba(0,0,0,0.06);">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
           <span style="font-weight:700; font-size:12px; display:inline-flex; align-items:center; gap:5px; color:var(--accent-gold);">
@@ -4666,23 +4731,59 @@ document.addEventListener('click', e => {
   if (courseNavBtn) {
     const navTarget = courseNavBtn.dataset.courseNav;
     const cleanHash = location.hash.split('?')[0];
+    const cName = cleanHash.startsWith('#curso/') ? cleanHash.split('/')[1] : 'MSI';
+    const cObj = findCourse(cName) || COURSES.MSI;
 
     if (navTarget === 'general') {
       if (!cleanHash.startsWith('#curso/')) {
-        location.hash = '#curso/MSI';
-        setTimeout(() => $('#tab-mat-estado')?.click(), 50);
-      } else {
-        $('#tab-mat-estado')?.click();
+        location.hash = `#curso/${cObj.code || 'MSI'}`;
       }
-      $$('[data-course-nav]').forEach(b => b.classList.toggle('active', b === courseNavBtn));
-    } else if (navTarget === 'desafios') {
+      $('#tab-mat-desafios')?.click();
+      renderCourseUnits(cObj, null);
+      listInstances.filter((_, i) => $$('[data-challenge-list]')[i]?.hasAttribute('data-locked-course')).forEach(l => {
+        l.setCourse(cObj.code || cObj.name);
+        l.setUnit(null);
+      });
+      $$('#course-tree-menu .course-tree-item').forEach(b => {
+        const isTarget = b === courseNavBtn;
+        b.classList.toggle('active', isTarget);
+        b.setAttribute('aria-current', isTarget ? 'true' : 'false');
+      });
+    } else if (navTarget === 'info') {
       if (!cleanHash.startsWith('#curso/')) {
-        location.hash = '#curso/MSI';
-        setTimeout(() => $('#tab-mat-desafios')?.click(), 50);
-      } else {
-        $('#tab-mat-desafios')?.click();
+        location.hash = `#curso/${cObj.code || 'MSI'}`;
       }
-      $$('[data-course-nav]').forEach(b => b.classList.toggle('active', b === courseNavBtn));
+      $('#tab-mat-estado')?.click();
+      $$('#course-tree-menu .course-tree-item').forEach(b => {
+        const isTarget = b === courseNavBtn;
+        b.classList.toggle('active', isTarget);
+        b.setAttribute('aria-current', isTarget ? 'true' : 'false');
+      });
+    } else if (navTarget === 'unit') {
+      const uNum = Number(courseNavBtn.dataset.unitNum);
+      if (!cleanHash.startsWith('#curso/')) {
+        location.hash = `#curso/${cObj.code || 'MSI'}?u=${uNum}`;
+      } else {
+        history.replaceState(null, '', `#curso/${cObj.code || 'MSI'}?u=${uNum}`);
+      }
+      $('#tab-mat-desafios')?.click();
+      renderCourseUnits(cObj, uNum);
+      listInstances.filter((_, i) => $$('[data-challenge-list]')[i]?.hasAttribute('data-locked-course')).forEach(l => {
+        l.setCourse(cObj.code || cObj.name);
+        l.setUnit(uNum);
+      });
+      $$('#course-tree-menu .course-tree-item').forEach(b => {
+        const isTarget = b === courseNavBtn;
+        b.classList.toggle('active', isTarget);
+        b.setAttribute('aria-current', isTarget ? 'true' : 'false');
+      });
+      // Scroll suave a la tarjeta de la unidad o sección
+      const unitCard = $(`[data-unit-card="${uNum}"]`);
+      if (unitCard) {
+        unitCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else {
+        $('#course-units-list')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     } else if (navTarget === 'chat') {
       const tutorPopup = $('#tutor-chat-popup');
       const tutorFab = $('#tutor-fab-btn');
