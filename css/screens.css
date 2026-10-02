@@ -86,6 +86,958 @@ details.group[open] .group-hint { display:none; }
 /* ---- Cursos ---- */
 .course-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:16px; }
 .course { display:flex; flex-direction:column; gap:16px; }
+
+/* ---- Tarjetas de Cursos (Impeccable UI/UX - Tamaño y Disposición Coherentes) ---- */
+#student-courses {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+}
+.view-bar {
+  margin-bottom: 18px;
+}
+
+/* =========================================================================
+   CURSOS & DASHBOARD — Soporte para Vista Tarjetas (Moodle TUP) y Filas,
+   Banners geométricos temáticos, Carrusel de Recientes y Línea de Tiempo.
+   ========================================================================= */
+
+/* Contenedor principal de Cursos del Alumno */
+#student-courses {
+  display: grid;
+  gap: 20px;
+  width: 100%;
+}
+#student-courses[data-view="grid"],
+.student-courses-grid {
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+#student-courses[data-view="list"],
+.student-courses-list {
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+/* ---- VISTA TARJETA CON PORTADA (ESTILO CAMPUS TUP / MOODLE) ---- */
+.course-grid-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-card);
+  background: var(--bg-surface);
+  border: var(--border-width) solid var(--border-subtle);
+  overflow: hidden;
+  transition: transform 0.18s var(--ease-out), box-shadow 0.18s ease, border-color 0.18s ease;
+  position: relative;
+}
+.course-grid-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.28);
+  border-color: var(--border-highlight);
+}
+
+/* Portadas Visuales / Banners Temáticos */
+.course-banner {
+  height: 115px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  padding: 12px 14px;
+}
+
+/* Patrón 1: Metodología de Sistemas II (Blueprint Cyan / Grid Técnico) */
+.course-banner.blueprint {
+  background: linear-gradient(135deg, #091a2e 0%, #0d2c4d 100%);
+  background-image:
+    linear-gradient(rgba(0, 229, 255, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 229, 255, 0.12) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+/* Patrón 2: Gestión de Desarrollo de Software (Dev Blue / Workspace) */
+.course-banner.devspace {
+  background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #2563eb 100%);
+  background-image:
+    radial-gradient(circle at 80% 20%, rgba(96, 165, 250, 0.3) 0%, transparent 50%),
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.04) 0, rgba(255, 255, 255, 0.04) 10px, transparent 10px, transparent 20px);
+}
+
+/* Patrón 3: Programación IV (Circuits Gold / Microprocesadores) */
+.course-banner.circuits {
+  background: linear-gradient(135deg, #78350f 0%, #92400e 50%, #b45309 100%);
+  background-image:
+    radial-gradient(circle at 20% 80%, rgba(251, 191, 36, 0.25) 0%, transparent 60%),
+    repeating-linear-gradient(135deg, rgba(255, 214, 0, 0.06) 0, rgba(255, 214, 0, 0.06) 12px, transparent 12px, transparent 24px);
+}
+
+/* Patrón 4: Introducción al Análisis de Datos (Analytics / Polígonos Magenta) */
+.course-banner.analytics {
+  background: linear-gradient(135deg, #831843 0%, #9d174d 50%, #be185d 100%);
+  background-image:
+    radial-gradient(circle at 85% 85%, rgba(244, 114, 182, 0.3) 0%, transparent 60%),
+    repeating-linear-gradient(60deg, rgba(255, 255, 255, 0.05) 0, rgba(255, 255, 255, 0.05) 15px, transparent 15px, transparent 30px);
+}
+
+/* Patrón 5: Legislación (Legal / Hexagonal Grafito Sobrio) */
+.course-banner.legal {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+  background-image:
+    radial-gradient(circle at 50% 50%, rgba(148, 163, 184, 0.15) 0%, transparent 70%),
+    repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.03) 0, rgba(255, 255, 255, 0.03) 10px, transparent 10px, transparent 20px);
+}
+
+.course-banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10, 15, 24, 0.85) 0%, transparent 70%);
+  pointer-events: none;
+}
+.course-badge-pill {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  z-index: 2;
+  font-family: var(--font-body);
+}
+.course-badge-pill.is-pending {
+  background: rgba(225, 29, 72, 0.9);
+  color: #fff;
+}
+[data-skin='gamer'] .course-badge-pill.is-pending {
+  box-shadow: 1px 1px 0 #000;
+}
+.course-badge-pill.is-ok {
+  background: rgba(5, 150, 105, 0.85);
+  color: #fff;
+}
+.course-icon-badge {
+  position: relative;
+  z-index: 2;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-control);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* Contenido de la Tarjeta */
+.course-card-content {
+  padding: 16px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 12px;
+}
+.course-meta-tag {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  font-family: var(--font-body);
+}
+.course-card-name {
+  font-size: 15.5px;
+  font-weight: 700;
+  line-height: 1.35;
+  margin: 3px 0 2px;
+  color: var(--text-primary);
+  font-family: var(--font-body) !important;
+}
+.course-card-teacher {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+}
+.course-progress-section {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 8px;
+}
+.course-progress-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  font-family: var(--font-body);
+}
+.course-progress-label .pct-text {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.game-stats-pill {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent-gold);
+  background: color-mix(in srgb, var(--accent-gold) 12%, transparent);
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+.course-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 6px;
+  border-top: 1px solid var(--border-subtle);
+}
+.course-card-footer .btn {
+  font-family: var(--font-body) !important;
+  font-weight: 600;
+}
+.course-more-btn {
+  color: var(--text-muted);
+  border-radius: var(--radius-control);
+}
+.course-more-btn:hover {
+  color: var(--text-primary);
+  background: var(--bg-surface-alt);
+}
+
+/* Switches de texto Gamer vs Formal en botones */
+[data-skin='gamer'] .btn-text-formal { display: none; }
+[data-skin='gamer'] .btn-text-gamer { display: inline; }
+[data-skin='sobrio'] .btn-text-formal { display: inline; }
+[data-skin='sobrio'] .btn-text-gamer { display: none; }
+[data-skin='sobrio'] .game-stats-pill { display: none; }
+
+/* ---- VISTA FILAS / LISTA (COMPACTA Y SIN SOLAPAMIENTO) ---- */
+.course-card-distilled {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.8fr) auto auto minmax(180px, 1.4fr) auto;
+  align-items: center;
+  gap: 16px 22px;
+  padding: 14px 20px;
+  border-radius: var(--radius-card);
+  background: var(--bg-surface);
+  border: var(--border-width) solid var(--border-subtle);
+  transition: transform 0.18s var(--ease-out), box-shadow 0.18s ease, border-color 0.18s ease;
+}
+.course-card-distilled:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px -3px rgba(0, 0, 0, 0.25);
+  border-color: var(--border-highlight);
+}
+.course-card-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.course-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-control);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.course-card-icon .icon { width: 22px; height: 22px; }
+.course-card-titles { min-width: 0; }
+.course-card-title {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: var(--font-body) !important;
+}
+.course-card-teacher {
+  font-size: 12px;
+  color: var(--text-muted);
+  display: block;
+  margin-top: 2px;
+  font-family: var(--font-body);
+}
+.course-status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  font-family: var(--font-body) !important;
+}
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.course-status-indicator.is-pending { color: var(--urgent); }
+.course-status-indicator.is-pending .status-dot {
+  background: var(--urgent);
+}
+[data-skin='gamer'] .course-status-indicator.is-pending .status-dot {
+  outline: 2px solid color-mix(in srgb, var(--urgent) 35%, transparent);
+}
+.course-status-indicator.is-ok { color: var(--text-muted); }
+.course-status-indicator.is-ok .status-dot {
+  background: var(--accent-success-fill);
+  opacity: 0.75;
+}
+.course-card-stats {
+  font-size: 12px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  font-family: var(--font-body) !important;
+}
+.course-card-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 140px;
+}
+.course-card-progress-labels {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11.5px;
+  font-family: var(--font-body);
+}
+.course-card-progress-labels .meta {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+.course-card-action {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+.course-card-action .btn {
+  white-space: nowrap;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-family: var(--font-body) !important;
+}
+
+/* ---- ESTILOS ESPECÍFICOS MODO ARCADE (GAMER) ---- */
+[data-skin='gamer'] .course-grid-card,
+[data-skin='gamer'] .course-card-distilled {
+  border-radius: 4px;
+  border: 2px solid #000;
+  box-shadow: 3px 3px 0 #000;
+}
+[data-skin='gamer'] .course-grid-card:hover,
+[data-skin='gamer'] .course-card-distilled:hover {
+  transform: translateY(-2px);
+  box-shadow: 5px 5px 0 #000;
+  border-color: var(--accent-primary);
+}
+[data-skin='gamer'] .course-badge-pill {
+  border-radius: 2px;
+  border: 1px solid #000;
+  box-shadow: 1px 1px 0 #000;
+}
+[data-skin='gamer'] .course-icon-badge {
+  border-radius: 3px;
+  border: 2px solid #000;
+  box-shadow: 2px 2px 0 #000;
+}
+[data-skin='gamer'] .status-dot {
+  border-radius: 0;
+  width: 6px;
+  height: 6px;
+}
+[data-skin='gamer'] .course-card-progress .bar span {
+  box-shadow: 0 0 8px color-mix(in srgb, var(--course-accent, var(--accent-primary)) 70%, transparent);
+}
+
+/* ---- ESTILOS ESPECÍFICOS MODO SOBRIO (CAMPUS INSTITUCIONAL UTN) ---- */
+[data-skin='sobrio'] .course-grid-card,
+[data-skin='sobrio'] .course-card-distilled {
+  border-radius: 8px;
+  border: 1px solid var(--border-subtle);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+[data-skin='sobrio'] .course-grid-card:hover,
+[data-skin='sobrio'] .course-card-distilled:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.09);
+  border-color: var(--accent-primary);
+}
+[data-skin='sobrio'] .course-banner-overlay {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, transparent 60%);
+}
+[data-skin='sobrio'] .course-icon-badge {
+  border-radius: 8px;
+}
+
+/* ---- MIGA DE PAN / BREADCRUMB CAMPUS UTN-FRC ---- */
+.campus-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  font-family: var(--font-body);
+}
+.campus-breadcrumb a {
+  color: var(--text-muted);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.campus-breadcrumb a:hover {
+  color: var(--accent-primary);
+  text-decoration: underline;
+}
+.campus-breadcrumb .sep {
+  opacity: 0.5;
+  font-size: 11px;
+}
+.campus-breadcrumb .current {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* Badge Institucional UTN-FRC */
+.campus-institution-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--accent-primary);
+  background: color-mix(in srgb, var(--accent-primary) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent-primary) 28%, transparent);
+  padding: 3px 10px;
+  border-radius: 999px;
+  margin-bottom: 6px;
+  text-transform: none;
+  letter-spacing: .04em;
+  font-family: var(--font-body);
+}
+[data-skin='gamer'] .campus-institution-badge {
+  border-radius: 3px;
+  border: 1px solid var(--accent-primary);
+  box-shadow: 1px 1px 0 #000;
+}
+[data-skin='sobrio'] .campus-institution-badge {
+  text-transform: none;
+  font-weight: 600;
+  letter-spacing: normal;
+  border-radius: 6px;
+}
+
+/* =========================================================================
+   DASHBOARD CLEAN WIDESCREEN LAYOUT (ZERO WINDOW SCROLL)
+   ========================================================================= */
+.dashboard-clean-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 6px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  flex-wrap: wrap;
+}
+.header-title-area {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.header-title-area h1.display {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.25;
+}
+[data-skin='gamer'] .header-title-area h1.display {
+  font-size: 16.5px;
+  letter-spacing: .02em;
+}
+.header-title-area p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.header-actions-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ---- TOOLBAR DE VISTA GENERAL DE CURSOS ---- */
+.courses-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--bg-surface);
+  border: var(--border-width) solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  margin-bottom: 22px;
+}
+.courses-toolbar-left,
+.courses-toolbar-right {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.search-input-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.search-input-wrap .icon {
+  position: absolute;
+  left: 10px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+.search-input-wrap input {
+  padding-left: 32px;
+  min-width: 200px;
+  height: 32px;
+  font-family: var(--font-body);
+}
+
+/* ---- CURSOS ACCEDIDOS RECIENTEMENTE (CARRUSEL 1 FILA) ---- */
+.recent-courses-section {
+  margin-bottom: 0;
+  width: 100%;
+  min-width: 0;
+}
+.recent-courses-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.recent-courses-header h2 {
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+[data-skin='gamer'] .recent-courses-header h2 {
+  font-family: var(--font-display);
+  font-size: 13px;
+  letter-spacing: .03em;
+}
+.recent-nav-btns {
+  display: flex;
+  gap: 6px;
+}
+.recent-courses-track {
+  display: flex;
+  justify-content: safe center;
+  align-items: stretch;
+  gap: 22px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding: 6px 4px 16px;
+  width: 100%;
+  box-sizing: border-box;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.recent-courses-track::-webkit-scrollbar {
+  display: none;
+}
+.recent-card {
+  flex: 1 1 240px;
+  max-width: 290px;
+  min-width: 220px;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-surface);
+  border: var(--border-width) solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.16s var(--ease-out), box-shadow 0.16s ease, border-color 0.16s ease;
+}
+.recent-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-highlight);
+  box-shadow: 0 8px 20px -3px rgba(0, 0, 0, 0.25);
+}
+[data-skin='gamer'] .recent-card {
+  border-radius: 4px;
+  border: 2px solid #000;
+  box-shadow: 2px 2px 0 #000;
+}
+[data-skin='gamer'] .recent-card:hover {
+  box-shadow: 4px 4px 0 #000;
+  border-color: var(--accent-primary);
+}
+.recent-banner {
+  height: 75px;
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  padding: 8px 12px;
+}
+.recent-banner-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-control);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+.recent-body {
+  padding: 12px 14px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+.recent-card-title {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0;
+  color: var(--text-primary);
+  font-family: var(--font-body) !important;
+}
+.recent-card-sub {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+}
+.recent-progress {
+  margin-top: auto;
+  padding-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-family: var(--font-body);
+}
+.recent-progress .pct {
+  font-weight: 700;
+  color: var(--text-primary);
+  min-width: 32px;
+}
+
+/* ---- LÍNEA DE TIEMPO (DEADLINES & ENTREGAS - DEBAJO Y A TODO ANCHO) ---- */
+.timeline-section {
+  margin-top: 10px;
+  width: 100%;
+}
+.timeline-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.timeline-section-head h2 {
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+[data-skin='gamer'] .timeline-section-head h2 {
+  font-family: var(--font-display);
+  font-size: 13.5px;
+  letter-spacing: .03em;
+}
+.timeline-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Controles Dark/Arcade para Selects y Búsqueda */
+.control-select-wrap {
+  position: relative;
+}
+select.control.sm {
+  height: 34px;
+  padding: 0 32px 0 12px;
+  font-size: 12.5px;
+  font-weight: 500;
+  background-color: var(--bg-surface-alt);
+  color: var(--text-primary);
+  border: var(--border-width) solid var(--border-subtle);
+  border-radius: var(--radius-control);
+  appearance: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  transition: border-color .15s ease, background-color .15s ease;
+}
+select.control.sm:hover {
+  border-color: var(--border-highlight);
+  background-color: var(--bg-surface);
+}
+select.control.sm option {
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+}
+.timeline-search-wrap {
+  position: relative;
+  min-width: 240px;
+}
+.timeline-search-wrap .icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+  width: 15px;
+  height: 15px;
+}
+.timeline-search-wrap input.control.sm {
+  height: 34px;
+  padding-left: 32px;
+  padding-right: 12px;
+  font-size: 12.5px;
+  background-color: var(--bg-surface-alt);
+  color: var(--text-primary);
+  border: var(--border-width) solid var(--border-subtle);
+  border-radius: var(--radius-control);
+  width: 100%;
+  font-family: var(--font-body);
+  transition: border-color .15s ease, background-color .15s ease;
+}
+.timeline-search-wrap input.control.sm:hover,
+.timeline-search-wrap input.control.sm:focus {
+  border-color: var(--accent-primary);
+  background-color: var(--bg-surface);
+  outline: none;
+}
+.timeline-search-wrap input.control.sm::placeholder {
+  color: var(--text-muted);
+}
+
+/* Modo Arcade para los controles */
+[data-skin='gamer'] select.control.sm,
+[data-skin='gamer'] .timeline-search-wrap input.control.sm {
+  border-radius: 3px;
+  border: 2px solid #000;
+  box-shadow: 2px 2px 0 #000;
+  background-color: var(--bg-surface-alt);
+}
+[data-skin='gamer'] select.control.sm:focus,
+[data-skin='gamer'] .timeline-search-wrap input.control.sm:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 2px 2px 0 var(--accent-primary);
+}
+
+.timeline-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.timeline-list.scrollable-timeline {
+  max-height: calc(100vh - 410px);
+  min-height: 320px;
+  overflow-y: auto;
+  padding-right: 8px;
+  scrollbar-width: thin;
+}
+.timeline-date-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.timeline-date-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px dashed var(--border-subtle);
+  font-family: var(--font-body);
+}
+.timeline-items-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.timeline-item {
+  display: grid;
+  grid-template-columns: 60px 38px 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 18px;
+  background: var(--bg-surface);
+  border: var(--border-width) solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+.timeline-item:hover {
+  transform: translateX(3px);
+  border-color: var(--border-highlight);
+}
+[data-skin='gamer'] .timeline-item {
+  border-radius: 4px;
+  border: 2px solid #000;
+  box-shadow: 2px 2px 0 #000;
+}
+[data-skin='gamer'] .timeline-item:hover {
+  box-shadow: 4px 4px 0 #000;
+}
+.timeline-item.is-overdue {
+  border-left: 4px solid var(--urgent);
+}
+[data-skin='gamer'] .timeline-item.is-overdue {
+  border-left: 4px solid var(--accent-danger);
+  background: color-mix(in srgb, var(--accent-danger) 8%, var(--bg-surface));
+}
+.timeline-time {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-weight: 600;
+}
+.timeline-icon-box {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-control);
+  background: var(--bg-surface-alt);
+  border: 1px solid var(--border-subtle);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  flex-shrink: 0;
+}
+.timeline-item.is-overdue .timeline-icon-box {
+  color: var(--urgent);
+  background: color-mix(in srgb, var(--urgent) 15%, transparent);
+  border-color: var(--urgent);
+}
+.timeline-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.timeline-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.timeline-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  font-family: var(--font-body) !important;
+}
+.timeline-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 999px;
+  display: inline-block;
+  font-family: var(--font-body);
+}
+.timeline-badge.badge-overdue {
+  background: var(--urgent);
+  color: #fff;
+  animation: pulse-badge 2s infinite ease-in-out;
+}
+@keyframes pulse-badge {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.75; }
+}
+.timeline-badge.badge-open {
+  background: var(--bg-surface-alt);
+  color: var(--text-muted);
+  border: 1px solid var(--border-subtle);
+}
+.timeline-badge.badge-urgent {
+  background: #f59e0b;
+  color: #000;
+}
+.timeline-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+}
+.timeline-game-reward {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--accent-gold);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 2px;
+  font-family: var(--font-body);
+}
+[data-skin='sobrio'] .timeline-game-reward {
+  display: none;
+}
+.timeline-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.timeline-actions .btn {
+  font-family: var(--font-body) !important;
+  font-weight: 600;
+  white-space: nowrap;
+}
+@media (max-width: 860px) {
+  #student-courses {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 520px) {
+  .course-card-bottom {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .course-card-action .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
 .course-top { display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
 .course h2 { font-size:22px; line-height:1.2; }
 [data-skin='gamer'] .course h2 { font-family:var(--font-display); font-weight:400; font-size:20px; }
@@ -111,6 +1063,80 @@ dl.facts dd small { display:block; font-weight:400; color:var(--text-muted); fon
 .hearts .icon { width:18px; height:18px; fill:currentColor; }
 .hearts .icon.lost { fill:none; opacity:.55; }
 .quick-links { display:flex; gap:8px; flex-wrap:wrap; }
+
+/* ---- Unidades Temáticas del Curso ---- */
+.course-units-grid {
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+  gap:16px; margin-bottom:28px;
+}
+.unit-card {
+  display:flex; flex-direction:column; gap:12px;
+  padding:16px 18px; background:var(--bg-surface);
+  border:var(--border-width) solid var(--border-subtle);
+  border-radius:var(--radius-card);
+  transition:transform 0.15s var(--ease-out), border-color 0.15s ease, box-shadow 0.15s ease;
+  cursor:pointer; position:relative;
+}
+.unit-card:hover {
+  border-color:var(--border-highlight);
+  transform:translateY(-2px);
+  box-shadow:var(--shadow-sm);
+}
+.unit-card.active {
+  border-color:var(--accent-primary-fill);
+  background:color-mix(in srgb, var(--accent-primary-fill) 6%, var(--bg-surface));
+  box-shadow:0 0 0 1px var(--accent-primary-fill);
+}
+[data-skin='gamer'] .unit-card {
+  box-shadow:2px 2px 0 var(--border-subtle);
+}
+[data-skin='gamer'] .unit-card:hover {
+  transform:translate(-2px, -2px);
+  box-shadow:4px 4px 0 #000;
+  border-color:var(--accent-primary-fill);
+}
+[data-skin='gamer'] .unit-card.active {
+  box-shadow:3px 3px 0 var(--accent-primary-fill);
+  border-color:var(--accent-primary-fill);
+}
+.unit-top {
+  display:flex; justify-content:space-between; align-items:flex-start; gap:8px;
+}
+.unit-number {
+  font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted);
+}
+[data-skin='gamer'] .unit-number {
+  font-family:var(--font-display);
+}
+.unit-title {
+  font-size:15px; font-weight:700; line-height:1.3; margin:2px 0 0; color:var(--text-primary);
+}
+.unit-desc {
+  font-size:13px; color:var(--text-muted); line-height:1.4; margin:0; flex:1;
+}
+.unit-progress-wrap {
+  display:flex; flex-direction:column; gap:6px; margin-top:auto;
+  padding-top:10px; border-top:1px solid var(--border-subtle);
+}
+.unit-progress-header {
+  display:flex; justify-content:space-between; align-items:center; font-size:12px;
+}
+.unit-footer {
+  display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:4px;
+}
+.unit-card.is-locked {
+  opacity:0.75;
+}
+.unit-filter-pill {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:4px 10px; border-radius:999px;
+  background:var(--bg-surface-alt); border:1px solid var(--border-subtle);
+  font-size:12px; font-weight:600; color:var(--text-secondary);
+}
+.unit-filter-pill.active {
+  background:var(--accent-primary-fill); color:var(--on-accent-primary);
+  border-color:transparent;
+}
 
 /* Course admin / cohorte */
 .invite { display:flex; align-items:center; gap:6px; flex-wrap:wrap; padding:8px 10px 8px 14px; border:var(--border-width) dashed var(--border-highlight); border-radius:var(--radius-card); background:var(--bg-surface); }
@@ -268,7 +1294,7 @@ tr.zone.risk td { color:var(--urgent); }
 .opt-row .mark[aria-pressed='true'] { border-style:solid; border-color:var(--accent-success-fill); background:var(--accent-success-fill); color:var(--on-accent-success); }
 .sum-bar { position:sticky; bottom:0; margin-top:16px; padding:14px 16px; display:flex; align-items:center; gap:16px; flex-wrap:wrap; background:var(--bg-surface); border:var(--border-width) solid var(--border-subtle); border-radius:var(--radius-card); box-shadow:0 -8px 20px -12px rgba(0,0,0,.35); }
 .sum-bar .meter { flex:1 1 200px; }
-.sum-bar .meter .bar > span { background:var(--accent-gold-fill); transition:width .3s var(--ease-out); }
+.sum-bar .meter .bar > span { background:var(--accent-gold-fill); }
 .sum-bar .meter.ok .bar > span { background:var(--accent-success-fill); }
 .sum-bar .meter.over .bar > span { background:var(--accent-danger-fill); }
 .sum-label { font-size:13px; font-weight:600; margin-bottom:6px; display:flex; justify-content:space-between; }
@@ -303,7 +1329,7 @@ fieldset.question .q-hint { clear:both; font-size:13px; color:var(--text-muted);
 .icon-opt input { position:absolute; opacity:0; inset:0; margin:0; cursor:pointer; }
 .icon-opt span { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; width:64px; height:64px; border:var(--border-width) solid var(--border-subtle); border-radius:var(--radius-control); background:var(--bg-surface-alt); }
 .icon-opt .pixel { width:32px; height:32px; }
-.icon-opt small { font-size:10px; font-weight:700; color:var(--accent-gold); line-height:1; }
+.icon-opt small { font-size:11px; font-weight:700; color:var(--accent-gold); line-height:1.1; }
 .icon-opt input:checked + span { border-color:var(--accent-primary-fill); box-shadow:0 0 0 2px var(--accent-primary-fill); }
 .icon-opt input:focus-visible + span { outline:3px solid var(--focus-glow); outline-offset:2px; }
 .new-badge { margin-bottom:16px; }
@@ -331,9 +1357,28 @@ fieldset.question .q-hint { clear:both; font-size:13px; color:var(--text-muted);
 .req-card .reject-box .field { flex:1 1 300px; }
 .identity-facts { width:100%; text-align:left; margin-top:10px; padding-top:14px; border-top:1px solid var(--border-subtle); font-size:13px; }
 
+/* ---- Dashboard Screen ---- */
+.dashboard-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:18px; margin-top:16px; }
+.dash-card { display:flex; flex-direction:column; gap:12px; }
+.dash-item { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 14px; border-radius:var(--radius-control); background:var(--bg-surface-alt); border:1px solid var(--border-subtle); }
+.dash-item-main { min-width:0; }
+.dash-item-title { font-size:14px; font-weight:600; }
+.dash-item-sub { font-size:12px; color:var(--text-muted); }
+
+/* ---- Marketplace Screen ---- */
+.market-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:16px; margin-top:16px; }
+.market-card { display:flex; flex-direction:column; justify-content:space-between; gap:14px; padding:18px; }
+.market-top { display:flex; gap:12px; align-items:flex-start; }
+.market-icon { width:44px; height:44px; border-radius:var(--radius-control); display:flex; align-items:center; justify-content:center; flex-shrink:0; background:var(--bg-surface-alt); border:1px solid var(--border-subtle); font-size:20px; color:var(--accent-primary-fill); }
+[data-skin='gamer'] .market-icon { border:1px solid #000; box-shadow:2px 2px 0 #000; }
+.market-info h3 { font-size:14.5px; font-weight:700; margin-bottom:4px; }
+.market-info p { font-size:12px; color:var(--text-muted); line-height:1.35; }
+.market-foot { display:flex; align-items:center; justify-content:space-between; gap:10px; padding-top:10px; border-top:1px solid var(--border-subtle); }
+.market-price { display:inline-flex; align-items:center; gap:5px; font-weight:700; font-size:13px; color:var(--accent-gold); }
+
 /* ---- UI Kit Screen ---- */
 .uikit-section { margin-bottom:32px; }
-.uikit-section h3 { font-size:16px; margin-bottom:12px; border-bottom:1px solid var(--border-subtle); padding-bottom:6px; color:var(--text-primary); }
+.uikit-section h2, .uikit-section h3 { font-size:16px; margin-bottom:12px; border-bottom:1px solid var(--border-subtle); padding-bottom:6px; color:var(--text-primary); }
 .uikit-row { display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-bottom:16px; }
 .token-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(140px, 1fr)); gap:12px; }
 .token-card { padding:10px; border-radius:var(--radius-control); border:1px solid var(--border-subtle); background:var(--bg-surface); }

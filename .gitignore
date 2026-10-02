@@ -1,2 +1,4 @@
 .atl/
 *.cache.json
+.agent/
+.impeccable/
