@@ -423,7 +423,7 @@
         <span class="current" id="materia-breadcrumb-active">General &amp; Modalidad</span>
       </nav>
 
-      <!-- Hero Header Contextual de la Materia -->
+      <!-- Hero Header Contextual de la Materia con HUD Integrado -->
       <div class="materia-hero card studs">
         <div class="materia-hero-main">
           <div class="materia-hero-info">
@@ -435,33 +435,92 @@
             <p class="muted materia-hero-sub">Espacio oficial de cursada: desafíos de código, seguimiento académico, bibliografía y pautas de promoción directa.</p>
           </div>
 
-          <!-- Ficha de Nivel / Vidas / Estado en el Header -->
-          <div class="materia-hero-status">
-            <div class="materia-hero-level-chip">
-              <div class="materia-level-head">
-                <span style="color:var(--accent-primary); display:flex; align-items:center; gap:5px; font-weight:700;">
-                  <svg class="icon icon-sm"><use href="#i-star"/></svg>Nivel 05
-                </span>
-                <span class="num muted" style="font-size:11px;">1450 / 2000 XP</span>
-              </div>
-              <div class="bar" style="height:6px; background:var(--bg-surface);">
-                <span style="width:72.5%; background:var(--accent-primary-fill); height:100%; display:block; border-radius:999px;"></span>
-              </div>
-              <div class="materia-level-foot">
-                <span title="3 vidas disponibles" style="display:flex; align-items:center; gap:4px; font-size:12px;">
-                  <span class="heart">❤️❤️❤️</span> <small class="muted num">3/3</small>
-                </span>
-                <button type="button" class="btn btn-ghost btn-xs is-active" id="btn-toggle-ficha" aria-expanded="true" aria-controls="materia-ficha-inline" style="margin-left:auto; display:inline-flex; align-items:center; gap:5px;" title="Mostrar u ocultar Ficha de Cursada en pantalla">
-                  <svg class="icon icon-sm" style="color:var(--accent-gold);"><use href="#i-trophy"/></svg>
-                  <span id="btn-toggle-ficha-text">Ficha de Cursada</span>
-                </button>
-              </div>
+          <!-- Accesos directos rápidos en el Header -->
+          <div style="display:flex; align-items:center; gap:8px; flex-shrink:0;">
+            <a href="#ranking" class="btn btn-quiet btn-sm" style="text-decoration:none;">
+              <svg class="icon icon-sm" style="color:var(--accent-gold);"><use href="#i-trophy"/></svg>Ver Ranking
+            </a>
+            <a href="#chat" class="btn btn-quiet btn-sm" style="text-decoration:none;">
+              <svg class="icon icon-sm" style="color:var(--accent-secondary);"><use href="#i-chat"/></svg>Chat Cátedra <span class="count num">12</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- HUD Horizontal de 3 Pilares Académicos y Gamers -->
+        <div class="materia-hud">
+          <!-- Pilar 1: Régimen Académico y Promoción -->
+          <div class="materia-hud-card">
+            <div class="materia-hud-head">
+              <span class="materia-hud-label">
+                <svg class="icon icon-sm" style="color:var(--accent-gold);"><use href="#i-trophy"/></svg>
+                Régimen Académico
+              </span>
+              <span class="badge badge-gold sm" style="font-weight:700;">Meta: P90+ Directa</span>
+            </div>
+            <div class="materia-hud-main">
+              <span class="materia-hud-value display num">P88</span>
+              <span class="materia-hud-subtext">Percentil de Cátedra</span>
+            </div>
+            <div class="bar" style="height:6px; background:var(--bg-surface); margin:2px 0;">
+              <span style="width:88%; background:var(--accent-primary-fill); height:100%; display:block; border-radius:999px;"></span>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:10.5px;" class="muted num">
+              <span>P70 Regular</span>
+              <span style="color:var(--accent-gold); font-weight:700;">▲ P90 Directa</span>
+              <span>P100</span>
+            </div>
+            <div class="muted" style="font-size:11px; margin-top:2px;">
+              A <strong>2 puntos percentiles</strong> de promocionar sin examen final.
+            </div>
+          </div>
+
+          <!-- Pilar 2: Desafíos y Cumplimiento -->
+          <div class="materia-hud-card">
+            <div class="materia-hud-head">
+              <span class="materia-hud-label">
+                <svg class="icon icon-sm" style="color:var(--accent-primary);"><use href="#i-flame"/></svg>
+                Desafíos Obligatorios
+              </span>
+              <span class="badge badge-neutral sm num">4 / 6 (66.7%)</span>
+            </div>
+            <div class="materia-hud-main">
+              <span class="materia-hud-value display num" style="color:var(--accent-gold);">66.7%</span>
+              <span class="materia-hud-subtext" style="color:var(--accent-success); font-weight:600;">Entregas al día</span>
+            </div>
+            <div style="background:var(--bg-surface); padding:6px 10px; border-radius:var(--radius-control); border:1px solid var(--border-subtle); display:flex; align-items:center; justify-content:space-between; font-size:11.5px;">
+              <span>⏳ Próx: Desafío U3</span>
+              <span class="badge badge-warning sm num">En 5 días</span>
+            </div>
+            <div class="muted" style="font-size:11px; margin-top:2px;">
+              +150 XP acumulados en bonus optativos.
+            </div>
+          </div>
+
+          <!-- Pilar 3: Estado Gamer & Recursos -->
+          <div class="materia-hud-card">
+            <div class="materia-hud-head">
+              <span class="materia-hud-label" style="color:var(--accent-primary);">
+                <svg class="icon icon-sm"><use href="#i-star"/></svg>
+                Nivel 05
+              </span>
+              <span class="badge badge-warning sm num" style="font-weight:700;">🪙 140 Monedas</span>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between;">
+              <span style="font-size:13px; font-weight:600;">❤️❤️❤️ <small class="muted num">3/3</small></span>
+              <span class="muted num" style="font-size:11.5px;">1450 / 2000 XP</span>
+            </div>
+            <div class="bar" style="height:6px; background:var(--bg-surface); margin:2px 0;">
+              <span style="width:72.5%; background:var(--accent-primary-fill); height:100%; display:block; border-radius:999px;"></span>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; font-size:11px; margin-top:2px;">
+              <a href="#mercado" class="muted" style="text-decoration:underline;">Canjear en Mercado</a>
+              <a href="#inventario" class="muted" style="text-decoration:underline;">Ver Inventario</a>
             </div>
           </div>
         </div>
 
         <!-- Top Tabs Horizontales Integradas al Header -->
-        <div class="tabs materia-tabs" role="tablist" aria-label="Secciones de la materia">
+        <div class="tabs materia-tabs" role="tablist" aria-label="Secciones de la materia" style="margin-top:16px;">
           <button class="tab active" role="tab" id="tab-mat-general" aria-selected="true" data-mat-tab="general">
             <svg class="icon icon-sm" style="color:var(--accent-gold);"><use href="#i-file"/></svg>General &amp; Modalidad
           </button>
@@ -474,10 +533,8 @@
         </div>
       </div>
 
-      <!-- Contenedor Split: Contenido Principal + Ficha de Cursada Lateral en la misma pantalla -->
-      <div class="materia-split-container" id="materia-split-container">
-        <!-- Columna Izquierda: Pestañas de contenido -->
-        <div class="materia-content-area">
+      <!-- Contenido a Ancho Completo -->
+      <div class="materia-content" style="display:flex; flex-direction:column; gap:20px;">
           <!-- 1. Pestaña General: Modalidad de cursada + P90 Promoción Directa -->
           <div id="materia-pane-general" style="display:flex; flex-direction:column; gap:20px;">
             <section class="card studs">
@@ -601,143 +658,7 @@
           </section>
         </div>
       </div>
-      <!-- Fin Columna Izquierda (materia-content-area) -->
-
-      <!-- Columna Derecha: Ficha de Cursada Inline (En la misma pantalla, colapsable) -->
-      <aside class="materia-ficha-panel" id="materia-ficha-inline" aria-label="Ficha de Cursada del Alumno">
-        <div class="materia-ficha-panel-head">
-          <div>
-            <h2 class="materia-ficha-panel-title">
-              <svg class="icon icon-sm" style="color:var(--accent-gold);"><use href="#i-trophy"/></svg>
-              FICHA DE CURSADA
-            </h2>
-            <p class="muted" style="font-size:12px; margin:2px 0 0;">Metodología de Sistemas II · Rafael C. Castro</p>
-          </div>
-          <button class="icon-btn xs" type="button" id="btn-close-ficha-inline" title="Ocultar ficha lateral" aria-label="Ocultar ficha lateral">
-            <svg class="icon icon-sm"><use href="#i-x"/></svg>
-          </button>
-        </div>
-
-        <!-- Tarjeta 1: Percentil P88 y Régimen Académico -->
-        <div class="drawer-stat-card">
-          <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px;">
-            <div>
-              <span class="badge badge-warning sm">En Carrera para Promoción</span>
-              <div style="font-size:15px; font-weight:700; margin-top:6px; display:flex; align-items:baseline; gap:6px;">
-                <span class="display num" style="font-size:26px; color:var(--accent-primary-fill); line-height:1;">P88</span>
-                <span class="muted" style="font-size:13px;">Percentil de Cátedra</span>
-              </div>
-            </div>
-            <div style="text-align:right;">
-              <span class="badge badge-gold sm" style="font-weight:700;">Meta: P90+</span>
-              <div class="muted num" style="font-size:11px; margin-top:4px;">Corte: 15 Dic</div>
-            </div>
-          </div>
-
-          <div style="display:flex; flex-direction:column; gap:4px; margin-top:4px;">
-            <div class="bar" style="height:8px; background:var(--bg-surface);">
-              <span style="width:88%; background:var(--accent-primary-fill); height:100%; display:block; border-radius:999px;"></span>
-            </div>
-            <div style="display:flex; justify-content:space-between; font-size:11px;" class="muted num">
-              <span>P70 Regular</span>
-              <span style="color:var(--accent-gold); font-weight:700;">▲ P90 Directa</span>
-              <span>P100</span>
-            </div>
-          </div>
-
-          <p class="muted" style="font-size:12px; margin:2px 0 0; line-height:1.4;">
-            Estás a <strong>2 puntos percentiles</strong> de la Promoción Directa sin examen final. Completá los desafíos de la Unidad 3 para superar el umbral.
-          </p>
-        </div>
-
-        <!-- Tarjeta 2: Desafíos y Cumplimiento -->
-        <div class="drawer-stat-card">
-          <div style="display:flex; align-items:center; justify-content:space-between;">
-            <span style="font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em;" class="muted">Desafíos de Código</span>
-            <span class="badge badge-neutral sm num">4 / 6 Obligatorios</span>
-          </div>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-            <div style="background:var(--bg-surface); padding:10px 12px; border-radius:var(--radius-card); border:1px solid var(--border-subtle);">
-              <div class="muted" style="font-size:11px;">Entregas al día</div>
-              <div class="num" style="font-size:18px; font-weight:700; color:var(--accent-primary-fill);">66.7%</div>
-            </div>
-            <div style="background:var(--bg-surface); padding:10px 12px; border-radius:var(--radius-card); border:1px solid var(--border-subtle);">
-              <div class="muted" style="font-size:11px;">Bonus acumulado</div>
-              <div class="num" style="font-size:18px; font-weight:700; color:var(--accent-gold);">+150 XP</div>
-            </div>
-          </div>
-          <div style="background:var(--bg-surface); padding:10px 12px; border-radius:var(--radius-card); border:1px solid var(--border-subtle); display:flex; align-items:center; justify-content:space-between;">
-            <div>
-              <div style="font-size:12px; font-weight:600;">Próximo Vencimiento</div>
-              <div class="muted" style="font-size:11px;">Desafío U3 · Arquitectura</div>
-            </div>
-            <span class="badge badge-warning sm num">En 5 días</span>
-          </div>
-        </div>
-
-        <!-- Tarjeta 3: Nivel Gamer y Recursos de Cursada -->
-        <div class="drawer-stat-card">
-          <div style="display:flex; align-items:center; justify-content:space-between;">
-            <span style="font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em;" class="muted">Estado Gamer &amp; Recursos</span>
-            <span class="badge badge-primary sm">Nivel 05</span>
-          </div>
-          <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
-            <div style="display:flex; align-items:center; gap:8px;">
-              <span style="font-size:18px;">❤️❤️❤️</span>
-              <div>
-                <div style="font-size:12px; font-weight:600;">3 Vidas disponibles</div>
-                <div class="muted" style="font-size:11px;">Sin penalizaciones de autograder</div>
-              </div>
-            </div>
-            <div style="text-align:right;">
-              <div class="num" style="font-size:15px; font-weight:700; color:var(--accent-gold);">🪙 140</div>
-              <div class="muted" style="font-size:11px;">Monedas MSI</div>
-            </div>
-          </div>
-          <div style="display:flex; gap:8px; margin-top:4px;">
-            <a href="#mercado" class="btn btn-quiet btn-sm" style="flex:1; justify-content:center; text-decoration:none;">
-              <svg class="icon icon-sm" style="color:var(--accent-gold);"><use href="#i-backpack"/></svg>Mercado
-            </a>
-            <a href="#inventario" class="btn btn-quiet btn-sm" style="flex:1; justify-content:center; text-decoration:none;">
-              <svg class="icon icon-sm"><use href="#i-cube"/></svg>Inventario
-            </a>
-          </div>
-        </div>
-
-        <!-- Tarjeta 4: Asistencia & Cátedra -->
-        <div class="drawer-stat-card">
-          <div style="display:flex; align-items:center; justify-content:space-between;">
-            <span style="font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em;" class="muted">Asistencia &amp; Cátedra</span>
-            <span class="badge badge-success sm">Online</span>
-          </div>
-          <div style="display:flex; flex-direction:column; gap:8px;">
-            <a href="#chat" class="btn btn-quiet btn-sm" style="justify-content:flex-start; text-decoration:none; width:100%;">
-              <svg class="icon icon-sm" style="color:var(--accent-secondary);"><use href="#i-chat"/></svg>
-              <div style="text-align:left; flex:1;">
-                <div style="font-size:12px; font-weight:600;">Canal General MSI</div>
-                <div class="muted" style="font-size:11px;">12 mensajes sin leer</div>
-              </div>
-              <span class="count num">12</span>
-            </a>
-            <button type="button" class="btn btn-quiet btn-sm" style="justify-content:flex-start; width:100%;" onclick="alert('Abriendo consulta asistida con Tutor IA de MSI...')">
-              <svg class="icon icon-sm" style="color:var(--accent-primary);"><use href="#i-sparkles"/></svg>
-              <div style="text-align:left; flex:1;">
-                <div style="font-size:12px; font-weight:600;">Consultar al Tutor IA</div>
-                <div class="muted" style="font-size:11px;">Resolución de dudas 24/7</div>
-              </div>
-            </button>
-          </div>
-        </div>
-
-        <!-- Pie del panel: Acceso al Ranking -->
-        <div style="margin-top:auto; padding-top:12px; border-top:1px solid var(--border-subtle); display:flex; flex-direction:column; gap:8px;">
-          <a href="#ranking" class="btn btn-primary btn-sm" style="width:100%; justify-content:center; text-decoration:none;">
-            <svg class="icon icon-sm"><use href="#i-trophy"/></svg>Ver Ranking Completo
-          </a>
-        </div>
-      </aside>
-    </div>
-  </section>
+    </section>
 
     <!-- ================= INVENTARIO · alumno ================= -->
     <section class="screen" id="screen-inventario-alumno" aria-labelledby="h-inv" data-error="No pudimos traer tu inventario.">
@@ -3591,30 +3512,6 @@ document.addEventListener('click', e => {
       if (target === 'general') bc.textContent = 'General & Modalidad';
       else if (target === 'desafios') bc.textContent = 'Desafíos & Unidades';
       else if (target === 'material') bc.textContent = 'Material & Bibliografía';
-    }
-    return;
-  }
-
-  // Toggle de la Ficha de Cursada Lateral (en la misma pantalla)
-  const toggleBtn = e.target.closest('#btn-toggle-ficha');
-  const closeInlineBtn = e.target.closest('#btn-close-ficha-inline');
-  const container = $('#materia-split-container');
-  const btnToggle = $('#btn-toggle-ficha');
-
-  if (toggleBtn && container) {
-    const isCurrentlyCollapsed = container.classList.toggle('ficha-collapsed');
-    if (btnToggle) {
-      btnToggle.classList.toggle('is-active', !isCurrentlyCollapsed);
-      btnToggle.setAttribute('aria-expanded', String(!isCurrentlyCollapsed));
-    }
-    return;
-  }
-
-  if (closeInlineBtn && container) {
-    container.classList.add('ficha-collapsed');
-    if (btnToggle) {
-      btnToggle.classList.remove('is-active');
-      btnToggle.setAttribute('aria-expanded', 'false');
     }
     return;
   }

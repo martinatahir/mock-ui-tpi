@@ -1797,78 +1797,69 @@ fieldset.question .q-hint { clear:both; font-size:13px; color:var(--text-muted);
   cursor: pointer;
 }
 
-/* Ficha de Cursada del Alumno (Panel Inline / Split View en la Misma Pantalla) */
-.materia-split-container {
-  display: flex;
-  gap: 20px;
-  align-items: flex-start;
-  width: 100%;
+/* ================= HUD Horizontal de Métricas del Alumno (Hero Cursada) ================= */
+.materia-hud {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border-subtle);
 }
 
-.materia-content-area {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.materia-ficha-panel {
-  width: 340px;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  background: var(--bg-surface);
+.materia-hud-card {
+  background: var(--bg-surface-alt);
   border: var(--border-width) solid var(--border-subtle);
   border-radius: var(--radius-card);
-  padding: 18px;
-  position: sticky;
-  top: 76px;
-  box-shadow: var(--shadow-sm);
-  transition: opacity .2s ease, transform .2s ease;
-}
-
-[data-skin='gamer'] .materia-ficha-panel {
-  box-shadow: var(--shadow-card);
-}
-
-.materia-ficha-panel-head {
+  padding: 14px 16px;
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 10px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--border-subtle);
+  flex-direction: column;
+  gap: 8px;
+  transition: transform .15s ease, border-color .15s ease;
 }
 
-.materia-ficha-panel-title {
-  font-size: 15px;
-  font-weight: 700;
-  margin: 0;
+.materia-hud-card:hover {
+  border-color: color-mix(in srgb, var(--accent-primary) 50%, var(--border-subtle));
+}
+
+[data-skin='gamer'] .materia-hud-card {
+  box-shadow: 2px 2px 0 #000;
+}
+
+.materia-hud-head {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
 }
 
-[data-skin='gamer'] .materia-ficha-panel-title {
-  font-family: var(--font-display);
-  font-size: 13px;
+.materia-hud-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-/* Ocultar panel en modo colapsado */
-.materia-split-container.ficha-collapsed .materia-ficha-panel {
-  display: none !important;
+.materia-hud-main {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
 }
 
-@media (max-width: 1100px) {
-  .materia-split-container {
-    flex-direction: column;
-  }
-  .materia-ficha-panel {
-    width: 100%;
-    position: static;
-  }
+.materia-hud-value {
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--accent-primary-fill);
+}
+
+.materia-hud-subtext {
+  font-size: 12px;
+  color: var(--text-muted);
 }
 
 .drawer-stat-card {
