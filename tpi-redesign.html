@@ -467,60 +467,23 @@
       <!-- Contenido a Ancho Completo -->
       <div class="materia-content" style="display:flex; flex-direction:column; gap:20px;">
         <!-- 1. Pestaña Principal: Desafíos & Entregas (Activa por defecto · Foco Total) -->
-        <div id="materia-pane-desafios" style="display:flex; flex-direction:column; gap:20px;">
-          <!-- 1. Contenedor para Foco Total por Unidad (Opción 1: 3 Columnas Teórico / Práctico / Entregas) -->
-          <div id="materia-unit-focused-wrap" class="unit-focus-container" style="display:none;"></div>
-
-          <!-- 2. Contenedor para Panorama General (Todas las unidades & Resumen del curso) -->
-          <div id="materia-unit-overview-wrap" style="display:flex; flex-direction:column; gap:20px;">
-            <!-- Tarjeta de Enfoque: Tu Próximo Paso (Next Best Action) -->
-            <div class="card studs next-action-card">
-              <div class="next-action-badge">
-                <svg class="icon icon-sm" style="color:var(--accent-gold);"><use href="#i-sparkle"/></svg>
-                <span>TU PRÓXIMO PASO · UNIDAD 2</span>
-                <span class="badge badge-warning xs num" style="margin-left:auto;">⏳ Vence en 5 días (15 Oct)</span>
-              </div>
-              <div class="next-action-body">
-                <div class="next-action-info">
-                  <h2 class="next-action-title">Desafío 4: Arquitectura en Capas y DTOs</h2>
-                  <p class="muted next-action-sub">Implementá la separación de responsabilidades entre Controladores y Servicios según la rúbrica oficial de la cátedra.</p>
-                  <div class="next-action-tags">
-                    <span class="badge badge-neutral xs">Dificultad Media</span>
-                    <span class="badge badge-neutral xs num">+40 XP</span>
-                    <span class="badge badge-neutral xs num">🪙 10 monedas</span>
-                    <span class="badge badge-success xs">Obligatorio para P90</span>
-                  </div>
-                </div>
-                <div class="next-action-cta">
-                  <button class="btn btn-primary" type="button" onclick="alert('Abriendo entorno de código para Desafío 4...')">
-                    Continuar desafío <svg class="icon icon-sm"><use href="#i-right"/></svg>
-                  </button>
-                </div>
-              </div>
+        <div id="materia-pane-desafios" style="display:flex; flex-direction:column; gap:16px;">
+          <!-- Barra superior de control de secciones -->
+          <div class="course-sections-toolbar">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:14px; font-weight:700; color:var(--text-primary);">Contenidos de la cursada</span>
+              <span class="muted" style="font-size:12px;" id="course-sections-summary">· Organización modular por secciones</span>
             </div>
-
-            <!-- Unidades de Aprendizaje y Desafíos -->
-            <div class="section-head" style="align-items:center;">
-              <div>
-                <h2 id="course-units-heading" style="font-size:17px;">Unidades de Aprendizaje</h2>
-                <p class="muted" style="font-size:13px; margin:2px 0 0;">Seleccioná una unidad temática para explorar sus contenidos y filtrar desafíos específicos.</p>
-              </div>
-              <div class="quick-links">
-                <button type="button" class="btn btn-ghost btn-sm active" id="btn-all-units" data-unit-all>
-                  <svg class="icon icon-sm"><use href="#i-cards"/></svg>Ver todas las unidades
-                </button>
-              </div>
+            <div>
+              <button type="button" class="btn btn-ghost btn-sm" id="btn-toggle-all-sections">
+                <svg class="icon icon-sm"><use href="#i-chevron"/></svg>
+                <span id="txt-toggle-all-sections">Colapsar todo</span>
+              </button>
             </div>
-            <div class="course-units-grid" id="course-units-list"></div>
-
-            <div class="section-head" style="margin-top:14px;">
-              <div>
-                <h2 id="challenges-section-title" style="font-size:17px;">Desafíos de la materia</h2>
-                <span class="muted" style="font-size:13px;" id="unit-active-filter-label">Mostrando todas las unidades</span>
-              </div>
-            </div>
-            <div data-challenge-list data-locked-course></div>
           </div>
+
+          <!-- Listado de Secciones Acordeón (General con banner y avisos, Info General, Unidad 1, 2, 3, 4...) -->
+          <div class="course-sections-list" id="course-sections-accordion-wrap"></div>
         </div>
 
         <!-- 2. Pestaña Secundaria: Mi Estado & Promoción (Progressive Disclosure) -->
@@ -3016,29 +2979,30 @@ function renderCohorts() {
 }
 document.addEventListener('click', e => { const t = e.target.closest('[data-cohort]'); if (t) { cohortTab = t.dataset.cohort; renderCohorts(); } });
 
-let currentActiveUnit = null;
+let currentActiveUnit = 2;
+let mainCourseExpandedSections = new Set(['general', 'u-2']);
 
 const UNIT_RESOURCES = {
   1: {
     teorico: [
-      { icon: '📄', title: 'Teórico Parte I - Fundamentos y Requerimientos', type: 'PDF · 2.1 MB' },
-      { icon: '📄', title: 'Especificación de Contratos y Casos de Uso', type: 'PDF · 1.8 MB' },
-      { icon: '🔗', title: 'Documentación Oficial: Estándares IEEE 830', type: 'Enlace web' }
+      { icon: '📄', title: 'Teórico Parte I - Ciclo de Vida y Estimaciones Ágiles', type: 'PDF · 2.1 MB' },
+      { icon: '📄', title: 'Planificación con Poker Planning y Métricas de Esfuerzo', type: 'PDF · 1.8 MB' },
+      { icon: '🔗', title: 'Estándares IEEE y Modelos de Desarrollo de Software', type: 'Enlace web' }
     ],
     practico: [
-      { icon: '⚡', title: 'Guía de Actividades 1 - Historias de Usuario', tag: 'En clase' },
-      { icon: '✅', title: 'Caso Práctico 1: Modelado de Dominio (RESUELTO)', tag: 'Disponible' },
+      { icon: '⚡', title: 'Guía de Actividades 1 - Historias de Usuario y Estimación', tag: 'En clase' },
+      { icon: '✅', title: 'Caso Práctico 1: Estimación y Desglose (RESUELTO)', tag: 'Disponible' },
       { icon: '💡', title: 'Plantilla de Criterios de Aceptación Gherkin', tag: 'Apunte' }
     ]
   },
   2: {
     teorico: [
-      { icon: '📄', title: 'Teórico Parte I - Paradigmas y Tipado Estricto', type: 'PDF · 2.4 MB' },
+      { icon: '📄', title: 'Teórico Parte I - Gestión de Riesgos y Calidad', type: 'PDF · 2.4 MB' },
       { icon: '📄', title: 'Teórico Parte II - Arquitectura en Capas y DTOs', type: 'PDF · 3.1 MB' },
       { icon: '🔗', title: 'Guía de Protocolos y Tipado Estricto PEP 544', type: 'Enlace web' }
     ],
     practico: [
-      { icon: '⚡', title: 'Caso Práctico 2 - Consignas de Modelado', tag: 'En clase' },
+      { icon: '⚡', title: 'Caso Práctico 2 - Matriz de Riesgos y Contratos', tag: 'En clase' },
       { icon: '✅', title: 'Caso Práctico 2 - Implementación RESUELTA', tag: 'Disponible' },
       { icon: '💡', title: 'Tips de Refactorización y Separación de Servicios', tag: 'Apunte' }
     ]
@@ -3069,303 +3033,345 @@ const UNIT_RESOURCES = {
   }
 };
 
-function renderFocusedUnit(c, unitNum) {
-  const u = c.units?.find(x => x.num === unitNum) || {
-    num: unitNum,
-    title: `Unidad ${unitNum}: Contenidos temáticos`,
-    desc: 'Contenidos, guías y entregas de la cursada.',
-    progress: 0,
-    status: 'in-progress'
-  };
+function renderCourseUnits(c, activeUnitNum = null) {
+  const container = $('#course-sections-accordion-wrap');
+  if (!container) return;
 
-  const badgeCls = u.status === 'done' ? 'badge-success' : u.status === 'locked' ? 'badge-outline' : 'badge-gold';
-  const badgeTxt = u.status === 'done' ? 'Completada ✅' : u.status === 'locked' ? 'Bloqueada 🔒' : `Unidad ${u.num} en curso 🔥`;
+  if (activeUnitNum !== null && activeUnitNum !== undefined) {
+    currentActiveUnit = Number(activeUnitNum);
+    mainCourseExpandedSections.add(`u-${currentActiveUnit}`);
+  }
 
-  // Materiales de la unidad (teórico y práctico)
-  const res = UNIT_RESOURCES[unitNum] || {
-    teorico: [
-      { icon: '📄', title: `Material Teórico - Unidad ${unitNum}`, type: 'PDF · 2.5 MB' },
-      { icon: '🔗', title: 'Documentación Oficial y Guías', type: 'Enlace web' }
-    ],
-    practico: [
-      { icon: '⚡', title: `Guía de Actividades Prácticas`, tag: 'En clase' },
-      { icon: '✅', title: `Ejercicios Resueltos de Referencia`, tag: 'Disponible' }
-    ]
-  };
+  // Sincronizar subpanel izquierdo
+  currentActiveAccordionUnit = currentActiveUnit;
+  $$('.course-accordion-group').forEach(g => {
+    g.classList.toggle('is-current-unit', Number(g.dataset.unitNum) === currentActiveUnit);
+  });
 
-  // Desafíos / Entregas calificadas de esta unidad
-  const unitChallenges = CHALLENGES.filter(ch => (ch.course === c.code || ch.course === c.name) && ch.unit === unitNum);
-  const pendingCount = unitChallenges.filter(ch => ch.status !== 'done').length;
+  const units = c.units || [];
 
-  // Unidades previa y siguiente
-  const prevUnit = c.units?.find(x => x.num === unitNum - 1);
-  const nextUnit = c.units?.find(x => x.num === unitNum + 1);
-
-  return `
-    <!-- Header de Foco en la Unidad -->
-    <div class="unit-focus-head">
-      <div class="unit-focus-info">
-        <div class="unit-focus-meta-tag">
-          <span class="badge ${badgeCls}">${badgeTxt}</span>
-          <span class="muted" style="font-size:12px;">${c.name} · Cohorte 2026</span>
-        </div>
-        <h2 class="unit-focus-title">${u.title}</h2>
-        <p class="unit-focus-sub">${u.desc}</p>
-      </div>
-
-      <div class="unit-focus-stats">
-        <div style="display:flex; align-items:center; gap:8px;">
-          <span class="muted" style="font-size:12px;">Progreso de unidad</span>
-          <b class="num" style="color:var(--accent-gold); font-size:15px;">${u.progress}%</b>
-        </div>
-        <div class="bar" style="width:160px; height:8px;" role="progressbar" aria-valuenow="${u.progress}" aria-valuemin="0" aria-valuemax="100">
-          <span style="width:${u.progress}%; ${u.status === 'done' ? 'background:var(--accent-success-fill);' : ''}"></span>
-        </div>
-        <div style="display:flex; align-items:center; gap:6px; margin-top:2px;">
-          <button type="button" class="btn btn-ghost btn-xs" data-goto-overview title="Ver panorama de todas las unidades">
-            <svg class="icon icon-xs"><use href="#i-cards"/></svg> Ver panorama general
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Triada de 3 Columnas Limpias (Teórico / Práctico / Entregas) -->
-    <div class="unit-triad-grid">
-      
-      <!-- Columna 1: Material Teórico & Apuntes -->
-      <div class="unit-block-col">
-        <div>
-          <div class="unit-block-head">
-            <span class="unit-block-icon" style="background:rgba(59, 130, 246, 0.15); color:#60a5fa;">📘</span>
-            <div>
-              <h3 class="unit-block-title">Material Teórico</h3>
-              <span class="unit-block-sub">Lecturas y diapositivas oficiales</span>
-            </div>
-          </div>
-          <div class="unit-items-list" style="margin-top:12px;">
-            ${res.teorico.map(it => `
-              <a href="javascript:void(0)" onclick="alert('Abriendo recurso de cátedra: ${it.title}')" class="unit-subitem-card">
-                <div style="display:flex; align-items:center; gap:8px; min-width:0;">
-                  <span style="font-size:14px; flex-shrink:0;">${it.icon}</span>
-                  <span style="font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${it.title}</span>
-                </div>
-                <span class="muted" style="font-size:11px; white-space:nowrap; flex-shrink:0;">${it.type}</span>
-              </a>
-            `).join('')}
+  container.innerHTML = `
+    <!-- 1. SECCIÓN: GENERAL (Fiel a la captura Campus/TUP con Banner, Avisos y Próximo paso) -->
+    <div class="course-main-section ${mainCourseExpandedSections.has('general') ? 'is-expanded' : ''}" id="main-sec-general" data-main-section="general">
+      <button type="button" class="course-main-section-header" data-main-toggle="general">
+        <div class="section-head-left">
+          <span class="section-chevron-box"><svg class="icon"><use href="#i-chevron"/></svg></span>
+          <div class="section-title-group">
+            <h3 class="section-main-title">General</h3>
+            <span class="section-main-sub">Bienvenida, avisos oficiales y próximo paso</span>
           </div>
         </div>
-        <div style="padding-top:10px; border-top:1px solid var(--border-subtle); text-align:center;">
-          <span class="muted" style="font-size:11.5px;">${res.teorico.length} recursos de cátedra</span>
+        <div class="section-head-right">
+          <span class="badge badge-gold xs">Cátedra</span>
         </div>
-      </div>
-
-      <!-- Columna 2: Guías & Casos Prácticos -->
-      <div class="unit-block-col">
-        <div>
-          <div class="unit-block-head">
-            <span class="unit-block-icon" style="background:rgba(245, 158, 11, 0.15); color:#f59e0b;">📝</span>
-            <div>
-              <h3 class="unit-block-title">Guías & Casos Prácticos</h3>
-              <span class="unit-block-sub">Práctica de clase y ejercitación</span>
-            </div>
-          </div>
-          <div class="unit-items-list" style="margin-top:12px;">
-            ${res.practico.map(it => `
-              <a href="javascript:void(0)" onclick="alert('Abriendo guía práctica: ${it.title}')" class="unit-subitem-card">
-                <div style="display:flex; align-items:center; gap:8px; min-width:0;">
-                  <span style="font-size:14px; flex-shrink:0;">${it.icon}</span>
-                  <span style="font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${it.title}</span>
-                </div>
-                <span class="badge ${it.tag === 'Disponible' ? 'badge-success' : 'badge-gold'} xs" style="white-space:nowrap; flex-shrink:0;">${it.tag}</span>
-              </a>
-            `).join('')}
-          </div>
-        </div>
-        <div style="padding-top:10px; border-top:1px solid var(--border-subtle); text-align:center;">
-          <span class="muted" style="font-size:11.5px;">Ejercicios de aplicación guiada</span>
-        </div>
-      </div>
-
-      <!-- Columna 3: Desafíos & Entregas Calificadas -->
-      <div class="unit-block-col highlight-col" style="position:relative; overflow:hidden;">
-        <div style="position:absolute; top:0; right:0; padding:3px 10px; font-size:10px; font-weight:800; background:var(--accent-primary-fill); color:#000; border-bottom-left-radius:var(--radius-control); text-transform:uppercase; letter-spacing:0.04em;">
-          EVALUATIVO
-        </div>
-        <div>
-          <div class="unit-block-head">
-            <span class="unit-block-icon" style="background:rgba(6, 182, 212, 0.15); color:#06b6d4;">🚀</span>
-            <div>
-              <h3 class="unit-block-title">Desafíos & Entregas</h3>
-              <span class="unit-block-sub">Cuentan para P90 y Regularidad</span>
-            </div>
-          </div>
-          <div class="unit-items-list" style="margin-top:12px;">
-            ${unitChallenges.length ? unitChallenges.map(ch => {
-              const isDone = ch.status === 'done';
-              if (isDone) {
-                return `
-                  <div class="unit-delivery-card is-done">
-                    <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:6px;">
-                      <div style="min-width:0;">
-                        <span style="font-size:12.5px; font-weight:700; color:var(--text-primary); display:block; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;" title="${ch.title}">
-                          ${ch.title}
-                        </span>
-                        <span style="font-size:11px; color:var(--accent-success); font-weight:600;">
-                          Aprobado 10/10 (+${ch.xp} XP)
-                        </span>
-                      </div>
-                      <span class="badge badge-success xs" style="white-space:nowrap; flex-shrink:0;">Aprobado ✅</span>
-                    </div>
-                  </div>
-                `;
-              }
-              return `
-                <div class="unit-delivery-card is-urgent">
-                  <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:6px;">
-                    <div style="min-width:0;">
-                      <span style="font-size:12.5px; font-weight:700; color:var(--text-primary); display:block; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;" title="${ch.title}">
-                        ${ch.title}
-                      </span>
-                      <span class="muted" style="font-size:11px; color:var(--urgent); font-weight:600;">
-                        ${ch.due ? `⏳ Vence el ${short(ch.due)}` : 'Sin fecha límite'} ${ch.req ? '· Obligatorio P90' : ''}
-                      </span>
-                    </div>
-                    <span class="badge badge-warning xs" style="white-space:nowrap; flex-shrink:0;">Pendiente</span>
-                  </div>
-                  <button type="button" class="btn btn-primary btn-sm" style="width:100%; justify-content:center; margin-top:2px;" onclick="alert('Abriendo entorno de desarrollo para: ${ch.title}')">
-                    Subir entrega de código →
-                  </button>
-                </div>
-              `;
-            }).join('') : `
-              <div class="unit-delivery-card is-urgent">
-                <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:6px;">
-                  <div style="min-width:0;">
-                    <span style="font-size:12.5px; font-weight:700; color:var(--text-primary); display:block;">
-                      Entrega del Trabajo Integrador
-                    </span>
-                    <span class="muted" style="font-size:11px; color:var(--accent-gold); font-weight:600;">
-                      ⏳ Cierre de cursada · Requisito Final
-                    </span>
-                  </div>
-                  <span class="badge badge-warning xs">Pendiente</span>
-                </div>
-                <button type="button" class="btn btn-primary btn-sm" style="width:100%; justify-content:center; margin-top:2px;" onclick="alert('Abriendo formulario de entrega del Trabajo Integrador...')">
-                  Subir entrega final →
-                </button>
-              </div>
-            `}
-          </div>
-        </div>
-        <div style="padding-top:10px; border-top:1px solid var(--border-subtle); text-align:center;">
-          <span style="font-size:11.5px; font-weight:600; color:${pendingCount === 0 ? 'var(--accent-success)' : 'var(--accent-gold)'};">
-            ${pendingCount === 0 ? '¡Todas las entregas al día! 🎉' : `${pendingCount} entrega${pendingCount > 1 ? 's' : ''} pendiente${pendingCount > 1 ? 's' : ''}`}
-          </span>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Navegación Secuencial al Pie -->
-    <div class="unit-nav-footer">
-      ${prevUnit ? `
-        <button type="button" class="btn btn-secondary btn-sm" data-nav-unit="${prevUnit.num}">
-          <svg class="icon icon-sm"><use href="#i-left"/></svg> Unidad ${prevUnit.num}: ${prevUnit.title.split(':')[1]?.trim() || prevUnit.title}
-        </button>
-      ` : `<div></div>`}
-
-      <button type="button" class="btn btn-ghost btn-sm" data-goto-overview>
-        <svg class="icon icon-sm"><use href="#i-cards"/></svg> Ver todas las unidades (Panorama)
       </button>
 
-      ${nextUnit ? `
-        <button type="button" class="btn btn-secondary btn-sm" data-nav-unit="${nextUnit.num}">
-          Unidad ${nextUnit.num}: ${nextUnit.title.split(':')[1]?.trim() || nextUnit.title} <svg class="icon icon-sm"><use href="#i-right"/></svg>
-        </button>
-      ` : `<div></div>`}
-    </div>
-  `;
-}
+      <div class="course-main-section-body">
+        <!-- Banner Oficial TUP / UTN fiel a la captura del usuario -->
+        <div class="course-brand-banner">
+          <div class="tup-logo-frame">TUP</div>
+          <h2 class="course-brand-title">${c.name}</h2>
+          <p class="course-brand-subtitle">Tecnicatura Universitaria en Programación · Cátedra 2026</p>
+        </div>
 
-function renderCourseUnits(c, activeUnitNum = null) {
-  currentActiveUnit = activeUnitNum ? Number(activeUnitNum) : null;
-  const focusedWrap = $('#materia-unit-focused-wrap');
-  const overviewWrap = $('#materia-unit-overview-wrap');
-  const unitsWrap = $('#course-units-list');
-  const allBtn = $('#btn-all-units');
-  const labelEl = $('#unit-active-filter-label');
-
-  if (currentActiveUnit !== null) {
-    // Modo 1: Foco Total por Unidad (Opción 1)
-    if (focusedWrap) {
-      focusedWrap.style.display = 'flex';
-      focusedWrap.innerHTML = renderFocusedUnit(c, currentActiveUnit);
-    }
-    if (overviewWrap) {
-      overviewWrap.style.display = 'none';
-    }
-
-    // Sincronizar subpanel izquierdo
-    currentActiveAccordionUnit = currentActiveUnit;
-    $$('.course-accordion-group').forEach(g => {
-      g.classList.toggle('is-current-unit', Number(g.dataset.unitNum) === currentActiveUnit);
-    });
-  } else {
-    // Modo 2: Panorama General de la Materia
-    if (focusedWrap) {
-      focusedWrap.style.display = 'none';
-      focusedWrap.innerHTML = '';
-    }
-    if (overviewWrap) {
-      overviewWrap.style.display = 'flex';
-    }
-
-    if (allBtn) {
-      allBtn.classList.add('active');
-    }
-
-    if (labelEl) {
-      labelEl.textContent = 'Mostrando todas las unidades';
-    }
-
-    if (unitsWrap && c.units && c.units.length) {
-      unitsWrap.innerHTML = c.units.map(u => {
-        const isLocked = u.status === 'locked';
-        const badgeCls = u.status === 'done' ? 'badge-success' : u.status === 'locked' ? 'badge-outline' : 'badge-gold';
-        const badgeTxt = u.status === 'done' ? 'Completada ✅' : u.status === 'locked' ? 'Bloqueada 🔒' : 'En curso 🔥';
-
-        return `
-          <article class="unit-card ${isLocked ? 'is-locked' : ''}" data-unit-card="${u.num}">
-            <div class="unit-top">
-              <span class="unit-number">Unidad ${u.num}</span>
-              <span class="badge ${badgeCls}">${badgeTxt}</span>
-            </div>
-            <h3 class="unit-title">${u.title}</h3>
-            <p class="unit-desc">${u.desc}</p>
-            <div class="unit-progress-wrap">
-              <div class="unit-progress-header">
-                <span>Progreso de unidad</span>
-                <b class="num">${u.progress}%</b>
+        <!-- Fila de Avisos de Cátedra -->
+        <div class="course-notice-card" onclick="alert('Abriendo cartelera oficial de avisos de la cátedra...')">
+          <div style="display:flex; align-items:center; gap:12px; min-width:0;">
+            <span class="notice-icon-box">
+              <svg class="icon icon-sm"><use href="#i-chat"/></svg>
+            </span>
+            <div style="min-width:0;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-size:13.5px; font-weight:700; color:var(--text-primary);">Avisos</span>
+                <span class="badge badge-warning xs">2 nuevos</span>
               </div>
-              <div class="bar" role="progressbar" aria-valuenow="${u.progress}" aria-valuemin="0" aria-valuemax="100">
-                <span style="width:${u.progress}%; ${u.status === 'done' ? 'background:var(--accent-success-fill);' : ''}"></span>
+              <p class="muted" style="font-size:12px; margin:2px 0 0; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">
+                Docente Ana Torres: "Recordamos las fechas límites del Desafío 4 y la pauta de entrega para Promoción Directa."
+              </p>
+            </div>
+          </div>
+          <span class="btn btn-ghost btn-sm" style="white-space:nowrap; flex-shrink:0;">
+            Ver avisos <svg class="icon icon-sm"><use href="#i-right"/></svg>
+          </span>
+        </div>
+
+        <!-- Tarjeta de Enfoque: Tu Próximo Paso (Next Best Action) -->
+        <div class="card studs next-action-card" style="margin-top:2px;">
+          <div class="next-action-badge">
+            <svg class="icon icon-sm" style="color:var(--accent-gold);"><use href="#i-sparkle"/></svg>
+            <span>TU PRÓXIMO PASO · UNIDAD 2</span>
+            <span class="badge badge-warning xs num" style="margin-left:auto;">⏳ Vence en 5 días (15 Oct)</span>
+          </div>
+          <div class="next-action-body">
+            <div class="next-action-info">
+              <h3 class="next-action-title">Desafío 4: Arquitectura en Capas y DTOs</h3>
+              <p class="muted next-action-sub">Implementá la separación de responsabilidades entre Controladores y Servicios según la rúbrica oficial de la cátedra.</p>
+              <div class="next-action-tags">
+                <span class="badge badge-neutral xs">Dificultad Media</span>
+                <span class="badge badge-neutral xs num">+40 XP</span>
+                <span class="badge badge-neutral xs num">🪙 10 monedas</span>
+                <span class="badge badge-success xs">Obligatorio para P90</span>
               </div>
             </div>
-            <div class="unit-footer">
-              <span class="muted" style="font-size:12px;">${u.challenges || 3} desafíos</span>
-              <button type="button" class="btn btn-primary btn-sm" data-select-unit="${u.num}">
-                ${isLocked ? 'Ver temario' : 'Explorar unidad →'}
+            <div class="next-action-cta">
+              <button class="btn btn-primary" type="button" onclick="alert('Abriendo entorno de código para Desafío 4...')">
+                Continuar desafío <svg class="icon icon-sm"><use href="#i-right"/></svg>
               </button>
             </div>
-          </article>
-        `;
-      }).join('');
-    }
+          </div>
+        </div>
+      </div>
+    </div>
 
-    // Subpanel: desmarcar unidad activa destacada
-    $$('.course-accordion-group').forEach(g => {
-      g.classList.remove('is-current-unit');
-    });
+    <!-- 2. SECCIÓN: INFORMACIÓN GENERAL -->
+    <div class="course-main-section ${mainCourseExpandedSections.has('info') ? 'is-expanded' : ''}" id="main-sec-info" data-main-section="info">
+      <button type="button" class="course-main-section-header" data-main-toggle="info">
+        <div class="section-head-left">
+          <span class="section-chevron-box"><svg class="icon"><use href="#i-chevron"/></svg></span>
+          <div class="section-title-group">
+            <h3 class="section-main-title">Información General</h3>
+            <span class="section-main-sub">Programa analítico, fechas de parciales y régimen de promoción</span>
+          </div>
+        </div>
+        <div class="section-head-right">
+          <span class="badge badge-neutral xs">Reglamento</span>
+        </div>
+      </button>
+
+      <div class="course-main-section-body">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:12px;">
+          <div class="card p-3" style="background:var(--bg-surface-alt); border:1px solid var(--border-subtle); border-radius:var(--radius-control); display:flex; flex-direction:column; gap:6px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:16px;">📋</span>
+              <b style="font-size:13px; color:var(--text-primary);">Programa de la Asignatura</b>
+            </div>
+            <p class="muted" style="font-size:11.5px; margin:0;">Contenidos mínimos, fundamentación y competencias a desarrollar en el trayecto 2026.</p>
+            <button class="btn btn-ghost btn-xs" style="margin-top:auto; align-self:flex-start;" onclick="alert('Descargando programa analítico...')">Descargar programa PDF</button>
+          </div>
+
+          <div class="card p-3" style="background:var(--bg-surface-alt); border:1px solid var(--border-subtle); border-radius:var(--radius-control); display:flex; flex-direction:column; gap:6px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:16px;">🎯</span>
+              <b style="font-size:13px; color:var(--text-primary);">Promoción Directa (P90)</b>
+            </div>
+            <p class="muted" style="font-size:11.5px; margin:0;">Asistencia mínima 75%, 100% de desafíos obligatorios aprobados con calificación ≥ 8.</p>
+            <button class="btn btn-ghost btn-xs" style="margin-top:auto; align-self:flex-start;" onclick="$('#tab-mat-estado')?.click()">Ver mi estado de promoción</button>
+          </div>
+
+          <div class="card p-3" style="background:var(--bg-surface-alt); border:1px solid var(--border-subtle); border-radius:var(--radius-control); display:flex; flex-direction:column; gap:6px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:16px;">📅</span>
+              <b style="font-size:13px; color:var(--text-primary);">Fechas de Parciales</b>
+            </div>
+            <p class="muted" style="font-size:11.5px; margin:0;">1º Parcial: 18 Octubre · 2º Parcial: 28 Noviembre · Recuperatorios: 05 Diciembre.</p>
+            <button class="btn btn-ghost btn-xs" style="margin-top:auto; align-self:flex-start;" onclick="location.hash='#calendario'">Ver en calendario</button>
+          </div>
+
+          <div class="card p-3" style="background:var(--bg-surface-alt); border:1px solid var(--border-subtle); border-radius:var(--radius-control); display:flex; flex-direction:column; gap:6px;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:16px;">📚</span>
+              <b style="font-size:13px; color:var(--text-primary);">Bibliografía Obligatoria</b>
+            </div>
+            <p class="muted" style="font-size:11.5px; margin:0;">Clean Architecture (Robert C. Martin), Refactoring (Martin Fowler) y repositorios oficiales.</p>
+            <button class="btn btn-ghost btn-xs" style="margin-top:auto; align-self:flex-start;" onclick="$('#tab-mat-material')?.click()">Explorar bibliografía</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. SECCIONES: UNIDADES TEMÁTICAS (Unidad 1, Unidad 2, Unidad 3, Unidad 4...) -->
+    ${units.map(u => {
+      const gId = `u-${u.num}`;
+      const isExp = mainCourseExpandedSections.has(gId);
+      const isCur = currentActiveUnit === u.num;
+      const isDone = u.status === 'done';
+      const isLocked = u.status === 'locked';
+      const badgeCls = isDone ? 'badge-success' : isLocked ? 'badge-outline' : 'badge-gold';
+      const badgeTxt = isDone ? 'Completada ✅' : isLocked ? 'Bloqueada 🔒' : 'En curso 🔥';
+
+      // Materiales y desafíos
+      const res = UNIT_RESOURCES[u.num] || {
+        teorico: [
+          { icon: '📄', title: `Material Teórico - Unidad ${u.num}`, type: 'PDF · 2.5 MB' },
+          { icon: '🔗', title: 'Documentación Oficial y Guías', type: 'Enlace web' }
+        ],
+        practico: [
+          { icon: '⚡', title: `Guía de Actividades Prácticas`, tag: 'En clase' },
+          { icon: '✅', title: `Ejercicios Resueltos de Referencia`, tag: 'Disponible' }
+        ]
+      };
+      const unitChallenges = CHALLENGES.filter(ch => (ch.course === c.code || ch.course === c.name) && ch.unit === u.num);
+      const pendingCount = unitChallenges.filter(ch => ch.status !== 'done').length;
+
+      return `
+        <div class="course-main-section ${isExp ? 'is-expanded' : ''} ${isCur ? 'is-current-section' : ''}" id="main-sec-${gId}" data-main-section="${gId}" data-unit-num="${u.num}">
+          <button type="button" class="course-main-section-header" data-main-toggle="${gId}" data-unit-num="${u.num}">
+            <div class="section-head-left">
+              <span class="section-chevron-box"><svg class="icon"><use href="#i-chevron"/></svg></span>
+              <div class="section-title-group">
+                <h3 class="section-main-title">Unidad ${u.num}</h3>
+                <span class="section-main-sub">${u.title.includes(':') ? u.title.split(':')[1].trim() : u.title}</span>
+              </div>
+            </div>
+            <div class="section-head-right">
+              <span class="badge ${badgeCls} xs">${badgeTxt}</span>
+              <div class="bar" style="width:70px; height:6px;" role="progressbar" aria-valuenow="${u.progress}" aria-valuemin="0" aria-valuemax="100">
+                <span style="width:${u.progress}%; ${isDone ? 'background:var(--accent-success-fill);' : ''}"></span>
+              </div>
+              <b class="num" style="font-size:12px; color:var(--accent-gold); min-width:32px; text-align:right;">${u.progress}%</b>
+              <span class="muted" style="font-size:12px; margin-left:4px;">${u.challenges || 2} desafíos</span>
+            </div>
+          </button>
+
+          <div class="course-main-section-body">
+            <p class="muted" style="font-size:13px; margin:0 0 2px;">${u.desc}</p>
+
+            <!-- Tríada de 3 Columnas Limpias -->
+            <div class="unit-triad-grid">
+              
+              <!-- Columna 1: Teórico -->
+              <div class="unit-block-col">
+                <div>
+                  <div class="unit-block-head">
+                    <span class="unit-block-icon" style="background:rgba(59, 130, 246, 0.15); color:#60a5fa;">📘</span>
+                    <div>
+                      <h4 class="unit-block-title">Material Teórico</h4>
+                      <span class="unit-block-sub">Lecturas y diapositivas oficiales</span>
+                    </div>
+                  </div>
+                  <div class="unit-items-list" style="margin-top:12px;">
+                    ${res.teorico.map(it => `
+                      <a href="javascript:void(0)" onclick="alert('Abriendo recurso de cátedra: ${it.title}')" class="unit-subitem-card">
+                        <div style="display:flex; align-items:center; gap:8px; min-width:0;">
+                          <span style="font-size:14px; flex-shrink:0;">${it.icon}</span>
+                          <span style="font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${it.title}</span>
+                        </div>
+                        <span class="muted" style="font-size:11px; white-space:nowrap; flex-shrink:0;">${it.type}</span>
+                      </a>
+                    `).join('')}
+                  </div>
+                </div>
+                <div style="padding-top:10px; border-top:1px solid var(--border-subtle); text-align:center;">
+                  <span class="muted" style="font-size:11.5px;">${res.teorico.length} recursos de cátedra</span>
+                </div>
+              </div>
+
+              <!-- Columna 2: Práctico -->
+              <div class="unit-block-col">
+                <div>
+                  <div class="unit-block-head">
+                    <span class="unit-block-icon" style="background:rgba(245, 158, 11, 0.15); color:#f59e0b;">📝</span>
+                    <div>
+                      <h4 class="unit-block-title">Guías & Casos Prácticos</h4>
+                      <span class="unit-block-sub">Práctica de clase y ejercitación</span>
+                    </div>
+                  </div>
+                  <div class="unit-items-list" style="margin-top:12px;">
+                    ${res.practico.map(it => `
+                      <a href="javascript:void(0)" onclick="alert('Abriendo guía práctica: ${it.title}')" class="unit-subitem-card">
+                        <div style="display:flex; align-items:center; gap:8px; min-width:0;">
+                          <span style="font-size:14px; flex-shrink:0;">${it.icon}</span>
+                          <span style="font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${it.title}</span>
+                        </div>
+                        <span class="badge ${it.tag === 'Disponible' ? 'badge-success' : 'badge-gold'} xs" style="white-space:nowrap; flex-shrink:0;">${it.tag}</span>
+                      </a>
+                    `).join('')}
+                  </div>
+                </div>
+                <div style="padding-top:10px; border-top:1px solid var(--border-subtle); text-align:center;">
+                  <span class="muted" style="font-size:11.5px;">Ejercicios de aplicación guiada</span>
+                </div>
+              </div>
+
+              <!-- Columna 3: Desafíos & Entregas Calificadas -->
+              <div class="unit-block-col highlight-col" style="position:relative; overflow:hidden;">
+                <div style="position:absolute; top:0; right:0; padding:3px 10px; font-size:10px; font-weight:800; background:var(--accent-primary-fill); color:#000; border-bottom-left-radius:var(--radius-control); text-transform:uppercase; letter-spacing:0.04em;">
+                  EVALUATIVO
+                </div>
+                <div>
+                  <div class="unit-block-head">
+                    <span class="unit-block-icon" style="background:rgba(6, 182, 212, 0.15); color:#06b6d4;">🚀</span>
+                    <div>
+                      <h4 class="unit-block-title">Desafíos & Entregas</h4>
+                      <span class="unit-block-sub">Cuentan para P90 y Regularidad</span>
+                    </div>
+                  </div>
+                  <div class="unit-items-list" style="margin-top:12px;">
+                    ${unitChallenges.length ? unitChallenges.map(ch => {
+                      const isChDone = ch.status === 'done';
+                      if (isChDone) {
+                        return `
+                          <div class="unit-delivery-card is-done">
+                            <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:6px;">
+                              <div style="min-width:0;">
+                                <span style="font-size:12.5px; font-weight:700; color:var(--text-primary); display:block; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;" title="${ch.title}">
+                                  ${ch.title}
+                                </span>
+                                <span style="font-size:11px; color:var(--accent-success); font-weight:600;">
+                                  Aprobado 10/10 (+${ch.xp} XP)
+                                </span>
+                              </div>
+                              <span class="badge badge-success xs" style="white-space:nowrap; flex-shrink:0;">Aprobado ✅</span>
+                            </div>
+                          </div>
+                        `;
+                      }
+                      return `
+                        <div class="unit-delivery-card is-urgent">
+                          <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:6px;">
+                            <div style="min-width:0;">
+                              <span style="font-size:12.5px; font-weight:700; color:var(--text-primary); display:block; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;" title="${ch.title}">
+                                ${ch.title}
+                              </span>
+                              <span class="muted" style="font-size:11px; color:var(--urgent); font-weight:600;">
+                                ${ch.due ? `⏳ Vence el ${short(ch.due)}` : 'Sin fecha límite'} ${ch.req ? '· Obligatorio P90' : ''}
+                              </span>
+                            </div>
+                            <span class="badge badge-warning xs" style="white-space:nowrap; flex-shrink:0;">Pendiente</span>
+                          </div>
+                          <button type="button" class="btn btn-primary btn-sm" style="width:100%; justify-content:center; margin-top:2px;" onclick="alert('Abriendo entorno de desarrollo para: ${ch.title}')">
+                            Subir entrega de código →
+                          </button>
+                        </div>
+                      `;
+                    }).join('') : `
+                      <div class="unit-delivery-card is-urgent">
+                        <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:6px;">
+                          <div style="min-width:0;">
+                            <span style="font-size:12.5px; font-weight:700; color:var(--text-primary); display:block;">
+                              Entrega del Trabajo Integrador
+                            </span>
+                            <span class="muted" style="font-size:11px; color:var(--accent-gold); font-weight:600;">
+                              ⏳ Cierre de cursada · Requisito Final
+                            </span>
+                          </div>
+                          <span class="badge badge-warning xs">Pendiente</span>
+                        </div>
+                        <button type="button" class="btn btn-primary btn-sm" style="width:100%; justify-content:center; margin-top:2px;" onclick="alert('Abriendo formulario de entrega del Trabajo Integrador...')">
+                          Subir entrega final →
+                        </button>
+                      </div>
+                    `}
+                  </div>
+                </div>
+                <div style="padding-top:10px; border-top:1px solid var(--border-subtle); text-align:center;">
+                  <span style="font-size:11.5px; font-weight:600; color:${pendingCount === 0 ? 'var(--accent-success)' : 'var(--accent-gold)'};">
+                    ${pendingCount === 0 ? '¡Todas las entregas al día! 🎉' : `${pendingCount} entrega${pendingCount > 1 ? 's' : ''} pendiente${pendingCount > 1 ? 's' : ''}`}
+                  </span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('')}
+  `;
+
+  // Actualizar estado del botón colapsar/expandir todo
+  const toggleAllTxt = $('#txt-toggle-all-sections');
+  if (toggleAllTxt) {
+    toggleAllTxt.textContent = mainCourseExpandedSections.size > 0 ? 'Colapsar todo' : 'Expandir todo';
   }
 }
 
@@ -3390,35 +3396,49 @@ function fillCourseDetail(name, activeUnitNum = null) {
   $$('[data-catalog]').forEach((el, i) => { if (el.hasAttribute('data-locked-course')) catalogInstances[i]?.setCourse(c.code || c.name); });
 }
 
-// Delegación de clics para unidades del curso y navegación secuencial
+// Delegación de clics para el acordeón modular de la materia
 document.addEventListener('click', e => {
-  const gotoOverview = e.target.closest('[data-goto-overview], #btn-all-units, [data-unit-all]');
-  if (gotoOverview) {
-    const courseName = $('[data-course-name]')?.textContent || 'MSI';
-    const c = findCourse(courseName);
-    location.hash = `#curso/${c.code || c.name}?u=all`;
-    return;
-  }
-
-  const navUnitBtn = e.target.closest('[data-nav-unit]');
-  if (navUnitBtn) {
-    const uNum = navUnitBtn.dataset.navUnit;
-    const courseName = $('[data-course-name]')?.textContent || 'MSI';
-    const c = findCourse(courseName);
-    if (uNum) {
-      location.hash = `#curso/${c.code || c.name}?u=${uNum}`;
+  // Toggle individual de sección del curso (General, Info, Unidad X)
+  const toggleBtn = e.target.closest('[data-main-toggle]');
+  if (toggleBtn) {
+    const secId = toggleBtn.dataset.mainToggle;
+    const secEl = toggleBtn.closest('.course-main-section');
+    if (secEl) {
+      const isCurrentlyExp = secEl.classList.contains('is-expanded');
+      if (isCurrentlyExp) {
+        secEl.classList.remove('is-expanded');
+        mainCourseExpandedSections.delete(secId);
+      } else {
+        secEl.classList.add('is-expanded');
+        mainCourseExpandedSections.add(secId);
+      }
+      const toggleAllTxt = $('#txt-toggle-all-sections');
+      if (toggleAllTxt) {
+        toggleAllTxt.textContent = mainCourseExpandedSections.size > 0 ? 'Colapsar todo' : 'Expandir todo';
+      }
     }
     return;
   }
 
-  const unitTarget = e.target.closest('[data-unit-card], [data-select-unit]');
-  if (unitTarget && !e.target.closest('#btn-all-units') && !e.target.closest('[data-goto-overview]')) {
-    const unitNum = unitTarget.dataset.unitCard || unitTarget.dataset.selectUnit;
-    const courseName = $('[data-course-name]')?.textContent || 'MSI';
-    const c = findCourse(courseName);
-    if (unitNum) {
-      location.hash = `#curso/${c.code || c.name}?u=${unitNum}`;
+  // Botón "Colapsar todo" / "Expandir todo"
+  const toggleAllBtn = e.target.closest('#btn-toggle-all-sections');
+  if (toggleAllBtn) {
+    const allSections = $$('.course-main-section');
+    const shouldCollapse = mainCourseExpandedSections.size > 0;
+    if (shouldCollapse) {
+      allSections.forEach(s => s.classList.remove('is-expanded'));
+      mainCourseExpandedSections.clear();
+      const txt = $('#txt-toggle-all-sections');
+      if (txt) txt.textContent = 'Expandir todo';
+    } else {
+      allSections.forEach(s => {
+        s.classList.add('is-expanded');
+        if (s.dataset.mainSection) mainCourseExpandedSections.add(s.dataset.mainSection);
+      });
+      const txt = $('#txt-toggle-all-sections');
+      if (txt) txt.textContent = 'Colapsar todo';
     }
+    return;
   }
 });
 
@@ -5133,10 +5153,17 @@ document.addEventListener('click', e => {
 
     if (toggleBtn.dataset.unitNum) {
       const uNum = Number(toggleBtn.dataset.unitNum);
-      const cleanHash = location.hash.split('?')[0];
-      const cName = cleanHash.startsWith('#curso/') ? cleanHash.split('/')[1] : 'MSI';
-      const cObj = findCourse(cName) || COURSES.MSI;
-      location.hash = `#curso/${cObj.code || cObj.name}?u=${uNum}`;
+      mainCourseExpandedSections.add(`u-${uNum}`);
+      currentActiveUnit = uNum;
+      $('#tab-mat-desafios')?.click();
+      const secEl = $(`#main-sec-u-${uNum}`);
+      if (secEl) {
+        secEl.classList.add('is-expanded');
+        secEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      $$('.course-main-section').forEach(s => {
+        s.classList.toggle('is-current-section', s.id === `main-sec-u-${uNum}`);
+      });
     }
     return;
   }
@@ -5154,20 +5181,31 @@ document.addEventListener('click', e => {
       b.setAttribute('aria-current', isTarget ? 'true' : 'false');
     });
 
-    const cleanHash = location.hash.split('?')[0];
-    const cName = cleanHash.startsWith('#curso/') ? cleanHash.split('/')[1] : 'MSI';
-    const cObj = findCourse(cName) || COURSES.MSI;
-
     if (action === 'avisos') {
       $('#tab-mat-desafios')?.click();
-      location.hash = `#curso/${cObj.code || cObj.name}?u=all`;
-    } else if (action === 'estado') {
-      $('#tab-mat-estado')?.click();
-    } else if (action === 'material' || action === 'desafio') {
+      mainCourseExpandedSections.add('general');
+      const secEl = $('#main-sec-general');
+      if (secEl) {
+        secEl.classList.add('is-expanded');
+        secEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    } else if (action === 'estado' || action === 'material') {
       $('#tab-mat-desafios')?.click();
-      if (itemBtn.dataset.unitNum) {
-        const uNum = Number(itemBtn.dataset.unitNum);
-        location.hash = `#curso/${cObj.code || cObj.name}?u=${uNum}`;
+      mainCourseExpandedSections.add('info');
+      const secEl = $('#main-sec-info');
+      if (secEl) {
+        secEl.classList.add('is-expanded');
+        secEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    } else if (action === 'desafio' && itemBtn.dataset.unitNum) {
+      const uNum = Number(itemBtn.dataset.unitNum);
+      mainCourseExpandedSections.add(`u-${uNum}`);
+      currentActiveUnit = uNum;
+      $('#tab-mat-desafios')?.click();
+      const secEl = $(`#main-sec-u-${uNum}`);
+      if (secEl) {
+        secEl.classList.add('is-expanded');
+        secEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }
     return;
