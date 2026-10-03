@@ -21,7 +21,3 @@ FIRST VIEWPORT: Sidebar shell left. Title + one-line purpose. Risk alert with "V
 FORM: Pinned by user (existing mock world); no concept roll.
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 
-## Login (#login)
-
-Scope: full-screen sign-in outside the app shell. Mode: Operate. Flow: role (alumno/profesor/admin) → email + contraseña → código de 6 dígitos → app with that role.
-Direction: character-select screen. Three pixel characters from the avatar world (headphones with lit cups, mic, hovering drone) on an indigo stage with a perspective floor; the chosen one steps into a spotlight and its drone hovers. Arcade: display font, hard text shadow, stepped hop. Normal: same composition, no floor grid, softer spotlight, Plex.

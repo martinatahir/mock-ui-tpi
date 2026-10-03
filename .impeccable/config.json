@@ -29,6 +29,15 @@
         ],
         "createdAt": "2026-10-01T14:37:50.541Z",
         "reason": "Claude triage: each concept frame clips its own stage decor (perspective floor, NPC, CRT scanlines) on purpose; no menus or popovers live inside"
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "tpi-redesign.html"
+        ],
+        "createdAt": "2026-10-02T18:46:48.896Z",
+        "reason": "Claude triage: arcade headings use Press Start 2P (~1.35x wider than Plex), so --fs-h*-px are numerically smaller by design; rendered hierarchy verified in screenshots (desktop + 390px)"
       }
     ]
   }

@@ -112,103 +112,14 @@
     <button data-font-btn="silkscreen" aria-pressed="false" title="Silkscreen (La anterior, trazo fino)">Silkscreen</button>
   </div>
   <a class="uikit-link" href="font-comparison.html" target="_blank" title="Abrir comparativa lado a lado de tipografías retro">🔍 Comparador</a>
-  <a class="uikit-link" href="#login" title="Ver la pantalla de inicio de sesión">🔑 Login</a>
   <label><input type="checkbox" id="sim-error" /> Simular error</label>
   <a class="uikit-link" href="#uikit" title="Ver catálogo de componentes y tokens de diseño">🎨 UI Kit / Componentes</a>
 </div>
 
-<header class="topbar">
-  <div class="brand-wrap">
-    <div class="brand"><a href="#dashboard" style="text-decoration:none; color:inherit;">🕹️ TPI 2026</a></div>
-  </div>
-
-  <!-- Extremo Derecho: Notificaciones + Perfil de Usuario -->
-  <div class="topbar-actions">
-    <!-- Menú de Notificaciones -->
-    <div class="notif-wrap">
-      <button class="icon-btn notif-btn" id="notif-btn" type="button" aria-expanded="false" aria-controls="notif-menu" aria-label="Notificaciones: 3 nuevas" title="Notificaciones (3 nuevas)">
-        <svg class="icon"><use href="#i-bell"/></svg>
-        <span class="notif-badge" id="notif-badge" aria-hidden="true">3</span>
-      </button>
-      <div class="notif-menu" id="notif-menu" hidden>
-        <div class="notif-head">
-          <h3 style="font-size:13px; font-weight:700; margin:0;">Notificaciones</h3>
-          <span class="badge badge-success sm" id="notif-count-tag">3 nuevas</span>
-        </div>
-        <div class="notif-list" id="notif-list">
-          <a class="notif-item unread" href="#desafios">
-            <span class="notif-icon danger"><svg class="icon icon-sm"><use href="#i-flame"/></svg></span>
-            <div class="notif-body">
-              <div class="notif-title">Desafío obligatorio por vencer</div>
-              <div class="notif-text">MSI: Tipado y protocolos vence este jueves 02/10.</div>
-              <div class="notif-time">Hace 2 horas</div>
-            </div>
-          </a>
-          <a class="notif-item unread" href="#ranking">
-            <span class="notif-icon gold"><svg class="icon icon-sm"><use href="#i-trophy"/></svg></span>
-            <div class="notif-body">
-              <div class="notif-title">¡Subiste en el ranking!</div>
-              <div class="notif-text">Alcanzaste el puesto #4 en la cohorte MSI.</div>
-              <div class="notif-time">Ayer</div>
-            </div>
-          </a>
-          <a class="notif-item unread" href="#encuestas">
-            <span class="notif-icon primary"><svg class="icon icon-sm"><use href="#i-survey"/></svg></span>
-            <div class="notif-body">
-              <div class="notif-title">Encuesta de cátedra abierta</div>
-              <div class="notif-text">Completá la encuesta de medio término de MSI.</div>
-              <div class="notif-time">Hace 2 días</div>
-            </div>
-          </a>
-        </div>
-        <div class="notif-foot">
-          <button type="button" class="btn btn-ghost btn-sm" id="notif-mark-read" style="width:100%; justify-content:center;">Marcar todas como leídas</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Menú de Cuenta y Preferencias -->
-    <div class="account">
-      <button class="me-chip" id="account-btn" type="button" aria-expanded="false" aria-controls="account-menu" aria-haspopup="true">
-        <span class="initials" aria-hidden="true" data-me-initials>MS</span>
-        <span class="me-name"><span data-me-short>Manuel S.</span><span class="me-level" data-me-level>Alumno</span></span>
-        <svg class="icon icon-sm chev" aria-hidden="true"><use href="#i-chevron"/></svg>
-      </button>
-      <div class="account-menu" id="account-menu" hidden>
-        <a class="nav-item" href="#perfil"><svg class="icon"><use href="#i-user"/></svg>Mi perfil</a>
-        <a class="nav-item" href="#personaje" data-alumno-only><svg class="icon"><use href="#i-shirt"/></svg>Mi personaje</a>
-        <a class="nav-item" href="#inventario" data-alumno-only><svg class="icon"><use href="#i-backpack"/></svg>Inventario</a>
-        <a class="nav-item" href="#encuestas"><svg class="icon"><use href="#i-survey"/></svg>Encuestas <span class="badge badge-secondary sm" style="margin-left:auto">1</span></a>
-        <a class="nav-item" href="#banco"><svg class="icon"><use href="#i-coin"/></svg>Banco (Monedas & Aranceles)</a>
-        <hr />
-        <div class="menu-pref-title">Apariencia</div>
-        <div class="menu-pref-row">
-          <div class="seg sm" role="group" aria-label="Estilo">
-            <button data-skin-btn="gamer" aria-pressed="true">Arcade</button>
-            <button data-skin-btn="sobrio" aria-pressed="false">Normal</button>
-          </div>
-          <div class="seg sm" role="group" aria-label="Tema">
-            <button data-theme-btn="dark" aria-pressed="true">Oscuro</button>
-            <button data-theme-btn="light" aria-pressed="false">Claro</button>
-          </div>
-        </div>
-        <div class="menu-pref-title">Paleta Arcade</div>
-        <div class="menu-pref-row">
-          <div class="seg sm" role="group" aria-label="Paleta Arcade">
-            <button data-palette-btn="electric" aria-pressed="true">⚡ Cian</button>
-            <button data-palette-btn="neon" aria-pressed="false">🌸 Magenta</button>
-          </div>
-        </div>
-        <hr />
-        <a class="nav-item danger" href="#login"><svg class="icon"><use href="#i-logout"/></svg>Cerrar sesión</a>
-      </div>
-    </div>
-  </div>
-</header>
-
 <div class="shell subpanel-collapsed">
   <!-- Rail / Icon Dock Lateral Fijo (64px) -->
   <nav class="sidebar" id="sidebar" aria-label="Navegación principal">
+    <a class="sidebar-brand" href="#dashboard" aria-label="TUP, ir al inicio">TUP</a>
     <div class="sidebar-nav" id="sidebar-nav"></div>
     <div class="sidebar-footer">
       <div class="sidebar-secondary-nav" id="sidebar-secondary-nav"></div>
@@ -232,6 +143,96 @@
       </div>
     </div>
   </aside>
+
+  <div class="shell-col">
+  <header class="topbar">
+    <div class="brand-wrap">
+      <div class="brand"><a href="#dashboard" style="text-decoration:none; color:inherit;">🕹️ TUP</a></div>
+    </div>
+
+    <!-- Extremo Derecho: Notificaciones + Perfil de Usuario -->
+    <div class="topbar-actions">
+      <!-- Menú de Notificaciones -->
+      <div class="notif-wrap">
+        <button class="icon-btn notif-btn" id="notif-btn" type="button" aria-expanded="false" aria-controls="notif-menu" aria-label="Notificaciones: 3 nuevas" title="Notificaciones (3 nuevas)">
+          <svg class="icon"><use href="#i-bell"/></svg>
+          <span class="notif-badge" id="notif-badge" aria-hidden="true">3</span>
+        </button>
+        <div class="notif-menu" id="notif-menu" hidden>
+          <div class="notif-head">
+            <h3 style="font-size:var(--fs-small); font-weight:700; margin:0;">Notificaciones</h3>
+            <span class="badge badge-success sm" id="notif-count-tag">3 nuevas</span>
+          </div>
+          <div class="notif-list" id="notif-list">
+            <a class="notif-item unread" href="#desafios">
+              <span class="notif-icon danger"><svg class="icon icon-sm"><use href="#i-flame"/></svg></span>
+              <div class="notif-body">
+                <div class="notif-title">Desafío obligatorio por vencer</div>
+                <div class="notif-text">MSI: Tipado y protocolos vence este jueves 02/10.</div>
+                <div class="notif-time">Hace 2 horas</div>
+              </div>
+            </a>
+            <a class="notif-item unread" href="#ranking">
+              <span class="notif-icon gold"><svg class="icon icon-sm"><use href="#i-trophy"/></svg></span>
+              <div class="notif-body">
+                <div class="notif-title">¡Subiste en el ranking!</div>
+                <div class="notif-text">Alcanzaste el puesto #4 en la cohorte MSI.</div>
+                <div class="notif-time">Ayer</div>
+              </div>
+            </a>
+            <a class="notif-item unread" href="#encuestas">
+              <span class="notif-icon primary"><svg class="icon icon-sm"><use href="#i-survey"/></svg></span>
+              <div class="notif-body">
+                <div class="notif-title">Encuesta de cátedra abierta</div>
+                <div class="notif-text">Completá la encuesta de medio término de MSI.</div>
+                <div class="notif-time">Hace 2 días</div>
+              </div>
+            </a>
+          </div>
+          <div class="notif-foot">
+            <button type="button" class="btn btn-ghost btn-sm" id="notif-mark-read" style="width:100%; justify-content:center;">Marcar todas como leídas</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Menú de Cuenta y Preferencias -->
+      <div class="account">
+        <button class="me-chip" id="account-btn" type="button" aria-expanded="false" aria-controls="account-menu" aria-haspopup="true">
+          <span class="initials" aria-hidden="true" data-me-initials>MS</span>
+          <span class="me-name"><span data-me-short>Manuel S.</span><span class="me-level" data-me-level>Alumno</span></span>
+          <svg class="icon icon-sm chev" aria-hidden="true"><use href="#i-chevron"/></svg>
+        </button>
+        <div class="account-menu" id="account-menu" hidden>
+          <a class="nav-item" href="#perfil"><svg class="icon"><use href="#i-user"/></svg>Mi perfil</a>
+          <a class="nav-item" href="#personaje" data-alumno-only><svg class="icon"><use href="#i-shirt"/></svg>Mi personaje</a>
+          <a class="nav-item" href="#inventario" data-alumno-only><svg class="icon"><use href="#i-backpack"/></svg>Inventario</a>
+          <a class="nav-item" href="#encuestas"><svg class="icon"><use href="#i-survey"/></svg>Encuestas <span class="badge badge-secondary sm" style="margin-left:auto">1</span></a>
+          <a class="nav-item" href="#banco"><svg class="icon"><use href="#i-coin"/></svg>Banco (Monedas & Aranceles)</a>
+          <hr />
+          <div class="menu-pref-title">Apariencia</div>
+          <div class="menu-pref-row">
+            <div class="seg sm" role="group" aria-label="Estilo">
+              <button data-skin-btn="gamer" aria-pressed="true">Arcade</button>
+              <button data-skin-btn="sobrio" aria-pressed="false">Normal</button>
+            </div>
+            <div class="seg sm" role="group" aria-label="Tema">
+              <button data-theme-btn="dark" aria-pressed="true">Oscuro</button>
+              <button data-theme-btn="light" aria-pressed="false">Claro</button>
+            </div>
+          </div>
+          <div class="menu-pref-title">Paleta Arcade</div>
+          <div class="menu-pref-row">
+            <div class="seg sm" role="group" aria-label="Paleta Arcade">
+              <button data-palette-btn="electric" aria-pressed="true">⚡ Cian</button>
+              <button data-palette-btn="neon" aria-pressed="false">🌸 Magenta</button>
+            </div>
+          </div>
+          <hr />
+          <button class="nav-item danger" type="button"><svg class="icon"><use href="#i-logout"/></svg>Cerrar sesión</button>
+        </div>
+      </div>
+    </div>
+  </header>
 
   <main class="content" id="main">
 
@@ -355,7 +356,7 @@
         </fieldset>
         <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
           <button class="btn btn-primary" id="quiz-submit" type="button" disabled>Entregar</button>
-          <span class="muted" style="font-size:13px" id="quiz-hint">Respondé todas las preguntas para poder entregar. Se guarda solo mientras avanzás.</span>
+          <span class="muted" style="font-size:var(--fs-small)" id="quiz-hint">Respondé todas las preguntas para poder entregar. Se guarda solo mientras avanzás.</span>
         </div>
       </form>
     </section>
@@ -382,7 +383,7 @@
 
       <div class="data">
         <div class="section-head" style="margin-bottom:12px;">
-          <h2 style="font-size:16px;">Vista general de curso</h2>
+          <h2 style="font-size:var(--fs-lead);">Vista general de curso</h2>
         </div>
 
         <div class="courses-toolbar">
@@ -436,7 +437,7 @@
         <div class="section-head" style="margin-top:20px; align-items:center;">
           <div>
             <h2 id="course-units-heading">Unidades de Aprendizaje</h2>
-            <p class="muted" style="font-size:13px; margin:2px 0 0;">Seleccioná una unidad temática para explorar sus contenidos y filtrar desafíos específicos.</p>
+            <p class="muted" style="font-size:var(--fs-small); margin:2px 0 0;">Seleccioná una unidad temática para explorar sus contenidos y filtrar desafíos específicos.</p>
           </div>
           <div class="quick-links">
             <button type="button" class="btn btn-ghost btn-sm active" id="btn-all-units" data-unit-all>
@@ -450,7 +451,7 @@
         <div class="section-head" style="margin-top:28px;">
           <div>
             <h2 id="challenges-section-title">Desafíos del curso</h2>
-            <span class="muted" style="font-size:13px;" id="unit-active-filter-label">Mostrando todas las unidades</span>
+            <span class="muted" style="font-size:var(--fs-small);" id="unit-active-filter-label">Mostrando todas las unidades</span>
           </div>
         </div>
         <div data-challenge-list data-locked-course></div>
@@ -472,7 +473,7 @@
             <a class="btn btn-ghost btn-sm" href="#personaje"><svg class="icon icon-sm"><use href="#i-shirt"/></svg>Cambiar color</a>
           </div>
           <div class="card studs">
-            <div class="section-head" style="margin-bottom:16px"><h2>Ítems equipados</h2><span class="muted" style="font-size:13px">3 ranuras por tipo de desafío</span></div>
+            <div class="section-head" style="margin-bottom:16px"><h2>Ítems equipados</h2><span class="muted" style="font-size:var(--fs-small)">3 ranuras por tipo de desafío</span></div>
             <div id="inv-slots"></div>
             <div class="section" style="margin-top:24px">
               <div class="section-head"><h2>Disponibles</h2></div>
@@ -530,7 +531,7 @@
         <aside class="avatar-preview" aria-label="Vista previa">
           <div class="stage" id="avatar-stage"><span class="stage-note">Arrastrá para rotar · rueda para zoom</span></div>
           <div class="save-state" id="avatar-save" role="status"><svg class="icon icon-sm"><use href="#i-tick"/></svg>Guardado</div>
-          <p class="muted" style="font-size:12px; margin-top:6px">En la app real acá va el visor 3D existente; el mock dibuja una versión pixel que reacciona a los colores.</p>
+          <p class="muted" style="font-size:var(--fs-micro); margin-top:6px">En la app real acá va el visor 3D existente; el mock dibuja una versión pixel que reacciona a los colores.</p>
         </aside>
       </form>
     </section>
@@ -543,7 +544,7 @@
           <p>Canjeá tus monedas acumuladas en desafíos por potenciadores de cursada y cosméticos.</p>
         </div>
         <div class="head-tools">
-          <a class="hud-item coins" href="#banco" title="Ver saldo e historial en el Banco" style="font-size:14px; font-weight:700; text-decoration:none;"><svg class="icon"><use href="#i-coin"/></svg> <span class="num">120 monedas en banco</span></a>
+          <a class="hud-item coins" href="#banco" title="Ver saldo e historial en el Banco" style="font-size:var(--fs-ui); font-weight:700; text-decoration:none;"><svg class="icon"><use href="#i-coin"/></svg> <span class="num">120 monedas en banco</span></a>
         </div>
       </div>
       <div class="data">
@@ -621,11 +622,11 @@
           <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px;">
             <div>
               <span class="badge badge-primary sm" style="margin-bottom:6px">Activa · Obligatoria</span>
-              <h2 style="font-size:16px; margin:0 0 4px;">Encuesta de Medio Término · MSI 2026</h2>
-              <p class="muted" style="font-size:13px; margin:0;">Prof. Gabriel E. · Cierre: Viernes 10/10 · Duración estimada: 2 min</p>
+              <h2 style="font-size:var(--fs-lead); margin:0 0 4px;">Encuesta de Medio Término · MSI 2026</h2>
+              <p class="muted" style="font-size:var(--fs-small); margin:0;">Prof. Gabriel E. · Cierre: Viernes 10/10 · Duración estimada: 2 min</p>
             </div>
           </div>
-          <p style="font-size:13.5px; line-height:1.45; margin:0;">
+          <p style="font-size:var(--fs-small); line-height:1.45; margin:0;">
             Queremos conocer tu experiencia con los laboratorios prácticos y la claridad de las consignas de tipado. Tus respuestas son completamente anónimas.
           </p>
           <div>
@@ -665,7 +666,7 @@
           </div>
           <div class="stat-item">
             <span class="stat-label">Estado de matrícula</span>
-            <span class="stat-value" style="color:var(--accent-success-fill); font-size:15px; font-weight:700;">Al día ✅</span>
+            <span class="stat-value" style="color:var(--accent-success-fill); font-size:var(--fs-body); font-weight:700;">Al día ✅</span>
           </div>
         </div>
 
@@ -674,7 +675,7 @@
           <div class="section-head">
             <div>
               <h2>Bóveda de Monedas</h2>
-              <span class="muted" style="font-size:13px;">Las monedas acumuladas en cualquier curso se depositan en tu banco para usar en el Marketplace.</span>
+              <span class="muted" style="font-size:var(--fs-small);">Las monedas acumuladas en cualquier curso se depositan en tu banco para usar en el Marketplace.</span>
             </div>
             <a class="btn btn-secondary btn-sm" href="#marketplace"><svg class="icon icon-sm"><use href="#i-bag"/></svg>Ir al Marketplace</a>
           </div>
@@ -733,7 +734,7 @@
           <div class="section-head">
             <div>
               <h2>Aranceles Académicos & Cuotas</h2>
-              <span class="muted" style="font-size:13px;">Próximo vencimiento: <b>10/11/2026</b> · Beca / Descuento: <b>0%</b></span>
+              <span class="muted" style="font-size:var(--fs-small);">Próximo vencimiento: <b>10/11/2026</b> · Beca / Descuento: <b>0%</b></span>
             </div>
           </div>
           <div class="table-wrap">
@@ -759,7 +760,7 @@
         <div class="card studs alert-card rank-you" id="rank-you"></div>
         <div class="table-wrap" data-view-target="ranking"><table class="data" id="rank-table"></table></div>
         <div class="pager" id="rank-pager"></div>
-        <p class="muted" style="font-size:13px; margin-top:10px">Percentil: P92 significa que tu XP supera al 92% de la cohorte. Zona de promoción: P90 o más.</p>
+        <p class="muted" style="font-size:var(--fs-small); margin-top:10px">Percentil: P92 significa que tu XP supera al 92% de la cohorte. Zona de promoción: P90 o más.</p>
       </div>
     </section>
 
@@ -868,7 +869,7 @@
                 <ul class="people" id="next-due"></ul>
               </section>
               <section class="card studs" aria-labelledby="h-vitrina">
-                <div class="link-row"><div><h2 id="h-vitrina" style="font-size:16px">Vitrina</h2><p class="muted" style="font-size:13px">Cómo se presenta esta cohorte.</p></div><button class="btn btn-ghost btn-sm" type="button">Gestionar vitrina</button></div>
+                <div class="link-row"><div><h2 id="h-vitrina" style="font-size:var(--fs-lead)">Vitrina</h2><p class="muted" style="font-size:var(--fs-small)">Cómo se presenta esta cohorte.</p></div><button class="btn btn-ghost btn-sm" type="button">Gestionar vitrina</button></div>
               </section>
             </div>
           </div>
@@ -888,7 +889,7 @@
             </div>
           </div>
           <div data-subpanel="k-secciones" data-group="contenido">
-            <p class="muted" style="font-size:13px; margin-bottom:10px">Los alumnos ven las secciones visibles en este orden. Las dadas de baja no aparecen.</p>
+            <p class="muted" style="font-size:var(--fs-small); margin-bottom:10px">Los alumnos ven las secciones visibles en este orden. Las dadas de baja no aparecen.</p>
             <ol class="sec-list" id="sec-list" data-view-target="secciones"></ol>
           </div>
           <div data-subpanel="k-desafios" data-group="contenido" hidden>
@@ -917,7 +918,7 @@
             <div class="pager" id="roster-pager"></div>
           </div>
           <div data-subpanel="a-solicitudes" data-group="alumnos" hidden>
-            <p class="muted" style="font-size:13px; margin-bottom:10px">Pedidos de inscripción hechos con el código de invitación.</p>
+            <p class="muted" style="font-size:var(--fs-small); margin-bottom:10px">Pedidos de inscripción hechos con el código de invitación.</p>
             <ul class="list" id="enroll-list"></ul>
           </div>
           <div data-subpanel="a-asistencias" data-group="alumnos" hidden>
@@ -941,7 +942,7 @@
             <div class="link-row" style="align-items:flex-start">
               <div>
                 <h2 class="act-title"><svg class="icon" aria-hidden="true" style="color:var(--good)"><use href="#i-check"/></svg>Cohorte activa</h2>
-                <p class="muted" style="font-size:14px; margin-top:4px">El código de invitación está habilitado y la cursada está disponible para los alumnos.</p>
+                <p class="muted" style="font-size:var(--fs-ui); margin-top:4px">El código de invitación está habilitado y la cursada está disponible para los alumnos.</p>
               </div>
             </div>
             <details class="act-reqs">
@@ -1115,7 +1116,7 @@
           <div style="display:flex; gap:10px; margin-top:18px; align-items:center">
             <button class="btn btn-primary" id="nb-create" type="submit" disabled>Crear insignia</button>
             <button class="btn btn-quiet" type="button" id="nb-cancel">Cancelar</button>
-            <span class="muted" style="font-size:13px" id="nb-hint">Completá nombre, ícono y criterio.</span>
+            <span class="muted" style="font-size:var(--fs-small)" id="nb-hint">Completá nombre, ícono y criterio.</span>
           </div>
         </form>
         <div class="badge-grid" id="badge-grid" data-view-target="insignias"></div>
@@ -1206,7 +1207,7 @@
 
       <!-- Barra de control de pruebas en el UI Kit -->
       <div class="card studs" style="display:flex; flex-wrap:wrap; gap:20px; align-items:center; margin-bottom:24px; padding:14px 18px; background:var(--bg-surface-alt);">
-        <span style="font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:.05em;">Probar variante aquí:</span>
+        <span style="font-weight:700; font-size:var(--fs-small); text-transform:uppercase; letter-spacing:.05em;">Probar variante aquí:</span>
         <div style="display:flex; align-items:center; gap:8px;">
           <span class="meta" style="font-weight:600;">Tema:</span>
           <div class="seg" role="group" aria-label="Tema">
@@ -1287,7 +1288,7 @@
         <h2>3. Escala y Variantes de Botones (.btn)</h2>
         <p class="hint" style="margin-bottom:14px;">Escala fija y predecible: <b>.btn-lg (44px)</b> para acciones heroicas o modales principales, <b>.btn (38px)</b> estándar de sistema, y <b>.btn-sm (32px)</b> para tablas y filtros.</p>
         
-        <div style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); margin-bottom:8px;">Escala de tamaños:</div>
+        <div style="font-size:var(--fs-micro); font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); margin-bottom:8px;">Escala de tamaños:</div>
         <div class="uikit-row" style="align-items:center;">
           <button class="btn btn-primary btn-lg" type="button"><svg class="icon"><use href="#i-plus"/></svg>Grande (.btn-lg · 44px)</button>
           <button class="btn btn-primary" type="button"><svg class="icon icon-sm"><use href="#i-check"/></svg>Estándar (.btn · 38px)</button>
@@ -1297,7 +1298,7 @@
           <button class="btn btn-ghost btn-icon btn-sm" type="button" title="Icono 32px"><svg class="icon icon-sm"><use href="#i-trash"/></svg></button>
         </div>
 
-        <div style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); margin:16px 0 8px;">Variantes semánticas:</div>
+        <div style="font-size:var(--fs-micro); font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); margin:16px 0 8px;">Variantes semánticas:</div>
         <div class="uikit-row">
           <button class="btn btn-primary" type="button">Primario</button>
           <button class="btn btn-secondary" type="button">Secundario</button>
@@ -1308,7 +1309,7 @@
           <button class="linkbtn" type="button">Enlace (.linkbtn)</button>
         </div>
 
-        <div style="font-size:12px; font-weight:700; color:var(--text-muted); margin:16px 0 8px;">Estados bloqueados y deshabilitados:</div>
+        <div style="font-size:var(--fs-micro); font-weight:700; color:var(--text-muted); margin:16px 0 8px;">Estados bloqueados y deshabilitados:</div>
         <div class="uikit-row">
           <button class="btn btn-primary" type="button" disabled>Acción deshabilitada</button>
           <button class="btn btn-secondary" type="button" disabled>Secundario deshabilitado</button>
@@ -1530,115 +1531,12 @@
       </button>
     </div>
   </main>
+  </div>
 </div>
 
 <!-- ================= Navegación Móvil Inferior (Bottom Bar) ================= -->
 <nav class="bottom-nav" id="bottom-nav" aria-label="Navegación móvil"></nav>
 
-
-<!-- ================= LOGIN (pantalla completa, sin topbar ni rail) ================= -->
-<section class="auth" id="login" hidden aria-labelledby="h-login">
-  <div class="auth-stage">
-    <div class="auth-floor" aria-hidden="true"></div>
-    <div class="auth-brand">
-      <span class="auth-logo">TPI 2026</span>
-      <span class="auth-sub">Programación IV · UTN FRC</span>
-    </div>
-    <div class="auth-prompt">
-      <h1 id="h-login">Elegí tu rol</h1>
-      <p>Cada rol entra a su parte de la plataforma.</p>
-    </div>
-    <fieldset class="roster" id="roster">
-      <legend class="sr-only">Rol con el que vas a entrar</legend>
-      <label class="hero-pick" data-hero="alumno">
-        <input type="radio" name="login-role" value="alumno" checked />
-        <span class="hero-card">
-          <span class="hero-spot" aria-hidden="true"></span>
-          <span class="hero-drone" aria-hidden="true"></span>
-          <span class="hero-sprite" aria-hidden="true"></span>
-          <span class="hero-shadow" aria-hidden="true"></span>
-          <span class="hero-plate"><b>Alumno</b><small>Desafíos, ranking y tu personaje</small></span>
-        </span>
-      </label>
-      <label class="hero-pick" data-hero="profesor">
-        <input type="radio" name="login-role" value="profesor" />
-        <span class="hero-card">
-          <span class="hero-spot" aria-hidden="true"></span>
-          <span class="hero-drone" aria-hidden="true"></span>
-          <span class="hero-sprite" aria-hidden="true"></span>
-          <span class="hero-shadow" aria-hidden="true"></span>
-          <span class="hero-plate"><b>Profesor</b><small>Cohortes, contenidos y seguimiento</small></span>
-        </span>
-      </label>
-      <label class="hero-pick" data-hero="admin">
-        <input type="radio" name="login-role" value="admin" />
-        <span class="hero-card">
-          <span class="hero-spot" aria-hidden="true"></span>
-          <span class="hero-drone" aria-hidden="true"></span>
-          <span class="hero-sprite" aria-hidden="true"></span>
-          <span class="hero-shadow" aria-hidden="true"></span>
-          <span class="hero-plate"><b>Admin</b><small>Accesos y configuración</small></span>
-        </span>
-      </label>
-    </fieldset>
-  </div>
-
-  <div class="auth-panel">
-    <div class="auth-prefs">
-      <div class="seg sm" role="group" aria-label="Estilo">
-        <button data-skin-btn="gamer" aria-pressed="true">Arcade</button>
-        <button data-skin-btn="sobrio" aria-pressed="false">Normal</button>
-      </div>
-      <div class="seg sm" role="group" aria-label="Tema">
-        <button data-theme-btn="dark" aria-pressed="true" aria-label="Tema oscuro"><svg class="icon icon-sm"><use href="#i-moon"/></svg></button>
-        <button data-theme-btn="light" aria-pressed="false" aria-label="Tema claro"><svg class="icon icon-sm"><use href="#i-sun"/></svg></button>
-      </div>
-    </div>
-
-    <!-- Paso 1: credenciales -->
-    <form class="auth-step" id="login-form" novalidate data-step="1">
-      <h2 class="auth-title" id="login-title">Entrar como alumno</h2>
-      <p class="auth-lead">Usá tu email institucional y tu contraseña.</p>
-      <label class="field">Email institucional
-        <input class="control" type="email" name="email" id="login-email" autocomplete="username" placeholder="nombre.apellido@frc.utn.edu.ar" aria-describedby="login-email-msg" />
-        <span class="hint" id="login-email-msg"></span>
-      </label>
-      <div class="field">
-        <span class="field-row"><label for="login-pass">Contraseña</label><a class="auth-link" href="#login" data-forgot>¿Olvidaste tu contraseña?</a></span>
-        <span class="pass-wrap">
-          <input class="control" type="password" name="password" id="login-pass" autocomplete="current-password" aria-describedby="login-pass-msg" />
-          <button class="pass-toggle" type="button" id="pass-toggle" aria-label="Mostrar contraseña" aria-pressed="false"><svg class="icon icon-sm"><use href="#i-eye"/></svg></button>
-        </span>
-        <span class="hint" id="login-pass-msg"></span>
-      </div>
-      <p class="auth-notice" id="forgot-msg" role="status" hidden>Si el email está registrado, te va a llegar un link para elegir una contraseña nueva.</p>
-      <button class="btn btn-primary btn-block auth-cta" type="submit"><span>Entrar</span><svg class="icon icon-sm"><use href="#i-right"/></svg></button>
-    </form>
-
-    <!-- Paso 2: código de verificación -->
-    <form class="auth-step" id="otp-form" novalidate data-step="2" hidden>
-      <h2 class="auth-title">Verificá que sos vos</h2>
-      <p class="auth-lead">Te mandamos un código de 6 dígitos a <b id="otp-email">m•••••@frc.utn.edu.ar</b>. Vence en 10 minutos.</p>
-      <fieldset class="otp" id="otp" aria-describedby="otp-msg">
-        <legend class="sr-only">Código de verificación</legend>
-      </fieldset>
-      <p class="hint" id="otp-msg" role="status"></p>
-      <button class="btn btn-primary btn-block auth-cta" type="submit" id="otp-submit" disabled><span>Verificar y entrar</span><svg class="icon icon-sm"><use href="#i-tick"/></svg></button>
-      <div class="otp-foot">
-        <button class="auth-link" type="button" id="otp-resend" disabled>Reenviar código en 0:30</button>
-        <button class="auth-link" type="button" id="otp-back">Usar otra cuenta</button>
-      </div>
-    </form>
-
-    <!-- Paso 3: entrando -->
-    <div class="auth-step auth-done" data-step="3" hidden role="status">
-      <h2 class="auth-title"><svg class="icon" aria-hidden="true"><use href="#i-tick"/></svg>¡Adentro!</h2>
-      <p class="auth-lead" id="done-msg">Cargando tu partida…</p>
-    </div>
-
-    <p class="auth-foot">¿Problemas para entrar? Escribile a la cátedra desde el campus.</p>
-  </div>
-</section>
 
 <!-- ================= Drawer: crear desafío ================= -->
 <dialog class="drawer" id="drawer-desafio" aria-labelledby="h-dd">
@@ -2493,7 +2391,7 @@ function renderCohorts() {
         <dt>${icon('i-user', 'icon icon-sm')}Docentes</dt><dd>${c.teacher}</dd>
       </dl>
       <div class="course-foot">
-        ${c.readOnly ? `<span class="muted" style="font-size:13px; display:inline-flex; gap:6px; align-items:center">${icon('i-lock', 'icon icon-sm')}Solo lectura</span>` : '<span></span>'}
+        ${c.readOnly ? `<span class="muted" style="font-size:var(--fs-small); display:inline-flex; gap:6px; align-items:center">${icon('i-lock', 'icon icon-sm')}Solo lectura</span>` : '<span></span>'}
         <a class="btn btn-secondary" href="#curso/${c.code || c.name}">Ver curso<svg class="icon icon-sm"><use href="#i-right"/></svg></a>
       </div>
     </article>`).join('') : `<div class="empty">${icon('i-book')}<p>No hay cohortes en este estado.</p></div>`;
@@ -2554,7 +2452,7 @@ function renderCourseUnits(c, activeUnitNum = null) {
           </div>
         </div>
         <div class="unit-footer">
-          <span class="muted" style="font-size:12px;">${u.challenges || 3} desafíos</span>
+          <span class="muted" style="font-size:var(--fs-micro);">${u.challenges || 3} desafíos</span>
           <button type="button" class="btn ${isActive ? 'btn-primary' : 'btn-ghost'} btn-sm" data-select-unit="${u.num}">
             ${isActive ? 'Activa' : isLocked ? 'Ver temario' : 'Ver desafíos'}
           </button>
@@ -2573,7 +2471,7 @@ function fillCourseDetail(name, activeUnitNum = null) {
   $$('[data-course-stats]').forEach(el => el.innerHTML = c.level ? `
     <div><div class="k">Nivel en ${c.name}</div><div class="v num" style="color:var(--accent-gold);">Nivel ${c.level}</div></div>
     <div><div class="k">XP del curso</div><div class="v num">${c.xp}/${c.xpMax} XP</div></div>
-    <div><div class="k">Vidas del curso</div><div class="v heart">${hearts(c.lives)} <span class="num" style="font-size:14px; margin-left:4px;">${c.lives}/3</span></div></div>
+    <div><div class="k">Vidas del curso</div><div class="v heart">${hearts(c.lives)} <span class="num" style="font-size:var(--fs-ui); margin-left:4px;">${c.lives}/3</span></div></div>
     <div><div class="k">Obligatorios pendientes</div><div class="v num" style="${c.pending ? 'color:var(--urgent)' : ''}">${c.pending}</div></div>` : '');
   
   renderCourseUnits(c, activeUnitNum);
@@ -2729,7 +2627,7 @@ function renderInventory() {
   const c = COURSES[invCourse] || COURSES.MSI;
   $('#inv-tabs').innerHTML = Object.entries(COURSES).map(([k, course]) => `<button class="tab" role="tab" aria-selected="${k === invCourse}" data-inv="${k}">${course.name}</button>`).join('');
   $('#inv-stats').innerHTML = `
-    <div><div class="k">${icon('i-heart', 'icon icon-sm')}Vidas en ${c.name}</div><div class="v heart">${hearts(c.lives)} <span class="num" style="font-size:14px; margin-left:4px">${c.lives}/3</span></div></div>
+    <div><div class="k">${icon('i-heart', 'icon icon-sm')}Vidas en ${c.name}</div><div class="v heart">${hearts(c.lives)} <span class="num" style="font-size:var(--fs-ui); margin-left:4px">${c.lives}/3</span></div></div>
     <div><div class="k">${icon('i-star', 'icon icon-sm')}Nivel en ${c.name}</div><div class="v num" style="color:var(--accent-gold);">Nivel ${c.level}</div></div>
     <div style="flex-basis:260px"><div class="k">XP hacia el nivel ${c.level + 1}</div><div class="progress-line" style="margin-top:8px"><div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="${c.xpMax}" aria-valuenow="${c.xp}" aria-label="XP"><span style="width:${c.xp / c.xpMax * 100}%"></span></div><span class="num">${c.xp}/${c.xpMax}</span></div></div>`;
   const pc = avatarState.pack;
@@ -2834,7 +2732,7 @@ function renderRanking() {
     <div><div class="alert-title" style="color:var(--urgent); display:flex; gap:8px; align-items:center">${icon('i-alert', 'icon icon-sm')}Estás en zona de riesgo</div>
       <div class="alert-body">Tenés 2 obligatorios sin cerrar en MSI: tu regularidad está en juego.</div>
       <div class="quick-links" style="margin-top:10px"><a class="btn btn-secondary btn-sm" href="#curso/MSI">Ver qué me falta</a><button class="btn btn-ghost btn-sm" type="button" data-rank-me>Ir a mi posición</button></div></div>
-    <div class="rank-pct"><span class="muted" style="font-size:13px">Percentil</span><b class="num">P${RANK[meIdx][2]}</b><span class="muted xp-text">${RANK[meIdx][0]} XP · Nivel ${RANK[meIdx][1]}</span></div>`;
+    <div class="rank-pct"><span class="muted" style="font-size:var(--fs-small)">Percentil</span><b class="num">P${RANK[meIdx][2]}</b><span class="muted xp-text">${RANK[meIdx][0]} XP · Nivel ${RANK[meIdx][1]}</span></div>`;
   let body = '', prevZone = null;
   const start = rankPage * RANK_SIZE;
   RANK.slice(start, start + RANK_SIZE).forEach(([xp, lvl, pct], j) => {
@@ -3788,11 +3686,6 @@ function route() {
   const fullHash = location.hash.slice(1) || defaultScreen;
   const [routePath, queryString] = fullHash.split('?');
   const [id, arg] = routePath.split('/');
-  // Login lives outside the app shell.
-  const auth = id === 'login';
-  document.body.classList.toggle('auth-mode', auth);
-  $('#login').hidden = !auth;
-  if (auth) { openLogin(); window.scrollTo(0, 0); return; }
   currentScreen = id;
   const navId = PARENT[id] || id;
 
@@ -3976,8 +3869,8 @@ function setRole(r) {
   currentRole = r; root.dataset.role = r; store.set('tpi-role', r);
   $$('[data-role-btn]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.roleBtn === r)));
   renderNav(); renderProfile();
-  const allowed = [...NAV_TABS[r].map(i => i[0]), ...ACCOUNT_SCREENS[r], 'uikit', 'login'];
-  // Check the screen in the URL, not the boot default, so deep links like #login survive.
+  const allowed = [...NAV_TABS[r].map(i => i[0]), ...ACCOUNT_SCREENS[r], 'uikit'];
+  // Check the screen in the URL, not the boot default, so deep links survive a role reset.
   const screen = location.hash.slice(1).split(/[/?]/)[0] || currentScreen;
   const target = PARENT[screen] || screen;
   if (!allowed.includes(target)) location.hash = allowed.includes('desafios') ? 'desafios' : 'perfil';
@@ -4058,164 +3951,6 @@ window.addEventListener('keydown', e => {
     }
   }
 });
-
-/* ======================= login ======================= */
-/* Three role characters from the avatar world: chibi body, headphones with lit cups, a mic and a drone. */
-const HERO_ROWS = [
-  '....bbbbbbbb....',
-  '...bhhhhhhhhb...',
-  '..bhhhhhhhhhhb..',
-  '..bhhhhhhhhhhb..',
-  '.cchhssssssshcc.',
-  '.ccsssssssssscc.',
-  '.ccseessseesscc.',
-  '.ccsssssssssscc.',
-  '..kssssmmsssss..',
-  '..kKsssssssss...',
-  '....ssssssss....',
-  '...tttttttttt...',
-  '..tttttttttttt..',
-  '.sttttrrtttttts.',
-  '.stttttttttttts.',
-  '..aaaaaaaaaaaa..',
-  '...pppppppppp...',
-  '...pppp..pppp...',
-  '...pppp..pppp...',
-  '..zzzzz..zzzzz..',
-  '..zzzzz..zzzzz..',
-];
-const GLASSES_ROW = '.ccgeegsgeegscc.';
-const DRONE_ROWS = [
-  'rrr..ww..rrr',
-  '.r.wwwwww.r.',
-  '.dwwweewwwd.',
-  '..wwwwwwww..',
-  '...l....g...',
-];
-const HEROES = {
-  alumno:   { hair: '#e2b86f', top: '#9aa3ad', emblem: '#d33a3a', belt: '#8a5a3c', pants: '#7d8590', shoes: '#e6e8ee', glasses: false },
-  profesor: { hair: '#6b4226', top: 'var(--accent-secondary-fill)', emblem: '#f5f1e8', belt: '#2b2f3a', pants: '#3b4252', shoes: '#4a2f20', glasses: true },
-  admin:    { hair: '#2e3440', top: '#3f4654', emblem: 'var(--accent-gold-fill)', belt: '#1f232b', pants: '#262a33', shoes: '#e6e8ee', glasses: false },
-};
-function heroSVG(role) {
-  const h = HEROES[role];
-  const rows = HERO_ROWS.map((r, i) => (i === 6 && h.glasses ? GLASSES_ROW : r));
-  return pixel(rows, {
-    b: '#1d1d26', h: h.hair, s: '#e9b78f', e: '#1b1b22', m: '#b97a5a', g: '#d4d8e0',
-    c: 'var(--accent-primary-fill)', k: '#1d1d26', K: 'var(--accent-primary-fill)',
-    t: h.top, r: h.emblem, a: h.belt, p: h.pants, z: h.shoes,
-  });
-}
-const droneSVG = () => pixel(DRONE_ROWS, { r: '#2a2a35', w: '#eef0f5', d: '#2a2a35', e: 'var(--accent-primary-fill)', l: '#22c55e', g: '#ef4444' });
-$$('.hero-pick').forEach(el => {
-  $('.hero-sprite', el).innerHTML = heroSVG(el.dataset.hero);
-  $('.hero-drone', el).innerHTML = droneSVG();
-});
-
-const ROLE_TITLE = { alumno: 'Entrar como alumno', profesor: 'Entrar como profesor', admin: 'Entrar como admin' };
-const ROLE_HOME = { alumno: 'dashboard', profesor: 'cursos', admin: 'backoffice' };
-const loginRole = () => $('input[name="login-role"]:checked').value;
-$('#roster').addEventListener('change', e => {
-  $('#login-title').textContent = ROLE_TITLE[e.target.value];
-  const card = e.target.closest('.hero-pick');
-  card.classList.remove('hop'); card.offsetWidth; card.classList.add('hop');
-});
-
-function showStep(n) {
-  $$('#login .auth-step').forEach(x => x.hidden = x.dataset.step !== String(n));
-  const first = $(`#login .auth-step[data-step="${n}"] input, #login .auth-step[data-step="${n}"] button`);
-  if (n !== 3) first?.focus({ preventScroll: true });
-}
-function openLogin() {
-  $('#login-form').reset(); $('#forgot-msg').hidden = true;
-  setFieldMsg('email', ''); setFieldMsg('pass', '');
-  $('#login-title').textContent = ROLE_TITLE[loginRole()];
-  showStep(1);
-}
-function setFieldMsg(which, msg) {
-  const input = which === 'email' ? $('#login-email') : $('#login-pass');
-  const out = $(`#login-${which}-msg`);
-  input.setAttribute('aria-invalid', String(!!msg));
-  out.textContent = msg; out.className = msg ? 'err' : 'hint';
-}
-$('#pass-toggle').addEventListener('click', e => {
-  const b = e.currentTarget, inp = $('#login-pass'), show = inp.type === 'password';
-  inp.type = show ? 'text' : 'password';
-  b.setAttribute('aria-pressed', String(show));
-  b.setAttribute('aria-label', show ? 'Ocultar contraseña' : 'Mostrar contraseña');
-  $('use', b).setAttribute('href', show ? '#i-eye-off' : '#i-eye');
-});
-$('[data-forgot]').addEventListener('click', e => {
-  e.preventDefault();
-  const email = $('#login-email').value.trim();
-  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { setFieldMsg('email', 'Escribí tu email para mandarte el link de recuperación.'); $('#login-email').focus(); return; }
-  setFieldMsg('email', ''); $('#forgot-msg').hidden = false;
-});
-
-const maskEmail = m => { const [u, d] = m.split('@'); return `${u[0]}${'•'.repeat(Math.max(3, u.length - 1))}@${d}`; };
-$('#login-form').addEventListener('submit', e => {
-  e.preventDefault();
-  const email = $('#login-email').value.trim(), pass = $('#login-pass').value;
-  const emailErr = !email ? 'Escribí tu email institucional.' : !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) ? 'Revisá el email: tiene que ser como nombre.apellido@frc.utn.edu.ar.' : '';
-  const passErr = !pass ? 'Escribí tu contraseña.' : '';
-  setFieldMsg('email', emailErr); setFieldMsg('pass', passErr);
-  if (emailErr || passErr) { (emailErr ? $('#login-email') : $('#login-pass')).focus(); return; }
-  $('#otp-email').textContent = maskEmail(email);
-  buildOtp(); startResend(); showStep(2);
-});
-
-/* 6-box code: typing advances, backspace goes back, pasting fills every box. */
-function buildOtp() {
-  $('#otp').innerHTML = '<legend class="sr-only">Código de verificación</legend>' + Array.from({ length: 6 }, (_, i) =>
-    `<input class="control otp-box num" inputmode="numeric" autocomplete="${i ? 'off' : 'one-time-code'}" maxlength="1" aria-label="Dígito ${i + 1} de 6" />`).join('');
-  $('#otp-msg').textContent = ''; $('#otp-msg').className = 'hint';
-  $('#otp-submit').disabled = true;
-}
-const otpBoxes = () => $$('#otp .otp-box');
-const otpValue = () => otpBoxes().map(b => b.value).join('');
-$('#otp').addEventListener('input', e => {
-  const b = e.target; b.value = b.value.replace(/\D/g, '').slice(-1);
-  b.removeAttribute('aria-invalid');
-  if (b.value) b.nextElementSibling?.focus();
-  $('#otp-submit').disabled = otpValue().length !== 6;
-});
-$('#otp').addEventListener('keydown', e => {
-  if (e.key === 'Backspace' && !e.target.value) e.target.previousElementSibling?.focus();
-  if (e.key === 'ArrowLeft') e.target.previousElementSibling?.focus();
-  if (e.key === 'ArrowRight') e.target.nextElementSibling?.focus();
-});
-$('#otp').addEventListener('paste', e => {
-  const digits = (e.clipboardData.getData('text') || '').replace(/\D/g, '').slice(0, 6);
-  if (!digits) return;
-  e.preventDefault();
-  otpBoxes().forEach((b, i) => b.value = digits[i] || '');
-  (otpBoxes()[Math.min(digits.length, 5)]).focus();
-  $('#otp-submit').disabled = digits.length !== 6;
-});
-let otpTries = 3;
-$('#otp-form').addEventListener('submit', e => {
-  e.preventDefault();
-  if (otpValue() === '000000') { // mock: 000000 simulates a wrong code
-    otpTries = Math.max(0, otpTries - 1);
-    otpBoxes().forEach(b => b.setAttribute('aria-invalid', 'true'));
-    $('#otp-msg').className = 'err';
-    $('#otp-msg').textContent = otpTries ? `El código no es correcto. Te ${otpTries === 1 ? 'queda 1 intento' : `quedan ${otpTries} intentos`}.` : 'Se terminaron los intentos. Pedí un código nuevo.';
-    otpBoxes()[0].focus(); return;
-  }
-  const role = loginRole();
-  $('#done-msg').textContent = `Entrando como ${role}…`;
-  showStep(3);
-  setTimeout(() => { otpTries = 3; location.hash = ROLE_HOME[role]; setRole(role); }, 900);
-});
-let resendTimer;
-function startResend() {
-  let left = 30; const b = $('#otp-resend');
-  b.disabled = true; clearInterval(resendTimer);
-  const tick = () => { b.textContent = left ? `Reenviar código en 0:${String(left).padStart(2, '0')}` : 'Reenviar código'; if (!left) { b.disabled = false; clearInterval(resendTimer); } left--; };
-  tick(); resendTimer = setInterval(tick, 1000);
-}
-$('#otp-resend').addEventListener('click', () => { otpTries = 3; buildOtp(); startResend(); $('#otp-msg').textContent = 'Te mandamos un código nuevo.'; otpBoxes()[0].focus(); });
-$('#otp-back').addEventListener('click', () => { clearInterval(resendTimer); showStep(1); });
 
 /* ---- boot ---- */
 $$('[data-challenge-list]').forEach(el => ChallengeList(el));
