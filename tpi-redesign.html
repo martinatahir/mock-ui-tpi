@@ -421,47 +421,47 @@
         <span class="sep">&gt;</span>
         <span data-course-name>Metodología de Sistemas II</span>
         <span class="sep">&gt;</span>
-        <span class="current" id="materia-breadcrumb-active">Desafíos &amp; Entregas</span>
+        <span class="current" id="materia-breadcrumb-active">Contenidos de la cursada</span>
       </nav>
 
-      <!-- Hero Header Contextual de la Materia (Ultra Compacto Zen · Single-Line) -->
-      <div class="materia-hero-compact card studs">
-        <div class="materia-hero-compact-left">
-          <h1 class="materia-hero-compact-title display" id="h-curso-a" data-course-name>Metodología de Sistemas II</h1>
-          <span class="muted" style="font-size:12.5px;" data-course-meta>Cursada 2026 · 4to Cuatrimestre · Prof. Ana Torres</span>
+      <!-- Hero Header Oficial de la Materia (Unificado con Identidad TUP y Métricas) -->
+      <div class="materia-hero-compact card studs" style="background: linear-gradient(135deg, #0d1b30 0%, #152745 60%, #10213b 100%); border: 1px solid rgba(255, 255, 255, 0.12); color:#ffffff; padding: 18px 22px; margin-bottom: 20px;">
+        <div class="materia-hero-compact-left" style="display:flex; align-items:center; gap:16px; flex-wrap:wrap; flex:1 1 360px;">
+          <!-- Marco TUP -->
+          <div class="tup-logo-frame" style="padding:4px 12px; font-size:16px; border-width:2px; border-radius:4px; letter-spacing:0.1em; flex-shrink:0;">
+            TUP
+          </div>
+          <div style="display:flex; flex-direction:column; gap:4px; min-width:0;">
+            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+              <h1 class="materia-hero-compact-title display" id="h-curso-a" data-course-name style="color:#ffffff; font-size:20px; margin:0;">
+                Metodología de Sistemas II
+              </h1>
+              <span class="badge badge-success xs">Activa</span>
+            </div>
+            <span style="font-size:12.5px; color:rgba(255,255,255,0.75);" data-course-meta>
+              Cursada 2026 · 4to Cuatrimestre · Prof. Ana Torres
+            </span>
+          </div>
         </div>
 
-        <div class="materia-hero-compact-right">
-          <!-- Pill de Régimen / Promoción Directa interactivo (con click para ver detalle en la pestaña de Estado) -->
-          <button type="button" class="badge badge-success sm" style="cursor:pointer; display:inline-flex; align-items:center; gap:6px; font-weight:700;" data-mat-tab="estado" title="Hacé clic para ver el detalle de régimen y promoción">
+        <div class="materia-hero-compact-right" style="margin-left:auto; display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+          <!-- Pill de Régimen / Promoción Directa -->
+          <span class="badge badge-success sm" style="display:inline-flex; align-items:center; gap:6px; font-weight:700;">
             <span style="display:inline-block; width:6px; height:6px; border-radius:999px; background:#10b981;"></span>
             P88 · Promoción Directa
-          </button>
+          </span>
           <!-- Pill Gamer -->
-          <span class="badge badge-neutral sm num" style="display:inline-flex; align-items:center; gap:6px;">
+          <span class="badge sm num" style="display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,0.08); color:#fff; border:1px solid rgba(255,255,255,0.15);">
             <span title="3 vidas disponibles">❤️❤️❤️ 3/3</span>
-            <span style="opacity:0.3;">|</span>
+            <span style="opacity:0.4;">|</span>
             <span style="color:var(--accent-primary-fill); font-weight:700;">Nivel 05</span>
           </span>
           <!-- Enlace directo al chat de cátedra -->
-          <a href="#chat" class="btn btn-quiet btn-xs" style="text-decoration:none;" title="Canal de chat de la cátedra">
+          <a href="#chat" class="btn btn-secondary btn-xs" style="text-decoration:none; background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.2); color:#fff;" title="Canal de chat de la cátedra">
             <svg class="icon icon-sm" style="color:var(--accent-secondary);"><use href="#i-chat"/></svg>
             <span class="count num">12</span>
           </a>
         </div>
-      </div>
-
-      <!-- Top Tabs Horizontales (Desafíos primero por defecto) -->
-      <div class="tabs materia-tabs" role="tablist" aria-label="Secciones de la materia" style="margin-bottom:18px;">
-        <button class="tab active" role="tab" id="tab-mat-desafios" aria-selected="true" data-mat-tab="desafios">
-          <svg class="icon icon-sm" style="color:var(--accent-primary);"><use href="#i-flame"/></svg>Desafíos &amp; Entregas <span class="count num">9</span>
-        </button>
-        <button class="tab" role="tab" id="tab-mat-estado" aria-selected="false" data-mat-tab="estado">
-          <svg class="icon icon-sm" style="color:var(--accent-gold);"><use href="#i-trophy"/></svg>Mi Estado &amp; Promoción
-        </button>
-        <button class="tab" role="tab" id="tab-mat-material" aria-selected="false" data-mat-tab="material">
-          <svg class="icon icon-sm" style="color:var(--accent-secondary);"><use href="#i-backpack"/></svg>Material &amp; Bibliografía <span class="count num">3</span>
-        </button>
       </div>
 
       <!-- Contenido a Ancho Completo -->
@@ -3067,13 +3067,6 @@ function renderCourseUnits(c, activeUnitNum = null) {
       </button>
 
       <div class="course-main-section-body">
-        <!-- Banner Oficial TUP / UTN fiel a la captura del usuario -->
-        <div class="course-brand-banner">
-          <div class="tup-logo-frame">TUP</div>
-          <h2 class="course-brand-title">${c.name}</h2>
-          <p class="course-brand-subtitle">Tecnicatura Universitaria en Programación · Cátedra 2026</p>
-        </div>
-
         <!-- Fila de Avisos de Cátedra -->
         <div class="course-notice-card" onclick="alert('Abriendo cartelera oficial de avisos de la cátedra...')">
           <div style="display:flex; align-items:center; gap:12px; min-width:0;">
