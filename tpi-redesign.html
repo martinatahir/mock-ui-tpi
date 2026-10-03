@@ -861,89 +861,187 @@
 
     <!-- ================= CURSO (detalle) · profesor ================= -->
     <section class="screen" id="screen-curso-profesor" aria-labelledby="h-curso-p" data-error="No pudimos traer esta cohorte.">
-      <a class="back" href="#cursos"><svg class="icon icon-sm"><use href="#i-left"/></svg>Volver a Mis Cursos</a>
-      <div class="page-head">
-        <div>
-          <h1 class="display" id="h-curso-p" data-course-name>Ingles II</h1>
-          <div class="head-meta" data-course-meta></div>
+      <div style="margin-bottom:12px;">
+        <a class="back" href="#cursos"><svg class="icon icon-sm"><use href="#i-left"/></svg>Volver a Mis Cursos</a>
+      </div>
+
+      <!-- Hero Header Unificado de Cohorte (Cockpit Docente) -->
+      <div class="course-admin-hero">
+        <div class="course-admin-hero-content">
+          <div class="course-admin-hero-title-row">
+            <h1 class="display" id="h-curso-p" data-course-name>Ingles II</h1>
+            <span class="badge badge-success sm"><span class="online-dot" style="width:6px; height:6px; display:inline-block; margin-right:4px;"></span>Cohorte Activa</span>
+            <span class="badge badge-gold sm">Gestor Académico</span>
+          </div>
+          <p class="course-admin-hero-desc">Espacio principal de la cursada. Organización de contenidos, comisiones, unidades temáticas y seguimiento de estudiantes.</p>
+          <div class="course-admin-hero-meta" data-course-meta>
+            <span class="meta-item"><svg class="icon icon-xs"><use href="#i-users"/></svg>Comisión 4K2 (Modalidad Mixta)</span>
+            <span class="meta-item"><svg class="icon icon-xs"><use href="#i-calendar"/></svg>10/10/2026 – 31/12/2026</span>
+            <span class="meta-item"><svg class="icon icon-xs"><use href="#i-book"/></svg>4to Cuatrimestre TUP</span>
+          </div>
         </div>
-        <div class="invite" role="group" aria-label="Código de invitación">
-          <span class="invite-label">CÓDIGO DE INVITACIÓN</span>
-          <code class="invite-code" id="invite-code">KAS5ZNBRT3</code>
-          <button class="icon-btn sm" type="button" id="invite-copy" aria-label="Copiar código de invitación"><svg class="icon icon-sm"><use href="#i-copy"/></svg></button>
-          <button class="icon-btn sm" type="button" id="invite-regen" aria-label="Regenerar código de invitación"><svg class="icon icon-sm"><use href="#i-refresh"/></svg></button>
-          <span class="invite-status" id="invite-status" role="status"></span>
+
+        <!-- Chip de Código de Invitación Compacto -->
+        <div class="cohort-invite-chip" role="group" aria-label="Código de invitación de la cohorte">
+          <div class="cohort-invite-chip-head">
+            <span class="cohort-invite-chip-label">Código de Invitación</span>
+            <span class="muted" style="font-size:11px;">Alumnos</span>
+          </div>
+          <div class="cohort-invite-chip-body">
+            <code class="invite-code" id="invite-code">KAS5ZNBRT3</code>
+            <div class="cohort-invite-chip-actions">
+              <button class="icon-btn xs" type="button" id="invite-copy" aria-label="Copiar código de invitación" title="Copiar código"><svg class="icon icon-xs"><use href="#i-copy"/></svg></button>
+              <button class="icon-btn xs" type="button" id="invite-regen" aria-label="Regenerar código de invitación" title="Regenerar código"><svg class="icon icon-xs"><use href="#i-refresh"/></svg></button>
+            </div>
+          </div>
+          <span class="cohort-invite-status-msg" id="invite-status" role="status"></span>
         </div>
       </div>
 
-      <!-- 7 Pestañas planas de Cohorte (Sprint 2) -->
+      <!-- 7 Pestañas de Cohorte con Insignias Semánticas y ARIA -->
       <div class="tabs" role="tablist" aria-label="Secciones del curso" data-tabgroup="curso">
-        <button class="tab" role="tab" aria-selected="true" data-subtab="c-general"><svg class="icon icon-sm" style="color:var(--accent-gold);"><use href="#i-file"/></svg>General</button>
-        <button class="tab" role="tab" aria-selected="false" data-subtab="c-secciones"><svg class="icon icon-sm"><use href="#i-list"/></svg>Secciones</button>
-        <button class="tab" role="tab" aria-selected="false" data-subtab="c-padron"><svg class="icon icon-sm"><use href="#i-users"/></svg>Padrón de Alumnos <span class="count num" id="tab-padron-count">9</span></button>
-        <button class="tab" role="tab" aria-selected="false" data-subtab="c-solicitudes"><svg class="icon icon-sm"><use href="#i-clock"/></svg>Solicitudes Pendientes <span class="count num" data-req-count>2</span></button>
-        <button class="tab" role="tab" aria-selected="false" data-subtab="c-asistencias"><svg class="icon icon-sm"><use href="#i-check"/></svg>Asistencias</button>
-        <button class="tab" role="tab" aria-selected="false" data-subtab="c-calificaciones"><svg class="icon icon-sm"><use href="#i-star"/></svg>Calificaciones</button>
-        <button class="tab" role="tab" aria-selected="false" data-subtab="c-config"><svg class="icon icon-sm"><use href="#i-lock"/></svg>Configuración</button>
+        <button class="tab" role="tab" id="tab-c-general" aria-controls="panel-c-general" aria-selected="true" data-subtab="c-general"><svg class="icon icon-sm"><use href="#i-cards"/></svg>General</button>
+        <button class="tab" role="tab" id="tab-c-secciones" aria-controls="panel-c-secciones" aria-selected="false" data-subtab="c-secciones"><svg class="icon icon-sm"><use href="#i-list"/></svg>Secciones <span class="count num" id="tab-sec-count">3</span></button>
+        <button class="tab" role="tab" id="tab-c-padron" aria-controls="panel-c-padron" aria-selected="false" data-subtab="c-padron"><svg class="icon icon-sm"><use href="#i-users"/></svg>Padrón de Alumnos <span class="count num" id="tab-padron-count">9</span></button>
+        <button class="tab" role="tab" id="tab-c-solicitudes" aria-controls="panel-c-solicitudes" aria-selected="false" data-subtab="c-solicitudes"><svg class="icon icon-sm"><use href="#i-clock"/></svg>Solicitudes Pendientes <span class="count num tab-badge-alert" data-req-count>2</span></button>
+        <button class="tab" role="tab" id="tab-c-asistencias" aria-controls="panel-c-asistencias" aria-selected="false" data-subtab="c-asistencias"><svg class="icon icon-sm"><use href="#i-check"/></svg>Asistencias</button>
+        <button class="tab" role="tab" id="tab-c-calificaciones" aria-controls="panel-c-calificaciones" aria-selected="false" data-subtab="c-calificaciones"><svg class="icon icon-sm"><use href="#i-star"/></svg>Calificaciones</button>
+        <button class="tab" role="tab" id="tab-c-config" aria-controls="panel-c-config" aria-selected="false" data-subtab="c-config"><svg class="icon icon-sm"><use href="#i-lock"/></svg>Configuración</button>
       </div>
 
       <div class="data">
-        <!-- 1. GENERAL (general.jpg) -->
-        <div data-subpanel="c-general" data-group="curso">
-          <div class="card studs" style="margin-bottom:16px;">
-            <div class="course-top" style="align-items:center;">
-              <div>
-                <h2 data-course-name style="margin:0 0 6px;">Ingles II</h2>
-                <p class="muted" style="margin:0; font-size:13px; max-width:70ch;">Espacio principal de la cursada. Aquí se organiza la estructura de contenidos, unidades temáticas y actividades evaluativas.</p>
-              </div>
-              <div class="quick-links" style="align-items:center;">
-                <span class="badge badge-gold">Gestor</span>
-                <button class="btn btn-quiet btn-sm" type="button"><svg class="icon icon-sm"><use href="#i-user"/></svg>Asignar profesores</button>
-                <button class="btn btn-ghost btn-sm" type="button"><svg class="icon icon-sm"><use href="#i-eye"/></svg>Gestionar vitrina</button>
-              </div>
+        <!-- 1. GENERAL (Cockpit Modular en 2 Columnas) -->
+        <div id="panel-c-general" role="tabpanel" aria-labelledby="tab-c-general" data-subpanel="c-general" data-group="curso">
+          <div class="course-cockpit-grid">
+            <!-- Columna Principal (60%): Resumen Operativo de Cursada + Acciones Rápidas -->
+            <div class="course-cockpit-main">
+              <!-- Bloque A: Resumen Operativo de Cursada -->
+              <section class="card studs cockpit-card" aria-labelledby="h-resumen-operativo">
+                <div class="section-head" style="margin-bottom:12px;">
+                  <h2 id="h-resumen-operativo" style="font-size:var(--fs-lead); display:flex; align-items:center; gap:8px; margin:0;">
+                    <svg class="icon icon-sm" style="color:var(--accent-primary-fill, #00e5ff);"><use href="#i-cards"/></svg>
+                    <span>Resumen Operativo de la Cursada</span>
+                  </h2>
+                  <span class="badge badge-success sm"><span class="online-dot" style="width:6px; height:6px; display:inline-block; margin-right:4px;"></span>Sincronizado</span>
+                </div>
+
+                <p class="muted" style="font-size:var(--fs-small); margin:0 0 16px;">
+                  Métricas clave de matriculación, avance de contenidos y solicitudes prioritarias para esta cohorte.
+                </p>
+
+                <div class="cohort-metrics-grid">
+                  <div class="cohort-metric-card">
+                    <span class="metric-label">Alumnos Matriculados</span>
+                    <div class="metric-val-row">
+                      <span class="metric-num num" id="metric-padron-count">9</span>
+                      <span class="badge badge-outline sm">Padrón Oficial</span>
+                    </div>
+                    <button type="button" class="metric-link" data-goto="c-padron">Gestionar padrón →</button>
+                  </div>
+
+                  <div class="cohort-metric-card">
+                    <span class="metric-label">Secciones de Cátedra</span>
+                    <div class="metric-val-row">
+                      <span class="metric-num num">3</span>
+                      <span class="badge badge-success sm">2 Visibles</span>
+                    </div>
+                    <button type="button" class="metric-link" data-goto="c-secciones">Ver contenidos →</button>
+                  </div>
+
+                  <div class="cohort-metric-card alert">
+                    <span class="metric-label">Solicitudes de Ingreso</span>
+                    <div class="metric-val-row">
+                      <span class="metric-num num" data-req-count>2</span>
+                      <span class="badge badge-gold sm">Por revisar</span>
+                    </div>
+                    <button type="button" class="metric-link" data-goto="c-solicitudes">Aprobar ingresos →</button>
+                  </div>
+
+                  <div class="cohort-metric-card">
+                    <span class="metric-label">Asistencia Promedio</span>
+                    <div class="metric-val-row">
+                      <span class="metric-num num">92%</span>
+                      <span class="badge badge-outline sm">Últ. 28/09</span>
+                    </div>
+                    <button type="button" class="metric-link" data-goto="c-asistencias">Cargar clase →</button>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Bloque B: Acciones Rápidas de Cátedra -->
+              <section class="card studs cockpit-card" aria-labelledby="h-acciones-catedra">
+                <div class="section-head" style="margin-bottom:12px;">
+                  <h2 id="h-acciones-catedra" style="font-size:var(--fs-lead); display:flex; align-items:center; gap:8px; margin:0;">
+                    <svg class="icon icon-sm" style="color:var(--accent-gold, #f59e0b);"><use href="#i-lightning"/></svg>
+                    <span>Acciones Rápidas de Cátedra</span>
+                  </h2>
+                  <span class="muted" style="font-size:var(--fs-micro);">Herramientas pedagógicas</span>
+                </div>
+
+                <div class="cohort-quick-actions-grid">
+                  <button class="cockpit-action-btn" type="button" data-open="dialog-nueva-seccion">
+                    <span class="cockpit-action-icon primary"><svg class="icon"><use href="#i-plus"/></svg></span>
+                    <div class="cockpit-action-text">
+                      <strong>Crear Nueva Sección</strong>
+                      <span>Agregar unidad o actividad</span>
+                    </div>
+                  </button>
+
+                  <button class="cockpit-action-btn" type="button" data-open="dialog-gestion-padron">
+                    <span class="cockpit-action-icon gold"><svg class="icon"><use href="#i-file"/></svg></span>
+                    <div class="cockpit-action-text">
+                      <strong>Importar Padrón CSV</strong>
+                      <span>Cargar archivo oficial de alumnos</span>
+                    </div>
+                  </button>
+
+                  <button class="cockpit-action-btn" type="button" data-goto="c-secciones">
+                    <span class="cockpit-action-icon secondary"><svg class="icon"><use href="#i-list"/></svg></span>
+                    <div class="cockpit-action-text">
+                      <strong>Organizar Contenidos</strong>
+                      <span>Reordenar visibilidad de unidades</span>
+                    </div>
+                  </button>
+
+                  <button class="cockpit-action-btn" type="button" data-goto="c-config">
+                    <span class="cockpit-action-icon muted"><svg class="icon"><use href="#i-lock"/></svg></span>
+                    <div class="cockpit-action-text">
+                      <strong>Configuración</strong>
+                      <span>Fechas, cupos y requisitos</span>
+                    </div>
+                  </button>
+                </div>
+              </section>
+            </div>
+
+            <!-- Columna Lateral (40%): Equipo Docente Compacto -->
+            <div class="course-cockpit-side">
+              <section class="card studs cockpit-card" aria-labelledby="h-team-title">
+                <div class="section-head" style="margin-bottom:12px;">
+                  <div>
+                    <h2 id="h-team-title" style="font-size:var(--fs-lead); margin:0 0 2px;">
+                      Equipo Docente <span class="muted num" style="font-weight:400; font-size:var(--fs-small);" id="team-count-label">(4)</span>
+                    </h2>
+                    <span class="muted" style="font-size:var(--fs-micro);">Cuerpo académico asignado</span>
+                  </div>
+                  <button class="btn btn-primary btn-sm" type="button" data-open="dialog-asignar-profesores">
+                    <svg class="icon icon-sm"><use href="#i-plus"/></svg>Asignar
+                  </button>
+                </div>
+
+                <div class="faculty-search-wrap" style="margin-bottom:12px;">
+                  <div class="search-bar sm" style="width:100%;">
+                    <svg class="search-icon"><use href="#i-search"/></svg>
+                    <input class="search-input" type="search" id="team-search-q" placeholder="Buscar docente o cargo..." aria-label="Buscar docente" />
+                  </div>
+                </div>
+
+                <div class="faculty-list" id="faculty-list-container">
+                  <!-- Rendered dynamically by renderTeamTable -->
+                </div>
+              </section>
             </div>
           </div>
-
-          <section class="card studs" style="margin-bottom:16px;" aria-labelledby="h-team-title">
-            <div class="section-head" style="margin-bottom:12px;">
-              <h2 id="h-team-title">Equipo docente <span class="muted num" style="font-weight:400" id="team-count-label">(2)</span></h2>
-            </div>
-            <div class="filter-top" style="margin-bottom:12px; display:flex; gap:12px; flex-wrap:wrap;">
-              <label class="search" style="flex:1; min-width:200px;">
-                <svg class="icon icon-sm" aria-hidden="true"><use href="#i-search"/></svg>
-                <input class="control" type="search" id="team-search-q" placeholder="Buscar..." />
-              </label>
-              <select class="control" id="team-filter-perm" style="width:auto; min-width:180px;" aria-label="Filtrar por permiso">
-                <option value="">Permiso: Todos</option>
-                <option value="Gestor">Gestor</option>
-                <option value="Profesor con escritura">Profesor con escritura</option>
-              </select>
-            </div>
-            <div class="table-wrap">
-              <table class="data" id="team-table">
-                <thead>
-                  <tr>
-                    <th>Nombre ▴</th>
-                    <th>Permiso ▴</th>
-                    <th>Incorporado ▴</th>
-                  </tr>
-                </thead>
-                <tbody id="team-table-body"></tbody>
-              </table>
-            </div>
-          </section>
-
-          <section class="card studs" aria-labelledby="h-cont-act">
-            <div class="section-head" style="margin-bottom:12px;">
-              <h2 id="h-cont-act"><svg class="icon icon-sm" style="color:var(--accent-gold);"><use href="#i-file"/></svg>Contenidos y Actividades</h2>
-              <span class="muted" style="font-size:12px;">Vista principal de la cursada</span>
-            </div>
-            <div style="text-align:center; padding:36px 16px; background:var(--bg-surface-alt); border-radius:var(--radius-control); border:1px dashed var(--border-subtle);">
-              <h3 style="font-size:16px; margin:0 0 6px;">Estructura del Curso (Secciones y Actividades)</h3>
-              <p class="muted" style="font-size:13px; max-width:55ch; margin:0 auto 16px;">Contenedor preparado para la gestión de unidades temáticas, recursos y actividades pedagógicas al estilo Moodle.</p>
-              <button class="btn btn-primary btn-sm" type="button" data-goto="c-secciones"><svg class="icon icon-sm"><use href="#i-list"/></svg>Ver Secciones del Curso</button>
-            </div>
-          </section>
         </div>
 
         <!-- 2. SECCIONES (vista-curso-3.png & nueva_seccion.jpg) -->
@@ -1903,6 +2001,42 @@
       <button class="btn btn-quiet" type="button" id="wz-btn-cancel" onclick="$('#dialog-crear-cohorte').close()">Cancelar</button>
       <button class="btn btn-primary" type="button" id="wz-btn-next">Siguiente</button>
       <button class="btn btn-primary" type="button" id="wz-btn-finish" style="display:none;">Confirmar y Crear Cohorte</button>
+    </div>
+  </div>
+<!-- ================= Modal: Asignar Docente a la Cohorte ================= -->
+<dialog class="modal modal-md studs" id="dialog-asignar-profesores" aria-labelledby="h-ap-title">
+  <div style="display:flex; flex-direction:column; width:100%;">
+    <div class="modal-head">
+      <div>
+        <h2 id="h-ap-title" class="display" style="font-size:18px; margin:0;">ASIGNAR DOCENTE</h2>
+        <p class="muted" style="font-size:13px; margin:2px 0 0;">Incorporá un profesor o ayudante de cátedra a esta cohorte.</p>
+      </div>
+      <button class="icon-btn sm" type="button" onclick="$('#dialog-asignar-profesores').close()" aria-label="Cerrar"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
+    </div>
+    <form class="modal-body" id="form-asignar-profesores" onsubmit="return false;" style="gap:16px;">
+      <label class="field">
+        <span class="req">Docente a incorporar</span>
+        <select class="control" id="asig-prof-select" required>
+          <option value="">Seleccionar de la nómina docente UTN...</option>
+          <option value="Carlos Gómez">Carlos Gómez (carlos.gomez@frc.utn.edu.ar)</option>
+          <option value="Sarah Jenkins">Sarah Jenkins (sarah.jenkins@frc.utn.edu.ar)</option>
+          <option value="Federico Rossi">Federico Rossi (federico.rossi@frc.utn.edu.ar)</option>
+          <option value="Valeria Domínguez">Valeria Domínguez (valeria.dominguez@frc.utn.edu.ar)</option>
+        </select>
+      </label>
+
+      <label class="field">
+        <span class="req">Rol académico en la cohorte</span>
+        <select class="control" id="asig-prof-rol" required>
+          <option value="Profesor con escritura">Jefe de Trabajos Prácticos (JTP)</option>
+          <option value="Gestor">Profesor Titular (Gestor)</option>
+          <option value="Ayudante de Cátedra">Ayudante de Cátedra</option>
+        </select>
+      </label>
+    </form>
+    <div class="modal-foot">
+      <button class="btn btn-quiet" type="button" onclick="$('#dialog-asignar-profesores').close()">Cancelar</button>
+      <button class="btn btn-primary" type="button" id="btn-confirm-asignar-docente">Asignar a la Cohorte</button>
     </div>
   </div>
 </dialog>
