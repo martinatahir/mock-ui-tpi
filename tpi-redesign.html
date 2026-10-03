@@ -3739,10 +3739,10 @@ function openCourseAccordionSection(secId) {
 
 /* ======================= curso · profesor (Sprint 2) ======================= */
 const DOCENTES_COHORTE = [
-  { name: 'Usuario ...d0ca47b8 (Ana Torres)', perm: 'Gestor', date: '02/10/2026' },
-  { name: 'Usuario ...07a366ba (Martín Ríos)', perm: 'Profesor con escritura', date: '02/10/2026' },
-  { name: 'Usuario ...5bd75e22 (Laura Pérez)', perm: 'Profesor con escritura', date: '28/09/2026' },
-  { name: 'Usuario ...74d674b6 (Diego Suárez)', perm: 'Gestor', date: '28/09/2026' },
+  { id: '1', name: 'Ana Torres', email: 'ana.torres@frc.utn.edu.ar', perm: 'Gestor', role: 'Profesora Titular', date: '02/10/2026', initials: 'AT' },
+  { id: '2', name: 'Martín Ríos', email: 'martin.rios@frc.utn.edu.ar', perm: 'Profesor con escritura', role: 'Jefe de Trabajos Prácticos (JTP)', date: '02/10/2026', initials: 'MR' },
+  { id: '3', name: 'Laura Pérez', email: 'laura.perez@frc.utn.edu.ar', perm: 'Profesor con escritura', role: 'Profesora Adjunta', date: '28/09/2026', initials: 'LP' },
+  { id: '4', name: 'Diego Suárez', email: 'diego.suarez@frc.utn.edu.ar', perm: 'Gestor', role: 'Coordinador Académico', date: '28/09/2026', initials: 'DS' },
 ];
 
 const SECTIONS = [
@@ -3773,16 +3773,25 @@ let currentCourse = null;
 function renderTeamTable() {
   const q = ($('#team-search-q')?.value || '').toLowerCase().trim();
   const perm = $('#team-filter-perm')?.value || '';
-  const filtered = DOCENTES_COHORTE.filter(d => (!q || d.name.toLowerCase().includes(q)) && (!perm || d.perm === perm));
-  const tbody = $('#team-table-body');
-  if (tbody) {
-    tbody.innerHTML = filtered.length ? filtered.map(d => `
-      <tr>
-        <td><div class="cell-title font-bold">${d.name}</div></td>
-        <td><span class="badge ${d.perm === 'Gestor' ? 'badge-gold' : 'badge-outline'}">${d.perm}</span></td>
-        <td class="num muted">${d.date}</td>
-      </tr>
-    `).join('') : '<tr><td colspan="3" class="muted">No se encontraron docentes con esos filtros.</td></tr>';
+  const filtered = DOCENTES_COHORTE.filter(d => (!q || d.name.toLowerCase().includes(q) || d.role.toLowerCase().includes(q) || d.email.toLowerCase().includes(q)) && (!perm || d.perm === perm));
+  
+  const container = $('#faculty-list-container');
+  if (container) {
+    container.innerHTML = filtered.length ? filtered.map(d => `
+      <div class="faculty-member-card">
+        <div class="faculty-member-left">
+          <div class="faculty-avatar ${d.perm === 'Gestor' ? 'gold' : ''}" aria-hidden="true">${d.initials}</div>
+          <div class="faculty-member-info">
+            <div class="faculty-member-name">${d.name}</div>
+            <div class="faculty-member-email">${d.email}</div>
+          </div>
+        </div>
+        <div class="faculty-member-right">
+          <span class="badge ${d.perm === 'Gestor' ? 'badge-gold' : 'badge-primary'} sm">${d.perm === 'Gestor' ? 'Titular / Gestor' : 'JTP / Adjunto'}</span>
+          <span class="muted num" style="font-size:11px;">Desde ${d.date}</span>
+        </div>
+      </div>
+    `).join('') : '<div class="empty" style="padding:20px 10px; font-size:13px;"><p>No se encontraron docentes con ese criterio.</p></div>';
   }
   const label = $('#team-count-label');
   if (label) label.textContent = `(${filtered.length})`;
@@ -3803,6 +3812,8 @@ function renderOfficialPadron() {
   }
   const countEl = $('#padron-realtime-count');
   if (countEl) countEl.textContent = filtered.length;
+  const metricCount = $('#metric-padron-count');
+  if (metricCount) metricCount.textContent = filtered.length;
   const tabBadge = $('#tab-padron-count');
   if (tabBadge) tabBadge.textContent = filtered.length;
 }
@@ -3889,6 +3900,48 @@ $('#cfg-save').addEventListener('click', () => {
 $('#padron-search-q')?.addEventListener('input', renderOfficialPadron);
 $('#team-search-q')?.addEventListener('input', renderTeamTable);
 $('#team-filter-perm')?.addEventListener('change', renderTeamTable);
+
+/* Asignar docente a la cohorte */
+$('#btn-confirm-asignar-docente')?.addEventListener('click', () => {
+  const selProf = $('#asig-prof-select');
+  const selRol = $('#asig-prof-rol');
+  const name = selProf?.value;
+  const perm = selRol?.value || 'Profesor con escritura';
+  if (!name) {
+    selProf?.focus();
+    return;
+  }
+  const emailMap = {
+    'Carlos Gómez': 'carlos.gomez@frc.utn.edu.ar',
+    'Sarah Jenkins': 'sarah.jenkins@frc.utn.edu.ar',
+    'Federico Rossi': 'federico.rossi@frc.utn.edu.ar',
+    'Valeria Domínguez': 'valeria.dominguez@frc.utn.edu.ar'
+  };
+  const initialsMap = {
+    'Carlos Gómez': 'CG',
+    'Sarah Jenkins': 'SJ',
+    'Federico Rossi': 'FR',
+    'Valeria Domínguez': 'VD'
+  };
+  const roleMap = {
+    'Gestor': 'Profesor Titular (Gestor)',
+    'Profesor con escritura': 'Jefe de Trabajos Prácticos (JTP)',
+    'Ayudante de Cátedra': 'Ayudante de Cátedra'
+  };
+  DOCENTES_COHORTE.push({
+    id: String(DOCENTES_COHORTE.length + 1),
+    name,
+    email: emailMap[name] || `${name.toLowerCase().replace(' ', '.')}@frc.utn.edu.ar`,
+    perm,
+    role: roleMap[perm] || perm,
+    date: new Date().toLocaleDateString('es-AR'),
+    initials: initialsMap[name] || name.slice(0, 2).toUpperCase()
+  });
+  renderTeamTable();
+  $('#dialog-asignar-profesores')?.close();
+  if (selProf) selProf.value = '';
+  showToast(`Docente ${name} asignado a la cohorte`, 'success', 'i-tick');
+});
 
 /* 2. Acciones de Secciones (Mostrar/Ocultar y Dar de baja) */
 $('#sections-cards-list')?.addEventListener('click', e => {
