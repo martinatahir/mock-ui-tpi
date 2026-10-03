@@ -468,53 +468,59 @@
       <div class="materia-content" style="display:flex; flex-direction:column; gap:20px;">
         <!-- 1. Pestaña Principal: Desafíos & Entregas (Activa por defecto · Foco Total) -->
         <div id="materia-pane-desafios" style="display:flex; flex-direction:column; gap:20px;">
-          <!-- Tarjeta de Enfoque: Tu Próximo Paso (Next Best Action) -->
-          <div class="card studs next-action-card">
-            <div class="next-action-badge">
-              <svg class="icon icon-sm" style="color:var(--accent-gold);"><use href="#i-sparkle"/></svg>
-              <span>TU PRÓXIMO PASO · UNIDAD 2</span>
-              <span class="badge badge-warning xs num" style="margin-left:auto;">⏳ Vence en 5 días (15 Oct)</span>
-            </div>
-            <div class="next-action-body">
-              <div class="next-action-info">
-                <h2 class="next-action-title">Desafío 4: Arquitectura en Capas y DTOs</h2>
-                <p class="muted next-action-sub">Implementá la separación de responsabilidades entre Controladores y Servicios según la rúbrica oficial de la cátedra.</p>
-                <div class="next-action-tags">
-                  <span class="badge badge-neutral xs">Dificultad Media</span>
-                  <span class="badge badge-neutral xs num">+40 XP</span>
-                  <span class="badge badge-neutral xs num">🪙 10 monedas</span>
-                  <span class="badge badge-success xs">Obligatorio para P90</span>
+          <!-- 1. Contenedor para Foco Total por Unidad (Opción 1: 3 Columnas Teórico / Práctico / Entregas) -->
+          <div id="materia-unit-focused-wrap" class="unit-focus-container" style="display:none;"></div>
+
+          <!-- 2. Contenedor para Panorama General (Todas las unidades & Resumen del curso) -->
+          <div id="materia-unit-overview-wrap" style="display:flex; flex-direction:column; gap:20px;">
+            <!-- Tarjeta de Enfoque: Tu Próximo Paso (Next Best Action) -->
+            <div class="card studs next-action-card">
+              <div class="next-action-badge">
+                <svg class="icon icon-sm" style="color:var(--accent-gold);"><use href="#i-sparkle"/></svg>
+                <span>TU PRÓXIMO PASO · UNIDAD 2</span>
+                <span class="badge badge-warning xs num" style="margin-left:auto;">⏳ Vence en 5 días (15 Oct)</span>
+              </div>
+              <div class="next-action-body">
+                <div class="next-action-info">
+                  <h2 class="next-action-title">Desafío 4: Arquitectura en Capas y DTOs</h2>
+                  <p class="muted next-action-sub">Implementá la separación de responsabilidades entre Controladores y Servicios según la rúbrica oficial de la cátedra.</p>
+                  <div class="next-action-tags">
+                    <span class="badge badge-neutral xs">Dificultad Media</span>
+                    <span class="badge badge-neutral xs num">+40 XP</span>
+                    <span class="badge badge-neutral xs num">🪙 10 monedas</span>
+                    <span class="badge badge-success xs">Obligatorio para P90</span>
+                  </div>
+                </div>
+                <div class="next-action-cta">
+                  <button class="btn btn-primary" type="button" onclick="alert('Abriendo entorno de código para Desafío 4...')">
+                    Continuar desafío <svg class="icon icon-sm"><use href="#i-right"/></svg>
+                  </button>
                 </div>
               </div>
-              <div class="next-action-cta">
-                <button class="btn btn-primary" type="button" onclick="alert('Abriendo entorno de código para Desafío 4...')">
-                  Continuar desafío <svg class="icon icon-sm"><use href="#i-right"/></svg>
+            </div>
+
+            <!-- Unidades de Aprendizaje y Desafíos -->
+            <div class="section-head" style="align-items:center;">
+              <div>
+                <h2 id="course-units-heading" style="font-size:17px;">Unidades de Aprendizaje</h2>
+                <p class="muted" style="font-size:13px; margin:2px 0 0;">Seleccioná una unidad temática para explorar sus contenidos y filtrar desafíos específicos.</p>
+              </div>
+              <div class="quick-links">
+                <button type="button" class="btn btn-ghost btn-sm active" id="btn-all-units" data-unit-all>
+                  <svg class="icon icon-sm"><use href="#i-cards"/></svg>Ver todas las unidades
                 </button>
               </div>
             </div>
-          </div>
+            <div class="course-units-grid" id="course-units-list"></div>
 
-          <!-- Unidades de Aprendizaje y Desafíos -->
-          <div class="section-head" style="align-items:center;">
-            <div>
-              <h2 id="course-units-heading" style="font-size:17px;">Unidades de Aprendizaje</h2>
-              <p class="muted" style="font-size:13px; margin:2px 0 0;">Seleccioná una unidad temática para explorar sus contenidos y filtrar desafíos específicos.</p>
+            <div class="section-head" style="margin-top:14px;">
+              <div>
+                <h2 id="challenges-section-title" style="font-size:17px;">Desafíos de la materia</h2>
+                <span class="muted" style="font-size:13px;" id="unit-active-filter-label">Mostrando todas las unidades</span>
+              </div>
             </div>
-            <div class="quick-links">
-              <button type="button" class="btn btn-ghost btn-sm active" id="btn-all-units" data-unit-all>
-                <svg class="icon icon-sm"><use href="#i-cards"/></svg>Ver todas las unidades
-              </button>
-            </div>
+            <div data-challenge-list data-locked-course></div>
           </div>
-          <div class="course-units-grid" id="course-units-list"></div>
-
-          <div class="section-head" style="margin-top:14px;">
-            <div>
-              <h2 id="challenges-section-title" style="font-size:17px;">Desafíos de la materia</h2>
-              <span class="muted" style="font-size:13px;" id="unit-active-filter-label">Mostrando todas las unidades</span>
-            </div>
-          </div>
-          <div data-challenge-list data-locked-course></div>
         </div>
 
         <!-- 2. Pestaña Secundaria: Mi Estado & Promoción (Progressive Disclosure) -->
@@ -3012,66 +3018,355 @@ document.addEventListener('click', e => { const t = e.target.closest('[data-coho
 
 let currentActiveUnit = null;
 
+const UNIT_RESOURCES = {
+  1: {
+    teorico: [
+      { icon: '📄', title: 'Teórico Parte I - Fundamentos y Requerimientos', type: 'PDF · 2.1 MB' },
+      { icon: '📄', title: 'Especificación de Contratos y Casos de Uso', type: 'PDF · 1.8 MB' },
+      { icon: '🔗', title: 'Documentación Oficial: Estándares IEEE 830', type: 'Enlace web' }
+    ],
+    practico: [
+      { icon: '⚡', title: 'Guía de Actividades 1 - Historias de Usuario', tag: 'En clase' },
+      { icon: '✅', title: 'Caso Práctico 1: Modelado de Dominio (RESUELTO)', tag: 'Disponible' },
+      { icon: '💡', title: 'Plantilla de Criterios de Aceptación Gherkin', tag: 'Apunte' }
+    ]
+  },
+  2: {
+    teorico: [
+      { icon: '📄', title: 'Teórico Parte I - Paradigmas y Tipado Estricto', type: 'PDF · 2.4 MB' },
+      { icon: '📄', title: 'Teórico Parte II - Arquitectura en Capas y DTOs', type: 'PDF · 3.1 MB' },
+      { icon: '🔗', title: 'Guía de Protocolos y Tipado Estricto PEP 544', type: 'Enlace web' }
+    ],
+    practico: [
+      { icon: '⚡', title: 'Caso Práctico 2 - Consignas de Modelado', tag: 'En clase' },
+      { icon: '✅', title: 'Caso Práctico 2 - Implementación RESUELTA', tag: 'Disponible' },
+      { icon: '💡', title: 'Tips de Refactorización y Separación de Servicios', tag: 'Apunte' }
+    ]
+  },
+  3: {
+    teorico: [
+      { icon: '📄', title: 'Teórico - Calidad de Software y Pirámide de Tests', type: 'PDF · 2.8 MB' },
+      { icon: '📄', title: 'Estrategias de Mocks, Stubs y Fakes', type: 'PDF · 1.9 MB' },
+      { icon: '🔗', title: 'Buenas Prácticas en Testing Unitario Automatizado', type: 'Enlace web' }
+    ],
+    practico: [
+      { icon: '⚡', title: 'Guía de TDD y Cobertura de Código', tag: 'En clase' },
+      { icon: '✅', title: 'Suite de Pruebas Ejemplo Resuelta', tag: 'Disponible' },
+      { icon: '💡', title: 'Checklist de Validación para Rúbricas de Testing', tag: 'Apunte' }
+    ]
+  },
+  4: {
+    teorico: [
+      { icon: '📄', title: 'Teórico - CI/CD, Pipelines y Automatización', type: 'PDF · 3.4 MB' },
+      { icon: '📄', title: 'Contenedores Docker y Despliegue en la Nube', type: 'PDF · 2.2 MB' },
+      { icon: '🔗', title: 'GitHub Actions para Integración Continua', type: 'Enlace web' }
+    ],
+    practico: [
+      { icon: '⚡', title: 'Guía de Configuración de Workflow CI/CD', tag: 'En clase' },
+      { icon: '✅', title: 'Script de Despliegue de Referencia', tag: 'Disponible' },
+      { icon: '💡', title: 'Rúbrica de Evaluación del Proyecto Final Integrador', tag: 'Rúbrica' }
+    ]
+  }
+};
+
+function renderFocusedUnit(c, unitNum) {
+  const u = c.units?.find(x => x.num === unitNum) || {
+    num: unitNum,
+    title: `Unidad ${unitNum}: Contenidos temáticos`,
+    desc: 'Contenidos, guías y entregas de la cursada.',
+    progress: 0,
+    status: 'in-progress'
+  };
+
+  const badgeCls = u.status === 'done' ? 'badge-success' : u.status === 'locked' ? 'badge-outline' : 'badge-gold';
+  const badgeTxt = u.status === 'done' ? 'Completada ✅' : u.status === 'locked' ? 'Bloqueada 🔒' : `Unidad ${u.num} en curso 🔥`;
+
+  // Materiales de la unidad (teórico y práctico)
+  const res = UNIT_RESOURCES[unitNum] || {
+    teorico: [
+      { icon: '📄', title: `Material Teórico - Unidad ${unitNum}`, type: 'PDF · 2.5 MB' },
+      { icon: '🔗', title: 'Documentación Oficial y Guías', type: 'Enlace web' }
+    ],
+    practico: [
+      { icon: '⚡', title: `Guía de Actividades Prácticas`, tag: 'En clase' },
+      { icon: '✅', title: `Ejercicios Resueltos de Referencia`, tag: 'Disponible' }
+    ]
+  };
+
+  // Desafíos / Entregas calificadas de esta unidad
+  const unitChallenges = CHALLENGES.filter(ch => (ch.course === c.code || ch.course === c.name) && ch.unit === unitNum);
+  const pendingCount = unitChallenges.filter(ch => ch.status !== 'done').length;
+
+  // Unidades previa y siguiente
+  const prevUnit = c.units?.find(x => x.num === unitNum - 1);
+  const nextUnit = c.units?.find(x => x.num === unitNum + 1);
+
+  return `
+    <!-- Header de Foco en la Unidad -->
+    <div class="unit-focus-head">
+      <div class="unit-focus-info">
+        <div class="unit-focus-meta-tag">
+          <span class="badge ${badgeCls}">${badgeTxt}</span>
+          <span class="muted" style="font-size:12px;">${c.name} · Cohorte 2026</span>
+        </div>
+        <h2 class="unit-focus-title">${u.title}</h2>
+        <p class="unit-focus-sub">${u.desc}</p>
+      </div>
+
+      <div class="unit-focus-stats">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="muted" style="font-size:12px;">Progreso de unidad</span>
+          <b class="num" style="color:var(--accent-gold); font-size:15px;">${u.progress}%</b>
+        </div>
+        <div class="bar" style="width:160px; height:8px;" role="progressbar" aria-valuenow="${u.progress}" aria-valuemin="0" aria-valuemax="100">
+          <span style="width:${u.progress}%; ${u.status === 'done' ? 'background:var(--accent-success-fill);' : ''}"></span>
+        </div>
+        <div style="display:flex; align-items:center; gap:6px; margin-top:2px;">
+          <button type="button" class="btn btn-ghost btn-xs" data-goto-overview title="Ver panorama de todas las unidades">
+            <svg class="icon icon-xs"><use href="#i-cards"/></svg> Ver panorama general
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Triada de 3 Columnas Limpias (Teórico / Práctico / Entregas) -->
+    <div class="unit-triad-grid">
+      
+      <!-- Columna 1: Material Teórico & Apuntes -->
+      <div class="unit-block-col">
+        <div>
+          <div class="unit-block-head">
+            <span class="unit-block-icon" style="background:rgba(59, 130, 246, 0.15); color:#60a5fa;">📘</span>
+            <div>
+              <h3 class="unit-block-title">Material Teórico</h3>
+              <span class="unit-block-sub">Lecturas y diapositivas oficiales</span>
+            </div>
+          </div>
+          <div class="unit-items-list" style="margin-top:12px;">
+            ${res.teorico.map(it => `
+              <a href="javascript:void(0)" onclick="alert('Abriendo recurso de cátedra: ${it.title}')" class="unit-subitem-card">
+                <div style="display:flex; align-items:center; gap:8px; min-width:0;">
+                  <span style="font-size:14px; flex-shrink:0;">${it.icon}</span>
+                  <span style="font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${it.title}</span>
+                </div>
+                <span class="muted" style="font-size:11px; white-space:nowrap; flex-shrink:0;">${it.type}</span>
+              </a>
+            `).join('')}
+          </div>
+        </div>
+        <div style="padding-top:10px; border-top:1px solid var(--border-subtle); text-align:center;">
+          <span class="muted" style="font-size:11.5px;">${res.teorico.length} recursos de cátedra</span>
+        </div>
+      </div>
+
+      <!-- Columna 2: Guías & Casos Prácticos -->
+      <div class="unit-block-col">
+        <div>
+          <div class="unit-block-head">
+            <span class="unit-block-icon" style="background:rgba(245, 158, 11, 0.15); color:#f59e0b;">📝</span>
+            <div>
+              <h3 class="unit-block-title">Guías & Casos Prácticos</h3>
+              <span class="unit-block-sub">Práctica de clase y ejercitación</span>
+            </div>
+          </div>
+          <div class="unit-items-list" style="margin-top:12px;">
+            ${res.practico.map(it => `
+              <a href="javascript:void(0)" onclick="alert('Abriendo guía práctica: ${it.title}')" class="unit-subitem-card">
+                <div style="display:flex; align-items:center; gap:8px; min-width:0;">
+                  <span style="font-size:14px; flex-shrink:0;">${it.icon}</span>
+                  <span style="font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${it.title}</span>
+                </div>
+                <span class="badge ${it.tag === 'Disponible' ? 'badge-success' : 'badge-gold'} xs" style="white-space:nowrap; flex-shrink:0;">${it.tag}</span>
+              </a>
+            `).join('')}
+          </div>
+        </div>
+        <div style="padding-top:10px; border-top:1px solid var(--border-subtle); text-align:center;">
+          <span class="muted" style="font-size:11.5px;">Ejercicios de aplicación guiada</span>
+        </div>
+      </div>
+
+      <!-- Columna 3: Desafíos & Entregas Calificadas -->
+      <div class="unit-block-col highlight-col" style="position:relative; overflow:hidden;">
+        <div style="position:absolute; top:0; right:0; padding:3px 10px; font-size:10px; font-weight:800; background:var(--accent-primary-fill); color:#000; border-bottom-left-radius:var(--radius-control); text-transform:uppercase; letter-spacing:0.04em;">
+          EVALUATIVO
+        </div>
+        <div>
+          <div class="unit-block-head">
+            <span class="unit-block-icon" style="background:rgba(6, 182, 212, 0.15); color:#06b6d4;">🚀</span>
+            <div>
+              <h3 class="unit-block-title">Desafíos & Entregas</h3>
+              <span class="unit-block-sub">Cuentan para P90 y Regularidad</span>
+            </div>
+          </div>
+          <div class="unit-items-list" style="margin-top:12px;">
+            ${unitChallenges.length ? unitChallenges.map(ch => {
+              const isDone = ch.status === 'done';
+              if (isDone) {
+                return `
+                  <div class="unit-delivery-card is-done">
+                    <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:6px;">
+                      <div style="min-width:0;">
+                        <span style="font-size:12.5px; font-weight:700; color:var(--text-primary); display:block; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;" title="${ch.title}">
+                          ${ch.title}
+                        </span>
+                        <span style="font-size:11px; color:var(--accent-success); font-weight:600;">
+                          Aprobado 10/10 (+${ch.xp} XP)
+                        </span>
+                      </div>
+                      <span class="badge badge-success xs" style="white-space:nowrap; flex-shrink:0;">Aprobado ✅</span>
+                    </div>
+                  </div>
+                `;
+              }
+              return `
+                <div class="unit-delivery-card is-urgent">
+                  <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:6px;">
+                    <div style="min-width:0;">
+                      <span style="font-size:12.5px; font-weight:700; color:var(--text-primary); display:block; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;" title="${ch.title}">
+                        ${ch.title}
+                      </span>
+                      <span class="muted" style="font-size:11px; color:var(--urgent); font-weight:600;">
+                        ${ch.due ? `⏳ Vence el ${short(ch.due)}` : 'Sin fecha límite'} ${ch.req ? '· Obligatorio P90' : ''}
+                      </span>
+                    </div>
+                    <span class="badge badge-warning xs" style="white-space:nowrap; flex-shrink:0;">Pendiente</span>
+                  </div>
+                  <button type="button" class="btn btn-primary btn-sm" style="width:100%; justify-content:center; margin-top:2px;" onclick="alert('Abriendo entorno de desarrollo para: ${ch.title}')">
+                    Subir entrega de código →
+                  </button>
+                </div>
+              `;
+            }).join('') : `
+              <div class="unit-delivery-card is-urgent">
+                <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:6px;">
+                  <div style="min-width:0;">
+                    <span style="font-size:12.5px; font-weight:700; color:var(--text-primary); display:block;">
+                      Entrega del Trabajo Integrador
+                    </span>
+                    <span class="muted" style="font-size:11px; color:var(--accent-gold); font-weight:600;">
+                      ⏳ Cierre de cursada · Requisito Final
+                    </span>
+                  </div>
+                  <span class="badge badge-warning xs">Pendiente</span>
+                </div>
+                <button type="button" class="btn btn-primary btn-sm" style="width:100%; justify-content:center; margin-top:2px;" onclick="alert('Abriendo formulario de entrega del Trabajo Integrador...')">
+                  Subir entrega final →
+                </button>
+              </div>
+            `}
+          </div>
+        </div>
+        <div style="padding-top:10px; border-top:1px solid var(--border-subtle); text-align:center;">
+          <span style="font-size:11.5px; font-weight:600; color:${pendingCount === 0 ? 'var(--accent-success)' : 'var(--accent-gold)'};">
+            ${pendingCount === 0 ? '¡Todas las entregas al día! 🎉' : `${pendingCount} entrega${pendingCount > 1 ? 's' : ''} pendiente${pendingCount > 1 ? 's' : ''}`}
+          </span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Navegación Secuencial al Pie -->
+    <div class="unit-nav-footer">
+      ${prevUnit ? `
+        <button type="button" class="btn btn-secondary btn-sm" data-nav-unit="${prevUnit.num}">
+          <svg class="icon icon-sm"><use href="#i-left"/></svg> Unidad ${prevUnit.num}: ${prevUnit.title.split(':')[1]?.trim() || prevUnit.title}
+        </button>
+      ` : `<div></div>`}
+
+      <button type="button" class="btn btn-ghost btn-sm" data-goto-overview>
+        <svg class="icon icon-sm"><use href="#i-cards"/></svg> Ver todas las unidades (Panorama)
+      </button>
+
+      ${nextUnit ? `
+        <button type="button" class="btn btn-secondary btn-sm" data-nav-unit="${nextUnit.num}">
+          Unidad ${nextUnit.num}: ${nextUnit.title.split(':')[1]?.trim() || nextUnit.title} <svg class="icon icon-sm"><use href="#i-right"/></svg>
+        </button>
+      ` : `<div></div>`}
+    </div>
+  `;
+}
+
 function renderCourseUnits(c, activeUnitNum = null) {
   currentActiveUnit = activeUnitNum ? Number(activeUnitNum) : null;
+  const focusedWrap = $('#materia-unit-focused-wrap');
+  const overviewWrap = $('#materia-unit-overview-wrap');
   const unitsWrap = $('#course-units-list');
   const allBtn = $('#btn-all-units');
   const labelEl = $('#unit-active-filter-label');
 
-  if (allBtn) {
-    allBtn.classList.toggle('active', currentActiveUnit === null);
-  }
+  if (currentActiveUnit !== null) {
+    // Modo 1: Foco Total por Unidad (Opción 1)
+    if (focusedWrap) {
+      focusedWrap.style.display = 'flex';
+      focusedWrap.innerHTML = renderFocusedUnit(c, currentActiveUnit);
+    }
+    if (overviewWrap) {
+      overviewWrap.style.display = 'none';
+    }
 
-  if (labelEl) {
-    if (currentActiveUnit) {
-      const activeUnitObj = c.units?.find(u => u.num === currentActiveUnit);
-      labelEl.textContent = activeUnitObj
-        ? `Mostrando: Unidad ${activeUnitObj.num} · ${activeUnitObj.title.split(':')[1]?.trim() || activeUnitObj.title}`
-        : `Mostrando: Unidad ${currentActiveUnit}`;
-    } else {
+    // Sincronizar subpanel izquierdo
+    currentActiveAccordionUnit = currentActiveUnit;
+    $$('.course-accordion-group').forEach(g => {
+      g.classList.toggle('is-current-unit', Number(g.dataset.unitNum) === currentActiveUnit);
+    });
+  } else {
+    // Modo 2: Panorama General de la Materia
+    if (focusedWrap) {
+      focusedWrap.style.display = 'none';
+      focusedWrap.innerHTML = '';
+    }
+    if (overviewWrap) {
+      overviewWrap.style.display = 'flex';
+    }
+
+    if (allBtn) {
+      allBtn.classList.add('active');
+    }
+
+    if (labelEl) {
       labelEl.textContent = 'Mostrando todas las unidades';
     }
+
+    if (unitsWrap && c.units && c.units.length) {
+      unitsWrap.innerHTML = c.units.map(u => {
+        const isLocked = u.status === 'locked';
+        const badgeCls = u.status === 'done' ? 'badge-success' : u.status === 'locked' ? 'badge-outline' : 'badge-gold';
+        const badgeTxt = u.status === 'done' ? 'Completada ✅' : u.status === 'locked' ? 'Bloqueada 🔒' : 'En curso 🔥';
+
+        return `
+          <article class="unit-card ${isLocked ? 'is-locked' : ''}" data-unit-card="${u.num}">
+            <div class="unit-top">
+              <span class="unit-number">Unidad ${u.num}</span>
+              <span class="badge ${badgeCls}">${badgeTxt}</span>
+            </div>
+            <h3 class="unit-title">${u.title}</h3>
+            <p class="unit-desc">${u.desc}</p>
+            <div class="unit-progress-wrap">
+              <div class="unit-progress-header">
+                <span>Progreso de unidad</span>
+                <b class="num">${u.progress}%</b>
+              </div>
+              <div class="bar" role="progressbar" aria-valuenow="${u.progress}" aria-valuemin="0" aria-valuemax="100">
+                <span style="width:${u.progress}%; ${u.status === 'done' ? 'background:var(--accent-success-fill);' : ''}"></span>
+              </div>
+            </div>
+            <div class="unit-footer">
+              <span class="muted" style="font-size:12px;">${u.challenges || 3} desafíos</span>
+              <button type="button" class="btn btn-primary btn-sm" data-select-unit="${u.num}">
+                ${isLocked ? 'Ver temario' : 'Explorar unidad →'}
+              </button>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    // Subpanel: desmarcar unidad activa destacada
+    $$('.course-accordion-group').forEach(g => {
+      g.classList.remove('is-current-unit');
+    });
   }
-
-  if (!unitsWrap) return;
-
-  if (!c.units || !c.units.length) {
-    unitsWrap.innerHTML = `<div class="empty">${icon('i-book')}<p>Este curso no tiene unidades configuradas aún.</p></div>`;
-    return;
-  }
-
-  unitsWrap.innerHTML = c.units.map(u => {
-    const isActive = currentActiveUnit === u.num;
-    const isLocked = u.status === 'locked';
-    const badgeCls = u.status === 'done' ? 'badge-success' : u.status === 'locked' ? 'badge-outline' : 'badge-gold';
-    const badgeTxt = u.status === 'done' ? 'Completada ✅' : u.status === 'locked' ? 'Bloqueada 🔒' : 'En curso 🔥';
-
-    return `
-      <article class="unit-card ${isActive ? 'active' : ''} ${isLocked ? 'is-locked' : ''}" data-unit-card="${u.num}">
-        <div class="unit-top">
-          <span class="unit-number">Unidad ${u.num}</span>
-          <span class="badge ${badgeCls}">${badgeTxt}</span>
-        </div>
-        <h3 class="unit-title">${u.title}</h3>
-        <p class="unit-desc">${u.desc}</p>
-        <div class="unit-progress-wrap">
-          <div class="unit-progress-header">
-            <span>Progreso de unidad</span>
-            <b class="num">${u.progress}%</b>
-          </div>
-          <div class="bar" role="progressbar" aria-valuenow="${u.progress}" aria-valuemin="0" aria-valuemax="100">
-            <span style="width:${u.progress}%; ${u.status === 'done' ? 'background:var(--accent-success-fill);' : ''}"></span>
-          </div>
-        </div>
-        <div class="unit-footer">
-          <span class="muted" style="font-size:12px;">${u.challenges || 3} desafíos</span>
-          <button type="button" class="btn ${isActive ? 'btn-primary' : 'btn-ghost'} btn-sm" data-select-unit="${u.num}">
-            ${isActive ? 'Activa' : isLocked ? 'Ver temario' : 'Ver desafíos'}
-          </button>
-        </div>
-      </article>
-    `;
-  }).join('');
 }
 
 function fillCourseDetail(name, activeUnitNum = null) {
@@ -3095,18 +3390,29 @@ function fillCourseDetail(name, activeUnitNum = null) {
   $$('[data-catalog]').forEach((el, i) => { if (el.hasAttribute('data-locked-course')) catalogInstances[i]?.setCourse(c.code || c.name); });
 }
 
-// Delegación de clics para unidades del curso
+// Delegación de clics para unidades del curso y navegación secuencial
 document.addEventListener('click', e => {
-  const allUnitsBtn = e.target.closest('#btn-all-units, [data-unit-all]');
-  if (allUnitsBtn) {
+  const gotoOverview = e.target.closest('[data-goto-overview], #btn-all-units, [data-unit-all]');
+  if (gotoOverview) {
     const courseName = $('[data-course-name]')?.textContent || 'MSI';
     const c = findCourse(courseName);
-    location.hash = `#curso/${c.code || c.name}`;
+    location.hash = `#curso/${c.code || c.name}?u=all`;
+    return;
+  }
+
+  const navUnitBtn = e.target.closest('[data-nav-unit]');
+  if (navUnitBtn) {
+    const uNum = navUnitBtn.dataset.navUnit;
+    const courseName = $('[data-course-name]')?.textContent || 'MSI';
+    const c = findCourse(courseName);
+    if (uNum) {
+      location.hash = `#curso/${c.code || c.name}?u=${uNum}`;
+    }
     return;
   }
 
   const unitTarget = e.target.closest('[data-unit-card], [data-select-unit]');
-  if (unitTarget && !e.target.closest('#btn-all-units')) {
+  if (unitTarget && !e.target.closest('#btn-all-units') && !e.target.closest('[data-goto-overview]')) {
     const unitNum = unitTarget.dataset.unitCard || unitTarget.dataset.selectUnit;
     const courseName = $('[data-course-name]')?.textContent || 'MSI';
     const c = findCourse(courseName);
@@ -4550,6 +4856,21 @@ let currentActiveAccordionUnit = 2;
 
 function buildCourseSubpanelHTML(cObj, hashFull) {
   const units = cObj?.units || [];
+  const [cleanH, qString] = (hashFull || '').split('?');
+  if (qString) {
+    const qParams = new URLSearchParams(qString);
+    const uParam = qParams.get('u');
+    if (uParam && uParam !== 'all' && uParam !== '0') {
+      currentActiveAccordionUnit = Number(uParam);
+      currentExpandedGroups.add(`u-${uParam}`);
+    } else if (uParam === 'all' || uParam === '0') {
+      currentActiveAccordionUnit = null;
+      currentActiveAccordionItem = 'avisos';
+    }
+  } else if (currentActiveUnit) {
+    currentActiveAccordionUnit = currentActiveUnit;
+    currentExpandedGroups.add(`u-${currentActiveUnit}`);
+  }
 
   return `
     <div style="padding: 0 4px 10px;">
@@ -4812,26 +5133,10 @@ document.addEventListener('click', e => {
 
     if (toggleBtn.dataset.unitNum) {
       const uNum = Number(toggleBtn.dataset.unitNum);
-      currentActiveAccordionUnit = uNum;
-      $$('.course-accordion-group').forEach(g => {
-        g.classList.toggle('is-current-unit', Number(g.dataset.unitNum) === uNum);
-      });
-
       const cleanHash = location.hash.split('?')[0];
       const cName = cleanHash.startsWith('#curso/') ? cleanHash.split('/')[1] : 'MSI';
       const cObj = findCourse(cName) || COURSES.MSI;
-      if (cObj) {
-        $('#tab-mat-desafios')?.click();
-        renderCourseUnits(cObj, uNum);
-        listInstances.filter((_, i) => $$('[data-challenge-list]')[i]?.hasAttribute('data-locked-course')).forEach(l => {
-          l.setCourse(cObj.code || cObj.name);
-          l.setUnit(uNum);
-        });
-        const unitCard = $(`[data-unit-card="${uNum}"]`);
-        if (unitCard) {
-          unitCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-      }
+      location.hash = `#curso/${cObj.code || cObj.name}?u=${uNum}`;
     }
     return;
   }
@@ -4849,32 +5154,20 @@ document.addEventListener('click', e => {
       b.setAttribute('aria-current', isTarget ? 'true' : 'false');
     });
 
-    if (itemBtn.dataset.unitNum) {
-      const uNum = Number(itemBtn.dataset.unitNum);
-      currentActiveAccordionUnit = uNum;
-      $$('.course-accordion-group').forEach(g => {
-        g.classList.toggle('is-current-unit', Number(g.dataset.unitNum) === uNum);
-      });
-    }
-
     const cleanHash = location.hash.split('?')[0];
     const cName = cleanHash.startsWith('#curso/') ? cleanHash.split('/')[1] : 'MSI';
     const cObj = findCourse(cName) || COURSES.MSI;
 
     if (action === 'avisos') {
       $('#tab-mat-desafios')?.click();
-      if (cObj) renderCourseUnits(cObj, null);
-      $('.next-action-card')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      location.hash = `#curso/${cObj.code || cObj.name}?u=all`;
     } else if (action === 'estado') {
       $('#tab-mat-estado')?.click();
-    } else if (action === 'material') {
-      $('#tab-mat-material')?.click();
-    } else if (action === 'desafio') {
+    } else if (action === 'material' || action === 'desafio') {
       $('#tab-mat-desafios')?.click();
-      if (itemBtn.dataset.unitNum && cObj) {
+      if (itemBtn.dataset.unitNum) {
         const uNum = Number(itemBtn.dataset.unitNum);
-        renderCourseUnits(cObj, uNum);
-        $(`[data-unit-card="${uNum}"]`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        location.hash = `#curso/${cObj.code || cObj.name}?u=${uNum}`;
       }
     }
     return;
@@ -4958,7 +5251,19 @@ function route() {
     unitParam = qParams.get('u');
   }
   if (id === 'curso') {
-    currentActiveUnit = unitParam ? Number(unitParam) : null;
+    const cObj = findCourse(decodeURIComponent(arg || 'MSI'));
+    const defaultUnit = cObj?.units?.find(u => u.status === 'in-progress' || u.status === 'active')?.num 
+      || cObj?.units?.find(u => u.progress > 0 && u.progress < 100)?.num 
+      || (cObj?.units && cObj.units[0]?.num) 
+      || 2;
+
+    if (unitParam === 'all' || unitParam === '0') {
+      currentActiveUnit = null;
+    } else if (unitParam) {
+      currentActiveUnit = Number(unitParam);
+    } else {
+      currentActiveUnit = defaultUnit;
+    }
   } else {
     currentActiveUnit = null;
   }
@@ -4976,7 +5281,7 @@ function route() {
 
   $$('.screen').forEach(s => s.hidden = true);
   let el = screenEl(id);
-  if (id === 'curso') fillCourseDetail(decodeURIComponent(arg || 'MSI'), unitParam);
+  if (id === 'curso') fillCourseDetail(decodeURIComponent(arg || 'MSI'), currentActiveUnit);
   if (id === 'ranking') renderRanking();
   if (!el) {
     el = $('#screen-pending');
