@@ -1,0 +1,1272 @@
+<!doctype html>
+<html lang="es-AR" data-theme="dark" data-skin="gamer" data-palette="electric">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TPI 2026 · Vista de Materia (Acordeón Clásico Modular)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;0,600;0,700;1,700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Pixelify+Sans:wght@600;700&family=Press+Start+2P&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/tokens.css" />
+<link rel="stylesheet" href="css/base.css" />
+<link rel="stylesheet" href="css/components.css" />
+
+<style>
+/* =========================================================================
+   ESTILOS ACORDEÓN CLÁSICO MODULAR · V3
+   ========================================================================= */
+:root {
+  --bg-course: #0b0e14;
+  --surface-1: #121722;
+  --surface-2: #18202e;
+  --surface-3: #1f2a3c;
+  --surface-hover: #26344b;
+  --border-dim: #232d3f;
+  --border-bright: #00e5ff;
+  --text-main: #f0f4f8;
+  --text-muted: #8b99ad;
+  --accent-cyan: #00e5ff;
+  --accent-pink: #f275dc;
+  --accent-green: #00e676;
+  --accent-gold: #ffd600;
+  --accent-blue: #0284c7;
+}
+
+[data-skin="sobrio"] {
+  --font-display: 'IBM Plex Sans', sans-serif;
+}
+
+body {
+  background: var(--bg-course);
+  color: var(--text-main);
+  font-family: 'IBM Plex Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+.course-container {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 24px 20px 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* 1. TOP HEADER & BREADCRUMBS */
+.v3-top-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.v3-breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-muted);
+  background: var(--surface-1);
+  border: 1px solid var(--border-dim);
+  padding: 6px 14px;
+  border-radius: 6px;
+}
+
+.v3-breadcrumb a {
+  color: var(--text-muted);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.15s;
+}
+
+.v3-breadcrumb a:hover {
+  color: #fff;
+}
+
+.v3-breadcrumb .current {
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+/* THEME & SKIN TOGGLES */
+.theme-switch-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface-1);
+  border: 1px solid var(--border-dim);
+  padding: 4px;
+  border-radius: 6px;
+}
+
+.theme-toggle-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.theme-toggle-btn.active {
+  background: var(--surface-3);
+  color: #fff;
+}
+
+/* 2. COURSE HERO BANNER */
+.v3-hero-card {
+  background: linear-gradient(135deg, #0d1a2d 0%, #152438 50%, #1a132e 100%);
+  border: 1px solid var(--border-dim);
+  border-radius: 10px;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.v3-hero-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 100%;
+  background: radial-gradient(circle at 100% 50%, rgba(0, 229, 255, 0.1), transparent 70%);
+  pointer-events: none;
+}
+
+.v3-hero-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 1;
+}
+
+.v3-hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: 'Chakra Petch', sans-serif;
+  letter-spacing: 0.8px;
+  color: var(--accent-cyan);
+  text-transform: uppercase;
+}
+
+.v3-hero-title {
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+}
+
+.v3-hero-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 13px;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+
+.v3-hero-stats {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  z-index: 1;
+}
+
+.v3-stat-box {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--border-dim);
+  border-radius: 8px;
+  padding: 8px 14px;
+  text-align: center;
+  min-width: 80px;
+}
+
+.v3-stat-num {
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent-cyan);
+}
+
+.v3-stat-label {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+/* 3. TABS BAR */
+.v3-tabs-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  border-bottom: 1px solid var(--border-dim);
+  padding-bottom: 8px;
+  margin-top: 4px;
+}
+
+.v3-tab-item {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-muted);
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.v3-tab-item:hover {
+  color: #fff;
+  background: var(--surface-1);
+}
+
+.v3-tab-item.active {
+  background: var(--surface-2);
+  border-color: var(--border-bright);
+  color: #fff;
+}
+
+/* 4. TOOLBAR DE SECCIONES (BUSCADOR + CREAR + COLAPSAR) */
+.sections-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 6px 0;
+}
+
+.toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.search-input-wrap {
+  position: relative;
+  width: 280px;
+}
+
+.search-input-wrap input {
+  width: 100%;
+  background: var(--surface-1);
+  border: 1px solid var(--border-dim);
+  color: #fff;
+  padding: 8px 12px 8px 34px;
+  border-radius: 6px;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.search-input-wrap input:focus {
+  border-color: var(--accent-cyan);
+}
+
+.search-input-wrap svg {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+}
+
+.toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* BOTONES */
+.btn-primary {
+  background: var(--accent-cyan);
+  border: none;
+  color: #0b0e14;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.3);
+  transition: all 0.15s ease;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: var(--surface-1);
+  border: 1px solid var(--border-dim);
+  color: var(--text-muted);
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.btn-ghost:hover {
+  color: #fff;
+  border-color: var(--border-bright);
+}
+
+/* 5. STACK DE SECCIONES ACORDEÓN */
+.accordion-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.accordion-section {
+  background: var(--surface-1);
+  border: 1px solid var(--border-dim);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.accordion-section:hover {
+  border-color: rgba(0, 229, 255, 0.35);
+}
+
+.accordion-header {
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  background: var(--surface-1);
+  transition: background-color 0.15s;
+}
+
+.accordion-header:hover {
+  background: var(--surface-2);
+}
+
+.accordion-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.accordion-toggle-badge {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: 1.5px solid var(--accent-cyan);
+  background: rgba(0, 229, 255, 0.08);
+  color: var(--accent-cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  transition: transform 0.2s ease;
+}
+
+.accordion-section.collapsed .accordion-toggle-badge {
+  border-color: var(--border-dim);
+  background: var(--surface-2);
+  color: var(--text-muted);
+}
+
+.accordion-title {
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 15.5px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.accordion-subtitle {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.accordion-body {
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: var(--surface-1);
+  border-top: 1px solid var(--border-dim);
+}
+
+.accordion-section.collapsed .accordion-body {
+  display: none;
+}
+
+/* BANNERS INTERNOS CONFIGURABLES */
+.banner-tup-navy {
+  background: #13243d;
+  border: 1px solid #1f3b64;
+  border-radius: 6px;
+  padding: 22px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 8px;
+}
+
+.banner-tup-logo-mark {
+  border: 2px solid #ffffff;
+  padding: 4px 14px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #ffffff;
+  border-radius: 2px;
+}
+
+.banner-unit-blue {
+  background: #0284c7;
+  color: #ffffff;
+  padding: 10px 14px;
+  border-radius: 5px;
+  font-size: 13.5px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* TRÍADA DE 3 COLUMNAS MODULARES */
+.unit-triad-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.unit-col-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border-dim);
+  border-radius: 6px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.unit-col-card.highlight {
+  border-color: rgba(0, 229, 255, 0.4);
+  background: rgba(0, 229, 255, 0.03);
+}
+
+.unit-col-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-dim);
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.unit-item-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  background: var(--surface-1);
+  border: 1px solid var(--border-dim);
+  border-radius: 4px;
+  color: var(--text-main);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  transition: all 0.15s;
+}
+
+.unit-item-link:hover {
+  border-color: var(--accent-cyan);
+  transform: translateX(2px);
+}
+
+/* MODAL DE CONFIGURACIÓN */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 7, 12, 0.85);
+  backdrop-filter: blur(6px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+}
+
+.modal-overlay.open {
+  display: flex;
+}
+
+.modal-card {
+  background: var(--surface-1);
+  border: 1px solid var(--border-bright);
+  box-shadow: 0 0 30px rgba(0, 229, 255, 0.25);
+  border-radius: 10px;
+  max-width: 580px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-head {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-dim);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface-2);
+}
+
+.modal-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modal-footer {
+  padding: 14px 20px;
+  border-top: 1px solid var(--border-dim);
+  background: var(--surface-2);
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* Acordeón: Régimen Académico y Criterios de Evaluación */
+.minimal-eval-container {
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: #06101c;
+}
+
+.minimal-eval-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1.15fr);
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  .minimal-eval-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.minimal-eval-left {
+  font-size: 13.5px;
+  line-height: 1.65;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: var(--text-muted, #94a3b8);
+}
+
+.minimal-eval-callout {
+  font-size: 12.5px;
+  color: var(--text-muted, #94a3b8);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: rgba(13, 27, 45, 0.7);
+  border-radius: 6px;
+  border: 1px solid rgba(0, 180, 255, 0.2);
+}
+
+.minimal-eval-gold-card {
+  border: 1.5px solid var(--accent-gold, #ffd600);
+  background: linear-gradient(135deg, rgba(255, 214, 0, 0.07) 0%, rgba(255, 214, 0, 0.02) 100%);
+  border-radius: 8px;
+  padding: 18px 20px;
+  box-shadow: 0 0 16px rgba(255, 214, 0, 0.08);
+}
+
+.minimal-eval-gold-card .promo-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent-gold, #ffd600);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 6px;
+}
+
+.minimal-eval-gold-card .promo-title {
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 19px;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 8px;
+  line-height: 1.2;
+}
+
+.minimal-eval-gold-card .promo-desc {
+  font-size: 13px;
+  color: var(--text-muted, #94a3b8);
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.minimal-eval-gold-card .promo-sub {
+  font-size: 12px;
+  border-top: 1px solid rgba(255, 214, 0, 0.2);
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--text-muted, #94a3b8);
+}
+
+.minimal-eval-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+</style>
+</head>
+<body>
+
+<div class="course-container">
+
+  <!-- TOP HEADER & BREADCRUMBS -->
+  <header class="v3-top-header">
+    <nav class="v3-breadcrumb">
+      <a href="#">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        Mis Cursos
+      </a>
+      <span style="color:#4a576d;">/</span>
+      <span class="current">TPI 2026 (MSI)</span>
+    </nav>
+
+    <div style="display:flex; align-items:center; gap:12px;">
+      <div class="theme-switch-group">
+        <button class="theme-toggle-btn active" onclick="setSkinMode('gamer', this)">🎮 Arcade</button>
+        <button class="theme-toggle-btn" onclick="setSkinMode('sobrio', this)">💼 Sobrio</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- COURSE HERO BANNER -->
+  <section class="v3-hero-card">
+    <div class="v3-hero-info">
+      <div class="v3-hero-tag">
+        <span>⚡ Materia Activa</span>
+        <span>·</span>
+        <span>Comisión 4K2</span>
+      </div>
+      <h1 class="v3-hero-title">
+        Taller de Práctica Integradora 2026
+      </h1>
+      <div class="v3-hero-meta">
+        <span>👨‍🏫 Prof. Sergio Medina</span>
+        <span>📅 1° Cuatrimestre 2026</span>
+        <span>📍 Modalidad Mixta (Aula Magna / Campus)</span>
+      </div>
+    </div>
+
+    <div class="v3-hero-stats">
+      <div class="v3-stat-box">
+        <div class="v3-stat-num">82%</div>
+        <div class="v3-stat-label">Progreso</div>
+      </div>
+      <div class="v3-stat-box">
+        <div class="v3-stat-num" style="color:var(--accent-gold);">1,450</div>
+        <div class="v3-stat-label">XP Ganados</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOXED TABS BAR -->
+  <nav class="v3-tabs-bar">
+    <button class="v3-tab-item active" onclick="switchCourseTab('desafios', this)">
+      <span>📂</span> Contenidos de la Cursada
+    </button>
+    <button class="v3-tab-item" onclick="switchCourseTab('estado', this)">
+      <span>🏆</span> Mi Estado & Promoción
+    </button>
+    <button class="v3-tab-item" onclick="switchCourseTab('materiales', this)">
+      <span>📚</span> Bibliografía & Pautas
+    </button>
+  </nav>
+
+  <!-- TOOLBAR DE CONTENIDOS -->
+  <div class="sections-toolbar" id="toolbar-cont">
+    <div class="toolbar-left">
+      <span style="font-size:14.5px; font-weight:700;">Módulos & Unidades Temáticas</span>
+      <div class="search-input-wrap">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="courseSearch" placeholder="Buscar material o TP..." oninput="handleFilter(this.value)" />
+      </div>
+    </div>
+
+    <div class="toolbar-right">
+      <button class="btn-primary" onclick="openCreateSectionModal()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        + Crear Sección
+      </button>
+      <button class="btn-ghost" id="btnToggleAll" onclick="toggleAllSections()">
+        <span id="lblToggleAll">Colapsar todo</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- STACK DE SECCIONES ACORDEÓN -->
+  <main class="accordion-stack" id="courseAccordionStack">
+
+  <!-- STACK DE SECCIONES ACORDEÓN MINIMALISTA (Fiel a media_1791003978453.png) -->
+  <main class="accordion-stack" id="courseAccordionStack">
+
+    <!-- 1. SECCIÓN: GENERAL (Bienvenida, avisos oficiales y próximo paso) -->
+    <div class="minimal-section-card is-expanded" id="sec-general">
+      <button type="button" class="minimal-section-header" onclick="this.parentElement.classList.toggle('is-expanded')">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span>📌</span>
+          <span>General</span>
+          <span style="font-size:12px; font-weight:400; color:var(--text-muted); opacity:0.9; margin-left:4px;">Bienvenida, avisos oficiales y próximo paso</span>
+        </div>
+        <svg class="minimal-section-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </button>
+      <div class="minimal-section-body">
+        <!-- Banner Institucional TUP (Foto Cátedra) -->
+        <div class="course-tup-banner">
+          <span class="course-tup-logo-mark">TUP</span>
+          <h3 class="course-tup-banner-title">Tecnicatura Universitaria en Programación</h3>
+          <span class="course-tup-banner-sub">Área de Desarrollo de Software · Cursada 2026 · Modalidad Híbrida</span>
+        </div>
+
+        <!-- Avisos Oficiales (Foto Cátedra) -->
+        <div class="course-notices-banner">
+          <div class="course-notices-left">
+            <div class="minimal-icon-box cyan">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            </div>
+            <div>
+              <div style="font-size:13.5px; font-weight:700; color:#fff;">Avisos oficiales · 2 nuevos</div>
+              <div style="font-size:12px; color:var(--text-muted);">Docente Ana Torres: "Recordamos las fechas límites del Desafío 4 y la pauta de entrega para Promoción Directa."</div>
+            </div>
+          </div>
+          <button type="button" class="btn-ghost" style="font-size:12px;" onclick="alert('Abriendo cartelera de comunicados oficiales...')">Ver avisos &rarr;</button>
+        </div>
+
+        <!-- TU PRÓXIMO PASO (Hero Card Foto) -->
+        <div class="course-next-step-card">
+          <div class="course-next-step-head">
+            <span class="course-next-step-tag">✨ TU PRÓXIMO PASO · UNIDAD 2</span>
+            <span class="course-next-step-due">⏳ VENCE EN 5 DÍAS (15 OCT - 23:59 HS)</span>
+          </div>
+          <div class="course-next-step-body">
+            <div style="flex:1; min-width:260px;">
+              <h3 class="course-next-step-title">Desafío 4: Arquitectura en Capas y DTOs</h3>
+              <div class="course-next-step-desc">Implementá la separación de responsabilidades entre Controladores y Servicios según la rúbrica oficial de la cátedra.</div>
+              <div class="course-next-step-badges">
+                <span class="badge" style="background:#1e293b; color:#94a3b8; border:1px solid #334155; padding:3px 8px; border-radius:4px; font-size:11px;">Dificultad Media</span>
+                <span class="badge" style="background:rgba(255,214,0,0.15); color:#ffd600; border:1px solid rgba(255,214,0,0.3); padding:3px 8px; border-radius:4px; font-size:11px; font-weight:700;">+40 XP</span>
+                <span class="badge" style="background:rgba(0,229,255,0.1); color:#00e5ff; border:1px solid rgba(0,229,255,0.3); padding:3px 8px; border-radius:4px; font-size:11px;">🪙 10 monedas</span>
+                <span class="badge" style="background:rgba(16,185,129,0.15); color:#34d399; border:1px solid rgba(16,185,129,0.3); padding:3px 8px; border-radius:4px; font-size:11px; font-weight:700;">⭐ Obligatorio para P90</span>
+              </div>
+            </div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+              <button type="button" class="btn-primary" style="background:#ec4899; border-color:#ec4899; box-shadow:0 0 12px rgba(236,72,153,0.4);" onclick="alert('Abriendo Desafío 4...')">Continuar desafío &rarr;</button>
+              <button type="button" class="btn-ghost" onclick="alert('Rúbrica: Separación modular (40%), Tests automatizados (30%), Manejo de errores (30%)')">Ver Rúbrica</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. SECCIÓN: INFORMACIÓN GENERAL (Foto Cátedra) -->
+    <div class="minimal-section-card is-expanded" id="sec-info-gen">
+      <button type="button" class="minimal-section-header" onclick="this.parentElement.classList.toggle('is-expanded')">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span>📋</span>
+          <span>Información General</span>
+          <span style="font-size:12px; font-weight:400; color:var(--text-muted); opacity:0.9; margin-left:4px;">Programa analítico, fechas de parciales y régimen de promoción</span>
+        </div>
+        <svg class="minimal-section-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </button>
+      <div class="minimal-section-body">
+        <div class="minimal-info-grid">
+          <!-- 1. Programa -->
+          <div class="minimal-info-card">
+            <div>
+              <div class="minimal-info-card-head">
+                <div class="minimal-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></div>
+                <span>Programa de la Asignatura</span>
+              </div>
+              <p class="minimal-info-card-desc" style="margin:10px 0 0;">Contenidos mínimos, fundamentación y competencias a desarrollar en el trayecto 2026.</p>
+            </div>
+            <button type="button" class="btn-ghost" style="width:100%; justify-content:center;" onclick="alert('Descargando Programa Analítico 2026 (PDF)...')">Descargar programa PDF</button>
+          </div>
+
+          <!-- 2. Promoción Directa P90 (Desplegable) -->
+          <div class="minimal-info-card" style="border-color:rgba(255,214,0,0.3);">
+            <div>
+              <div class="minimal-info-card-head">
+                <div class="minimal-icon-box gold"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1 .45-1 1v1h12v-1c0-.55-.45-1-1-1h-2c-.55 0-1-.45-1-1v-2.34"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"></path></svg></div>
+                <span>Promoción Directa (P90)</span>
+              </div>
+              <p class="minimal-info-card-desc" style="margin:10px 0 0;">Asistencia mínima 80%, 100% de desafíos obligatorios aprobados con calificación &ge; 8.</p>
+            </div>
+            <button type="button" class="btn-primary" style="width:100%; justify-content:center; background:rgba(255,214,0,0.2); color:#ffd600; border:1px solid #ffd600;" onclick="document.getElementById('card-criterios-drawer-v3').classList.toggle('is-expanded')">Ver mi estado y reglas &darr;</button>
+          </div>
+
+          <!-- Drawer Desplegable de Reglas P90 -->
+          <div class="minimal-expandable-card is-expanded" id="card-criterios-drawer-v3" style="grid-column:1/-1;">
+            <div class="minimal-expandable-drawer">
+              <div class="minimal-eval-container">
+                <div class="minimal-eval-grid">
+                  <div class="minimal-eval-left">
+                    <p style="margin:0;">La materia combina encuentros presenciales y desafíos de código interactivo en el campus. Cada semana vas a desarrollar soluciones prácticas, revisar tus algoritmos con pruebas automatizadas y compartir lo aprendido con la comisión.</p>
+                    
+                    <p style="margin:0;"><b style="color:var(--text-primary, #ffffff);">Reglas de cursada:</b> Se requiere un <b style="color:var(--accent-cyan, #00e5ff);">80% de asistencia</b> y la entrega aprobada de todos los trabajos prácticos obligatorios. Respetá las fechas del calendario; el trabajo en equipo no reemplaza las entregas de código individuales.</p>
+                    
+                    <p style="margin:0;"><b style="color:var(--text-primary, #ffffff);">Evaluación con IA:</b> La IA brinda una primera devolución según la rúbrica de pruebas; el equipo docente revisa y valida la calificación final.</p>
+                    
+                    <div class="minimal-eval-callout">
+                      <span style="color:var(--accent-gold);">✨</span>
+                      <span><b style="color:var(--text-primary, #ffffff);">Nota académica:</b> Promedio de TP y parciales. Los XP y monedas recompensan tu constancia.</span>
+                    </div>
+                  </div>
+
+                  <!-- Tarjeta Dorada Promoción Directa P90 -->
+                  <div class="minimal-eval-gold-card">
+                    <div class="promo-badge">
+                      <span>🏆</span> PROMOCIÓN DIRECTA
+                    </div>
+                    <h3 class="promo-title">Percentil P90 o superior</h3>
+                    <div class="promo-desc">
+                      Tu puntaje actual es <b style="color:var(--accent-cyan, #00e5ff);">P88</b>. Estás a sólo <b style="color:#ffffff;">2 percentiles</b> de eximirte del examen final ordinario.
+                    </div>
+                    <div class="promo-sub">
+                      <div><b style="color:var(--text-primary, #ffffff);">Requisitos concurrentes:</b> Asistencia &ge; 80%, 100% de desafíos obligatorios aprobados y ambos exámenes parciales &ge; 8/10.</div>
+                      <div><b style="color:var(--text-primary, #ffffff);">Régimen Regular:</b> Con asistencia y TP obligatorios cumplidos y parciales &ge; 6/10, regularizás la asignatura y rendís examen final.</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="minimal-eval-footer">
+                  <button type="button" class="btn-primary" onclick="alert('Abriendo Ranking de la Cátedra...')">
+                    🏆 Ver Ranking Completo de Cátedra
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Fechas de Parciales -->
+          <div class="minimal-info-card">
+            <div>
+              <div class="minimal-info-card-head">
+                <div class="minimal-icon-box cyan"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></div>
+                <span>Fechas de Parciales</span>
+              </div>
+              <p class="minimal-info-card-desc" style="margin:10px 0 0;"><b>1° Parcial:</b> 18 Octubre<br/><b>2° Parcial:</b> 28 Noviembre<br/><b>Recuperatorios:</b> 05 Diciembre</p>
+            </div>
+            <button type="button" class="btn-ghost" style="width:100%; justify-content:center;" onclick="alert('Abriendo calendario académico...')">Ver en calendario</button>
+          </div>
+
+          <!-- 4. Bibliografía Obligatoria -->
+          <div class="minimal-info-card">
+            <div>
+              <div class="minimal-info-card-head">
+                <div class="minimal-icon-box" style="background:rgba(16,185,129,0.15); color:#34d399;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg></div>
+                <span>Bibliografía Obligatoria</span>
+              </div>
+              <p class="minimal-info-card-desc" style="margin:10px 0 0;">Clean Architecture (Robert C. Martin), Refactoring (Martin Fowler) y repositorios oficiales.</p>
+            </div>
+            <button type="button" class="btn-ghost" style="width:100%; justify-content:center;" onclick="alert('Abriendo biblioteca digital...')">Explorar bibliografía</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. UNIDAD 1 -->
+    <div class="minimal-section-card is-expanded" id="sec-u1">
+      <button type="button" class="minimal-section-header" onclick="this.parentElement.classList.toggle('is-expanded')">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span>💡</span>
+          <span>Unidad 1: Introducción a la Gestión de Proyectos de Software</span>
+        </div>
+        <svg class="minimal-section-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </button>
+      <div class="minimal-section-body">
+        <div class="unit-header-ribbon">
+          <span>Introducción a la gestión de proyectos de software y estimaciones</span>
+          <span style="font-size:11.5px; opacity:0.85;">2 teóricos · 2 prácticas</span>
+        </div>
+
+        <a href="javascript:void(0)" class="minimal-resource-card" onclick="alert('Descargando Material Teórico...')">
+          <div class="minimal-icon-box">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          </div>
+          <div class="minimal-item-info">
+            <div class="minimal-item-title">Material Teórico - Ciclo de Vida y Estimaciones Ágiles</div>
+            <div class="minimal-item-meta">PDF · 2.1 MB</div>
+          </div>
+        </a>
+
+        <a href="javascript:void(0)" class="minimal-resource-card" onclick="alert('Descargando Guía de Actividades...')">
+          <div class="minimal-icon-box cyan">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+          </div>
+          <div class="minimal-item-info">
+            <div class="minimal-item-title">Guía de Actividades 1 - Historias de Usuario</div>
+            <div class="minimal-item-meta">PDF · 1.4 MB</div>
+          </div>
+        </a>
+
+        <a href="javascript:void(0)" class="minimal-resource-card" onclick="alert('Abriendo Material de Apoyo...')">
+          <div class="minimal-icon-box">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+          </div>
+          <div class="minimal-item-info">
+            <div class="minimal-item-title">Material de Apoyo - Poker Planning y Criterios Gherkin</div>
+            <div class="minimal-item-meta">Apunte de cátedra</div>
+          </div>
+        </a>
+
+        <a href="javascript:void(0)" class="minimal-resource-card" onclick="alert('Abriendo Entrega de Actividad...')">
+          <div class="minimal-icon-box" style="background:rgba(236,72,153,0.15); color:#f472b6;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+          </div>
+          <div class="minimal-item-info">
+            <div class="minimal-item-title">Entrega actividad - CLASE 02/09</div>
+            <div class="minimal-item-meta">Apertura: miércoles 2 de septiembre 20:00 &middot; Cierre: 22:30 &middot; <span style="color:var(--accent-gold);">+40 XP</span></div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- 4. UNIDAD 2 -->
+    <div class="minimal-section-card is-expanded" id="sec-u2">
+      <button type="button" class="minimal-section-header" onclick="this.parentElement.classList.toggle('is-expanded')">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span>⚡</span>
+          <span>Unidad 2: Arquitectura en Capas y Microservicios</span>
+        </div>
+        <svg class="minimal-section-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </button>
+      <div class="minimal-section-body">
+        <div class="unit-header-ribbon">
+          <span>Arquitectura en capas, DTOs y separación de servicios</span>
+          <span style="font-size:11.5px; opacity:0.85;">2 teóricos · 2 prácticas</span>
+        </div>
+
+        <a href="javascript:void(0)" class="minimal-resource-card" onclick="alert('Abriendo Teórico de Microservicios...')">
+          <div class="minimal-icon-box">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+          </div>
+          <div class="minimal-item-info">
+            <div class="minimal-item-title">Teórico: Arquitectura en Capas y Microservicios</div>
+            <div class="minimal-item-meta">PDF · 3.4 MB</div>
+          </div>
+        </a>
+
+        <a href="javascript:void(0)" class="minimal-resource-card" onclick="alert('Abriendo TP 2...')">
+          <div class="minimal-icon-box gold">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
+          </div>
+          <div class="minimal-item-info">
+            <div class="minimal-item-title">Desafío 4: Arquitectura en Capas y DTOs</div>
+            <div class="minimal-item-meta" style="color:var(--accent-gold);">⏳ Vence en 5 días · +40 XP · Obligatorio P90</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+
+
+  </main>
+
+</div>
+
+<!-- =========================================================================
+     MODAL DE CREACIÓN / CONFIGURACIÓN DE SECCIÓN DE CURSO
+     ========================================================================= -->
+<div id="createSectionModal" class="modal-overlay">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h2 style="font-family:'Chakra Petch', sans-serif; font-size:17px; font-weight:700; color:#fff; margin:0; display:flex; align-items:center; gap:8px;">
+        ⚙️ Configurar y Crear Nueva Sección
+      </h2>
+      <button onclick="closeCreateSectionModal()" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:18px;">✕</button>
+    </div>
+
+    <form class="modal-body" onsubmit="handleCreateSectionForm(event)">
+      <div style="display:flex; flex-direction:column; gap:5px;">
+        <label style="font-size:12.5px; font-weight:700; color:#fff;">Título de la Sección *</label>
+        <input type="text" id="mSecTitle" style="background:var(--surface-2); border:1px solid var(--border-dim); color:#fff; padding:9px 12px; border-radius:6px; font-size:13.5px; outline:none;" placeholder="Ej: Unidad 3: Patrones de Resiliencia con Resilience4j" required />
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:5px;">
+        <label style="font-size:12.5px; font-weight:700; color:#fff;">Descripción breve u objetivos</label>
+        <textarea id="mSecDesc" rows="2" style="background:var(--surface-2); border:1px solid var(--border-dim); color:#fff; padding:9px 12px; border-radius:6px; font-size:13.5px; outline:none;" placeholder="Resumen para que el alumno comprenda los objetivos del módulo..."></textarea>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+        <div style="display:flex; flex-direction:column; gap:5px;">
+          <label style="font-size:12.5px; font-weight:700; color:#fff;">Icono / Emoji</label>
+          <input type="text" id="mSecIcon" value="⚡" style="background:var(--surface-2); border:1px solid var(--border-dim); color:#fff; padding:9px 12px; border-radius:6px; font-size:13.5px; outline:none;" />
+        </div>
+        <div style="display:flex; flex-direction:column; gap:5px;">
+          <label style="font-size:12.5px; font-weight:700; color:#fff;">Recompensa XP</label>
+          <input type="number" id="mSecXP" value="400" style="background:var(--surface-2); border:1px solid var(--border-dim); color:#fff; padding:9px 12px; border-radius:6px; font-size:13.5px; outline:none;" />
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:5px;">
+        <label style="font-size:12.5px; font-weight:700; color:#fff;">Estilo de Banner Configurable</label>
+        <select id="mSecBanner" style="background:var(--surface-2); border:1px solid var(--border-dim); color:#fff; padding:9px 12px; border-radius:6px; font-size:13.5px; outline:none;">
+          <option value="blue">Cinta Azul Cátedra (Institucional TUP)</option>
+          <option value="navy">Banner Azul Marino con Logo TUP</option>
+          <option value="gamer">Neon Arcade Gamer (Cyan)</option>
+          <option value="gold">Hito / Parcial Dorado</option>
+        </select>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+        <div style="display:flex; flex-direction:column; gap:5px;">
+          <label style="font-size:12.5px; font-weight:700; color:#fff;">Documento Inicial (PDF)</label>
+          <input type="text" id="mSecRes" value="Diapositivas y Guía Teórica.pdf" style="background:var(--surface-2); border:1px solid var(--border-dim); color:#fff; padding:9px 12px; border-radius:6px; font-size:13.5px; outline:none;" />
+        </div>
+        <div style="display:flex; flex-direction:column; gap:5px;">
+          <label style="font-size:12.5px; font-weight:700; color:#fff;">Desafío / Tarea Asignada</label>
+          <input type="text" id="mSecTask" value="TP Práctico del Módulo" style="background:var(--surface-2); border:1px solid var(--border-dim); color:#fff; padding:9px 12px; border-radius:6px; font-size:13.5px; outline:none;" />
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-ghost" onclick="closeCreateSectionModal()">Cancelar</button>
+        <button type="submit" class="btn-primary">Guardar y Publicar Sección</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+// ESTADO Y CONTROL DE COLAPSO
+let isAllCollapsed = false;
+
+function toggleSection(secId) {
+  const el = document.getElementById(secId);
+  if (!el) return;
+  el.classList.toggle('collapsed');
+}
+
+function toggleAllSections() {
+  const sections = document.querySelectorAll('.accordion-section');
+  isAllCollapsed = !isAllCollapsed;
+  sections.forEach(s => {
+    if (isAllCollapsed) {
+      s.classList.add('collapsed');
+    } else {
+      s.classList.remove('collapsed');
+    }
+  });
+  document.getElementById('lblToggleAll').innerText = isAllCollapsed ? 'Expandir todo' : 'Colapsar todo';
+}
+
+// BÚSQUEDA Y FILTRADO EN TIEMPO REAL
+function handleFilter(query) {
+  const q = query.toLowerCase().trim();
+  const sections = document.querySelectorAll('.accordion-section');
+  
+  sections.forEach(sec => {
+    const text = sec.innerText.toLowerCase();
+    if (!q || text.includes(q)) {
+      sec.style.display = 'block';
+      if (q) sec.classList.remove('collapsed');
+    } else {
+      sec.style.display = 'none';
+    }
+  });
+}
+
+// MODAL DE CREACIÓN
+function openCreateSectionModal() {
+  document.getElementById('createSectionModal').classList.add('open');
+  document.getElementById('mSecTitle').focus();
+}
+
+function closeCreateSectionModal() {
+  document.getElementById('createSectionModal').classList.remove('open');
+}
+
+let customSecCounter = 3;
+
+function handleCreateSectionForm(e) {
+  e.preventDefault();
+  const title = document.getElementById('mSecTitle').value.trim();
+  const desc = document.getElementById('mSecDesc').value.trim();
+  const icon = document.getElementById('mSecIcon').value.trim() || '⚡';
+  const xp = document.getElementById('mSecXP').value || '400';
+  const bannerStyle = document.getElementById('mSecBanner').value;
+  const resName = document.getElementById('mSecRes').value.trim() || 'Guía Oficial.pdf';
+  const taskName = document.getElementById('mSecTask').value.trim() || 'TP Práctico';
+
+  customSecCounter++;
+  const secId = 'sec-custom-' + customSecCounter;
+
+  const bannerBg = bannerStyle === 'navy' ? '#13243d' : bannerStyle === 'gamer' ? '#0b1928' : bannerStyle === 'gold' ? '#291f09' : '#0284c7';
+  const bannerBorder = bannerStyle === 'gamer' ? '1px solid #00e5ff' : bannerStyle === 'gold' ? '1px solid #ffd600' : 'none';
+
+  const newSecHtml = `
+    <section class="accordion-section" id="${secId}">
+      <div class="accordion-header" onclick="toggleSection('${secId}')">
+        <div class="accordion-header-left">
+          <div class="accordion-toggle-badge">▼</div>
+          <div>
+            <h2 class="accordion-title">${icon} ${title}</h2>
+            <span class="accordion-subtitle">${desc || 'Módulo configurado por el docente'}</span>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:11px; background:rgba(0, 229, 255, 0.15); color:var(--accent-cyan); padding:3px 8px; border-radius:4px; font-weight:700;">+${xp} XP</span>
+          <span style="font-size:11px; background:var(--surface-3); color:#fff; padding:3px 8px; border-radius:4px;">NUEVA</span>
+        </div>
+      </div>
+
+      <div class="accordion-body">
+        <div class="banner-unit-blue" style="background:${bannerBg}; border:${bannerBorder};">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span>${icon}</span>
+            <span>${title}</span>
+          </div>
+          <span style="font-size:10.5px; background:rgba(0,0,0,0.3); padding:2px 8px; border-radius:4px;">MÓDULO CONFIGURABLE</span>
+        </div>
+
+        <div class="unit-triad-grid">
+          <div class="unit-col-card">
+            <div>
+              <div class="unit-col-head">📘 Material Teórico</div>
+              <div style="display:flex; flex-direction:column; gap:6px; margin-top:10px;">
+                <a href="#" class="unit-item-link">
+                  <span>📄 ${resName}</span>
+                  <span style="font-size:11px; color:var(--text-muted);">PDF</span>
+                </a>
+              </div>
+            </div>
+            <span style="font-size:11px; color:var(--text-muted); text-align:center;">1 Recurso subido</span>
+          </div>
+
+          <div class="unit-col-card">
+            <div>
+              <div class="unit-col-head">📝 Guías de Práctica</div>
+              <div style="display:flex; flex-direction:column; gap:6px; margin-top:10px;">
+                <a href="#" class="unit-item-link">
+                  <span>⚡ Ejercitación de ${title}</span>
+                  <span style="font-size:11px; color:var(--accent-cyan);">Disponible</span>
+                </a>
+              </div>
+            </div>
+            <span style="font-size:11px; color:var(--text-muted); text-align:center;">Práctica asignada</span>
+          </div>
+
+          <div class="unit-col-card highlight">
+            <div>
+              <div class="unit-col-head">🚀 Desafíos & TPs</div>
+              <div style="display:flex; flex-direction:column; gap:8px; margin-top:10px;">
+                <div style="background:var(--surface-1); border:1px solid var(--accent-cyan); border-radius:4px; padding:10px; display:flex; flex-direction:column; gap:6px;">
+                  <div style="display:flex; justify-content:space-between;">
+                    <span style="font-size:13px; font-weight:700; color:#fff;">${taskName}</span>
+                    <span style="font-size:11px; color:var(--accent-gold); font-weight:700;">Vence en 7d</span>
+                  </div>
+                  <span style="font-size:11.5px; color:var(--text-muted);">Recompensa: +${xp} XP</span>
+                  <button class="btn-primary" style="padding:6px 12px; font-size:12px; width:100%; justify-content:center;" onclick="alert('Abriendo entrega...')">Subir Entrega ➔</button>
+                </div>
+              </div>
+            </div>
+            <span style="font-size:11px; color:var(--accent-gold); font-weight:700; text-align:center;">Pendiente de entrega</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  `;
+
+  const stack = document.getElementById('courseAccordionStack');
+  stack.insertAdjacentHTML('beforeend', newSecHtml);
+
+  closeCreateSectionModal();
+  
+  // Scroll suave hacia la nueva sección
+  const createdEl = document.getElementById(secId);
+  if (createdEl) {
+    createdEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    createdEl.style.boxShadow = '0 0 20px rgba(0, 229, 255, 0.4)';
+    setTimeout(() => { createdEl.style.boxShadow = ''; }, 1500);
+  }
+}
+
+// SKINS ARCADE / SOBRIO
+function setSkinMode(skin, btn) {
+  document.documentElement.dataset.skin = skin;
+  document.querySelectorAll('.theme-toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function switchCourseTab(tabName, btn) {
+  document.querySelectorAll('.v3-tab-item').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

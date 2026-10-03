@@ -1,0 +1,825 @@
+<!doctype html>
+<html lang="es-AR" data-theme="dark" data-skin="gamer" data-palette="electric">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TPI 2026 · Curso Modular Configurable</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,400;0,600;0,700;1,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Pixelify+Sans:wght@400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/tokens.css" />
+<link rel="stylesheet" href="css/base.css" />
+<link rel="stylesheet" href="css/components.css" />
+
+<style>
+/* =========================================================================
+   ESTILOS GENERALES · CURSO MODULAR CONFIGURABLE (100% FIEL A LA MAQUETA)
+   ========================================================================= */
+body {
+  background: #0f1216;
+  color: #e4e7ec;
+  font-family: 'IBM Plex Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.course-page-wrap {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 24px 20px 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 1. BREADCRUMBS SUPERIORES */
+.course-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #8c93a0;
+  background: #14181f;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: 1px solid #262b35;
+  width: fit-content;
+}
+
+.course-breadcrumb a {
+  color: #8c93a0;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.course-breadcrumb a:hover {
+  color: #ffffff;
+}
+
+.course-breadcrumb .current {
+  color: #cbd0d8;
+  font-weight: 600;
+}
+
+/* 2. PESTAÑAS PRINCIPALES DEL CURSO (BOXED TABS) */
+.course-nav-tabs-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 8px 0 16px;
+}
+
+.course-nav-tabs {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #262b35;
+  background: #13171e;
+  border-radius: 4px;
+  padding: 2px;
+}
+
+.course-tab-item {
+  padding: 8px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #8c93a0;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.course-tab-item:hover {
+  color: #ffffff;
+}
+
+.course-tab-item.active {
+  color: #00e5ff;
+  border-bottom-color: #00e5ff;
+  font-weight: 700;
+}
+
+/* 3. CONTENEDOR DE SECCIONES */
+.sections-container {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #262b35;
+  border-radius: 6px;
+  background: #13171e;
+  padding: 4px;
+}
+
+/* 4. FILAS DE SECCIÓN ACORDEÓN */
+.section-accordion {
+  border-bottom: 1px solid #262b35;
+  border-radius: 4px;
+  overflow: hidden;
+  transition: background-color 0.15s;
+}
+
+.section-accordion:last-child {
+  border-bottom: none;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  cursor: pointer;
+  user-select: none;
+  background: #13171e;
+  transition: background-color 0.15s;
+}
+
+.section-header:hover {
+  background: #181d26;
+}
+
+.section-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Cuadradito Toggle (Cyan / Gris) */
+.section-toggle-box {
+  width: 22px;
+  height: 22px;
+  border-radius: 3px;
+  border: 1.5px solid #00e5ff;
+  background: rgba(0, 229, 255, 0.08);
+  color: #00e5ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.section-accordion.collapsed .section-toggle-box {
+  border-color: #3b4758;
+  background: #1c222c;
+  color: #8c93a0;
+}
+
+.section-title-text {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.btn-collapse-top {
+  background: none;
+  border: none;
+  color: #8c93a0;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.btn-collapse-top:hover {
+  color: #00e5ff;
+  text-decoration: underline;
+}
+
+/* CUERPO EXPANDIDO DE LA SECCIÓN */
+.section-body {
+  padding: 16px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: #10141a;
+  border-top: 1px solid #202631;
+}
+
+.section-accordion.collapsed .section-body {
+  display: none;
+}
+
+/* 5. BANNERS CONFIGURABLES */
+/* Banner Tipo A: Azul Marino TUP */
+.banner-tup-navy {
+  background: #13243d;
+  border: 1px solid #1f3b64;
+  border-radius: 6px;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 10px;
+}
+
+.banner-tup-logo-mark {
+  border: 2px solid #ffffff;
+  padding: 4px 14px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #ffffff;
+  border-radius: 2px;
+  margin-bottom: 2px;
+}
+
+.banner-tup-heading {
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+/* Banner Tipo B: Cinta Azul Sólida */
+.banner-unit-blue {
+  background: #0066cc;
+  color: #ffffff;
+  padding: 12px 18px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* 6. LISTA DE RECURSOS / ACTIVIDADES */
+.section-items-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.section-resource-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 14px 4px;
+  border-bottom: 1px solid #20252e;
+  text-decoration: none;
+  color: #cbd0d8;
+  transition: background-color 0.12s;
+}
+
+.section-resource-row:last-child {
+  border-bottom: none;
+}
+
+.section-resource-row:hover {
+  color: #ffffff;
+}
+
+.res-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  flex: 1;
+}
+
+.res-icon-pdf {
+  color: #00e5ff;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid rgba(0, 229, 255, 0.4);
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: rgba(0, 229, 255, 0.08);
+}
+
+.res-icon-activity {
+  color: #f275dc;
+  font-size: 16px;
+}
+
+.res-icon-announcement {
+  color: #a855f7;
+  font-size: 16px;
+}
+
+.res-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #cbd0d8;
+}
+
+.section-resource-row:hover .res-title {
+  color: #ffffff;
+}
+
+.res-dates-meta {
+  font-size: 11.5px;
+  color: #8c93a0;
+  margin-top: 3px;
+}
+
+.res-dates-meta b {
+  color: #cbd0d8;
+}
+
+/* MODAL CONFIGURADOR */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-overlay.open {
+  display: flex;
+}
+
+.config-modal-card {
+  width: 100%;
+  max-width: 580px;
+  background: #161b24;
+  border: 1.5px solid #00e5ff;
+  border-radius: 8px;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.7);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: pop 0.2s ease-out;
+}
+
+.config-modal-header {
+  padding: 16px 20px;
+  background: #1c232f;
+  border-bottom: 1px solid #2b3543;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.config-modal-header h2 {
+  font-family: var(--font-display);
+  font-size: 14px;
+  color: #00e5ff;
+  margin: 0;
+  letter-spacing: 0.04em;
+}
+
+.config-modal-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 75vh;
+  overflow-y: auto;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #cbd0d8;
+}
+
+.form-input, .form-select {
+  background: #11141a;
+  border: 1px solid #2d3644;
+  border-radius: 4px;
+  color: #ffffff;
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+
+.form-input:focus, .form-select:focus {
+  outline: none;
+  border-color: #00e5ff;
+}
+
+.config-modal-footer {
+  padding: 14px 20px;
+  background: #1c232f;
+  border-top: 1px solid #2b3543;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Mockbar de control superior -->
+<div class="mockbar" role="region" aria-label="Controles del Mock">
+  <b>TPI 2026 · Curso Modular Configurable</b>
+  <span>Vista:</span>
+  <div class="seg" role="group">
+    <button id="btn-role-alumno" class="active" onclick="setRoleView('alumno')">🎓 Vista Alumno</button>
+    <button id="btn-role-docente" onclick="setRoleView('docente')">👨‍🏫 Modo Edición Docente</button>
+  </div>
+  <span>Tema:</span>
+  <div class="seg" role="group">
+    <button id="btn-theme-dark" class="active" onclick="setTheme('dark')">🌙 Oscuro</button>
+    <button id="btn-theme-light" onclick="setTheme('light')">☀️ Claro</button>
+  </div>
+  <button class="btn btn-primary btn-xs" onclick="openSectionModal()">➕ Nueva Sección</button>
+</div>
+
+<div class="course-page-wrap">
+
+  <!-- 1. BREADCRUMBS EXACTOS DE LA MAQUETA -->
+  <nav class="course-breadcrumb" aria-label="Miga de pan">
+    <a href="#home"><span>🏠</span></a>
+    <span>&gt;</span>
+    <a href="#mis-cursos">Mis cursos</a>
+    <span>&gt;</span>
+    <span class="current">2026 - Gestión de Desarrollo de Software</span>
+  </nav>
+
+  <!-- 2. PESTAÑAS EN RECUADRO SUPERIOR (CURSO / PARTICIPANTES / ACTIVIDADES / COMPETENCIAS) -->
+  <div class="course-nav-tabs-wrapper">
+    <div class="course-nav-tabs" role="tablist">
+      <button class="course-tab-item active" onclick="switchTab('curso', this)">Curso</button>
+      <button class="course-tab-item" onclick="switchTab('participantes', this)">Participantes</button>
+      <button class="course-tab-item" onclick="switchTab('actividades', this)">Actividades</button>
+      <button class="course-tab-item" onclick="switchTab('competencias', this)">Competencias</button>
+    </div>
+  </div>
+
+  <!-- 3. CONTENEDOR DE SECCIONES (ACORDEÓN MODULAR) -->
+  <div class="sections-container" id="sectionsContainer">
+
+    <!-- =====================================================================
+         SECCIÓN 1: GENERAL (EXPANDIDA)
+         ===================================================================== -->
+    <div class="section-accordion" id="sec-general">
+      <div class="section-header" onclick="toggleSection('sec-general')">
+        <div class="section-header-left">
+          <div class="section-toggle-box">˅</div>
+          <div class="section-title-text">General</div>
+        </div>
+        <div>
+          <button type="button" class="btn-collapse-top" id="btnToggleAll" onclick="event.stopPropagation(); toggleAll();">
+            Colapsar todo
+          </button>
+        </div>
+      </div>
+
+      <div class="section-body">
+        <!-- Banner Configurable: TUP Navy -->
+        <div class="banner-tup-navy">
+          <h1 class="banner-tup-heading">
+            <span class="banner-tup-logo-mark">TUP</span>
+            Gestión de Desarrollo de Software
+          </h1>
+        </div>
+
+        <!-- Enlace de Avisos -->
+        <div class="section-items-group">
+          <a href="#avisos" class="section-resource-row">
+            <div class="res-left">
+              <span class="res-icon-announcement">👥</span>
+              <span class="res-title">Avisos</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- =====================================================================
+         SECCIÓN 2: INFORMACIÓN GENERAL (COLAPSADA)
+         ===================================================================== -->
+    <div class="section-accordion collapsed" id="sec-info">
+      <div class="section-header" onclick="toggleSection('sec-info')">
+        <div class="section-header-left">
+          <div class="section-toggle-box">&gt;</div>
+          <div class="section-title-text">Información General</div>
+        </div>
+      </div>
+
+      <div class="section-body">
+        <div class="section-items-group">
+          <a href="#programa" class="section-resource-row">
+            <div class="res-left">
+              <span class="res-icon-pdf">PDF</span>
+              <span class="res-title">Programa de la Asignatura</span>
+            </div>
+          </a>
+          <a href="#reglamento" class="section-resource-row">
+            <div class="res-left">
+              <span class="res-icon-pdf">PDF</span>
+              <span class="res-title">Régimen de Aprobación y Promoción Directa</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- =====================================================================
+         SECCIÓN 3: UNIDAD 1 (EXPANDIDA · 100% FIEL A LA FOTO)
+         ===================================================================== -->
+    <div class="section-accordion" id="sec-u1">
+      <div class="section-header" onclick="toggleSection('sec-u1')">
+        <div class="section-header-left">
+          <div class="section-toggle-box">˅</div>
+          <div class="section-title-text">Unidad 1</div>
+        </div>
+      </div>
+
+      <div class="section-body">
+        <!-- Banner Configurable de Unidad: Cinta Azul Sólida -->
+        <div class="banner-unit-blue">
+          <span>Introducción a la gestión de proyectos de software</span>
+        </div>
+
+        <!-- Lista de Recursos y Actividades de la Unidad 1 -->
+        <div class="section-items-group">
+          
+          <!-- Item 1: Material Teórico -->
+          <a href="#u1-teorico" class="section-resource-row">
+            <div class="res-left">
+              <span class="res-icon-pdf">PDF</span>
+              <span class="res-title">Material Teórico</span>
+            </div>
+          </a>
+
+          <!-- Item 2: Guía de Actividades -->
+          <a href="#u1-guia" class="section-resource-row">
+            <div class="res-left">
+              <span class="res-icon-pdf">PDF</span>
+              <span class="res-title">Guía de Actividades</span>
+            </div>
+          </a>
+
+          <!-- Item 3: Material de Apoyo -->
+          <a href="#u1-apoyo" class="section-resource-row">
+            <div class="res-left">
+              <span class="res-icon-pdf">PDF</span>
+              <span class="res-title">Material de Apoyo</span>
+            </div>
+          </a>
+
+          <!-- Item 4: Entrega de Actividad con Fechas -->
+          <div class="section-resource-row">
+            <div class="res-left">
+              <span class="res-icon-activity">📝</span>
+              <div>
+                <div class="res-title">Entrega actividad - CLASE 02/09</div>
+                <div class="res-dates-meta">
+                  <b>Apertura:</b> miércoles, 2 de septiembre de 2026, 20:00 &nbsp;&nbsp; 
+                  <b>Cierre:</b> miércoles, 2 de septiembre de 2026, 22:30
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- =====================================================================
+         SECCIÓN 4: UNIDAD 2 (COLAPSADA)
+         ===================================================================== -->
+    <div class="section-accordion collapsed" id="sec-u2">
+      <div class="section-header" onclick="toggleSection('sec-u2')">
+        <div class="section-header-left">
+          <div class="section-toggle-box">&gt;</div>
+          <div class="section-title-text">Unidad 2</div>
+        </div>
+      </div>
+
+      <div class="section-body">
+        <div class="banner-unit-blue" style="background:#0284c7;">
+          <span>Arquitectura en Capas y Patrón DTO</span>
+        </div>
+        <div class="section-items-group">
+          <a href="#u2-t1" class="section-resource-row">
+            <div class="res-left">
+              <span class="res-icon-pdf">PDF</span>
+              <span class="res-title">Material Teórico - Parte I</span>
+            </div>
+          </a>
+          <a href="#u2-t2" class="section-resource-row">
+            <div class="res-left">
+              <span class="res-icon-pdf">PDF</span>
+              <span class="res-title">Material Teórico - Parte II</span>
+            </div>
+          </a>
+          <div class="section-resource-row">
+            <div class="res-left">
+              <span class="res-icon-activity">🎯</span>
+              <div>
+                <div class="res-title" style="color:#f275dc; font-weight:700;">Desafío 4: Arquitectura en Capas y DTOs</div>
+                <div class="res-dates-meta">
+                  <b>Apertura:</b> 01/10/2026, 00:00 &nbsp;&nbsp; <b>Cierre:</b> 15/10/2026, 23:59 (Vence en 5 días)
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =====================================================================
+         SECCIÓN 5: UNIDAD 3 (COLAPSADA)
+         ===================================================================== -->
+    <div class="section-accordion collapsed" id="sec-u3">
+      <div class="section-header" onclick="toggleSection('sec-u3')">
+        <div class="section-header-left">
+          <div class="section-toggle-box">&gt;</div>
+          <div class="section-title-text">Unidad 3</div>
+        </div>
+      </div>
+      <div class="section-body">
+        <p style="color:#8c93a0; font-size:13px; margin:0;">Contenidos en preparación para la próxima semana.</p>
+      </div>
+    </div>
+
+    <!-- =====================================================================
+         SECCIÓN 6: UNIDAD 4 (COLAPSADA)
+         ===================================================================== -->
+    <div class="section-accordion collapsed" id="sec-u4">
+      <div class="section-header" onclick="toggleSection('sec-u4')">
+        <div class="section-header-left">
+          <div class="section-toggle-box">&gt;</div>
+          <div class="section-title-text">Unidad 4</div>
+        </div>
+      </div>
+      <div class="section-body">
+        <p style="color:#8c93a0; font-size:13px; margin:0;">Contenidos programados para Noviembre.</p>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- =========================================================================
+     MODAL DE CREACIÓN / CONFIGURACIÓN DE SECCIÓN (PROFE / ADMIN)
+     ========================================================================= -->
+<div class="modal-overlay" id="sectionModal">
+  <div class="config-modal-card">
+    <div class="config-modal-header">
+      <h2>NUEVA SECCIÓN / CONFIGURAR</h2>
+      <button class="btn btn-quiet btn-xs" onclick="closeSectionModal()">✕</button>
+    </div>
+
+    <div class="config-modal-body">
+      <div class="form-field">
+        <label class="form-label">Título de la sección</label>
+        <input type="text" id="cfg-title" class="form-input" placeholder="Ej: Unidad 5" value="Unidad 5" />
+      </div>
+
+      <div class="form-field">
+        <label class="form-label">Estilo de Banner Superior</label>
+        <select id="cfg-banner-style" class="form-select">
+          <option value="solid-blue">Cinta azul destacada con título del tema</option>
+          <option value="navy-tup">Banner oficial TUP con recuadro</option>
+          <option value="none">Sin banner (directo a la lista de archivos)</option>
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label">Texto del Banner / Subtítulo</label>
+        <input type="text" id="cfg-banner-text" class="form-input" placeholder="Ej: Despliegue continuo, Docker y Cloud" value="Despliegue continuo, Docker y Cloud" />
+      </div>
+
+      <div class="form-field">
+        <label class="form-label">Tipo de contenido inicial</label>
+        <select id="cfg-content-type" class="form-select">
+          <option value="standard">Material Teórico PDF + Guía de Actividades + Entrega evaluativa</option>
+          <option value="theory-only">Solo Materiales Teóricos</option>
+          <option value="announcements">Tablero de Avisos y Enlaces</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="config-modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeSectionModal()">Cancelar</button>
+      <button class="btn btn-primary btn-sm" onclick="saveNewSection()">Crear Sección</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleSection(secId) {
+  const sec = document.getElementById(secId);
+  if (sec) {
+    const isCollapsed = sec.classList.toggle('collapsed');
+    const toggleBox = sec.querySelector('.section-toggle-box');
+    if (toggleBox) {
+      toggleBox.textContent = isCollapsed ? '>' : '˅';
+    }
+  }
+}
+
+let allCollapsedState = false;
+function toggleAll() {
+  allCollapsedState = !allCollapsedState;
+  const sections = document.querySelectorAll('.section-accordion');
+  sections.forEach(sec => {
+    if (allCollapsedState) {
+      sec.classList.add('collapsed');
+      sec.querySelector('.section-toggle-box').textContent = '>';
+    } else {
+      sec.classList.remove('collapsed');
+      sec.querySelector('.section-toggle-box').textContent = '˅';
+    }
+  });
+  document.getElementById('btnToggleAll').textContent = allCollapsedState ? 'Expandir todo' : 'Colapsar todo';
+}
+
+function switchTab(tab, el) {
+  document.querySelectorAll('.course-tab-item').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function openSectionModal() {
+  document.getElementById('sectionModal').classList.add('open');
+}
+
+function closeSectionModal() {
+  document.getElementById('sectionModal').classList.remove('open');
+}
+
+function saveNewSection() {
+  const title = document.getElementById('cfg-title').value || 'Nueva Unidad';
+  const bannerStyle = document.getElementById('cfg-banner-style').value;
+  const bannerText = document.getElementById('cfg-banner-text').value || title;
+
+  let bannerHtml = '';
+  if (bannerStyle === 'solid-blue') {
+    bannerHtml = `<div class="banner-unit-blue"><span>${bannerText}</span></div>`;
+  } else if (bannerStyle === 'navy-tup') {
+    bannerHtml = `<div class="banner-tup-navy"><h1 class="banner-tup-heading"><span class="banner-tup-logo-mark">TUP</span> ${bannerText}</h1></div>`;
+  }
+
+  const newId = 'sec-custom-' + Date.now();
+  const newEl = document.createElement('div');
+  newEl.className = 'section-accordion';
+  newEl.id = newId;
+  newEl.innerHTML = `
+    <div class="section-header" onclick="toggleSection('${newId}')">
+      <div class="section-header-left">
+        <div class="section-toggle-box">˅</div>
+        <div class="section-title-text">${title}</div>
+      </div>
+    </div>
+    <div class="section-body">
+      ${bannerHtml}
+      <div class="section-items-group">
+        <a href="#teorico" class="section-resource-row">
+          <div class="res-left">
+            <span class="res-icon-pdf">PDF</span>
+            <span class="res-title">Material Teórico - ${title}</span>
+          </div>
+        </a>
+        <a href="#guia" class="section-resource-row">
+          <div class="res-left">
+            <span class="res-icon-pdf">PDF</span>
+            <span class="res-title">Guía de Actividades</span>
+          </div>
+        </a>
+        <div class="section-resource-row">
+          <div class="res-left">
+            <span class="res-icon-activity">📝</span>
+            <div>
+              <div class="res-title">Entrega actividad - ${title}</div>
+              <div class="res-dates-meta"><b>Apertura:</b> Hoy · <b>Cierre:</b> En 14 días</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('sectionsContainer').appendChild(newEl);
+  closeSectionModal();
+  alert(`¡Sección "${title}" creada con éxito!`);
+}
+
+function setRoleView(role) {
+  document.getElementById('btn-role-alumno').classList.toggle('active', role === 'alumno');
+  document.getElementById('btn-role-docente').classList.toggle('active', role === 'docente');
+}
+
+function setTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  document.getElementById('btn-theme-dark').classList.toggle('active', theme === 'dark');
+  document.getElementById('btn-theme-light').classList.toggle('active', theme === 'light');
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1151 @@
+<!doctype html>
+<html lang="es-AR" data-theme="dark" data-skin="gamer" data-palette="electric">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TPI 2026 · Vista de Curso V2 (Modular & Elevado)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;0,600;0,700;1,700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Pixelify+Sans:wght@600;700&family=Press+Start+2P&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/tokens.css" />
+<link rel="stylesheet" href="css/base.css" />
+<link rel="stylesheet" href="css/components.css" />
+
+<style>
+/* =========================================================================
+   ESTILOS V2 · CURSO MODULAR ELEVADO
+   ========================================================================= */
+:root {
+  --bg-course: #0b0e14;
+  --surface-1: #121722;
+  --surface-2: #18202e;
+  --surface-3: #1f2a3c;
+  --border-dim: #232d3f;
+  --border-bright: #00e5ff;
+  --text-main: #f0f4f8;
+  --text-muted: #8b99ad;
+  --accent-cyan: #00e5ff;
+  --accent-pink: #f275dc;
+  --accent-green: #00e676;
+  --accent-gold: #ffd600;
+}
+
+body {
+  background: var(--bg-course);
+  color: var(--text-main);
+  font-family: 'IBM Plex Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.course-v2-container {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 24px 20px 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 1. TOP HEADER & BREADCRUMBS */
+.v2-top-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.v2-breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-muted);
+  background: var(--surface-1);
+  border: 1px solid var(--border-dim);
+  padding: 6px 14px;
+  border-radius: 6px;
+}
+
+.v2-breadcrumb a {
+  color: var(--text-muted);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.15s;
+}
+
+.v2-breadcrumb a:hover {
+  color: #fff;
+}
+
+.v2-breadcrumb .sep {
+  color: #4a576d;
+}
+
+.v2-breadcrumb .current {
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.v2-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 2. TAB NAVIGATION (ELEVATED BOXED PILLS) */
+.v2-tabs-bar {
+  display: flex;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.v2-tabs-group {
+  display: inline-flex;
+  background: var(--surface-1);
+  border: 1px solid var(--border-dim);
+  border-radius: 8px;
+  padding: 4px;
+  gap: 4px;
+}
+
+.v2-tab-btn {
+  padding: 8px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s;
+}
+
+.v2-tab-btn:hover {
+  color: #fff;
+  background: var(--surface-2);
+}
+
+.v2-tab-btn.active {
+  color: var(--accent-cyan);
+  background: var(--surface-2);
+  border-color: rgba(0, 229, 255, 0.35);
+  font-weight: 700;
+}
+
+.v2-tab-count {
+  font-size: 11px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: var(--surface-3);
+  color: #cbd0d8;
+}
+
+/* 3. TOOLBAR DE GESTIÓN Y FILTROS */
+.v2-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 12px 18px;
+  background: var(--surface-1);
+  border: 1px solid var(--border-dim);
+  border-radius: 8px;
+}
+
+.v2-search-input {
+  background: var(--surface-2);
+  border: 1px solid var(--border-dim);
+  color: #fff;
+  padding: 7px 12px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  width: 260px;
+  font-family: inherit;
+}
+
+.v2-search-input:focus {
+  outline: none;
+  border-color: var(--accent-cyan);
+}
+
+/* 4. MODULAR SECTIONS STACK */
+.v2-sections-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.v2-section-card {
+  background: var(--surface-1);
+  border: 1px solid var(--border-dim);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.v2-section-card.active-unit {
+  border-color: rgba(0, 229, 255, 0.45);
+}
+
+/* Cabecera del acordeón */
+.v2-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  cursor: pointer;
+  user-select: none;
+  background: var(--surface-1);
+  transition: background-color 0.15s;
+}
+
+.v2-section-header:hover {
+  background: var(--surface-2);
+}
+
+.v2-section-header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.v2-toggle-badge {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: 1.5px solid var(--border-dim);
+  background: var(--surface-2);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11.5px;
+  font-weight: 800;
+  transition: all 0.2s;
+}
+
+.v2-section-card:not(.collapsed) .v2-toggle-badge {
+  border-color: var(--accent-cyan);
+  background: rgba(0, 229, 255, 0.12);
+  color: var(--accent-cyan);
+}
+
+.v2-section-title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.v2-section-title {
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.v2-section-subtitle {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.v2-section-header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.v2-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 11.5px;
+  font-weight: 700;
+  border: 1px solid var(--border-dim);
+  background: var(--surface-2);
+  color: var(--text-muted);
+}
+
+.v2-pill.success {
+  background: rgba(0, 230, 118, 0.12);
+  border-color: rgba(0, 230, 118, 0.35);
+  color: var(--accent-green);
+}
+
+.v2-pill.active {
+  background: rgba(0, 229, 255, 0.12);
+  border-color: rgba(0, 229, 255, 0.4);
+  color: var(--accent-cyan);
+}
+
+/* Cuerpo desplegado de la sección */
+.v2-section-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: #0e121a;
+  border-top: 1px solid var(--border-dim);
+}
+
+.v2-section-card.collapsed .v2-section-body {
+  display: none;
+}
+
+/* 5. BANNERS CONFIGURABLES (ELEVADOS) */
+.v2-banner-tup {
+  background: linear-gradient(135deg, #0d2240 0%, #153460 60%, #0d2240 100%);
+  border: 1px solid #1f4780;
+  border-radius: 8px;
+  padding: 26px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.v2-tup-brand {
+  border: 2px solid #ffffff;
+  padding: 6px 14px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.1em;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.v2-banner-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 6px 0 2px;
+}
+
+.v2-banner-unit {
+  background: linear-gradient(90deg, #0284c7 0%, #0369a1 100%);
+  color: #ffffff;
+  padding: 14px 20px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* 6. LISTA DE RECURSOS Y ENTREGABLES */
+.v2-resources-list {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border-dim);
+  border-radius: 6px;
+  background: var(--surface-1);
+  overflow: hidden;
+}
+
+.v2-resource-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 18px;
+  border-bottom: 1px solid var(--border-dim);
+  text-decoration: none;
+  color: var(--text-main);
+  transition: background-color 0.15s;
+  gap: 14px;
+}
+
+.v2-resource-row:last-child {
+  border-bottom: none;
+}
+
+.v2-resource-row:hover {
+  background: var(--surface-2);
+}
+
+.v2-res-main {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+}
+
+.v2-file-tag {
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.v2-file-tag.pdf {
+  background: rgba(0, 229, 255, 0.12);
+  border: 1px solid rgba(0, 229, 255, 0.35);
+  color: var(--accent-cyan);
+}
+
+.v2-file-tag.activity {
+  background: rgba(242, 117, 220, 0.14);
+  border: 1px solid rgba(242, 117, 220, 0.4);
+  color: var(--accent-pink);
+}
+
+.v2-file-tag.announcement {
+  background: rgba(0, 229, 255, 0.14);
+  border: 1px solid rgba(0, 229, 255, 0.4);
+  color: var(--accent-cyan);
+}
+
+.v2-res-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.v2-res-name {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.v2-res-meta {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.v2-res-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Botones V2 */
+.btn-v2-primary {
+  background: var(--accent-cyan);
+  color: #05141e;
+  font-weight: 700;
+  font-size: 12.5px;
+  padding: 6px 14px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s, background-color 0.15s;
+}
+
+.btn-v2-primary:hover {
+  background: #38edff;
+  transform: translateY(-1px);
+}
+
+.btn-v2-pink {
+  background: var(--accent-pink);
+  color: #1a0818;
+  font-weight: 700;
+  font-size: 12.5px;
+  padding: 6px 14px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s, background-color 0.15s;
+}
+
+.btn-v2-pink:hover {
+  background: #f796e6;
+  transform: translateY(-1px);
+}
+
+.btn-v2-outline {
+  background: transparent;
+  color: #cbd0d8;
+  border: 1px solid var(--border-dim);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-v2-outline:hover {
+  color: #fff;
+  border-color: #4a576d;
+  background: var(--surface-2);
+}
+
+/* MODAL CONFIGURADOR V2 */
+.v2-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.v2-modal-overlay.open {
+  display: flex;
+}
+
+.v2-modal-card {
+  width: 100%;
+  max-width: 600px;
+  background: var(--surface-1);
+  border: 1px solid var(--accent-cyan);
+  border-radius: 8px;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.7);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.v2-modal-head {
+  padding: 16px 20px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border-dim);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.v2-modal-head h2 {
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  margin: 0;
+}
+
+.v2-modal-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 75vh;
+  overflow-y: auto;
+}
+
+.v2-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.v2-label {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #cbd0d8;
+}
+
+.v2-input, .v2-select {
+  background: #0b0e14;
+  border: 1px solid var(--border-dim);
+  border-radius: 4px;
+  color: #ffffff;
+  padding: 9px 12px;
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.v2-input:focus, .v2-select:focus {
+  outline: none;
+  border-color: var(--accent-cyan);
+}
+
+.v2-modal-foot {
+  padding: 14px 20px;
+  background: var(--surface-2);
+  border-top: 1px solid var(--border-dim);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Mockbar Superior -->
+<div class="mockbar" role="region" aria-label="Controles del Mock">
+  <b>TPI 2026 · Curso Modular V2</b>
+  <span>Vista:</span>
+  <div class="seg" role="group">
+    <button id="btn-v2-alumno" class="active" onclick="setV2Role('alumno')">🎓 Alumno</button>
+    <button id="btn-v2-docente" onclick="setV2Role('docente')">👨‍🏫 Profesor / Edición</button>
+  </div>
+  <span>Tema:</span>
+  <div class="seg" role="group">
+    <button id="btn-v2-dark" class="active" onclick="setTheme('dark')">🌙 Oscuro</button>
+    <button id="btn-v2-light" onclick="setTheme('light')">☀️ Claro</button>
+  </div>
+  <button class="btn-v2-primary" onclick="openV2Modal()">➕ Crear Sección</button>
+</div>
+
+<div class="course-v2-container">
+
+  <!-- 1. BREADCRUMBS & RUTA -->
+  <header class="v2-top-header">
+    <nav class="v2-breadcrumb" aria-label="Ruta de navegación">
+      <a href="#home"><span>🏠</span> Inicio</a>
+      <span class="sep">&gt;</span>
+      <a href="#cursos">Mis cursos</a>
+      <span class="sep">&gt;</span>
+      <span class="current">2026 - Gestión de Desarrollo de Software (4K2)</span>
+    </nav>
+
+    <div class="v2-header-actions">
+      <span class="v2-pill success">
+        <span>🏆</span> Promoción Directa: P88
+      </span>
+      <span class="v2-pill">
+        <span>❤️❤️❤️</span> 3 Vidas
+      </span>
+      <span class="v2-pill" style="color:var(--accent-gold);">
+        <span>🪙</span> 45 Monedas
+      </span>
+    </div>
+  </header>
+
+  <!-- 2. PESTAÑAS PRINCIPALES DEL CURSO -->
+  <nav class="v2-tabs-bar" aria-label="Pestañas de la materia">
+    <div class="v2-tabs-group" role="tablist">
+      <button class="v2-tab-btn active" onclick="switchV2Tab('curso', this)">
+        <span>📖</span> Curso
+      </button>
+      <button class="v2-tab-btn" onclick="switchV2Tab('participantes', this)">
+        <span>👥</span> Participantes <span class="v2-tab-count">42</span>
+      </button>
+      <button class="v2-tab-btn" onclick="switchV2Tab('actividades', this)">
+        <span>🎯</span> Actividades &amp; TPs <span class="v2-tab-count">5</span>
+      </button>
+      <button class="v2-tab-btn" onclick="switchV2Tab('competencias', this)">
+        <span>⭐</span> Competencias
+      </button>
+    </div>
+  </nav>
+
+  <!-- 3. BARRA DE HERRAMIENTAS Y BÚSQUEDA -->
+  <div class="v2-toolbar">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <input type="search" class="v2-search-input" placeholder="Buscar material o actividad en el curso..." id="v2SearchInput" oninput="filterV2Resources()" aria-label="Buscar en el curso" />
+      <span style="font-size:12px; color:var(--text-muted);">5 secciones · 12 recursos cargados</span>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:8px;">
+      <button class="btn-v2-outline" id="btnToggleAllV2" onclick="toggleAllV2Sections()">
+        Colapsar todas
+      </button>
+      <button class="btn-v2-primary" onclick="openV2Modal()">
+        <span>➕</span> Añadir Sección
+      </button>
+    </div>
+  </div>
+
+  <!-- 4. PILA DE SECCIONES MODULARES CONFIGURABLES -->
+  <main class="v2-sections-stack" id="v2SectionsStack">
+
+    <!-- SECCIÓN 1: GENERAL -->
+    <section class="v2-section-card" id="v2-sec-general">
+      <div class="v2-section-header" onclick="toggleV2Section('v2-sec-general')">
+        <div class="v2-section-header-left">
+          <div class="v2-toggle-badge">˅</div>
+          <div class="v2-section-title-wrap">
+            <h2 class="v2-section-title">General</h2>
+            <span class="v2-section-subtitle">Presentación de la materia, avisos y canales de consulta</span>
+          </div>
+        </div>
+        <div class="v2-section-header-right">
+          <span class="v2-pill">2 Recursos</span>
+        </div>
+      </div>
+
+      <div class="v2-section-body">
+        <!-- Banner Configurable: TUP Navy Oficial -->
+        <div class="v2-banner-tup">
+          <div>
+            <h3 class="v2-banner-title">
+              <span class="v2-tup-brand">TUP</span>
+              Gestión de Desarrollo de Software
+            </h3>
+            <div style="font-size:13px; color:rgba(255,255,255,0.8); margin-top:4px;">
+              Cursada Oficial 2026 · Tecnicatura Universitaria en Programación
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:6px; font-size:12px; color:rgba(255,255,255,0.85);">
+            <div>👨‍🏫 <b>Equipo:</b> Prof. Ana Torres &amp; Lucas Rossi</div>
+            <div>⏱️ <b>Carga:</b> 6 hs semanales (Presencial + Campus)</div>
+          </div>
+        </div>
+
+        <!-- Lista de Recursos -->
+        <div class="v2-resources-list">
+          <a href="#avisos" class="v2-resource-row">
+            <div class="v2-res-main">
+              <span class="v2-file-tag announcement">Avisos</span>
+              <div class="v2-res-info">
+                <span class="v2-res-name">Avisos Oficiales y Cartelera de Novedades</span>
+                <span class="v2-res-meta">2 comunicaciones docentes publicadas esta semana</span>
+              </div>
+            </div>
+            <div class="v2-res-actions">
+              <span class="v2-pill" style="background:rgba(0, 229, 255, 0.12); color:var(--accent-cyan);">2 nuevos</span>
+              <button class="btn-v2-outline" onclick="event.preventDefault(); alert('Abriendo avisos...')">Ver avisos</button>
+            </div>
+          </a>
+
+          <a href="#programa" class="v2-resource-row">
+            <div class="v2-res-main">
+              <span class="v2-file-tag pdf">PDF</span>
+              <div class="v2-res-info">
+                <span class="v2-res-name">Programa de la Asignatura 2026</span>
+                <span class="v2-res-meta">Documento oficial · Fundamentación, contenidos mínimos y régimen</span>
+              </div>
+            </div>
+            <div class="v2-res-actions">
+              <button class="btn-v2-outline" onclick="event.preventDefault(); alert('Descargando programa...')">Descargar</button>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 2: INFORMACIÓN GENERAL -->
+    <section class="v2-section-card collapsed" id="v2-sec-info">
+      <div class="v2-section-header" onclick="toggleV2Section('v2-sec-info')">
+        <div class="v2-section-header-left">
+          <div class="v2-toggle-badge">&gt;</div>
+          <div class="v2-section-title-wrap">
+            <h2 class="v2-section-title">Información General</h2>
+            <span class="v2-section-subtitle">Régimen académico, cronograma de exámenes y bibliografía</span>
+          </div>
+        </div>
+        <div class="v2-section-header-right">
+          <span class="v2-pill">3 Recursos</span>
+        </div>
+      </div>
+
+      <div class="v2-section-body">
+        <div class="v2-resources-list">
+          <a href="#prerequisitos" class="v2-resource-row">
+            <div class="v2-res-main">
+              <span class="v2-file-tag pdf">PDF</span>
+              <div class="v2-res-info">
+                <span class="v2-res-name">Pre requisitos y Estructura Temática</span>
+                <span class="v2-res-meta">Articulación pedagógica y correlatividades</span>
+              </div>
+            </div>
+            <div class="v2-res-actions"><button class="btn-v2-outline">Ver documento</button></div>
+          </a>
+
+          <a href="#cronograma" class="v2-resource-row">
+            <div class="v2-res-main">
+              <span class="v2-file-tag pdf">PDF</span>
+              <div class="v2-res-info">
+                <span class="v2-res-name">Fechas de Parciales y Recuperatorios 2026</span>
+                <span class="v2-res-meta">1° Parcial: <b>18 de Octubre</b> · 2° Parcial: <b>28 de Noviembre</b></span>
+              </div>
+            </div>
+            <div class="v2-res-actions">
+              <span class="v2-pill success">Presencial</span>
+              <button class="btn-v2-outline">Sincronizar</button>
+            </div>
+          </a>
+
+          <a href="#bibliografia" class="v2-resource-row">
+            <div class="v2-res-main">
+              <span class="v2-file-tag pdf">PDF</span>
+              <div class="v2-res-info">
+                <span class="v2-res-name">Bibliografía Obligatoria y Repositorios</span>
+                <span class="v2-res-meta">Robert C. Martin, Martin Fowler, Guías de cátedra</span>
+              </div>
+            </div>
+            <div class="v2-res-actions"><button class="btn-v2-outline">Explorar</button></div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 3: UNIDAD 1 (EXPANDIDA) -->
+    <section class="v2-section-card active-unit" id="v2-sec-u1">
+      <div class="v2-section-header" onclick="toggleV2Section('v2-sec-u1')">
+        <div class="v2-section-header-left">
+          <div class="v2-toggle-badge">˅</div>
+          <div class="v2-section-title-wrap">
+            <h2 class="v2-section-title">
+              <span>Unidad 1</span>
+              <span class="v2-pill success">Completada</span>
+            </h2>
+            <span class="v2-section-subtitle">Introducción a la gestión de proyectos de software</span>
+          </div>
+        </div>
+        <div class="v2-section-header-right">
+          <span class="v2-pill">4 Items</span>
+        </div>
+      </div>
+
+      <div class="v2-section-body">
+        <!-- Banner Configurable de Unidad: Cinta Azul -->
+        <div class="v2-banner-unit">
+          <span>Introducción a la gestión de proyectos de software</span>
+          <span style="font-size:12px; font-weight:400; opacity:0.9;">Semana 1 a 3 · 100% aprobado</span>
+        </div>
+
+        <div class="v2-resources-list">
+          <a href="#u1-teoria" class="v2-resource-row">
+            <div class="v2-res-main">
+              <span class="v2-file-tag pdf">PDF</span>
+              <div class="v2-res-info">
+                <span class="v2-res-name">Material Teórico - Unidad 1</span>
+                <span class="v2-res-meta">18 páginas · Metodologías ágiles vs tradicionales</span>
+              </div>
+            </div>
+            <div class="v2-res-actions">
+              <span style="font-size:12px; color:var(--accent-green); font-weight:700;">✓ Leído</span>
+              <button class="btn-v2-outline">Descargar</button>
+            </div>
+          </a>
+
+          <a href="#u1-guia" class="v2-resource-row">
+            <div class="v2-res-main">
+              <span class="v2-file-tag pdf">PDF</span>
+              <div class="v2-res-info">
+                <span class="v2-res-name">Guía de Actividades Prácticas</span>
+                <span class="v2-res-meta">Estimación de historias de usuario y Story Points</span>
+              </div>
+            </div>
+            <div class="v2-res-actions">
+              <span style="font-size:12px; color:var(--accent-green); font-weight:700;">✓ Descargado</span>
+              <button class="btn-v2-outline">Descargar</button>
+            </div>
+          </a>
+
+          <a href="#u1-apoyo" class="v2-resource-row">
+            <div class="v2-res-main">
+              <span class="v2-file-tag pdf">PDF</span>
+              <div class="v2-res-info">
+                <span class="v2-res-name">Material de Apoyo - Plantillas INVEST</span>
+                <span class="v2-res-meta">Ejemplos de criterios de aceptación estándar</span>
+              </div>
+            </div>
+            <div class="v2-res-actions">
+              <span style="font-size:12px; color:var(--accent-green); font-weight:700;">✓ Leído</span>
+              <button class="btn-v2-outline">Descargar</button>
+            </div>
+          </a>
+
+          <!-- Entrega Evaluativa -->
+          <div class="v2-resource-row" style="background:rgba(242,117,220,0.04);">
+            <div class="v2-res-main">
+              <span class="v2-file-tag activity">Entrega</span>
+              <div class="v2-res-info">
+                <span class="v2-res-name" style="color:var(--accent-pink);">Entrega actividad - CLASE 02/09</span>
+                <span class="v2-res-meta">
+                  <b>Apertura:</b> 02/09/2026, 20:00 · <b>Cierre:</b> 02/09/2026, 22:30
+                </span>
+              </div>
+            </div>
+            <div class="v2-res-actions">
+              <span class="v2-pill success">Nota: 10/10 (+50 XP)</span>
+              <button class="btn-v2-pink" onclick="alert('Abriendo devolución...')">Ver Devolución</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 4: UNIDAD 2 (EN CURSO) -->
+    <section class="v2-section-card active-unit" id="v2-sec-u2">
+      <div class="v2-section-header" onclick="toggleV2Section('v2-sec-u2')">
+        <div class="v2-section-header-left">
+          <div class="v2-toggle-badge">˅</div>
+          <div class="v2-section-title-wrap">
+            <h2 class="v2-section-title">
+              <span>Unidad 2</span>
+              <span class="v2-pill active">En Curso · Vence en 5d</span>
+            </h2>
+            <span class="v2-section-subtitle">Arquitectura en Capas, Controladores y Patrón DTO</span>
+          </div>
+        </div>
+        <div class="v2-section-header-right">
+          <span class="v2-pill">3 Items</span>
+        </div>
+      </div>
+
+      <div class="v2-section-body">
+        <div class="v2-banner-unit" style="background:linear-gradient(90deg, #0284c7 0%, #0369a1 100%);">
+          <span>Arquitectura en Capas, Controladores y DTOs</span>
+          <span style="font-size:12px; opacity:0.9;">Semana 4 a 6</span>
+        </div>
+
+        <div class="v2-resources-list">
+          <a href="#u2-t1" class="v2-resource-row">
+            <div class="v2-res-main">
+              <span class="v2-file-tag pdf">PDF</span>
+              <div class="v2-res-info">
+                <span class="v2-res-name">Material Teórico - Parte I (Capas &amp; Responsabilidades)</span>
+                <span class="v2-res-meta">Separación Controller, Service y Repository</span>
+              </div>
+            </div>
+            <div class="v2-res-actions"><button class="btn-v2-outline">Descargar</button></div>
+          </a>
+
+          <a href="#u2-t2" class="v2-resource-row">
+            <div class="v2-res-main">
+              <span class="v2-file-tag pdf">PDF</span>
+              <div class="v2-res-info">
+                <span class="v2-res-name">Material Teórico - Parte II (Patrón DTO &amp; Mappers)</span>
+                <span class="v2-res-meta">Aislamiento de entidades de dominio</span>
+              </div>
+            </div>
+            <div class="v2-res-actions"><button class="btn-v2-outline">Descargar</button></div>
+          </a>
+
+          <!-- Desafío 4 Activo -->
+          <div class="v2-resource-row" style="background:rgba(242,117,220,0.06); border:1px solid rgba(242,117,220,0.3);">
+            <div class="v2-res-main">
+              <span class="v2-file-tag activity">Desafío</span>
+              <div class="v2-res-info">
+                <span class="v2-res-name" style="color:var(--accent-pink); font-weight:700;">Desafío 4: Arquitectura en Capas y DTOs</span>
+                <span class="v2-res-meta">
+                  <b>Apertura:</b> 01/10/2026, 00:00 · <b>Cierre:</b> 15/10/2026, 23:59 · Recompensa: <b>+40 XP | 10 monedas</b>
+                </span>
+              </div>
+            </div>
+            <div class="v2-res-actions">
+              <span class="v2-pill" style="color:var(--accent-gold); border-color:var(--accent-gold);">Obligatorio P90</span>
+              <button class="btn-v2-pink" onclick="alert('Abriendo entorno de entrega...')">Continuar Entrega →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 5: UNIDAD 3 (BLOQUEADA) -->
+    <section class="v2-section-card collapsed" id="v2-sec-u3">
+      <div class="v2-section-header" onclick="toggleV2Section('v2-sec-u3')">
+        <div class="v2-section-header-left">
+          <div class="v2-toggle-badge">&gt;</div>
+          <div class="v2-section-title-wrap">
+            <h2 class="v2-section-title">
+              <span>Unidad 3</span>
+              <span class="v2-pill">🔒 Bloqueada</span>
+            </h2>
+            <span class="v2-section-subtitle">Persistencia, ORM y Patrón Repositorio</span>
+          </div>
+        </div>
+        <div class="v2-section-header-right">
+          <span class="v2-pill">Abre 18 Oct</span>
+        </div>
+      </div>
+      <div class="v2-section-body">
+        <p style="color:var(--text-muted); font-size:13px; margin:0;">Esta unidad se habilitará tras la entrega del Desafío 4.</p>
+      </div>
+    </section>
+
+  </main>
+
+</div>
+
+<!-- =========================================================================
+     MODAL DE CREACIÓN / CONFIGURACIÓN DE SECCIÓN (PROFE / ADMIN)
+     ========================================================================= -->
+<div class="v2-modal-overlay" id="v2SectionModal">
+  <div class="v2-modal-card">
+    <div class="v2-modal-head">
+      <h2>CONFIGURAR / NUEVA SECCIÓN</h2>
+      <button class="btn-v2-outline" onclick="closeV2Modal()" style="padding:2px 8px;">✕</button>
+    </div>
+
+    <div class="v2-modal-body">
+      <div class="v2-field">
+        <label class="v2-label">Título de la sección</label>
+        <input type="text" id="v2-cfg-title" class="v2-input" placeholder="Ej: Unidad 4" value="Unidad 4" />
+      </div>
+
+      <div class="v2-field">
+        <label class="v2-label">Subtítulo temático</label>
+        <input type="text" id="v2-cfg-sub" class="v2-input" placeholder="Ej: Integración Continua y Testing Automatizado" value="Integración Continua y Testing Automatizado" />
+      </div>
+
+      <div class="v2-field">
+        <label class="v2-label">Estilo de Banner Superior</label>
+        <select id="v2-cfg-banner" class="v2-select">
+          <option value="unit-blue">Cinta azul destacada con título de unidad</option>
+          <option value="tup-navy">Banner oficial TUP con recuadro institucional</option>
+          <option value="none">Sin banner (directo a la lista de recursos)</option>
+        </select>
+      </div>
+
+      <div class="v2-field">
+        <label class="v2-label">Recursos iniciales a incluir</label>
+        <select id="v2-cfg-preset" class="v2-select">
+          <option value="full">Material Teórico PDF + Guía Práctica + Desafío Evaluativo</option>
+          <option value="theory">Solo Materiales Teóricos</option>
+          <option value="announcement">Cartelera de Avisos</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="v2-modal-foot">
+      <button class="btn-v2-outline" onclick="closeV2Modal()">Cancelar</button>
+      <button class="btn-v2-primary" onclick="saveV2Section()">Crear y Publicar Sección</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleV2Section(secId) {
+  const sec = document.getElementById(secId);
+  if (sec) {
+    const isCollapsed = sec.classList.toggle('collapsed');
+    const badge = sec.querySelector('.v2-toggle-badge');
+    if (badge) {
+      badge.textContent = isCollapsed ? '>' : '˅';
+    }
+  }
+}
+
+let allV2Collapsed = false;
+function toggleAllV2Sections() {
+  allV2Collapsed = !allV2Collapsed;
+  const sections = document.querySelectorAll('.v2-section-card');
+  sections.forEach(sec => {
+    if (allV2Collapsed) {
+      sec.classList.add('collapsed');
+      sec.querySelector('.v2-toggle-badge').textContent = '>';
+    } else {
+      sec.classList.remove('collapsed');
+      sec.querySelector('.v2-toggle-badge').textContent = '˅';
+    }
+  });
+  document.getElementById('btnToggleAllV2').textContent = allV2Collapsed ? 'Expandir todas' : 'Colapsar todas';
+}
+
+function switchV2Tab(tab, el) {
+  document.querySelectorAll('.v2-tab-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  if (tab !== 'curso') {
+    alert(`Cambiando a la vista: ${tab.toUpperCase()}`);
+  }
+}
+
+function openV2Modal() {
+  document.getElementById('v2SectionModal').classList.add('open');
+}
+
+function closeV2Modal() {
+  document.getElementById('v2SectionModal').classList.remove('open');
+}
+
+function saveV2Section() {
+  const title = document.getElementById('v2-cfg-title').value || 'Nueva Sección';
+  const sub = document.getElementById('v2-cfg-sub').value || 'Contenidos de la cursada';
+  const bannerStyle = document.getElementById('v2-cfg-banner').value;
+
+  let bannerHtml = '';
+  if (bannerStyle === 'unit-blue') {
+    bannerHtml = `<div class="v2-banner-unit"><span>${sub}</span></div>`;
+  } else if (bannerStyle === 'tup-navy') {
+    bannerHtml = `<div class="v2-banner-tup"><div><span class="v2-tup-brand">TUP</span><h3 class="v2-banner-title">${title}</h3></div></div>`;
+  }
+
+  const newId = 'v2-sec-' + Date.now();
+  const newCard = document.createElement('section');
+  newCard.className = 'v2-section-card';
+  newCard.id = newId;
+  newCard.innerHTML = `
+    <div class="v2-section-header" onclick="toggleV2Section('${newId}')">
+      <div class="v2-section-header-left">
+        <div class="v2-toggle-badge">˅</div>
+        <div class="v2-section-title-wrap">
+          <h2 class="v2-section-title">
+            <span>${title}</span>
+            <span class="v2-pill active">Nueva</span>
+          </h2>
+          <span class="v2-section-subtitle">${sub}</span>
+        </div>
+      </div>
+      <div class="v2-section-header-right">
+        <span class="v2-pill">2 Items</span>
+      </div>
+    </div>
+    <div class="v2-section-body">
+      ${bannerHtml}
+      <div class="v2-resources-list">
+        <a href="#teoria" class="v2-resource-row">
+          <div class="v2-res-main">
+            <span class="v2-file-tag pdf">PDF</span>
+            <div class="v2-res-info">
+              <span class="v2-res-name">Material Teórico - ${title}</span>
+              <span class="v2-res-meta">Diapositivas y apuntes de clase</span>
+            </div>
+          </div>
+          <div class="v2-res-actions"><button class="btn-v2-outline">Descargar</button></div>
+        </a>
+        <div class="v2-resource-row" style="background:rgba(242,117,220,0.06);">
+          <div class="v2-res-main">
+            <span class="v2-file-tag activity">Desafío</span>
+            <div class="v2-res-info">
+              <span class="v2-res-name" style="color:var(--accent-pink); font-weight:700;">Desafío Práctico: ${title}</span>
+              <span class="v2-res-meta"><b>Apertura:</b> Hoy · <b>Cierre:</b> En 14 días · Recompensa: <b>+40 XP | 10 monedas</b></span>
+            </div>
+          </div>
+          <div class="v2-res-actions">
+            <span class="v2-pill" style="color:var(--accent-gold);">Obligatorio P90</span>
+            <button class="btn-v2-pink">Entregar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('v2SectionsStack').appendChild(newCard);
+  closeV2Modal();
+  alert(`¡Sección "${title}" agregada al curso!`);
+}
+
+function filterV2Resources() {
+  const query = document.getElementById('v2SearchInput').value.toLowerCase();
+  const rows = document.querySelectorAll('.v2-resource-row');
+  rows.forEach(row => {
+    const text = row.textContent.toLowerCase();
+    row.style.display = text.includes(query) ? 'flex' : 'none';
+  });
+}
+
+function setV2Role(role) {
+  document.getElementById('btn-v2-alumno').classList.toggle('active', role === 'alumno');
+  document.getElementById('btn-v2-docente').classList.toggle('active', role === 'docente');
+}
+
+function setTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  document.getElementById('btn-v2-dark').classList.toggle('active', theme === 'dark');
+  document.getElementById('btn-v2-light').classList.toggle('active', theme === 'light');
+}
+</script>
+
+</body>
+</html>

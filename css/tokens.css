@@ -8,29 +8,35 @@
 :root[data-theme='light'],
 :root[data-theme='light'][data-skin='gamer'],
 :root[data-theme='light'][data-skin='gamer'][data-palette='electric'] {
-  --bg-app:#eaf0f6; --bg-surface:#f5f8fc; --bg-surface-alt:#dfe8f2;
-  --border-subtle:#94a3b8; --border-highlight:#0284c7;
+  --bg-app:#dbe4ee; --bg-surface:#ffffff; --bg-surface-alt:#cbd5e1;
+  --border-subtle:#475569; --border-highlight:#0284c7;
   --text-primary:#0f172a; --text-muted:#334155;
   --accent-primary:#0284c7; --accent-primary-fill:#0284c7; --on-accent-primary:#ffffff;
   --accent-secondary:#7c3aed; --accent-secondary-fill:#7c3aed; --on-accent-secondary:#ffffff;
-  --accent-gold:#b45309; --accent-gold-fill:#d97706; --on-accent-gold:#ffffff;
+  --accent-gold:#b45309; --accent-gold-fill:#b45309; --on-accent-gold:#ffffff;
   --accent-danger:#e11d48; --accent-danger-fill:#e11d48; --on-accent-danger:#ffffff;
-  --accent-success:#059669; --accent-success-fill:#059669; --on-accent-success:#ffffff;
+  --accent-success:#047857; --accent-success-fill:#047857; --on-accent-success:#ffffff;
+  --sidebar-bg:#1e293b; --sidebar-text:#94a3b8; --sidebar-active:#0284c7;
+  --shadow-card:3px 3px 0px #475569;
+  --shadow-btn:2px 2px 0px #0f172a;
   --focus-glow:rgba(2,132,199,.45);
   --radius-control:4px; --border-width:2px; --press-y:-2px;
 }
 
 /* --- Gamer / Arcade (Light) · Paleta Neón Magenta (Original) --- */
 :root[data-theme='light'][data-skin='gamer'][data-palette='neon'] {
-  --bg-app:#efe6d4; --bg-surface:#f7f1e4; --bg-surface-alt:#eadfc8;
-  --border-subtle:#a68f66; --border-highlight:#8a6a1a;
-  --text-primary:#16130f; --text-muted:#3a342c;
-  --accent-primary:#8f1f7c; --accent-primary-fill:#f275dc; --on-accent-primary:#1f0a1b;
-  --accent-secondary:#0b5f6c; --accent-secondary-fill:#29c9e0; --on-accent-secondary:#062127;
-  --accent-gold:#5f5500; --accent-gold-fill:#faf22f; --on-accent-gold:#221f00;
-  --accent-danger:#b3150f; --accent-danger-fill:#e62220; --on-accent-danger:#ffffff;
-  --accent-success:#1f6e10; --accent-success-fill:#4ce52b; --on-accent-success:#082303;
-  --focus-glow:rgba(242,117,220,.55);
+  --bg-app:#e2dbcb; --bg-surface:#ffffff; --bg-surface-alt:#d6ccb6;
+  --border-subtle:#4a3f35; --border-highlight:#b81d77;
+  --text-primary:#181512; --text-muted:#3a342c;
+  --accent-primary:#8f1f7c; --accent-primary-fill:#8f1f7c; --on-accent-primary:#ffffff;
+  --accent-secondary:#0b5f6c; --accent-secondary-fill:#0b5f6c; --on-accent-secondary:#ffffff;
+  --accent-gold:#854d0e; --accent-gold-fill:#854d0e; --on-accent-gold:#ffffff;
+  --accent-danger:#b3150f; --accent-danger-fill:#b3150f; --on-accent-danger:#ffffff;
+  --accent-success:#15803d; --accent-success-fill:#15803d; --on-accent-success:#ffffff;
+  --sidebar-bg:#241d24; --sidebar-text:#b8aeb8; --sidebar-active:#f275dc;
+  --shadow-card:3px 3px 0px #4a3f35;
+  --shadow-btn:2px 2px 0px #181512;
+  --focus-glow:rgba(143,31,124,.45);
   --radius-control:4px; --border-width:2px; --press-y:-2px;
 }
 
@@ -46,6 +52,9 @@
   --accent-gold:#ffd600; --accent-gold-fill:#facc15; --on-accent-gold:#221f00;
   --accent-danger:#ff3366; --accent-danger-fill:#e11d48; --on-accent-danger:#ffffff;
   --accent-success:#00e676; --accent-success-fill:#10b981; --on-accent-success:#022c15;
+  --sidebar-bg:#13171f; --sidebar-text:#94a3b8; --sidebar-active:#00e5ff;
+  --shadow-card:0 4px 16px rgba(0,0,0,0.35);
+  --shadow-btn:none;
   --focus-glow:rgba(0,229,255,.55);
   --radius-control:4px; --border-width:2px; --press-y:-2px;
 }
@@ -60,21 +69,28 @@
   --accent-gold:#faf22f; --accent-gold-fill:#faf22f; --on-accent-gold:#221f00;
   --accent-danger:#ff5a52; --accent-danger-fill:#e62220; --on-accent-danger:#ffffff;
   --accent-success:#4ce52b; --accent-success-fill:#4ce52b; --on-accent-success:#082303;
+  --sidebar-bg:#1a151b; --sidebar-text:#b2a8b3; --sidebar-active:#f275dc;
+  --shadow-card:0 4px 16px rgba(0,0,0,0.35);
+  --shadow-btn:none;
   --focus-glow:rgba(242,117,220,.6);
   --radius-control:4px; --border-width:2px; --press-y:-2px;
 }
 
 /* --- Sobrio / Normal (Light - Modo Profesor / Institucional) --- */
 :root[data-theme='light'][data-skin='sobrio'] {
-  --bg-app:#f2f4f7; --bg-surface:#ffffff; --bg-surface-alt:#e8ecf1;
-  --border-subtle:#aab4c2; --border-highlight:#2f5fd0;
-  --text-primary:#161a21; --text-muted:#4b5563;
-  --accent-primary:#2f5fd0; --accent-primary-fill:#2f5fd0; --on-accent-primary:#ffffff;
-  --accent-secondary:#46586b; --accent-secondary-fill:#46586b; --on-accent-secondary:#ffffff;
-  --accent-gold:#8a5a06; --accent-gold-fill:#a86a0a; --on-accent-gold:#ffffff;
-  --accent-danger:#b3261e; --accent-danger-fill:#c1352b; --on-accent-danger:#ffffff;
-  --accent-success:#1c7a4d; --accent-success-fill:#1f7a4d; --on-accent-success:#ffffff;
-  --focus-glow:rgba(47,95,208,.35);
+  --bg-app:#f1f5f9; --bg-surface:#ffffff; --bg-surface-alt:#e2e8f0;
+  --border-subtle:#cbd5e1; --border-highlight:#1d4ed8;
+  --text-primary:#0f172a; --text-muted:#475569;
+  --accent-primary:#1d4ed8; --accent-primary-fill:#1d4ed8; --on-accent-primary:#ffffff;
+  --accent-secondary:#0f766e; --accent-secondary-fill:#0f766e; --on-accent-secondary:#ffffff;
+  --accent-gold:#b45309; --accent-gold-fill:#b45309; --on-accent-gold:#ffffff;
+  --accent-danger:#dc2626; --accent-danger-fill:#dc2626; --on-accent-danger:#ffffff;
+  --accent-success:#15803d; --accent-success-fill:#15803d; --on-accent-success:#ffffff;
+  --sidebar-bg:#0f172a; --sidebar-text:#94a3b8; --sidebar-active:#38bdf8;
+  --shadow-card:0 1px 3px 0 rgba(15, 23, 42, 0.08), 0 1px 2px -1px rgba(15, 23, 42, 0.08);
+  --shadow-card-hover:0 10px 25px -5px rgba(15, 23, 42, 0.1), 0 4px 6px -2px rgba(15, 23, 42, 0.05);
+  --shadow-btn:0 1px 2px rgba(0,0,0,0.05);
+  --focus-glow:rgba(29,78,216,.35);
   --radius-control:8px; --border-width:1px; --press-y:0px;
 }
 
@@ -88,6 +104,9 @@
   --accent-gold:#d9a441; --accent-gold-fill:#d9a441; --on-accent-gold:#241a04;
   --accent-danger:#ef6a5d; --accent-danger-fill:#e2584c; --on-accent-danger:#2a0705;
   --accent-success:#59c290; --accent-success-fill:#4caf7d; --on-accent-success:#04210f;
+  --sidebar-bg:#151920; --sidebar-text:#a7b0bd; --sidebar-active:#6f9bf0;
+  --shadow-card:0 4px 16px rgba(0,0,0,0.35);
+  --shadow-btn:none;
   --focus-glow:rgba(111,155,240,.45);
   --radius-control:8px; --border-width:1px; --press-y:0px;
 }
