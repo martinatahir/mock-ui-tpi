@@ -114,3 +114,28 @@
 :root[data-skin='gamer'][data-font='chakra'], :root[data-font='chakra'] { --font-display: 'Chakra Petch', sans-serif; }
 :root[data-skin='gamer'][data-font='orbitron'], :root[data-font='orbitron'] { --font-display: 'Orbitron', sans-serif; }
 :root[data-skin='gamer'][data-font='silkscreen'], :root[data-font='silkscreen'] { --font-display: 'Silkscreen', sans-serif; }
+
+/* =========================================================================
+   TYPE SCALE — one role scale for the whole mock.
+   Sans roles (Plex) step ~1.15–1.25x; headings rendered in the pixel display
+   font use the -px set, sized so they read at the same visual weight.
+   ========================================================================= */
+:root {
+  --fs-micro:13px;   /* labels, badges, counters, table heads: legibility floor */
+  --fs-small:14px;   /* secondary text, meta, hints */
+  --fs-ui:15px;      /* controls, buttons, tables, dense lists */
+  --fs-body:16px;    /* running text */
+  --fs-lead:17px;    /* emphasized text, intro lines */
+  --fs-h3:18px;      /* card and group titles */
+  --fs-h2:21px;      /* section titles */
+  --fs-h1:32px;      /* page titles */
+  --fs-h3-px:12px;   /* pixel-font equivalents (Press Start is ~1.35x wider) */
+  --fs-h2-px:14px;
+  --fs-h1-px:20px;
+}
+@media (max-width: 600px) {
+  :root { --fs-h1:26px; --fs-h2:19px; --fs-h1-px:16px; --fs-h2-px:13px; }
+}
+/* Narrower display fonts need larger pixel-heading sizes to keep the same weight */
+:root[data-font='pixelify'], :root[data-font='chakra'] { --fs-h1-px:30px; --fs-h2-px:20px; --fs-h3-px:16px; }
+:root[data-font='orbitron'], :root[data-font='silkscreen'] { --fs-h1-px:26px; --fs-h2-px:18px; --fs-h3-px:14px; }

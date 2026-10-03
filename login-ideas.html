@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="es-AR" data-theme="dark" data-skin="gamer" data-palette="electric">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TPI 2026 · Ideas de login</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/tokens.css" />
+<link rel="stylesheet" href="css/base.css" />
+<link rel="stylesheet" href="css/components.css" />
+<style>
+/* ===== page chrome ===== */
+body { background:var(--bg-app); }
+.ideas-top {
+  position:sticky; top:0; z-index:20; display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  padding:12px 24px; background:var(--bg-surface); border-bottom:var(--border-width) solid var(--border-subtle);
+}
+.ideas-top h1 { font-family:var(--font-display); font-size:18px; margin-right:auto; }
+.ideas-top nav { display:flex; gap:6px; flex-wrap:wrap; }
+.ideas-top nav a { font-size:13px; font-weight:600; text-decoration:none; padding:6px 10px; border-radius:var(--radius-control); border:1px solid var(--border-subtle); color:var(--text-primary); }
+.ideas-top nav a:hover { border-color:var(--border-highlight); }
+.ideas-top nav a.fav::after { content:' ♥'; color:var(--accent-danger); }
+.ideas { max-width:1240px; margin:0 auto; padding:28px 24px 80px; }
+.ideas-intro { max-width:74ch; color:var(--text-muted); }
+.flow-map { margin-top:18px; display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:12px; }
+.flow-map div { padding:14px 16px; background:var(--bg-surface); border:1px solid var(--border-subtle); border-radius:var(--radius-card); font-size:14px; }
+.flow-map b { display:block; margin-bottom:4px; }
+.flow-map ol { margin:6px 0 0; padding-left:18px; color:var(--text-muted); }
+.idea { margin-top:56px; scroll-margin-top:80px; }
+.idea-head { display:flex; align-items:flex-end; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:12px; }
+.idea-head h2 { font-family:var(--font-display); font-size:22px; line-height:1.35; }
+[data-skin='gamer'] .idea-head h2 { font-size:20px; line-height:1.5; }
+.idea-head p { color:var(--text-muted); margin-top:6px; max-width:74ch; }
+.idea-id { color:var(--accent-primary); }
+.fav-btn[aria-pressed='true'] { background:var(--accent-danger-fill); color:var(--on-accent-danger); border-color:transparent; }
+.try { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin-bottom:10px; font-size:12px; color:var(--text-muted); }
+.try button { border:1px dashed var(--border-subtle); background:transparent; color:var(--text-primary); border-radius:999px; padding:3px 10px; font:inherit; font-size:12px; cursor:pointer; }
+.try button:hover { border-color:var(--accent-primary-fill); }
+.try button b { font-weight:700; }
+.idea-notes { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px; font-size:14px; }
+.idea-notes div { padding:12px 14px; border-radius:var(--radius-control); background:var(--bg-surface); border:1px solid var(--border-subtle); }
+.idea-notes b { display:block; font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--text-muted); margin-bottom:4px; }
+@media (max-width: 760px) { .idea-notes, .flow-map { grid-template-columns:1fr; } }
+
+/* ===== shared frame + stage ===== */
+.frame {
+  --stage: color-mix(in srgb, var(--accent-secondary-fill) 16%, var(--bg-app));
+  position:relative; overflow:hidden; min-height:600px; border-radius:calc(var(--radius-card) + 4px);
+  border:var(--border-width) solid var(--border-subtle); background:var(--stage); color:var(--text-primary);
+}
+.pixel { image-rendering:pixelated; shape-rendering:crispEdges; display:block; width:100%; height:auto; }
+.floor-grid {
+  position:absolute; left:-20%; right:-20%; bottom:0; height:44%; pointer-events:none;
+  background-image:linear-gradient(color-mix(in srgb, var(--accent-primary-fill) 26%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--accent-primary-fill) 26%, transparent) 1px, transparent 1px);
+  background-size:52px 52px; transform:perspective(420px) rotateX(62deg); transform-origin:bottom center;
+  -webkit-mask-image:linear-gradient(to top, #000 10%, transparent 85%); mask-image:linear-gradient(to top, #000 10%, transparent 85%);
+}
+[data-skin='sobrio'] .floor-grid { display:none; }
+@keyframes bob { 50% { transform:translateY(-7px); } }
+@keyframes pop { from { transform:scale(.6); opacity:0; } to { transform:none; opacity:1; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation:none !important; transition:none !important; } }
+
+/* ===== the shared auth flow (identifier first) ===== */
+.flow { display:flex; flex-direction:column; gap:14px; }
+.flow h3 { font-family:var(--font-display); font-size:20px; line-height:1.3; }
+[data-skin='gamer'] .flow h3 { font-size:16px; line-height:1.6; }
+.flow .lead { color:var(--text-muted); margin-top:-6px; font-size:14px; }
+.flow .lead b { color:var(--text-primary); }
+.flow .f { display:flex; flex-direction:column; gap:5px; font-size:13px; font-weight:600; }
+.flow .f .control { height:40px; }
+.flow .row2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.flow .msg { font-size:13px; font-weight:600; color:var(--urgent); }
+.flow .msg:empty { display:none; }
+.flow .msg.info { color:var(--text-muted); font-weight:400; }
+.flow .chip { display:inline-flex; align-items:center; gap:6px; align-self:flex-start; padding:4px 10px; border-radius:999px; font-size:12px; font-weight:700; background:var(--role-c, var(--accent-primary-fill)); color:#111; animation:pop .3s var(--ease-out); }
+[data-skin='gamer'] .flow .chip { border-radius:2px; }
+.flow .found { display:flex; flex-direction:column; gap:2px; padding:10px 12px; border-radius:var(--radius-control); background:color-mix(in srgb, var(--accent-success-fill) 12%, var(--bg-surface)); border:1px solid color-mix(in srgb, var(--accent-success-fill) 45%, transparent); font-size:13px; animation:pop .3s var(--ease-out); }
+.flow .links { display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; font-size:13px; }
+.flow .lnk { border:0; background:none; padding:0; font:inherit; font-weight:600; color:var(--accent-primary); text-decoration:underline; text-underline-offset:.2em; cursor:pointer; }
+.flow .otp { display:grid; grid-template-columns:repeat(6, 1fr); gap:6px; }
+.flow .otp .control { height:48px; text-align:center; font-size:18px; font-weight:700; padding:0; }
+.flow .done { color:var(--good); display:flex; align-items:center; gap:8px; }
+.flow .cta { height:44px; }
+.flow-step { display:flex; flex-direction:column; gap:14px; animation:pop .25s var(--ease-out); }
+
+/* ===== A · Elenco que te reconoce ===== */
+.fA { display:grid; grid-template-columns:minmax(0,1.4fr) minmax(320px,1fr); }
+.fA-stage { position:relative; display:flex; flex-direction:column; align-items:center; padding:32px; gap:18px; }
+.fA-title { position:relative; text-align:center; }
+.fA-title p:first-child { font-family:var(--font-display); font-size:28px; }
+.fA-title p + p { color:var(--text-muted); margin-top:8px; }
+.cast { position:relative; margin-top:auto; display:flex; gap:22px; align-items:flex-end; }
+.actor { display:flex; flex-direction:column; align-items:center; width:120px; }
+.actor .drone { width:42px; margin-bottom:6px; opacity:.35; transition:opacity .3s; }
+.actor .sprite { width:90px; filter:saturate(.25) brightness(.6); transform:scale(.88); transform-origin:bottom; transition:transform .4s var(--ease-out), filter .4s; }
+.actor .plate { margin-top:12px; width:100%; text-align:center; padding:8px; font-weight:700; font-size:13px; border:var(--border-width) solid var(--border-subtle); border-radius:var(--radius-control); background:color-mix(in srgb, var(--bg-surface) 80%, transparent); color:var(--text-muted); }
+.actor.on .sprite { filter:none; transform:translateY(-10px) scale(1.06); }
+.actor.on .drone { opacity:1; animation:bob 2.6s ease-in-out infinite; }
+.actor.on .plate { background:var(--accent-primary-fill); color:var(--on-accent-primary); border-color:transparent; }
+.cast.scanning .actor .sprite { animation:scan 1.6s ease-in-out infinite; }
+.cast.scanning .actor:nth-child(2) .sprite { animation-delay:.2s; } .cast.scanning .actor:nth-child(3) .sprite { animation-delay:.4s; }
+@keyframes scan { 50% { filter:saturate(.7) brightness(.85); } }
+.fA-panel { background:var(--bg-surface); border-left:var(--border-width) solid var(--border-subtle); padding:32px; display:flex; flex-direction:column; justify-content:center; }
+
+/* ===== B · Gabinete ===== */
+.fB { background:color-mix(in srgb, var(--bg-app) 70%, #000); display:grid; place-items:center; padding:28px 20px; }
+.cab { width:min(820px, 100%); }
+.cab-screen {
+  position:relative; overflow:hidden; min-height:440px; border-radius:22px; border:12px solid #23232f;
+  background:radial-gradient(ellipse at 50% 40%, color-mix(in srgb, var(--accent-primary-fill) 16%, var(--stage)), var(--stage) 75%);
+  box-shadow:inset 0 0 70px rgba(0,0,0,.65); display:grid; grid-template-columns:auto minmax(0, 360px); align-items:center; justify-content:center; gap:28px; padding:28px 28px 70px;
+}
+[data-skin='gamer'] .cab-screen::after { content:''; position:absolute; inset:0; pointer-events:none; background:repeating-linear-gradient(0deg, rgba(0,0,0,.14) 0 1px, transparent 1px 3px); }
+.cab-left { display:flex; flex-direction:column; align-items:center; gap:10px; text-align:center; }
+.cab-logo { font-family:var(--font-display); font-size:clamp(24px, 4vw, 40px); text-shadow:4px 4px 0 color-mix(in srgb, var(--accent-secondary-fill) 75%, transparent); }
+[data-skin='sobrio'] .cab-logo { text-shadow:none; }
+.cab-player { font-family:var(--font-display); font-size:12px; color:var(--accent-gold); }
+.cab-player.waiting { animation:blink 1.2s steps(2, start) infinite; }
+@keyframes blink { 50% { opacity:0; } }
+.cab-portrait { width:110px; min-height:150px; display:flex; align-items:flex-end; justify-content:center; }
+.cab-screen .flow { position:relative; z-index:1; }
+.cab-screen .flow .control { background:color-mix(in srgb, #000 35%, var(--bg-surface)); }
+.cab-walk { position:absolute; bottom:8px; left:0; right:0; height:52px; }
+.cab-walk span { position:absolute; bottom:0; width:34px; animation:walk 16s linear infinite; }
+.cab-walk span:nth-child(2) { animation-delay:-5.3s; } .cab-walk span:nth-child(3) { animation-delay:-10.6s; }
+@keyframes walk { from { left:-50px; } to { left:100%; } }
+.cab-deck { margin:-6px 18px 0; padding:18px 26px; background:#2c2c3a; border-radius:0 0 18px 18px; display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap; color:#e8e8f0; font-size:12px; }
+.lamps { display:flex; gap:18px; }
+.lamp { display:flex; flex-direction:column; align-items:center; gap:6px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; font-size:11px; opacity:.55; transition:opacity .3s; }
+.lamp i { width:40px; height:40px; border-radius:50%; background:color-mix(in srgb, var(--c) 35%, #1a1a22); box-shadow:inset 0 -6px 0 rgba(0,0,0,.3), 0 4px 0 #15151d; transition:background-color .3s; }
+.lamp.on { opacity:1; } .lamp.on i { background:var(--c); }
+
+/* ===== C · Dron escáner ===== */
+.fC { display:flex; flex-direction:column; align-items:center; padding:24px; }
+.hangar { position:relative; z-index:2; display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
+.bay { display:flex; align-items:center; gap:8px; padding:6px 14px 6px 8px; border:var(--border-width) solid var(--border-subtle); border-radius:999px; background:color-mix(in srgb, var(--bg-surface) 85%, transparent); font-size:13px; font-weight:700; color:var(--text-muted); transition:opacity .3s, border-color .3s; }
+[data-skin='gamer'] .bay { border-radius:var(--radius-control); }
+.bay .pixel { width:32px; }
+.bay.out { opacity:.35; }
+.bay.on { color:var(--text-primary); border-color:var(--accent-primary-fill); }
+.courier { position:relative; z-index:2; margin-top:18px; display:flex; flex-direction:column; align-items:center; }
+.courier .big-drone { width:110px; }
+.beam { width:220px; height:40px; clip-path:polygon(40% 0, 60% 0, 100% 100%, 0 100%); background:linear-gradient(to bottom, color-mix(in srgb, var(--accent-primary-fill) 45%, transparent), transparent); }
+.courier.scanning .beam { animation:beam 1.2s ease-in-out infinite; }
+@keyframes beam { 50% { opacity:.35; } }
+.parcel { width:min(400px, 86vw); padding:22px; background:var(--bg-surface); border:var(--border-width) solid var(--border-subtle); border-radius:var(--radius-card); box-shadow:0 22px 40px -18px rgba(0,0,0,.6); }
+
+/* ===== D · Islas ===== */
+.fD { display:grid; grid-template-columns:minmax(0,1.25fr) minmax(320px,1fr); align-items:center; }
+.isles { position:relative; min-height:600px; display:flex; align-items:center; justify-content:center; gap:10px; padding:20px; }
+.isle { display:flex; flex-direction:column; align-items:center; width:150px; transition:transform .4s var(--ease-out), opacity .4s; }
+.isle:nth-child(2) { margin-top:110px; }
+.isle .sprite { width:70px; position:relative; z-index:1; margin-bottom:-14px; filter:saturate(.3) brightness(.65); transition:filter .4s; }
+.isle .drone { width:34px; opacity:.35; }
+.hex { width:140px; height:122px; clip-path:polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%); background:linear-gradient(180deg, color-mix(in srgb, var(--accent-success-fill) 45%, var(--bg-surface)) 0 34%, color-mix(in srgb, #6b4a2a 80%, var(--bg-app)) 34%); }
+.isle-name { margin-top:10px; font-weight:700; font-size:13px; color:var(--text-muted); }
+.isle.on { transform:translateY(-14px); }
+.isle.on .sprite { filter:none; }
+.isle.on .drone { opacity:1; animation:bob 2.6s ease-in-out infinite; }
+.isle.on .hex { background:linear-gradient(180deg, var(--accent-primary-fill) 0 34%, color-mix(in srgb, #6b4a2a 80%, var(--bg-app)) 34%); }
+.isle.on .isle-name { color:var(--accent-primary); }
+.isles.found .isle:not(.on) { opacity:.45; }
+.dialog { margin:24px; padding:22px; background:var(--bg-surface); border:var(--border-width) solid var(--border-subtle); border-radius:var(--radius-card); position:relative; }
+[data-skin='gamer'] .dialog { border-width:4px; box-shadow:inset 0 0 0 3px var(--bg-surface), inset 0 0 0 5px var(--border-subtle); }
+.dialog .who { display:block; font-family:var(--font-display); font-size:12px; color:var(--accent-primary); margin-bottom:10px; }
+
+/* ===== E · Credencial ===== */
+.fE { min-height:480px; display:grid; grid-template-columns:minmax(0, 1fr) minmax(320px, 400px); gap:28px; align-items:center; padding:32px; }
+.idcard { position:relative; display:grid; grid-template-columns:120px 1fr; gap:8px 20px; padding:24px; border-radius:14px; background:var(--bg-surface); border:var(--border-width) solid var(--border-subtle); overflow:hidden; box-shadow:0 18px 40px -20px rgba(0,0,0,.6); max-width:560px; justify-self:center; width:100%; }
+[data-skin='gamer'] .idcard { border-radius:6px; }
+.idcard::before { content:''; position:absolute; inset:0 0 auto 0; height:12px; background:var(--role-c, var(--border-subtle)); transition:background-color .4s; }
+.idcard .photo { grid-row:span 5; position:relative; min-height:170px; background:var(--stage); border-radius:8px; padding:10px; display:flex; align-items:flex-end; justify-content:center; }
+.idcard .photo .drone { position:absolute; top:10px; width:40px; }
+.idcard .photo .sprite { width:76%; transition:filter .4s; }
+.idcard.unknown .photo .sprite { filter:brightness(0) opacity(.35); }
+.idcard .org { font-size:12px; color:var(--text-muted); font-weight:600; letter-spacing:.04em; padding-top:8px; }
+.idcard .nm { font-family:var(--font-display); font-size:22px; line-height:1.3; }
+[data-skin='gamer'] .idcard .nm { font-size:15px; line-height:1.6; }
+.idcard .rl { display:inline-flex; padding:3px 10px; border-radius:999px; font-size:12px; font-weight:700; background:var(--role-c, var(--bg-surface-alt)); color:#111; width:max-content; }
+.idcard.unknown .rl { color:var(--text-muted); }
+.idcard .ml { font-size:13px; color:var(--text-muted); word-break:break-all; }
+.idcard .cohort { font-size:13px; font-weight:600; }
+.stamp { position:absolute; right:18px; bottom:16px; transform:rotate(-12deg); padding:4px 10px; border:3px solid var(--accent-danger); color:var(--accent-danger); font-weight:800; font-size:12px; letter-spacing:.08em; text-transform:uppercase; border-radius:6px; opacity:.85; }
+.stamp.ok { border-color:var(--accent-success); color:var(--accent-success); }
+.fE-panel { padding:22px; background:var(--bg-surface); border:var(--border-width) solid var(--border-subtle); border-radius:var(--radius-card); }
+
+/* ===== F · Diálogo ===== */
+.fF { display:flex; flex-direction:column; justify-content:flex-end; padding:24px; }
+.npc { position:absolute; left:50%; bottom:250px; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; }
+.npc .drone { width:60px; margin-bottom:10px; animation:bob 2.6s ease-in-out infinite; }
+.npc .sprite { width:130px; }
+.npc-shadow { width:100px; height:14px; border-radius:50%; background:rgba(0,0,0,.4); filter:blur(3px); margin-top:-4px; }
+.textbox { position:relative; z-index:2; padding:22px 24px; background:color-mix(in srgb, var(--bg-surface) 96%, transparent); border:var(--border-width) solid var(--border-subtle); border-radius:var(--radius-card); }
+[data-skin='gamer'] .textbox { border:4px solid var(--text-primary); border-radius:6px; box-shadow:inset 0 0 0 3px var(--bg-surface), inset 0 0 0 5px var(--text-primary); }
+.textbox .speaker { position:absolute; top:-16px; left:18px; padding:4px 12px; background:var(--accent-primary-fill); color:var(--on-accent-primary); font-family:var(--font-display); font-size:12px; border-radius:var(--radius-control); }
+.textbox .flow h3 { font-family:var(--font-body); font-size:17px; }
+[data-skin='gamer'] .textbox .flow h3 { font-family:var(--font-display); font-size:13px; line-height:1.8; }
+.textbox .flow .f, .textbox .flow .row2 { max-width:520px; }
+
+/* ===== comparativa ===== */
+.compare { margin-top:64px; }
+.compare h2 { font-family:var(--font-display); font-size:20px; margin-bottom:6px; }
+[data-skin='gamer'] .compare h2 { font-size:14px; }
+.compare table { width:100%; border-collapse:collapse; margin-top:14px; font-size:14px; background:var(--bg-surface); border:var(--border-width) solid var(--border-subtle); }
+.compare th, .compare td { text-align:left; padding:10px 14px; border-bottom:1px solid var(--border-subtle); vertical-align:top; }
+.compare th { font-size:12px; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); background:var(--bg-surface-alt); }
+.compare-wrap { overflow-x:auto; }
+
+@media (max-width: 860px) {
+  .fA, .fD, .fE { grid-template-columns:1fr; }
+  .fA-panel { border-left:0; border-top:var(--border-width) solid var(--border-subtle); }
+  .cast { gap:8px; } .actor { width:92px; } .actor .sprite { width:64px; }
+  .cab-screen { grid-template-columns:1fr; padding-bottom:64px; } .cab-portrait { display:none; }
+  .isles { min-height:340px; } .isle { width:100px; } .hex { width:96px; height:84px; } .isle .sprite { width:50px; } .isle:nth-child(2) { margin-top:60px; }
+  .idcard { grid-template-columns:90px 1fr; } .idcard .photo { min-height:130px; }
+  .npc { position:relative; left:auto; bottom:auto; transform:none; margin:10px auto 18px; } .npc .sprite { width:90px; }
+  .frame { min-height:0; }
+  .flow .row2 { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+  <symbol id="i-tick" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></symbol>
+</svg>
+
+<header class="ideas-top">
+  <h1>Ideas de login</h1>
+  <nav aria-label="Ir a una idea">
+    <a href="#idea-a" data-nav="a">A · Elenco</a><a href="#idea-b" data-nav="b">B · Gabinete</a><a href="#idea-c" data-nav="c">C · Dron</a>
+    <a href="#idea-d" data-nav="d">D · Islas</a><a href="#idea-e" data-nav="e">E · Credencial</a><a href="#idea-f" data-nav="f">F · Diálogo</a>
+    <a href="#comparativa">Comparativa</a>
+  </nav>
+  <div class="seg sm" role="group" aria-label="Estilo"><button data-skin="gamer" aria-pressed="true">Arcade</button><button data-skin="sobrio" aria-pressed="false">Normal</button></div>
+  <div class="seg sm" role="group" aria-label="Tema"><button data-theme="dark" aria-pressed="true">Oscuro</button><button data-theme="light" aria-pressed="false">Claro</button></div>
+  <div class="seg sm" role="group" aria-label="Paleta arcade"><button data-palette="electric" aria-pressed="true">Cian</button><button data-palette="neon" aria-pressed="false">Magenta</button></div>
+</header>
+
+<main class="ideas">
+  <p class="ideas-intro">Un único login y registro: nadie elige su rol. Arrancás con tu <b>legajo</b> o tu <b>email institucional</b> y la plataforma detecta quién sos. Las seis ideas comparten exactamente el mismo flujo; cambia cómo el mundo del juego reacciona cuando te reconoce.</p>
+  <div class="flow-map">
+    <div><b>Ya tenés cuenta</b>Legajo o email registrado.<ol><li>Contraseña</li><li>Código de 6 dígitos</li></ol></div>
+    <div><b>Alumno nuevo</b>Lo detecta tu legajo.<ol><li>Código de invitación de la comisión</li><li>Email institucional y contraseña</li></ol></div>
+    <div><b>Profesor o gestor nuevo</b>Tu email está habilitado en Accesos.<ol><li>Nombre, apellido y contraseña</li></ol></div>
+  </div>
+
+  <!-- ================= A ================= -->
+  <section class="idea" id="idea-a" aria-labelledby="h-a">
+    <div class="idea-head">
+      <div><h2 id="h-a"><span class="idea-id">A</span> · El elenco te reconoce</h2><p>Los tres personajes esperan a oscuras. Cuando escribís tu legajo o email, el que corresponde a tu rol se ilumina, sube y su dron se activa.</p></div>
+      <button class="btn btn-ghost btn-sm fav-btn" data-fav="a" aria-pressed="false"><svg class="icon icon-sm"><use href="#i-heart"/></svg>Me gusta</button>
+    </div>
+    <div class="try" data-try="a"></div>
+    <div class="frame fA">
+      <div class="fA-stage">
+        <div class="floor-grid" aria-hidden="true"></div>
+        <div class="fA-title"><p>¿Quién sos?</p><p data-a-caption>Escribí tu legajo o email y te reconocemos.</p></div>
+        <div class="cast" data-cast aria-hidden="true"></div>
+      </div>
+      <div class="fA-panel" data-flow="a"></div>
+    </div>
+    <div class="idea-notes"><div><b>Por qué funciona</b>La detección se vuelve visible: el usuario entiende que la plataforma sabe quién es sin preguntárselo. Es la más directa de implementar.</div><div><b>Riesgo</b>Mientras no escribiste nada, los personajes no aportan información; el escenario es decorado hasta que hay detección.</div></div>
+  </section>
+
+  <!-- ================= B ================= -->
+  <section class="idea" id="idea-b" aria-labelledby="h-b">
+    <div class="idea-head">
+      <div><h2 id="h-b"><span class="idea-id">B</span> · Gabinete arcade</h2><p>Una máquina de fichas que espera "jugador". Al reconocerte se prende la luz de tu rol en el tablero y aparece tu personaje en la pantalla.</p></div>
+      <button class="btn btn-ghost btn-sm fav-btn" data-fav="b" aria-pressed="false"><svg class="icon icon-sm"><use href="#i-heart"/></svg>Me gusta</button>
+    </div>
+    <div class="try" data-try="b"></div>
+    <div class="frame fB">
+      <div class="cab">
+        <div class="cab-screen">
+          <div class="cab-left">
+            <span class="cab-logo">TPI 2026</span>
+            <span class="cab-player waiting" data-b-player>Insertá tu legajo</span>
+            <span class="cab-portrait" data-b-portrait aria-hidden="true"></span>
+          </div>
+          <div data-flow="b"></div>
+          <div class="cab-walk" aria-hidden="true" data-walkers></div>
+        </div>
+        <div class="cab-deck">
+          <div class="lamps" data-lamps aria-hidden="true"></div>
+          <span style="opacity:.75">Programación IV · UTN FRC</span>
+        </div>
+      </div>
+    </div>
+    <div class="idea-notes"><div><b>Por qué funciona</b>La mayor carga de "juego", y las luces del tablero dejan claro qué rol detectó sin que haya que leer.</div><div><b>Riesgo</b>En modo normal el gabinete pierde sentido y para docentes puede sentirse demasiado lúdico. En mobile hay que simplificar el tablero.</div></div>
+  </section>
+
+  <!-- ================= C ================= -->
+  <section class="idea" id="idea-c" aria-labelledby="h-c">
+    <div class="idea-head">
+      <div><h2 id="h-c"><span class="idea-id">C</span> · Dron escáner</h2><p>Un dron escanea lo que escribís con un haz de luz. Cuando te reconoce, el dron de tu rol sale del hangar y los demás se apagan.</p></div>
+      <button class="btn btn-ghost btn-sm fav-btn" data-fav="c" aria-pressed="false"><svg class="icon icon-sm"><use href="#i-heart"/></svg>Me gusta</button>
+    </div>
+    <div class="try" data-try="c"></div>
+    <div class="frame fC">
+      <div class="floor-grid" aria-hidden="true"></div>
+      <div class="hangar" data-hangar aria-hidden="true"></div>
+      <div class="courier" data-courier>
+        <span class="big-drone" data-big-drone aria-hidden="true"></span>
+        <span class="beam" aria-hidden="true"></span>
+        <div class="parcel" data-flow="c"></div>
+      </div>
+    </div>
+    <div class="idea-notes"><div><b>Por qué funciona</b>El escaneo es una metáfora literal de la detección, y le da al dron del avatar un trabajo propio.</div><div><b>Riesgo</b>Los personajes casi no aparecen. El haz animado tiene que frenarse al escribir para no distraer.</div></div>
+  </section>
+
+  <!-- ================= D ================= -->
+  <section class="idea" id="idea-d" aria-labelledby="h-d">
+    <div class="idea-head">
+      <div><h2 id="h-d"><span class="idea-id">D</span> · Islas del mundo</h2><p>Tres islas hexagonales como las del mapa del curso. Al reconocerte, tu isla se eleva y su habitante te habla en el cuadro de diálogo con su propia voz.</p></div>
+      <button class="btn btn-ghost btn-sm fav-btn" data-fav="d" aria-pressed="false"><svg class="icon icon-sm"><use href="#i-heart"/></svg>Me gusta</button>
+    </div>
+    <div class="try" data-try="d"></div>
+    <div class="frame fD">
+      <div class="isles" data-isles aria-hidden="true"></div>
+      <div class="dialog"><span class="who" data-d-who>Puerto de llegada</span><div data-flow="d"></div></div>
+    </div>
+    <div class="idea-notes"><div><b>Por qué funciona</b>Conecta el login con el mapa que el alumno ya conoce: entrar es "llegar a tu isla". Cada rol tiene su voz.</div><div><b>Riesgo</b>Las islas ocupan mucho alto en mobile y el texto de los personajes agrega lectura.</div></div>
+  </section>
+
+  <!-- ================= E ================= -->
+  <section class="idea" id="idea-e" aria-labelledby="h-e">
+    <div class="idea-head">
+      <div><h2 id="h-e"><span class="idea-id">E</span> · Credencial de jugador</h2><p>Arranca como una credencial en blanco con una silueta. Cada dato detectado la va completando: rol, personaje, comisión, nombre. El código de 6 dígitos le pone el sello.</p></div>
+      <button class="btn btn-ghost btn-sm fav-btn" data-fav="e" aria-pressed="false"><svg class="icon icon-sm"><use href="#i-heart"/></svg>Me gusta</button>
+    </div>
+    <div class="try" data-try="e"></div>
+    <div class="frame fE">
+      <article class="idcard unknown" data-idcard aria-label="Tu credencial">
+        <div class="photo"><span class="drone" data-e-drone aria-hidden="true"></span><span class="sprite" data-e-sprite aria-hidden="true"></span></div>
+        <span class="org">TPI 2026 · PROGRAMACIÓN IV</span>
+        <span class="nm" data-e-name>Jugador sin identificar</span>
+        <span class="rl" data-e-role>Rol a detectar</span>
+        <span class="cohort" data-e-cohort></span>
+        <span class="ml" data-e-id>Legajo o email</span>
+        <span class="stamp" data-e-stamp>Sin verificar</span>
+      </article>
+      <div class="fE-panel" data-flow="e"></div>
+    </div>
+    <div class="idea-notes"><div><b>Por qué funciona</b>Hace visible todo lo que la plataforma detecta en cada paso, y sirve igual de bien para el registro que para el login diario. Es la más clara para docentes.</div><div><b>Riesgo</b>Tiene más estados que mantener. El nombre solo debería mostrarse cuando viene de una fuente confiable (la cuenta o la whitelist).</div></div>
+  </section>
+
+  <!-- ================= F ================= -->
+  <section class="idea" id="idea-f" aria-labelledby="h-f">
+    <div class="idea-head">
+      <div><h2 id="h-f"><span class="idea-id">F</span> · Diálogo con el guía</h2><p>El guía te hace las preguntas de a una, como en un RPG, y comenta lo que detectó ("¡Sos alumno!") antes de pedirte el siguiente dato.</p></div>
+      <button class="btn btn-ghost btn-sm fav-btn" data-fav="f" aria-pressed="false"><svg class="icon icon-sm"><use href="#i-heart"/></svg>Me gusta</button>
+    </div>
+    <div class="try" data-try="f"></div>
+    <div class="frame fF">
+      <div class="floor-grid" aria-hidden="true"></div>
+      <div class="npc" aria-hidden="true"><span class="drone" data-f-drone></span><span class="sprite" data-f-sprite></span><span class="npc-shadow"></span></div>
+      <div class="textbox"><span class="speaker" data-f-speaker>Guía TPI</span><div data-flow="f"></div></div>
+    </div>
+    <div class="idea-notes"><div><b>Por qué funciona</b>La que mejor acompaña un primer registro: una pregunta por vez y el guía explica qué detectó.</div><div><b>Riesgo</b>Más lenta para el login de todos los días; conviene recordar el último legajo y saltar directo a la contraseña.</div></div>
+  </section>
+
+  <!-- ================= comparativa ================= -->
+  <section class="compare" id="comparativa" aria-labelledby="h-cmp">
+    <h2 id="h-cmp">Comparativa</h2>
+    <p class="muted" style="max-width:70ch">Estimaciones de diseño, no medidas. "Costo" es el esfuerzo relativo de llevarlo a Angular con los componentes de la librería.</p>
+    <div class="compare-wrap"><table>
+      <thead><tr><th>Idea</th><th>Cómo se ve la detección</th><th>Registro</th><th>Login diario</th><th>Mobile</th><th>Para docentes</th><th>Costo</th></tr></thead>
+      <tbody>
+        <tr><td><b>A · Elenco</b></td><td>Se ilumina tu personaje</td><td>Buena</td><td>Muy buena</td><td>Buena</td><td>Buena</td><td>Bajo</td></tr>
+        <tr><td><b>B · Gabinete</b></td><td>Se prende la luz de tu rol</td><td>Buena</td><td>Buena</td><td>Regular</td><td>Floja</td><td>Medio</td></tr>
+        <tr><td><b>C · Dron</b></td><td>El dron te escanea</td><td>Buena</td><td>Buena</td><td>Buena</td><td>Buena</td><td>Medio</td></tr>
+        <tr><td><b>D · Islas</b></td><td>Tu isla se eleva y te habla</td><td>Muy buena</td><td>Buena</td><td>Regular</td><td>Buena</td><td>Medio</td></tr>
+        <tr><td><b>E · Credencial</b></td><td>Se completa tu credencial</td><td>Muy buena</td><td>Muy buena</td><td>Buena</td><td>Muy buena</td><td>Medio</td></tr>
+        <tr><td><b>F · Diálogo</b></td><td>El guía te lo cuenta</td><td>Muy buena</td><td>Floja</td><td>Muy buena</td><td>Floja</td><td>Alto</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+</main>
+
+<script>
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const store = { get: k => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch {} } };
+
+/* ---- pixel art: same characters and drone as the mock ---- */
+function pixel(rows, pal) {
+  const h = rows.length, w = rows[0].length; let r = '';
+  rows.forEach((row, y) => [...row].forEach((ch, x) => { if (pal[ch]) r += `<rect x="${x}" y="${y}" width="1.02" height="1.02" style="fill:${pal[ch]}"/>`; }));
+  return `<svg class="pixel" viewBox="0 0 ${w} ${h}" aria-hidden="true">${r}</svg>`;
+}
+const HERO_ROWS = ['....bbbbbbbb....','...bhhhhhhhhb...','..bhhhhhhhhhhb..','..bhhhhhhhhhhb..','.cchhssssssshcc.','.ccsssssssssscc.','.ccseessseesscc.','.ccsssssssssscc.','..kssssmmsssss..','..kKsssssssss...','....ssssssss....','...tttttttttt...','..tttttttttttt..','.sttttrrtttttts.','.stttttttttttts.','..aaaaaaaaaaaa..','...pppppppppp...','...pppp..pppp...','...pppp..pppp...','..zzzzz..zzzzz..','..zzzzz..zzzzz..'];
+const DRONE_ROWS = ['rrr..ww..rrr','.r.wwwwww.r.','.dwwweewwwd.','..wwwwwwww..','...l....g...'];
+const HEROES = {
+  alumno:   { hair:'#e2b86f', top:'#9aa3ad', emblem:'#d33a3a', belt:'#8a5a3c', pants:'#7d8590', shoes:'#e6e8ee', glasses:false },
+  profesor: { hair:'#6b4226', top:'var(--accent-secondary-fill)', emblem:'#f5f1e8', belt:'#2b2f3a', pants:'#3b4252', shoes:'#4a2f20', glasses:true },
+  gestor:   { hair:'#2e3440', top:'#3f4654', emblem:'var(--accent-gold-fill)', belt:'#1f232b', pants:'#262a33', shoes:'#e6e8ee', glasses:false },
+};
+const hero = role => { const h = HEROES[role]; return pixel(HERO_ROWS.map((r, i) => i === 6 && h.glasses ? '.ccgeegsgeegscc.' : r), { b:'#1d1d26', h:h.hair, s:'#e9b78f', e:'#1b1b22', m:'#b97a5a', g:'#d4d8e0', c:'var(--accent-primary-fill)', k:'#1d1d26', K:'var(--accent-primary-fill)', t:h.top, r:h.emblem, a:h.belt, p:h.pants, z:h.shoes }); };
+const drone = () => pixel(DRONE_ROWS, { r:'#2a2a35', w:'#eef0f5', d:'#2a2a35', e:'var(--accent-primary-fill)', l:'#22c55e', g:'#ef4444' });
+const ROLES = ['alumno', 'profesor', 'gestor'];
+const LABEL = { alumno:'Alumno', profesor:'Profesor', gestor:'Gestor' };
+const ROLE_C = { alumno:'var(--accent-primary-fill)', profesor:'var(--accent-secondary-fill)', gestor:'var(--accent-gold-fill)' };
+
+/* ---- mock directory: what the backend would answer ---- */
+const ACCOUNTS = {
+  '40100': { name:'Manuel Sanchez', role:'alumno', email:'manuel.sanchez@frc.utn.edu.ar', cohort:'MSII' },
+  'manuel.sanchez@frc.utn.edu.ar': { name:'Manuel Sanchez', role:'alumno', email:'manuel.sanchez@frc.utn.edu.ar', cohort:'MSII' },
+  'diego.suarez@frc.utn.edu.ar': { name:'Diego Suárez', role:'gestor', email:'diego.suarez@frc.utn.edu.ar' },
+};
+const WHITELIST = { 'ana.torres@frc.utn.edu.ar':'profesor', 'gestor.tpi@frc.utn.edu.ar':'gestor' };
+const INVITES = { GSLSFFFUVE:{ cohort:'MSII', teacher:'Ana Torres' }, MSI2026:{ cohort:'MSI', teacher:'Ana Torres' } };
+const TRY = [
+  ['40777', 'alumno nuevo'], ['40100', 'alumno con cuenta'], ['ana.torres@frc.utn.edu.ar', 'profesora habilitada'],
+  ['gestor.tpi@frc.utn.edu.ar', 'gestor habilitado'], ['docente@frc.utn.edu.ar', 'email no habilitado'],
+];
+function detect(raw) {
+  const v = raw.trim().toLowerCase();
+  if (!v) return { kind:'empty' };
+  if (ACCOUNTS[v]) return { kind:'account', ...ACCOUNTS[v] };
+  if (/^\d{4,6}$/.test(v)) return { kind:'new-student', role:'alumno', legajo:v };
+  if (WHITELIST[v]) return { kind:'new-staff', role:WHITELIST[v], email:v };
+  if (/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)) return { kind:'not-allowed' };
+  return { kind:'invalid' };
+}
+const mask = m => { const [u, d] = m.split('@'); return `${u[0]}${'•'.repeat(Math.max(3, u.length - 1))}@${d}`; };
+
+/* ---- one shared flow, mounted six times; each idea reacts through hooks ----
+   hooks.onDetect(info|null), hooks.onStep(step, info), hooks.onDone(info) */
+function AuthFlow(root, hooks = {}) {
+  const st = { step:'id', info:null };
+  const otp = () => `<div class="otp">${Array.from({ length:6 }, (_, i) => `<input class="control num" inputmode="numeric" maxlength="1" aria-label="Dígito ${i + 1} de 6" />`).join('')}</div>`;
+  const pass2 = () => `<div class="row2"><label class="f">Contraseña<input class="control" type="password" name="p1" autocomplete="new-password" /></label><label class="f">Repetila<input class="control" type="password" name="p2" autocomplete="new-password" /></label></div>`;
+  const VIEWS = {
+    id: () => `<h3>Entrá o creá tu cuenta</h3><p class="lead">Con tu <b>legajo</b> si sos alumno, o con tu <b>email institucional</b> si sos docente.</p>
+      <label class="f">Legajo o email institucional<input class="control" name="id" autocomplete="username" placeholder="40510 o nombre.apellido@frc.utn.edu.ar" /></label>
+      <p class="msg" data-msg></p><button class="btn btn-primary cta">Continuar<svg class="icon icon-sm"><use href="#i-right"/></svg></button>`,
+    password: i => `<span class="chip" style="--role-c:${ROLE_C[i.role]}">${LABEL[i.role]} · cuenta existente</span><h3>Hola de nuevo, ${i.name.split(' ')[0]}</h3>
+      <label class="f">Contraseña<input class="control" type="password" name="pw" autocomplete="current-password" /></label>
+      <p class="msg" data-msg></p><div class="links"><button class="lnk" type="button" data-back>No soy yo</button><button class="lnk" type="button" data-forgot>Olvidé mi contraseña</button></div>
+      <button class="btn btn-primary cta">Entrar<svg class="icon icon-sm"><use href="#i-right"/></svg></button>`,
+    otp: i => `<h3>Verificá que sos vos</h3><p class="lead">Te mandamos un código de 6 dígitos a <b>${mask(i.email)}</b>.</p>${otp()}
+      <p class="msg" data-msg></p><button class="btn btn-primary cta">Verificar y entrar<svg class="icon icon-sm"><use href="#i-tick"/></svg></button>`,
+    invite: i => `<span class="chip" style="--role-c:${ROLE_C.alumno}">Alumno · legajo ${i.legajo}</span><h3>¡Sos alumno! Sumate a tu comisión</h3>
+      <p class="lead">Ingresá el código de invitación que te pasó tu docente.</p>
+      <label class="f">Código de invitación<input class="control" name="code" placeholder="Por ejemplo: GSLSFFFUVE" autocomplete="off" style="text-transform:uppercase" /></label>
+      <p class="msg" data-msg></p><div class="links"><button class="lnk" type="button" data-back>Usar otro legajo</button></div>
+      <button class="btn btn-primary cta">Validar código<svg class="icon icon-sm"><use href="#i-right"/></svg></button>`,
+    student: i => `<div class="found"><b>${i.cohort} · ${i.teacher}</b>Código válido. Vas a quedar inscripto en esta comisión.</div><h3>Completá tu cuenta</h3>
+      <label class="f">Email institucional<input class="control" type="email" name="mail" autocomplete="email" placeholder="nombre.apellido@frc.utn.edu.ar" /></label>${pass2()}
+      <p class="msg" data-msg></p><button class="btn btn-primary cta">Crear cuenta<svg class="icon icon-sm"><use href="#i-tick"/></svg></button>`,
+    staff: i => `<span class="chip" style="--role-c:${ROLE_C[i.role]}">${LABEL[i.role]} · habilitado</span><h3>Tu email está habilitado como ${i.role}</h3>
+      <p class="lead">Te sumó la administración. Completá tus datos para terminar el registro.</p>
+      <div class="row2"><label class="f">Nombre<input class="control" name="fn" autocomplete="given-name" /></label><label class="f">Apellido<input class="control" name="ln" autocomplete="family-name" /></label></div>${pass2()}
+      <p class="msg" data-msg></p><div class="links"><button class="lnk" type="button" data-back>Usar otro email</button></div>
+      <button class="btn btn-primary cta">Crear cuenta<svg class="icon icon-sm"><use href="#i-tick"/></svg></button>`,
+    done: i => `<h3 class="done"><svg class="icon" aria-hidden="true"><use href="#i-tick"/></svg>${i.created ? 'Cuenta creada' : '¡Adentro!'}</h3>
+      <p class="lead">${i.created ? (i.role === 'alumno' ? `Ya estás en ${i.cohort}. Entrando a tus desafíos…` : `Entrando como ${i.role}…`) : `Entrando como ${i.role}…`}</p>
+      <button class="btn btn-ghost" type="button" data-restart>Probar de nuevo</button>`,
+  };
+  function render() {
+    root.innerHTML = `<form class="flow" novalidate><div class="flow-step">${VIEWS[st.step](st.info || {})}</div></form>`;
+    hooks.onStep?.(st.step, st.info);
+    const first = $('input, button', root); if (st.step !== 'id' && first) first.focus({ preventScroll:true });
+  }
+  const go = step => { st.step = step; render(); };
+  const say = (t, info) => { const m = $('[data-msg]', root); m.textContent = t; m.className = info ? 'msg info' : 'msg'; };
+  root.addEventListener('input', e => {
+    if (e.target.name === 'id') { const d = detect(e.target.value); hooks.onDetect?.(['account', 'new-student', 'new-staff'].includes(d.kind) ? d : null, d); say(''); }
+    if (e.target.closest('.otp')) { e.target.value = e.target.value.replace(/\D/g, '').slice(-1); if (e.target.value) e.target.nextElementSibling?.focus(); }
+  });
+  root.addEventListener('click', e => {
+    if (e.target.closest('[data-back]')) { st.info = null; hooks.onDetect?.(null, { kind:'empty' }); go('id'); }
+    if (e.target.closest('[data-restart]')) { st.info = null; hooks.onDetect?.(null, { kind:'empty' }); go('id'); }
+    if (e.target.closest('[data-forgot]')) say(`Te mandamos un link para elegir una contraseña nueva a ${mask(st.info.email)}.`, true);
+  });
+  root.addEventListener('submit', e => {
+    e.preventDefault(); const f = e.target.elements;
+    if (st.step === 'id') {
+      const d = detect(f.id.value);
+      if (d.kind === 'empty') return say('Escribí tu legajo o tu email institucional.');
+      if (d.kind === 'invalid') return say('Eso no parece un legajo (solo números) ni un email.');
+      if (d.kind === 'not-allowed') return say('Ese email no está habilitado. Si sos alumno, entrá con tu legajo; si sos docente, pedile acceso a la administración.');
+      st.info = d; return go(d.kind === 'account' ? 'password' : d.kind === 'new-student' ? 'invite' : 'staff');
+    }
+    if (st.step === 'password') { if (!f.pw.value) return say('Escribí tu contraseña.'); return go('otp'); }
+    if (st.step === 'otp') {
+      const code = $$('.otp input', root).map(x => x.value).join('');
+      if (code.length < 6) return say('Completá los 6 dígitos.');
+      if (code === '000000') return say('El código no es correcto. Te quedan 2 intentos.');
+      hooks.onDone?.(st.info); return go('done');
+    }
+    if (st.step === 'invite') {
+      const inv = INVITES[f.code.value.trim().toUpperCase()];
+      if (!inv) return say('Ese código no corresponde a ninguna comisión activa. Revisalo con tu docente.');
+      Object.assign(st.info, inv); hooks.onStep?.('invite-ok', st.info); return go('student');
+    }
+    if (st.step === 'student' || st.step === 'staff') {
+      if (st.step === 'student' && !/^[^@\s]+@frc\.utn\.edu\.ar$/i.test(f.mail.value.trim())) return say('Usá tu email institucional (@frc.utn.edu.ar).');
+      if (st.step === 'staff' && (!f.fn.value.trim() || !f.ln.value.trim())) return say('Completá nombre y apellido.');
+      if (f.p1.value.length < 8) return say('La contraseña tiene que tener al menos 8 caracteres.');
+      if (f.p1.value !== f.p2.value) return say('Las contraseñas no coinciden.');
+      st.info.created = true; st.info.name = st.step === 'staff' ? `${f.fn.value.trim()} ${f.ln.value.trim()}` : st.info.name;
+      st.info.email = st.info.email || f.mail?.value.trim();
+      hooks.onDone?.(st.info); return go('done');
+    }
+  });
+  render();
+  return { fill(v) { go('id'); const i = $('input[name="id"]', root); i.value = v; i.dispatchEvent(new Event('input', { bubbles:true })); i.focus({ preventScroll:true }); } };
+}
+const flows = {};
+function mount(key, hooks) {
+  flows[key] = AuthFlow($(`[data-flow="${key}"]`), hooks);
+  $(`[data-try="${key}"]`).innerHTML = 'Probá con: ' + TRY.map(([v, l]) => `<button type="button" data-fill="${v}"><b>${v}</b> · ${l}</button>`).join('');
+  $(`[data-try="${key}"]`).addEventListener('click', e => { const b = e.target.closest('[data-fill]'); if (b) flows[key].fill(b.dataset.fill); });
+}
+
+/* A · cast */
+$('[data-cast]').innerHTML = ROLES.map(r => `<div class="actor" data-actor="${r}"><span class="drone">${drone()}</span><span class="sprite">${hero(r)}</span><span class="plate">${LABEL[r]}</span></div>`).join('');
+mount('a', {
+  onDetect(d, raw) {
+    $$('[data-actor]').forEach(a => a.classList.toggle('on', !!d && a.dataset.actor === d.role));
+    $('[data-cast]').classList.toggle('scanning', !d && raw.kind !== 'empty');
+    $('[data-a-caption]').textContent = d ? `Te reconocimos: ${LABEL[d.role].toLowerCase()}${d.kind === 'account' ? ' con cuenta' : ' nuevo'}.` : 'Escribí tu legajo o email y te reconocemos.';
+  },
+});
+
+/* B · cabinet */
+$('[data-walkers]').innerHTML = ROLES.map(r => `<span>${hero(r)}</span>`).join('');
+$('[data-lamps]').innerHTML = ROLES.map(r => `<span class="lamp" data-lamp="${r}" style="--c:${ROLE_C[r]}"><i></i>${LABEL[r]}</span>`).join('');
+mount('b', {
+  onDetect(d) {
+    $$('[data-lamp]').forEach(l => l.classList.toggle('on', !!d && l.dataset.lamp === d.role));
+    const p = $('[data-b-player]'); p.textContent = d ? `Jugador: ${d.role}` : 'Insertá tu legajo'; p.classList.toggle('waiting', !d);
+    $('[data-b-portrait]').innerHTML = d ? hero(d.role) : '';
+  },
+});
+
+/* C · scanner */
+$('[data-hangar]').innerHTML = ROLES.map(r => `<span class="bay" data-bay="${r}">${drone()}${LABEL[r]}</span>`).join('');
+$('[data-big-drone]').innerHTML = drone();
+mount('c', {
+  onDetect(d, raw) {
+    $('[data-courier]').classList.toggle('scanning', !d && raw.kind !== 'empty');
+    $$('[data-bay]').forEach(b => { b.classList.toggle('on', !!d && b.dataset.bay === d.role); b.classList.toggle('out', !!d && b.dataset.bay !== d.role); });
+  },
+});
+
+/* D · islands */
+const VOICE = { alumno:'Isla de los alumnos', profesor:'Isla docente', gestor:'Isla de gestión' };
+$('[data-isles]').innerHTML = ROLES.map(r => `<div class="isle" data-isle="${r}"><span class="drone">${drone()}</span><span class="sprite">${hero(r)}</span><span class="hex"></span><span class="isle-name">${LABEL[r]}</span></div>`).join('');
+mount('d', {
+  onDetect(d) {
+    $$('[data-isle]').forEach(i => i.classList.toggle('on', !!d && i.dataset.isle === d.role));
+    $('[data-isles]').classList.toggle('found', !!d);
+    $('[data-d-who]').textContent = d ? VOICE[d.role] : 'Puerto de llegada';
+  },
+});
+
+/* E · credential */
+const idcard = $('[data-idcard]');
+$('[data-e-drone]').innerHTML = drone(); $('[data-e-sprite]').innerHTML = hero('alumno');
+function paintId(d) {
+  idcard.classList.toggle('unknown', !d);
+  idcard.style.setProperty('--role-c', d ? ROLE_C[d.role] : '');
+  $('[data-e-sprite]').innerHTML = hero(d ? d.role : 'alumno');
+  $('[data-e-role]').textContent = d ? LABEL[d.role] : 'Rol a detectar';
+  $('[data-e-name]').textContent = d?.name || (d ? 'Jugador nuevo' : 'Jugador sin identificar');
+  $('[data-e-id]').textContent = d ? (d.email || `Legajo ${d.legajo}`) : 'Legajo o email';
+  $('[data-e-cohort]').textContent = d?.cohort ? `Comisión ${d.cohort}` : '';
+  const s = $('[data-e-stamp]'); s.textContent = 'Sin verificar'; s.classList.remove('ok');
+}
+mount('e', {
+  onDetect: d => paintId(d),
+  onStep(step, i) { if (step === 'invite-ok') $('[data-e-cohort]').textContent = `Comisión ${i.cohort}`; },
+  onDone(i) {
+    $('[data-e-name]').textContent = i.name || 'Jugador nuevo';
+    const s = $('[data-e-stamp]'); s.textContent = i.created ? 'Registrado' : 'Verificado'; s.classList.add('ok');
+    s.animate([{ transform:'rotate(-12deg) scale(2)', opacity:0 }, { transform:'rotate(-12deg) scale(1)', opacity:.85 }], { duration:300, easing:'cubic-bezier(.16,1,.3,1)' });
+  },
+});
+
+/* F · guide */
+$('[data-f-drone]').innerHTML = drone(); $('[data-f-sprite]').innerHTML = hero('gestor');
+mount('f', {
+  onDetect(d) { $('[data-f-speaker]').textContent = d ? `Guía TPI · detecté: ${LABEL[d.role]}` : 'Guía TPI'; },
+});
+
+/* ---- favorites + page toggles ---- */
+const favs = new Set(JSON.parse(store.get('tpi-login-favs') || '[]'));
+function renderFavs() {
+  $$('[data-fav]').forEach(b => b.setAttribute('aria-pressed', String(favs.has(b.dataset.fav))));
+  $$('[data-nav]').forEach(a => a.classList.toggle('fav', favs.has(a.dataset.nav)));
+}
+$$('[data-fav]').forEach(b => b.addEventListener('click', () => { favs.has(b.dataset.fav) ? favs.delete(b.dataset.fav) : favs.add(b.dataset.fav); store.set('tpi-login-favs', JSON.stringify([...favs])); renderFavs(); }));
+renderFavs();
+const html = document.documentElement;
+function setAttr(attr, val) {
+  html.dataset[attr] = val; store.set('tpi-ideas-' + attr, val);
+  $$(`.ideas-top [data-${attr}]`).forEach(b => b.setAttribute('aria-pressed', String(b.dataset[attr] === val)));
+}
+['skin', 'theme', 'palette'].forEach(a => {
+  $$(`.ideas-top [data-${a}]`).forEach(b => b.addEventListener('click', () => setAttr(a, b.dataset[a])));
+  const saved = store.get('tpi-ideas-' + a); if (saved) setAttr(a, saved);
+});
+</script>
+</body>
+</html>

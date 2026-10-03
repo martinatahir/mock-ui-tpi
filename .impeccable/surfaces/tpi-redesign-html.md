@@ -20,3 +20,4 @@ STORY: The student sees risk first, then what is in progress, then what is due t
 FIRST VIEWPORT: Sidebar shell left. Title + one-line purpose. Risk alert with "Ver solo obligatorios". Tabs Por hacer/Completados, filter bar, then grouped dense rows (status, title+course·type, obligatorio+difficulty meter, deadline, reward, action).
 FORM: Pinned by user (existing mock world); no concept roll.
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+

@@ -117,98 +117,10 @@
   <a class="uikit-link" href="#uikit" title="Ver catálogo de componentes y tokens de diseño">🎨 UI Kit / Componentes</a>
 </div>
 
-<header class="topbar">
-  <div class="brand-wrap">
-    <div class="brand"><a href="#dashboard" style="text-decoration:none; color:inherit;">🕹️ TPI 2026</a></div>
-  </div>
-
-  <!-- Extremo Derecho: Notificaciones + Perfil de Usuario -->
-  <div class="topbar-actions">
-    <!-- Menú de Notificaciones -->
-    <div class="notif-wrap">
-      <button class="icon-btn notif-btn" id="notif-btn" type="button" aria-expanded="false" aria-controls="notif-menu" aria-label="Notificaciones: 3 nuevas" title="Notificaciones (3 nuevas)">
-        <svg class="icon"><use href="#i-bell"/></svg>
-        <span class="notif-badge" id="notif-badge" aria-hidden="true">3</span>
-      </button>
-      <div class="notif-menu" id="notif-menu" hidden>
-        <div class="notif-head">
-          <h3 style="font-size:13px; font-weight:700; margin:0;">Notificaciones</h3>
-          <span class="badge badge-success sm" id="notif-count-tag">3 nuevas</span>
-        </div>
-        <div class="notif-list" id="notif-list">
-          <a class="notif-item unread" href="#desafios">
-            <span class="notif-icon danger"><svg class="icon icon-sm"><use href="#i-flame"/></svg></span>
-            <div class="notif-body">
-              <div class="notif-title">Desafío obligatorio por vencer</div>
-              <div class="notif-text">MSI: Tipado y protocolos vence este jueves 02/10.</div>
-              <div class="notif-time">Hace 2 horas</div>
-            </div>
-          </a>
-          <a class="notif-item unread" href="#ranking">
-            <span class="notif-icon gold"><svg class="icon icon-sm"><use href="#i-trophy"/></svg></span>
-            <div class="notif-body">
-              <div class="notif-title">¡Subiste en el ranking!</div>
-              <div class="notif-text">Alcanzaste el puesto #4 en la cohorte MSI.</div>
-              <div class="notif-time">Ayer</div>
-            </div>
-          </a>
-          <a class="notif-item unread" href="#encuestas">
-            <span class="notif-icon primary"><svg class="icon icon-sm"><use href="#i-survey"/></svg></span>
-            <div class="notif-body">
-              <div class="notif-title">Encuesta de cátedra abierta</div>
-              <div class="notif-text">Completá la encuesta de medio término de MSI.</div>
-              <div class="notif-time">Hace 2 días</div>
-            </div>
-          </a>
-        </div>
-        <div class="notif-foot">
-          <button type="button" class="btn btn-ghost btn-sm" id="notif-mark-read" style="width:100%; justify-content:center;">Marcar todas como leídas</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Menú de Cuenta y Preferencias -->
-    <div class="account">
-      <button class="me-chip" id="account-btn" type="button" aria-expanded="false" aria-controls="account-menu" aria-haspopup="true">
-        <span class="initials" aria-hidden="true" data-me-initials>MS</span>
-        <span class="me-name"><span data-me-short>Manuel S.</span><span class="me-level" data-me-level>Alumno</span></span>
-        <svg class="icon icon-sm chev" aria-hidden="true"><use href="#i-chevron"/></svg>
-      </button>
-      <div class="account-menu" id="account-menu" hidden>
-        <a class="nav-item" href="#perfil"><svg class="icon"><use href="#i-user"/></svg>Mi perfil</a>
-        <a class="nav-item" href="#personaje" data-alumno-only><svg class="icon"><use href="#i-shirt"/></svg>Mi personaje</a>
-        <a class="nav-item" href="#inventario" data-alumno-only><svg class="icon"><use href="#i-backpack"/></svg>Inventario</a>
-        <a class="nav-item" href="#encuestas"><svg class="icon"><use href="#i-survey"/></svg>Encuestas <span class="badge badge-secondary sm" style="margin-left:auto">1</span></a>
-        <a class="nav-item" href="#banco"><svg class="icon"><use href="#i-coin"/></svg>Banco (Monedas & Aranceles)</a>
-        <hr />
-        <div class="menu-pref-title">Apariencia</div>
-        <div class="menu-pref-row">
-          <div class="seg sm" role="group" aria-label="Estilo">
-            <button data-skin-btn="gamer" aria-pressed="true">Arcade</button>
-            <button data-skin-btn="sobrio" aria-pressed="false">Normal</button>
-          </div>
-          <div class="seg sm" role="group" aria-label="Tema">
-            <button data-theme-btn="dark" aria-pressed="true">Oscuro</button>
-            <button data-theme-btn="light" aria-pressed="false">Claro</button>
-          </div>
-        </div>
-        <div class="menu-pref-title">Paleta Arcade</div>
-        <div class="menu-pref-row">
-          <div class="seg sm" role="group" aria-label="Paleta Arcade">
-            <button data-palette-btn="electric" aria-pressed="true">⚡ Cian</button>
-            <button data-palette-btn="neon" aria-pressed="false">🌸 Magenta</button>
-          </div>
-        </div>
-        <hr />
-        <button class="nav-item danger" type="button"><svg class="icon"><use href="#i-logout"/></svg>Cerrar sesión</button>
-      </div>
-    </div>
-  </div>
-</header>
-
 <div class="shell subpanel-collapsed">
   <!-- Rail / Icon Dock Lateral Fijo (64px) -->
   <nav class="sidebar" id="sidebar" aria-label="Navegación principal">
+    <a class="sidebar-brand" href="#dashboard" aria-label="TUP, ir al inicio">TUP</a>
     <div class="sidebar-nav" id="sidebar-nav"></div>
     <div class="sidebar-footer">
       <div class="sidebar-secondary-nav" id="sidebar-secondary-nav"></div>
@@ -232,6 +144,96 @@
       </div>
     </div>
   </aside>
+
+  <div class="shell-col">
+  <header class="topbar">
+    <div class="brand-wrap">
+      <div class="brand"><a href="#dashboard" style="text-decoration:none; color:inherit;">🕹️ TUP</a></div>
+    </div>
+
+    <!-- Extremo Derecho: Notificaciones + Perfil de Usuario -->
+    <div class="topbar-actions">
+      <!-- Menú de Notificaciones -->
+      <div class="notif-wrap">
+        <button class="icon-btn notif-btn" id="notif-btn" type="button" aria-expanded="false" aria-controls="notif-menu" aria-label="Notificaciones: 3 nuevas" title="Notificaciones (3 nuevas)">
+          <svg class="icon"><use href="#i-bell"/></svg>
+          <span class="notif-badge" id="notif-badge" aria-hidden="true">3</span>
+        </button>
+        <div class="notif-menu" id="notif-menu" hidden>
+          <div class="notif-head">
+            <h3 style="font-size:var(--fs-small); font-weight:700; margin:0;">Notificaciones</h3>
+            <span class="badge badge-success sm" id="notif-count-tag">3 nuevas</span>
+          </div>
+          <div class="notif-list" id="notif-list">
+            <a class="notif-item unread" href="#desafios">
+              <span class="notif-icon danger"><svg class="icon icon-sm"><use href="#i-flame"/></svg></span>
+              <div class="notif-body">
+                <div class="notif-title">Desafío obligatorio por vencer</div>
+                <div class="notif-text">MSI: Tipado y protocolos vence este jueves 02/10.</div>
+                <div class="notif-time">Hace 2 horas</div>
+              </div>
+            </a>
+            <a class="notif-item unread" href="#ranking">
+              <span class="notif-icon gold"><svg class="icon icon-sm"><use href="#i-trophy"/></svg></span>
+              <div class="notif-body">
+                <div class="notif-title">¡Subiste en el ranking!</div>
+                <div class="notif-text">Alcanzaste el puesto #4 en la cohorte MSI.</div>
+                <div class="notif-time">Ayer</div>
+              </div>
+            </a>
+            <a class="notif-item unread" href="#encuestas">
+              <span class="notif-icon primary"><svg class="icon icon-sm"><use href="#i-survey"/></svg></span>
+              <div class="notif-body">
+                <div class="notif-title">Encuesta de cátedra abierta</div>
+                <div class="notif-text">Completá la encuesta de medio término de MSI.</div>
+                <div class="notif-time">Hace 2 días</div>
+              </div>
+            </a>
+          </div>
+          <div class="notif-foot">
+            <button type="button" class="btn btn-ghost btn-sm" id="notif-mark-read" style="width:100%; justify-content:center;">Marcar todas como leídas</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Menú de Cuenta y Preferencias -->
+      <div class="account">
+        <button class="me-chip" id="account-btn" type="button" aria-expanded="false" aria-controls="account-menu" aria-haspopup="true">
+          <span class="initials" aria-hidden="true" data-me-initials>MS</span>
+          <span class="me-name"><span data-me-short>Manuel S.</span><span class="me-level" data-me-level>Alumno</span></span>
+          <svg class="icon icon-sm chev" aria-hidden="true"><use href="#i-chevron"/></svg>
+        </button>
+        <div class="account-menu" id="account-menu" hidden>
+          <a class="nav-item" href="#perfil"><svg class="icon"><use href="#i-user"/></svg>Mi perfil</a>
+          <a class="nav-item" href="#personaje" data-alumno-only><svg class="icon"><use href="#i-shirt"/></svg>Mi personaje</a>
+          <a class="nav-item" href="#inventario" data-alumno-only><svg class="icon"><use href="#i-backpack"/></svg>Inventario</a>
+          <a class="nav-item" href="#encuestas"><svg class="icon"><use href="#i-survey"/></svg>Encuestas <span class="badge badge-secondary sm" style="margin-left:auto">1</span></a>
+          <a class="nav-item" href="#banco"><svg class="icon"><use href="#i-coin"/></svg>Banco (Monedas & Aranceles)</a>
+          <hr />
+          <div class="menu-pref-title">Apariencia</div>
+          <div class="menu-pref-row">
+            <div class="seg sm" role="group" aria-label="Estilo">
+              <button data-skin-btn="gamer" aria-pressed="true">Arcade</button>
+              <button data-skin-btn="sobrio" aria-pressed="false">Normal</button>
+            </div>
+            <div class="seg sm" role="group" aria-label="Tema">
+              <button data-theme-btn="dark" aria-pressed="true">Oscuro</button>
+              <button data-theme-btn="light" aria-pressed="false">Claro</button>
+            </div>
+          </div>
+          <div class="menu-pref-title">Paleta Arcade</div>
+          <div class="menu-pref-row">
+            <div class="seg sm" role="group" aria-label="Paleta Arcade">
+              <button data-palette-btn="electric" aria-pressed="true">⚡ Cian</button>
+              <button data-palette-btn="neon" aria-pressed="false">🌸 Magenta</button>
+            </div>
+          </div>
+          <hr />
+          <button class="nav-item danger" type="button"><svg class="icon"><use href="#i-logout"/></svg>Cerrar sesión</button>
+        </div>
+      </div>
+    </div>
+  </header>
 
   <main class="content" id="main">
 
@@ -355,7 +357,7 @@
         </fieldset>
         <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
           <button class="btn btn-primary" id="quiz-submit" type="button" disabled>Entregar</button>
-          <span class="muted" style="font-size:13px" id="quiz-hint">Respondé todas las preguntas para poder entregar. Se guarda solo mientras avanzás.</span>
+          <span class="muted" style="font-size:var(--fs-small)" id="quiz-hint">Respondé todas las preguntas para poder entregar. Se guarda solo mientras avanzás.</span>
         </div>
       </form>
     </section>
@@ -382,7 +384,7 @@
 
       <div class="data">
         <div class="section-head" style="margin-bottom:12px;">
-          <h2 style="font-size:16px;">Vista general de curso</h2>
+          <h2 style="font-size:var(--fs-lead);">Vista general de curso</h2>
         </div>
 
         <div class="courses-toolbar">
@@ -476,9 +478,7 @@
                 <svg class="icon icon-sm"><use href="#i-chevron"/></svg>
                 <span id="txt-toggle-all-sections">Colapsar todo</span>
               </button>
-            </div>
           </div>
-
           <!-- Listado de Secciones Acordeón (General con banner y avisos, Info General, Unidad 1, 2, 3, 4...) -->
           <div class="course-sections-list" id="course-sections-accordion-wrap"></div>
         </div>
@@ -604,7 +604,7 @@
             <a class="btn btn-ghost btn-sm" href="#personaje"><svg class="icon icon-sm"><use href="#i-shirt"/></svg>Cambiar color</a>
           </div>
           <div class="card studs">
-            <div class="section-head" style="margin-bottom:16px"><h2>Ítems equipados</h2><span class="muted" style="font-size:13px">3 ranuras por tipo de desafío</span></div>
+            <div class="section-head" style="margin-bottom:16px"><h2>Ítems equipados</h2><span class="muted" style="font-size:var(--fs-small)">3 ranuras por tipo de desafío</span></div>
             <div id="inv-slots"></div>
             <div class="section" style="margin-top:24px">
               <div class="section-head"><h2>Disponibles</h2></div>
@@ -662,7 +662,7 @@
         <aside class="avatar-preview" aria-label="Vista previa">
           <div class="stage" id="avatar-stage"><span class="stage-note">Arrastrá para rotar · rueda para zoom</span></div>
           <div class="save-state" id="avatar-save" role="status"><svg class="icon icon-sm"><use href="#i-tick"/></svg>Guardado</div>
-          <p class="muted" style="font-size:12px; margin-top:6px">En la app real acá va el visor 3D existente; el mock dibuja una versión pixel que reacciona a los colores.</p>
+          <p class="muted" style="font-size:var(--fs-micro); margin-top:6px">En la app real acá va el visor 3D existente; el mock dibuja una versión pixel que reacciona a los colores.</p>
         </aside>
       </form>
     </section>
@@ -675,7 +675,7 @@
           <p>Canjeá tus monedas acumuladas en desafíos por potenciadores de cursada y cosméticos.</p>
         </div>
         <div class="head-tools">
-          <a class="hud-item coins" href="#banco" title="Ver saldo e historial en el Banco" style="font-size:14px; font-weight:700; text-decoration:none;"><svg class="icon"><use href="#i-coin"/></svg> <span class="num">120 monedas en banco</span></a>
+          <a class="hud-item coins" href="#banco" title="Ver saldo e historial en el Banco" style="font-size:var(--fs-ui); font-weight:700; text-decoration:none;"><svg class="icon"><use href="#i-coin"/></svg> <span class="num">120 monedas en banco</span></a>
         </div>
       </div>
       <div class="data">
@@ -753,11 +753,11 @@
           <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px;">
             <div>
               <span class="badge badge-primary sm" style="margin-bottom:6px">Activa · Obligatoria</span>
-              <h2 style="font-size:16px; margin:0 0 4px;">Encuesta de Medio Término · MSI 2026</h2>
-              <p class="muted" style="font-size:13px; margin:0;">Prof. Gabriel E. · Cierre: Viernes 10/10 · Duración estimada: 2 min</p>
+              <h2 style="font-size:var(--fs-lead); margin:0 0 4px;">Encuesta de Medio Término · MSI 2026</h2>
+              <p class="muted" style="font-size:var(--fs-small); margin:0;">Prof. Gabriel E. · Cierre: Viernes 10/10 · Duración estimada: 2 min</p>
             </div>
           </div>
-          <p style="font-size:13.5px; line-height:1.45; margin:0;">
+          <p style="font-size:var(--fs-small); line-height:1.45; margin:0;">
             Queremos conocer tu experiencia con los laboratorios prácticos y la claridad de las consignas de tipado. Tus respuestas son completamente anónimas.
           </p>
           <div>
@@ -797,7 +797,7 @@
           </div>
           <div class="stat-item">
             <span class="stat-label">Estado de matrícula</span>
-            <span class="stat-value" style="color:var(--accent-success-fill); font-size:15px; font-weight:700;">Al día ✅</span>
+            <span class="stat-value" style="color:var(--accent-success-fill); font-size:var(--fs-body); font-weight:700;">Al día ✅</span>
           </div>
         </div>
 
@@ -806,7 +806,7 @@
           <div class="section-head">
             <div>
               <h2>Bóveda de Monedas</h2>
-              <span class="muted" style="font-size:13px;">Las monedas acumuladas en cualquier curso se depositan en tu banco para usar en el Marketplace.</span>
+              <span class="muted" style="font-size:var(--fs-small);">Las monedas acumuladas en cualquier curso se depositan en tu banco para usar en el Marketplace.</span>
             </div>
             <a class="btn btn-secondary btn-sm" href="#marketplace"><svg class="icon icon-sm"><use href="#i-bag"/></svg>Ir al Marketplace</a>
           </div>
@@ -865,7 +865,7 @@
           <div class="section-head">
             <div>
               <h2>Aranceles Académicos & Cuotas</h2>
-              <span class="muted" style="font-size:13px;">Próximo vencimiento: <b>10/11/2026</b> · Beca / Descuento: <b>0%</b></span>
+              <span class="muted" style="font-size:var(--fs-small);">Próximo vencimiento: <b>10/11/2026</b> · Beca / Descuento: <b>0%</b></span>
             </div>
           </div>
           <div class="table-wrap">
@@ -891,7 +891,7 @@
         <div class="card studs alert-card rank-you" id="rank-you"></div>
         <div class="table-wrap" data-view-target="ranking"><table class="data" id="rank-table"></table></div>
         <div class="pager" id="rank-pager"></div>
-        <p class="muted" style="font-size:13px; margin-top:10px">Percentil: P92 significa que tu XP supera al 92% de la cohorte. Zona de promoción: P90 o más.</p>
+        <p class="muted" style="font-size:var(--fs-small); margin-top:10px">Percentil: P92 significa que tu XP supera al 92% de la cohorte. Zona de promoción: P90 o más.</p>
       </div>
     </section>
 
@@ -1135,7 +1135,7 @@
             <div class="link-row" style="align-items:flex-start">
               <div>
                 <h2 class="act-title"><svg class="icon" aria-hidden="true" style="color:var(--good)"><use href="#i-check"/></svg>Cohorte activa</h2>
-                <p class="muted" style="font-size:14px; margin-top:4px">El código de invitación está habilitado y la cursada está disponible para los alumnos.</p>
+                <p class="muted" style="font-size:var(--fs-ui); margin-top:4px">El código de invitación está habilitado y la cursada está disponible para los alumnos.</p>
               </div>
             </div>
             <details class="act-reqs">
@@ -1389,7 +1389,7 @@
           <div style="display:flex; gap:10px; margin-top:18px; align-items:center">
             <button class="btn btn-primary" id="nb-create" type="submit" disabled>Crear insignia</button>
             <button class="btn btn-quiet" type="button" id="nb-cancel">Cancelar</button>
-            <span class="muted" style="font-size:13px" id="nb-hint">Completá nombre, ícono y criterio.</span>
+            <span class="muted" style="font-size:var(--fs-small)" id="nb-hint">Completá nombre, ícono y criterio.</span>
           </div>
         </form>
         <div class="badge-grid" id="badge-grid" data-view-target="insignias"></div>
@@ -1480,7 +1480,7 @@
 
       <!-- Barra de control de pruebas en el UI Kit -->
       <div class="card studs" style="display:flex; flex-wrap:wrap; gap:20px; align-items:center; margin-bottom:24px; padding:14px 18px; background:var(--bg-surface-alt);">
-        <span style="font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:.05em;">Probar variante aquí:</span>
+        <span style="font-weight:700; font-size:var(--fs-small); text-transform:uppercase; letter-spacing:.05em;">Probar variante aquí:</span>
         <div style="display:flex; align-items:center; gap:8px;">
           <span class="meta" style="font-weight:600;">Tema:</span>
           <div class="seg" role="group" aria-label="Tema">
@@ -1561,7 +1561,7 @@
         <h2>3. Escala y Variantes de Botones (.btn)</h2>
         <p class="hint" style="margin-bottom:14px;">Escala fija y predecible: <b>.btn-lg (44px)</b> para acciones heroicas o modales principales, <b>.btn (38px)</b> estándar de sistema, y <b>.btn-sm (32px)</b> para tablas y filtros.</p>
         
-        <div style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); margin-bottom:8px;">Escala de tamaños:</div>
+        <div style="font-size:var(--fs-micro); font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); margin-bottom:8px;">Escala de tamaños:</div>
         <div class="uikit-row" style="align-items:center;">
           <button class="btn btn-primary btn-lg" type="button"><svg class="icon"><use href="#i-plus"/></svg>Grande (.btn-lg · 44px)</button>
           <button class="btn btn-primary" type="button"><svg class="icon icon-sm"><use href="#i-check"/></svg>Estándar (.btn · 38px)</button>
@@ -1571,7 +1571,7 @@
           <button class="btn btn-ghost btn-icon btn-sm" type="button" title="Icono 32px"><svg class="icon icon-sm"><use href="#i-trash"/></svg></button>
         </div>
 
-        <div style="font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); margin:16px 0 8px;">Variantes semánticas:</div>
+        <div style="font-size:var(--fs-micro); font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); margin:16px 0 8px;">Variantes semánticas:</div>
         <div class="uikit-row">
           <button class="btn btn-primary" type="button">Primario</button>
           <button class="btn btn-secondary" type="button">Secundario</button>
@@ -1582,7 +1582,7 @@
           <button class="linkbtn" type="button">Enlace (.linkbtn)</button>
         </div>
 
-        <div style="font-size:12px; font-weight:700; color:var(--text-muted); margin:16px 0 8px;">Estados bloqueados y deshabilitados:</div>
+        <div style="font-size:var(--fs-micro); font-weight:700; color:var(--text-muted); margin:16px 0 8px;">Estados bloqueados y deshabilitados:</div>
         <div class="uikit-row">
           <button class="btn btn-primary" type="button" disabled>Acción deshabilitada</button>
           <button class="btn btn-secondary" type="button" disabled>Secundario deshabilitado</button>
@@ -1804,10 +1804,12 @@
       </button>
     </div>
   </main>
+  </div>
 </div>
 
 <!-- ================= Navegación Móvil Inferior (Bottom Bar) ================= -->
 <nav class="bottom-nav" id="bottom-nav" aria-label="Navegación móvil"></nav>
+
 
 <!-- ================= Drawer: crear desafío ================= -->
 <dialog class="drawer" id="drawer-desafio" aria-labelledby="h-dd">
@@ -3374,7 +3376,7 @@ function fillCourseDetail(name, activeUnitNum = null) {
   $$('[data-course-stats]').forEach(el => el.innerHTML = c.level ? `
     <div><div class="k">Nivel en ${c.name}</div><div class="v num" style="color:var(--accent-gold);">Nivel ${c.level}</div></div>
     <div><div class="k">XP del curso</div><div class="v num">${c.xp}/${c.xpMax} XP</div></div>
-    <div><div class="k">Vidas del curso</div><div class="v heart">${hearts(c.lives)} <span class="num" style="font-size:14px; margin-left:4px;">${c.lives}/3</span></div></div>
+    <div><div class="k">Vidas del curso</div><div class="v heart">${hearts(c.lives)} <span class="num" style="font-size:var(--fs-ui); margin-left:4px;">${c.lives}/3</span></div></div>
     <div><div class="k">Obligatorios pendientes</div><div class="v num" style="${c.pending ? 'color:var(--urgent)' : ''}">${c.pending}</div></div>` : '');
   
   renderCourseUnits(c, activeUnitNum);
@@ -3905,7 +3907,7 @@ function renderInventory() {
   const c = COURSES[invCourse] || COURSES.MSI;
   $('#inv-tabs').innerHTML = Object.entries(COURSES).map(([k, course]) => `<button class="tab" role="tab" aria-selected="${k === invCourse}" data-inv="${k}">${course.name}</button>`).join('');
   $('#inv-stats').innerHTML = `
-    <div><div class="k">${icon('i-heart', 'icon icon-sm')}Vidas en ${c.name}</div><div class="v heart">${hearts(c.lives)} <span class="num" style="font-size:14px; margin-left:4px">${c.lives}/3</span></div></div>
+    <div><div class="k">${icon('i-heart', 'icon icon-sm')}Vidas en ${c.name}</div><div class="v heart">${hearts(c.lives)} <span class="num" style="font-size:var(--fs-ui); margin-left:4px">${c.lives}/3</span></div></div>
     <div><div class="k">${icon('i-star', 'icon icon-sm')}Nivel en ${c.name}</div><div class="v num" style="color:var(--accent-gold);">Nivel ${c.level}</div></div>
     <div style="flex-basis:260px"><div class="k">XP hacia el nivel ${c.level + 1}</div><div class="progress-line" style="margin-top:8px"><div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="${c.xpMax}" aria-valuenow="${c.xp}" aria-label="XP"><span style="width:${c.xp / c.xpMax * 100}%"></span></div><span class="num">${c.xp}/${c.xpMax}</span></div></div>`;
   const pc = avatarState.pack;
@@ -4010,7 +4012,7 @@ function renderRanking() {
     <div><div class="alert-title" style="color:var(--urgent); display:flex; gap:8px; align-items:center">${icon('i-alert', 'icon icon-sm')}Estás en zona de riesgo</div>
       <div class="alert-body">Tenés 2 obligatorios sin cerrar en MSI: tu regularidad está en juego.</div>
       <div class="quick-links" style="margin-top:10px"><a class="btn btn-secondary btn-sm" href="#curso/MSI">Ver qué me falta</a><button class="btn btn-ghost btn-sm" type="button" data-rank-me>Ir a mi posición</button></div></div>
-    <div class="rank-pct"><span class="muted" style="font-size:13px">Percentil</span><b class="num">P${RANK[meIdx][2]}</b><span class="muted xp-text">${RANK[meIdx][0]} XP · Nivel ${RANK[meIdx][1]}</span></div>`;
+    <div class="rank-pct"><span class="muted" style="font-size:var(--fs-small)">Percentil</span><b class="num">P${RANK[meIdx][2]}</b><span class="muted xp-text">${RANK[meIdx][0]} XP · Nivel ${RANK[meIdx][1]}</span></div>`;
   let body = '', prevZone = null;
   const start = rankPage * RANK_SIZE;
   RANK.slice(start, start + RANK_SIZE).forEach(([xp, lvl, pct], j) => {
@@ -5466,7 +5468,9 @@ function setRole(r) {
   $$('[data-role-btn]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.roleBtn === r)));
   renderNav(); renderProfile();
   const allowed = [...NAV_TABS[r].map(i => i[0]), ...ACCOUNT_SCREENS[r], 'uikit'];
-  const target = PARENT[currentScreen] || currentScreen;
+  // Check the screen in the URL, not the boot default, so deep links survive a role reset.
+  const screen = location.hash.slice(1).split(/[/?]/)[0] || currentScreen;
+  const target = PARENT[screen] || screen;
   if (!allowed.includes(target)) location.hash = allowed.includes('desafios') ? 'desafios' : 'perfil';
   route();
 }
