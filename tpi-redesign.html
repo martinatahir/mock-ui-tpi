@@ -1773,14 +1773,14 @@
         <div><h1 class="display" id="h-cat">Desafíos</h1><p>El catálogo de todas tus cohortes: desafíos prácticos, cuestionarios teóricos y el banco de preguntas.</p></div>
         <button class="btn btn-primary" type="button" data-open="drawer-desafio"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Crear desafío</button>
       </div>
-      <div class="tabs" role="tablist" aria-label="Sección">
-        <button class="tab" role="tab" aria-selected="true" data-subtab="cat-practicos">Catálogo <span class="count num">14</span></button>
-        <button class="tab" role="tab" aria-selected="false" data-subtab="cat-cuestionarios">Cuestionarios teóricos <span class="count num">3</span></button>
-        <button class="tab" role="tab" aria-selected="false" data-subtab="cat-banco">Banco de preguntas <span class="count num">24</span></button>
+      <div class="tabs" role="tablist" aria-label="Secciones de desafíos">
+        <button class="tab" role="tab" id="tab-cat-practicos" aria-selected="true" aria-controls="subpanel-cat-practicos" data-subtab="cat-practicos">Catálogo <span class="count num" id="badge-cat-count">21</span></button>
+        <button class="tab" role="tab" id="tab-cat-cuestionarios" aria-selected="false" aria-controls="subpanel-cat-cuestionarios" data-subtab="cat-cuestionarios">Cuestionarios teóricos <span class="count num">3</span></button>
+        <button class="tab" role="tab" id="tab-cat-banco" aria-selected="false" aria-controls="subpanel-cat-banco" data-subtab="cat-banco">Banco de preguntas <span class="count num">24</span></button>
       </div>
       <div class="data">
-        <div data-subpanel="cat-practicos"><div data-catalog></div></div>
-        <div data-subpanel="cat-cuestionarios" hidden>
+        <div id="subpanel-cat-practicos" role="tabpanel" aria-labelledby="tab-cat-practicos" data-subpanel="cat-practicos"><div data-catalog></div></div>
+        <div id="subpanel-cat-cuestionarios" role="tabpanel" aria-labelledby="tab-cat-cuestionarios" data-subpanel="cat-cuestionarios" hidden>
           <div class="section-head"><p>Cuestionarios armados con preguntas de tu banco.</p>
             <div class="quick-links">
               <a class="btn btn-ghost btn-sm" href="#quiz"><svg class="icon icon-sm"><use href="#i-eye"/></svg>Vista previa como alumno</a>
@@ -1797,7 +1797,7 @@
             </tbody>
           </table></div>
         </div>
-        <div data-subpanel="cat-banco" hidden>
+        <div id="subpanel-cat-banco" role="tabpanel" aria-labelledby="tab-cat-banco" data-subpanel="cat-banco" hidden>
           <div class="section-head"><p>Preguntas reutilizables. Se agregan a un cuestionario desde "Armar cuestionario".</p><div class="quick-links"><span data-view-toggle="banco"></span><button class="btn btn-ghost btn-sm" type="button"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Nueva pregunta</button></div></div>
           <div class="table-wrap" data-view-target="banco"><table class="data">
             <thead><tr><th>Pregunta</th><th>Tema</th><th>Corrección</th><th class="r">Usada en</th></tr></thead>
@@ -3489,45 +3489,209 @@ function ChallengeList(root) {
 const catalogInstances = [];
 function Catalog(root) {
   const locked = root.hasAttribute('data-locked-course');
-  const st = { q: '', course: '', type: '', diff: '', state: '', req: false, page: 0 };
-  const SIZE = 8;
+  const st = { q: '', course: '', type: '', diff: '', state: '', req: false };
   root.innerHTML = `
-    ${filterBar("cat" + catalogInstances.length, "Buscar por título del desafío", `
-      ${locked ? '' : '<label class="field">Cohorte<select class="control" name="course"><option value="">Todas</option><option value="ProgIV">Programación IV</option><option value="InglesII">Inglés II</option><option value="BDII">BD II</option><option value="MSI">MSI</option></select></label>'}
-      <label class="field">Tipo<select class="control" name="type"><option value="">Todos</option><option>${T_ALG}</option><option>${T_REF}</option><option>${T_QUIZ}</option></select></label>
+    ${filterBar("cat" + catalogInstances.length, "Buscar por título del desafío...", `
+      ${locked ? '' : '<label class="field">Cohorte / Cátedra<select class="control" name="course"><option value="">Todas las materias</option><option value="MSI">Metodología de Sistemas II (MSI)</option><option value="ProgIV">Programación IV (ProgIV)</option><option value="BDII">Bases de Datos II (BDII)</option><option value="InglesII">Inglés II</option></select></label>'}
+      <label class="field">Tipo de ejercicio<select class="control" name="type"><option value="">Todos los tipos</option><option>${T_ALG}</option><option>${T_REF}</option><option>${T_QUIZ}</option></select></label>
       <label class="field">Dificultad<select class="control" name="diff"><option value="">Todas</option><option value="1">Básica</option><option value="2">Media</option><option value="3">Avanzada</option></select></label>
-      <label class="field">Estado<select class="control" name="state"><option value="">Todos</option><option value="pub">Publicado</option><option value="draft">Borrador</option></select></label>
+      <label class="field">Estado de publicación<select class="control" name="state"><option value="">Todos los estados</option><option value="pub">Publicado</option><option value="draft">Borrador</option></select></label>
       <label class="toggle"><input type="checkbox" name="req" /> Solo obligatorios</label>
     `)}
-    <div class="results-bar"><span aria-live="polite" data-count></span><span data-view-toggle="catalogo"></span></div>
-    <div data-res data-view-target="catalogo"></div>
-    <div class="pager" data-pager></div>`;
-  const form = $('form', root), res = $('[data-res]', root), pagerEl = $('[data-pager]', root);
+    <div class="results-bar">
+      <span aria-live="polite" data-count style="font-size:13px; font-weight:600; color:var(--text-muted);"></span>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <button type="button" class="btn btn-ghost btn-xs" id="btn-toggle-all-catalog-units" style="font-size:12px;">Colapsar unidades</button>
+        <span data-view-toggle="catalogo"></span>
+      </div>
+    </div>
+    <div data-res data-view-target="catalogo"></div>`;
+
+  const form = $('form', root), res = $('[data-res]', root);
+  const userOpenUnits = new Set(); // tracks open/closed units
+  let isAllOpen = true;
+
+  // Formato inteligente de plazos para la cátedra
+  function teacherDeadlineTag(c) {
+    if (!c.due) return `<span class="deadline-tag is-none">Sin fecha límite</span>`;
+    const days = daysUntil(c.due);
+    if (days < 0) {
+      return `<span class="deadline-tag is-past" title="Cerró el ${short(c.due)}"><svg class="icon icon-xs"><use href="#i-alert"/></svg>Cerró hace ${Math.abs(days)}d (${short(c.due)})</span>`;
+    } else if (days === 0) {
+      return `<span class="deadline-tag is-today" title="Cierra hoy"><svg class="icon icon-xs"><use href="#i-clock"/></svg>Cierra hoy (${short(c.due)})</span>`;
+    } else if (days <= 3) {
+      return `<span class="deadline-tag is-today" title="Cierra en ${days} días"><svg class="icon icon-xs"><use href="#i-clock"/></svg>Cierra en ${days}d (${short(c.due)})</span>`;
+    }
+    return `<span class="deadline-tag is-future"><svg class="icon icon-xs"><use href="#i-calendar"/></svg>${short(c.due)}</span>`;
+  }
+
+  // Título legible para cada unidad
+  function getUnitTitle(courseCode, unitNum) {
+    const cObj = COURSES[courseCode];
+    if (cObj && cObj.units) {
+      const u = cObj.units.find(x => x.num === unitNum);
+      if (u) return u.title;
+    }
+    return `Unidad ${unitNum}`;
+  }
+
   function render() {
     const q = st.q.trim().toLowerCase();
-    const list = CHALLENGES.filter(c => (!q || c.title.toLowerCase().includes(q)) && (!st.course || c.course === st.course) && (!st.type || c.type === st.type)
-      && (!st.diff || c.diff === Number(st.diff)) && (!st.state || (st.state === 'pub') === c.published) && (!st.req || c.req));
-    $('[data-count]', root).textContent = `${list.length} ${list.length === 1 ? 'desafío' : 'desafíos'}`;
+    const list = CHALLENGES.filter(c => (!q || c.title.toLowerCase().includes(q) || (c.type || '').toLowerCase().includes(q))
+      && (!st.course || c.course === st.course)
+      && (!st.type || c.type === st.type)
+      && (!st.diff || c.diff === Number(st.diff))
+      && (!st.state || (st.state === 'pub') === c.published)
+      && (!st.req || c.req));
+
+    $('[data-count]', root).textContent = `${list.length} ${list.length === 1 ? 'desafío' : 'desafíos'} en catálogo${q || st.course || st.type || st.diff || st.state || st.req ? ' (con filtros aplicados)' : ''}`;
     syncFilterCount(root, [!locked && st.course, st.type, st.diff, st.state, st.req].filter(Boolean).length);
-    if (!list.length) { res.innerHTML = `<div class="empty">${icon('i-filter-off')}<p>Ningún desafío coincide con estos filtros.</p></div>`; pagerEl.innerHTML = ''; return; }
-    st.page = Math.min(st.page, Math.ceil(list.length / SIZE) - 1);
-    pagerEl.innerHTML = list.length > SIZE ? pagerHTML(st.page, SIZE, list.length) : '';
-    const pageItems = list.slice(st.page * SIZE, st.page * SIZE + SIZE);
-    res.innerHTML = `<div class="table-wrap"><table class="data">
-      <thead><tr><th>Desafío</th>${locked ? '' : '<th>Cohorte</th>'}<th>Dificultad</th><th>Vence</th><th>Evaluación</th><th>Recompensa</th><th>Estado</th><th><span class="sr-only">Acciones</span></th></tr></thead>
-      <tbody>${pageItems.map(c => `<tr>
-        <td class="cell-main"><div class="cell-title">${c.title}</div><div class="cell-sub">${c.req ? '<span class="badge badge-required">Obligatorio</span>' : ''}<span>${c.type}</span></div></td>
-        ${locked ? '' : `<td>${c.course}</td>`}
-        <td><span class="diff"><span class="pips" data-level="${c.diff}" aria-hidden="true"><i></i><i></i><i></i></span>${DIFF[c.diff]}</span></td>
-        <td class="num" style="white-space:nowrap">${c.due ? short(c.due) : c.done ? '—' : 'Sin fecha'}</td>
-        <td class="reward-cell"><span>${c.pass}% para aprobar</span><span>${c.retries} ${c.retries === 1 ? 'reintento' : 'reintentos'}</span></td><td class="reward-cell"><span class="xp-text">+${c.xp} XP</span><span>${c.coins} monedas</span></td>
-        <td>${c.published ? '<span class="badge badge-success">Publicado</span>' : '<span class="badge badge-outline">Borrador</span>'}</td>
-        <td><div class="row-actions"><button class="icon-btn sm" aria-label="Editar ${c.title}"><svg class="icon icon-sm"><use href="#i-pencil"/></svg></button><button class="icon-btn sm" aria-label="Vista previa de ${c.title}"><svg class="icon icon-sm"><use href="#i-eye"/></svg></button></div></td>
-      </tr>`).join('')}</tbody></table></div>`;
+
+    if (!list.length) {
+      res.innerHTML = `<div class="empty">${icon('i-filter-off')}<p>Ningún desafío coincide con los criterios de búsqueda.</p><button type="button" class="btn btn-ghost btn-sm" onclick="this.closest('.filterbar, [data-catalog]').querySelector('form')?.reset(); this.closest('[data-catalog]').querySelector('form')?.dispatchEvent(new Event('input'));">Limpiar filtros</button></div>`;
+      return;
+    }
+
+    // Agrupación académica jerárquica por Materia y Unidad Temática
+    const groups = new Map(); // key: `${c.course}__${c.unit}` -> items
+    for (const c of list) {
+      const key = `${c.course}__${c.unit}`;
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(c);
+    }
+
+    const htmlCards = [];
+    groups.forEach((items, key) => {
+      const [courseCode, unitNumStr] = key.split('__');
+      const unitNum = Number(unitNumStr);
+      const unitTitle = getUnitTitle(courseCode, unitNum);
+      const cObj = COURSES[courseCode] || { name: courseCode, students: 38 };
+      const totalStudents = cObj.students || 38;
+
+      const totalAttempts = items.reduce((acc, it) => acc + (it.attempts || 0), 0);
+      const avgSubmissions = Math.round((totalAttempts / (items.length * totalStudents)) * 100) || 0;
+
+      // Expandido por defecto si hay búsqueda o si el usuario no lo cerró
+      const isOpen = q ? true : (isAllOpen || userOpenUnits.has(key));
+
+      htmlCards.push(`
+        <details class="catalog-unit-card" data-unit-key="${key}" ${isOpen ? 'open' : ''}>
+          <summary class="catalog-unit-header">
+            <div class="catalog-unit-title-group">
+              <span class="catalog-unit-badge">${courseCode} · U${unitNum}</span>
+              <h3 class="catalog-unit-name">${unitTitle}</h3>
+            </div>
+            <div class="catalog-unit-stats">
+              <span class="catalog-unit-stat-item" title="Desafíos en esta unidad temátia">
+                <b>${items.length}</b> ${items.length === 1 ? 'ejercicio' : 'ejercicios'}
+              </span>
+              <span class="catalog-unit-stat-item" title="Porcentaje estimado de participación de la cohorte">
+                <svg class="icon icon-xs" style="color:var(--accent-primary-fill);"><use href="#i-trophy"/></svg>
+                Cohorte: <b>${avgSubmissions}%</b> entregas
+              </span>
+              <svg class="catalog-unit-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+          </summary>
+          <div class="table-wrap">
+            <table class="data" style="margin:0; border:0;">
+              <thead>
+                <tr>
+                  <th scope="col" style="width:34%;">Desafío</th>
+                  ${locked ? '' : '<th scope="col" style="width:9%;">Cohorte</th>'}
+                  <th scope="col" style="width:12%;">Dificultad</th>
+                  <th scope="col" style="width:16%;">Plazo Cátedra</th>
+                  <th scope="col" style="width:16%;">Entregas Cohorte</th>
+                  <th scope="col" style="width:7%;">Criterio</th>
+                  <th scope="col" style="width:6%; text-align:right;"><span class="sr-only">Acciones</span></th>
+                </tr>
+              </thead>
+              <tbody>
+                ${items.map(c => {
+                  const studentSubmissions = c.attempts || 0;
+                  const pctSubmitted = Math.min(100, Math.round((studentSubmissions / totalStudents) * 100));
+                  return `
+                  <tr>
+                    <td class="cell-main">
+                      <div class="cell-title" style="display:flex; align-items:center; gap:8px;">
+                        <span>${c.title}</span>
+                        ${!c.published ? '<span class="badge badge-warning sm" title="Borrador no visible para alumnos">Borrador</span>' : ''}
+                      </div>
+                      <div class="cell-sub" style="margin-top:4px; display:flex; align-items:center; gap:10px;">
+                        ${c.req ? '<span class="req-dot-indicator" title="Obligatorio para la regularidad">Obligatorio</span>' : '<span style="color:var(--text-muted); font-size:11px;">Opcional</span>'}
+                        <span style="color:var(--text-muted); font-size:11.5px;">${c.type}</span>
+                      </div>
+                    </td>
+                    ${locked ? '' : `<td style="font-weight:600; color:var(--text-muted); font-size:12.5px;">${c.course}</td>`}
+                    <td>
+                      <span class="diff">
+                        <span class="pips" data-level="${c.diff}" aria-hidden="true"><i></i><i></i><i></i></span>
+                        <span style="font-size:12px;">${DIFF[c.diff]}</span>
+                      </span>
+                    </td>
+                    <td>${teacherDeadlineTag(c)}</td>
+                    <td class="metric-submissions-cell">
+                      <div class="bar-wrap">
+                        <div class="mini-bar" role="progressbar" aria-valuenow="${pctSubmitted}" aria-valuemin="0" aria-valuemax="100" title="${pctSubmitted}% de la cohorte entregó">
+                          <span style="width:${pctSubmitted}%;"></span>
+                        </div>
+                        <span class="sub-pct">${pctSubmitted}%</span>
+                      </div>
+                      <div class="sub-detail">${studentSubmissions} de ${totalStudents} alumnos</div>
+                    </td>
+                    <td style="font-size:12px; font-variant-numeric:tabular-nums;">
+                      <span title="Puntaje mínimo de tests automáticos">${c.pass}% test</span>
+                    </td>
+                    <td>
+                      <div class="row-actions">
+                        <button class="icon-btn sm" type="button" title="Editar desafío y tests" aria-label="Editar ${c.title}" onclick="showToast('Editor de desafío abierto', 'info', 'i-pencil')">
+                          <svg class="icon icon-sm"><use href="#i-pencil"/></svg>
+                        </button>
+                        <button class="icon-btn sm" type="button" title="Ver como alumno" aria-label="Vista previa de ${c.title}" onclick="showToast('Cargando entorno de prueba', 'info', 'i-eye')">
+                          <svg class="icon icon-sm"><use href="#i-eye"/></svg>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  `;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
+        </details>
+      `);
+    });
+
+    res.innerHTML = htmlCards.join('');
+
+    // Listener para recordar estado de unidades
+    res.querySelectorAll('details.catalog-unit-card').forEach(d => {
+      d.addEventListener('toggle', () => {
+        const key = d.dataset.unitKey;
+        if (d.open) userOpenUnits.add(key); else userOpenUnits.delete(key);
+      });
+    });
   }
-  form.addEventListener('input', e => { const { name, value, checked, type } = e.target; st[name] = type === 'checkbox' ? checked : value; st.page = 0; render(); });
-  onPager(pagerEl, n => { st.page = n; render(); });
-  const api = { render, setCourse(c) { st.course = c; st.page = 0; render(); } };
+
+  // Botón colapsar / expandir todo
+  root.addEventListener('click', e => {
+    const toggleBtn = e.target.closest('#btn-toggle-all-catalog-units');
+    if (toggleBtn) {
+      isAllOpen = !isAllOpen;
+      res.querySelectorAll('details.catalog-unit-card').forEach(d => {
+        d.open = isAllOpen;
+        if (isAllOpen) userOpenUnits.add(d.dataset.unitKey); else userOpenUnits.delete(d.dataset.unitKey);
+      });
+      toggleBtn.textContent = isAllOpen ? 'Colapsar unidades' : 'Expandir unidades';
+    }
+  });
+
+  form.addEventListener('input', e => {
+    const { name, value, checked, type } = e.target;
+    st[name] = type === 'checkbox' ? checked : value;
+    render();
+  });
+
+  const api = { render, setCourse(c) { st.course = c; render(); } };
   catalogInstances.push(api);
   render();
   return api;

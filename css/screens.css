@@ -6051,3 +6051,164 @@ html:not([data-role="admin"]) [data-admin-only] {
   padding: 16px;
 }
 .sec-item-list .badge { flex-shrink: 0; }
+
+/* ======================= CATÁLOGO DOCENTE MODULAR POR UNIDADES ======================= */
+.catalog-unit-card {
+  margin-bottom: 16px;
+  border: var(--border-width) solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  background: var(--bg-surface);
+  overflow: hidden;
+  transition: border-color 0.18s ease;
+}
+.catalog-unit-card[open] {
+  border-color: color-mix(in srgb, var(--accent-primary-fill) 40%, var(--border-subtle));
+}
+.catalog-unit-header {
+  padding: 14px 18px;
+  background: var(--bg-surface-alt);
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-family: inherit;
+  transition: background-color 0.15s ease;
+}
+.catalog-unit-header::-webkit-details-marker { display: none; }
+.catalog-unit-header:hover {
+  background: color-mix(in srgb, var(--accent-primary-fill) 8%, var(--bg-surface-alt));
+}
+.catalog-unit-title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+.catalog-unit-badge {
+  font-family: 'Chakra Petch', monospace, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radius-control);
+  background: color-mix(in srgb, var(--accent-primary-fill) 15%, transparent);
+  color: var(--accent-primary-fill);
+  border: 1px solid color-mix(in srgb, var(--accent-primary-fill) 35%, transparent);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.catalog-unit-name {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+.catalog-unit-stats {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+.catalog-unit-stat-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.catalog-unit-stat-item b {
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+.catalog-unit-chevron {
+  width: 18px;
+  height: 18px;
+  color: var(--text-muted);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+.catalog-unit-card[open] .catalog-unit-chevron {
+  transform: rotate(180deg);
+  color: var(--accent-primary-fill);
+}
+
+/* Métricas pedagógicas para docentes en tabla */
+.metric-submissions-cell {
+  white-space: nowrap;
+  font-size: 12.5px;
+  line-height: 1.35;
+}
+.metric-submissions-cell .bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+.metric-submissions-cell .mini-bar {
+  width: 54px;
+  height: 6px;
+  background: var(--border-subtle);
+  border-radius: 99px;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: middle;
+}
+.metric-submissions-cell .mini-bar > span {
+  display: block;
+  height: 100%;
+  border-radius: 99px;
+  background: var(--accent-primary-fill);
+}
+.metric-submissions-cell .sub-pct {
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--text-primary);
+}
+.metric-submissions-cell .sub-detail {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* Indicadores de urgencia pedagógica */
+.deadline-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.deadline-tag.is-past {
+  color: var(--accent-danger, #ef4444);
+}
+.deadline-tag.is-today {
+  color: var(--accent-gold, #f59e0b);
+}
+.deadline-tag.is-future {
+  color: var(--text-muted);
+}
+.deadline-tag.is-none {
+  color: var(--text-muted);
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Indicador sobrio de obligatoriedad sin papel tapiz */
+.req-dot-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent-primary-fill);
+}
+.req-dot-indicator::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-primary-fill);
+  box-shadow: 0 0 6px var(--accent-primary-fill);
+}
