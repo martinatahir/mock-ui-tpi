@@ -5864,10 +5864,11 @@ function renderNav() {
   };
 
   if (sidebarNav) {
-    sidebarNav.innerHTML = tabs.map(renderItem).join('');
+    // El acceso al mock de login va junto a la navegación, siempre visible (el pie del sidebar queda bajo la mockbar).
+    sidebarNav.innerHTML = [...tabs, ['login', 'i-login', 'Login y registro (mock)']].map(renderItem).join('');
   }
   if (sidebarSecNav) {
-    sidebarSecNav.innerHTML = renderItem(['login', 'i-login', 'Login y registro (mock)']);
+    sidebarSecNav.innerHTML = '';
   }
 
   if (bottomNav) {
