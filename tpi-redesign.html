@@ -1441,7 +1441,7 @@
         <div><h1 class="display" id="h-cursos-p">Cursos</h1><p>Las cohortes a las que estás asociado. Lo que podés editar depende de tus permisos en cada una.</p></div>
         <div class="head-tools">
           <span data-view-toggle="cohortes"></span>
-          <button class="btn btn-primary" type="button" id="btn-crear-cohorte" aria-expanded="false" aria-controls="cohorte-creator"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Crear cohorte</button>
+          <button class="btn btn-primary" type="button" id="btn-crear-cohorte" aria-expanded="false" aria-controls="cohorte-creator"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Crear curso</button>
         </div>
       </div>
       <div class="data">
@@ -1453,11 +1453,11 @@
           <nav class="campus-breadcrumb" aria-label="Miga de pan">
             <a href="#cursos" id="cohorte-creator-back-crumb">Cursos</a>
             <span class="sep">&gt;</span>
-            <span class="current">Nueva cohorte</span>
+            <span class="current">Nuevo curso</span>
           </nav>
           <div class="page-head" style="margin-bottom:0;">
             <div>
-              <h2 id="h-wz-title" class="display" style="font-size:20px; margin:0;">Crear nueva cohorte</h2>
+              <h2 id="h-wz-title" class="display" style="font-size:20px; margin:0;">Crear nuevo curso</h2>
               <p class="muted" style="font-size:13px; margin:2px 0 0;">Configuración académica integral de comisión y período de cursada.</p>
             </div>
             <button class="btn btn-quiet btn-sm" type="button" id="cohorte-creator-back"><svg class="icon icon-sm" style="transform:rotate(90deg);" aria-hidden="true"><use href="#i-chevron"/></svg>Volver a cursos</button>
@@ -1579,7 +1579,7 @@
         </div>
 
         <div class="card studs" style="padding:16px; background:var(--bg-surface-alt); border-radius:var(--radius-control);">
-          <h3 style="font-size:14px; margin:0 0 10px; color:var(--accent-gold);">Resumen de la Cohorte</h3>
+          <h3 style="font-size:14px; margin:0 0 10px; color:var(--accent-gold);">Resumen del curso</h3>
           <dl class="facts" style="font-size:13px;">
             <dt>Nombre del curso:</dt><dd><b id="wz-resumen-curso">—</b></dd>
             <dt>Nombre corto:</dt><dd id="wz-resumen-corto">—</dd>
@@ -1597,7 +1597,7 @@
               <button class="btn btn-quiet spacer" type="button" id="wz-btn-cancel">Cancelar</button>
               <button class="btn btn-quiet" type="button" id="wz-btn-prev" style="display:none;">Anterior</button>
               <button class="btn btn-primary" type="button" id="wz-btn-next">Siguiente</button>
-              <button class="btn btn-primary" type="button" id="wz-btn-finish" style="display:none;">Confirmar y crear cohorte</button>
+              <button class="btn btn-primary" type="button" id="wz-btn-finish" style="display:none;">Confirmar y crear curso</button>
             </div>
           </div>
         </div>
@@ -2277,6 +2277,16 @@
     <!-- ================= LOGIN / REGISTRO (mock de acceso) ================= -->
     <section class="screen" id="screen-login" aria-labelledby="lg-title">
       <div class="login-stage">
+        <div class="login-prefs" role="group" aria-label="Apariencia">
+          <div class="seg sm" role="group" aria-label="Tema">
+            <button type="button" data-theme-btn="dark" aria-pressed="true"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-moon"/></svg>Oscuro</button>
+            <button type="button" data-theme-btn="light" aria-pressed="false"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-sun"/></svg>Claro</button>
+          </div>
+          <div class="seg sm" role="group" aria-label="Estilo">
+            <button type="button" data-skin-btn="gamer" aria-pressed="true"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-gamepad"/></svg>Arcade</button>
+            <button type="button" data-skin-btn="sobrio" aria-pressed="false"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-briefcase"/></svg>Fabio</button>
+          </div>
+        </div>
         <div class="login-wrap">
 
           <!-- Mascota: la cabeza sigue el mouse, se tapa los ojos con la contraseña y festeja al terminar -->
@@ -5450,7 +5460,7 @@ $('#wz-btn-finish')?.addEventListener('click', () => {
   COHORTS.unshift(newCohort);
   renderCohorts();
   closeCohorteCreator({ returnFocus: false });
-  showToast(`¡Cohorte de ${courseName} creada exitosamente con código ${newInvite}!`, 'success', 'i-tick');
+  showToast(`¡Curso ${courseName} creado exitosamente con código ${newInvite}!`, 'success', 'i-tick');
   setWizardStep(1);
 });
 
