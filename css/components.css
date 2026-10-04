@@ -789,6 +789,280 @@ table.data tbody tr:hover { background:color-mix(in srgb, var(--bg-surface-alt) 
 [data-view="cards"] tr.zone td { background:transparent; padding:0; }
 [data-view="cards"] tr.me { border-color:var(--accent-primary-fill); }
 [data-view="cards"] tr.me td { background:transparent; }
+
+/* Catálogo docente: cada vista conserva marcado propio para no alterar la tabla. */
+.catalog-card-only,
+.catalog-state .badge > [aria-hidden="true"] { display:none; }
+table.data .catalog-card-only { display:none; }
+.catalog-grid-stack > span { display:block; }
+
+[data-view-target="catalogo"][data-view="cards"] .table-wrap {
+  border:0;
+  padding:0;
+  overflow:visible;
+  background:transparent;
+}
+[data-view-target="catalogo"][data-view="cards"] .catalog-grid-only { display:none; }
+[data-view-target="catalogo"][data-view="cards"] .catalog-card-only { display:block; }
+[data-view-target="catalogo"][data-view="cards"] table.data tbody {
+  grid-template-columns:repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+  gap:18px;
+}
+[data-view-target="catalogo"][data-view="cards"] .catalog-challenge-card {
+  position:relative;
+  isolation:isolate;
+  min-width:0;
+  min-height:0;
+  padding:16px 16px 12px;
+  gap:0 10px;
+  display:grid;
+  grid-template-columns:minmax(0, 1fr) auto auto;
+  grid-template-areas:
+    "main main difficulty"
+    "due due due"
+    "evaluation evaluation evaluation"
+    "reward state actions";
+  align-content:start;
+  border:1px solid color-mix(in srgb, var(--border-subtle) 94%, var(--accent-primary-fill));
+  border-radius:max(8px, var(--radius-card));
+  background:
+    radial-gradient(circle at 100% 0, color-mix(in srgb, var(--accent-primary-fill) 7%, transparent), transparent 38%),
+    linear-gradient(145deg, color-mix(in srgb, var(--bg-surface) 96%, var(--accent-primary-fill)), var(--bg-surface));
+  box-shadow:0 10px 26px -22px rgba(0,0,0,.8);
+  overflow:hidden;
+  transition:transform .18s var(--ease-out), border-color .18s ease, box-shadow .18s ease;
+}
+[data-view-target="catalogo"][data-view="cards"] .catalog-challenge-card:hover {
+  transform:translateY(-2px);
+  border-color:color-mix(in srgb, var(--accent-primary-fill) 76%, var(--border-subtle));
+  box-shadow:0 14px 30px -20px rgba(0,0,0,.9), 0 0 16px color-mix(in srgb, var(--focus-glow) 28%, transparent);
+}
+[data-view-target="catalogo"][data-view="cards"] .catalog-challenge-card:focus-within {
+  border-color:var(--accent-primary-fill);
+  box-shadow:0 0 0 2px color-mix(in srgb, var(--focus-glow) 42%, transparent);
+}
+
+[data-view-target="catalogo"][data-view="cards"] .catalog-challenge-card > td {
+  min-width:0;
+  display:flex;
+  padding:0;
+  border:0;
+  text-align:left;
+}
+[data-view-target="catalogo"][data-view="cards"] .catalog-challenge-card > td::before { content:none; }
+[data-view-target="catalogo"][data-view="cards"] .catalog-challenge-card .cell-main {
+  grid-area:main;
+  display:block;
+  padding:0 0 9px !important;
+  margin:0;
+  border-bottom:0 !important;
+}
+[data-view-target="catalogo"][data-view="cards"] .catalog-card-main { display:block; }
+[data-view-target="catalogo"][data-view="cards"] .catalog-card-kicker {
+  min-height:24px;
+  margin-bottom:9px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+[data-view-target="catalogo"][data-view="cards"] .catalog-card-number {
+  display:inline-flex;
+  align-items:center;
+  min-height:23px;
+  padding:3px 7px;
+  border:1px solid color-mix(in srgb, var(--border-subtle) 84%, var(--accent-primary-fill));
+  border-radius:4px;
+  color:color-mix(in srgb, var(--text-muted) 72%, var(--accent-primary));
+  background:color-mix(in srgb, var(--bg-surface-alt) 80%, transparent);
+  font-family:var(--font-display);
+  font-size:9px;
+  line-height:1;
+  letter-spacing:.03em;
+}
+[data-view-target="catalogo"][data-view="cards"] .catalog-card-kicker .badge {
+  min-height:23px;
+  padding-inline:7px;
+  font-size:10px;
+  filter:saturate(.78);
+}
+[data-view-target="catalogo"][data-view="cards"] .cell-title {
+  min-height:2.62em;
+  display:-webkit-box;
+  overflow:hidden;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+  font-family:var(--font-display);
+  font-size:13px;
+  font-weight:400;
+  line-height:1.31;
+  color:var(--text-primary);
+}
+[data-view-target="catalogo"][data-view="cards"] .cell-sub {
+  min-height:1.4em;
+  margin-top:4px;
+  display:flex;
+  flex-wrap:nowrap;
+  align-items:center;
+  gap:7px;
+  overflow:hidden;
+  color:var(--text-muted);
+  font-size:12px;
+  line-height:1.4;
+}
+[data-view-target="catalogo"][data-view="cards"] .cell-sub > span:first-child {
+  flex:0 1 auto;
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+[data-view-target="catalogo"][data-view="cards"] .catalog-course-inline {
+  flex:none;
+  display:inline-flex;
+  padding:1px 6px;
+  border:1px solid var(--border-subtle);
+  border-radius:3px;
+  color:color-mix(in srgb, var(--text-primary) 72%, var(--text-muted));
+  background:var(--bg-surface-alt);
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.04em;
+}
+[data-view-target="catalogo"][data-view="cards"] .catalog-difficulty {
+  grid-area:difficulty;
+  align-self:start;
+  justify-content:flex-end;
+  padding-top:0;
+}
+[data-view-target="catalogo"][data-view="cards"] .catalog-difficulty .diff {
+  padding:5px 7px;
+  border:1px solid var(--border-subtle);
+  border-radius:4px;
+  background:color-mix(in srgb, var(--bg-surface-alt) 80%, transparent);
+  font-size:12px;
+}
+[data-view-target="catalogo"][data-view="cards"] .catalog-difficulty .pips i {
+  width:6px;
+  height:11px;
+}
+[data-view-target="catalogo"][data-view="cards"] td.catalog-course { display:none; }
+[data-view-target="catalogo"][data-view="cards"] .catalog-course-chip {
+  display:inline-flex;
+  padding:2px 7px;
+  border:1px solid var(--border-subtle);
+  border-radius:999px;
+  color:var(--text-muted);
+  background:var(--bg-surface-alt);
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.05em;
+}
+[data-skin="gamer"] [data-view-target="catalogo"][data-view="cards"] .catalog-course-chip { border-radius:3px; }
+
+[data-view-target="catalogo"][data-view="cards"] .catalog-due,
+[data-view-target="catalogo"][data-view="cards"] .catalog-evaluation {
+  text-align:left;
+  color:color-mix(in srgb, var(--text-primary) 76%, var(--text-muted));
+  font-size:12px;
+  line-height:1.35;
+}
+[data-view-target="catalogo"][data-view="cards"] .catalog-card-line {
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:9px;
+}
+[data-view-target="catalogo"][data-view="cards"] .catalog-due { grid-area:due; padding-top:7px; }
+[data-view-target="catalogo"][data-view="cards"] .catalog-evaluation {
+  grid-area:evaluation;
+  padding:6px 0 11px;
+  border-bottom:1px solid color-mix(in srgb, var(--border-subtle) 70%, transparent);
+}
+[data-view-target="catalogo"][data-view="cards"] .catalog-due .catalog-card-line > .icon,
+[data-view-target="catalogo"][data-view="cards"] .catalog-evaluation .catalog-card-line > .icon {
+  display:block;
+  flex:none;
+  color:var(--accent-primary);
+}
+[data-view-target="catalogo"][data-view="cards"] .catalog-evaluation .catalog-card-line > .icon { color:var(--accent-secondary); }
+
+[data-view-target="catalogo"][data-view="cards"] .catalog-reward {
+  grid-area:reward;
+  align-self:center;
+  padding-top:10px;
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content:flex-start;
+}
+[data-view-target="catalogo"][data-view="cards"] .catalog-card-reward-content {
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+[data-view-target="catalogo"][data-view="cards"] .catalog-reward .xp-text {
+  flex:none;
+  justify-self:auto;
+  color:var(--accent-gold);
+  font-family:var(--font-display);
+  font-size:11px;
+  line-height:1.25;
+  text-shadow:0 0 10px color-mix(in srgb, var(--accent-gold-fill) 28%, transparent);
+  white-space:nowrap;
+}
+[data-view-target="catalogo"][data-view="cards"] .catalog-card-reward-content > span:last-child {
+  flex:none;
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  color:var(--text-muted);
+  font-size:10px;
+  white-space:nowrap;
+}
+[data-view-target="catalogo"][data-view="cards"] .catalog-card-reward-content > span:last-child::before {
+  content:"·";
+  margin-right:2px;
+  color:var(--border-highlight);
+}
+[data-view-target="catalogo"][data-view="cards"] .catalog-state {
+  grid-area:state;
+  align-self:center;
+  justify-content:flex-end;
+  padding-top:10px;
+}
+[data-view-target="catalogo"][data-view="cards"] .catalog-state .badge { padding-inline:6px; font-size:9px; }
+[data-view-target="catalogo"][data-view="cards"] .catalog-state .badge > [aria-hidden="true"] { display:inline; }
+[data-view-target="catalogo"][data-view="cards"] .catalog-actions {
+  grid-area:actions;
+  align-self:center;
+  justify-content:flex-end;
+  padding-top:10px;
+}
+[data-view-target="catalogo"][data-view="cards"] .catalog-actions .row-actions { gap:4px; }
+[data-view-target="catalogo"][data-view="cards"] .catalog-actions .icon-btn {
+  width:27px;
+  height:27px;
+  border-color:color-mix(in srgb, var(--border-subtle) 78%, var(--accent-primary-fill));
+  background:color-mix(in srgb, var(--bg-surface-alt) 72%, transparent);
+}
+[data-view-target="catalogo"][data-view="cards"] .catalog-actions .icon-btn:hover {
+  color:var(--accent-primary);
+  border-color:var(--accent-primary-fill);
+  box-shadow:0 0 10px color-mix(in srgb, var(--focus-glow) 24%, transparent);
+}
+
+@media (max-width:360px) {
+  [data-view-target="catalogo"][data-view="cards"] .catalog-challenge-card {
+    grid-template-columns:minmax(0, 1fr) auto;
+    grid-template-areas:
+      "main difficulty"
+      "due due"
+      "evaluation evaluation"
+      "reward reward"
+      "state actions";
+  }
+  [data-view-target="catalogo"][data-view="cards"] .catalog-reward { justify-content:flex-start; }
+}
 /* ranking: position + name form the card title */
 [data-view="cards"] #rank-table td:first-child { border:0; padding:0; margin:0; font-size:22px; font-weight:700; }
 [data-skin='gamer'] [data-view="cards"] #rank-table td:first-child { font-family:var(--font-display); font-weight:400; }

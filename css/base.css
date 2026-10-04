@@ -138,7 +138,7 @@ h1,h2,h3,p { margin:0; }
   letter-spacing: -0.01em;
 }
 
-/* ---- Layout Shell con Icon Dock Lateral (64px) y Sub-panel Desplegable Flexible (empuja el contenido sin solapar) ---- */
+/* ---- Layout Shell con Icon Dock Lateral (64px) y Sub-panel Desplegable Flexible ---- */
 .shell {
   display:flex;
   min-height:100vh;
@@ -372,7 +372,7 @@ h1,h2,h3,p { margin:0; }
 }
 
 /* ==================================================================================== */
-/* === SUB-PANEL DESPLEGABLE EN LÍNEA (Split View: empuja el contenido sin solapar) ==== */
+/* === SUB-PANEL DESPLEGABLE =========================================================== */
 /* ==================================================================================== */
 
 .subpanel {
@@ -416,6 +416,65 @@ h1,h2,h3,p { margin:0; }
     visibility 0s linear 0.24s;
 }
 
+/* Desafíos docente: panel contextual superpuesto. No participa del ancho del shell. */
+.subpanel.subpanel-overlay {
+  position:fixed;
+  left:var(--subpanel-overlay-left, 64px);
+  top:var(--subpanel-overlay-top, 0px);
+  height:var(--subpanel-overlay-height, 100vh);
+  width:310px;
+  min-width:310px;
+  flex:none;
+  z-index:40;
+  box-shadow:12px 0 28px -20px rgba(0,0,0,.72);
+  transform:translateX(0);
+  transition:
+    transform .2s cubic-bezier(.16,1,.3,1),
+    opacity .16s ease,
+    border-color .16s ease,
+    visibility 0s linear;
+}
+.subpanel-scrim {
+  position:fixed;
+  left:var(--subpanel-overlay-left, 64px);
+  right:0;
+  top:var(--subpanel-overlay-top, 0px);
+  height:var(--subpanel-overlay-height, 100vh);
+  z-index:35;
+  margin:0;
+  padding:0;
+  border:0;
+  background:rgba(2,6,23,.28);
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  cursor:default;
+  transition:opacity .16s ease, visibility 0s linear .16s;
+}
+.subpanel-scrim.is-visible {
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+  transition:opacity .16s ease, visibility 0s linear;
+}
+.shell.subpanel-collapsed .subpanel.subpanel-overlay,
+.subpanel.subpanel-overlay.collapsed {
+  width:310px !important;
+  min-width:310px !important;
+  flex:none !important;
+  transform:translateX(-10px);
+  border-right-color:transparent !important;
+  box-shadow:none;
+  pointer-events:none;
+  opacity:0;
+  visibility:hidden;
+  transition:
+    transform .18s cubic-bezier(.16,1,.3,1),
+    opacity .14s ease,
+    border-color .14s ease,
+    visibility 0s linear .18s;
+}
+
 [data-skin='gamer'] .subpanel {
   border-right:2px solid #000;
   box-shadow:none;
@@ -423,6 +482,9 @@ h1,h2,h3,p { margin:0; }
 [data-skin='gamer'] .subpanel.collapsed {
   border-right-color:transparent !important;
   box-shadow:none;
+}
+[data-skin='gamer'] .subpanel.subpanel-overlay:not(.collapsed) {
+  box-shadow:10px 0 24px -18px rgba(0,0,0,.82);
 }
 
 /* Contenedor interior con ancho fijo (evita deformación de texto durante la transición de ancho) */
@@ -987,7 +1049,7 @@ h1,h2,h3,p { margin:0; }
 
 /* ---- Floating AI Tutor FAB & Chat Popover ---- */
 .course-tutor-fab-wrap {
-  position:fixed; right:28px; bottom:28px; z-index:90;
+  position:fixed; right:18px; bottom:18px; z-index:90;
   display:flex; flex-direction:column; align-items:flex-end;
 }
 [data-role="profesor"] .course-tutor-fab-wrap,
@@ -995,26 +1057,20 @@ h1,h2,h3,p { margin:0; }
   display: none !important;
 }
 .tutor-fab-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 52px;
-  height: 52px;
-  padding: 0;
-  border-radius: 50%;
-  background: var(--accent-primary-fill, #0284c7);
-  color: var(--on-accent-primary, #ffffff);
-  border: 0;
-  cursor: pointer;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), 0 2px 6px rgba(0, 0, 0, 0.15);
-  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
-  user-select: none;
-  position: relative;
-  outline: none;
+  position:relative; width:46px; height:46px; min-width:46px; padding:0;
+  display:inline-flex; align-items:center; justify-content:center;
+  border-radius:10px;
+  background:var(--accent-primary-fill); color:var(--on-accent-primary);
+  border:1px solid color-mix(in srgb, var(--accent-primary-fill) 72%, var(--border-subtle));
+  cursor:pointer; font:inherit;
+  box-shadow:0 5px 14px rgba(0,0,0,.24);
+  transition:transform .16s var(--ease-out), border-color .16s ease, box-shadow .16s ease;
+  user-select:none;
 }
 .tutor-fab-btn:hover {
-  transform: scale(1.08) translateY(-2px);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.38);
+  transform:translateY(-2px);
+  border-color:var(--border-highlight);
+  box-shadow:0 7px 18px rgba(0,0,0,.3);
 }
 .tutor-fab-btn:active {
   transform: scale(0.95) translateY(1px);
@@ -1023,40 +1079,40 @@ h1,h2,h3,p { margin:0; }
   outline: 2px solid var(--accent-primary-fill, #00e5ff);
   outline-offset: 3px;
 }
+.tutor-fab-btn:focus-visible {
+  outline:3px solid color-mix(in srgb, var(--accent-primary-fill) 48%, transparent);
+  outline-offset:3px;
+}
+.tutor-fab-btn::after {
+  content:attr(data-tooltip);
+  position:absolute; right:0; bottom:calc(100% + 8px);
+  width:max-content; max-width:160px; padding:5px 8px;
+  border:1px solid var(--border-subtle); border-radius:var(--radius-control);
+  background:var(--bg-surface); color:var(--text-primary);
+  font-family:var(--font-body); font-size:12px; font-weight:600; line-height:1.2;
+  box-shadow:0 4px 12px rgba(0,0,0,.24);
+  opacity:0; visibility:hidden; pointer-events:none;
+  transform:translateY(3px);
+  transition:opacity .14s ease, transform .14s var(--ease-out), visibility .14s;
+}
+.tutor-fab-btn[aria-expanded="false"]:hover::after,
+.tutor-fab-btn[aria-expanded="false"]:focus-visible::after {
+  opacity:1; visibility:visible; transform:none;
+}
 .tutor-fab-icon-box {
-  position: relative;
-  width: 26px;
-  height: 26px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-.tutor-fab-icon-box svg.icon {
-  width: 26px;
-  height: 26px;
-}
-.tutor-fab-icon-box .pulse-indicator {
-  position: absolute;
-  top: -4px;
-  right: -4px;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--accent-secondary, #22c55e);
-  border: 2px solid var(--bg-surface, #0f172a);
+  width:24px; height:24px; display:inline-flex; align-items:center; justify-content:center;
 }
 [data-skin='gamer'] .tutor-fab-btn {
-  border-radius: 50%;
-  border: 2px solid #000;
-  box-shadow: 3px 3px 0 #000;
+  border-radius:4px;
+  border:1px solid color-mix(in srgb, #000 74%, var(--accent-primary-fill));
+  box-shadow:0 5px 14px rgba(0,0,0,.28);
 }
 [data-skin='gamer'] .tutor-fab-btn:hover {
-  transform: scale(1.08) translate(-1px, -1px);
-  box-shadow: 4px 4px 0 #000;
+  transform:translateY(-2px);
+  box-shadow:0 7px 18px rgba(0,0,0,.34);
 }
 [data-skin='gamer'] .tutor-fab-btn:active {
-  transform: scale(0.95) translate(1px, 1px);
-  box-shadow: 2px 2px 0 #000;
+  transform:translateY(1px);
 }
 
 /* Ventana emergente flotante del Tutor IA (Chat Popover) */
@@ -1141,7 +1197,7 @@ h1,h2,h3,p { margin:0; }
   .shell { display:block; }
   .hud-bar { display:none; }
   .top-nav { display:none; }
-  .sidebar, .subpanel { display:none !important; }
+  .sidebar, .subpanel, .subpanel-scrim { display:none !important; }
   .topbar { padding:0 16px; }
   .bottom-nav {
     position:fixed; bottom:0; left:0; right:0; height:60px; z-index:35;

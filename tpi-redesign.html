@@ -148,6 +148,8 @@
     </div>
   </aside>
 
+  <button class="subpanel-scrim" id="subpanel-scrim" type="button" tabindex="-1" aria-hidden="true" aria-label="Cerrar menú contextual"></button>
+
   <div class="shell-col">
   <header class="topbar">
     <div class="brand-wrap">
@@ -1767,78 +1769,182 @@
       </div>
     </section>
 
-    <!-- ================= DESAFÍOS · profesor ================= -->
+    <!-- ================= CATÁLOGO DE DESAFÍOS · profesor ================= -->
     <section class="screen" id="screen-desafios-profesor" aria-labelledby="h-cat" data-error="Ocurrió un error al consultar los desafíos con el servidor.">
       <div class="page-head">
-        <div><h1 class="display" id="h-cat">Desafíos</h1><p>El catálogo de todas tus cohortes: desafíos prácticos, cuestionarios teóricos y el banco de preguntas.</p></div>
-        <button class="btn btn-primary" type="button" data-open="drawer-desafio"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Crear desafío</button>
+        <div><h1 class="display" id="h-cat">Catálogo de Desafíos</h1><p>Gestioná los desafíos de tu cátedra, configurá sus reglas y consultá su estado pedagógico.</p></div>
       </div>
-      <div class="tabs" role="tablist" aria-label="Sección">
-        <button class="tab" role="tab" aria-selected="true" data-subtab="cat-practicos">Catálogo <span class="count num">14</span></button>
-        <button class="tab" role="tab" aria-selected="false" data-subtab="cat-cuestionarios">Cuestionarios teóricos <span class="count num">3</span></button>
-        <button class="tab" role="tab" aria-selected="false" data-subtab="cat-banco">Banco de preguntas <span class="count num">24</span></button>
+      <div class="data" data-teacher-source-catalog></div>
+    </section>
+
+    <section class="screen" id="screen-crear-desafio-profesor" aria-labelledby="h-create-challenge" hidden>
+      <nav class="campus-breadcrumb challenge-breadcrumb" aria-label="Migas de navegación">
+        <a class="challenge-breadcrumb-back" href="#desafios" aria-label="Volver al catálogo"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-left"/></svg></a>
+        <a href="#desafios">Catálogo de desafíos</a><span class="sep" aria-hidden="true">/</span><span class="current" aria-current="page">Crear desafío</span>
+      </nav>
+      <div class="page-head"><div><h1 class="display" id="h-create-challenge">Crear desafío</h1><p>Elegí el tipo de desafío que querés crear.</p></div></div>
+      <div class="challenge-create-content">
+        <form id="challenge-type-form">
+          <fieldset class="challenge-type-options">
+            <legend class="sr-only">Tipo de desafío</legend>
+            <label class="challenge-type-option">
+              <input class="sr-only" type="radio" name="family" value="teorico" required aria-labelledby="challenge-type-theory" aria-describedby="challenge-type-theory-desc"/>
+              <span class="challenge-type-card">
+                <svg class="icon challenge-type-icon" aria-hidden="true"><use href="#i-survey"/></svg>
+                <span class="challenge-type-copy"><span class="display" id="challenge-type-theory">Desafío teórico</span><span class="challenge-type-description" id="challenge-type-theory-desc">Preguntas conceptuales: opción múltiple, verdadero/falso o respuesta abierta.</span></span>
+                <svg class="icon challenge-type-check" aria-hidden="true"><use href="#i-check"/></svg>
+              </span>
+            </label>
+            <label class="challenge-type-option">
+              <input class="sr-only" type="radio" name="family" value="practico" required aria-labelledby="challenge-type-practice" aria-describedby="challenge-type-practice-desc"/>
+              <span class="challenge-type-card">
+                <svg class="icon challenge-type-icon" aria-hidden="true"><use href="#i-cpu"/></svg>
+                <span class="challenge-type-copy"><span class="display" id="challenge-type-practice">Desafío práctico</span><span class="challenge-type-description" id="challenge-type-practice-desc">Resolución con código: algoritmos, tests, debugging o refactorización.</span></span>
+                <svg class="icon challenge-type-check" aria-hidden="true"><use href="#i-check"/></svg>
+              </span>
+            </label>
+          </fieldset>
+          <div class="challenge-create-actions"><a class="btn btn-quiet" href="#desafios">Cancelar</a><button class="btn btn-primary" id="challenge-type-continue" type="submit" disabled>Continuar <svg class="icon icon-sm" aria-hidden="true"><use href="#i-chevron-right"/></svg></button></div>
+        </form>
+      </div>
+    </section>
+
+    <section class="screen" id="screen-crear-desafio-practico-profesor" aria-labelledby="h-create-practical" hidden>
+      <nav class="campus-breadcrumb" aria-label="Migas de navegación"><a href="#desafios"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-left"/></svg>Catálogo de desafíos</a><span class="sep" aria-hidden="true">/</span><span class="current" aria-current="page">Práctico</span></nav>
+      <div class="page-head"><div><h1 class="display" id="h-create-practical">Desafío práctico</h1><p>La creación del contenido práctico todavía no está disponible.</p></div></div>
+      <div class="challenge-create-content"><p>La elección fue Práctico. No se guardó ningún desafío.</p><div class="challenge-create-actions"><a class="btn btn-primary" href="#desafios">Volver al catálogo</a></div></div>
+    </section>
+
+    <!-- ================= MOTOR DE DESAFIOS · profesor ================= -->
+    <section class="screen" id="screen-seguimiento-desafios-profesor" aria-labelledby="h-seguimiento-desafios" data-error="No pudimos cargar el seguimiento de entregas.">
+      <nav class="campus-breadcrumb challenge-breadcrumb" aria-label="Migas de navegación">
+        <button class="challenge-breadcrumb-back" type="button" data-teacher-challenge-back aria-label="Volver al desafío" title="Volver al desafío"><svg class="icon icon-sm"><use href="#i-left"/></svg></button>
+        <a class="challenge-breadcrumb-catalog" href="#desafios">Catálogo de desafíos</a><span class="sep" aria-hidden="true">/</span><a class="challenge-breadcrumb-name" data-teacher-challenge-link href="#desafios"></a><span class="sep" aria-hidden="true">/</span><span class="current" aria-current="page">Seguimiento</span>
+      </nav>
+      <div class="page-head">
+        <div><h1 class="display" id="h-seguimiento-desafios">Seguimiento de entregas</h1><p data-teacher-challenge-summary></p></div>
       </div>
       <div class="data">
-        <div data-subpanel="cat-practicos"><div data-catalog></div></div>
-        <div data-subpanel="cat-cuestionarios" hidden>
-          <div class="section-head"><p>Cuestionarios armados con preguntas de tu banco.</p>
-            <div class="quick-links">
-              <a class="btn btn-ghost btn-sm" href="#quiz"><svg class="icon icon-sm"><use href="#i-eye"/></svg>Vista previa como alumno</a>
-              <span data-view-toggle="cuestionarios"></span>
-              <a class="btn btn-primary btn-sm" href="#cuestionario-nuevo"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Armar cuestionario</a>
-            </div>
+        <div class="stat-strip" aria-label="Resumen de entregas">
+          <div><div class="k">Alumnos</div><div class="v num">32</div></div>
+          <div><div class="k">Resolviendo</div><div class="v num teacher-stat-active">4</div></div>
+          <div><div class="k">Finalizados</div><div class="v num teacher-stat-success">19</div></div>
+          <div><div class="k">Sin empezar</div><div class="v num">9</div></div>
+        </div>
+        <div class="table-wrap"><table class="data" id="teacher-attempts-table">
+          <thead><tr><th>Alumno</th><th>Estado</th><th>Inicio</th><th>Puntaje</th><th><span class="sr-only">Acciones</span></th></tr></thead>
+          <tbody>
+            <tr><td><div class="cell-title">Manuel Sánchez</div><div class="cell-sub">Legajo 40510</div></td><td><span class="badge badge-secondary teacher-attempt-status" data-attempt-status>Resolviendo</span></td><td class="num">03/10/2026 · 14:30</td><td>—</td><td><button class="btn btn-ghost btn-sm danger" type="button" data-cancel-attempt>Anular intento</button></td></tr>
+            <tr><td><div class="cell-title">Carla Ruiz</div><div class="cell-sub">Legajo 40511</div></td><td><span class="badge badge-success teacher-attempt-status">Aprobado</span></td><td class="num">02/10/2026 · 10:15</td><td class="num">95/100</td><td><button class="btn btn-ghost btn-sm danger" type="button" disabled>Anular intento</button></td></tr>
+            <tr><td><div class="cell-title">Diego Fernández</div><div class="cell-sub">Legajo 40512</div></td><td><span class="badge badge-gold teacher-attempt-status" data-attempt-status>Esperando corrección</span></td><td class="num">03/10/2026 · 13:00</td><td>—</td><td><button class="btn btn-ghost btn-sm danger" type="button" data-cancel-attempt>Anular intento</button></td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </section>
+
+    <section class="screen" id="screen-reglas-desafios-profesor" aria-labelledby="h-reglas-desafios" data-error="No pudimos cargar la configuración de reglas.">
+      <a class="back" href="#desafios"><svg class="icon icon-sm"><use href="#i-left"/></svg>Desafíos</a>
+      <div class="page-head"><div><h1 class="display" id="h-reglas-desafios">Reglas y configuración</h1><p>Definí las condiciones de resolución y evaluación del desafío.</p></div><div data-teacher-challenge-picker data-picker-id="rules"></div></div>
+      <div class="data teacher-rules-wrap">
+        <form class="card studs teacher-rules-form" id="teacher-rules-form" onsubmit="return false">
+          <div class="section-head"><h2>Reglas del desafío</h2></div>
+          <p class="hint" id="teacher-rules-context-note" role="status" hidden></p>
+          <div class="form-grid">
+            <label class="field full">Sistema de corrección<select class="control" name="engine"><option>Evaluador de Código en Sandbox (Práctico)</option><option>Corrección de Múltiple Opción (Teórico)</option><option>Evaluación Manual por Docente</option></select><span class="hint">Define qué herramienta evalúa la respuesta del alumno cuando entrega el desafío.</span></label>
+            <label class="field">Tiempo límite (minutos)<input class="control num" type="number" name="minutes" value="45" min="0"/><span class="hint">Dejalo en 0 si los alumnos pueden tomarse el tiempo que necesiten.</span></label>
+            <label class="field">Plazo máximo (fecha de cierre)<input class="control" type="datetime-local" name="deadline" value="2026-10-15T23:59"/><span class="hint">Después de esta fecha y hora, ningún alumno podrá comenzar este desafío.</span></label>
+            <label class="field">Umbral de aprobación<span class="teacher-threshold-control"><input class="control num" type="number" name="pass" value="60" min="0" max="100"/><span>/ 100</span></span><span class="hint">Puntaje mínimo que debe devolver el motor para que el alumno apruebe.</span></label>
+            <label class="field">Cantidad máxima de intentos<input class="control num" type="number" name="attempts" value="3" min="1"/><span class="hint">Cuántas veces puede un alumno entregar el desafío antes de agotarlo.</span></label>
           </div>
-          <div class="table-wrap" data-view-target="cuestionarios"><table class="data">
-            <thead><tr><th>Cuestionario</th><th>Cohorte</th><th class="r">Preguntas</th><th class="r">Intentos</th><th>Estado</th><th><span class="sr-only">Acciones</span></th></tr></thead>
-            <tbody>
-              <tr><td><div class="cell-title">Tipado y protocolos</div><div class="cell-sub">Vence mié 08/10</div></td><td>MSI</td><td class="r">2</td><td class="r">14</td><td><span class="badge badge-success">Publicado</span></td><td><div class="row-actions"><button class="icon-btn sm" aria-label="Editar Tipado y protocolos"><svg class="icon icon-sm"><use href="#i-pencil"/></svg></button></div></td></tr>
-              <tr><td><div class="cell-title">Complejidad algorítmica</div><div class="cell-sub">Sin fecha límite</div></td><td>ProgIV</td><td class="r">8</td><td class="r">0</td><td><span class="badge badge-outline">Borrador</span></td><td><div class="row-actions"><button class="icon-btn sm" aria-label="Editar Complejidad algorítmica"><svg class="icon icon-sm"><use href="#i-pencil"/></svg></button></div></td></tr>
-              <tr><td><div class="cell-title">Estructuras de control</div><div class="cell-sub">Vencido el 20/09</div></td><td>MSI</td><td class="r">10</td><td class="r">31</td><td><span class="badge badge-success">Publicado</span></td><td><div class="row-actions"><button class="icon-btn sm" aria-label="Editar Estructuras de control"><svg class="icon icon-sm"><use href="#i-pencil"/></svg></button></div></td></tr>
-            </tbody>
-          </table></div>
-        </div>
-        <div data-subpanel="cat-banco" hidden>
-          <div class="section-head"><p>Preguntas reutilizables. Se agregan a un cuestionario desde "Armar cuestionario".</p><div class="quick-links"><span data-view-toggle="banco"></span><button class="btn btn-ghost btn-sm" type="button"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Nueva pregunta</button></div></div>
-          <div class="table-wrap" data-view-target="banco"><table class="data">
-            <thead><tr><th>Pregunta</th><th>Tema</th><th>Corrección</th><th class="r">Usada en</th></tr></thead>
-            <tbody>
-              <tr><td class="cell-title">¿Cuáles de estos lenguajes tienen tipado estático?</td><td>Tipado</td><td>Varias correctas</td><td class="r">1</td></tr>
-              <tr><td class="cell-title">¿Qué protocolo de transporte es orientado a conexión?</td><td>Redes</td><td>Una correcta</td><td class="r">1</td></tr>
-              <tr><td class="cell-title">¿Cuál es la complejidad de la búsqueda binaria?</td><td>Complejidad</td><td>Una correcta</td><td class="r">2</td></tr>
-              <tr><td class="cell-title">¿Qué imprime un for que recorre de 0 a n−1 sin break?</td><td>Estructuras de control</td><td>Una correcta</td><td class="r">0</td></tr>
-            </tbody>
-          </table></div>
-        </div>
+          <div class="teacher-form-actions"><button class="btn btn-primary" type="submit">Guardar Configuración</button><button class="btn btn-quiet" type="reset">Restaurar Valores por Defecto</button></div>
+        </form>
+      </div>
+    </section>
+
+    <section class="screen" id="screen-versiones-desafios-profesor" aria-labelledby="h-versiones-desafios" data-error="No pudimos cargar el historial de versiones.">
+      <nav class="campus-breadcrumb challenge-breadcrumb" aria-label="Migas de navegación">
+        <button class="challenge-breadcrumb-back" type="button" data-teacher-challenge-back aria-label="Volver al desafío" title="Volver al desafío"><svg class="icon icon-sm"><use href="#i-left"/></svg></button>
+        <a class="challenge-breadcrumb-catalog" href="#desafios">Catálogo de desafíos</a><span class="sep" aria-hidden="true">/</span><a class="challenge-breadcrumb-name" data-teacher-challenge-link href="#desafios"></a><span class="sep" aria-hidden="true">/</span><span class="current" aria-current="page">Historial de versiones</span>
+      </nav>
+      <div class="page-head">
+        <div><h1 class="display" id="h-versiones-desafios">Historial de versiones</h1><p data-teacher-challenge-summary></p></div>
+      </div>
+      <div class="data"><div class="table-wrap"><table class="data">
+        <thead><tr><th>Versión</th><th>Fecha</th><th>Responsable</th><th>Cambio</th><th><span class="sr-only">Acciones</span></th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge badge-primary">v1.2</span></td><td class="num">30/09/2026</td><td>Ana Torres</td><td>Se agregaron casos de prueba para arreglos vacíos.</td><td><button class="btn btn-ghost btn-sm" type="button" data-version-detail="v1.2">Ver detalle</button></td></tr>
+          <tr><td><span class="badge badge-outline">v1.1</span></td><td class="num">15/09/2026</td><td>Luis Gómez</td><td>Se ajustó el umbral de aprobación de 60% a 70%.</td><td><button class="btn btn-ghost btn-sm" type="button" data-version-detail="v1.1">Ver detalle</button></td></tr>
+          <tr><td><span class="badge badge-outline">v1.0</span></td><td class="num">01/09/2026</td><td>Ana Torres</td><td>Creación inicial del desafío.</td><td><button class="btn btn-ghost btn-sm" type="button" data-version-detail="v1.0">Ver detalle</button></td></tr>
+        </tbody>
+      </table></div></div>
+    </section>
+
+    <section class="screen" id="screen-biblioteca-desafios-profesor" aria-labelledby="h-biblioteca-desafios" data-error="No pudimos cargar la biblioteca compartida.">
+      <nav class="campus-breadcrumb" aria-label="Migas de navegación">
+        <a href="#desafios"><svg class="icon icon-sm"><use href="#i-left"/></svg>Catálogo de desafíos</a><span class="sep" aria-hidden="true">/</span><span class="current" aria-current="page">Biblioteca</span>
+      </nav>
+      <div class="page-head"><div><h1 class="display" id="h-biblioteca-desafios">Biblioteca de desafíos</h1><p>Explorá desafíos compartidos por otros docentes y clonálos a tu catálogo.</p></div></div>
+      <div class="data">
+        <form class="filterbar teacher-library-filter" role="search" onsubmit="return false"><label class="search"><span class="sr-only">Buscar en la biblioteca</span><svg class="icon icon-sm"><use href="#i-search"/></svg><input class="control" id="teacher-library-search" type="search" placeholder="Buscar por título, autor o tema"/></label></form>
+        <div class="table-wrap"><table class="data" id="teacher-library-table">
+          <colgroup><col class="teacher-library-col-challenge"/><col class="teacher-library-col-author"/><col class="teacher-library-col-topics"/><col class="teacher-library-col-clones"/><col class="teacher-library-col-actions"/></colgroup>
+          <thead><tr><th>Desafío</th><th>Autor</th><th>Temas</th><th class="teacher-library-clones">Clonaciones</th><th class="teacher-library-actions">Acciones</th></tr></thead>
+          <tbody>
+            <tr><td><div class="cell-title">Ordenamiento Quicksort</div><div class="cell-sub"><span class="teacher-library-type is-practical">Práctico</span> · Avanzado</div></td><td>Luis Gómez</td><td><span class="badge teacher-library-topic">Algoritmos</span> <span class="badge teacher-library-topic">Arrays</span></td><td class="teacher-library-clones num">124</td><td class="teacher-library-actions"><div class="row-actions"><button class="btn btn-primary btn-sm" type="button" data-clone-challenge><svg class="icon icon-sm"><use href="#i-copy"/></svg>Clonar</button><button class="icon-btn sm" type="button" title="Vista previa de Ordenamiento Quicksort" aria-label="Vista previa de Ordenamiento Quicksort" data-library-preview="Ordenamiento Quicksort"><svg class="icon icon-sm"><use href="#i-eye"/></svg></button></div></td></tr>
+            <tr><td><div class="cell-title">Búsqueda DFS en grafos</div><div class="cell-sub"><span class="teacher-library-type is-practical">Práctico</span> · Avanzado</div></td><td>Ana Torres</td><td><span class="badge teacher-library-topic">Grafos</span> <span class="badge teacher-library-topic">Búsqueda</span></td><td class="teacher-library-clones num">89</td><td class="teacher-library-actions"><div class="row-actions"><button class="btn btn-primary btn-sm" type="button" data-clone-challenge><svg class="icon icon-sm"><use href="#i-copy"/></svg>Clonar</button><button class="icon-btn sm" type="button" title="Vista previa de Búsqueda DFS en grafos" aria-label="Vista previa de Búsqueda DFS en grafos" data-library-preview="Búsqueda DFS en grafos"><svg class="icon icon-sm"><use href="#i-eye"/></svg></button></div></td></tr>
+            <tr><td><div class="cell-title">Conceptos de POO</div><div class="cell-sub"><span class="teacher-library-type is-theoretical">Teórico</span> · Básico</div></td><td>Carlos Ruiz</td><td><span class="badge teacher-library-topic">Objetos</span> <span class="badge teacher-library-topic">Clases</span></td><td class="teacher-library-clones num">210</td><td class="teacher-library-actions"><div class="row-actions"><button class="btn btn-primary btn-sm" type="button" data-clone-challenge><svg class="icon icon-sm"><use href="#i-copy"/></svg>Clonar</button><button class="icon-btn sm" type="button" title="Vista previa de Conceptos de POO" aria-label="Vista previa de Conceptos de POO" data-library-preview="Conceptos de POO"><svg class="icon icon-sm"><use href="#i-eye"/></svg></button></div></td></tr>
+          </tbody>
+        </table></div>
+        <div class="pager" id="teacher-library-pager"></div>
+        <div class="empty" id="teacher-library-empty" hidden><svg class="icon"><use href="#i-filter-off"/></svg><p>No hay desafíos compartidos que coincidan con la búsqueda.</p></div>
       </div>
     </section>
 
     <!-- ================= ARMAR CUESTIONARIO · profesor ================= -->
     <section class="screen" id="screen-cuestionario-nuevo-profesor" aria-labelledby="h-build" data-error="No pudimos cargar el banco de preguntas.">
-      <a class="back" href="#desafios"><svg class="icon icon-sm"><use href="#i-left"/></svg>Desafíos</a>
+      <nav class="campus-breadcrumb" aria-label="Migas de navegación"><a href="#desafios"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-left"/></svg>Catálogo de desafíos</a><span class="sep" aria-hidden="true">/</span><span class="current" aria-current="page">Mi cuestionario</span></nav>
       <div class="page-head">
-        <div><h1 class="display" id="h-build">Armar cuestionario</h1><p>Agregá preguntas nuevas o de tu banco, ordenalas y repartí el puntaje hasta llegar a 100.</p></div>
+        <div><h1 class="display" id="h-build" tabindex="-1">Mi cuestionario</h1><p>Reuní las preguntas, revisá cómo se ven y asigná el puntaje de cada una.</p></div>
       </div>
-      <div class="data builder">
-        <aside>
-          <div class="card studs">
-            <div class="section-head"><h2>Agregar preguntas</h2></div>
-            <button class="btn btn-primary btn-block" type="button" id="add-custom"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Pregunta nueva</button>
-            <div style="border-top:1px solid var(--border-subtle); margin:16px 0; "></div>
-            <div style="display:flex; flex-direction:column; gap:12px">
-              <label class="field">Del banco<select class="control" id="bank-pick"><option value="">Elegí una pregunta…</option><option>¿Cuál es la complejidad de la búsqueda binaria?</option><option>¿Qué imprime un for que recorre de 0 a n−1 sin break?</option></select></label>
-              <button class="btn btn-ghost btn-block" type="button" id="add-bank" disabled><svg class="icon icon-sm"><use href="#i-database"/></svg>Agregar del banco</button>
-            </div>
-          </div>
-          <div class="card studs">
-            <label class="field">Título del cuestionario<input class="control" value="Complejidad y búsqueda" /></label>
-            <label class="field" style="margin-top:12px">Cohorte<select class="control"><option value="ProgIV">Programación IV</option><option value="InglesII">Inglés II</option><option value="BDII">BD II</option><option value="MSI" selected>MSI</option></select></label>
-          </div>
-        </aside>
-        <div>
-          <div id="q-list"></div>
-          <div class="sum-bar" id="sum-bar"></div>
+      <p class="quiz-storage-status" data-quiz-storage role="status"></p>
+      <section class="quiz-resume" id="quiz-resume" aria-labelledby="quiz-resume-title" hidden>
+        <h2 id="quiz-resume-title">Tenés un cuestionario en curso</h2><p id="quiz-resume-description"></p>
+        <div class="quiz-actions"><button class="btn btn-primary" type="button" data-quiz-resume>Retomar cuestionario</button><button class="btn btn-ghost" type="button" data-quiz-new>Empezar otro</button></div>
+      </section>
+      <div id="quiz-workspace">
+      <section class="quiz-builder-details" aria-labelledby="quiz-details-heading">
+        <h2 id="quiz-details-heading">Información del cuestionario</h2>
+        <div class="quiz-builder-details-fields">
+          <label class="field">Título del cuestionario<input class="control" id="quiz-title" maxlength="200" placeholder="Por ejemplo: Complejidad y búsqueda" /></label>
+          <div class="quiz-builder-type"><span>Tipo</span><span class="quiz-type-value"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-book"/></svg>Teórico</span></div>
         </div>
+      </section>
+      <div class="data">
+        <section class="quiz-builder-questions" aria-labelledby="quiz-questions-heading">
+          <div class="quiz-builder-section-head"><div><h2 id="quiz-questions-heading">Preguntas <span class="muted" id="quiz-question-count"></span></h2><p>Agregá preguntas nuevas o de tu banco y repartí el puntaje hasta llegar a 100.</p></div><div class="quiz-actions"><button class="btn btn-ghost" type="button" data-quiz-bank><svg class="icon icon-sm" aria-hidden="true"><use href="#i-database"/></svg>Agregar del banco</button><button class="btn btn-primary" type="button" data-quiz-create><svg class="icon icon-sm" aria-hidden="true"><use href="#i-plus"/></svg>Crear pregunta</button></div></div>
+          <div id="q-list"></div>
+          <div id="quiz-pending-question" class="quiz-pending" hidden></div>
+        </section>
+        <section class="sum-bar" id="sum-bar" aria-label="Puntaje y guardado del cuestionario"></section>
       </div>
+      </div>
+    </section>
+
+    <section class="screen" id="screen-cuestionario-pregunta-profesor" aria-labelledby="quiz-editor-title" hidden>
+      <nav class="campus-breadcrumb" aria-label="Migas de navegación"><a data-quiz-return href="#cuestionario-nuevo?tipo=teorico"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-left"/></svg>Mi cuestionario</a><span class="sep" aria-hidden="true">/</span><span class="current" id="quiz-editor-crumb" aria-current="page">Crear pregunta</span></nav>
+      <div class="page-head"><div><h1 class="display" id="quiz-editor-title" tabindex="-1">Crear pregunta</h1><p id="quiz-editor-context"></p></div></div>
+      <p class="quiz-storage-status" data-quiz-storage role="status"></p>
+      <div id="quiz-editor-unavailable" class="quiz-resume" hidden><h2>Esta pregunta no está disponible</h2><p>El enlace no corresponde al borrador guardado en este navegador.</p><a class="btn btn-ghost" data-quiz-return href="#cuestionario-nuevo?tipo=teorico">Volver a mi cuestionario</a></div>
+      <form id="quiz-question-form" novalidate>
+        <div class="quiz-editor-panel">
+          <label class="field quiz-type-field">Tipo de pregunta<select class="control" id="quiz-question-type"><option value="multiple">Opción múltiple</option><option value="boolean">Verdadero / falso</option><option value="open">Respuesta abierta</option></select></label>
+          <label class="field">Enunciado<textarea class="control" id="quiz-question-text" rows="4" maxlength="5000" placeholder="Escribí lo que querés preguntar." required></textarea></label>
+          <div id="quiz-question-specific"></div>
+          <div id="quiz-editor-errors" class="quiz-editor-errors" role="alert" hidden></div>
+        </div>
+        <p class="quiz-editor-note">El puntaje se asigna en Mi cuestionario. Esta pregunta no se agrega al banco.</p>
+        <div class="quiz-editor-actions"><button class="btn btn-quiet" type="button" data-quiz-cancel>Cancelar</button><div class="quiz-actions"><button class="btn btn-ghost" type="submit" value="another" id="quiz-add-another">Agregar y crear otra</button><button class="btn btn-primary" type="submit" value="return" id="quiz-add-return">Agregar y volver</button></div></div>
+      </form>
     </section>
 
     <!-- ================= ROADMAP · profesor ================= -->
@@ -2665,10 +2771,9 @@
         </form>
       </div>
 
-      <button type="button" class="tutor-fab-btn" id="tutor-fab-btn" aria-expanded="false" aria-controls="tutor-chat-popup" aria-label="Abrir chat con Tutor IA" title="Tutor IA (Asistente de cátedra)">
+      <button type="button" class="tutor-fab-btn" id="tutor-fab-btn" aria-expanded="false" aria-controls="tutor-chat-popup" aria-label="Abrir Tutor IA" title="Tutor IA" data-tooltip="Tutor IA">
         <span class="tutor-fab-icon-box">
           <svg class="icon"><use href="#i-bot"/></svg>
-          <span class="pulse-indicator" aria-hidden="true"></span>
         </span>
       </button>
     </div>
@@ -2679,6 +2784,11 @@
 <!-- ================= Navegación Móvil Inferior (Bottom Bar) ================= -->
 <nav class="bottom-nav" id="bottom-nav" aria-label="Navegación móvil"></nav>
 
+<dialog class="modal modal-lg" id="quiz-bank-dialog" aria-labelledby="quiz-bank-title">
+  <div class="modal-head"><div><h2 id="quiz-bank-title">Agregar del banco</h2><p>Ejemplos del mock. Agregá una copia a tu cuestionario.</p></div><button class="icon-btn sm" type="button" data-quiz-bank-close aria-label="Cerrar banco"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-x"/></svg></button></div>
+  <div class="modal-body"><label class="field">Buscar una pregunta<input class="control" id="quiz-bank-search" type="search" placeholder="Buscar por enunciado" /></label><div id="quiz-bank-results"></div></div>
+  <div class="modal-foot"><button class="btn btn-quiet" type="button" data-quiz-bank-close>Volver al cuestionario</button></div>
+</dialog>
 
 <!-- ================= Drawer: crear desafío ================= -->
 <dialog class="drawer" id="drawer-desafio" aria-labelledby="h-dd">
@@ -3283,6 +3393,29 @@ const CHALLENGES = [
   { id: 20, title: 'Async PR Communication: Review Comments', course: 'InglesII', unit: 2, type: T_QUIZ, diff: 2, status: 'todo', req: false, due: '2026-10-12', xp: 60, coins: 15, retries: 2, pass: 75, published: true, attempts: 11 },
 ];
 
+const TEACHER_CATALOG = [
+  {
+    id: 'fibonacci', title: 'Recursión de Fibonacci', version: 'v1.2', cohort: 'MSI · Cátedra Prog. IV', type: 'Práctico', difficulty: 'Intermedio', required: true, material: 'Guía 03 - Recursión y Complejidad.pdf', status: 'PUBLISHED', statusLabel: 'Publicado', created: '14 Mar 2026 · Prof. Manuel Sánchez', pass: 60, attempts: '3 intentos permitidos', rule: 'Penalización activa (-5 pts/reintento)',
+    description: 'Implementación algorítmica de la sucesión de Fibonacci. Se evalúa el cálculo recursivo puro, la optimización mediante memoización top-down y el análisis de complejidad temporal y espacial para evitar stack overflow.'
+  },
+  {
+    id: 'arboles', title: 'Árboles Binarios de Búsqueda (BST)', version: 'v1.0', cohort: 'MSI · Cátedra Prog. IV', type: 'Práctico', difficulty: 'Avanzado', required: true, material: '', status: 'DRAFT', statusLabel: 'Borrador', created: '22 Mar 2026 · En edición', pass: 70, attempts: '2 intentos permitidos', rule: 'Oculto para alumnos',
+    description: 'Desarrollo completo de las operaciones de inserción, búsqueda por clave y recorridos InOrder, PreOrder y PostOrder. Incluye tests para árboles vacíos y hojas duplicadas.'
+  },
+  {
+    id: 'pilas', title: 'Pilas y Colas: Estructuras Lineales', version: 'v2.0', cohort: 'MSII · Cátedra Prog. IV', type: 'Teórico', difficulty: 'Básico', required: false, material: 'Apunte Teórico 02 - LIFO y FIFO.pdf', status: 'PUBLISHED', statusLabel: 'Publicado', created: '02 Mar 2026', pass: 50, attempts: 'Ilimitados', rule: '+50 XP · 15 monedas',
+    description: 'Cuestionario conceptual sobre estructuras LIFO y FIFO, resolución de llamados en recursión, colas de prioridad y complejidad de inserción y remoción.'
+  },
+  {
+    id: 'bigo', title: 'Complejidad Asintótica y Notación Big-O', version: 'v0.9', cohort: 'MSI · Cátedra Prog. IV', type: 'Teórico', difficulty: 'Intermedio', required: true, material: '', status: 'DRAFT', statusLabel: 'Borrador', created: '28 Mar 2026', pass: 60, attempts: '4 intentos permitidos', rule: 'Pendiente de validación',
+    description: 'Evaluación teórica del análisis asintótico de algoritmos iterativos y recursivos mediante el Teorema Maestro, selección múltiple y deducción de cotas superiores.'
+  },
+  {
+    id: 'grafos', title: 'Grafos y Algoritmo de Dijkstra', version: 'v1.5', cohort: 'MSI · Ciclo 2025 (Histórico)', type: 'Práctico', difficulty: 'Avanzado', required: true, material: 'Guía_Grafos_Ciclo2025.pdf', status: 'ARCHIVED', statusLabel: 'Archivado', created: '10 Ago 2025 · Estado terminal', pass: 75, attempts: '3 intentos permitidos', rule: 'Solo lectura',
+    description: 'Cálculo de caminos más cortos en grafos dirigidos ponderados con pesos positivos, optimizado con cola de prioridad. Fue archivado al finalizar el ciclo lectivo 2025.'
+  }
+];
+
 /* ======================= helpers ======================= */
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -3313,6 +3446,51 @@ function showToast(msg, type = 'info', iconName = 'i-tick') {
     setTimeout(() => t.remove(), 250);
   }, 3200);
 }
+
+function renderTeacherChallengePickers() {
+  const defaultChallenge = TEACHER_CATALOG[0];
+  $$('[data-teacher-challenge-picker]').forEach(root => {
+    const pickerId = root.dataset.pickerId;
+    root.innerHTML = `<label class="field teacher-challenge-picker" for="teacher-challenge-${pickerId}">Desafío<select class="control" id="teacher-challenge-${pickerId}" data-teacher-challenge-select>${TEACHER_CATALOG.map(challenge => `<option value="${challenge.id}">${challenge.title}</option>`).join('')}</select></label>`;
+    $('[data-teacher-challenge-select]', root).addEventListener('change', event => {
+      const [routePath] = location.hash.slice(1).split('?');
+      location.hash = `${routePath}?challenge=${encodeURIComponent(event.target.value)}`;
+    });
+  });
+  $('#teacher-challenge-rules')?.addEventListener('change', e => {
+    const selected = TEACHER_CATALOG.find(challenge => challenge.id === e.target.value);
+    const note = $('#teacher-rules-context-note');
+    const hasConfiguration = selected?.id === defaultChallenge?.id;
+    note.hidden = hasConfiguration;
+    note.textContent = hasConfiguration ? '' : `La configuración por desafío todavía no está conectada. Se mantienen visibles los valores de ${defaultChallenge.title}.`;
+  });
+}
+
+function syncTeacherChallengeSelection(challengeId) {
+  const defaultChallenge = TEACHER_CATALOG[0];
+  const selected = TEACHER_CATALOG.find(challenge => challenge.id === challengeId) || defaultChallenge;
+  $$('[data-teacher-challenge-select]').forEach(select => { select.value = selected.id; });
+  $$('[data-teacher-challenge-link]').forEach(link => {
+    link.textContent = selected.title;
+    link.title = selected.title;
+    link.href = `#desafios?challenge=${encodeURIComponent(selected.id)}`;
+  });
+  $$('[data-teacher-challenge-back]').forEach(button => { button.dataset.challengeId = selected.id; });
+  $$('[data-teacher-challenge-summary]').forEach(element => { element.textContent = `${selected.title} · ${selected.version} · ${selected.type}`; });
+
+  const note = $('#teacher-rules-context-note');
+  if (note) {
+    const hasConfiguration = selected.id === defaultChallenge.id;
+    note.hidden = hasConfiguration;
+    note.textContent = hasConfiguration ? '' : `La configuración por desafío todavía no está conectada. Se mantienen visibles los valores de ${defaultChallenge.title}.`;
+  }
+}
+
+document.addEventListener('click', event => {
+  const backButton = event.target.closest('[data-teacher-challenge-back]');
+  if (!backButton) return;
+  location.hash = `#desafios?challenge=${encodeURIComponent(backButton.dataset.challengeId)}`;
+});
 
 /* Pixel art: rows of chars mapped to fills. Colors can be CSS vars. */
 function pixel(rows, pal, label = '') {
@@ -3485,7 +3663,194 @@ function ChallengeList(root) {
   return api;
 }
 
-/* ======================= catalog table (profesor) ======================= */
+/* ======================= catálogo expandible (profesor) ======================= */
+const teacherSourceCatalogInstances = [];
+function TeacherSourceCatalog(root) {
+  let activeStatus = 'all';
+  const PAGE_SIZE = 4;
+  const state = { query: '', type: 'all', material: 'all', page: 0 };
+  const expandedChallengeIds = new Set();
+
+  const difficultyBadge = difficulty => difficulty === 'Avanzado' ? 'badge-danger' : difficulty === 'Intermedio' ? 'badge-gold' : 'badge-success';
+  const statusBadge = status => status === 'PUBLISHED' ? 'badge-success' : 'badge-outline';
+  const materialBadge = challenge => challenge.material
+    ? `<span class="badge badge-success source-badge source-badge-material" title="Tiene material asociado">${icon('i-file', 'icon icon-sm')}Con material</span>`
+    : `<span class="badge badge-outline source-badge source-badge-material teacher-material-missing" title="Falta asociar material">${icon('i-alert', 'icon icon-sm')}Sin material</span>`;
+  const editAction = challenge => `<button class="icon-btn sm source-quick-action" type="button" data-edit-source title="Editar ${challenge.title}" aria-label="Editar ${challenge.title}">${icon('i-pencil', 'icon icon-sm')}</button>`;
+  const primaryAction = challenge => challenge.status === 'PUBLISHED'
+    ? `<a class="icon-btn sm source-quick-action source-tracking-action" href="#seguimiento-desafios?challenge=${encodeURIComponent(challenge.id)}" title="Ver seguimiento de ${challenge.title}" aria-label="Ver seguimiento de ${challenge.title}">${icon('i-users', 'icon icon-sm')}</a>${editAction(challenge)}`
+    : challenge.status === 'DRAFT'
+      ? `<button class="icon-btn sm source-quick-action source-publish-action" type="button" data-publication-source data-challenge-id="${challenge.id}" title="Publicar ${challenge.title}" aria-label="Publicar ${challenge.title}">${icon('i-tick', 'icon icon-sm')}</button>${editAction(challenge)}`
+      : `<a class="icon-btn sm source-quick-action source-history-action" href="#versiones-desafios?challenge=${encodeURIComponent(challenge.id)}" title="Ver historial de versiones de ${challenge.title}" aria-label="Ver historial de versiones de ${challenge.title}">${icon('i-clock', 'icon icon-sm')}</a>`;
+  const publicationAction = challenge => challenge.status === 'PUBLISHED'
+    ? `<button class="btn btn-ghost danger btn-sm" type="button" data-publication-source data-challenge-id="${challenge.id}">${icon('i-eye-off', 'icon icon-sm')}Despublicar</button>`
+    : challenge.status === 'DRAFT'
+      ? `<button class="btn btn-primary btn-sm" type="button" data-publication-source data-challenge-id="${challenge.id}">${icon('i-tick', 'icon icon-sm')}Publicar</button>`
+      : '';
+
+  root.innerHTML = `
+    <div class="source-catalog-topbar">
+      <div class="tabs" role="tablist" aria-label="Filtro por estado de desafío" data-source-status-tabs>
+        <button class="tab" type="button" role="tab" aria-selected="true" data-status-filter="all">Todos <span class="count num" data-count-status="all"></span></button>
+        <button class="tab" type="button" role="tab" aria-selected="false" data-status-filter="PUBLISHED">Publicados <span class="count num" data-count-status="PUBLISHED"></span></button>
+        <button class="tab" type="button" role="tab" aria-selected="false" data-status-filter="DRAFT">Borradores <span class="count num" data-count-status="DRAFT"></span></button>
+        <button class="tab" type="button" role="tab" aria-selected="false" data-status-filter="ARCHIVED">Archivados <span class="count num" data-count-status="ARCHIVED"></span></button>
+      </div>
+      <details class="teacher-create-menu" data-teacher-create-menu>
+        <summary class="btn btn-primary teacher-catalog-create" aria-label="Elegir tipo de desafío para crear">${icon('i-plus', 'icon icon-sm')}Crear desafío${icon('i-chevron', 'icon icon-sm teacher-create-chevron')}</summary>
+        <div class="teacher-create-popover" aria-label="Tipo de desafío">
+          <a class="teacher-create-option" href="#cuestionario-nuevo?tipo=teorico" data-create-family="teorico">
+            <span class="teacher-create-option-icon is-theoretical">${icon('i-survey', 'icon icon-sm')}</span>
+            <strong>Desafío teórico</strong>
+          </a>
+          <a class="teacher-create-option" href="#crear-desafio-practico?tipo=practico" data-create-family="practico">
+            <span class="teacher-create-option-icon is-practical">${icon('i-cpu', 'icon icon-sm')}</span>
+            <strong>Desafío práctico</strong>
+          </a>
+        </div>
+      </details>
+    </div>
+    <form class="catalog-toolbar source-catalog-toolbar" role="search" onsubmit="return false">
+      <label class="search"><span class="sr-only">Buscar desafío</span>${icon('i-search', 'icon icon-sm')}<input class="control" name="source-query" type="search" placeholder="Buscar desafío por título o descripción" autocomplete="off"/></label>
+      <label class="sr-only" for="source-type-filter">Tipo</label><select class="control" id="source-type-filter" name="source-type"><option value="all">Todos los tipos</option><option>Práctico</option><option>Teórico</option></select>
+      <label class="sr-only" for="source-material-filter">Material</label><select class="control" id="source-material-filter" name="source-material"><option value="all">Todos los materiales</option><option value="with-material">Con material</option><option value="without-material">Sin material</option></select>
+    </form>
+    <p class="source-catalog-result" aria-live="polite" data-source-result></p>
+    <div class="table-wrap" data-source-table-wrap><table class="data source-catalog-table">
+      <thead><tr><th><span class="sr-only">Desplegar</span></th><th class="source-catalog-title-cell">Título</th><th>Tipo</th><th>Material</th><th>Estado</th><th class="source-catalog-actions">Acciones</th></tr></thead>
+      <tbody data-source-rows></tbody>
+    </table></div>
+    <div class="pager" data-source-pager></div>
+    <div class="empty" data-source-empty hidden>${icon('i-filter-off')}<p>Ningún desafío coincide con los filtros seleccionados.</p></div>`;
+
+  const rows = $('[data-source-rows]', root);
+  const pager = $('[data-source-pager]', root);
+  const createMenu = $('[data-teacher-create-menu]', root);
+  createMenu.addEventListener('click', event => {
+    if (event.target.closest('[data-create-family]')) createMenu.removeAttribute('open');
+  });
+  createMenu.addEventListener('keydown', event => {
+    if (event.key !== 'Escape' || !createMenu.open) return;
+    event.preventDefault();
+    createMenu.removeAttribute('open');
+    $('summary', createMenu).focus();
+  });
+  document.addEventListener('click', event => {
+    if (createMenu.open && !createMenu.contains(event.target)) createMenu.removeAttribute('open');
+  });
+  function matches(challenge) {
+    const text = `${challenge.title} ${challenge.description}`.toLocaleLowerCase('es');
+    const materialState = challenge.material ? 'with-material' : 'without-material';
+    return (activeStatus === 'all' || challenge.status === activeStatus)
+      && (state.type === 'all' || challenge.type === state.type)
+      && (state.material === 'all' || materialState === state.material)
+      && (!state.query || text.includes(state.query));
+  }
+  function render() {
+    const visible = TEACHER_CATALOG.filter(matches);
+    const pages = Math.max(1, Math.ceil(visible.length / PAGE_SIZE));
+    state.page = Math.min(state.page, pages - 1);
+    const pageItems = visible.slice(state.page * PAGE_SIZE, (state.page + 1) * PAGE_SIZE);
+    $$('[data-count-status]', root).forEach(count => {
+      const status = count.dataset.countStatus;
+      count.textContent = status === 'all' ? TEACHER_CATALOG.length : TEACHER_CATALOG.filter(item => item.status === status).length;
+    });
+    $('[data-source-result]', root).textContent = `${visible.length} ${visible.length === 1 ? 'desafío' : 'desafíos'}`;
+    $('[data-source-table-wrap]', root).hidden = visible.length === 0;
+    $('[data-source-empty]', root).hidden = visible.length !== 0;
+    pager.innerHTML = visible.length ? pagerHTML(state.page, PAGE_SIZE, visible.length, 'desafíos') : '';
+    rows.innerHTML = pageItems.map(challenge => `
+      <tr class="tr-expandable" data-source-id="${challenge.id}" aria-expanded="${expandedChallengeIds.has(challenge.id)}" tabindex="0">
+        <td class="source-catalog-caret"><span class="expand-caret">${icon('i-chevron', 'icon icon-sm')}</span></td>
+        <td class="source-catalog-title-cell"><div class="source-catalog-title"><span class="cell-title">${challenge.title}</span></div><div class="cell-sub source-catalog-meta"><span class="source-version">${challenge.version}</span><span aria-hidden="true">·</span><span>${challenge.cohort}</span></div></td>
+        <td><span class="badge source-badge source-badge-type ${challenge.type === 'Teórico' ? 'badge-primary' : 'badge-secondary'}">${challenge.type}</span></td>
+        <td>${materialBadge(challenge)}</td>
+        <td><span class="badge source-badge source-badge-status ${statusBadge(challenge.status)}">${challenge.statusLabel}</span></td>
+        <td class="source-catalog-actions"><div class="row-actions">${primaryAction(challenge)}</div></td>
+      </tr>
+      <tr class="tr-detail-row" data-source-detail="${challenge.id}" ${expandedChallengeIds.has(challenge.id) ? '' : 'hidden'}><td colspan="6">
+        <div class="detail-drawer">
+          <div class="detail-drawer-top"><div class="detail-desc-box"><div class="detail-desc-label">${icon('i-info', 'icon icon-sm')}Descripción del desafío</div><p class="detail-desc-text">${challenge.description}</p></div><div class="detail-meta-chip">${icon('i-clock', 'icon icon-sm')}<span>Creado: <strong>${challenge.created}</strong></span></div></div>
+          <dl class="detail-classification" aria-label="Clasificación del desafío"><div><dt>Dificultad</dt><dd><span class="badge source-badge source-badge-difficulty ${difficultyBadge(challenge.difficulty)}">${challenge.difficulty}</span></dd></div><div><dt>Carácter</dt><dd><span class="badge source-badge source-badge-character ${challenge.required ? 'badge-primary' : 'badge-outline'}">${challenge.required ? 'Obligatorio' : 'Optativo'}</span></dd></div></dl>
+          <div class="detail-grid">
+            <div class="detail-card"><span class="detail-card-label">${icon('i-award', 'icon icon-sm')}Umbral de aprobación</span><span class="detail-card-val">${challenge.pass} / 100 pts <small>(${challenge.pass}%)</small></span><span class="detail-card-sub">Puntaje mínimo para aprobar</span></div>
+            <div class="detail-card"><span class="detail-card-label">${icon('i-refresh', 'icon icon-sm')}Límite de reintentos</span><span class="detail-card-val">${challenge.attempts}</span><span class="detail-card-sub">Configuración del motor</span></div>
+            <div class="detail-card ${challenge.material ? '' : 'is-missing'}"><span class="detail-card-label">${icon(challenge.material ? 'i-book' : 'i-alert', 'icon icon-sm')}Referencia del material</span><span class="detail-card-val">${challenge.material || 'No tiene material asociado aún'}</span><span class="detail-card-sub">${challenge.material ? 'Documento vinculado' : 'Pendiente de configuración'}</span></div>
+            <div class="detail-card"><span class="detail-card-label">${icon('i-sliders', 'icon icon-sm')}Reglas y estado</span><span class="detail-card-val">${challenge.rule}</span><span class="detail-card-sub">Configuración pedagógica</span></div>
+          </div>
+          <div class="detail-footer-bar"><div class="detail-footer-actions"><a class="btn btn-secondary btn-sm" href="#seguimiento-desafios?challenge=${encodeURIComponent(challenge.id)}">${icon('i-users', 'icon icon-sm')}Seguimiento de entregas</a><a class="btn btn-ghost btn-sm" href="#versiones-desafios?challenge=${encodeURIComponent(challenge.id)}">${icon('i-clock', 'icon icon-sm')}Historial de versiones</a><button class="btn btn-ghost btn-sm" type="button" data-edit-source>${icon('i-pencil', 'icon icon-sm')}Editar desafío</button></div>${publicationAction(challenge) ? `<div class="detail-footer-state">${publicationAction(challenge)}</div>` : ''}</div>
+        </div>
+      </td></tr>`).join('');
+  }
+  $('[name="source-query"]', root).addEventListener('input', e => { state.query = e.target.value.trim().toLocaleLowerCase('es'); state.page = 0; render(); });
+  $('[name="source-type"]', root).addEventListener('change', e => { state.type = e.target.value; state.page = 0; render(); });
+  $('[name="source-material"]', root).addEventListener('change', e => { state.material = e.target.value; state.page = 0; render(); });
+  $('[data-source-status-tabs]', root).addEventListener('click', e => {
+    const tab = e.target.closest('[data-status-filter]'); if (!tab) return;
+    activeStatus = tab.dataset.statusFilter;
+    state.page = 0;
+    $$('[data-status-filter]', root).forEach(item => item.setAttribute('aria-selected', String(item === tab)));
+    render();
+  });
+  function toggle(row) {
+    const detail = $(`[data-source-detail="${row.dataset.sourceId}"]`, root);
+    const open = row.getAttribute('aria-expanded') === 'true';
+    if (open) expandedChallengeIds.delete(row.dataset.sourceId);
+    else expandedChallengeIds.add(row.dataset.sourceId);
+    row.setAttribute('aria-expanded', String(!open));
+    detail.hidden = open;
+  }
+  rows.addEventListener('click', e => {
+    const publication = e.target.closest('[data-publication-source]');
+    if (publication) {
+      const challenge = TEACHER_CATALOG.find(item => item.id === publication.dataset.challengeId);
+      const willPublish = challenge.status !== 'PUBLISHED';
+      challenge.status = willPublish ? 'PUBLISHED' : 'DRAFT';
+      challenge.statusLabel = willPublish ? 'Publicado' : 'Borrador';
+      render();
+      showToast(`${challenge.title} fue ${willPublish ? 'publicado' : 'despublicado'}`, willPublish ? 'success' : 'info', willPublish ? 'i-tick' : 'i-eye-off');
+      return;
+    }
+    if (e.target.closest('[data-edit-source]')) {
+      showToast('Edición de desafío abierta', 'info', 'i-pencil');
+      return;
+    }
+    const row = e.target.closest('.tr-expandable'); if (!row) return;
+    if (e.target.closest('a, button')) return;
+    toggle(row);
+  });
+  rows.addEventListener('keydown', e => {
+    const row = e.target.closest('.tr-expandable');
+    if (row && document.activeElement === row && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); toggle(row); }
+  });
+  onPager(pager, page => { state.page = page; render(); });
+  const api = {
+    focusChallenge(challengeId) {
+      if (!TEACHER_CATALOG.some(challenge => challenge.id === challengeId)) return;
+      activeStatus = 'all';
+      state.query = '';
+      state.type = 'all';
+      state.material = 'all';
+      state.page = Math.floor(TEACHER_CATALOG.findIndex(challenge => challenge.id === challengeId) / PAGE_SIZE);
+      $('[name="source-query"]', root).value = '';
+      $('[name="source-type"]', root).value = 'all';
+      $('[name="source-material"]', root).value = 'all';
+      $$('[data-status-filter]', root).forEach(tab => tab.setAttribute('aria-selected', String(tab.dataset.statusFilter === 'all')));
+      expandedChallengeIds.add(challengeId);
+      render();
+      requestAnimationFrame(() => {
+        const row = $(`[data-source-id="${challengeId}"]`, root);
+        row?.focus({ preventScroll:true });
+        row?.scrollIntoView({ behavior:'smooth', block:'center' });
+      });
+    }
+  };
+  teacherSourceCatalogInstances.push(api);
+  render();
+  return api;
+}
+
+/* ======================= catalog table (profesor, contexto de cohorte) ======================= */
 const catalogInstances = [];
 function Catalog(root) {
   const locked = root.hasAttribute('data-locked-course');
@@ -3515,14 +3880,22 @@ function Catalog(root) {
     const pageItems = list.slice(st.page * SIZE, st.page * SIZE + SIZE);
     res.innerHTML = `<div class="table-wrap"><table class="data">
       <thead><tr><th>Desafío</th>${locked ? '' : '<th>Cohorte</th>'}<th>Dificultad</th><th>Vence</th><th>Evaluación</th><th>Recompensa</th><th>Estado</th><th><span class="sr-only">Acciones</span></th></tr></thead>
-      <tbody>${pageItems.map(c => `<tr>
-        <td class="cell-main"><div class="cell-title">${c.title}</div><div class="cell-sub">${c.req ? '<span class="badge badge-required">Obligatorio</span>' : ''}<span>${c.type}</span></div></td>
-        ${locked ? '' : `<td>${c.course}</td>`}
-        <td><span class="diff"><span class="pips" data-level="${c.diff}" aria-hidden="true"><i></i><i></i><i></i></span>${DIFF[c.diff]}</span></td>
-        <td class="num" style="white-space:nowrap">${c.due ? short(c.due) : c.done ? '—' : 'Sin fecha'}</td>
-        <td class="reward-cell"><span>${c.pass}% para aprobar</span><span>${c.retries} ${c.retries === 1 ? 'reintento' : 'reintentos'}</span></td><td class="reward-cell"><span class="xp-text">+${c.xp} XP</span><span>${c.coins} monedas</span></td>
-        <td>${c.published ? '<span class="badge badge-success">Publicado</span>' : '<span class="badge badge-outline">Borrador</span>'}</td>
-        <td><div class="row-actions"><button class="icon-btn sm" aria-label="Editar ${c.title}"><svg class="icon icon-sm"><use href="#i-pencil"/></svg></button><button class="icon-btn sm" aria-label="Vista previa de ${c.title}"><svg class="icon icon-sm"><use href="#i-eye"/></svg></button></div></td>
+      <tbody>${pageItems.map(c => `<tr class="catalog-challenge-card">
+        <td class="cell-main">
+          <div class="catalog-grid-only"><div class="cell-title">${c.title}</div><div class="cell-sub">${c.req ? '<span class="badge badge-required">Obligatorio</span>' : ''}<span>${c.type}</span></div></div>
+          <div class="catalog-card-only catalog-card-main">
+            <div class="catalog-card-kicker"><span class="catalog-card-number num">#${String(c.id).padStart(2, '0')}</span>${c.req ? '<span class="badge badge-required">Obligatorio</span>' : ''}</div>
+            <div class="cell-title">${c.title}</div>
+            <div class="cell-sub"><span>${c.type}</span>${locked ? '' : `<span class="catalog-course-inline">${c.course}</span>`}</div>
+          </div>
+        </td>
+        ${locked ? '' : `<td class="catalog-course">${c.course}</td>`}
+        <td class="catalog-difficulty"><span class="diff"><span class="pips" data-level="${c.diff}" aria-hidden="true"><i></i><i></i><i></i></span>${DIFF[c.diff]}</span></td>
+        <td class="catalog-due num"><span class="catalog-grid-only">${c.due ? short(c.due) : c.done ? '—' : 'Sin fecha'}</span><span class="catalog-card-only catalog-card-line">${icon('i-calendar', 'icon icon-sm')}<span>${c.due ? `Vence ${short(c.due)}` : 'Sin fecha límite'}</span></span></td>
+        <td class="reward-cell catalog-evaluation"><span class="catalog-grid-only catalog-grid-stack"><span>${c.pass}% para aprobar</span><span>${c.retries} ${c.retries === 1 ? 'reintento' : 'reintentos'}</span></span><span class="catalog-card-only catalog-card-line">${icon('i-survey', 'icon icon-sm')}<span>${c.pass}% para aprobar <span aria-hidden="true">·</span> ${c.retries} ${c.retries === 1 ? 'intento' : 'intentos'}</span></span></td>
+        <td class="reward-cell catalog-reward"><span class="catalog-grid-only catalog-grid-stack"><span class="xp-text">+${c.xp} XP</span><span>${c.coins} monedas</span></span><span class="catalog-card-only catalog-card-reward-content"><span class="xp-text">+${c.xp} XP</span><span>${c.coins} monedas</span></span></td>
+        <td class="catalog-state">${c.published ? '<span class="badge badge-success"><span aria-hidden="true">●</span> Publicado</span>' : '<span class="badge badge-outline"><span aria-hidden="true">○</span> Borrador</span>'}</td>
+        <td class="catalog-actions"><div class="row-actions"><button class="icon-btn sm" type="button" title="Editar ${c.title}" aria-label="Editar ${c.title}"><svg class="icon icon-sm"><use href="#i-pencil"/></svg></button><button class="icon-btn sm" type="button" title="Vista previa de ${c.title}" aria-label="Vista previa de ${c.title}"><svg class="icon icon-sm"><use href="#i-eye"/></svg></button></div></td>
       </tr>`).join('')}</tbody></table></div>`;
   }
   form.addEventListener('input', e => { const { name, value, checked, type } = e.target; st[name] = type === 'checkbox' ? checked : value; st.page = 0; render(); });
@@ -6590,102 +6963,7 @@ $('#quiz-form').addEventListener('change', () => {
   $('#quiz-hint').textContent = answered < 2 ? 'Respondé todas las preguntas para poder entregar. Se guarda solo mientras avanzás.' : 'Listo para entregar. Después de entregar no vas a poder cambiar las respuestas.';
 });
 
-/* ======================= cuestionario builder (profesor) ======================= */
-const questions = [
-  { text: '¿Cuál es la complejidad de la búsqueda binaria?', mode: 'Una correcta', options: ['O(log n)', 'O(n)', 'O(n log n)'], correct: [0], points: 40, penalty: false, open: false },
-  { text: '', mode: 'Una correcta', options: ['', ''], correct: [0], points: '', penalty: false, open: true },
-];
-function qIssues(q) {
-  const out = [];
-  if (!q.text.trim()) out.push('Falta el enunciado.');
-  const empty = q.options.map((o, i) => o.trim() ? null : i + 1).filter(Boolean);
-  if (empty.length) out.push(`${empty.length > 1 ? 'Las opciones' : 'La opción'} ${empty.join(' y ')} ${empty.length > 1 ? 'están vacías' : 'está vacía'}.`);
-  if (!Number(q.points)) out.push('Falta el puntaje.');
-  return out;
-}
-function renderBuilder() {
-  $('#q-list').innerHTML = questions.map((q, qi) => {
-    const issues = qIssues(q);
-    return `<article class="card studs q-card" data-q="${qi}">
-      <div class="q-head">
-        <span class="q-num">${qi + 1}</span>
-        <span class="q-title">${q.text || '<span class="muted">Pregunta sin enunciado</span>'}</span>
-        ${issues.length ? '<span class="badge badge-gold">Incompleta</span>' : '<span class="badge badge-success">Lista</span>'}
-        <label class="sr-only" for="pts-${qi}">Puntaje de la pregunta ${qi + 1}</label>
-        <input class="control num points" id="pts-${qi}" type="number" min="0" max="100" placeholder="Puntaje" value="${q.points}" data-field="points" ${!Number(q.points) ? 'aria-invalid="true"' : ''} />
-        <button class="icon-btn sm" type="button" data-toggle aria-expanded="${q.open}" aria-label="${q.open ? 'Contraer' : 'Editar'} pregunta ${qi + 1}">${icon(q.open ? 'i-x' : 'i-pencil', 'icon icon-sm')}</button>
-        <button class="icon-btn sm" type="button" data-del aria-label="Quitar pregunta ${qi + 1}" style="color:var(--urgent)">${icon('i-trash', 'icon icon-sm')}</button>
-      </div>
-      ${q.open ? `<div class="q-body">
-        ${issues.length ? `<ul class="q-issues">${issues.map(s => `<li>${s}</li>`).join('')}</ul>` : ''}
-        <label class="field"><span class="req">Enunciado</span><textarea class="control" data-field="text" placeholder="Escribí la consigna" ${!q.text ? 'aria-invalid="true"' : ''}>${q.text}</textarea></label>
-        <div class="form-grid">
-          <label class="field">Cómo se corrige<select class="control" data-field="mode"><option ${q.mode === 'Una correcta' ? 'selected' : ''}>Una correcta</option><option ${q.mode === 'Varias correctas' ? 'selected' : ''}>Varias correctas</option></select>
-            <span class="hint">${q.mode === 'Una correcta' ? 'El alumno elige una sola opción. Si es la correcta, suma el puntaje.' : 'El alumno puede marcar varias. Suma en proporción a las correctas.'}</span></label>
-          <label class="toggle" style="align-self:start; margin-top:22px"><input type="checkbox" data-field="penalty" ${q.penalty ? 'checked' : ''} />Resta si elige una incorrecta</label>
-        </div>
-        <div class="field"><span>Opciones</span>
-          ${q.options.map((o, oi) => `<div class="opt-row">
-            <button class="mark" type="button" data-mark="${oi}" aria-pressed="${q.correct.includes(oi)}">${icon('i-tick', 'icon icon-sm')}${q.correct.includes(oi) ? 'Correcta' : 'Marcar'}</button>
-            <input class="control" data-opt="${oi}" value="${o}" placeholder="Texto de la opción ${oi + 1}" aria-label="Opción ${oi + 1}" ${!o ? 'aria-invalid="true"' : ''} />
-          </div>`).join('')}
-          <div><button class="btn btn-quiet btn-sm" type="button" data-addopt>${icon('i-plus', 'icon icon-sm')}Agregar opción</button></div>
-        </div>
-      </div>` : ''}
-    </article>`;
-  }).join('') || `<div class="empty">${icon('i-list')}<p>Agregá una pregunta nueva o del banco para empezar.</p></div>`;
-  renderSum();
-}
-function renderSum() {
-  const sum = questions.reduce((s, q) => s + (Number(q.points) || 0), 0);
-  const firstBad = questions.findIndex(q => qIssues(q).length);
-  const cls = sum === 100 ? 'ok' : sum > 100 ? 'over' : '';
-  const msg = !questions.length ? 'Agregá al menos una pregunta.'
-    : firstBad >= 0 ? `Completá la pregunta ${firstBad + 1}: ${qIssues(questions[firstBad]).join(' ')}`
-    : sum !== 100 ? `Los puntajes tienen que sumar 100 (${sum > 100 ? 'sobran' : 'faltan'} ${Math.abs(100 - sum)}).` : 'Todo listo para guardar.';
-  const ok = questions.length && firstBad < 0 && sum === 100;
-  $('#sum-bar').innerHTML = `
-    <div class="meter ${cls}"><div class="sum-label"><span>Puntaje total</span><span class="num">${sum} / 100</span></div><div class="bar"><span style="width:${Math.min(sum, 100)}%"></span></div></div>
-    <button class="btn btn-ghost btn-sm" type="button" data-even ${questions.length ? '' : 'disabled'}>Repartir en partes iguales</button>
-    <button class="btn btn-primary" type="button" ${ok ? '' : 'disabled'}>Guardar cuestionario</button>
-    <p class="sum-msg ${ok ? 'ok' : ''}" role="status">${msg}</p>`;
-}
-$('#q-list').addEventListener('input', e => {
-  const card = e.target.closest('[data-q]'); if (!card) return;
-  const q = questions[card.dataset.q];
-  if (e.target.dataset.field === 'penalty') q.penalty = e.target.checked;
-  else if (e.target.dataset.field) q[e.target.dataset.field] = e.target.value;
-  if (e.target.dataset.opt) q.options[e.target.dataset.opt] = e.target.value;
-  const t = card.querySelector('.q-title'); if (t) t.innerHTML = q.text || '<span class="muted">Pregunta sin enunciado</span>';
-  renderSum();
-});
-$('#q-list').addEventListener('change', e => { if (e.target.dataset.field === 'mode') { questions[e.target.closest('[data-q]').dataset.q].mode = e.target.value; renderBuilder(); } });
-$('#q-list').addEventListener('focusout', e => { if (e.target.matches('[data-opt],[data-field="text"],[data-field="points"]')) setTimeout(renderBuilder, 0); });
-$('#q-list').addEventListener('click', e => {
-  const card = e.target.closest('[data-q]'); if (!card) return;
-  const qi = Number(card.dataset.q), q = questions[qi];
-  if (e.target.closest('[data-toggle]')) q.open = !q.open;
-  else if (e.target.closest('[data-del]')) questions.splice(qi, 1);
-  else if (e.target.closest('[data-addopt]')) q.options.push('');
-  else if (e.target.closest('[data-mark]')) {
-    const oi = Number(e.target.closest('[data-mark]').dataset.mark);
-    q.correct = q.mode === 'Una correcta' ? [oi] : q.correct.includes(oi) ? q.correct.filter(x => x !== oi) : [...q.correct, oi];
-  } else return;
-  renderBuilder();
-});
-$('#sum-bar').addEventListener('click', e => {
-  if (!e.target.closest('[data-even]') || !questions.length) return;
-  const base = Math.floor(100 / questions.length);
-  questions.forEach((q, i) => q.points = base + (i < 100 - base * questions.length ? 1 : 0));
-  renderBuilder();
-});
-$('#add-custom').addEventListener('click', () => { questions.forEach(q => q.open = false); questions.push({ text: '', mode: 'Una correcta', options: ['', ''], correct: [0], points: '', penalty: false, open: true }); renderBuilder(); });
-$('#bank-pick').addEventListener('change', e => { $('#add-bank').disabled = !e.target.value; });
-$('#add-bank').addEventListener('click', () => {
-  const v = $('#bank-pick').value; if (!v) return;
-  questions.push({ text: v, mode: 'Una correcta', options: ['Opción A', 'Opción B', 'Opción C'], correct: [0], points: '', penalty: false, open: false });
-  $('#bank-pick').value = ''; $('#add-bank').disabled = true; renderBuilder();
-});
+/* El editor docente de cuestionarios se inicializa en js/teacher-quiz.js. */
 
 /* ======================= insignias ======================= */
 const BADGE_ART = {
@@ -6727,6 +7005,29 @@ nbForm.addEventListener('input', nbCheck); nbForm.addEventListener('change', nbC
 $('#new-badge-btn').addEventListener('click', () => { nbForm.hidden = !nbForm.hidden; $('#new-badge-btn').setAttribute('aria-expanded', String(!nbForm.hidden)); if (!nbForm.hidden) $('#nb-name').focus(); });
 $('#nb-cancel').addEventListener('click', () => { nbForm.reset(); nbForm.hidden = true; $('#new-badge-btn').setAttribute('aria-expanded', 'false'); nbCheck(); });
 
+/* Primera etapa del alta: solo se conserva la familia en la URL, sin guardar un desafío. */
+const challengeCreationDestinations = {
+  teorico: 'cuestionario-nuevo',
+  practico: 'crear-desafio-practico'
+};
+function syncChallengeCreationType() {
+  const type = new URLSearchParams(location.hash.split('?')[1] || '').get('tipo');
+  $$('#challenge-type-form input[name="family"]').forEach(input => { input.checked = input.value === type; });
+  $('#challenge-type-continue').disabled = !Object.hasOwn(challengeCreationDestinations, type);
+}
+$('#challenge-type-form').addEventListener('change', event => {
+  const type = event.target.value;
+  if (!Object.hasOwn(challengeCreationDestinations, type)) return;
+  history.replaceState(history.state, '', `#crear-desafio?tipo=${type}`);
+  syncChallengeCreationType();
+});
+$('#challenge-type-form').addEventListener('submit', event => {
+  event.preventDefault();
+  const type = $('#challenge-type-form input[name="family"]:checked')?.value;
+  if (!Object.hasOwn(challengeCreationDestinations, type)) return;
+  location.hash = `${challengeCreationDestinations[type]}?tipo=${type}`;
+});
+
 /* ======================= drawers ======================= */
 document.addEventListener('click', e => { const t = e.target.closest('[data-open]'); if (t) $('#' + t.dataset.open).showModal(); });
 $('#dd-submit').addEventListener('click', () => {
@@ -6737,6 +7038,72 @@ $('#dd-submit').addEventListener('click', () => {
   $('#t-hint').textContent = bad ? 'Escribí un título para el desafío.' : 'Hasta 100 caracteres.';
   if (bad) { t.focus(); return; }
   $('#drawer-desafio').close();
+});
+
+/* ======================= motor de desafíos · profesor ======================= */
+$('#teacher-rules-form')?.addEventListener('submit', e => {
+  e.preventDefault();
+  showToast('Reglas del desafío guardadas', 'success', 'i-tick');
+});
+$('#teacher-rules-form')?.addEventListener('reset', () => {
+  requestAnimationFrame(() => showToast('Se restauraron los valores del formulario', 'info', 'i-refresh'));
+});
+
+const teacherLibrarySearch = $('#teacher-library-search');
+const teacherLibraryPager = $('#teacher-library-pager');
+if (teacherLibrarySearch && teacherLibraryPager) {
+  const PAGE_SIZE = 8;
+  const rows = $$('#teacher-library-table tbody tr');
+  const state = { query: '', page: 0 };
+  const render = () => {
+    const matches = rows.filter(row => !state.query || row.textContent.toLocaleLowerCase('es').includes(state.query));
+    const pages = Math.max(1, Math.ceil(matches.length / PAGE_SIZE));
+    state.page = Math.min(state.page, pages - 1);
+    const pageRows = new Set(matches.slice(state.page * PAGE_SIZE, (state.page + 1) * PAGE_SIZE));
+    rows.forEach(row => { row.hidden = !pageRows.has(row); });
+    $('#teacher-library-empty').hidden = matches.length !== 0;
+    $('#teacher-library-table').closest('.table-wrap').hidden = matches.length === 0;
+    teacherLibraryPager.innerHTML = matches.length ? pagerHTML(state.page, PAGE_SIZE, matches.length, 'desafíos') : '';
+  };
+  teacherLibrarySearch.addEventListener('input', event => {
+    state.query = event.target.value.trim().toLocaleLowerCase('es');
+    state.page = 0;
+    render();
+  });
+  onPager(teacherLibraryPager, page => { state.page = page; render(); });
+  render();
+}
+
+document.addEventListener('click', e => {
+  const cancel = e.target.closest('[data-cancel-attempt]');
+  if (cancel) {
+    const row = cancel.closest('tr');
+    const status = $('[data-attempt-status]', row);
+    status.className = 'badge badge-outline teacher-attempt-status';
+    status.textContent = 'Anulado';
+    cancel.innerHTML = `${icon('i-tick', 'icon icon-sm')}Intento anulado`;
+    cancel.classList.remove('danger');
+    cancel.setAttribute('aria-label', 'Intento anulado');
+    cancel.title = 'Este intento ya fue anulado';
+    cancel.disabled = true;
+    showToast('Intento anulado', 'success', 'i-tick');
+    return;
+  }
+  const clone = e.target.closest('[data-clone-challenge]');
+  if (clone) {
+    const title = $('.cell-title', clone.closest('tr')).textContent;
+    clone.disabled = true;
+    clone.innerHTML = `${icon('i-tick', 'icon icon-sm')}Clonado`;
+    showToast(`${title} se agregó a tu catálogo`, 'success', 'i-copy');
+    return;
+  }
+  const preview = e.target.closest('[data-library-preview]');
+  if (preview) {
+    showToast(`Vista previa: ${preview.dataset.libraryPreview}`, 'info', 'i-eye');
+    return;
+  }
+  const version = e.target.closest('[data-version-detail]');
+  if (version) showToast(`Detalle de cambios ${version.dataset.versionDetail}`, 'info', 'i-clock');
 });
 
 /* ======================= sub-tabs (static panels) ======================= */
@@ -7757,6 +8124,13 @@ const PARENT = {
   quiz: 'desafios',
   ranking: 'desafios',
   'cuestionario-nuevo': 'desafios',
+  'cuestionario-pregunta': 'desafios',
+  'crear-desafio': 'desafios',
+  'crear-desafio-practico': 'desafios',
+  'seguimiento-desafios': 'desafios',
+  'reglas-desafios': 'desafios',
+  'versiones-desafios': 'desafios',
+  'biblioteca-desafios': 'desafios',
 
   // Economía
   marketplace: 'banco',
@@ -7836,10 +8210,10 @@ const SUBMENUS = {
       title: 'Desafíos Docente',
       sections: [
         {
-          label: 'Gestión de Retos',
+          label: 'Desafíos',
           items: [
-            { id: 'sub-pdesafios-all', href: '#desafios', label: 'Lista de Desafíos', icon: 'i-flame', match: h => h === 'desafios' },
-            { id: 'sub-pdesafios-new', href: '#cuestionario-nuevo', label: 'Nuevo Cuestionario', meta: 'Editor interactivo', icon: 'i-plus', match: h => h === 'cuestionario-nuevo' }
+            { id: 'sub-pdesafios-all', href: '#desafios', label: 'Catálogo de desafíos', meta: 'Tus desafíos', icon: 'i-flame', match: h => h === 'desafios' || (PARENT[h] === 'desafios' && h !== 'biblioteca-desafios') },
+            { id: 'sub-pdesafios-library', href: '#biblioteca-desafios', label: 'Biblioteca de desafíos', meta: 'Explorar y reutilizar', icon: 'i-cards', match: h => h === 'biblioteca-desafios' }
           ]
         }
       ]
@@ -7916,15 +8290,65 @@ const SUBMENUS = {
 
 let currentRole = 'alumno', currentScreen = 'dashboard';
 let subpanelClosedByUser = false;
+let transientSubpanelEngaged = false;
+let transientSubpanelCloseTimer = null;
+let transientSubpanelPointerInside = false;
+
+function isTransientSubpanel(navId) {
+  return currentRole === 'profesor' && navId === 'desafios';
+}
+
+function syncTransientSubpanelPosition() {
+  const sidebar = $('#sidebar');
+  const subpanel = $('#subpanel');
+  if (!sidebar || !subpanel?.classList.contains('subpanel-overlay')) return;
+  const scrim = $('#subpanel-scrim');
+  const railRect = sidebar.getBoundingClientRect();
+  const top = Math.max(0, railRect.top);
+  const bottom = Math.min(window.innerHeight, railRect.bottom);
+  [subpanel, scrim].filter(Boolean).forEach(element => {
+    element.style.setProperty('--subpanel-overlay-left', `${railRect.right}px`);
+    element.style.setProperty('--subpanel-overlay-top', `${top}px`);
+    element.style.setProperty('--subpanel-overlay-height', `${Math.max(0, bottom - top)}px`);
+  });
+}
+
+function clearTransientSubpanelCloseTimer() {
+  if (transientSubpanelCloseTimer === null) return;
+  clearTimeout(transientSubpanelCloseTimer);
+  transientSubpanelCloseTimer = null;
+}
+
+function keepTransientSubpanelOpen() {
+  transientSubpanelEngaged = true;
+  clearTransientSubpanelCloseTimer();
+  syncTransientSubpanelPosition();
+}
+
+function scheduleTransientSubpanelClose() {
+  clearTransientSubpanelCloseTimer();
+  transientSubpanelCloseTimer = setTimeout(() => {
+    transientSubpanelCloseTimer = null;
+    const challengeNav = $('.rail-item[data-screen="desafios"]');
+    const subpanel = $('#subpanel');
+    const focusInside = challengeNav?.matches(':focus-visible') || subpanel?.matches(':focus-within');
+    if (!transientSubpanelPointerInside && !focusInside && subpanel?.dataset.currentNav === 'desafios') {
+      transientSubpanelEngaged = false;
+      closeSubpanel(false);
+    }
+  }, 300);
+}
 
 function openSubpanel(navId = null) {
   const shell = $('.shell');
   const subpanel = $('#subpanel');
+  const scrim = $('#subpanel-scrim');
   if (shell) shell.classList.remove('subpanel-collapsed');
   if (subpanel) {
     subpanel.classList.remove('collapsed');
     subpanel.setAttribute('aria-hidden', 'false');
   }
+  scrim?.classList.toggle('is-visible', Boolean(subpanel?.classList.contains('subpanel-overlay')));
   subpanelClosedByUser = false;
   const activeNav = navId || subpanel?.dataset.currentNav;
   if (activeNav) {
@@ -7942,11 +8366,19 @@ function openSubpanel(navId = null) {
 function closeSubpanel(userInitiated = false) {
   const shell = $('.shell');
   const subpanel = $('#subpanel');
+  const scrim = $('#subpanel-scrim');
+  const closingTransientPanel = subpanel?.classList.contains('subpanel-overlay');
   if (shell) shell.classList.add('subpanel-collapsed');
   if (subpanel) {
     subpanel.classList.add('collapsed');
     subpanel.setAttribute('aria-hidden', 'true');
     delete subpanel.dataset.currentNav;
+  }
+  scrim?.classList.remove('is-visible');
+  if (closingTransientPanel) {
+    transientSubpanelEngaged = false;
+    transientSubpanelPointerInside = false;
+    clearTransientSubpanelCloseTimer();
   }
   if (userInitiated) subpanelClosedByUser = true;
   $$('.rail-item[data-subpanel-open]').forEach(el => el.removeAttribute('data-subpanel-open'));
@@ -8160,6 +8592,16 @@ function updateSubpanel(navId, hashFull, forceOpen = false) {
   const subpanel = $('#subpanel');
   if (!subpanel) return;
 
+  const useOverlay = isTransientSubpanel(navId);
+  subpanel.classList.toggle('subpanel-overlay', useOverlay);
+  if (useOverlay) {
+    syncTransientSubpanelPosition();
+  } else {
+    subpanel.style.removeProperty('--subpanel-overlay-left');
+    subpanel.style.removeProperty('--subpanel-overlay-top');
+    subpanel.style.removeProperty('--subpanel-overlay-height');
+  }
+
   const tagEl = $('#subpanel-tag');
   const titleEl = $('#subpanel-title');
   const bodyEl = $('#subpanel-body');
@@ -8264,6 +8706,11 @@ function updateSubpanel(navId, hashFull, forceOpen = false) {
         else a.removeAttribute('aria-current');
       });
     }
+  }
+
+  if (isTransientSubpanel(navId) && !forceOpen && !transientSubpanelEngaged) {
+    closeSubpanel(false);
+    return;
   }
 
   openSubpanel(navId);
@@ -8424,10 +8871,20 @@ function route() {
   currentScreen = id;
   const navId = PARENT[id] || id;
 
+  if (id === 'crear-desafio') syncChallengeCreationType();
+
+  // El panel contextual de Desafíos es temporal: toda navegación cancela su
+  // timeout y lo cierra antes de actualizar el destino activo.
+  if ($('#subpanel')?.classList.contains('subpanel-overlay')) {
+    closeSubpanel(false);
+  }
+
   let unitParam = null;
+  let challengeParam = null;
   if (queryString) {
     const qParams = new URLSearchParams(queryString);
     unitParam = qParams.get('u');
+    challengeParam = qParams.get('challenge');
   }
   if (id === 'curso') {
     const cObj = findCourse(decodeURIComponent(arg || 'MSI'));
@@ -8445,6 +8902,9 @@ function route() {
     }
   } else {
     currentActiveUnit = null;
+  }
+  if (['seguimiento-desafios', 'reglas-desafios', 'versiones-desafios'].includes(id)) {
+    syncTeacherChallengeSelection(challengeParam);
   }
 
   $$('.rail-item, .bottom-nav-item').forEach(a => {
@@ -8483,14 +8943,18 @@ function route() {
     $('#pending-title').textContent = link ? link.getAttribute('data-tooltip') || link.textContent.trim() : 'Página';
   }
   el.hidden = false;
+  window.TeacherQuiz?.route(id);
   el.style.animation = 'none'; el.offsetHeight; el.style.animation = '';
   applyError(el);
   window.scrollTo(0, 0);
+  if (id === 'desafios' && challengeParam) {
+    teacherSourceCatalogInstances.forEach(instance => instance.focusChallenge(challengeParam));
+  }
 
   // Visibilidad del widget flotante de Tutor IA en cursos y desafíos (exclusivo de rol alumno)
   const tutorWrap = $('#course-tutor-fab-wrap');
   if (tutorWrap) {
-    const isTutorVisible = currentRole === 'alumno' && ['curso', 'cursos', 'quiz', 'desafios'].includes(id);
+    const isTutorVisible = currentRole === 'alumno' && ['curso', 'cursos', 'quiz', 'desafios', 'seguimiento-desafios', 'reglas-desafios', 'versiones-desafios', 'biblioteca-desafios'].includes(id);
     tutorWrap.hidden = !isTutorVisible;
     if (!isTutorVisible) {
       $('#tutor-chat-popup')?.setAttribute('hidden', '');
@@ -8535,6 +8999,9 @@ document.addEventListener('keydown', e => {
 $('#subpanel-close-btn')?.addEventListener('click', () => {
   closeSubpanel(true);
 });
+$('#subpanel-scrim')?.addEventListener('click', () => {
+  closeSubpanel(true);
+});
 
 /* Toggle del temario desde la cabecera de la materia */
 document.addEventListener('click', e => {
@@ -8553,10 +9020,15 @@ document.addEventListener('click', e => {
   }
 });
 
-/* Al hacer clic en cualquier materia o enlace dentro del sub-panel, navegar manteniendo la barra contextual si corresponde */
+/* Al navegar desde el panel temporal, cerrar inmediatamente sin fijarlo. */
 $('#subpanel')?.addEventListener('click', e => {
   const item = e.target.closest('.subpanel-item');
   if (!item) return;
+  const subpanel = $('#subpanel');
+  if (subpanel?.dataset.currentNav === 'desafios' && isTransientSubpanel('desafios')) {
+    closeSubpanel(false);
+    return;
+  }
   // Permitir la navegación fluida
   subpanelClosedByUser = false;
 });
@@ -8591,6 +9063,12 @@ document.addEventListener('click', e => {
     // Si abro una sección con submenú desde inicio (o cualquier página), alternar/abrir el subpanel
     e.preventDefault();
 
+    if (isTransientSubpanel(targetNav)) {
+      keepTransientSubpanelOpen();
+      updateSubpanel(targetNav, location.hash.slice(1) || targetNav, true);
+      return;
+    }
+
     if (isAlreadyOpen && currentSubNav === targetNav) {
       // Ya está abierto mostrando esta misma categoría: alternar (cerrar)
       closeSubpanel(true);
@@ -8603,6 +9081,51 @@ document.addEventListener('click', e => {
     closeSubpanel(false);
   }
 });
+
+/* Desafíos docente: icono + panel forman una única zona de hover. */
+document.addEventListener('pointermove', e => {
+  if (!isTransientSubpanel('desafios')) return;
+  const challengeNav = e.target.closest('.rail-item[data-screen="desafios"]');
+  const subpanel = $('#subpanel');
+  const overSubpanel = e.target.closest('#subpanel') === subpanel && subpanel?.dataset.currentNav === 'desafios';
+  const pointerInside = Boolean(challengeNav || overSubpanel);
+  const panelIsOpen = Boolean(
+    subpanel &&
+    !subpanel.classList.contains('collapsed') &&
+    subpanel.dataset.currentNav === 'desafios'
+  );
+
+  if (pointerInside) {
+    transientSubpanelPointerInside = true;
+    keepTransientSubpanelOpen();
+    if (challengeNav && !panelIsOpen) {
+      updateSubpanel('desafios', location.hash.slice(1) || 'desafios', true);
+    }
+    return;
+  }
+
+  transientSubpanelPointerInside = false;
+  if (panelIsOpen && transientSubpanelCloseTimer === null) {
+    scheduleTransientSubpanelClose();
+  }
+}, { passive:true });
+$('#sidebar')?.addEventListener('focusin', e => {
+  if (!e.target.closest('.rail-item[data-screen="desafios"]') || !isTransientSubpanel('desafios')) return;
+  keepTransientSubpanelOpen();
+  updateSubpanel('desafios', location.hash.slice(1) || 'desafios', true);
+});
+$('#sidebar')?.addEventListener('focusout', e => {
+  if (!e.target.closest('.rail-item[data-screen="desafios"]') || !isTransientSubpanel('desafios')) return;
+  scheduleTransientSubpanelClose();
+});
+$('#subpanel')?.addEventListener('focusin', () => {
+  if ($('#subpanel')?.dataset.currentNav === 'desafios' && isTransientSubpanel('desafios')) keepTransientSubpanelOpen();
+});
+$('#subpanel')?.addEventListener('focusout', () => {
+  if ($('#subpanel')?.dataset.currentNav === 'desafios' && isTransientSubpanel('desafios')) scheduleTransientSubpanelClose();
+});
+window.addEventListener('scroll', syncTransientSubpanelPosition, { passive:true });
+window.addEventListener('resize', syncTransientSubpanelPosition);
 
 /* Viewport change */
 const mq = matchMedia('(max-width: 860px)');
@@ -8827,7 +9350,9 @@ window.addEventListener('keydown', e => {
 });
 
 /* ---- boot ---- */
+renderTeacherChallengePickers();
 $$('[data-challenge-list]').forEach(el => ChallengeList(el));
+$$('[data-teacher-source-catalog]').forEach(el => TeacherSourceCatalog(el));
 $$('[data-catalog]').forEach(el => Catalog(el));
 renderRecentCourses();
 renderTimeline();
@@ -8835,7 +9360,6 @@ renderStudentCourses();
 renderCohorts();
 renderInventory();
 renderHero();
-renderBuilder();
 renderBadges();
 setTheme(store.get('tpi-theme') || 'dark');
 setSkin(store.get('tpi-skin') || 'gamer');
@@ -8845,5 +9369,6 @@ populateInlineDocenteOptions();
 </script>
 
 <script src="js/login.js"></script>
+<script src="js/teacher-quiz.js"></script>
 </body>
 </html>
