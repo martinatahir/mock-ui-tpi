@@ -520,7 +520,7 @@
           <button class="btn btn-secondary btn-sm" type="button" data-open="dialog-configurar-materia" title="Configurar y ver detalle de cursada">
             <svg class="icon icon-sm"><use href="#i-book"/></svg>Detalle de cursada
           </button>
-          <button class="btn btn-primary btn-sm edit-mode-control" type="button" data-open="dialog-asignar-profesores" data-admin-only>
+          <button class="btn btn-primary btn-sm edit-mode-control" type="button" id="btn-topbar-asignar-docente" data-admin-only title="Desplegar equipo docente e incorporar">
             <svg class="icon icon-sm"><use href="#i-users"/></svg>Asignar docente
           </button>
           <button class="btn btn-secondary btn-sm" type="button" data-open="dialog-gestionar-vitrina" style="color:var(--accent-gold); border-color:rgba(245,158,11,0.35); background:rgba(245,158,11,0.1);">
@@ -615,10 +615,66 @@
               </div>
             </summary>
             <div class="cockpit-accordion-body">
+              <!-- Barra de Asignación Rápida Inline (Solo en Modo Edición - Opción 1) -->
+              <div class="inline-docente-assign-card edit-mode-control" id="inline-docente-assign-card">
+                <div class="inline-docente-assign-header">
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <span class="inline-docente-pulse-badge">● MODO EDICIÓN</span>
+                    <span class="inline-docente-title">Incorporar Docente a la Cohorte</span>
+                  </div>
+                  <span class="muted" style="font-size:12px;">Filtro por cátedra y asignación directa sin modales</span>
+                </div>
+
+                <form class="inline-docente-form" id="form-inline-docente" onsubmit="return false;">
+                  <div class="inline-docente-field">
+                    <label for="inline-docente-materia" class="inline-docente-label">
+                      <svg class="icon icon-xs"><use href="#i-book"/></svg>
+                      <span>Cátedra / Materia</span>
+                    </label>
+                    <select class="control sm" id="inline-docente-materia" aria-label="Filtrar por materia">
+                      <option value="MSI" selected>Metodología II (MSI)</option>
+                      <option value="ProgIV">Programación IV</option>
+                      <option value="BDII">Bases de Datos II</option>
+                      <option value="InglesII">Inglés II</option>
+                      <option value="TODAS">Todas las Cátedras</option>
+                    </select>
+                  </div>
+
+                  <div class="inline-docente-field">
+                    <label for="inline-docente-profesor" class="inline-docente-label">
+                      <svg class="icon icon-xs"><use href="#i-user"/></svg>
+                      <span>Docente UTN</span>
+                    </label>
+                    <select class="control sm" id="inline-docente-profesor" aria-label="Docente a incorporar" required>
+                      <!-- Poblado dinámicamente -->
+                    </select>
+                  </div>
+
+                  <div class="inline-docente-field">
+                    <label for="inline-docente-permiso" class="inline-docente-label">
+                      <svg class="icon icon-xs"><use href="#i-lock"/></svg>
+                      <span>Permiso</span>
+                    </label>
+                    <select class="control sm" id="inline-docente-permiso" aria-label="Permiso en la cohorte">
+                      <option value="Profesor con escritura" selected>Profesor con escritura</option>
+                      <option value="Gestor">Gestor (Control total)</option>
+                      <option value="Ayudante de Cátedra">Ayudante de Cátedra</option>
+                    </select>
+                  </div>
+
+                  <div class="inline-docente-action">
+                    <button class="btn btn-primary btn-sm" id="btn-inline-asignar-docente" type="button">
+                      <svg class="icon icon-sm"><use href="#i-plus"/></svg>
+                      <span>Asignar</span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+
               <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; flex-wrap:wrap;">
                 <div class="search-bar sm" style="flex:1; min-width:220px;">
                   <svg class="search-icon"><use href="#i-search"/></svg>
-                  <input class="search-input" type="search" id="team-search-q" placeholder="Buscar docente por nombre o email..." aria-label="Buscar docente" oninput="renderTeamTable()" />
+                  <input class="search-input" type="search" id="team-search-q" placeholder="Buscar docente asignado por nombre o email..." aria-label="Buscar docente asignado" oninput="renderTeamTable()" />
                   <button class="search-clear" type="button" id="team-search-clear" aria-label="Limpiar búsqueda" style="display:none;" onclick="$('#team-search-q').value=''; this.style.display='none'; renderTeamTable();"><svg class="icon icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
                 </div>
 
@@ -632,12 +688,9 @@
                     <li class="combobox-option is-selected" role="option" data-value="" aria-selected="true">Todos</li>
                     <li class="combobox-option" role="option" data-value="Gestor" aria-selected="false">Gestor</li>
                     <li class="combobox-option" role="option" data-value="Profesor con escritura" aria-selected="false">Profesor con escritura</li>
+                    <li class="combobox-option" role="option" data-value="Ayudante de Cátedra" aria-selected="false">Ayudante de Cátedra</li>
                   </ul>
                 </div>
-
-                <button class="btn btn-primary btn-sm edit-mode-control" type="button" data-open="dialog-asignar-profesores" style="font-family:'Chakra Petch', sans-serif; font-weight:700;">
-                  <svg class="icon icon-sm"><use href="#i-plus"/></svg>Asignar Docente
-                </button>
               </div>
 
               <div class="table-wrap">
@@ -2439,48 +2492,7 @@
   </div>
 </dialog>
 
-<!-- ================= Modal: Asignar / Editar Docente de la Cohorte ================= -->
-<dialog class="modal modal-md studs" id="dialog-asignar-profesores" aria-labelledby="h-ap-title">
-  <div style="display:flex; flex-direction:column; width:100%;">
-    <div class="modal-head">
-      <div>
-        <h2 id="h-ap-title" class="display" style="font-size:18px; margin:0;">ASIGNAR DOCENTE</h2>
-        <p class="muted" id="h-ap-desc" style="font-size:13px; margin:2px 0 0;">Incorporá un profesor o ayudante de cátedra a esta cohorte.</p>
-      </div>
-      <button class="icon-btn sm" type="button" onclick="$('#dialog-asignar-profesores').close()" aria-label="Cerrar"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
-    </div>
-    <form class="modal-body" id="form-asignar-profesores" onsubmit="return false;" style="gap:16px;">
-      <input type="hidden" id="asig-prof-edit-id" value="" />
-      <label class="field">
-        <span class="req">Docente a incorporar</span>
-        <select class="control" id="asig-prof-select" required>
-          <option value="">Seleccionar de la nómina docente UTN...</option>
-          <option value="Carlos Gómez">Carlos Gómez (carlos.gomez@frc.utn.edu.ar)</option>
-          <option value="Sarah Jenkins">Sarah Jenkins (sarah.jenkins@frc.utn.edu.ar)</option>
-          <option value="Federico Rossi">Federico Rossi (federico.rossi@frc.utn.edu.ar)</option>
-          <option value="Valeria Domínguez">Valeria Domínguez (valeria.dominguez@frc.utn.edu.ar)</option>
-          <option value="Fabio">Fabio (fabio@frc.utn.edu.ar)</option>
-          <option value="Martín Ríos">Martín Ríos (martin.rios@frc.utn.edu.ar)</option>
-          <option value="Laura Pérez">Laura Pérez (laura.perez@frc.utn.edu.ar)</option>
-          <option value="Diego Suárez">Diego Suárez (diego.suarez@frc.utn.edu.ar)</option>
-        </select>
-      </label>
 
-      <label class="field">
-        <span class="req">Rol académico en la cohorte</span>
-        <select class="control" id="asig-prof-rol" required>
-          <option value="Profesor con escritura">Jefe de Trabajos Prácticos (JTP)</option>
-          <option value="Gestor">Profesor Titular (Gestor)</option>
-          <option value="Ayudante de Cátedra">Ayudante de Cátedra</option>
-        </select>
-      </label>
-    </form>
-    <div class="modal-foot">
-      <button class="btn btn-quiet" type="button" onclick="$('#dialog-asignar-profesores').close()">Cancelar</button>
-      <button class="btn btn-primary" type="button" id="btn-confirm-asignar-docente">Asignar a la Cohorte</button>
-    </div>
-  </div>
-</dialog>
 
 <!-- ================= Modal: Gestión de Padrón CSV (gestioss_padron.jpg) ================= -->
 <dialog class="modal modal-md studs" id="dialog-gestion-padron" aria-labelledby="h-gp-title">
@@ -4367,11 +4379,53 @@ const ENROLL = [
 
 let currentCourse = null;
 
+// Padrón Docente Universitario UTN para asignación rápida filtrada por materia
+const UTN_DOCENTES_POOL = [
+  { name: 'Carlos Gómez', email: 'carlos.gomez@frc.utn.edu.ar', catedras: ['MSI', 'ProgIV'], defaultRole: 'Profesor Adjunto' },
+  { name: 'Sarah Jenkins', email: 'sarah.jenkins@frc.utn.edu.ar', catedras: ['InglesII'], defaultRole: 'Profesora Titular' },
+  { name: 'Federico Rossi', email: 'federico.rossi@frc.utn.edu.ar', catedras: ['ProgIV', 'MSI'], defaultRole: 'Jefe de Trabajos Prácticos (JTP)' },
+  { name: 'Valeria Domínguez', email: 'valeria.dominguez@frc.utn.edu.ar', catedras: ['BDII'], defaultRole: 'Profesora Asociada' },
+  { name: 'Gabriel Medina', email: 'gabriel.medina@frc.utn.edu.ar', catedras: ['MSI', 'BDII'], defaultRole: 'Ayudante de Cátedra' },
+  { name: 'Luciana Morales', email: 'luciana.morales@frc.utn.edu.ar', catedras: ['ProgIV'], defaultRole: 'Jefa de Trabajos Prácticos' },
+  { name: 'Agustín Pereyra', email: 'agustin.pereyra@frc.utn.edu.ar', catedras: ['MSI'], defaultRole: 'Ayudante de Cátedra' },
+  { name: 'Mariana Castro', email: 'mariana.castro@frc.utn.edu.ar', catedras: ['BDII', 'ProgIV'], defaultRole: 'Profesora Adjunta' }
+];
+
+function populateInlineDocenteOptions() {
+  const matSelect = $('#inline-docente-materia');
+  const profSelect = $('#inline-docente-profesor');
+  if (!matSelect || !profSelect) return;
+
+  const mat = matSelect.value;
+  const currentNames = new Set(DOCENTES_COHORTE.map(d => d.name.toLowerCase()));
+  const available = UTN_DOCENTES_POOL.filter(p => {
+    const matchMat = (mat === 'TODAS' || p.catedras.includes(mat));
+    const alreadyAssigned = currentNames.has(p.name.toLowerCase());
+    return matchMat && !alreadyAssigned;
+  });
+
+  const btnAsig = $('#btn-inline-asignar-docente');
+
+  if (available.length === 0) {
+    profSelect.innerHTML = `<option value="">(Sin docentes pendientes en esta cátedra)</option>`;
+    profSelect.disabled = true;
+    if (btnAsig) btnAsig.disabled = true;
+  } else {
+    profSelect.disabled = false;
+    if (btnAsig) btnAsig.disabled = false;
+    profSelect.innerHTML = available.map(p => `
+      <option value="${p.name}" data-email="${p.email}" data-role="${p.defaultRole}">
+        ${p.name} (${p.email}) · ${p.defaultRole}
+      </option>
+    `).join('');
+  }
+}
+
 function renderTeamTable() {
   const q = ($('#team-search-q')?.value || '').toLowerCase().trim();
   const cb = $('#team-filter-combobox');
   const perm = cb ? (cb.dataset.value || '') : ($('#team-filter-perm')?.value || '');
-  const filtered = DOCENTES_COHORTE.filter(d => (!q || d.name.toLowerCase().includes(q) || d.role.toLowerCase().includes(q) || d.email.toLowerCase().includes(q)) && (!perm || d.perm === perm));
+  const filtered = DOCENTES_COHORTE.filter(d => (!q || d.name.toLowerCase().includes(q) || (d.role || '').toLowerCase().includes(q) || d.email.toLowerCase().includes(q)) && (!perm || d.perm === perm));
   
   // Show/hide search clear button
   const clearBtn = $('#team-search-clear');
@@ -4381,52 +4435,52 @@ function renderTeamTable() {
   if (container) {
     container.innerHTML = filtered.length ? filtered.map(d => `
       <tr style="border-bottom:1px solid var(--border-subtle);" data-docente-id="${d.id}">
-        <td style="padding:12px 12px; color:var(--text-primary);">
-          <div style="font-weight:600;">${d.name}</div>
-          <div class="muted" style="font-size:11.5px;">${d.email}</div>
-        </td>
-        <td style="padding:12px 12px;">
-          <span style="color:${d.perm === 'Gestor' ? 'var(--accent-gold, #eab308)' : 'var(--text-primary)'}; font-weight:500;">${d.perm}</span>
-        </td>
-        <td style="padding:12px 12px; color:var(--text-muted); font-size:12.5px;">
-          ${d.date}
-        </td>
-        <td class="edit-mode-control" style="padding:12px 12px; text-align:right;">
-          <div style="display:inline-flex; align-items:center; gap:6px;">
-            <button class="btn btn-ghost btn-xs" type="button" title="Editar rol de ${d.name}" onclick="editDocenteCohorte('${d.id}')">
-              <svg class="icon icon-xs"><use href="#i-pencil"/></svg>Editar
-            </button>
-            <button class="btn btn-ghost btn-xs" type="button" title="Remover de la cohorte" style="color:var(--accent-danger);" onclick="removeDocenteCohorte('${d.id}')">
-              <svg class="icon icon-xs"><use href="#i-trash"/></svg>
-            </button>
+        <td style="padding:10px 12px; color:var(--text-primary);">
+          <div style="font-weight:600; display:flex; align-items:center; gap:6px;">
+            <span>${d.name}</span>
+            ${d.perm === 'Gestor' ? '<span class="badge badge-gold sm" style="font-size:10px; padding:1px 6px;">👑 Gestor</span>' : ''}
+          </div>
+          <div class="muted" style="font-size:11.5px; margin-top:2px;">
+            <span>${d.email}</span>
+            <span style="opacity:0.6;">·</span>
+            <span style="color:var(--text-muted);">${d.role || 'Docente UTN'}</span>
           </div>
         </td>
+        <td style="padding:10px 12px;">
+          <!-- En modo normal: vista limpia de permiso -->
+          <div class="docente-perm-normal" style="font-weight:500; font-size:13px; color:${d.perm === 'Gestor' ? 'var(--accent-gold, #eab308)' : 'var(--text-primary)'};">
+            ${d.perm}
+          </div>
+          <!-- En modo edición: selector directo inline para modificar permisos sin modal -->
+          <div class="edit-mode-control" style="margin-top:2px;">
+            <select class="control sm inline-perm-changer" aria-label="Cambiar permiso de ${d.name}" onchange="updateDocentePermisoInline('${d.id}', this.value)" style="height:28px; font-size:12px; padding:0 8px; width:auto; border-color:var(--border-subtle);">
+              <option value="Gestor" ${d.perm === 'Gestor' ? 'selected' : ''}>👑 Gestor</option>
+              <option value="Profesor con escritura" ${d.perm === 'Profesor con escritura' ? 'selected' : ''}>✏️ Con escritura</option>
+              <option value="Ayudante de Cátedra" ${d.perm === 'Ayudante de Cátedra' ? 'selected' : ''}>🎓 Ayudante</option>
+            </select>
+          </div>
+        </td>
+        <td style="padding:10px 12px; color:var(--text-muted); font-size:12px;">
+          ${d.date}
+        </td>
+        <td class="edit-mode-control" style="padding:10px 12px; text-align:right;">
+          <button class="btn btn-ghost btn-xs" type="button" title="Desvincular a ${d.name} de la cohorte" style="color:var(--accent-danger); font-size:12px;" onclick="removeDocenteCohorte('${d.id}')">
+            <svg class="icon icon-xs"><use href="#i-trash"/></svg>Desvincular
+          </button>
+        </td>
       </tr>
-    `).join('') : '<tr><td colspan="4" class="muted" style="padding:16px 12px; text-align:center;">No se encontraron docentes con ese criterio.</td></tr>';
+    `).join('') : '<tr><td colspan="4" class="muted" style="padding:18px 12px; text-align:center;">No se encontraron docentes con ese criterio.</td></tr>';
   }
   const label = $('#team-count-label');
   if (label) label.textContent = `(${filtered.length})`;
 }
 
-window.editDocenteCohorte = function(docId) {
+window.updateDocentePermisoInline = function(docId, newPerm) {
   const d = DOCENTES_COHORTE.find(item => item.id === String(docId));
   if (!d) return;
-  const modal = $('#dialog-asignar-profesores');
-  if (!modal) return;
-  $('#h-ap-title').textContent = 'EDITAR DOCENTE';
-  $('#h-ap-desc').textContent = `Modificar permisos o rol de ${d.name} en esta cohorte.`;
-  $('#btn-confirm-asignar-docente').textContent = 'Guardar Cambios';
-  $('#asig-prof-edit-id').value = d.id;
-  
-  const selProf = $('#asig-prof-select');
-  if (selProf) {
-    selProf.value = d.name;
-    selProf.disabled = true; // Can only edit their role/permissions
-  }
-  const selRol = $('#asig-prof-rol');
-  if (selRol) selRol.value = d.perm;
-
-  modal.showModal();
+  d.perm = newPerm;
+  renderTeamTable();
+  showToast(`Permiso de ${d.name} actualizado a "${newPerm}"`, 'success', 'i-tick');
 };
 
 window.removeDocenteCohorte = function(docId) {
@@ -4436,6 +4490,7 @@ window.removeDocenteCohorte = function(docId) {
   if (confirm(`¿Desvincular a ${d.name} (${d.perm}) de esta cohorte?`)) {
     DOCENTES_COHORTE.splice(idx, 1);
     renderTeamTable();
+    populateInlineDocenteOptions();
     showToast(`Docente ${d.name} desvinculado de la cohorte`, 'danger', 'i-trash');
   }
 };
@@ -4737,6 +4792,7 @@ function renderCourseAdmin(c) {
   currentCourse = c;
   if ($('#invite-code')) $('#invite-code').textContent = c.inviteCode || 'KAS5ZNBRT3';
   renderTeamTable();
+  populateInlineDocenteOptions();
   renderSections();
   renderOfficialPadron();
   renderEnroll();
@@ -4863,74 +4919,57 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-/* Asignar o Editar docente en la cohorte */
-$('#btn-confirm-asignar-docente')?.addEventListener('click', () => {
-  const editId = $('#asig-prof-edit-id')?.value;
-  const selProf = $('#asig-prof-select');
-  const selRol = $('#asig-prof-rol');
-  const perm = selRol?.value || 'Profesor con escritura';
-  const roleMap = {
-    'Gestor': 'Profesor Titular (Gestor)',
-    'Profesor con escritura': 'Jefe de Trabajos Prácticos (JTP)',
-    'Ayudante de Cátedra': 'Ayudante de Cátedra'
-  };
-
-  if (editId) {
-    const d = DOCENTES_COHORTE.find(item => item.id === String(editId));
-    if (d) {
-      d.perm = perm;
-      d.role = roleMap[perm] || perm;
-      renderTeamTable();
-      $('#dialog-asignar-profesores')?.close();
-      showToast(`Permisos de ${d.name} actualizados a "${perm}"`, 'success', 'i-tick');
-    }
-    return;
-  }
-
-  const name = selProf?.value;
-  if (!name) {
-    selProf?.focus();
-    return;
-  }
-  const emailMap = {
-    'Carlos Gómez': 'carlos.gomez@frc.utn.edu.ar',
-    'Sarah Jenkins': 'sarah.jenkins@frc.utn.edu.ar',
-    'Federico Rossi': 'federico.rossi@frc.utn.edu.ar',
-    'Valeria Domínguez': 'valeria.dominguez@frc.utn.edu.ar'
-  };
-  const initialsMap = {
-    'Carlos Gómez': 'CG',
-    'Sarah Jenkins': 'SJ',
-    'Federico Rossi': 'FR',
-    'Valeria Domínguez': 'VD'
-  };
-  DOCENTES_COHORTE.push({
-    id: String(DOCENTES_COHORTE.length + 1),
-    name,
-    email: emailMap[name] || `${name.toLowerCase().replace(' ', '.')}@frc.utn.edu.ar`,
-    perm,
-    role: roleMap[perm] || perm,
-    date: new Date().toLocaleDateString('es-AR'),
-    initials: initialsMap[name] || name.slice(0, 2).toUpperCase()
-  });
-  renderTeamTable();
-  $('#dialog-asignar-profesores')?.close();
-  if (selProf) selProf.value = '';
-  showToast(`Docente ${name} asignado a la cohorte`, 'success', 'i-tick');
+/* Asignar docente inline en la cohorte (Opción 1 - Sin modales) */
+$('#inline-docente-materia')?.addEventListener('change', () => {
+  populateInlineDocenteOptions();
 });
 
-// Reset modal state when opened for fresh assignment
-document.addEventListener('click', e => {
-  if (e.target.closest('[data-open="dialog-asignar-profesores"]')) {
-    $('#h-ap-title').textContent = 'ASIGNAR DOCENTE';
-    $('#h-ap-desc').textContent = 'Incorporá un profesor o ayudante de cátedra a esta cohorte.';
-    $('#btn-confirm-asignar-docente').textContent = 'Asignar a la Cohorte';
-    if ($('#asig-prof-edit-id')) $('#asig-prof-edit-id').value = '';
-    const selProf = $('#asig-prof-select');
-    if (selProf) {
-      selProf.value = '';
-      selProf.disabled = false;
-    }
+$('#btn-inline-asignar-docente')?.addEventListener('click', () => {
+  const profSelect = $('#inline-docente-profesor');
+  const permSelect = $('#inline-docente-permiso');
+  if (!profSelect || !permSelect) return;
+
+  const opt = profSelect.selectedOptions[0];
+  if (!opt || !opt.value) {
+    showToast('Seleccioná un docente para incorporar', 'warning', 'i-users');
+    return;
+  }
+
+  const name = opt.value;
+  const email = opt.dataset.email || `${name.toLowerCase().replace(/\s+/g, '.')}@frc.utn.edu.ar`;
+  const role = opt.dataset.role || 'Docente de Cátedra';
+  const perm = permSelect.value || 'Profesor con escritura';
+
+  const today = new Date();
+  const dStr = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
+
+  const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+
+  DOCENTES_COHORTE.push({
+    id: String(Date.now()),
+    name,
+    email,
+    perm,
+    role,
+    date: dStr,
+    initials
+  });
+
+  renderTeamTable();
+  populateInlineDocenteOptions();
+  showToast(`Docente ${name} asignado a la cohorte (${perm})`, 'success', 'i-tick');
+});
+
+// Botón de barra superior "Asignar docente": abre el acordeón y enfoca la barra inline
+$('#btn-topbar-asignar-docente')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  const acc = $('#accordion-docentes');
+  if (acc) {
+    acc.open = true;
+    acc.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    setTimeout(() => {
+      $('#inline-docente-profesor')?.focus();
+    }, 200);
   }
 });
 
@@ -7742,6 +7781,7 @@ setTheme(store.get('tpi-theme') || 'dark');
 setSkin(store.get('tpi-skin') || 'gamer');
 setPalette(store.get('tpi-palette') || 'electric');
 setRole(store.get('tpi-role') || 'alumno');
+populateInlineDocenteOptions();
 </script>
 
 <!-- MODAL DE CREACIÓN / CONFIGURACIÓN DE SECCIÓN DE CURSO -->

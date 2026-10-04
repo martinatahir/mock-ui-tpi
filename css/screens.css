@@ -4738,6 +4738,10 @@ body.course-edit-mode-on td.edit-mode-control,
   transition: border-color 0.15s ease;
 }
 
+.cockpit-accordion[open] {
+  overflow: visible;
+}
+
 .cockpit-accordion:hover {
   border-color: var(--border-highlight);
 }
@@ -4835,6 +4839,101 @@ body.course-edit-mode-on td.edit-mode-control,
 @keyframes cockpitFadeIn {
   from { opacity: 0; transform: translateY(-4px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- Barra de Asignación Rápida Inline de Docente (Modo Edición) ---- */
+.inline-docente-assign-card {
+  background: var(--bg-surface-alt);
+  border: 1px solid var(--border-highlight);
+  border-radius: var(--radius-card);
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  animation: cockpitFadeIn 0.2s ease-out;
+}
+
+[data-skin='gamer'] .inline-docente-assign-card {
+  border: 1.5px solid var(--accent-primary-fill);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+.inline-docente-assign-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.inline-docente-pulse-badge {
+  font-size: var(--fs-micro);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--accent-primary-fill);
+  background: color-mix(in srgb, var(--accent-primary-fill) 12%, transparent);
+  padding: 2px 8px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.inline-docente-title {
+  font-size: var(--fs-small);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.inline-docente-form {
+  display: grid;
+  grid-template-columns: 1.3fr 2.2fr 1.3fr auto;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+@media (max-width: 860px) {
+  .inline-docente-form {
+    grid-template-columns: 1fr 1fr;
+  }
+  .inline-docente-action {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 520px) {
+  .inline-docente-form {
+    grid-template-columns: 1fr;
+  }
+}
+
+.inline-docente-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.inline-docente-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.inline-docente-label .icon {
+  color: var(--accent-primary-fill);
+}
+
+.inline-docente-action {
+  display: flex;
+  align-items: flex-end;
+}
+
+.inline-docente-action .btn {
+  height: 32px;
+  white-space: nowrap;
 }
 
 /* Avatar Stack in Header */
