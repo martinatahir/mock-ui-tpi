@@ -569,15 +569,6 @@
               <h1 class="v3-hero-title" id="h-curso" data-course-name>
                 Metodología de Sistemas II
               </h1>
-              <div class="v3-hero-meta" data-course-meta>
-                <span>Materia Obligatoria</span>
-                <span class="hero-sep">·</span>
-                <span>👨‍🏫 Prof. Fabio</span>
-                <span class="hero-sep">·</span>
-                <span>📅 1° Cuatrimestre 2026</span>
-                <span class="hero-sep">·</span>
-                <span>📍 Modalidad Mixta (Aula Magna / Virtual)</span>
-              </div>
             </div>
 
             <div class="v3-hero-stats">
@@ -3992,20 +3983,6 @@ function fillCourseDetail(name, activeUnitNum = null) {
     const isOblig = c.type ? c.type.toUpperCase() : 'OBLIGATORIA';
     const comLabel = (c.comision || 'COMISIÓN 4K2').toUpperCase();
     el.textContent = `⚡ MATERIA ACTIVA · ${isOblig} · ${comLabel} · ${c.code || ''}`.replace(/\s+·\s+$/, '');
-  });
-
-  // Hero Meta
-  $$('[data-course-meta]').forEach(el => {
-    const modTxt = c.modalidad ? ` (${c.modalidad})` : ' (Modalidad Mixta)';
-    el.innerHTML = `
-      <span>${c.type ? `Materia ${c.type}` : 'Materia Obligatoria'}</span>
-      <span class="hero-sep">·</span>
-      <span>${c.comision || 'Comisión 4K2'}${modTxt}</span>
-      <span class="hero-sep">·</span>
-      <span>${c.period || '4to Cuatrimestre 2026'}</span>
-      <span class="hero-sep">·</span>
-      <span class="muted">${c.from || '10/10/2026'} – ${c.to || '31/12/2026'}</span>
-    `;
   });
 
   // Hero Invite Code & Copy Button
