@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="css/base.css?v=2" />
 <link rel="stylesheet" href="css/components.css?v=2" />
 <link rel="stylesheet" href="css/screens.css?v=2" />
+<link rel="stylesheet" href="css/login.css" />
 </head>
 <body>
 
@@ -69,6 +70,7 @@
   <symbol id="i-file" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></symbol>
   <symbol id="i-github" viewBox="0 0 24 24"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></symbol>
   <symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></symbol>
+  <symbol id="i-login" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="m10 17 5-5-5-5"/><path d="M15 12H3"/></symbol>
   <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></symbol>
   <symbol id="i-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></symbol>
   <symbol id="i-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
@@ -1832,6 +1834,144 @@
           <div class="skeleton skeleton-text" style="width:75%;"></div>
         </div>
       </section>
+    </section>
+
+    <!-- ================= LOGIN / REGISTRO (mock de acceso) ================= -->
+    <section class="screen" id="screen-login" aria-labelledby="lg-title">
+      <div class="login-stage">
+        <div class="login-wrap">
+
+          <!-- Mascota: la cabeza sigue el mouse, se tapa los ojos con la contraseña y festeja al terminar -->
+          <svg class="mascot" id="lg-mascot" data-mood="idle" viewBox="0 0 200 150" aria-hidden="true" focusable="false">
+            <g class="m-head" id="lg-head">
+              <line class="m-ant" x1="100" y1="36" x2="100" y2="18"/>
+              <circle class="m-bulb" cx="100" cy="12" r="7"/>
+              <rect class="m-ear" x="18" y="72" width="14" height="36" rx="5"/>
+              <rect class="m-ear" x="168" y="72" width="14" height="36" rx="5"/>
+              <rect class="m-body" x="30" y="36" width="140" height="112" rx="16"/>
+              <rect class="m-face" x="44" y="50" width="112" height="72" rx="10"/>
+              <g class="m-look" id="lg-look">
+                <circle class="m-eye" cx="76" cy="82" r="17"/>
+                <circle class="m-eye" cx="124" cy="82" r="17"/>
+                <g class="m-pupil-g" id="lg-pupils">
+                  <circle class="m-pupil" cx="76" cy="82" r="8"/><circle class="m-glint" cx="79" cy="79" r="2.6"/>
+                  <circle class="m-pupil" cx="124" cy="82" r="8"/><circle class="m-glint" cx="127" cy="79" r="2.6"/>
+                </g>
+                <circle class="m-lid" cx="76" cy="82" r="17.5"/>
+                <circle class="m-lid" cx="124" cy="82" r="17.5"/>
+                <path class="m-joy" d="M60 88 Q76 70 92 88"/>
+                <path class="m-joy" d="M108 88 Q124 70 140 88"/>
+                <ellipse class="m-cheek" cx="56" cy="104" rx="8" ry="4"/>
+                <ellipse class="m-cheek" cx="144" cy="104" rx="8" ry="4"/>
+                <path class="m-mouth m-mouth-smile" d="M88 106 Q100 115 112 106"/>
+                <path class="m-mouth m-mouth-flat" d="M90 109 H110"/>
+                <ellipse class="m-mouth m-mouth-o" cx="100" cy="108" rx="5" ry="6"/>
+              </g>
+              <rect class="m-hand m-hand-l" x="52" y="74" width="40" height="30" rx="13"/>
+              <rect class="m-hand m-hand-r" x="108" y="74" width="40" height="30" rx="13"/>
+            </g>
+          </svg>
+
+          <div class="login-card" id="lg-card">
+            <div class="login-head">
+              <h1 id="lg-title">Entrá a TPI 2026</h1>
+              <p id="lg-sub">Seguí con tu <b>legajo</b> o tu mail institucional.</p>
+            </div>
+
+            <div class="seg login-tabs" id="lg-tabs" role="group" aria-label="Acceso">
+              <button type="button" data-lg-mode="login" aria-pressed="true">Ingresar</button>
+              <button type="button" data-lg-mode="register" aria-pressed="false">Crear cuenta</button>
+            </div>
+
+            <ol class="login-steps" id="lg-steps" aria-label="Pasos del registro" hidden>
+              <li data-lg-dot="id"><span class="n">1</span><span class="t">Cuenta</span></li>
+              <li data-lg-dot="otp"><span class="n">2</span><span class="t">Verificación</span></li>
+              <li data-lg-dot="data"><span class="n">3</span><span class="t">Tus datos</span></li>
+            </ol>
+
+            <!-- Ingresar -->
+            <form class="login-step" data-lg-step="login" novalidate>
+              <label class="field">Legajo o mail
+                <input class="control" name="id" autocomplete="username" placeholder="40510 o nombre.apellido@frc.utn.edu.ar" />
+              </label>
+              <label class="field">Contraseña
+                <span class="pw-wrap">
+                  <input class="control" name="pw" type="password" autocomplete="current-password" data-lg-pw />
+                  <button class="pw-toggle" type="button" data-lg-toggle aria-label="Mostrar contraseña" aria-pressed="false"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-eye"/></svg></button>
+                </span>
+              </label>
+              <p class="login-msg" data-lg-msg role="alert"></p>
+              <div class="login-links">
+                <button class="login-lnk" type="button" data-lg-forgot>Olvidé mi contraseña</button>
+              </div>
+              <button class="btn btn-primary login-cta" type="submit">Ingresar<svg class="icon icon-sm" aria-hidden="true"><use href="#i-right"/></svg></button>
+              <div class="login-or" aria-hidden="true">o</div>
+              <button class="btn btn-secondary login-cta" type="button" data-lg-github><svg class="icon icon-sm" aria-hidden="true"><use href="#i-github"/></svg>Continuar con GitHub</button>
+            </form>
+
+            <!-- Registro · 1. un solo campo: mail o legajo -->
+            <form class="login-step" data-lg-step="id" novalidate hidden>
+              <label class="field">Legajo o mail
+                <input class="control" name="id" autocomplete="username" placeholder="40510 o nombre.apellido@frc.utn.edu.ar" />
+                <span class="hint">Si usás tu legajo, mandamos el código a tu mail institucional.</span>
+              </label>
+              <p class="login-msg" data-lg-msg role="alert"></p>
+              <button class="btn btn-primary login-cta" type="submit">Enviar código<svg class="icon icon-sm" aria-hidden="true"><use href="#i-right"/></svg></button>
+            </form>
+
+            <!-- Registro · 2. 2FA de 6 dígitos -->
+            <form class="login-step" data-lg-step="otp" novalidate hidden>
+              <div class="otp6" id="lg-otp" role="group" aria-label="Código de 6 dígitos"></div>
+              <p class="login-msg" data-lg-msg role="alert"></p>
+              <div class="login-links">
+                <button class="login-lnk" type="button" data-lg-change>Cambiar mail o legajo</button>
+                <button class="login-lnk" type="button" data-lg-resend>Reenviar código</button>
+              </div>
+              <button class="btn btn-primary login-cta" type="submit">Confirmar código<svg class="icon icon-sm" aria-hidden="true"><use href="#i-tick"/></svg></button>
+            </form>
+
+            <!-- Registro · 3. datos de la cuenta -->
+            <form class="login-step" data-lg-step="data" novalidate hidden>
+              <div class="field">
+                <span>Mail</span>
+                <span class="email-ok"><input class="control" name="mail" readonly aria-label="Mail verificado" /><span class="badge badge-success"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-tick"/></svg>Verificado</span></span>
+              </div>
+              <div class="login-row">
+                <label class="field">Nombre<input class="control" name="fn" autocomplete="given-name" /></label>
+                <label class="field">Apellido<input class="control" name="ln" autocomplete="family-name" /></label>
+              </div>
+              <div class="login-row">
+                <label class="field">DNI<input class="control" name="dni" inputmode="numeric" autocomplete="off" placeholder="Sin puntos" /></label>
+                <label class="field">Legajo<input class="control" name="leg" inputmode="numeric" autocomplete="off" /></label>
+              </div>
+              <label class="field">Usuario de GitHub <span class="hint">Opcional. Lo usamos para corregir tus entregas.</span>
+                <input class="control" name="gh" autocomplete="off" placeholder="tu-usuario" />
+              </label>
+              <div class="login-row">
+                <label class="field">Contraseña
+                  <span class="pw-wrap"><input class="control" name="p1" type="password" autocomplete="new-password" data-lg-pw /><button class="pw-toggle" type="button" data-lg-toggle aria-label="Mostrar contraseña" aria-pressed="false"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-eye"/></svg></button></span>
+                </label>
+                <label class="field">Repetila
+                  <span class="pw-wrap"><input class="control" name="p2" type="password" autocomplete="new-password" data-lg-pw /><button class="pw-toggle" type="button" data-lg-toggle aria-label="Mostrar contraseña" aria-pressed="false"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-eye"/></svg></button></span>
+                </label>
+              </div>
+              <label class="login-check"><input type="checkbox" name="terms" />Acepto las condiciones de uso de la plataforma y el tratamiento de mis datos académicos.</label>
+              <p class="login-msg" data-lg-msg role="alert"></p>
+              <button class="btn btn-primary login-cta" type="submit">Crear mi cuenta<svg class="icon icon-sm" aria-hidden="true"><use href="#i-tick"/></svg></button>
+            </form>
+
+            <!-- Final -->
+            <div class="login-step login-done" data-lg-step="done" hidden role="status">
+              <span class="tick"><svg class="icon" aria-hidden="true"><use href="#i-tick"/></svg></span>
+              <h2 id="lg-done-title">¡Cuenta creada!</h2>
+              <p>Te llevamos al inicio.</p>
+              <div class="login-progress" aria-hidden="true"><i></i></div>
+            </div>
+          </div>
+
+          <p class="login-foot">Mock de acceso · en esta demo, cualquier código de 6 dígitos sirve salvo <b>000000</b>.</p>
+        </div>
+      </div>
     </section>
 
     <!-- ================= placeholder ================= -->
@@ -5727,7 +5867,7 @@ function renderNav() {
     sidebarNav.innerHTML = tabs.map(renderItem).join('');
   }
   if (sidebarSecNav) {
-    sidebarSecNav.innerHTML = '';
+    sidebarSecNav.innerHTML = renderItem(['login', 'i-login', 'Login y registro (mock)']);
   }
 
   if (bottomNav) {
@@ -5996,7 +6136,7 @@ function setRole(r) {
   currentRole = r; root.dataset.role = r; store.set('tpi-role', r);
   $$('[data-role-btn]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.roleBtn === r)));
   renderNav(); renderProfile();
-  const allowed = [...NAV_TABS[r].map(i => i[0]), ...ACCOUNT_SCREENS[r], 'uikit'];
+  const allowed = [...NAV_TABS[r].map(i => i[0]), ...ACCOUNT_SCREENS[r], 'uikit', 'login'];
   // Check the screen in the URL, not the boot default, so deep links survive a role reset.
   const screen = location.hash.slice(1).split(/[/?]/)[0] || currentScreen;
   const target = PARENT[screen] || screen;
@@ -6228,5 +6368,6 @@ setRole(store.get('tpi-role') || 'alumno');
 
   </div>
 </div>
+<script src="js/login.js"></script>
 </body>
 </html>
