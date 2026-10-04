@@ -278,8 +278,8 @@ h1,h2,h3,p { margin:0; }
 }
 .sidebar .rail-item .nav-count {
   box-shadow: 0 0 0 2px var(--sidebar-bg, #0f172a);
-  background: var(--accent-danger-fill);
-  color: #ffffff;
+  background: var(--accent-primary-fill);
+  color: var(--on-accent-primary);
 }
 
 /* === Modo Arcade: Pulsadores Físicos de Fichín 3D === */

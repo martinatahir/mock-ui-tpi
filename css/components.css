@@ -10,10 +10,14 @@
   transition:transform .1s ease, background-color .15s ease, border-color .15s ease;
 }
 .btn:active { transform:translateY(var(--press-y)); }
-[data-skin='gamer'] .btn:not(.btn-quiet) { box-shadow:inset 0 -3px 0 rgba(0,0,0,.28); }
-[data-skin='gamer'] .btn-ghost { background:var(--bg-surface); border-color:var(--border-subtle); box-shadow:inset 0 -3px 0 rgba(0,0,0,.45); }
-[data-skin='gamer'] .btn-ghost:hover { background:var(--bg-surface-alt); border-color:var(--border-highlight); box-shadow:inset 0 -3px 0 rgba(0,0,0,.55); }
-[data-skin='gamer'] .btn:active { transform:translateY(1px); box-shadow:inset 0 -1px 0 rgba(0,0,0,.35); }
+.btn:focus-visible {
+  outline: 2px solid var(--accent-primary-fill);
+  outline-offset: 2px;
+}
+[data-skin='gamer'] .btn:not(.btn-quiet):not(.btn-ghost):not(.btn-toolbar-utility) { box-shadow:inset 0 -3px 0 rgba(0,0,0,.28); }
+[data-skin='gamer'] .btn-ghost { background:transparent; border-color:var(--border-subtle); box-shadow:none; }
+[data-skin='gamer'] .btn-ghost:hover { background:var(--bg-surface-alt); border-color:var(--border-highlight); }
+[data-skin='gamer'] .btn:active { transform:translateY(1px); }
 .btn-primary { background:var(--accent-primary-fill); color:var(--on-accent-primary); }
 .btn-secondary { background:var(--accent-secondary-fill); color:var(--on-accent-secondary); }
 .btn-gold { background:var(--accent-gold-fill); color:var(--on-accent-gold); }
@@ -37,14 +41,59 @@
 .linkbtn.big { font-size:inherit; color:inherit; text-decoration-thickness:2px; font-family:inherit; }
 
 /* ---- Badges / Etiquetas ---- */
-.badge { display:inline-flex; align-items:center; gap:4px; font-size:var(--fs-micro); font-weight:600; line-height:1; padding:5px 8px; border-radius:999px; white-space:nowrap; }
-[data-skin='gamer'] .badge { border-radius:2px; }
-.badge-required, .badge-primary { background:var(--accent-primary-fill); color:var(--on-accent-primary); }
-.badge-success { background:var(--accent-success-fill); color:var(--on-accent-success); }
-.badge-gold { background:var(--accent-gold-fill); color:var(--on-accent-gold); }
-.badge-danger { background:var(--accent-danger-fill); color:var(--on-accent-danger); }
-.badge-secondary { background:var(--accent-secondary-fill); color:var(--on-accent-secondary); }
-.badge-outline { background:transparent; border:1px solid var(--border-subtle); color:var(--text-muted); }
+.badge {
+  display:inline-flex; align-items:center; gap:5px;
+  font-size:var(--fs-micro); font-weight:600; line-height:1;
+  padding:4px 9px; border-radius:999px; white-space:nowrap;
+  background:var(--badge-neutral-bg, var(--bg-surface-alt));
+  color:var(--badge-neutral-text, var(--text-primary));
+  border:1px solid var(--badge-neutral-border, var(--border-subtle));
+  transition:background-color .15s ease, color .15s ease, border-color .15s ease;
+}
+[data-skin='gamer'] .badge {
+  border-radius:3px;
+  border-width:1.5px;
+  letter-spacing:.02em;
+}
+.badge-primary, .badge-required {
+  background:var(--badge-bg);
+  color:var(--badge-text);
+  border-color:var(--badge-border);
+}
+.badge-success {
+  background:var(--badge-success-bg);
+  color:var(--badge-success-text);
+  border-color:var(--badge-success-border);
+}
+.badge-gold, .badge-warning {
+  background:var(--badge-warning-bg);
+  color:var(--badge-warning-text);
+  border-color:var(--badge-warning-border);
+}
+.badge-danger {
+  background:var(--badge-danger-bg);
+  color:var(--badge-danger-text);
+  border-color:var(--badge-danger-border);
+}
+.badge-secondary {
+  background:var(--badge-bg);
+  color:var(--badge-text);
+  border-color:var(--badge-border);
+}
+.badge-outline {
+  background:transparent;
+  border:1px solid var(--border-subtle);
+  color:var(--text-muted);
+}
+.badge-quiet {
+  background:transparent;
+  border-color:transparent;
+  color:var(--text-muted);
+}
+.badge.sm {
+  padding:2px 6px;
+  font-size:11px;
+}
 
 /* ---- Tarjetas y Contenedores ---- */
 .card { background:var(--bg-surface); border:var(--border-width) solid var(--border-subtle); border-radius:var(--radius-card); padding:20px; box-shadow: var(--shadow-card, 0 1px 3px 0 rgba(15, 23, 42, 0.08)); }
@@ -253,6 +302,175 @@ select.control { padding-right:32px; appearance:none; cursor:pointer;
   box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.18), 0 1px 2px rgba(0,0,0,0.05);
 }
 
+/* ---- Combobox Universal (.combobox) ---- */
+.combobox {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-width: 140px;
+}
+
+.combobox-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  height: 38px;
+  padding: 0 12px;
+  background: var(--bg-surface);
+  border: var(--border-width) solid var(--border-subtle);
+  border-radius: var(--radius-control);
+  color: var(--text-primary);
+  font: inherit;
+  font-size: var(--fs-small);
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.combobox-trigger:hover {
+  border-color: var(--border-highlight);
+  background: var(--bg-surface-alt);
+}
+
+.combobox.is-open .combobox-trigger,
+.combobox-trigger:focus-visible {
+  border-color: var(--border-highlight);
+  box-shadow: 0 0 0 3px var(--focus-glow);
+  outline: none;
+}
+
+.combobox-label {
+  font-size: var(--fs-micro);
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.combobox-selected-text {
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  text-align: left;
+}
+
+.combobox-chevron {
+  color: var(--text-muted);
+  transition: transform 0.2s ease, color 0.15s ease;
+  flex-shrink: 0;
+}
+
+.combobox.is-open .combobox-chevron {
+  transform: rotate(180deg);
+  color: var(--accent-primary-fill);
+}
+
+/* Dropdown Menu Popover */
+.combobox-options {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  min-width: 100%;
+  width: max-content;
+  max-width: 280px;
+  max-height: 240px;
+  overflow-y: auto;
+  background: var(--bg-surface);
+  border: var(--border-width) solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.45), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+  padding: 4px;
+  margin: 0;
+  list-style: none;
+  z-index: 150;
+  animation: comboboxFadeIn 0.15s ease-out;
+}
+
+@keyframes comboboxFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.combobox-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 12px;
+  font-size: var(--fs-small);
+  color: var(--text-primary);
+  border-radius: var(--radius-control);
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.combobox-option:hover {
+  background: var(--bg-surface-alt);
+  color: var(--accent-primary-fill);
+}
+
+.combobox-option.is-selected {
+  background: color-mix(in srgb, var(--accent-primary-fill) 12%, transparent);
+  color: var(--accent-primary-fill);
+  font-weight: 700;
+}
+
+/* Compact Variant */
+.combobox.sm .combobox-trigger {
+  height: 32px;
+  padding: 0 10px;
+  font-size: var(--fs-micro);
+}
+
+.combobox.sm .combobox-option {
+  padding: 6px 10px;
+  font-size: var(--fs-micro);
+}
+
+/* --- Adaptación Modo Arcade (Gamer) --- */
+[data-skin='gamer'] .combobox-trigger {
+  border-radius: 4px;
+  border: 2px solid var(--border-subtle);
+  font-family: 'Chakra Petch', sans-serif;
+}
+
+[data-skin='gamer'] .combobox.is-open .combobox-trigger {
+  box-shadow: 2px 2px 0 #000, 0 0 8px var(--focus-glow);
+}
+
+[data-skin='gamer'] .combobox-options {
+  border-radius: 4px;
+  border: 2px solid var(--border-highlight);
+  box-shadow: 4px 4px 0 #000;
+  font-family: 'Chakra Petch', sans-serif;
+}
+
+[data-skin='gamer'] .combobox-option.is-selected {
+  background: rgba(0, 229, 255, 0.18);
+  border-left: 3px solid var(--accent-primary-fill, #00e5ff);
+}
+
+/* --- Adaptación Modo Sobrio (Normal) --- */
+[data-skin='sobrio'] .combobox-trigger {
+  border-radius: 6px;
+  border: 1px solid var(--border-subtle);
+  font-family: var(--font-body);
+}
+
+[data-skin='sobrio'] .combobox.is-open .combobox-trigger {
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.2);
+}
+
+[data-skin='sobrio'] .combobox-options {
+  border-radius: 6px;
+  border: 1px solid var(--border-subtle);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
 /* Legacy .search support */
 .search { position:relative; }
 .search > .icon { position:absolute; left:11px; bottom:10px; color:var(--text-muted); pointer-events:none; }
@@ -321,11 +539,203 @@ select.control { padding-right:32px; appearance:none; cursor:pointer;
   position:relative; overflow-x:auto; overscroll-behavior-x:contain; -webkit-overflow-scrolling:touch;
   border:var(--border-width) solid var(--border-subtle); border-radius:var(--radius-card); background:var(--bg-surface);
 }
-table.data { width:100%; border-collapse:collapse; font-size:var(--fs-ui); font-variant-numeric:tabular-nums; }
-table.data th, table.data td { text-align:left; padding:9px 14px; border-bottom:1px solid var(--border-subtle); vertical-align:middle; }
-table.data tr:last-child td { border-bottom:0; }
-table.data th { font-size:var(--fs-micro); font-weight:600; text-transform:uppercase; letter-spacing:.05em; color:var(--text-muted); background:var(--bg-surface-alt); white-space:nowrap; }
-[data-skin='gamer'] table.data th { font-family:var(--font-display); font-weight:400; font-size:var(--fs-micro); }
+table.data, table.data-table {
+  width:100%; border-collapse:collapse; font-size:var(--fs-ui); font-variant-numeric:tabular-nums;
+  background:var(--bg-surface); color:var(--text-primary);
+}
+table.data th, table.data td, table.data-table th, table.data-table td {
+  text-align:left; padding:10px 14px; border-bottom:1px solid var(--border-subtle); vertical-align:middle;
+}
+table.data tr:last-child td, table.data-table tr:last-child td { border-bottom:0; }
+table.data th, table.data-table th {
+  font-family:var(--font-body), 'IBM Plex Sans', sans-serif;
+  font-size:var(--fs-micro); font-weight:600; text-transform:uppercase; letter-spacing:.05em;
+  color:var(--text-muted); background:var(--bg-surface-alt); white-space:nowrap;
+}
+table.data tbody tr:hover, table.data-table tbody tr:hover {
+  background:color-mix(in srgb, var(--accent-primary-fill) 6%, transparent);
+}
+table.data-table.table-striped tbody tr:nth-child(even) {
+  background:color-mix(in srgb, var(--bg-surface-alt) 40%, transparent);
+}
+table.data-table.table-striped tbody tr:nth-child(even):hover {
+  background:color-mix(in srgb, var(--accent-primary-fill) 8%, transparent);
+}
+/* Institutional / Academic Roster Tables: Preserve legible sans-serif across all themes and skins */
+table.table-institutional th,
+#padron-official-table th {
+  font-family: var(--font-body), 'IBM Plex Sans', -apple-system, sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 11.5px !important;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Color distintivo en la cabecera del padrón */
+#padron-official-table thead tr {
+  background: var(--accent-primary-fill);
+}
+#padron-official-table thead th {
+  background: var(--accent-primary-fill) !important;
+  color: #ffffff !important;
+  border-bottom: 0 !important;
+}
+#padron-official-table thead th:hover {
+  background: color-mix(in srgb, var(--accent-primary-fill) 85%, #000) !important;
+}
+#padron-official-table thead th .sort-icon {
+  color: #ffffff !important;
+  opacity: 0.8;
+}
+
+/* Centrado de columnas en padrón */
+#padron-official-table th.col-center,
+#padron-official-table td.col-center {
+  text-align: center !important;
+}
+#padron-official-table th.col-center .th-content {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+}
+
+/* Action Dropdown Menu */
+.action-dropdown {
+  position: relative;
+  display: inline-block;
+}
+.action-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 220px;
+  background: var(--bg-surface);
+  border: var(--border-width) solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.25), 0 8px 10px -6px rgba(0, 0, 0, 0.15);
+  padding: 6px;
+  margin: 0;
+  list-style: none;
+  z-index: 150;
+  animation: comboboxFadeIn 0.15s ease-out;
+}
+[data-skin='gamer'] .action-dropdown-menu {
+  box-shadow: 3px 3px 0 #000;
+}
+.action-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  font-size: var(--fs-small);
+  font-weight: 500;
+  color: var(--text-primary);
+  border-radius: var(--radius-control);
+  cursor: pointer;
+  text-decoration: none;
+  background: transparent;
+  border: 0;
+  width: 100%;
+  text-align: left;
+  transition: background-color 0.12s ease, color 0.12s ease;
+  box-sizing: border-box;
+}
+.action-dropdown-item:hover,
+.action-dropdown-item:focus-visible {
+  background: var(--bg-surface-alt);
+  color: var(--accent-primary-fill);
+  outline: none;
+}
+.action-dropdown-divider {
+  height: 1px;
+  background: var(--border-subtle);
+  margin: 4px 0;
+}
+#padron-pager .pg-btn[aria-current='page'] {
+  background: var(--accent-primary-fill);
+  border-color: var(--accent-primary-fill);
+  color: var(--on-accent-primary, #ffffff);
+}
+#padron-pager .pg-btn:hover:not(:disabled):not([aria-current]) {
+  border-color: var(--accent-primary-fill);
+  background: color-mix(in srgb, var(--accent-primary-fill) 14%, transparent);
+}
+
+/* Paginador Balanceado de 3 Columnas */
+.pager-balanced {
+  display: grid !important;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+.pager-balanced .pager-summary {
+  justify-self: start;
+}
+.pager-balanced .pager-center-nav {
+  justify-self: center;
+  display: flex;
+  align-items: center;
+}
+.pager-balanced .pager-side-controls {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 680px) {
+  .pager-balanced {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .pager-balanced .pager-summary,
+  .pager-balanced .pager-center-nav,
+  .pager-balanced .pager-side-controls {
+    justify-self: center;
+  }
+}
+
+table.data th.sortable-th {
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+table.data th.sortable-th:hover {
+  background-color: color-mix(in srgb, var(--bg-surface-alt) 82%, var(--accent-primary-fill) 18%);
+  color: var(--text-primary);
+}
+table.data th.sortable-th:focus-visible {
+  outline: 2px solid var(--accent-primary-fill);
+  outline-offset: -2px;
+}
+.th-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.sort-icon {
+  display: inline-flex;
+  align-items: center;
+  opacity: 0.35;
+  transition: opacity 0.15s ease, transform 0.2s var(--ease-out, ease);
+}
+table.data th.sortable-th:hover .sort-icon {
+  opacity: 0.75;
+}
+table.data th.sortable-th[aria-sort="ascending"] .sort-icon {
+  opacity: 1;
+  color: var(--accent-primary-fill);
+  transform: rotate(180deg);
+}
+table.data th.sortable-th[aria-sort="descending"] .sort-icon {
+  opacity: 1;
+  color: var(--accent-primary-fill);
+  transform: rotate(0deg);
+}
 table.data td.r, table.data th.r { text-align:right; }
 table.data tbody tr:hover { background:color-mix(in srgb, var(--bg-surface-alt) 60%, transparent); }
 .cell-title { font-weight:600; }
