@@ -5444,3 +5444,167 @@ html:not([data-role="admin"]) [data-admin-only] {
 
 
 
+
+/* Creación inline (sin modal): cohorte en lugar de la grilla, sección al final del acordeón */
+@keyframes creator-reveal {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+.cohorte-creator {
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.cohorte-creator:not([hidden]) {
+  animation: creator-reveal 0.24s var(--ease-out) both;
+}
+.cohorte-creator .creator-card {
+  background: var(--bg-surface);
+  border: var(--border-width) solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+.cohorte-creator .wizard-steps {
+  border-top: 0;
+}
+.cohorte-creator .creator-body {
+  padding: 20px;
+}
+.cohorte-creator .creator-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 20px;
+  border-top: var(--border-width) solid var(--border-subtle);
+  background: var(--bg-surface-alt);
+}
+.cohorte-creator .creator-foot .spacer {
+  margin-right: auto;
+}
+
+.section-adder {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
+}
+.section-adder-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px;
+  background: transparent;
+  color: var(--text-muted);
+  border: 1.5px dashed var(--border-strong, var(--border-subtle));
+  border-radius: var(--radius-card);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+.section-adder-row:hover,
+.section-adder-row[aria-expanded='true'] {
+  color: var(--text-primary);
+  border-color: var(--accent-primary-fill);
+  background: var(--bg-surface-alt);
+}
+.section-adder-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.26s var(--ease-out);
+}
+.section-adder-panel[data-open='true'] {
+  grid-template-rows: 1fr;
+}
+.section-adder-panel > .section-adder-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+.section-adder-form {
+  background: var(--bg-surface);
+  border: var(--border-width) solid var(--accent-primary-fill);
+  border-radius: var(--radius-card);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.section-adder-form details > summary {
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 4px 0;
+}
+.section-adder-form details[open] > summary {
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cohorte-creator:not([hidden]) { animation: none; }
+  .section-adder-panel { transition: none; }
+}
+
+/* Stepper de alta de sección */
+.section-adder-form .sec-steps {
+  margin: -18px -20px 0;
+  border-radius: var(--radius-card) var(--radius-card) 0 0;
+  border-top: 0;
+}
+.section-adder-form .sec-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.section-adder-form .sec-pane[hidden] { display: none; }
+.section-adder-form .sec-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  border-top: var(--border-width) solid var(--border-subtle);
+  padding-top: 12px;
+}
+.section-adder-form .sec-foot .spacer { margin-right: auto; }
+.sec-item-add {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+.sec-item-add .control { flex: 1 1 220px; min-width: 0; }
+.sec-item-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.sec-item-list:empty { display: none; }
+.sec-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  background: var(--bg-surface-alt);
+  border: var(--border-width) solid var(--border-subtle);
+  border-radius: var(--radius-control);
+}
+.sec-item-icon { display: inline-flex; color: var(--text-muted); }
+.sec-item-title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13.5px; font-weight: 600; }
+
+/* Editor de actividad embebido en el stepper de sección */
+#sec-item-editor-mount .inline-activity-card {
+  margin: 0;
+  background: var(--bg-surface-alt);
+  border: var(--border-width) solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  padding: 16px;
+}
+.sec-item-list .badge { flex-shrink: 0; }

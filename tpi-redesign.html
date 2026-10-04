@@ -669,10 +669,7 @@
                 </div>
               </div>
               <div style="display: flex; align-items: center; gap: 10px;">
-                <button type="button" class="btn btn-primary btn-sm edit-mode-control" id="btn-open-create-section" style="font-family: 'Chakra Petch', sans-serif; font-weight: 700;">
-                  <svg class="icon icon-sm"><use href="#i-plus"/></svg>
-                  <span>Crear Sección</span>
-                </button>
+                
                 <button type="button" class="btn btn-ghost btn-sm" id="btn-toggle-all-sections" style="border-radius: 6px;">
                   <svg class="icon icon-sm"><use href="#i-chevron"/></svg>
                   <span id="txt-toggle-all-sections">Colapsar todo</span>
@@ -682,6 +679,78 @@
 
             <!-- Listado de Secciones Acordeón Dinámico de la Materia -->
             <div class="course-sections-list" id="course-sections-accordion-wrap"></div>
+
+            <!-- Alta de sección al final del listado (reemplaza al modal) -->
+            <div class="section-adder edit-mode-control" id="section-adder">
+              <button type="button" class="section-adder-row" id="section-adder-toggle" aria-expanded="false" aria-controls="section-adder-panel">
+                <svg class="icon icon-sm" aria-hidden="true"><use href="#i-plus"/></svg>
+                <span>Añadir nueva sección</span>
+              </button>
+              <div class="section-adder-panel" id="section-adder-panel" data-open="false">
+                <div class="section-adder-inner">
+                  <form class="section-adder-form" id="form-create-course-section" novalidate>
+                    <div class="wizard-steps sec-steps" aria-label="Pasos para crear la sección">
+                      <div class="wizard-step active" id="sec-step-indicator-1"><span class="wizard-step-num">1</span><span>Datos de la sección</span></div>
+                      <span class="wizard-step-line"></span>
+                      <div class="wizard-step" id="sec-step-indicator-2"><span class="wizard-step-num">2</span><span>Recursos y actividades <span class="muted" style="font-weight:500;">(opcional)</span></span></div>
+                    </div>
+
+                    <div class="sec-pane" id="sec-pane-1">
+                      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:14px;">
+                        <label class="field">
+                          <span class="req">Título de la sección</span>
+                          <input class="control" type="text" id="new-sec-title" placeholder="Ej: Unidad 5 · Microservicios y RabbitMQ" required />
+                        </label>
+                        <label class="field">
+                          <span>Recompensa XP</span>
+                          <input class="control num" type="number" id="new-sec-xp" value="300" min="0" />
+                        </label>
+                      </div>
+                      <label class="field">
+                        <span>Descripción u objetivos</span>
+                        <textarea class="control" id="new-sec-desc" rows="2" placeholder="Resumen breve para que los estudiantes conozcan las metas de la unidad..."></textarea>
+                      </label>
+                      <details>
+                        <summary>Apariencia</summary>
+                        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:14px;">
+                          <label class="field">
+                            <span>Ícono</span>
+                            <input class="control" type="text" id="new-sec-icon" value="⚡" maxlength="4" />
+                          </label>
+                          <label class="field">
+                            <span>Estilo de banner</span>
+                            <select class="control" id="new-sec-banner">
+                              <option value="blue">Cinta Azul Cátedra (Institucional TUP)</option>
+                              <option value="navy">Banner Azul Marino con Logo</option>
+                              <option value="gamer">Neon Arcade Gamer</option>
+                              <option value="gold">Dorado (Hito / Parcial)</option>
+                            </select>
+                          </label>
+                        </div>
+                      </details>
+                    </div>
+
+                    <div class="sec-pane" id="sec-pane-2" hidden>
+                      <p class="muted" style="font-size:13px; margin:0;">Sumá material y desafíos ahora o dejalo para después: podés agregarlos cuando quieras desde la sección.</p>
+                      <ul class="sec-item-list" id="sec-item-list" aria-live="polite"></ul>
+                      <div id="sec-item-editor-mount"></div>
+                      <button type="button" class="section-adder-row" id="sec-item-add">
+                        <svg class="icon icon-sm" aria-hidden="true"><use href="#i-plus"/></svg>
+                        <span>Añadir actividad / recurso</span>
+                      </button>
+                      <p class="muted sec-item-empty" id="sec-item-empty" style="font-size:13px; margin:0;">Todavía no agregaste nada. Podés crear la sección vacía y sumar contenido después.</p>
+                    </div>
+
+                    <div class="sec-foot">
+                      <button type="button" class="btn btn-quiet spacer" id="section-adder-cancel">Cancelar</button>
+                      <button type="button" class="btn btn-quiet" id="sec-btn-prev" hidden>Anterior</button>
+                      <button type="button" class="btn btn-primary" id="sec-btn-next">Siguiente</button>
+                      <button type="submit" class="btn btn-primary" id="sec-btn-finish" hidden><svg class="icon icon-sm" aria-hidden="true"><use href="#i-plus"/></svg>Guardar sección</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -1373,13 +1442,135 @@
         <div class="head-tools">
           <span data-view-toggle="cohortes"></span>
           <button class="btn btn-quiet" type="button" id="btn-crear-curso-base" title="Crear un curso base"><svg class="icon icon-sm"><use href="#i-book"/></svg>Crear curso base</button>
-          <button class="btn btn-primary" type="button" data-open="dialog-crear-cohorte"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Crear cohorte</button>
+          <button class="btn btn-primary" type="button" id="btn-crear-cohorte" aria-expanded="false" aria-controls="cohorte-creator"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Crear cohorte</button>
         </div>
       </div>
       <div class="data">
         <div class="tabs" role="tablist" aria-label="Estado de las cohortes" id="cohort-tabs"></div>
         <div class="course-grid" id="cohort-grid" data-view-target="cohortes"></div>
         <div class="st-pager" id="cohort-pager"></div>
+        <!-- Crear cohorte: vista inline que ocupa el lugar de la grilla (sin modal) -->
+        <div class="cohorte-creator" id="cohorte-creator" hidden>
+          <nav class="campus-breadcrumb" aria-label="Miga de pan">
+            <a href="#cursos" id="cohorte-creator-back-crumb">Cursos</a>
+            <span class="sep">&gt;</span>
+            <span class="current">Nueva cohorte</span>
+          </nav>
+          <div class="page-head" style="margin-bottom:0;">
+            <div>
+              <h2 id="h-wz-title" class="display" style="font-size:20px; margin:0;">Crear nueva cohorte</h2>
+              <p class="muted" style="font-size:13px; margin:2px 0 0;">Configuración académica integral de comisión y período de cursada.</p>
+            </div>
+            <button class="btn btn-quiet btn-sm" type="button" id="cohorte-creator-back"><svg class="icon icon-sm" style="transform:rotate(90deg);" aria-hidden="true"><use href="#i-chevron"/></svg>Volver a cursos</button>
+          </div>
+          <div class="creator-card">
+            <!-- Indicador de 3 pasos -->
+    <div class="wizard-steps" id="cohorte-wizard-steps">
+      <div class="wizard-step active" id="wz-step-indicator-1">
+        <span class="wizard-step-num">1</span>
+        <span>1. Curso y Docentes</span>
+      </div>
+      <span class="wizard-step-line"></span>
+      <div class="wizard-step" id="wz-step-indicator-2">
+        <span class="wizard-step-num">2</span>
+        <span>2. Período y Modalidad</span>
+      </div>
+      <span class="wizard-step-line"></span>
+      <div class="wizard-step" id="wz-step-indicator-3">
+        <span class="wizard-step-num">3</span>
+        <span>3. Cupos y Confirmación</span>
+      </div>
+    </div>
+            <form class="creator-body" id="form-wizard-cohorte" onsubmit="return false;">
+      <!-- PASO 1: Curso y Docentes -->
+      <div class="wizard-pane" id="wz-pane-1" style="display:flex; flex-direction:column; gap:16px;">
+        <label class="field">
+          <span class="req">Curso Base</span>
+          <select class="control" id="wz-curso-base" required>
+            <option value="MSI" selected>Metodología de Sistemas II (MSI)</option>
+            <option value="ProgIV">Programación IV</option>
+            <option value="InglesII">Inglés II</option>
+            <option value="GDS">Gestión de Desarrollo de Software</option>
+            <option value="BDII">Base de Datos II</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Cuerpo Docente Asignado</span>
+          <div class="chips-wrap" id="wz-docentes-chips" style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px;">
+            <span class="chip active" style="font-size:12px; display:inline-flex; align-items:center; gap:6px;">
+              Gestor Demo <button type="button" style="border:0; background:transparent; color:inherit; cursor:pointer; font-weight:700;">×</button>
+            </span>
+            <span class="chip" style="font-size:12px; display:inline-flex; align-items:center; gap:6px;">
+              Fabio <button type="button" style="border:0; background:transparent; color:inherit; cursor:pointer; font-weight:700;">×</button>
+            </span>
+          </div>
+          <div class="search-input-wrap">
+            <svg class="icon icon-sm"><use href="#i-search"/></svg>
+            <input class="control sm" id="wz-search-docentes" placeholder="Buscar y añadir profesores por nombre o email..." />
+          </div>
+        </label>
+      </div>
+
+      <!-- PASO 2: Período y Modalidad -->
+      <div class="wizard-pane" id="wz-pane-2" style="display:none; flex-direction:column; gap:16px;">
+        <div class="form-grid">
+          <label class="field"><span class="req">Fecha de inicio</span><input class="control" type="date" id="wz-fecha-inicio" value="2026-10-09" /></label>
+          <label class="field"><span class="req">Fecha de fin</span><input class="control" type="date" id="wz-fecha-fin" value="2026-11-08" /></label>
+        </div>
+
+        <div class="field">
+          <span>Modalidad de cursada</span>
+          <div class="seg" role="group" aria-label="Modalidad de cursada" id="wz-modalidad-seg" style="display:flex; width:100%;">
+            <button type="button" data-mod="presencial" aria-pressed="false" style="flex:1;">Presencial (Física)</button>
+            <button type="button" data-mod="virtual" aria-pressed="true" style="flex:1;">Virtual (Online)</button>
+            <button type="button" data-mod="hibrida" aria-pressed="false" style="flex:1;">Híbrida (Combinada)</button>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <label class="field"><span>Horario desde (opcional)</span><input class="control" type="time" id="wz-hora-desde" value="18:30" /></label>
+          <label class="field"><span>Horario hasta (opcional)</span><input class="control" type="time" id="wz-hora-hasta" value="22:30" /></label>
+        </div>
+
+        <label class="field">
+          <span>Aula / Espacio o enlace de reunión (opcional)</span>
+          <input class="control" id="wz-aula" placeholder="Ej. Aula 304 / https://meet.google.com/xyz" value="https://meet.google.com/xyz" />
+        </label>
+      </div>
+
+      <!-- PASO 3: Cupos y Confirmación -->
+      <div class="wizard-pane" id="wz-pane-3" style="display:none; flex-direction:column; gap:16px;">
+        <div class="form-grid">
+          <label class="field">
+            <span>Cupo máximo de estudiantes (opcional)</span>
+            <input class="control num" type="number" id="wz-cupo" placeholder="Ilimitado si queda vacío" />
+          </label>
+          <label class="field">
+            <span>Fecha límite de inscripción (opcional)</span>
+            <input class="control" type="date" id="wz-limite-inscripcion" />
+          </label>
+        </div>
+
+        <div class="card studs" style="padding:16px; background:var(--bg-surface-alt); border-radius:var(--radius-control);">
+          <h3 style="font-size:14px; margin:0 0 10px; color:var(--accent-gold);">Resumen de la Cohorte</h3>
+          <dl class="facts" style="font-size:13px;">
+            <dt>Curso Base:</dt><dd><b id="wz-resumen-curso">MSI</b></dd>
+            <dt>Docentes:</dt><dd id="wz-resumen-docentes">Gestor Demo, Fabio</dd>
+            <dt>Período:</dt><dd id="wz-resumen-periodo">2026-10-09 al 2026-11-08</dd>
+            <dt>Modalidad:</dt><dd id="wz-resumen-modalidad">Virtual (Online)</dd>
+          </dl>
+        </div>
+      </div>
+    </form>
+            <div class="creator-foot">
+              <button class="btn btn-quiet spacer" type="button" id="wz-btn-cancel">Cancelar</button>
+              <button class="btn btn-quiet" type="button" id="wz-btn-prev" style="display:none;">Anterior</button>
+              <button class="btn btn-primary" type="button" id="wz-btn-next">Siguiente</button>
+              <button class="btn btn-primary" type="button" id="wz-btn-finish" style="display:none;">Confirmar y crear cohorte</button>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -2288,126 +2479,7 @@
   </form>
 </dialog>
 
-<!-- ================= Modal: Crear Nueva Cohorte (Wizard 3 Pasos - crear_cohorte.jpg) ================= -->
-<dialog class="modal modal-lg studs" id="dialog-crear-cohorte" aria-labelledby="h-wz-title">
-  <div style="display:flex; flex-direction:column; width:100%; height:100%;">
-    <div class="modal-head">
-      <div>
-        <h2 id="h-wz-title" class="display" style="font-size:18px; margin:0;">CREAR NUEVA COHORTE</h2>
-        <p class="muted" style="font-size:13px; margin:2px 0 0;">Configuración académica integral de comisión y período de cursada.</p>
-      </div>
-      <button class="icon-btn sm" type="button" onclick="$('#dialog-crear-cohorte').close()" aria-label="Cerrar"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
-    </div>
 
-    <!-- Indicador de 3 pasos -->
-    <div class="wizard-steps" id="cohorte-wizard-steps">
-      <div class="wizard-step active" id="wz-step-indicator-1">
-        <span class="wizard-step-num">1</span>
-        <span>1. Curso y Docentes</span>
-      </div>
-      <span class="wizard-step-line"></span>
-      <div class="wizard-step" id="wz-step-indicator-2">
-        <span class="wizard-step-num">2</span>
-        <span>2. Período y Modalidad</span>
-      </div>
-      <span class="wizard-step-line"></span>
-      <div class="wizard-step" id="wz-step-indicator-3">
-        <span class="wizard-step-num">3</span>
-        <span>3. Cupos y Confirmación</span>
-      </div>
-    </div>
-
-    <form class="modal-body" id="form-wizard-cohorte" onsubmit="return false;">
-      <!-- PASO 1: Curso y Docentes -->
-      <div class="wizard-pane" id="wz-pane-1" style="display:flex; flex-direction:column; gap:16px;">
-        <label class="field">
-          <span class="req">Curso Base</span>
-          <select class="control" id="wz-curso-base" required>
-            <option value="MSI" selected>Metodología de Sistemas II (MSI)</option>
-            <option value="ProgIV">Programación IV</option>
-            <option value="InglesII">Inglés II</option>
-            <option value="GDS">Gestión de Desarrollo de Software</option>
-            <option value="BDII">Base de Datos II</option>
-          </select>
-        </label>
-
-        <label class="field">
-          <span>Cuerpo Docente Asignado</span>
-          <div class="chips-wrap" id="wz-docentes-chips" style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px;">
-            <span class="chip active" style="font-size:12px; display:inline-flex; align-items:center; gap:6px;">
-              Gestor Demo <button type="button" style="border:0; background:transparent; color:inherit; cursor:pointer; font-weight:700;">×</button>
-            </span>
-            <span class="chip" style="font-size:12px; display:inline-flex; align-items:center; gap:6px;">
-              Fabio <button type="button" style="border:0; background:transparent; color:inherit; cursor:pointer; font-weight:700;">×</button>
-            </span>
-          </div>
-          <div class="search-input-wrap">
-            <svg class="icon icon-sm"><use href="#i-search"/></svg>
-            <input class="control sm" id="wz-search-docentes" placeholder="Buscar y añadir profesores por nombre o email..." />
-          </div>
-        </label>
-      </div>
-
-      <!-- PASO 2: Período y Modalidad -->
-      <div class="wizard-pane" id="wz-pane-2" style="display:none; flex-direction:column; gap:16px;">
-        <div class="form-grid">
-          <label class="field"><span class="req">Fecha de inicio</span><input class="control" type="date" id="wz-fecha-inicio" value="2026-10-09" /></label>
-          <label class="field"><span class="req">Fecha de fin</span><input class="control" type="date" id="wz-fecha-fin" value="2026-11-08" /></label>
-        </div>
-
-        <div class="field">
-          <span>Modalidad de cursada</span>
-          <div class="seg" role="group" aria-label="Modalidad de cursada" id="wz-modalidad-seg" style="display:flex; width:100%;">
-            <button type="button" data-mod="presencial" aria-pressed="false" style="flex:1;">Presencial (Física)</button>
-            <button type="button" data-mod="virtual" aria-pressed="true" style="flex:1;">Virtual (Online)</button>
-            <button type="button" data-mod="hibrida" aria-pressed="false" style="flex:1;">Híbrida (Combinada)</button>
-          </div>
-        </div>
-
-        <div class="form-grid">
-          <label class="field"><span>Horario desde (opcional)</span><input class="control" type="time" id="wz-hora-desde" value="18:30" /></label>
-          <label class="field"><span>Horario hasta (opcional)</span><input class="control" type="time" id="wz-hora-hasta" value="22:30" /></label>
-        </div>
-
-        <label class="field">
-          <span>Aula / Espacio o enlace de reunión (opcional)</span>
-          <input class="control" id="wz-aula" placeholder="Ej. Aula 304 / https://meet.google.com/xyz" value="https://meet.google.com/xyz" />
-        </label>
-      </div>
-
-      <!-- PASO 3: Cupos y Confirmación -->
-      <div class="wizard-pane" id="wz-pane-3" style="display:none; flex-direction:column; gap:16px;">
-        <div class="form-grid">
-          <label class="field">
-            <span>Cupo máximo de estudiantes (opcional)</span>
-            <input class="control num" type="number" id="wz-cupo" placeholder="Ilimitado si queda vacío" />
-          </label>
-          <label class="field">
-            <span>Fecha límite de inscripción (opcional)</span>
-            <input class="control" type="date" id="wz-limite-inscripcion" />
-          </label>
-        </div>
-
-        <div class="card studs" style="padding:16px; background:var(--bg-surface-alt); border-radius:var(--radius-control);">
-          <h3 style="font-size:14px; margin:0 0 10px; color:var(--accent-gold);">Resumen de la Cohorte</h3>
-          <dl class="facts" style="font-size:13px;">
-            <dt>Curso Base:</dt><dd><b id="wz-resumen-curso">MSI</b></dd>
-            <dt>Docentes:</dt><dd id="wz-resumen-docentes">Gestor Demo, Fabio</dd>
-            <dt>Período:</dt><dd id="wz-resumen-periodo">2026-10-09 al 2026-11-08</dd>
-            <dt>Modalidad:</dt><dd id="wz-resumen-modalidad">Virtual (Online)</dd>
-          </dl>
-        </div>
-      </div>
-    </form>
-
-    <div class="modal-foot">
-      <button class="btn btn-quiet" type="button" id="wz-btn-prev" style="display:none;">Anterior</button>
-      <button class="btn btn-quiet" type="button" id="wz-btn-cancel" onclick="$('#dialog-crear-cohorte').close()">Cancelar</button>
-      <button class="btn btn-primary" type="button" id="wz-btn-next">Siguiente</button>
-      <button class="btn btn-primary" type="button" id="wz-btn-finish" style="display:none;">Confirmar y Crear Cohorte</button>
-    </div>
-  </div>
-</dialog>
 
 <!-- ================= Modal: Gestionar Vitrina ================= -->
 <dialog class="modal modal-md studs" id="dialog-gestionar-vitrina" aria-labelledby="h-gv-title">
@@ -4148,6 +4220,7 @@ function renderCourseUnits(c, activeUnitNum = null) {
               <button class="btn btn-ghost btn-xs" type="button" title="Editar recurso" onclick="openInlineActivityEditor(this, 'edit', { title: '${(sec.title || '').replace(/'/g, "\\'")}', type: 'tp', desc: '${(sec.desc || '').replace(/'/g, "\\'")}' })"><svg class="icon icon-xs"><use href="#i-panel"/></svg>Editar</button>
             </div>
           </div>
+          ${(sec.items || []).map(it => `<div class="minimal-resource-card" style="${RESOURCE_CARD_STYLE}">${resourceCardInnerHTML(it)}</div>`).join('')}
           <!-- Botón Añadir Recurso (Solo Modo Edición) -->
           <button type="button" class="add-resource-dashed-btn edit-mode-control" onclick="openInlineActivityEditor(this, 'add')">
             <svg class="icon icon-sm"><use href="#i-plus"/></svg>Añadir recurso o actividad en esta sección
@@ -4272,19 +4345,137 @@ document.addEventListener('click', e => {
     return;
   }
 
-  // Abrir Modal de Creación de Sección
-  const openCreateSecBtn = e.target.closest('#btn-open-create-section');
-  if (openCreateSecBtn) {
-    const modal = $('#modal-create-course-section');
-    if (modal) {
-      modal.classList.add('is-open');
-      modal.style.display = 'flex';
-      const titleInput = $('#new-sec-title');
-      if (titleInput) titleInput.focus();
-    }
+  if (e.target.closest('#section-adder-toggle')) {
+    setSectionAdderOpen($('#section-adder-panel')?.dataset.open !== 'true');
+    return;
+  }
+  if (e.target.closest('#section-adder-cancel')) {
+    setSectionAdderOpen(false, { returnFocus: true });
     return;
   }
 });
+
+let secAdderStep = 1;
+let secAdderItems = [];
+
+function setSectionStep(step) {
+  secAdderStep = step;
+  for (let i = 1; i <= 2; i++) {
+    const ind = $(`#sec-step-indicator-${i}`);
+    ind?.classList.toggle('active', i === step);
+    ind?.classList.toggle('completed', i < step);
+    const pane = $(`#sec-pane-${i}`);
+    if (pane) pane.hidden = i !== step;
+  }
+  $('#sec-btn-prev').hidden = step === 1;
+  $('#sec-btn-next').hidden = step === 2;
+  $('#sec-btn-finish').hidden = step !== 2;
+}
+
+function renderSectionItems() {
+  const list = $('#sec-item-list');
+  if (!list) return;
+  list.innerHTML = secAdderItems.map((it, i) => {
+    const { iconName } = activityCardParts(it);
+    return `
+    <li class="sec-item">
+      <span class="sec-item-icon"><svg class="icon icon-sm" aria-hidden="true"><use href="#${iconName}"/></svg></span>
+      <span class="sec-item-title">${escapeHtml(it.title)}</span>
+      <span class="badge badge-outline sm">${ACT_TYPE_LABELS[it.type] || 'Recurso'}</span>
+      <button type="button" class="icon-btn sm" data-sec-item-remove="${i}" aria-label="Quitar ${escapeHtml(it.title)}"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-x"/></svg></button>
+    </li>`;
+  }).join('');
+  $('#sec-item-empty').hidden = secAdderItems.length > 0;
+}
+
+function closeSectionItemEditor() {
+  const mount = $('#sec-item-editor-mount');
+  if (mount) mount.innerHTML = '';
+  const addBtn = $('#sec-item-add');
+  if (addBtn) addBtn.hidden = false;
+}
+
+function openSectionItemEditor() {
+  const mount = $('#sec-item-editor-mount');
+  if (!mount || mount.firstElementChild) return;
+  const { card, getData } = createActivityEditorCard('add', {}, { embedded: true });
+  mount.appendChild(card);
+  $('#sec-item-add').hidden = true;
+  $('#sec-item-empty').hidden = true;
+  card.querySelectorAll('.btn-inline-act-cancel, .btn-inline-act-close').forEach(b => b.addEventListener('click', () => {
+    closeSectionItemEditor();
+    renderSectionItems();
+  }));
+  card.querySelectorAll('.btn-inline-act-save').forEach(b => b.addEventListener('click', () => {
+    const data = getData();
+    if (!data.title) {
+      showToast('Ponele un título al elemento para agregarlo', 'danger', 'i-x');
+      card.querySelector('.input-inline-act-title').focus();
+      return;
+    }
+    secAdderItems.push(data);
+    closeSectionItemEditor();
+    renderSectionItems();
+  }));
+  card.querySelector('.input-inline-act-title').focus();
+  card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+}
+
+document.addEventListener('click', e => {
+  if (e.target.closest('#sec-btn-next')) {
+    if (!$('#new-sec-title').value.trim()) {
+      showToast('Ponele un título a la sección para continuar', 'danger', 'i-x');
+      $('#new-sec-title').focus();
+      return;
+    }
+    setSectionStep(2);
+    $('#sec-item-add').focus();
+  } else if (e.target.closest('#sec-btn-prev')) {
+    setSectionStep(1);
+    $('#new-sec-title').focus();
+  } else if (e.target.closest('#sec-item-add')) {
+    openSectionItemEditor();
+  } else {
+    const rm = e.target.closest('[data-sec-item-remove]');
+    if (rm) { secAdderItems.splice(Number(rm.dataset.secItemRemove), 1); renderSectionItems(); }
+  }
+});
+$('#form-create-course-section')?.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && e.target.matches('input') && !e.target.closest('#sec-pane-2')) {
+    e.preventDefault();
+    if (secAdderStep === 1) $('#sec-btn-next').click();
+  }
+});
+
+function setSectionAdderOpen(open, { scroll = false, returnFocus = false } = {}) {
+  const panel = $('#section-adder-panel');
+  const toggle = $('#section-adder-toggle');
+  if (!panel || !toggle) return;
+  panel.dataset.open = String(open);
+  toggle.setAttribute('aria-expanded', String(open));
+  if (open) {
+    const hash = location.hash.split('?')[0];
+    const cObj = findCourse(hash.startsWith('#curso/') ? hash.split('/')[1] : 'MSI') || COURSES.MSI;
+    const titleInput = $('#new-sec-title');
+    if (titleInput && !titleInput.value) {
+      titleInput.value = `Unidad ${(cObj?.units?.length || 0) + (cObj?.customSections?.length || 0) + 1}`;
+    }
+    if (scroll) toggle.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(() => { titleInput?.focus(); titleInput?.select(); }, 120);
+  } else {
+    $('#form-create-course-section')?.reset();
+    $('#section-adder-panel details')?.removeAttribute('open');
+    secAdderItems = [];
+    closeSectionItemEditor();
+    renderSectionItems();
+    setSectionStep(1);
+    if (returnFocus) toggle.focus();
+  }
+}
 
 function openCourseAccordionSection(secId) {
   mainCourseExpandedSections.add(secId);
@@ -5191,16 +5382,45 @@ $('#wz-btn-finish')?.addEventListener('click', () => {
 
   COHORTS.unshift(newCohort);
   renderCohorts();
-  $('#dialog-crear-cohorte')?.close();
+  closeCohorteCreator({ returnFocus: false });
   showToast(`¡Cohorte de ${baseCourse.name} creada exitosamente con código ${newInvite}!`, 'success', 'i-tick');
   setWizardStep(1);
 });
 
-document.addEventListener('click', e => {
-  if (e.target.closest('[data-open="dialog-crear-cohorte"]')) {
-    setWizardStep(1);
-  }
-});
+/* Vista inline de creación: reemplaza a la grilla mientras está abierta */
+const COHORTE_LIST_SELECTORS = ['#cohort-tabs', '#cohort-grid', '#cohort-pager'];
+
+function openCohorteCreator() {
+  const creator = $('#cohorte-creator');
+  if (!creator) return;
+  COHORTE_LIST_SELECTORS.forEach(sel => { const el = $(sel); if (el) el.hidden = true; });
+  $('#btn-crear-cohorte')?.setAttribute('aria-expanded', 'true');
+  $('#btn-crear-cohorte').hidden = true;
+  $('#btn-crear-curso-base').hidden = true;
+  $('#form-wizard-cohorte')?.reset();
+  setWizardStep(1);
+  creator.hidden = false;
+  creator.scrollIntoView({ block: 'nearest' });
+  setTimeout(() => $('#wz-curso-base')?.focus(), 60);
+}
+
+function closeCohorteCreator({ returnFocus = true } = {}) {
+  const creator = $('#cohorte-creator');
+  if (!creator || creator.hidden) return;
+  creator.hidden = true;
+  COHORTE_LIST_SELECTORS.forEach(sel => { const el = $(sel); if (el) el.hidden = false; });
+  const btn = $('#btn-crear-cohorte');
+  btn.hidden = false;
+  btn.setAttribute('aria-expanded', 'false');
+  $('#btn-crear-curso-base').hidden = false;
+  setWizardStep(1);
+  if (returnFocus) btn.focus();
+}
+
+$('#btn-crear-cohorte')?.addEventListener('click', openCohorteCreator);
+$('#wz-btn-cancel')?.addEventListener('click', () => closeCohorteCreator());
+$('#cohorte-creator-back')?.addEventListener('click', () => closeCohorteCreator());
+$('#cohorte-creator-back-crumb')?.addEventListener('click', e => { e.preventDefault(); closeCohorteCreator(); });
 
 /* 5. Copiar código de invitación en tarjetas de cohorte */
 document.addEventListener('click', e => {
@@ -5325,31 +5545,22 @@ $('#btn-save-config-materia')?.addEventListener('click', () => {
 });
 
 /* 6. Editor Inline de Actividad / Recurso (Configuración de la actividad debajo de la sección) */
-window.openInlineActivityEditor = function(triggerEl, mode = 'add', initialData = {}) {
-  const sectionBody = triggerEl.closest('.minimal-section-body') || triggerEl.closest('.minimal-section-card') || triggerEl.closest('.section-card') || triggerEl.closest('.section-body-items') || triggerEl.parentElement;
-  if (!sectionBody) return;
-
-  // Cerrar cualquier editor de actividad inline que ya esté abierto
-  const existing = sectionBody.querySelector('.inline-activity-card');
-  if (existing) {
-    existing.remove();
-  }
-
+window.createActivityEditorCard = function(mode = 'add', initialData = {}, opts = {}) {
   const courseName = (typeof COURSES !== 'undefined' && COURSES.MSI) ? COURSES.MSI.name : 'Metodología de Sistemas II';
   const defaultTitle = initialData.title || (mode === 'edit' ? 'Trabajo Práctico 1: Architecture Specifications' : '');
   const defaultType = initialData.type || 'tp';
   const defaultDesc = initialData.desc || (mode === 'edit' ? 'Implementá la separación de responsabilidades y la especificación en inglés según los criterios de rúbrica...' : '');
-  const actionTitle = mode === 'edit' ? 'CONFIGURACIÓN DE LA ACTIVIDAD' : 'AÑADIR NUEVA ACTIVIDAD / RECURSO';
+  const actionTitle = mode === 'edit' ? 'CONFIGURACIÓN DE LA ACTIVIDAD' : (opts.embedded ? 'NUEVO ELEMENTO DE LA SECCIÓN' : 'AÑADIR NUEVA ACTIVIDAD / RECURSO');
   const actionSub = mode === 'edit' ? 'Definí los requerimientos pedagógicos, criterios de evaluación y fechas límites.' : 'Completá los datos pedagógicos y requerimientos para publicarlo en esta sección.';
 
   const card = document.createElement('div');
-  card.className = 'inline-activity-card card studs';
+  card.className = opts.embedded ? 'inline-activity-card' : 'inline-activity-card card studs';
   card.innerHTML = `
     <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; gap:16px; flex-wrap:wrap;">
       <div>
-        <div style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:4px;">
+        ${opts.embedded ? '' : `<div style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:4px;">
           Mis Cursos &gt; <span>${courseName}</span> &gt; <span style="color:var(--accent-primary-fill);">${mode === 'edit' ? 'Editar Actividad' : 'Nueva Actividad'}</span>
-        </div>
+        </div>`}
         <h3 class="display" style="font-size:18px; margin:0; font-family:'Chakra Petch', sans-serif; letter-spacing:0.04em; color:var(--text-primary);">
           ${actionTitle}
         </h3>
@@ -5460,20 +5671,12 @@ window.openInlineActivityEditor = function(triggerEl, mode = 'add', initialData 
         <button class="btn btn-quiet btn-inline-act-cancel" type="button">Cancelar</button>
         <button class="btn btn-primary btn-inline-act-save" type="button">
           <svg class="icon icon-sm"><use href="#i-tick"/></svg>
-          <span>Guardar cambios</span>
+          <span>${opts.embedded ? 'Agregar a la sección' : 'Guardar cambios'}</span>
         </button>
       </div>
 
     </form>
   `;
-
-  // Insertar la card justo antes del botón de añadir recurso (o al final del sectionBody)
-  const addBtn = sectionBody.querySelector('.add-resource-dashed-btn');
-  if (addBtn) {
-    sectionBody.insertBefore(card, addBtn);
-  } else {
-    sectionBody.appendChild(card);
-  }
 
   // Sincronización entre texto escrito y selector de calendario
   const setupDatePickerSync = (textInput, pickerInput, triggerBtn) => {
@@ -5554,6 +5757,91 @@ window.openInlineActivityEditor = function(triggerEl, mode = 'add', initialData 
   textarea.addEventListener('input', updateWords);
   updateWords();
 
+  const getData = () => ({
+    title: card.querySelector('.input-inline-act-title').value.trim(),
+    type: card.querySelector('.select-inline-act-type').value,
+    desc: textarea.value.trim(),
+    openText: openTextInput?.value.trim() || '28/06/2026, 12:00 AM',
+    dueText: dueTextInput?.value.trim() || '05/07/2026, 12:00 AM',
+    noDue: !!noDueChk?.checked
+  });
+
+  return { card, getData };
+};
+
+const ACT_TYPE_LABELS = {
+  tp: 'Trabajo Práctico',
+  desafio: 'Desafío Gamificado',
+  pdf: 'Documento PDF / Lectura',
+  guia: 'Guía de Actividades',
+  cuestionario: 'Cuestionario Teórico',
+  aviso: 'Aviso de Cátedra'
+};
+
+function activityCardParts(data) {
+  const typeVal = data.type || 'tp';
+  const iconName = typeVal === 'tp' ? 'i-survey' : (typeVal === 'desafio' || typeVal === 'cuestionario') ? 'i-trophy' : typeVal === 'guia' ? 'i-list' : typeVal === 'aviso' ? 'i-bell' : 'i-file';
+  const iconClass = typeVal === 'tp' ? 'gold' : typeVal === 'cuestionario' ? 'green' : typeVal === 'guia' ? 'cyan' : '';
+  let metaText;
+  if (typeVal === 'tp') {
+    metaText = data.noDue ? 'Sin límite de entrega · 0 entregas · +40 XP' : `Vence: ${data.dueText} · 0 entregas · +40 XP`;
+  } else if (typeVal === 'cuestionario') {
+    metaText = 'Gamificado · Otorga 150 XP y 20 Monedas';
+  } else if (typeVal === 'desafio') {
+    metaText = 'Desafío gamificado · Otorga XP y Monedas';
+  } else if (typeVal === 'aviso') {
+    metaText = 'Aviso de cátedra';
+  } else {
+    metaText = 'Material de cátedra · Lectura obligatoria';
+  }
+  return { typeVal, iconName, iconClass, metaText };
+}
+
+function resourceCardInnerHTML(data) {
+  const { typeVal, iconName, iconClass, metaText } = activityCardParts(data);
+  const editData = escapeHtml(`{ title: '${data.title.replace(/'/g, "\\'")}', type: '${typeVal}', desc: '${(data.desc || '').replace(/'/g, "\\'").replace(/\n/g, ' ')}', openText: '${data.openText.replace(/'/g, "\\'")}', dueText: '${data.dueText.replace(/'/g, "\\'")}', noDue: ${!!data.noDue} }`);
+  return `
+    <div style="display:flex; align-items:center; gap:14px; min-width:0; flex:1;">
+      <div class="minimal-icon-box ${iconClass}">
+        <svg class="icon icon-sm"><use href="#${iconName}"/></svg>
+      </div>
+      <div class="minimal-item-info">
+        <div class="minimal-item-title">${escapeHtml(data.title)}</div>
+        <div class="minimal-item-meta" ${typeVal === 'tp' ? 'style="color:var(--accent-gold);"' : ''}>${metaText}</div>
+      </div>
+    </div>
+    <div class="resource-right-actions" style="display:flex; align-items:center; gap:6px;">
+      <button class="btn btn-ghost btn-xs" type="button" title="Editar recurso" onclick="openInlineActivityEditor(this, 'edit', ${editData})">
+        <svg class="icon icon-xs"><use href="#i-panel"/></svg>Editar
+      </button>
+      <button class="btn btn-ghost btn-xs" type="button" title="Eliminar recurso" style="color:var(--accent-danger);" onclick="if(confirm('¿Deseás eliminar este recurso?')) this.closest('.minimal-resource-card').remove();">
+        <svg class="icon icon-xs"><use href="#i-flame"/></svg>
+      </button>
+    </div>`;
+}
+
+const RESOURCE_CARD_STYLE = 'display:flex; align-items:center; justify-content:space-between; width:100%;';
+
+window.openInlineActivityEditor = function(triggerEl, mode = 'add', initialData = {}) {
+  const sectionBody = triggerEl.closest('.minimal-section-body') || triggerEl.closest('.minimal-section-card') || triggerEl.closest('.section-card') || triggerEl.closest('.section-body-items') || triggerEl.parentElement;
+  if (!sectionBody) return;
+
+  // Cerrar cualquier editor de actividad inline que ya esté abierto
+  const existing = sectionBody.querySelector('.inline-activity-card');
+  if (existing) {
+    existing.remove();
+  }
+
+  const { card, getData } = createActivityEditorCard(mode, initialData);
+
+  // Insertar la card justo antes del botón de añadir recurso (o al final del sectionBody)
+  const addBtn = sectionBody.querySelector('.add-resource-dashed-btn');
+  if (addBtn) {
+    sectionBody.insertBefore(card, addBtn);
+  } else {
+    sectionBody.appendChild(card);
+  }
+
   // Eventos de Cerrar
   const closeCard = () => {
     card.style.opacity = '0';
@@ -5565,8 +5853,8 @@ window.openInlineActivityEditor = function(triggerEl, mode = 'add', initialData 
 
   // Eventos de Guardar
   const handleSave = () => {
-    const title = card.querySelector('.input-inline-act-title').value.trim();
-    if (!title) {
+    const data = getData();
+    if (!data.title) {
       showToast('Por favor ingresá un título para la actividad', 'alert', 'i-alert');
       card.querySelector('.input-inline-act-title').focus();
       return;
@@ -5574,54 +5862,19 @@ window.openInlineActivityEditor = function(triggerEl, mode = 'add', initialData 
     const saveBtns = card.querySelectorAll('.btn-inline-act-save');
     saveBtns.forEach(b => { b.classList.add('is-loading'); b.disabled = true; });
 
-    const openTextVal = openTextInput?.value.trim() || '28/06/2026, 12:00 AM';
-    const dueTextVal = dueTextInput?.value.trim() || '05/07/2026, 12:00 AM';
-    const isNoDue = noDueChk?.checked;
-
     setTimeout(() => {
       if (mode === 'add') {
-        const typeVal = card.querySelector('.select-inline-act-type').value;
-        const iconName = typeVal === 'tp' ? 'i-survey' : typeVal === 'desafio' ? 'i-trophy' : typeVal === 'cuestionario' ? 'i-trophy' : typeVal === 'guia' ? 'i-code' : 'i-file';
-        const iconClass = typeVal === 'tp' ? 'gold' : typeVal === 'cuestionario' ? 'green' : typeVal === 'guia' ? 'cyan' : '';
-        
-        let metaText = '';
-        if (typeVal === 'tp') {
-          metaText = isNoDue ? '📅 Sin límite de entrega · 0 entregas · +40 XP' : `⏳ Vence: ${dueTextVal} · 0 entregas · +40 XP`;
-        } else if (typeVal === 'cuestionario') {
-          metaText = 'Gamificado · Otorga 150 XP y 20 Monedas';
-        } else {
-          metaText = 'Material de cátedra · Lectura obligatoria';
-        }
-
         const newResourceCard = document.createElement('div');
         newResourceCard.className = 'minimal-resource-card';
-        newResourceCard.style = 'display:flex; align-items:center; justify-content:space-between; width:100%; animation:fadeIn 0.25s ease;';
-        newResourceCard.innerHTML = `
-          <div style="display:flex; align-items:center; gap:14px; min-width:0; flex:1;">
-            <div class="minimal-icon-box ${iconClass}">
-              <svg class="icon icon-sm"><use href="#${iconName}"/></svg>
-            </div>
-            <div class="minimal-item-info">
-              <div class="minimal-item-title">${title}</div>
-              <div class="minimal-item-meta" ${typeVal === 'tp' ? 'style="color:var(--accent-gold);"' : ''}>${metaText}</div>
-            </div>
-          </div>
-          <div class="resource-right-actions" style="display:flex; align-items:center; gap:6px;">
-            <button class="btn btn-ghost btn-xs" type="button" title="Editar recurso" onclick="openInlineActivityEditor(this, 'edit', { title: '${title.replace(/'/g, "\\'")}', type: '${typeVal}', openText: '${openTextVal.replace(/'/g, "\\'")}', dueText: '${dueTextVal.replace(/'/g, "\\'")}', noDue: ${isNoDue} })">
-              <svg class="icon icon-xs"><use href="#i-panel"/></svg>Editar
-            </button>
-            <button class="btn btn-ghost btn-xs" type="button" title="Eliminar recurso" style="color:var(--accent-danger);" onclick="if(confirm('¿Deseás eliminar este recurso?')) this.closest('.minimal-resource-card').remove();">
-              <svg class="icon icon-xs"><use href="#i-flame"/></svg>
-            </button>
-          </div>
-        `;
+        newResourceCard.style = RESOURCE_CARD_STYLE + ' animation:fadeIn 0.25s ease;';
+        newResourceCard.innerHTML = resourceCardInnerHTML(data);
         sectionBody.insertBefore(newResourceCard, card);
       } else if (triggerEl.closest('.minimal-resource-card')) {
         const titleEl = triggerEl.closest('.minimal-resource-card').querySelector('.minimal-item-title');
-        if (titleEl) titleEl.textContent = title;
+        if (titleEl) titleEl.textContent = data.title;
       }
 
-      showToast(`Actividad "${title}" guardada correctamente`, 'success', 'i-tick');
+      showToast(`Actividad "${data.title}" guardada correctamente`, 'success', 'i-tick');
       closeCard();
     }, 380);
   };
@@ -7648,12 +7901,16 @@ $('#course-sections-search')?.addEventListener('input', e => {
 $('#form-create-course-section')?.addEventListener('submit', e => {
   e.preventDefault();
   const title = $('#new-sec-title').value.trim();
+  if (!title) {
+    showToast('Ponele un título a la sección para poder crearla', 'danger', 'i-x');
+    $('#new-sec-title').focus();
+    return;
+  }
   const desc = $('#new-sec-desc').value.trim();
   const icon = $('#new-sec-icon').value.trim() || '⚡';
   const xp = Number($('#new-sec-xp').value) || 200;
   const bannerStyle = $('#new-sec-banner').value;
-  const resourceTitle = $('#new-sec-res').value.trim() || 'Documento Oficial';
-  const taskTitle = $('#new-sec-task').value.trim() || 'TP Práctico';
+  const items = secAdderItems.slice();
 
   const hash = location.hash.slice(1).split('?')[0];
   const cName = hash.startsWith('curso/') ? hash.split('/')[1] : 'MSI';
@@ -7666,21 +7923,15 @@ $('#form-create-course-section')?.addEventListener('submit', e => {
       icon,
       xp,
       bannerStyle,
-      resourceTitle,
-      taskTitle,
+      items,
       visibility: 'Pública'
     });
     const newSecIdx = c.customSections.length - 1;
     mainCourseExpandedSections.add(`custom-sec-${newSecIdx}`);
     renderCourseUnits(c);
     
-    // Cerrar modal
-    const modal = $('#modal-create-course-section');
-    if (modal) {
-      modal.classList.remove('is-open');
-      modal.style.display = 'none';
-    }
-    showToast(`Sección "${title}" creada con éxito`, 'success', 'i-tick');
+    setSectionAdderOpen(false);
+    showToast(`Sección "${title}" creada${items.length ? ` con ${items.length} ${items.length === 1 ? 'elemento' : 'elementos'}` : ''}`, 'success', 'i-tick');
 
     // Scroll al elemento creado
     setTimeout(() => {
@@ -7693,10 +7944,13 @@ $('#form-create-course-section')?.addEventListener('submit', e => {
 /* Teclas rápidas: Esc para cerrar subpanel, Ctrl+B para alternarlo */
 window.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
-    const modal = $('#modal-create-course-section');
-    if (modal && modal.style.display === 'flex') {
-      modal.classList.remove('is-open');
-      modal.style.display = 'none';
+    if ($('#section-adder-panel')?.dataset.open === 'true' && document.activeElement?.closest('#section-adder')) {
+      setSectionAdderOpen(false, { returnFocus: true });
+      return;
+    }
+    const cohorteCreator = $('#cohorte-creator');
+    if (cohorteCreator && !cohorteCreator.hidden) {
+      closeCohorteCreator();
       return;
     }
     const subpanel = $('#subpanel');
@@ -7744,71 +7998,6 @@ setPalette(store.get('tpi-palette') || 'electric');
 setRole(store.get('tpi-role') || 'alumno');
 </script>
 
-<!-- MODAL DE CREACIÓN / CONFIGURACIÓN DE SECCIÓN DE CURSO -->
-<div id="modal-create-course-section" class="modal-backdrop" style="position:fixed; inset:0; background:rgba(0,0,0,0.75); backdrop-filter:blur(4px); z-index:9999; display:none; align-items:center; justify-content:center; padding:16px;">
-  <div class="card studs" style="max-width:540px; width:100%; max-height:90vh; overflow-y:auto; background:var(--bg-surface); border:1px solid var(--accent-primary-fill); box-shadow:0 0 30px rgba(0,229,255,0.25); border-radius:var(--radius-card); padding:20px; display:flex; flex-direction:column; gap:16px;">
-    
-    <div style="display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--border-subtle); padding-bottom:12px;">
-      <div style="display:flex; align-items:center; gap:8px;">
-        <span style="font-size:18px;">⚙️</span>
-        <h3 style="margin:0; font-size:16px; font-weight:700; color:var(--text-primary);">Crear Sección Configurable</h3>
-      </div>
-      <button type="button" class="btn btn-ghost btn-xs" onclick="$('#modal-create-course-section').classList.remove('is-open'); $('#modal-create-course-section').style.display='none';" aria-label="Cerrar modal">
-        <svg class="icon icon-sm"><use href="#i-x"/></svg>
-      </button>
-    </div>
-
-    <form id="form-create-course-section" style="display:flex; flex-direction:column; gap:14px;">
-      <div style="display:flex; flex-direction:column; gap:4px;">
-        <label style="font-size:12px; font-weight:700; color:var(--text-primary);">Título de la Sección *</label>
-        <input type="text" id="new-sec-title" class="input" placeholder="Ej: Unidad 5 · Microservicios y RabbitMQ" required />
-      </div>
-
-      <div style="display:flex; flex-direction:column; gap:4px;">
-        <label style="font-size:12px; font-weight:700; color:var(--text-primary);">Descripción u Objetivos</label>
-        <textarea id="new-sec-desc" class="input" rows="2" placeholder="Resumen breve para que los estudiantes conozcan las metas de la unidad..."></textarea>
-      </div>
-
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-        <div style="display:flex; flex-direction:column; gap:4px;">
-          <label style="font-size:12px; font-weight:700; color:var(--text-primary);">Icono / Emoji</label>
-          <input type="text" id="new-sec-icon" class="input" value="⚡" />
-        </div>
-        <div style="display:flex; flex-direction:column; gap:4px;">
-          <label style="font-size:12px; font-weight:700; color:var(--text-primary);">Recompensa XP</label>
-          <input type="number" id="new-sec-xp" class="input" value="300" />
-        </div>
-      </div>
-
-      <div style="display:flex; flex-direction:column; gap:4px;">
-        <label style="font-size:12px; font-weight:700; color:var(--text-primary);">Estilo de Banner</label>
-        <select id="new-sec-banner" class="input">
-          <option value="blue">Cinta Azul Cátedra (Institucional TUP)</option>
-          <option value="navy">Banner Azul Marino con Logo</option>
-          <option value="gamer">Neon Arcade Gamer</option>
-          <option value="gold">Dorado (Hito / Parcial)</option>
-        </select>
-      </div>
-
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-        <div style="display:flex; flex-direction:column; gap:4px;">
-          <label style="font-size:12px; font-weight:700; color:var(--text-primary);">Documento Inicial (PDF)</label>
-          <input type="text" id="new-sec-res" class="input" placeholder="Ej: Guía de Arquitectura.pdf" value="Diapositivas y Guía Teórica.pdf" />
-        </div>
-        <div style="display:flex; flex-direction:column; gap:4px;">
-          <label style="font-size:12px; font-weight:700; color:var(--text-primary);">Desafío / Tarea Inicial</label>
-          <input type="text" id="new-sec-task" class="input" placeholder="Ej: TP 5: Implementación" value="TP Práctico de la Unidad" />
-        </div>
-      </div>
-
-      <div style="display:flex; align-items:center; justify-content:flex-end; gap:8px; border-top:1px solid var(--border-subtle); padding-top:12px; margin-top:4px;">
-        <button type="button" class="btn btn-secondary btn-sm" onclick="$('#modal-create-course-section').classList.remove('is-open'); $('#modal-create-course-section').style.display='none';">Cancelar</button>
-        <button type="submit" class="btn btn-primary btn-sm">Guardar y Publicar Sección</button>
-      </div>
-    </form>
-
-  </div>
-</div>
 <script src="js/login.js"></script>
 </body>
 </html>
