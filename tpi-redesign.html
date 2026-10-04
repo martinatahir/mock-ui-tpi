@@ -843,6 +843,13 @@
           </dl>
         </aside>
         <div class="profile-panels">
+          <section class="card studs panel" aria-labelledby="h-mycourses" data-alumno-only>
+            <details class="students-disclosure" id="mycourses-disclosure">
+            <summary class="students-summary"><h2 id="h-mycourses">Mis cursos</h2><span class="badge badge-primary num" data-mycourses-count>0</span><span class="students-chev" aria-hidden="true"></span></summary>
+            <p>Tus cursos activos de este cuatrimestre. Entrá a cualquiera para ver tus unidades y desafíos.</p>
+            <div class="table-wrap"><table class="data" id="mycourses-table"></table></div>
+            </details>
+          </section>
           <section class="card studs panel" aria-labelledby="h-students" data-profesor-only>
             <details class="students-disclosure" id="students-disclosure">
             <summary class="students-summary"><h2 id="h-students">Alumnos habilitados</h2><span class="badge badge-primary num" data-students-count>0</span><span class="students-chev" aria-hidden="true"></span></summary>
@@ -905,6 +912,7 @@
       <div class="data">
         <div class="tabs" role="tablist" aria-label="Estado de las cohortes" id="cohort-tabs"></div>
         <div class="course-grid" id="cohort-grid" data-view-target="cohortes"></div>
+        <div class="st-pager" id="cohort-pager"></div>
       </div>
     </section>
 
@@ -3199,43 +3207,44 @@ function renderStudentCourses() {
 }
 
 let cohortTab = 'Activa';
+const cohortPage = { page: 1, size: 10 };
 function renderCohorts() {
   const tabs = [['Activa', 'Activas'], ['Borrador', 'Borradores'], ['Archivada', 'Archivadas'], ['', 'Todas']];
   $('#cohort-tabs').innerHTML = tabs.map(([v, l]) => `<button class="tab" role="tab" aria-selected="${v === cohortTab}" data-cohort="${v}">${l} <span class="count num">${COHORTS.filter(c => !v || c.status === v).length}</span></button>`).join('');
-  const list = COHORTS.filter(c => !cohortTab || c.status === cohortTab);
+  const all = COHORTS.filter(c => !cohortTab || c.status === cohortTab);
+  const pages = Math.max(1, Math.ceil(all.length / cohortPage.size));
+  cohortPage.page = Math.min(cohortPage.page, pages);
+  const from = (cohortPage.page - 1) * cohortPage.size;
+  const list = all.slice(from, from + cohortPage.size);
+  $('#cohort-pager').innerHTML = all.length ? `
+    <label class="st-size">Mostrar <select class="control" id="cohort-size">${[5, 10, 50].map(n => `<option value="${n}" ${n === cohortPage.size ? 'selected' : ''}>${n}</option>`).join('')}</select> por página</label>
+    <span class="num" aria-live="polite">${from + 1}–${from + list.length} de ${all.length}</span>
+    <span class="st-pager-btns">
+      <button class="btn btn-ghost btn-sm" type="button" data-cohort-prev ${cohortPage.page <= 1 ? 'disabled' : ''}>Anterior</button>
+      <span class="num">Página ${cohortPage.page} de ${pages}</span>
+      <button class="btn btn-ghost btn-sm" type="button" data-cohort-next ${cohortPage.page >= pages ? 'disabled' : ''}>Siguiente</button>
+    </span>` : '';
   $('#cohort-grid').innerHTML = list.length ? list.map(c => `
-    <article class="card studs course">
+    <article class="card studs course cohort-card">
       <div class="course-top">
-        <div>
+        <div class="cohort-title">
           <h2>${c.name}</h2>
-          <div class="course-sub">${c.fullName && c.fullName !== c.name ? c.fullName : `${c.students || 0} alumnos`}</div>
+          <div class="course-sub num">${c.students || 0} alumnos · ${c.from} – ${c.to}</div>
         </div>
         <span class="badge ${c.status === 'Activa' ? 'badge-success' : c.status === 'Borrador' ? 'badge-outline' : 'badge-secondary'}">${c.status}</span>
       </div>
-      <dl class="facts">
-        <dt>${icon('i-calendar', 'icon icon-sm')}Inscripción</dt><dd class="num">${c.from} – ${c.to}<small>${c.weeks}</small></dd>
-        <dt>${icon('i-user', 'icon icon-sm')}Docentes</dt><dd>${c.teacher}</dd>
-      </dl>
-      <div class="cohort-invite-box">
-        <div class="cohort-invite-info">
-          <span class="invite-label">CÓDIGO DE INVITACIÓN</span>
-          <code class="invite-code">${c.inviteCode || 'KAS5ZNBRT3'}</code>
-        </div>
-        <div class="cohort-invite-actions">
-          <span class="hint">Compartí con tus alumnos</span>
-          <button class="btn btn-quiet btn-xs" type="button" data-copy-code="${c.inviteCode || 'KAS5ZNBRT3'}">Copiar</button>
-        </div>
-      </div>
       <div class="course-foot">
-        ${c.readOnly ? `<span class="muted" style="font-size:13px; display:inline-flex; gap:6px; align-items:center">${icon('i-lock', 'icon icon-sm')}Solo lectura</span>` : '<span></span>'}
-        <div class="quick-links">
-          <a class="btn btn-secondary btn-sm" href="#curso/${c.code || c.name}">Ver curso</a>
-          <a class="btn btn-quiet btn-sm" href="#curso/${c.code || c.name}">Gestionar</a>
-        </div>
+        ${c.readOnly ? `<span class="muted cohort-ro">${icon('i-lock', 'icon icon-sm')}Solo lectura</span>` : '<span></span>'}
+        <a class="btn btn-primary btn-sm" href="#curso/${c.code || c.name}">Gestionar<svg class="icon icon-sm" aria-hidden="true"><use href="#i-right"/></svg></a>
       </div>
     </article>`).join('') : `<div class="empty">${icon('i-book')}<p>No hay cohortes en este estado.</p></div>`;
 }
-document.addEventListener('click', e => { const t = e.target.closest('[data-cohort]'); if (t) { cohortTab = t.dataset.cohort; renderCohorts(); } });
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-cohort]'); if (t) { cohortTab = t.dataset.cohort; cohortPage.page = 1; renderCohorts(); return; }
+  if (e.target.closest('[data-cohort-prev]')) { cohortPage.page--; renderCohorts(); }
+  if (e.target.closest('[data-cohort-next]')) { cohortPage.page++; renderCohorts(); }
+});
+document.addEventListener('change', e => { if (e.target.id === 'cohort-size') { cohortPage.size = Number(e.target.value); cohortPage.page = 1; renderCohorts(); } });
 
 let currentActiveUnit = 2;
 let mainCourseExpandedSections = new Set(['general', 'u-2']);
@@ -4536,10 +4545,26 @@ function renderProfile() {
   $$('[data-staff-only]').forEach(el => el.hidden = currentRole === 'alumno');
   $$('[data-me-role]').forEach(el => el.textContent = u.role);
   $$('[data-profesor-only]').forEach(el => el.hidden = currentRole !== 'profesor');
-  $('#screen-perfil .profile-layout').classList.toggle('is-stacked', currentRole !== 'admin');
+  $('#screen-perfil .profile-layout').classList.add('is-stacked');
   renderBio();
   renderPhoto();
   renderStudents();
+  renderMyCourses();
+}
+
+/* ======================= perfil (alumno): mis cursos ======================= */
+function renderMyCourses() {
+  if (currentRole !== 'alumno') return;
+  const courses = ['MSI', 'GDS', 'ProgIV', 'IAD', 'LEG'].map(code => COURSES[code]).filter(c => c && c.status === 'Activa');
+  $('[data-mycourses-count]').textContent = courses.length;
+  $('#mycourses-table').innerHTML = `
+    <thead><tr><th>Curso</th><th>Docente</th><th>Progreso</th><th><span class="sr-only">Acciones</span></th></tr></thead>
+    <tbody>${courses.map(c => `<tr>
+      <td class="cell-main">${c.name}</td>
+      <td>${c.teacher}</td>
+      <td><div class="progress-line"><div class="bar" role="progressbar" aria-label="Progreso en ${c.name}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${c.completedPct}"><span style="width:${c.completedPct}%"></span></div><span class="num">${c.completedPct}%</span></div></td>
+      <td><a class="btn btn-quiet btn-sm" href="#curso/${c.code}">Entrar<svg class="icon icon-sm" aria-hidden="true"><use href="#i-right"/></svg></a></td>
+    </tr>`).join('')}</tbody>`;
 }
 
 /* ======================= perfil: descripción y foto ======================= */
