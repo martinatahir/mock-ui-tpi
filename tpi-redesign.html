@@ -208,7 +208,7 @@
           <a class="nav-item" href="#personaje" data-alumno-only><svg class="icon"><use href="#i-shirt"/></svg>Mi personaje</a>
           <a class="nav-item" href="#inventario" data-alumno-only><svg class="icon"><use href="#i-backpack"/></svg>Inventario</a>
           <a class="nav-item" href="#encuestas"><svg class="icon"><use href="#i-survey"/></svg>Encuestas <span class="badge badge-secondary sm" style="margin-left:auto">1</span></a>
-          <a class="nav-item" href="#banco"><svg class="icon"><use href="#i-coin"/></svg>Banco (Monedas & Aranceles)</a>
+          <a class="nav-item" href="#banco"><svg class="icon"><use href="#i-coin"/></svg>Billetera</a>
           <hr />
           <div class="menu-pref-title">Apariencia</div>
           <div class="menu-pref-row">
@@ -489,31 +489,32 @@
       </div>
     </section>
 
-    <!-- ================= INVENTARIO · alumno ================= -->
+    <!-- ================= EQUIPAR ÍTEMS · alumno ================= -->
     <section class="screen" id="screen-inventario-alumno" aria-labelledby="h-inv" data-error="No pudimos traer tu inventario.">
+      <a class="back" href="#banco"><svg class="icon icon-sm"><use href="#i-left"/></svg>Billetera</a>
       <div class="page-head">
-        <div><h1 class="display" id="h-inv">Inventario</h1><p>Tus vidas, nivel e ítems equipados en cada curso.</p></div>
+        <div><h1 class="display" id="h-inv">Equipar ítems</h1><p>Tocá un ítem y después una ranura libre de la maleta, o arrastralo. Los generales entran en cualquier ranura.</p></div>
       </div>
       <div class="data">
-        <div class="tabs" role="tablist" aria-label="Curso" id="inv-tabs"></div>
-        <div class="stat-strip" id="inv-stats"></div>
-        <div class="inv-layout">
-          <div class="card studs backpack-card">
-            <h2>Mochila</h2>
-            <div id="inv-backpack"></div>
-            <a class="btn btn-ghost btn-sm" href="#personaje"><svg class="icon icon-sm"><use href="#i-shirt"/></svg>Cambiar color</a>
-          </div>
-          <div class="card studs">
-            <div class="section-head" style="margin-bottom:16px"><h2>Ítems equipados</h2><span class="muted" style="font-size:var(--fs-small)">3 ranuras por tipo de desafío</span></div>
-            <div id="inv-slots"></div>
-            <div class="section" style="margin-top:24px">
-              <div class="section-head"><h2>Disponibles</h2></div>
-              <div class="empty">
-                <svg class="icon" aria-hidden="true"><use href="#i-bag"/></svg>
-                <p>Todavía no desbloqueaste ítems en este curso.</p>
-                <a class="btn btn-secondary btn-sm" href="#marketplace">Ir al Mercado</a>
+        <div class="tabs course-tabs" role="tablist" aria-label="Curso" id="inv-tabs"></div>
+        <div class="equip-layout">
+          <section class="card studs bag" aria-labelledby="h-bag">
+            <div class="bag-head">
+              <div id="inv-backpack"></div>
+              <div><h2 id="h-bag">Maleta</h2><p class="muted" id="bag-count"></p><div class="bag-meter" id="bag-meter" aria-hidden="true"></div></div>
+            </div>
+            <div class="bag-rows" id="bag-rows"></div>
+            <div class="item-detail" id="bag-detail" aria-live="polite"></div>
+            <p class="bag-note"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-info"/></svg>Si un ítem no corresponde al tipo de la ranura, la ranura se apaga. Para sacarlo tocá la X.</p>
+          </section>
+          <div class="pools">
+            <div class="vcat-tools">
+              <div class="search-bar sm">
+                <svg class="icon search-icon"><use href="#i-search"/></svg>
+                <input type="search" id="pool-q" class="search-input" placeholder="Buscá un ítem" aria-label="Buscar ítems" />
               </div>
             </div>
+            <div class="pool-grid" id="pool-grid"></div>
           </div>
         </div>
       </div>
@@ -645,6 +646,56 @@
           <div>
             <button type="button" class="btn btn-primary" onclick="alert('¡Gracias! En la app real abre el formulario de feedback institucional.')">Comenzar encuesta</button>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= BILLETERA · alumno ================= -->
+    <section class="screen" id="screen-banco-alumno" aria-labelledby="h-wallet" data-error="No pudimos cargar tu billetera.">
+      <div class="page-head">
+        <div><h1 class="display" id="h-wallet">Billetera</h1><p>Tus vidas, monedas, XP e ítems en cada curso, con el detalle de cada movimiento.</p></div>
+      </div>
+      <div class="data">
+        <div class="tabs course-tabs" role="tablist" aria-label="Curso" id="wal-tabs"></div>
+        <div class="stat-strip wallet-strip" id="wal-stats"></div>
+        <div class="wallet-layout">
+          <section class="card studs moves" aria-labelledby="h-moves">
+            <div class="moves-head">
+              <h2 id="h-moves">Movimientos</h2>
+              <div class="moves-filters">
+                <label class="field"><span>Recurso</span>
+                  <select class="control" id="mv-res"><option value="">Todos</option><option value="lives">Vidas</option><option value="xp">XP</option><option value="coins">Monedas</option></select></label>
+                <label class="field"><span>Desafío o clase</span>
+                  <span class="search-bar sm"><svg class="icon search-icon"><use href="#i-search"/></svg><input type="search" id="mv-q" class="search-input" placeholder="Buscá por nombre" /></span></label>
+                <label class="field"><span>Período</span>
+                  <select class="control" id="mv-per"><option value="7">Últimos 7 días</option><option value="90" selected>Últimos 3 meses</option><option value="180">Últimos 6 meses</option><option value="day">Elegir una fecha…</option></select></label>
+                <label class="field" id="mv-day-field" hidden><span>Fecha</span>
+                  <input class="control num" type="date" id="mv-day" value="2026-09-24" min="2026-03-01" max="2026-09-30" /></label>
+              </div>
+            </div>
+            <p class="moves-sum" id="mv-sum"></p>
+            <div class="moves-list" id="mv-list"></div>
+            <div class="pager" id="mv-pager"></div>
+          </section>
+          <aside class="card studs inv-panel" aria-labelledby="h-invp">
+            <div class="inv-panel-head"><h2 id="h-invp">Inventario</h2><span class="badge badge-outline sm num" id="invp-count"></span></div>
+            <div class="invp-block">
+              <div class="invp-label"><span>Equipados</span><span class="num" id="invp-slots"></span></div>
+              <div class="mini-bag" id="invp-equipped"></div>
+            </div>
+            <div class="invp-block">
+              <div class="invp-label"><span>Disponibles</span><span class="num" id="invp-kinds"></span></div>
+              <div class="item-grid" id="invp-items"></div>
+              <ul class="scope-legend" aria-label="Dónde se equipa cada ítem">
+                <li><span class="scope-dot" data-scope=""></span>General</li><li><span class="scope-dot" data-scope="practicos"></span>Práctico</li><li><span class="scope-dot" data-scope="teoricos"></span>Teórico</li><li><span class="scope-dot" data-scope="llm"></span>LLM</li>
+              </ul>
+            </div>
+            <div class="item-detail" id="invp-detail" aria-live="polite">Tocá un ítem para ver qué hace y en qué desafíos se equipa.</div>
+            <div class="invp-cta">
+              <a class="btn btn-ghost btn-sm" id="invp-shop" href="#marketplace"><svg class="icon icon-sm"><use href="#i-bag"/></svg>Mercado</a>
+              <a class="btn btn-primary btn-sm" href="#inventario"><svg class="icon icon-sm"><use href="#i-backpack"/></svg>Equipar ítems</a>
+            </div>
+          </aside>
         </div>
       </div>
     </section>
@@ -4315,23 +4366,7 @@ $$('.dropzone').forEach(dz => {
 });
 
 /* ======================= inventario ======================= */
-let invCourse = 'MSI';
 const BACKPACK = ['..bbbb..', '.b....b.', 'bbbbbbbb', 'baaaaaab', 'baccccab', 'bacddcab', 'baccccab', 'baaaaaab', 'bbbbbbbb'];
-function renderInventory() {
-  const c = COURSES[invCourse] || COURSES.MSI;
-  $('#inv-tabs').innerHTML = Object.entries(COURSES).map(([k, course]) => `<button class="tab" role="tab" aria-selected="${k === invCourse}" data-inv="${k}">${course.name}</button>`).join('');
-  $('#inv-stats').innerHTML = `
-    <div><div class="k">${icon('i-heart', 'icon icon-sm')}Vidas en ${c.name}</div><div class="v heart">${hearts(c.lives)} <span class="num" style="font-size:var(--fs-ui); margin-left:4px">${c.lives}/3</span></div></div>
-    <div><div class="k">${icon('i-star', 'icon icon-sm')}Nivel en ${c.name}</div><div class="v num" style="color:var(--accent-gold);">Nivel ${c.level}</div></div>
-    <div style="flex-basis:260px"><div class="k">XP hacia el nivel ${c.level + 1}</div><div class="progress-line" style="margin-top:8px"><div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="${c.xpMax}" aria-valuenow="${c.xp}" aria-label="XP"><span style="width:${c.xp / c.xpMax * 100}%"></span></div><span class="num">${c.xp}/${c.xpMax}</span></div></div>`;
-  const pc = avatarState.pack;
-  $('#inv-backpack').innerHTML = pixel(BACKPACK, { a: pc, b: shade(pc, 55), c: tint(pc, 70), d: shade(pc, 75) }, `Mochila de ${USERS.alumno.name}`);
-  const cats = [['Prácticos', 'var(--accent-primary-fill)'], ['Teóricos', 'var(--accent-secondary-fill)'], ['LLM', 'var(--accent-success-fill)']];
-  $('#inv-slots').innerHTML = cats.map(([n, col]) => `
-    <div class="slot-group"><div class="slot-head"><h3><span class="dot" style="background:${col}"></span>${n}</h3><span class="num">0 de 3</span></div>
-    <div class="slots">${'<div class="slot" aria-label="Ranura vacía">' + icon('i-plus') + '</div>'}${'<div class="slot" aria-label="Ranura vacía">' + icon('i-plus') + '</div>'}${'<div class="slot" aria-label="Ranura vacía">' + icon('i-plus') + '</div>'}</div></div>`).join('');
-}
-document.addEventListener('click', e => { const t = e.target.closest('[data-inv]'); if (t) { invCourse = t.dataset.inv; renderInventory(); } });
 
 /* ======================= personaje ======================= */
 const SWATCHES = {
@@ -5279,9 +5314,216 @@ $('#shop-grid').addEventListener('click', e => {
 $$('[data-buy-close]').forEach(b => b.addEventListener('click', () => $('#dialog-comprar').close()));
 $('#buy-confirm').addEventListener('click', () => {
   STUDENT_COINS[shopCode] -= buyOffer.price; buyOffer.sold++;
+  const owned = invOf(shopCode).find(i => i.name === buyOffer.name);
+  if (owned) owned.qty++;
+  else invOf(shopCode).push({ key: 'o' + buyOffer.id, type: buyOffer.type, name: buyOffer.name, scope: buyOffer.type === 'shield' ? buyOffer.mech.scope || '' : '', mech: { ...buyOffer.mech }, qty: 1 });
+  (MOVES[shopCode] || (MOVES[shopCode] = [])).push({ d: '2026-09-30', t: new Date().toTimeString().slice(0, 5), title: `Mercado: ${buyOffer.name}`, kind: 'mercado', note: 'Compra', coins: -buyOffer.price });
   $('#dialog-comprar').close(); renderShop();
   showToast(`Compraste "${buyOffer.name}". Ya está en tu inventario.`, 'success');
+  walCode = shopCode;
 });
+
+/* ---- Billetera e inventario del alumno: vidas, monedas, XP, movimientos y maleta ---- */
+const SCOPES_EQ = { practicos: { label: 'Prácticos', one: 'Práctico', badge: 'badge-danger' }, teoricos: { label: 'Teóricos', one: 'Teórico', badge: 'badge-primary' }, llm: { label: 'LLM', one: 'LLM', badge: 'badge-success' } };
+const scopeName = sc => sc ? SCOPES_EQ[sc].one : 'General';
+const fitsSlot = (item, slot) => !item.scope || item.scope === slot;
+let walCode = 'ProgIV';
+const INVENTORY = {
+  ProgIV: [
+    { key: 'lab', type: 'shield', name: 'Escudo rúnico de laboratorio', scope: 'practicos', mech: { charges: 2, scope: 'practicos' }, qty: 2 },
+    { key: 'quiz', type: 'shield', name: 'Escudo de cuestionario', scope: 'teoricos', mech: { charges: 1, scope: 'teoricos' }, qty: 1 },
+    { key: 'tutor', type: 'shield', name: 'Escudo del tutor', scope: 'llm', mech: { charges: 1, scope: 'llm' }, qty: 1 },
+    { key: 'sab', type: 'xp', name: 'Elixir de sabiduría', scope: '', mech: { mult: 1.5, minutes: 120 }, qty: 2 },
+    { key: 'racha', type: 'xp', name: 'Tónico de racha', scope: '', mech: { mult: 1.25, minutes: 60 }, qty: 1 },
+    { key: 'iman', type: 'coins', name: 'Imán de monedas doble', scope: '', mech: { mult: 2, attempts: 3 }, qty: 1 },
+    { key: 'reani', type: 'life', name: 'Poción de reanimación', scope: '', mech: { lives: 1 }, qty: 3 },
+    { key: 'reserva', type: 'life', name: 'Corazón de reserva', scope: '', mech: { lives: 2 }, qty: 1 },
+    { key: 'muro', type: 'shield', name: 'Muralla de pruebas', scope: 'practicos', mech: { charges: 3, scope: 'practicos' }, qty: 1 },
+  ],
+  MSI: [
+    { key: 'entrega', type: 'shield', name: 'Escudo de entrega', scope: 'practicos', mech: { charges: 1, scope: 'practicos' }, qty: 1 },
+    { key: 'reani', type: 'life', name: 'Poción de reanimación', scope: '', mech: { lives: 1 }, qty: 1 },
+  ],
+  GDS: [{ key: 'bolsa', type: 'coins', name: 'Bolsa del scrum master', scope: '', mech: { mult: 1.5, attempts: 5 }, qty: 1 }],
+  LEG: [], IAD: [],
+};
+const EQUIP = {
+  ProgIV: { practicos: ['lab', 'sab', null], teoricos: ['quiz', null, null], llm: ['tutor', null, null] },
+  MSI: { practicos: ['entrega', null, null], teoricos: [null, null, null], llm: [null, null, null] },
+};
+const equipOf = code => EQUIP[code] || (EQUIP[code] = { practicos: [null, null, null], teoricos: [null, null, null], llm: [null, null, null] });
+const invOf = code => INVENTORY[code] || (INVENTORY[code] = []);
+const usedCount = (code, key) => Object.values(equipOf(code)).flat().filter(k => k === key).length;
+const freeQty = (code, it) => it.qty - usedCount(code, it.key);
+const itemEffect = it => offerEffect({ type: it.type, mech: it.mech });
+const itemWhere = it => it.scope ? `Solo en ranuras de ${SCOPES_EQ[it.scope].label}` : 'Entra en cualquier ranura';
+const itemTile = (it, n, attrs = '') => `<button type="button" class="item-tile" data-item="${it.key}" title="${it.name}" data-scope="${it.scope}" ${attrs} aria-label="${it.name}, ${n} disponibles, ${scopeName(it.scope).toLowerCase()}"${n ? '' : ' aria-disabled="true"'}>${offerArt(it)}${n > 1 || !n ? `<span class="qty num">×${n}</span>` : ''}</button>`;
+
+/* Movements: one row per event, rewards of the same challenge travel together. */
+const MOVES = {
+  ProgIV: [
+    { d: '2026-09-29', t: '10:06', title: 'Quiz: queries vs. mutations', kind: 'teorico', note: 'Aprobado 79/100', coins: 20, xp: 55 },
+    { d: '2026-09-27', t: '18:40', title: 'Mercado: Poción de reanimación', kind: 'mercado', note: 'Compra', coins: -500 },
+    { d: '2026-09-25', t: '14:10', title: 'Quiz: mocks y spies en Vitest', kind: 'teorico', note: 'Aprobado 82/100', coins: 21, xp: 65 },
+    { d: '2026-09-24', t: '13:41', title: 'Listado de cursos con httpResource', kind: 'practico', note: 'Aprobado 97/100', coins: 58, xp: 175, item: 'Elixir de sabiduría ×1.50' },
+    { d: '2026-09-23', t: '09:12', title: 'Sockets: chat concurrente', kind: 'practico', note: 'Desaprobado 41/100', lives: -1, item: 'Escudo rúnico absorbió 1 fallo' },
+    { d: '2026-09-20', t: '15:31', title: 'Spec de un guard funcional', kind: 'practico', note: 'Aprobado 80/100', coins: 40, xp: 120 },
+    { d: '2026-09-20', t: '12:20', title: 'Mercado: Escudo rúnico de laboratorio', kind: 'mercado', note: 'Compra', coins: -350 },
+    { d: '2026-09-18', t: '12:49', title: 'Spec de un guard funcional', kind: 'practico', note: 'Primer intento 94/100', coins: 47, xp: 90 },
+    { d: '2026-09-16', t: '11:05', title: 'Prompt: refactor guiado por IA', kind: 'llm', note: 'Aprobado 88/100', coins: 35, xp: 110 },
+    { d: '2026-09-14', t: '17:22', title: 'Hilos y semáforos', kind: 'practico', note: 'Aprobado 91/100', coins: 52, xp: 160 },
+    { d: '2026-09-11', t: '10:00', title: 'Racha de 7 días', kind: 'bono', note: 'Bono de constancia', coins: 100 },
+    { d: '2026-09-08', t: '16:45', title: 'Quiz: arquitectura en capas', kind: 'teorico', note: 'Aprobado 70/100', coins: 18, xp: 50 },
+    { d: '2026-09-06', t: '19:02', title: 'Productor-consumidor', kind: 'practico', note: 'Desaprobado 38/100', lives: -1 },
+    { d: '2026-09-04', t: '08:30', title: 'Bienvenida a Programación IV', kind: 'bono', note: 'Saldo inicial', coins: 1500, xp: 0 },
+  ],
+  MSI: [
+    { d: '2026-09-25', t: '18:10', title: 'Recursión de Fibonacci', kind: 'practico', note: 'Aprobado 85/100', coins: 15, xp: 60 },
+    { d: '2026-09-18', t: '11:30', title: 'Mercado: Escudo de entrega', kind: 'mercado', note: 'Compra', coins: -300 },
+    { d: '2026-09-11', t: '10:00', title: 'Bienvenida a MSI', kind: 'bono', note: 'Saldo inicial', coins: 605 },
+  ],
+};
+const KIND = { teorico: 'Teórico', practico: 'Práctico', llm: 'LLM', mercado: 'Mercado', bono: 'Bono' };
+const mv = { q: '', res: '', per: '90', day: '2026-09-24', page: 0, size: 8 };
+const fmtSigned = (n, unit) => `<span class="${n < 0 ? 'neg' : 'pos'}"><b class="num">${n > 0 ? '+' : n < 0 ? '−' : ''}${Math.abs(n).toLocaleString('es-AR')}</b> ${unit}</span>`;
+function moveRewards(m) {
+  return [m.coins ? fmtSigned(m.coins, Math.abs(m.coins) === 1 ? 'moneda' : 'monedas') : '', m.xp ? fmtSigned(m.xp, 'XP') : '', m.lives ? fmtSigned(m.lives, Math.abs(m.lives) === 1 ? 'vida' : 'vidas') : ''].filter(Boolean).join('');
+}
+const dayLabel = d => { const n = Math.round((TODAY - parse(d)) / 864e5); return n === 0 ? 'Hoy' : n === 1 ? 'Ayer' : parse(d).toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' }); };
+
+function renderWallet() {
+  const c = COURSES[walCode] || COURSES.ProgIV, coins = STUDENT_COINS[walCode] || 0;
+  $('#wal-tabs').innerHTML = STUDENT_SHOPS.map(k => `<button class="tab" role="tab" type="button" aria-selected="${k === walCode}" data-wal="${k}">${COURSES[k].name}</button>`).join('');
+  const lifeItems = invOf(walCode).filter(i => i.type === 'life').reduce((n, i) => n + freeQty(walCode, i), 0);
+  const recent = (MOVES[walCode] || []).filter(m => (TODAY - parse(m.d)) / 864e5 <= 7).reduce((n, m) => n + (m.coins || 0), 0);
+  $('#wal-stats').innerHTML = `
+    <button type="button" class="stat-btn" data-wal-res="lives"><span class="k">${itemImg('heart1', '', 'coin-icon')}Vidas<span class="stat-filter">Filtrar movimientos</span></span><span class="v heart">${hearts(c.lives)}<span class="num">${c.lives}/3</span></span><span class="sub">${lifeItems ? `Tenés <b class="num">${lifeItems}</b> ${lifeItems === 1 ? 'poción' : 'pociones'} de vida en el inventario` : 'No tenés pociones de vida'}</span></button>
+    <button type="button" class="stat-btn" data-wal-res="coins"><span class="k">${itemImg('coin', '', 'coin-icon')}Monedas<span class="stat-filter">Filtrar movimientos</span></span><span class="v coin num">${coins.toLocaleString('es-AR')}</span><span class="sub">${recent ? `${fmtSigned(recent, '')} en los últimos 7 días` : 'Sin movimientos esta semana'}</span></button>
+    <button type="button" class="stat-btn" data-wal-res="xp"><span class="k">${icon('i-star', 'icon icon-sm')}XP<span class="stat-filter">Filtrar movimientos</span></span><span class="v num">${c.xp.toLocaleString('es-AR')}<span class="of">/ ${c.xpMax}</span></span><span class="bar" aria-hidden="true"><span style="width:${c.xp / c.xpMax * 100}%"></span></span><span class="sub">Nivel ${c.level} · faltan <span class="num">${c.xpMax - c.xp}</span> XP para el ${c.level + 1}</span></button>`;
+  syncStatFilter();
+  renderMoves(); renderInvPanel();
+}
+function renderMoves() {
+  // Balance after each move, walking back from today's balance.
+  let bal = STUDENT_COINS[walCode] || 0;
+  const all = (MOVES[walCode] || []).slice().sort((a, b) => (b.d + b.t).localeCompare(a.d + a.t)).map(m => { const r = { ...m, after: bal }; bal -= m.coins || 0; return r; });
+  const q = mv.q.trim().toLowerCase();
+  const rows = all.filter(m => (mv.per === 'day' ? m.d === mv.day : (TODAY - parse(m.d)) / 864e5 <= Number(mv.per)) && (!mv.res || m[mv.res]) && (!q || (m.title + ' ' + m.note).toLowerCase().includes(q)));
+  const sum = k => rows.reduce((n, m) => n + (m[k] || 0), 0), gain = rows.reduce((n, m) => n + Math.max(0, m.coins || 0), 0), spent = rows.reduce((n, m) => n + Math.min(0, m.coins || 0), 0);
+  $('#mv-sum').innerHTML = rows.length ? `${mv.per === 'day' ? 'Ese día' : 'En este período'}: ${fmtSigned(gain, '')} / ${fmtSigned(spent, 'monedas')} · ${fmtSigned(sum('xp'), 'XP')} · ${fmtSigned(sum('lives'), 'vidas')}` : '';
+  const pages = Math.max(1, Math.ceil(rows.length / mv.size));
+  mv.page = Math.min(mv.page, pages - 1);
+  const page = rows.slice(mv.page * mv.size, (mv.page + 1) * mv.size);
+  let lastDay = '';
+  $('#mv-list').innerHTML = page.map(m => {
+    const head = m.d !== lastDay ? `<h3 class="day-head">${dayLabel(m.d)}</h3>` : ''; lastDay = m.d;
+    const art = m.kind === 'mercado' ? 'chest' : m.lives < 0 ? 'heart1' : 'coin';
+    return `${head}<details class="move">
+      <summary><span class="move-art">${itemImg(art, '', 'coin-icon')}</span>
+        <span class="move-main"><span class="move-title">${m.title}</span><span class="move-meta"><span class="num">${m.t}</span> · ${KIND[m.kind]} · ${m.note}</span></span>
+        <span class="move-rew">${moveRewards(m)}</span><span class="move-more">Más info${icon('i-chevron', 'icon icon-sm')}</span></summary>
+      <dl class="move-info">
+        <div><dt>Saldo después</dt><dd>${coinsLabel(m.after)}</dd></div>
+        <div><dt>Fecha</dt><dd class="num">${m.d.split('-').reverse().join('/')} ${m.t}</dd></div>
+        ${m.item ? `<div><dt>Ítem</dt><dd>${m.item}</dd></div>` : ''}
+        <div><dt>Origen</dt><dd>${m.kind === 'mercado' ? 'Compra en el mercado del curso' : m.kind === 'bono' ? 'Otorgado por la cátedra' : `Desafío ${KIND[m.kind].toLowerCase()}`}</dd></div>
+      </dl></details>`;
+  }).join('') || `<div class="empty">${icon('i-search')}<p>No hay movimientos con esos filtros.</p><button class="btn btn-ghost btn-sm" type="button" data-mv-clear>Limpiar filtros</button></div>`;
+  $('#mv-pager').innerHTML = rows.length > mv.size ? pagerHTML(mv.page, mv.size, rows.length, 'movimientos') : '';
+}
+let invPick = null;
+function renderInvPanel() {
+  const items = invOf(walCode), eq = equipOf(walCode);
+  const used = Object.values(eq).flat().filter(Boolean).length;
+  $('#invp-count').textContent = `${items.reduce((n, i) => n + i.qty, 0)} ítems`;
+  $('#invp-slots').textContent = `${used} de 9 ranuras`;
+  $('#invp-equipped').innerHTML = Object.entries(SCOPES_EQ).map(([sc, t]) => `<div class="mini-row"><span class="badge ${t.badge} sm">${t.label}</span>${eq[sc].map(k => { const it = items.find(i => i.key === k); return it ? `<span class="mini-slot" title="${it.name}">${offerArt(it)}</span>` : '<span class="mini-slot free" aria-label="Ranura libre"></span>'; }).join('')}</div>`).join('');
+  const avail = items.filter(i => freeQty(walCode, i) > 0);
+  $('#invp-kinds').textContent = `${avail.length} ${avail.length === 1 ? 'tipo' : 'tipos'}`;
+  $('#invp-items').innerHTML = avail.map(i => itemTile(i, freeQty(walCode, i), `data-invp="${i.key}" aria-pressed="${invPick === i.key}"`)).join('') || '<p class="muted">No te quedan ítems sin equipar.</p>';
+  const it = items.find(i => i.key === invPick);
+  $('#invp-detail').innerHTML = it ? itemDetailHTML(it) : 'Tocá un ítem para ver qué hace y en qué desafíos se equipa.';
+  $('#invp-detail').classList.toggle('has-item', !!it);
+  $('#invp-shop').href = `#mercado/${walCode}`;
+}
+$('#wal-tabs').addEventListener('click', e => { const b = e.target.closest('[data-wal]'); if (b) { walCode = b.dataset.wal; invPick = null; mv.page = 0; renderWallet(); } });
+$('#wal-stats').addEventListener('click', e => {
+  const b = e.target.closest('[data-wal-res]'); if (!b) return;
+  mv.res = mv.res === b.dataset.walRes ? '' : b.dataset.walRes; mv.page = 0; $('#mv-res').value = mv.res;
+  renderMoves(); syncStatFilter();
+});
+$('#mv-q').addEventListener('input', e => { mv.q = e.target.value; mv.page = 0; renderMoves(); });
+$('#mv-res').addEventListener('change', e => { mv.res = e.target.value; mv.page = 0; renderMoves(); syncStatFilter(); });
+$('#mv-per').addEventListener('change', e => { mv.per = e.target.value; mv.page = 0; $('#mv-day-field').hidden = mv.per !== 'day'; renderMoves(); });
+$('#mv-day').addEventListener('change', e => { mv.day = e.target.value; mv.page = 0; renderMoves(); });
+// The resource cards double as the ledger filter; their pressed state mirrors the select.
+function syncStatFilter() { $$('#wal-stats [data-wal-res]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.walRes === mv.res))); }
+$('#mv-list').addEventListener('click', e => { if (e.target.closest('[data-mv-clear]')) { Object.assign(mv, { q: '', res: '', per: '180', page: 0 }); $('#mv-q').value = ''; $('#mv-res').value = ''; $('#mv-per').value = '180'; $('#mv-day-field').hidden = true; renderMoves(); syncStatFilter(); } });
+onPager($('#mv-pager'), p => { mv.page = p; renderMoves(); });
+$('#invp-items').addEventListener('click', e => { const b = e.target.closest('[data-invp]'); if (b) { invPick = invPick === b.dataset.invp ? null : b.dataset.invp; renderInvPanel(); } });
+
+/* Item detail: shown where the student is looking after a click, never in a hover-only bubble (touch has no hover). */
+function itemDetailHTML(it) {
+  if (!it) return '';
+  const n = freeQty(walCode, it);
+  return `<div class="tip-head">${offerArt(it)}<b>${it.name}</b></div>
+    <div class="tip-meta"><span class="badge ${it.scope ? SCOPES_EQ[it.scope].badge : 'badge-gold'} sm">${scopeName(it.scope)}</span><span>Tenés <span class="num">${n}</span>${n === it.qty ? '' : ` de <span class="num">${it.qty}</span> sin equipar`}</span></div>
+    <p>${itemEffect(it)}.</p>
+    <p class="muted">Se equipa en: ${it.scope ? SCOPES_EQ[it.scope].label : 'Prácticos, Teóricos o LLM'}</p>`;
+}
+
+/* ---- Equipar ítems: tap item then slot, or drag it; slots that don't fit dim while choosing ---- */
+let bagPick = null;
+const poolQ = { q: '' };
+function renderInventory() {
+  const code = walCode, items = invOf(code), eq = equipOf(code), c = COURSES[code] || COURSES.ProgIV;
+  $('#inv-tabs').innerHTML = STUDENT_SHOPS.map(k => `<button class="tab" role="tab" type="button" aria-selected="${k === code}" data-inv="${k}">${COURSES[k].name}</button>`).join('');
+  const pc = avatarState.pack;
+  $('#inv-backpack').innerHTML = pixel(BACKPACK, { a: pc, b: shade(pc, 55), c: tint(pc, 70), d: shade(pc, 75) }, `Mochila de ${USERS.alumno.name}`);
+  $('#h-bag').textContent = `Maleta de ${c.name}`;
+  const used = Object.values(eq).flat().filter(Boolean).length;
+  $('#bag-count').innerHTML = `<span class="num">${used}</span> de <span class="num">9</span> ranuras ocupadas · 3 por tipo de desafío`;
+  $('#bag-meter').innerHTML = Array.from({ length: 9 }, (_, i) => `<span class="${i < used ? 'on' : ''}"></span>`).join('');
+  const picked = items.find(i => i.key === bagPick);
+  $('#bag-rows').innerHTML = Object.entries(SCOPES_EQ).map(([sc, t]) => `
+    <div class="bag-row"><div class="bag-row-label"><span class="badge ${t.badge} sm">${t.label}</span><span class="muted">${t.label} o generales</span></div>
+      <div class="bag-slots">${eq[sc].map((k, i) => {
+        const it = items.find(x => x.key === k);
+        if (it) return `<div class="slot filled" data-slot="${sc}:${i}">${offerArt(it)}<span class="sr-only">${it.name}</span><button type="button" class="slot-x" data-unequip="${sc}:${i}" aria-label="Sacar ${it.name}">${icon('i-x', 'icon icon-sm')}</button></div>`;
+        const off = picked && !fitsSlot(picked, sc);
+        return `<button type="button" class="slot${off ? ' off' : picked ? ' ready' : ''}" data-slot="${sc}:${i}" ${off ? 'disabled' : ''} aria-label="Ranura libre de ${t.label}${picked && !off ? `: equipar ${picked.name}` : ''}">${icon('i-plus')}</button>`;
+      }).join('')}</div></div>`).join('');
+  const q = poolQ.q.trim().toLowerCase();
+  const groups = [['', 'Generales', 'Entran en cualquier ranura', 'badge-gold'], ...Object.entries(SCOPES_EQ).map(([k, t]) => [k, t.label, `Solo en ranuras de ${t.label}`, t.badge])];
+  $('#pool-grid').innerHTML = groups.map(([sc, label, hint, badge]) => {
+    const list = items.filter(i => i.scope === sc && (!q || (i.name + ' ' + itemEffect(i)).toLowerCase().includes(q)));
+    return `<section class="card studs pool" aria-label="${label}"><div class="pool-head"><span class="badge ${badge} sm">${label}</span><span class="muted">${hint}</span></div>
+      <div class="item-grid">${list.map(i => { const n = freeQty(code, i); return itemTile(i, n, `data-pick="${i.key}" aria-pressed="${bagPick === i.key}" draggable="${n > 0}"`); }).join('') || `<p class="muted pool-empty">${q ? 'Nada coincide.' : 'No tenés ítems de este tipo.'}</p>`}</div></section>`;
+  }).join('');
+  $('#bag-detail').innerHTML = picked ? itemDetailHTML(picked) + `<p class="bag-detail-hint">Ahora tocá una ranura iluminada o arrastralo.</p>` : 'Tocá un ítem para ver qué hace y en qué ranuras entra.';
+  $('#bag-detail').classList.toggle('has-item', !!picked);
+}
+function equip(key, slot) {
+  const [sc, i] = slot.split(':'), it = invOf(walCode).find(x => x.key === key), eq = equipOf(walCode);
+  if (!it || freeQty(walCode, it) < 1 || !fitsSlot(it, sc) || eq[sc][i]) return false;
+  eq[sc][i] = key; bagPick = null; renderInventory();
+  showToast(`Equipaste "${it.name}" en ${SCOPES_EQ[sc].label}.`, 'success');
+  return true;
+}
+$('#inv-tabs').addEventListener('click', e => { const b = e.target.closest('[data-inv]'); if (b) { walCode = b.dataset.inv; bagPick = null; renderInventory(); } });
+$('#pool-q').addEventListener('input', e => { poolQ.q = e.target.value; renderInventory(); });
+$('#screen-inventario-alumno').addEventListener('click', e => {
+  const x = e.target.closest('[data-unequip]');
+  if (x) { const [sc, i] = x.dataset.unequip.split(':'); equipOf(walCode)[sc][i] = null; renderInventory(); return; }
+  const p = e.target.closest('[data-pick]');
+  if (p) { if (p.getAttribute('aria-disabled') !== 'true') bagPick = bagPick === p.dataset.pick ? null : p.dataset.pick; renderInventory(); return; }
+  const sl = e.target.closest('button.slot[data-slot]');
+  if (sl && bagPick) equip(bagPick, sl.dataset.slot);
+});
+$('#screen-inventario-alumno').addEventListener('dragstart', e => { const p = e.target.closest('[data-pick]'); if (!p) return; e.dataTransfer.setData('text/plain', p.dataset.pick); bagPick = p.dataset.pick; requestAnimationFrame(renderInventory); });
+$('#screen-inventario-alumno').addEventListener('dragover', e => { const sl = e.target.closest('button.slot.ready'); if (sl) e.preventDefault(); });
+$('#screen-inventario-alumno').addEventListener('drop', e => { const sl = e.target.closest('button.slot[data-slot]'); if (!sl) return; e.preventDefault(); equip(e.dataTransfer.getData('text/plain'), sl.dataset.slot); });
+$('#screen-inventario-alumno').addEventListener('dragend', () => { if (bagPick) { bagPick = null; renderInventory(); } });
 
 /* ======================= role / nav / routing ======================= */
 const NAV_TABS = {
@@ -5391,14 +5633,14 @@ const SUBMENUS = {
         {
           label: 'Finanzas & Monedas',
           items: [
-            { id: 'sub-eco-banco', href: '#banco', label: 'Banco & Bóveda', meta: 'Bóveda de Monedas', icon: 'i-coin', match: h => h === 'banco' },
+            { id: 'sub-eco-banco', href: '#banco', label: 'Billetera', meta: 'Vidas, monedas y XP', icon: 'i-coin', match: h => h === 'banco' },
             { id: 'sub-eco-market', href: '#marketplace', label: 'Mercado', meta: 'Vitrina de cada curso', icon: 'i-bag', match: h => h === 'marketplace' || h.startsWith('mercado') }
           ]
         },
         {
           label: 'Tu Personaje',
           items: [
-            { id: 'sub-eco-inv', href: '#inventario', label: 'Inventario de Ítems', icon: 'i-briefcase', match: h => h === 'inventario' },
+            { id: 'sub-eco-inv', href: '#inventario', label: 'Equipar ítems', icon: 'i-briefcase', match: h => h === 'inventario' },
             { id: 'sub-eco-pj', href: '#personaje', label: 'Personalizar Avatar', icon: 'i-user', match: h => h === 'personaje' }
           ]
         }
@@ -6055,6 +6297,8 @@ function route() {
   if (id === 'ranking') renderRanking();
   if (id === 'vitrinas') renderVitrinas();
   if (id === 'marketplace') renderShopCourses();
+  if (id === 'banco' && currentRole === 'alumno') renderWallet();
+  if (id === 'inventario') renderInventory();
   if (id === 'mercado') {
     const code = decodeURIComponent(arg || shopCode);
     if (code !== shopCode) { Object.assign(shop, { type: '', q: '', page: 0 }); $('#shop-q').value = ''; selectShopTab('vitrina'); }
