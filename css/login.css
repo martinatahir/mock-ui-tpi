@@ -179,3 +179,11 @@
   .m-hand { transition:none; }
   .login-progress i { animation-duration:.01s; }
 }
+
+/* ---------- selector de apariencia (tema + estilo) ---------- */
+.login-prefs { position:absolute; top:12px; right:12px; z-index:2; display:flex; flex-wrap:wrap; justify-content:flex-end; gap:8px; }
+@media (max-width:640px) {
+  .login-stage { padding-top:84px; }
+  .login-prefs { left:12px; justify-content:center; }
+}
+.login-prefs .seg button { display:inline-flex; align-items:center; gap:6px; }
