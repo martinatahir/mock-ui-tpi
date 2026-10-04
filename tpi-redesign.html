@@ -48,6 +48,7 @@
   <symbol id="i-cards" viewBox="0 0 24 24"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></symbol>
   <symbol id="i-table" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/></symbol>
   <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
   <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
   <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></symbol>
   <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
@@ -99,7 +100,7 @@
   <span>Estilo:</span>
   <div class="seg" role="group" aria-label="Estilo">
     <button data-skin-btn="gamer" aria-pressed="true">🎮 Arcade</button>
-    <button data-skin-btn="sobrio" aria-pressed="false">💼 Normal</button>
+    <button data-skin-btn="sobrio" aria-pressed="false">💼 Fabio</button>
   </div>
   <span>Paleta Arcade:</span>
   <div class="seg" role="group" aria-label="Paleta Arcade">
@@ -216,7 +217,7 @@
           <div class="menu-pref-row">
             <div class="seg sm" role="group" aria-label="Estilo">
               <button data-skin-btn="gamer" aria-pressed="true">Arcade</button>
-              <button data-skin-btn="sobrio" aria-pressed="false">Normal</button>
+              <button data-skin-btn="sobrio" aria-pressed="false">Fabio</button>
             </div>
             <div class="seg sm" role="group" aria-label="Tema">
               <button data-theme-btn="dark" aria-pressed="true">Oscuro</button>
@@ -418,9 +419,131 @@
       </div>
     </section>
 
-    <!-- ================= CURSO (detalle) · alumno ================= -->
-    <section class="screen" id="screen-curso-alumno" aria-labelledby="h-curso-a" data-error="No pudimos traer este curso.">
-      <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; flex-wrap:wrap;">
+    <!-- ================= CURSO (detalle unificado) · estudiante / profesor / admin ================= -->
+    <section class="screen" id="screen-curso" aria-labelledby="h-curso" data-error="No pudimos traer este curso.">
+      <!-- Barra Superior de Navegación y Herramientas Docentes (con Menú Desplegable a la Izquierda) · Solo Rol Profesor / Administrador -->
+      <div class="course-admin-topbar" data-staff-only="true">
+        <div class="course-admin-topbar-left">
+          <a class="back" href="#cursos" style="margin:0;"><svg class="icon icon-sm"><use href="#i-left"/></svg>Volver a Mis Cursos</a>
+          
+          <div class="topbar-nav-divider" aria-hidden="true"></div>
+
+          <!-- Selector Desplegable de Módulos de la Cohorte -->
+          <div class="cohort-view-dropdown" id="cohort-view-dropdown" data-tabgroup="curso">
+            <button class="cohort-view-trigger" id="cohort-view-trigger" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="cohort-view-menu" aria-label="Cambiar módulo de la cohorte">
+              <span class="cohort-view-trigger-icon" id="cohort-view-trigger-icon"><svg class="icon icon-sm"><use href="#i-cards"/></svg></span>
+              <span class="cohort-view-trigger-title" id="cohort-view-trigger-label">Contenidos del Curso</span>
+              <svg class="icon icon-xs chev" aria-hidden="true"><use href="#i-chevron"/></svg>
+            </button>
+            <div class="cohort-view-menu" id="cohort-view-menu" role="menu" hidden>
+              <div class="cohort-menu-header">Vistas y Gestión del Curso</div>
+              <button class="cohort-menu-item is-selected" type="button" role="menuitem" id="tab-c-general" aria-controls="panel-c-general" aria-selected="true" data-subtab="c-general">
+                <span class="cohort-menu-item-icon"><svg class="icon icon-sm"><use href="#i-cards"/></svg></span>
+                <div class="cohort-menu-item-content">
+                  <span class="cohort-menu-item-label">Contenidos del Curso</span>
+                  <span class="cohort-menu-item-desc">Programa, unidades temáticas y recursos</span>
+                </div>
+                <svg class="icon icon-xs cohort-menu-check" aria-hidden="true"><use href="#i-check"/></svg>
+              </button>
+              <button class="cohort-menu-item" type="button" role="menuitem" id="tab-c-secciones" aria-controls="panel-c-secciones" aria-selected="false" data-subtab="c-secciones">
+                <span class="cohort-menu-item-icon"><svg class="icon icon-sm"><use href="#i-list"/></svg></span>
+                <div class="cohort-menu-item-content">
+                  <span class="cohort-menu-item-label">Secciones</span>
+                  <span class="cohort-menu-item-desc">Unidades y contenidos temáticos</span>
+                </div>
+                <svg class="icon icon-xs cohort-menu-check" aria-hidden="true"><use href="#i-check"/></svg>
+              </button>
+              <button class="cohort-menu-item" type="button" role="menuitem" id="tab-c-padron" aria-controls="panel-c-padron" aria-selected="false" data-subtab="c-padron">
+                <span class="cohort-menu-item-icon"><svg class="icon icon-sm"><use href="#i-users"/></svg></span>
+                <div class="cohort-menu-item-content">
+                  <span class="cohort-menu-item-label">Padrón de Alumnos</span>
+                  <span class="cohort-menu-item-desc">Listado oficial y estados de cursada</span>
+                </div>
+                <svg class="icon icon-xs cohort-menu-check" aria-hidden="true"><use href="#i-check"/></svg>
+              </button>
+              <button class="cohort-menu-item" type="button" role="menuitem" id="tab-c-solicitudes" aria-controls="panel-c-solicitudes" aria-selected="false" data-subtab="c-solicitudes">
+                <span class="cohort-menu-item-icon"><svg class="icon icon-sm"><use href="#i-clock"/></svg></span>
+                <div class="cohort-menu-item-content">
+                  <span class="cohort-menu-item-label">Solicitudes Pendientes</span>
+                  <span class="cohort-menu-item-desc">Inscripciones y pedidos de acceso</span>
+                </div>
+                <svg class="icon icon-xs cohort-menu-check" aria-hidden="true"><use href="#i-check"/></svg>
+              </button>
+              <button class="cohort-menu-item" type="button" role="menuitem" id="tab-c-asistencias" aria-controls="panel-c-asistencias" aria-selected="false" data-subtab="c-asistencias">
+                <span class="cohort-menu-item-icon"><svg class="icon icon-sm"><use href="#i-check"/></svg></span>
+                <div class="cohort-menu-item-content">
+                  <span class="cohort-menu-item-label">Asistencias</span>
+                  <span class="cohort-menu-item-desc">Planilla de presentismo y fechas</span>
+                </div>
+                <svg class="icon icon-xs cohort-menu-check" aria-hidden="true"><use href="#i-check"/></svg>
+              </button>
+              <button class="cohort-menu-item" type="button" role="menuitem" id="tab-c-calificaciones" aria-controls="panel-c-calificaciones" aria-selected="false" data-subtab="c-calificaciones">
+                <span class="cohort-menu-item-icon"><svg class="icon icon-sm"><use href="#i-star"/></svg></span>
+                <div class="cohort-menu-item-content">
+                  <span class="cohort-menu-item-label">Calificaciones</span>
+                  <span class="cohort-menu-item-desc">Planilla de notas, TPs y retos</span>
+                </div>
+                <svg class="icon icon-xs cohort-menu-check" aria-hidden="true"><use href="#i-check"/></svg>
+              </button>
+              <hr class="cohort-menu-divider" />
+              <button class="cohort-menu-item" type="button" role="menuitem" data-open="dialog-configurar-materia">
+                <span class="cohort-menu-item-icon"><svg class="icon icon-sm"><use href="#i-book"/></svg></span>
+                <div class="cohort-menu-item-content">
+                  <span class="cohort-menu-item-label">Detalle de Cursada</span>
+                  <span class="cohort-menu-item-desc">Fechas, modalidad y parámetros</span>
+                </div>
+              </button>
+              <button class="cohort-menu-item" type="button" role="menuitem" id="tab-c-config" aria-controls="panel-c-config" aria-selected="false" data-subtab="c-config">
+                <span class="cohort-menu-item-icon"><svg class="icon icon-sm"><use href="#i-lock"/></svg></span>
+                <div class="cohort-menu-item-content">
+                  <span class="cohort-menu-item-label">Configuración</span>
+                  <span class="cohort-menu-item-desc">Parámetros y visibilidad de cohorte</span>
+                </div>
+                <svg class="icon icon-xs cohort-menu-check" aria-hidden="true"><use href="#i-check"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="topbar-nav-divider" aria-hidden="true"></div>
+
+          <!-- Switch Modo Edición (Solo Docente) -->
+          <div class="edit-mode-switch-wrapper" title="Activar/desactivar modo edición de actividades y recursos">
+            <label class="edit-mode-switch" for="course-edit-mode-toggle">
+              <input type="checkbox" id="course-edit-mode-toggle" checked />
+              <span class="edit-mode-slider"></span>
+              <span class="edit-mode-text"><svg class="icon icon-xs"><use href="#i-pencil"/></svg>Modo edición</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="course-admin-hero-actions">
+          <button class="btn btn-secondary btn-sm" type="button" data-open="dialog-configurar-materia" title="Configurar y ver detalle de cursada">
+            <svg class="icon icon-sm"><use href="#i-book"/></svg>Detalle de cursada
+          </button>
+          <button class="btn btn-primary btn-sm edit-mode-control" type="button" data-open="dialog-asignar-profesores" data-admin-only>
+            <svg class="icon icon-sm"><use href="#i-users"/></svg>Asignar docente
+          </button>
+          <button class="btn btn-secondary btn-sm" type="button" data-open="dialog-gestionar-vitrina" style="color:var(--accent-gold); border-color:rgba(245,158,11,0.35); background:rgba(245,158,11,0.1);">
+            <svg class="icon icon-sm"><use href="#i-star"/></svg>Gestionar vitrina
+          </button>
+          <button class="btn btn-quiet btn-sm" type="button" data-open="dialog-gestion-padron">
+            <svg class="icon icon-sm"><use href="#i-file"/></svg>Importar CSV
+          </button>
+
+          <div class="cohort-invite-chip" role="group" aria-label="Código de invitación de la cohorte">
+            <div class="cohort-invite-chip-body">
+              <span class="cohort-invite-chip-label">Código alumnos:</span>
+              <code class="invite-code" id="invite-code">KAS5ZNBRT3</code>
+              <button class="icon-btn xs" type="button" id="invite-copy" aria-label="Copiar código de invitación" title="Copiar código"><svg class="icon icon-xs"><use href="#i-copy"/></svg></button>
+              <button class="icon-btn xs" type="button" id="invite-regen" aria-label="Regenerar código de invitación" title="Regenerar código"><svg class="icon icon-xs"><use href="#i-refresh"/></svg></button>
+            </div>
+            <span class="cohort-invite-status-msg" id="invite-status" role="status"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Miga de pan de Estudiante (Visible solo cuando rol es alumno) -->
+      <div data-alumno-only="true" style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; flex-wrap:wrap;">
         <nav class="campus-breadcrumb" aria-label="Miga de pan" style="margin-bottom:0;">
           <a href="#cursos">Mis Cursos</a>
           <span class="sep">&gt;</span>
@@ -435,59 +558,403 @@
         </button>
       </div>
 
-      <!-- Course Hero Banner (Matching media_1791003239670.png / materia-v3.html) -->
-      <section class="v3-hero-card">
-        <div class="v3-hero-info">
-          <div class="v3-hero-tag">
-            <span>⚡ MATERIA ACTIVA · COMISIÓN 4K2</span>
-          </div>
-          <h1 class="v3-hero-title" id="h-curso-a" data-course-name>
-            Metodología de Sistemas II
-          </h1>
-          <div class="v3-hero-meta" data-course-meta>
-            <span>👨‍🏫 Prof. Ana Torres</span>
-            <span>📅 1° Cuatrimestre 2026</span>
-            <span>📍 Modalidad Mixta (Aula Magna / Virtual)</span>
+      <div class="data">
+        <!-- 1. GENERAL / CONTENIDOS (Vista compartida por docente y alumno) -->
+        <div id="panel-c-general" role="tabpanel" aria-labelledby="tab-c-general" data-subpanel="c-general" data-group="curso">
+          
+          <!-- Course Hero Banner Unificado -->
+          <section class="v3-hero-card" style="margin-bottom:14px;">
+            <div class="v3-hero-info">
+              <div class="v3-hero-tag">
+                <span>⚡ MATERIA ACTIVA · OBLIGATORIA · COMISIÓN 4K2</span>
+              </div>
+              <h1 class="v3-hero-title" id="h-curso" data-course-name>
+                Metodología de Sistemas II
+              </h1>
+            </div>
+
+            <div class="v3-hero-stats">
+              <div class="v3-stat-box" title="Porcentaje de avance en el programa de la cursada">
+                <div class="v3-stat-num">83%</div>
+                <div class="v3-stat-label">PROGRESO</div>
+              </div>
+              <div class="v3-stat-box" title="Puntos de experiencia académica acumulados">
+                <div class="v3-stat-num" style="color: var(--accent-gold, #ffd600);">1,450</div>
+                <div class="v3-stat-label">XP GANADOS</div>
+              </div>
+              <div class="v3-stat-box" title="3 de 3 vidas disponibles para entregas y desafíos prácticos">
+                <div class="v3-stat-num" style="display:flex; align-items:center; justify-content:center; gap:5px;">
+                  <span style="font-size:14px; line-height:1;" aria-hidden="true">❤️</span>
+                  <span style="color:var(--text-primary); font-size:18px;">3/3</span>
+                </div>
+                <div class="v3-stat-label">VIDAS</div>
+              </div>
+              <button type="button" class="hero-action-btn" id="btn-hero-toggle-temario" title="Abrir y explorar el temario lateral de la cursada (Ctrl+B)">
+                <svg class="icon icon-sm" style="color:var(--accent-primary-fill);"><use href="#i-list"/></svg>
+                <span>Temario</span>
+              </button>
+            </div>
+          </section>
+
+          <!-- Sección: Equipo Docente (Plegable / Solo visible para Administradores de la cohorte) -->
+          <details class="cockpit-accordion" id="accordion-docentes" data-admin-only style="margin-bottom:18px;">
+            <summary>
+              <div class="cockpit-accordion-left">
+                <div class="cockpit-accordion-icon">
+                  <svg class="icon icon-sm"><use href="#i-users"/></svg>
+                </div>
+                <div class="cockpit-accordion-titles">
+                  <span class="cockpit-accordion-title">
+                    Equipo docente <span class="muted" style="font-weight:400;" id="team-count-label">(4)</span>
+                  </span>
+                  <span class="cockpit-accordion-desc">Nómina y permisos de profesores asignados a la cohorte</span>
+                </div>
+              </div>
+              <div class="cockpit-accordion-right">
+                <span class="cockpit-chevron"><svg class="icon icon-sm"><use href="#i-chevron"/></svg></span>
+              </div>
+            </summary>
+            <div class="cockpit-accordion-body">
+              <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; flex-wrap:wrap;">
+                <div class="search-bar sm" style="flex:1; min-width:220px;">
+                  <svg class="search-icon"><use href="#i-search"/></svg>
+                  <input class="search-input" type="search" id="team-search-q" placeholder="Buscar docente por nombre o email..." aria-label="Buscar docente" oninput="renderTeamTable()" />
+                  <button class="search-clear" type="button" id="team-search-clear" aria-label="Limpiar búsqueda" style="display:none;" onclick="$('#team-search-q').value=''; this.style.display='none'; renderTeamTable();"><svg class="icon icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+                </div>
+
+                <div class="combobox sm" id="team-filter-combobox" data-value="">
+                  <button type="button" class="combobox-trigger" aria-haspopup="listbox" aria-expanded="false" aria-label="Filtrar por permiso">
+                    <span class="combobox-label">Permiso:</span>
+                    <span class="combobox-selected-text" id="team-combobox-selected-text">Todos</span>
+                    <svg class="icon icon-xs combobox-chevron"><use href="#i-chevron"/></svg>
+                  </button>
+                  <ul class="combobox-options" role="listbox" hidden>
+                    <li class="combobox-option is-selected" role="option" data-value="" aria-selected="true">Todos</li>
+                    <li class="combobox-option" role="option" data-value="Gestor" aria-selected="false">Gestor</li>
+                    <li class="combobox-option" role="option" data-value="Profesor con escritura" aria-selected="false">Profesor con escritura</li>
+                  </ul>
+                </div>
+
+                <button class="btn btn-primary btn-sm edit-mode-control" type="button" data-open="dialog-asignar-profesores" style="font-family:'Chakra Petch', sans-serif; font-weight:700;">
+                  <svg class="icon icon-sm"><use href="#i-plus"/></svg>Asignar Docente
+                </button>
+              </div>
+
+              <div class="table-wrap">
+                <table class="data-table table-striped" id="table-docentes-oficial">
+                  <thead>
+                    <tr>
+                      <th scope="col" style="width:40%;">Nombre ▲</th>
+                      <th scope="col" style="width:30%;">Permiso ▲</th>
+                      <th scope="col" style="width:15%;">Incorporado ▲</th>
+                      <th scope="col" class="edit-mode-control" style="width:15%; text-align:right;">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody id="faculty-list-container"></tbody>
+                </table>
+              </div>
+            </div>
+          </details>
+
+          <!-- Contenido de la Materia (Acordeón Modular) -->
+          <div class="materia-content" style="display: flex; flex-direction: column; gap: 14px;">
+            <!-- Barra superior de control de secciones -->
+            <div class="course-sections-toolbar" style="display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; padding: 4px 0 8px;">
+              <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                <span style="font-family: 'Chakra Petch', sans-serif; font-size: 15px; font-weight: 700; color: var(--text-primary);">Módulos & Unidades Temáticas</span>
+                <div class="search-bar sm" style="width: 260px;">
+                  <svg class="icon search-icon"><use href="#i-search"/></svg>
+                  <input type="search" id="course-sections-search" class="search-input" placeholder="Buscar material o TP..." autocomplete="off" />
+                  <kbd class="search-kbd">/</kbd>
+                </div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <button type="button" class="btn btn-primary btn-sm edit-mode-control" id="btn-open-create-section" style="font-family: 'Chakra Petch', sans-serif; font-weight: 700;">
+                  <svg class="icon icon-sm"><use href="#i-plus"/></svg>
+                  <span>Crear Sección</span>
+                </button>
+                <button type="button" class="btn btn-ghost btn-sm" id="btn-toggle-all-sections" style="border-radius: 6px;">
+                  <svg class="icon icon-sm"><use href="#i-chevron"/></svg>
+                  <span id="txt-toggle-all-sections">Colapsar todo</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Listado de Secciones Acordeón Dinámico de la Materia -->
+            <div class="course-sections-list" id="course-sections-accordion-wrap"></div>
           </div>
         </div>
 
-        <div class="v3-hero-stats">
-          <div class="v3-stat-box">
-            <div class="v3-stat-num">82%</div>
-            <div class="v3-stat-label">PROGRESO</div>
-          </div>
-          <div class="v3-stat-box">
-            <div class="v3-stat-num" style="color: var(--accent-gold, #ffd600);">1,450</div>
-            <div class="v3-stat-label">XP GANADOS</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Contenido de la Materia (Acordeón Modular y Foco en Cursada) -->
-      <div class="materia-content" style="display: flex; flex-direction: column; gap: 14px;">
-        <!-- Barra superior de control de secciones -->
-        <div class="course-sections-toolbar" style="display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; padding: 4px 0 8px;">
-          <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-            <span style="font-family: 'Chakra Petch', sans-serif; font-size: 15px; font-weight: 700; color: var(--text-primary);">Módulos & Unidades Temáticas</span>
-            <div class="search-bar sm" style="width: 260px;">
-              <svg class="icon search-icon"><use href="#i-search"/></svg>
-              <input type="search" id="course-sections-search" class="search-input" placeholder="Buscar material o TP..." autocomplete="off" />
-              <kbd class="search-kbd">/</kbd>
+        <!-- 2. SECCIONES (vista-curso-3.png & nueva_seccion.jpg) -->
+        <div data-subpanel="c-secciones" data-group="curso" hidden>
+          <div class="page-head" style="margin-bottom:16px;">
+            <div>
+              <h2 style="font-size:20px; margin:0;">Secciones</h2>
+              <p class="muted" style="font-size:13px; margin:2px 0 0;">Organizá el contenido de la cohorte. Las secciones dadas de baja no se muestran.</p>
+            </div>
+            <div class="quick-links">
+              <button class="btn btn-ghost btn-sm" type="button" id="reorder-btn"><svg class="icon icon-sm"><use href="#i-grip"/></svg>Ordenar</button>
+              <button class="btn btn-primary btn-sm" type="button" id="btn-toggle-subpanel-create-section"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Nueva sección</button>
             </div>
           </div>
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <button type="button" class="btn btn-primary btn-sm" id="btn-open-create-section" data-staff-only="true" style="font-family: 'Chakra Petch', sans-serif; font-weight: 700;">
-              <svg class="icon icon-sm"><use href="#i-plus"/></svg>
-              <span>Crear Sección</span>
-            </button>
-            <button type="button" class="btn btn-ghost btn-sm" id="btn-toggle-all-sections" style="border-radius: 6px;">
-              <svg class="icon icon-sm"><use href="#i-chevron"/></svg>
-              <span id="txt-toggle-all-sections">Colapsar todo</span>
-            </button>
+
+          <!-- Creador Inline dentro de Secciones -->
+          <div class="inline-section-creator card studs" id="inline-section-creator-subpanel" hidden style="background:var(--bg-surface); border:1.5px solid var(--accent-primary-fill); border-radius:var(--radius-card); padding:18px 20px; box-shadow:0 6px 20px rgba(0,0,0,0.12); margin-bottom:14px; animation:fadeIn 0.2s ease;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px;">
+              <div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <svg class="icon icon-sm" style="color:var(--accent-primary-fill);"><use href="#i-plus"/></svg>
+                  <h3 class="display" style="font-size:16px; margin:0; font-family:'Chakra Petch', sans-serif;">CREAR NUEVA SECCIÓN</h3>
+                  <span class="badge badge-secondary sm" style="font-size:11px;">Se agrega al final</span>
+                </div>
+                <p class="muted" style="font-size:12.5px; margin:4px 0 0;">Configurá el título y la visibilidad de la nueva sección temática.</p>
+              </div>
+              <button class="icon-btn sm" type="button" id="btn-close-subpanel-inline-sec" aria-label="Cerrar"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
+            </div>
+            
+            <form id="form-subpanel-inline-seccion" onsubmit="return false;" style="display:flex; flex-direction:column; gap:14px;">
+              <div style="display:grid; grid-template-columns: 2fr 1fr; gap:14px; align-items:flex-start;">
+                <label class="field">
+                  <span class="req">Título de la Sección</span>
+                  <input class="control" id="subpanel-sec-titulo" placeholder="Ej. Unidad 5: Patrones de Diseño" value="Unidad 5" required />
+                </label>
+                
+                <div class="field">
+                  <span>Visibilidad para Alumnos</span>
+                  <div style="margin-top:8px;">
+                    <label class="switch-label">
+                      <div class="switch-toggle">
+                        <input type="checkbox" id="subpanel-sec-visible" />
+                        <span class="switch-track"></span>
+                      </div>
+                      <span id="subpanel-sec-visible-label" style="font-size:13px; font-weight:600; color:var(--text-muted);">Oculta (Borrador)</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <label class="field">
+                <span>Descripción</span>
+                <textarea class="control" id="subpanel-sec-desc" rows="2" maxlength="1000" placeholder="Descripción opcional de la sección..."></textarea>
+                <div class="char-counter" id="subpanel-sec-char-count">0/1000</div>
+              </label>
+
+              <div style="display:flex; justify-content:flex-end; align-items:center; gap:10px; border-top:1px solid var(--border-subtle); padding-top:12px; margin-top:2px;">
+                <button class="btn btn-quiet" type="button" id="btn-cancel-subpanel-inline-sec">Cancelar</button>
+                <button class="btn btn-primary" type="button" id="btn-confirm-subpanel-inline-sec">
+                  <svg class="icon icon-sm"><use href="#i-plus"/></svg>
+                  <span>Crear Sección</span>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div class="sec-grid" id="sections-cards-list" style="display:flex; flex-direction:column; gap:12px;"></div>
+        </div>
+
+        <!-- 3. PADRÓN DE ALUMNOS (padron_alumnos.jpg) -->
+        <div data-subpanel="c-padron" data-group="curso" hidden>
+          <div class="padron-view-container" style="max-width:940px; margin:0 auto; padding:4px 0 24px;">
+            <div class="page-head" style="margin-bottom:18px;">
+              <div>
+                <h2 style="font-size:22px; margin:0; font-weight:700; color:var(--text-primary);">Padrón de la cohorte</h2>
+                <p class="muted" style="font-size:13px; margin:4px 0 0;">Consultá los alumnos registrados en el padrón oficial de la cohorte.</p>
+              </div>
+            </div>
+
+            <!-- Barra de herramientas unificada del padrón -->
+            <div class="padron-toolbar" style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px; flex-wrap:wrap;">
+              <div class="search-input-wrap" style="position:relative; display:flex; align-items:center; flex:1; min-width:240px; max-width:420px;">
+                <svg class="icon icon-sm" style="position:absolute; left:12px; color:var(--text-muted); pointer-events:none;" aria-hidden="true"><use href="#i-search"/></svg>
+                <input class="control" type="search" id="padron-search-q" placeholder="Buscar por legajo, nombre o email..." aria-label="Buscar alumno por legajo, nombre o email institucional" style="padding-left:36px; height:38px; width:100%;" />
+              </div>
+              <div class="padron-meta" style="display:flex; align-items:center; gap:10px;">
+                <span class="badge badge-outline" style="font-size:12px; font-weight:500; padding:0 12px; height:38px; display:inline-flex; align-items:center; gap:6px; box-sizing:border-box;">
+                  <svg class="icon icon-sm" aria-hidden="true" style="color:var(--text-muted); width:14px; height:14px;"><use href="#i-users"/></svg>
+                  <span><b id="padron-realtime-count" class="num font-bold">9</b> alumnos</span>
+                </span>
+                <div class="action-dropdown" id="dropdown-padron-wrap">
+                  <input type="file" id="input-padron-file" accept=".csv, .xlsx, .xls" style="display:none;" />
+                  <button class="btn btn-primary btn-sm" type="button" id="btn-toggle-padron-menu" aria-haspopup="true" aria-expanded="false" style="height:38px; display:inline-flex; align-items:center; gap:6px; padding:0 14px;">
+                    <svg class="icon icon-sm" aria-hidden="true"><use href="#i-file"/></svg>
+                    <span>Cargar padrón</span>
+                    <svg class="icon icon-sm chevron-down" style="width:12px; height:12px; margin-left:2px; transition:transform 0.15s ease;" aria-hidden="true"><use href="#i-chevron"/></svg>
+                  </button>
+                  <ul class="action-dropdown-menu" id="menu-padron-options" hidden role="menu" aria-label="Opciones de carga y descarga de padrón">
+                    <li role="none">
+                      <button class="action-dropdown-item" type="button" role="menuitem" id="item-import-padron">
+                        <svg class="icon icon-sm" style="color:var(--accent-primary-fill); flex-shrink:0;"><use href="#i-download"/></svg>
+                        <div style="flex:1;">
+                          <div style="font-weight:600; line-height:1.2;">Importar CSV / Excel</div>
+                          <div class="muted" style="font-size:11.5px; margin-top:2px;">Abre tu explorador de archivos</div>
+                        </div>
+                      </button>
+                    </li>
+                    <li class="action-dropdown-divider" role="separator"></li>
+                    <li role="none">
+                      <button class="action-dropdown-item" type="button" role="menuitem" id="item-template-padron">
+                        <svg class="icon icon-sm" style="color:var(--text-muted); flex-shrink:0;"><use href="#i-file"/></svg>
+                        <div style="flex:1;">
+                          <div style="font-weight:600; line-height:1.2;">Descargar plantilla CSV</div>
+                          <div class="muted" style="font-size:11.5px; margin-top:2px;">Modelo oficial con cabeceras</div>
+                        </div>
+                      </button>
+                    </li>
+                    <li role="none">
+                      <button class="action-dropdown-item" type="button" role="menuitem" id="item-export-padron">
+                        <svg class="icon icon-sm" style="color:var(--accent-gold); flex-shrink:0;"><use href="#i-copy"/></svg>
+                        <div style="flex:1;">
+                          <div style="font-weight:600; line-height:1.2;">Exportar nómina actual</div>
+                          <div class="muted" style="font-size:11.5px; margin-top:2px;">Descargar en formato CSV</div>
+                        </div>
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="table-wrap">
+              <table class="data table-institutional" id="padron-official-table">
+                <thead>
+                  <tr>
+                    <th scope="col" style="width:130px;" class="sortable-th col-center" data-sort-key="legajo" aria-sort="none" tabindex="0" role="columnheader" aria-label="Ordenar por legajo">
+                      <div class="th-content">
+                        <span>Legajo</span>
+                        <span class="sort-icon" aria-hidden="true">
+                          <svg class="icon icon-sm" style="width:12px; height:12px;"><use href="#i-chevron"/></svg>
+                        </span>
+                      </div>
+                    </th>
+                    <th scope="col" style="width:42%;" class="sortable-th" data-sort-key="name" aria-sort="none" tabindex="0" role="columnheader" aria-label="Ordenar por nombre y apellido">
+                      <div class="th-content">
+                        <span>Nombre y Apellido</span>
+                        <span class="sort-icon" aria-hidden="true">
+                          <svg class="icon icon-sm" style="width:12px; height:12px;"><use href="#i-chevron"/></svg>
+                        </span>
+                      </div>
+                    </th>
+                    <th scope="col" style="width:42%;" class="sortable-th" data-sort-key="email" aria-sort="none" tabindex="0" role="columnheader" aria-label="Ordenar por email institucional">
+                      <div class="th-content">
+                        <span>Email Institucional</span>
+                        <span class="sort-icon" aria-hidden="true">
+                          <svg class="icon icon-sm" style="width:12px; height:12px;"><use href="#i-chevron"/></svg>
+                        </span>
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody id="padron-table-body"></tbody>
+              </table>
+            </div>
+
+            <!-- Paginador del padrón: 3 columnas balanceadas -->
+            <div class="pager pager-balanced" id="padron-pager" style="margin-top:14px;">
+              <div class="pager-summary" id="padron-pager-summary">
+                <span><b id="padron-page-range">1–5</b> de <b id="padron-total-count">9</b> alumnos</span>
+              </div>
+              <div class="pager-center-nav">
+                <div class="pg" id="padron-pagination-buttons"></div>
+              </div>
+              <div class="pager-side-controls">
+                <label class="pager-size" style="display:inline-flex; align-items:center; gap:6px;">
+                  <span>Mostrar:</span>
+                  <select class="control" id="padron-page-size" style="height:32px; padding:0 24px 0 8px; font-size:13px;">
+                    <option value="5" selected>5 por página</option>
+                    <option value="10">10 por página</option>
+                    <option value="25">25 por página</option>
+                    <option value="50">50 por página</option>
+                  </select>
+                </label>
+              </div>
+            </div>
           </div>
         </div>
-        <!-- Listado de Secciones Acordeón (General con avisos, Info General, Unidad 1, 2, 3, 4...) -->
-        <div class="course-sections-list" id="course-sections-accordion-wrap"></div>
+
+        <!-- 4. SOLICITUDES PENDIENTES -->
+        <div data-subpanel="c-solicitudes" data-group="curso" hidden>
+          <div class="section-head" style="margin-bottom:10px;"><p class="muted" style="font-size:13px;">Pedidos de inscripción hechos con el código de invitación.</p></div>
+          <ul class="list" id="enroll-list"></ul>
+        </div>
+
+        <!-- 5. ASISTENCIAS (vista-curso6.png) -->
+        <div data-subpanel="c-asistencias" data-group="curso" hidden>
+          <div class="empty" style="padding:48px 24px; text-align:center;">
+            <svg class="icon" aria-hidden="true" style="width:48px; height:48px; color:var(--accent-primary); margin-bottom:12px;"><use href="#i-calendar"/></svg>
+            <h2 style="font-size:18px; margin:0 0 6px;">Asistencias</h2>
+            <p class="muted" style="margin:0 0 20px;">Registro y seguimiento de asistencias a clase.</p>
+            <div class="quick-links" style="justify-content:center;">
+              <button class="btn btn-primary btn-sm" type="button"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Registrar la clase de hoy</button>
+              <button class="btn btn-quiet btn-sm" type="button" data-goto="c-general">Volver a General</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. CALIFICACIONES -->
+        <div data-subpanel="c-calificaciones" data-group="curso" hidden>
+          <div class="empty" style="padding:48px 24px; text-align:center;">
+            <svg class="icon" aria-hidden="true" style="width:48px; height:48px; color:var(--accent-gold); margin-bottom:12px;"><use href="#i-star"/></svg>
+            <h2 style="font-size:18px; margin:0 0 6px;">Calificaciones</h2>
+            <p class="muted" style="margin:0;">Todavía no hay calificaciones cargadas para esta cohorte.</p>
+          </div>
+        </div>
+
+        <!-- 7. CONFIGURACIÓN -->
+        <div data-subpanel="c-config" data-group="curso" hidden>
+          <div class="card studs activation">
+            <div class="link-row" style="align-items:flex-start">
+              <div>
+                <h2 class="act-title"><svg class="icon" aria-hidden="true" style="color:var(--good)"><use href="#i-check"/></svg>Cohorte activa</h2>
+                <p class="muted" style="font-size:var(--fs-ui); margin-top:4px">El código de invitación está habilitado y la cursada está disponible para los alumnos.</p>
+              </div>
+            </div>
+            <details class="act-reqs">
+              <summary>Requisitos de activación <span class="muted">· 3 de 3 cumplidos</span></summary>
+              <ul>
+                <li><svg class="icon icon-sm" aria-hidden="true"><use href="#i-tick"/></svg>Estaba en estado Borrador al activarla</li>
+                <li><svg class="icon icon-sm" aria-hidden="true"><use href="#i-tick"/></svg>El padrón tiene al menos un estudiante activo</li>
+                <li><svg class="icon icon-sm" aria-hidden="true"><use href="#i-tick"/></svg>La calibración está aprobada</li>
+              </ul>
+            </details>
+          </div>
+
+          <form id="cfg-form" onsubmit="return false" novalidate>
+            <fieldset class="cfg-fs" id="cfg-fs">
+              <details class="card studs disclosure" name="cfg" open>
+                <summary><h2><span>Identificación</span><span class="disc-sum">Nombre, descripción y color</span></h2></summary>
+                <div class="form-grid">
+                  <label class="field">Nombre visible<input class="control" name="nombre" value="Programación IV" /><span class="hint">Si lo dejás vacío se muestra el nombre del curso base.</span></label>
+                  <label class="field">Color<select class="control" name="color"><option>Sin color</option><option>Terracota</option><option>Petróleo</option><option>Oliva</option></select></label>
+                  <label class="field full">Descripción<textarea class="control" name="desc" rows="2">Espacio principal de la cursada: estructura de contenidos, unidades temáticas y actividades evaluativas.</textarea></label>
+                </div>
+              </details>
+              <details class="card studs disclosure" name="cfg">
+                <summary><h2><span>Cursada</span><span class="disc-sum">Modalidad sin definir · 01/04/2026 – 20/12/2026 · sin horario</span></h2></summary>
+                <div class="form-grid">
+                  <label class="field">Modalidad<select class="control" name="modalidad"><option>Sin definir</option><option>Presencial</option><option>Virtual</option><option>Híbrida</option></select></label>
+                  <label class="field">Aula, espacio o enlace<input class="control" name="aula" placeholder="Aula 304 o https://meet.google.com/…" /></label>
+                  <label class="field">Fecha de inicio<input class="control" type="date" name="inicio" value="2026-04-01" /></label>
+                  <label class="field">Fecha de fin<input class="control" type="date" name="fin" value="2026-12-20" /></label>
+                  <label class="field">Horario desde<input class="control" type="time" name="hdesde" /></label>
+                  <label class="field">Horario hasta<input class="control" type="time" name="hhasta" /></label>
+                </div>
+              </details>
+              <details class="card studs disclosure" name="cfg">
+                <summary><h2><span>Inscripción</span><span class="disc-sum">Abierta mientras la cohorte esté activa · sin cupo</span></h2></summary>
+                <div class="form-grid">
+                  <label class="field">Inscripción desde<input class="control" type="date" name="idesde" /></label>
+                  <label class="field">Fecha límite<input class="control" type="date" name="ihasta" /></label>
+                  <p class="hint full" style="margin-top:-6px">Fuera de este período no se aceptan inscripciones con el código. Si no lo definís, los alumnos pueden inscribirse mientras la cohorte esté activa.</p>
+                  <label class="field">Cupo máximo de alumnos<input class="control num" type="number" name="cupo" min="1" max="350" placeholder="Sin límite" /><span class="hint">Cuenta inscriptos y solicitudes pendientes. Vacío = sin límite (máximo 350).</span></label>
+                </div>
+              </details>
+            </fieldset>
+            <div class="save-bar" id="save-bar" hidden>
+              <span><b>Tenés cambios sin guardar.</b></span>
+              <div class="quick-links"><button class="btn btn-quiet" type="button" id="cfg-discard">Descartar</button><button class="btn btn-primary" type="button" id="cfg-save">Guardar cambios</button></div>
+            </div>
+          </form>
+        </div>
       </div>
     </section>
 
@@ -916,332 +1383,6 @@
       </div>
     </section>
 
-    <!-- ================= CURSO (detalle) · profesor ================= -->
-    <section class="screen" id="screen-curso-profesor" aria-labelledby="h-curso-p" data-error="No pudimos traer esta cohorte.">
-      <div style="margin-bottom:12px;">
-        <a class="back" href="#cursos"><svg class="icon icon-sm"><use href="#i-left"/></svg>Volver a Mis Cursos</a>
-      </div>
-
-      <!-- Hero Header Unificado de Cohorte (Cockpit Docente) -->
-      <div class="course-admin-hero">
-        <div class="course-admin-hero-content">
-          <div class="course-admin-hero-title-row">
-            <h1 class="display" id="h-curso-p" data-course-name>Ingles II</h1>
-            <span class="badge badge-success sm"><span class="online-dot" style="width:6px; height:6px; display:inline-block; margin-right:4px;"></span>Cohorte Activa</span>
-            <span class="badge badge-gold sm">Gestor Académico</span>
-          </div>
-          <p class="course-admin-hero-desc">Espacio principal de la cursada. Organización de contenidos, comisiones, unidades temáticas y seguimiento de estudiantes.</p>
-          <div class="course-admin-hero-meta" data-course-meta>
-            <span class="meta-item"><svg class="icon icon-xs"><use href="#i-users"/></svg>Comisión 4K2 (Modalidad Mixta)</span>
-            <span class="meta-item"><svg class="icon icon-xs"><use href="#i-calendar"/></svg>10/10/2026 – 31/12/2026</span>
-            <span class="meta-item"><svg class="icon icon-xs"><use href="#i-book"/></svg>4to Cuatrimestre TUP</span>
-          </div>
-        </div>
-
-        <!-- Chip de Código de Invitación Compacto -->
-        <div class="cohort-invite-chip" role="group" aria-label="Código de invitación de la cohorte">
-          <div class="cohort-invite-chip-head">
-            <span class="cohort-invite-chip-label">Código de Invitación</span>
-            <span class="muted" style="font-size:11px;">Alumnos</span>
-          </div>
-          <div class="cohort-invite-chip-body">
-            <code class="invite-code" id="invite-code">KAS5ZNBRT3</code>
-            <div class="cohort-invite-chip-actions">
-              <button class="icon-btn xs" type="button" id="invite-copy" aria-label="Copiar código de invitación" title="Copiar código"><svg class="icon icon-xs"><use href="#i-copy"/></svg></button>
-              <button class="icon-btn xs" type="button" id="invite-regen" aria-label="Regenerar código de invitación" title="Regenerar código"><svg class="icon icon-xs"><use href="#i-refresh"/></svg></button>
-            </div>
-          </div>
-          <span class="cohort-invite-status-msg" id="invite-status" role="status"></span>
-        </div>
-      </div>
-
-      <!-- 7 Pestañas de Cohorte con Insignias Semánticas y ARIA -->
-      <div class="tabs" role="tablist" aria-label="Secciones del curso" data-tabgroup="curso">
-        <button class="tab" role="tab" id="tab-c-general" aria-controls="panel-c-general" aria-selected="true" data-subtab="c-general"><svg class="icon icon-sm"><use href="#i-cards"/></svg>General</button>
-        <button class="tab" role="tab" id="tab-c-secciones" aria-controls="panel-c-secciones" aria-selected="false" data-subtab="c-secciones"><svg class="icon icon-sm"><use href="#i-list"/></svg>Secciones <span class="count num" id="tab-sec-count">3</span></button>
-        <button class="tab" role="tab" id="tab-c-padron" aria-controls="panel-c-padron" aria-selected="false" data-subtab="c-padron"><svg class="icon icon-sm"><use href="#i-users"/></svg>Padrón de Alumnos <span class="count num" id="tab-padron-count">9</span></button>
-        <button class="tab" role="tab" id="tab-c-solicitudes" aria-controls="panel-c-solicitudes" aria-selected="false" data-subtab="c-solicitudes"><svg class="icon icon-sm"><use href="#i-clock"/></svg>Solicitudes Pendientes <span class="count num tab-badge-alert" data-req-count>2</span></button>
-        <button class="tab" role="tab" id="tab-c-asistencias" aria-controls="panel-c-asistencias" aria-selected="false" data-subtab="c-asistencias"><svg class="icon icon-sm"><use href="#i-check"/></svg>Asistencias</button>
-        <button class="tab" role="tab" id="tab-c-calificaciones" aria-controls="panel-c-calificaciones" aria-selected="false" data-subtab="c-calificaciones"><svg class="icon icon-sm"><use href="#i-star"/></svg>Calificaciones</button>
-        <button class="tab" role="tab" id="tab-c-config" aria-controls="panel-c-config" aria-selected="false" data-subtab="c-config"><svg class="icon icon-sm"><use href="#i-lock"/></svg>Configuración</button>
-      </div>
-
-      <div class="data">
-        <!-- 1. GENERAL (Cockpit Modular en 2 Columnas) -->
-        <div id="panel-c-general" role="tabpanel" aria-labelledby="tab-c-general" data-subpanel="c-general" data-group="curso">
-          <div class="course-cockpit-grid">
-            <!-- Columna Principal (60%): Resumen Operativo de Cursada + Acciones Rápidas -->
-            <div class="course-cockpit-main">
-              <!-- Bloque A: Resumen Operativo de Cursada -->
-              <section class="card studs cockpit-card" aria-labelledby="h-resumen-operativo">
-                <div class="section-head" style="margin-bottom:12px;">
-                  <h2 id="h-resumen-operativo" style="font-size:var(--fs-lead); display:flex; align-items:center; gap:8px; margin:0;">
-                    <svg class="icon icon-sm" style="color:var(--accent-primary-fill, #00e5ff);"><use href="#i-cards"/></svg>
-                    <span>Resumen Operativo de la Cursada</span>
-                  </h2>
-                  <span class="badge badge-success sm"><span class="online-dot" style="width:6px; height:6px; display:inline-block; margin-right:4px;"></span>Sincronizado</span>
-                </div>
-
-                <p class="muted" style="font-size:var(--fs-small); margin:0 0 16px;">
-                  Métricas clave de matriculación, avance de contenidos y solicitudes prioritarias para esta cohorte.
-                </p>
-
-                <div class="cohort-metrics-grid">
-                  <div class="cohort-metric-card">
-                    <span class="metric-label">Alumnos Matriculados</span>
-                    <div class="metric-val-row">
-                      <span class="metric-num num" id="metric-padron-count">9</span>
-                      <span class="badge badge-outline sm">Padrón Oficial</span>
-                    </div>
-                    <button type="button" class="metric-link" data-goto="c-padron">Gestionar padrón →</button>
-                  </div>
-
-                  <div class="cohort-metric-card">
-                    <span class="metric-label">Secciones de Cátedra</span>
-                    <div class="metric-val-row">
-                      <span class="metric-num num">3</span>
-                      <span class="badge badge-success sm">2 Visibles</span>
-                    </div>
-                    <button type="button" class="metric-link" data-goto="c-secciones">Ver contenidos →</button>
-                  </div>
-
-                  <div class="cohort-metric-card alert">
-                    <span class="metric-label">Solicitudes de Ingreso</span>
-                    <div class="metric-val-row">
-                      <span class="metric-num num" data-req-count>2</span>
-                      <span class="badge badge-gold sm">Por revisar</span>
-                    </div>
-                    <button type="button" class="metric-link" data-goto="c-solicitudes">Aprobar ingresos →</button>
-                  </div>
-
-                  <div class="cohort-metric-card">
-                    <span class="metric-label">Asistencia Promedio</span>
-                    <div class="metric-val-row">
-                      <span class="metric-num num">92%</span>
-                      <span class="badge badge-outline sm">Últ. 28/09</span>
-                    </div>
-                    <button type="button" class="metric-link" data-goto="c-asistencias">Cargar clase →</button>
-                  </div>
-                </div>
-              </section>
-
-              <!-- Bloque B: Acciones Rápidas de Cátedra -->
-              <section class="card studs cockpit-card" aria-labelledby="h-acciones-catedra">
-                <div class="section-head" style="margin-bottom:12px;">
-                  <h2 id="h-acciones-catedra" style="font-size:var(--fs-lead); display:flex; align-items:center; gap:8px; margin:0;">
-                    <svg class="icon icon-sm" style="color:var(--accent-gold, #f59e0b);"><use href="#i-lightning"/></svg>
-                    <span>Acciones Rápidas de Cátedra</span>
-                  </h2>
-                  <span class="muted" style="font-size:var(--fs-micro);">Herramientas pedagógicas</span>
-                </div>
-
-                <div class="cohort-quick-actions-grid">
-                  <button class="cockpit-action-btn" type="button" data-open="dialog-nueva-seccion">
-                    <span class="cockpit-action-icon primary"><svg class="icon"><use href="#i-plus"/></svg></span>
-                    <div class="cockpit-action-text">
-                      <strong>Crear Nueva Sección</strong>
-                      <span>Agregar unidad o actividad</span>
-                    </div>
-                  </button>
-
-                  <button class="cockpit-action-btn" type="button" data-open="dialog-gestion-padron">
-                    <span class="cockpit-action-icon gold"><svg class="icon"><use href="#i-file"/></svg></span>
-                    <div class="cockpit-action-text">
-                      <strong>Importar Padrón CSV</strong>
-                      <span>Cargar archivo oficial de alumnos</span>
-                    </div>
-                  </button>
-
-                  <button class="cockpit-action-btn" type="button" data-goto="c-secciones">
-                    <span class="cockpit-action-icon secondary"><svg class="icon"><use href="#i-list"/></svg></span>
-                    <div class="cockpit-action-text">
-                      <strong>Organizar Contenidos</strong>
-                      <span>Reordenar visibilidad de unidades</span>
-                    </div>
-                  </button>
-
-                  <button class="cockpit-action-btn" type="button" data-goto="c-config">
-                    <span class="cockpit-action-icon muted"><svg class="icon"><use href="#i-lock"/></svg></span>
-                    <div class="cockpit-action-text">
-                      <strong>Configuración</strong>
-                      <span>Fechas, cupos y requisitos</span>
-                    </div>
-                  </button>
-                </div>
-              </section>
-            </div>
-
-            <!-- Columna Lateral (40%): Equipo Docente Compacto -->
-            <div class="course-cockpit-side">
-              <section class="card studs cockpit-card" aria-labelledby="h-team-title">
-                <div class="section-head" style="margin-bottom:12px;">
-                  <div>
-                    <h2 id="h-team-title" style="font-size:var(--fs-lead); margin:0 0 2px;">
-                      Equipo Docente <span class="muted num" style="font-weight:400; font-size:var(--fs-small);" id="team-count-label">(4)</span>
-                    </h2>
-                    <span class="muted" style="font-size:var(--fs-micro);">Cuerpo académico asignado</span>
-                  </div>
-                  <button class="btn btn-primary btn-sm" type="button" data-open="dialog-asignar-profesores">
-                    <svg class="icon icon-sm"><use href="#i-plus"/></svg>Asignar
-                  </button>
-                </div>
-
-                <div class="faculty-search-wrap" style="margin-bottom:12px;">
-                  <div class="search-bar sm" style="width:100%;">
-                    <svg class="search-icon"><use href="#i-search"/></svg>
-                    <input class="search-input" type="search" id="team-search-q" placeholder="Buscar docente o cargo..." aria-label="Buscar docente" />
-                  </div>
-                </div>
-
-                <div class="faculty-list" id="faculty-list-container">
-                  <!-- Rendered dynamically by renderTeamTable -->
-                </div>
-              </section>
-            </div>
-          </div>
-        </div>
-
-        <!-- 2. SECCIONES (vista-curso-3.png & nueva_seccion.jpg) -->
-        <div data-subpanel="c-secciones" data-group="curso" hidden>
-          <div class="page-head" style="margin-bottom:16px;">
-            <div>
-              <h2 style="font-size:20px; margin:0;">Secciones</h2>
-              <p class="muted" style="font-size:13px; margin:2px 0 0;">Organizá el contenido de la cohorte. Las secciones dadas de baja no se muestran.</p>
-            </div>
-            <div class="quick-links">
-              <button class="btn btn-ghost btn-sm" type="button" id="reorder-btn"><svg class="icon icon-sm"><use href="#i-grip"/></svg>Ordenar</button>
-              <button class="btn btn-primary btn-sm" type="button" data-open="dialog-nueva-seccion"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Nueva sección</button>
-            </div>
-          </div>
-          <div class="sec-grid" id="sections-cards-list" style="display:flex; flex-direction:column; gap:12px;"></div>
-        </div>
-
-        <!-- 3. PADRÓN DE ALUMNOS (padron_alumnos.jpg) -->
-        <div data-subpanel="c-padron" data-group="curso" hidden>
-          <div class="page-head" style="margin-bottom:14px;">
-            <div>
-              <h2 style="font-size:20px; margin:0;">Padrón de la cohorte</h2>
-              <p class="muted" style="font-size:13px; margin:2px 0 0;">Consultá los alumnos registrados en el padrón oficial de la cohorte.</p>
-            </div>
-            <div class="quick-links">
-              <button class="btn btn-primary btn-sm" type="button" data-open="dialog-gestion-padron"><svg class="icon icon-sm"><use href="#i-file"/></svg>Cargar padrón</button>
-              <button class="btn btn-quiet btn-sm" type="button" data-goto="c-general"><svg class="icon icon-sm"><use href="#i-left"/></svg>Volver al detalle</button>
-            </div>
-          </div>
-          <div style="margin-bottom:14px;">
-            <label class="field" style="max-width:600px;">
-              <span style="font-size:12px; font-weight:600; color:var(--text-muted);">Buscar alumno</span>
-              <div class="search-input-wrap" style="position:relative; display:flex; align-items:center;">
-                <svg class="icon icon-sm" style="position:absolute; left:10px; color:var(--text-muted);" aria-hidden="true"><use href="#i-search"/></svg>
-                <input class="control" type="search" id="padron-search-q" placeholder="Buscar por legajo o email institucional" style="padding-left:34px;" />
-              </div>
-              <span class="hint">La búsqueda se aplica en tiempo real sobre el legajo y el email institucional.</span>
-            </label>
-          </div>
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-            <span class="num muted" style="font-size:13px;"><b id="padron-realtime-count">9</b> alumnos en el padrón</span>
-            <button class="btn btn-primary btn-sm" type="button" data-open="dialog-gestion-padron"><svg class="icon icon-sm"><use href="#i-file"/></svg>Cargar padrón</button>
-          </div>
-          <div class="table-wrap">
-            <table class="data" id="padron-official-table">
-              <thead>
-                <tr>
-                  <th style="width:140px;">Legajo ▴</th>
-                  <th>Nombre y Apellido ▴</th>
-                  <th>Email Institucional ▴</th>
-                </tr>
-              </thead>
-              <tbody id="padron-table-body"></tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- 4. SOLICITUDES PENDIENTES -->
-        <div data-subpanel="c-solicitudes" data-group="curso" hidden>
-          <div class="section-head" style="margin-bottom:10px;"><p class="muted" style="font-size:13px;">Pedidos de inscripción hechos con el código de invitación.</p></div>
-          <ul class="list" id="enroll-list"></ul>
-        </div>
-
-        <!-- 5. ASISTENCIAS (vista-curso6.png) -->
-        <div data-subpanel="c-asistencias" data-group="curso" hidden>
-          <div class="empty" style="padding:48px 24px; text-align:center;">
-            <svg class="icon" aria-hidden="true" style="width:48px; height:48px; color:var(--accent-primary); margin-bottom:12px;"><use href="#i-calendar"/></svg>
-            <h2 style="font-size:18px; margin:0 0 6px;">Asistencias</h2>
-            <p class="muted" style="margin:0 0 20px;">Registro y seguimiento de asistencias a clase.</p>
-            <div class="quick-links" style="justify-content:center;">
-              <button class="btn btn-primary btn-sm" type="button"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Registrar la clase de hoy</button>
-              <button class="btn btn-quiet btn-sm" type="button" data-goto="c-general">Volver a General</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- 6. CALIFICACIONES -->
-        <div data-subpanel="c-calificaciones" data-group="curso" hidden>
-          <div class="empty" style="padding:48px 24px; text-align:center;">
-            <svg class="icon" aria-hidden="true" style="width:48px; height:48px; color:var(--accent-gold); margin-bottom:12px;"><use href="#i-star"/></svg>
-            <h2 style="font-size:18px; margin:0 0 6px;">Calificaciones</h2>
-            <p class="muted" style="margin:0;">Todavía no hay calificaciones cargadas para esta cohorte.</p>
-          </div>
-        </div>
-
-        <!-- Configuración -->
-        <div data-subpanel="c-config" data-group="curso" hidden>
-          <div class="card studs activation">
-            <div class="link-row" style="align-items:flex-start">
-              <div>
-                <h2 class="act-title"><svg class="icon" aria-hidden="true" style="color:var(--good)"><use href="#i-check"/></svg>Cohorte activa</h2>
-                <p class="muted" style="font-size:var(--fs-ui); margin-top:4px">El código de invitación está habilitado y la cursada está disponible para los alumnos.</p>
-              </div>
-            </div>
-            <details class="act-reqs">
-              <summary>Requisitos de activación <span class="muted">· 3 de 3 cumplidos</span></summary>
-              <ul>
-                <li><svg class="icon icon-sm" aria-hidden="true"><use href="#i-tick"/></svg>Estaba en estado Borrador al activarla</li>
-                <li><svg class="icon icon-sm" aria-hidden="true"><use href="#i-tick"/></svg>El padrón tiene al menos un estudiante activo</li>
-                <li><svg class="icon icon-sm" aria-hidden="true"><use href="#i-tick"/></svg>La calibración está aprobada</li>
-              </ul>
-            </details>
-          </div>
-
-          <form id="cfg-form" onsubmit="return false" novalidate>
-            <fieldset class="cfg-fs" id="cfg-fs">
-              <details class="card studs disclosure" name="cfg" open>
-                <summary><h2><span>Identificación</span><span class="disc-sum">Nombre, descripción y color</span></h2></summary>
-                <div class="form-grid">
-                  <label class="field">Nombre visible<input class="control" name="nombre" value="Programación IV" /><span class="hint">Si lo dejás vacío se muestra el nombre del curso base.</span></label>
-                  <label class="field">Color<select class="control" name="color"><option>Sin color</option><option>Terracota</option><option>Petróleo</option><option>Oliva</option></select></label>
-                  <label class="field full">Descripción<textarea class="control" name="desc" rows="2">Espacio principal de la cursada: estructura de contenidos, unidades temáticas y actividades evaluativas.</textarea></label>
-                </div>
-              </details>
-              <details class="card studs disclosure" name="cfg">
-                <summary><h2><span>Cursada</span><span class="disc-sum">Modalidad sin definir · 01/04/2026 – 20/12/2026 · sin horario</span></h2></summary>
-                <div class="form-grid">
-                  <label class="field">Modalidad<select class="control" name="modalidad"><option>Sin definir</option><option>Presencial</option><option>Virtual</option><option>Híbrida</option></select></label>
-                  <label class="field">Aula, espacio o enlace<input class="control" name="aula" placeholder="Aula 304 o https://meet.google.com/…" /></label>
-                  <label class="field">Fecha de inicio<input class="control" type="date" name="inicio" value="2026-04-01" /></label>
-                  <label class="field">Fecha de fin<input class="control" type="date" name="fin" value="2026-12-20" /></label>
-                  <label class="field">Horario desde<input class="control" type="time" name="hdesde" /></label>
-                  <label class="field">Horario hasta<input class="control" type="time" name="hhasta" /></label>
-                </div>
-              </details>
-              <details class="card studs disclosure" name="cfg">
-                <summary><h2><span>Inscripción</span><span class="disc-sum">Abierta mientras la cohorte esté activa · sin cupo</span></h2></summary>
-                <div class="form-grid">
-                  <label class="field">Inscripción desde<input class="control" type="date" name="idesde" /></label>
-                  <label class="field">Fecha límite<input class="control" type="date" name="ihasta" /></label>
-                  <p class="hint full" style="margin-top:-6px">Fuera de este período no se aceptan inscripciones con el código. Si no lo definís, los alumnos pueden inscribirse mientras la cohorte esté activa.</p>
-                  <label class="field">Cupo máximo de alumnos<input class="control num" type="number" name="cupo" min="1" max="350" placeholder="Sin límite" /><span class="hint">Cuenta inscriptos y solicitudes pendientes. Vacío = sin límite (máximo 350).</span></label>
-                </div>
-              </details>
-            </fieldset>
-            <div class="save-bar" id="save-bar" hidden>
-              <span><b>Tenés cambios sin guardar.</b></span>
-              <div class="quick-links"><button class="btn btn-quiet" type="button" id="cfg-discard">Descartar</button><button class="btn btn-primary" type="button" id="cfg-save">Guardar cambios</button></div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </section>
 
     <!-- ================= CONFIGURACIÓN DE LA ACTIVIDAD · profesor (nueva_seccion.jpg derecha) ================= -->
     <section class="screen" id="screen-actividad-editar" aria-labelledby="h-act-edit" data-error="No pudimos cargar la configuración de la actividad.">
@@ -1257,10 +1398,6 @@
         <div>
           <h1 class="display" id="h-act-edit">Configuración de la actividad</h1>
           <p class="muted" style="font-size:13px; margin:4px 0 0;">Definí los requerimientos pedagógicos, criterios de evaluación y fechas límites.</p>
-        </div>
-        <div class="quick-links">
-          <a class="btn btn-quiet" href="#curso">Cancelar</a>
-          <button class="btn btn-primary" type="button" id="btn-save-actividad">Guardar cambios</button>
         </div>
       </div>
 
@@ -1470,7 +1607,7 @@
           <div class="table-wrap" data-view-target="auditoria"><table class="data">
             <thead><tr><th>Cuándo</th><th>Quién</th><th>Acción</th></tr></thead>
             <tbody>
-              <tr><td class="num">30/09 14:12</td><td>Ana Torres</td><td>Creó el desafío "Recursión de Fibonacci" en MSI</td></tr>
+              <tr><td class="num">30/09 14:12</td><td>Fabio</td><td>Creó el desafío "Recursión de Fibonacci" en MSI</td></tr>
               <tr><td class="num">30/09 11:40</td><td>admin@frc.utn.edu.ar</td><td>Cambió "XP por desafío avanzado" de 100 a 120</td></tr>
               <tr><td class="num">29/09 18:03</td><td>admin@frc.utn.edu.ar</td><td>Aprobó la solicitud de prof.gomez@frc.utn.edu.ar</td></tr>
               <tr><td class="num">29/09 09:27</td><td>Sistema</td><td>Otorgó 6 insignias "Primeros pasos"</td></tr>
@@ -1547,7 +1684,7 @@
           <span class="meta" style="font-weight:600;">Estilo:</span>
           <div class="seg" role="group" aria-label="Estilo">
             <button data-skin-btn="gamer" aria-pressed="true">🎮 Arcade (Gamer)</button>
-            <button data-skin-btn="sobrio" aria-pressed="false">💼 Normal (Sobrio)</button>
+            <button data-skin-btn="sobrio" aria-pressed="false">💼 Fabio</button>
           </div>
         </div>
       </div>
@@ -1647,14 +1784,16 @@
 
       <!-- 3. Badges -->
       <section class="card studs uikit-section">
-        <h2>4. Badges & Etiquetas (.badge)</h2>
-        <div class="uikit-row">
-          <span class="badge badge-required"><svg class="icon icon-sm"><use href="#i-flame"/></svg>Obligatorio</span>
-          <span class="badge badge-success"><svg class="icon icon-sm"><use href="#i-check"/></svg>Completado</span>
-          <span class="badge badge-gold"><svg class="icon icon-sm"><use href="#i-trophy"/></svg>+150 XP</span>
-          <span class="badge badge-danger">En riesgo</span>
-          <span class="badge badge-secondary">Práctico</span>
-          <span class="badge badge-outline">Borrador</span>
+        <h2>4. Badges & Etiquetas Unificadas (.badge)</h2>
+        <p class="hint" style="margin-bottom:14px;">Diseño unificado con alto contraste WCAG AA en modo claro y oscuro. Eliminada la inconsistencia de colores arbitrarios: ahora utilizan un fondo suave tonal con borde protector y texto nítido de alta legibilidad.</p>
+        <div class="uikit-row" style="align-items:center;">
+          <span class="badge badge-primary"><svg class="icon icon-sm"><use href="#i-flame"/></svg>Obligatorio</span>
+          <span class="badge badge-success"><svg class="icon icon-sm"><use href="#i-check"/></svg>Completado / Pagado</span>
+          <span class="badge badge-gold"><svg class="icon icon-sm"><use href="#i-trophy"/></svg>+150 XP / Recompensa</span>
+          <span class="badge badge-danger"><svg class="icon icon-sm"><use href="#i-alert"/></svg>En riesgo / Vencido</span>
+          <span class="badge badge-outline">Borrador / Sin publicar</span>
+          <span class="badge">Neutro institucional</span>
+          <span class="badge sm">Compacto (.sm)</span>
         </div>
       </section>
 
@@ -1840,6 +1979,76 @@
           </div>
           <div class="skeleton skeleton-text"></div>
           <div class="skeleton skeleton-text" style="width:75%;"></div>
+        </div>
+      </section>
+
+      <!-- 10. Tablas de Datos (.data-table) -->
+      <section class="card studs uikit-section">
+        <h2>10. Tablas de Datos Institucionales & Académicas (.data-table)</h2>
+        <p class="hint" style="margin-bottom:14px;">Componente de tabla universal con alta legibilidad en modo claro y oscuro. Tipografía sans-serif optimizada para escaneo rápido, números tabulares (<code>tabular-nums</code>), soporte para ordenamiento por columnas, badges unificados y filas interactivas.</p>
+        
+        <div class="table-wrap">
+          <table class="data-table table-striped" style="width:100%;">
+            <thead>
+              <tr>
+                <th scope="col" style="width:110px;">Legajo</th>
+                <th scope="col">Estudiante</th>
+                <th scope="col">Cohorte / Comisión</th>
+                <th scope="col" style="width:140px;">Estado</th>
+                <th scope="col" style="text-align:right; width:120px;">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>#49.204</b></td>
+                <td>
+                  <div style="font-weight:600; color:var(--text-primary);">Ceferino, Rafael</div>
+                  <div style="font-size:var(--fs-micro); color:var(--text-muted);">rceferino@frcon.utn.edu.ar</div>
+                </td>
+                <td><span class="badge sm">MSI 2026 · C1</span></td>
+                <td><span class="badge badge-success"><svg class="icon icon-sm"><use href="#i-check"/></svg>Regular</span></td>
+                <td style="text-align:right;">
+                  <button class="btn btn-ghost btn-sm" type="button" title="Ver ficha académica"><svg class="icon icon-sm"><use href="#i-eye"/></svg>Ver</button>
+                </td>
+              </tr>
+              <tr>
+                <td><b>#50.112</b></td>
+                <td>
+                  <div style="font-weight:600; color:var(--text-primary);">González, Lucía</div>
+                  <div style="font-size:var(--fs-micro); color:var(--text-muted);">lgonzalez@frcon.utn.edu.ar</div>
+                </td>
+                <td><span class="badge sm">ProgIV · C2</span></td>
+                <td><span class="badge badge-primary"><svg class="icon icon-sm"><use href="#i-flame"/></svg>Promocional</span></td>
+                <td style="text-align:right;">
+                  <button class="btn btn-ghost btn-sm" type="button" title="Ver ficha académica"><svg class="icon icon-sm"><use href="#i-eye"/></svg>Ver</button>
+                </td>
+              </tr>
+              <tr>
+                <td><b>#48.910</b></td>
+                <td>
+                  <div style="font-weight:600; color:var(--text-primary);">Martínez, Federico</div>
+                  <div style="font-size:var(--fs-micro); color:var(--text-muted);">fmartinez@frcon.utn.edu.ar</div>
+                </td>
+                <td><span class="badge sm">MSI 2026 · C1</span></td>
+                <td><span class="badge badge-danger"><svg class="icon icon-sm"><use href="#i-alert"/></svg>En riesgo</span></td>
+                <td style="text-align:right;">
+                  <button class="btn btn-ghost btn-sm" type="button" title="Ver ficha académica"><svg class="icon icon-sm"><use href="#i-eye"/></svg>Ver</button>
+                </td>
+              </tr>
+              <tr>
+                <td><b>#51.040</b></td>
+                <td>
+                  <div style="font-weight:600; color:var(--text-primary);">Navarro, Sofía</div>
+                  <div style="font-size:var(--fs-micro); color:var(--text-muted);">snavarro@frcon.utn.edu.ar</div>
+                </td>
+                <td><span class="badge sm">ProgIV · C1</span></td>
+                <td><span class="badge badge-outline">Inscripto</span></td>
+                <td style="text-align:right;">
+                  <button class="btn btn-ghost btn-sm" type="button" title="Ver ficha académica"><svg class="icon icon-sm"><use href="#i-eye"/></svg>Ver</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </section>
     </section>
@@ -2129,7 +2338,7 @@
               Gestor Demo <button type="button" style="border:0; background:transparent; color:inherit; cursor:pointer; font-weight:700;">×</button>
             </span>
             <span class="chip" style="font-size:12px; display:inline-flex; align-items:center; gap:6px;">
-              Ana Torres <button type="button" style="border:0; background:transparent; color:inherit; cursor:pointer; font-weight:700;">×</button>
+              Fabio <button type="button" style="border:0; background:transparent; color:inherit; cursor:pointer; font-weight:700;">×</button>
             </span>
           </div>
           <div class="search-input-wrap">
@@ -2183,7 +2392,7 @@
           <h3 style="font-size:14px; margin:0 0 10px; color:var(--accent-gold);">Resumen de la Cohorte</h3>
           <dl class="facts" style="font-size:13px;">
             <dt>Curso Base:</dt><dd><b id="wz-resumen-curso">MSI</b></dd>
-            <dt>Docentes:</dt><dd id="wz-resumen-docentes">Gestor Demo, Ana Torres</dd>
+            <dt>Docentes:</dt><dd id="wz-resumen-docentes">Gestor Demo, Fabio</dd>
             <dt>Período:</dt><dd id="wz-resumen-periodo">2026-10-09 al 2026-11-08</dd>
             <dt>Modalidad:</dt><dd id="wz-resumen-modalidad">Virtual (Online)</dd>
           </dl>
@@ -2198,17 +2407,50 @@
       <button class="btn btn-primary" type="button" id="wz-btn-finish" style="display:none;">Confirmar y Crear Cohorte</button>
     </div>
   </div>
-<!-- ================= Modal: Asignar Docente a la Cohorte ================= -->
+</dialog>
+
+<!-- ================= Modal: Gestionar Vitrina ================= -->
+<dialog class="modal modal-md studs" id="dialog-gestionar-vitrina" aria-labelledby="h-gv-title">
+  <div style="display:flex; flex-direction:column; width:100%;">
+    <div class="modal-head">
+      <div>
+        <h2 id="h-gv-title" class="display" style="font-size:18px; margin:0;">GESTIONAR VITRINA</h2>
+        <p class="muted" style="font-size:13px; margin:2px 0 0;">Configurá la visibilidad y presentación pública de esta materia en el catálogo.</p>
+      </div>
+      <button class="icon-btn sm" type="button" onclick="$('#dialog-gestionar-vitrina').close()" aria-label="Cerrar"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
+    </div>
+    <form class="modal-body" id="form-gestionar-vitrina" onsubmit="return false;" style="gap:16px;">
+      <label class="field">
+        <span class="req">Visibilidad en el Catálogo de Cursos</span>
+        <select class="control" id="vitrina-visibility" required>
+          <option value="public" selected>Publicada en la Vitrina General (Visible para todos los alumnos)</option>
+          <option value="restricted">Privada / Oculta (Solo accesible con Código de Invitación)</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>Descripción resumida para el banner de vitrina</span>
+        <textarea class="control" id="vitrina-desc" rows="3" style="resize:vertical;">Espacio principal de la cursada. Aquí se organiza la estructura de contenidos, unidades temáticas y actividades evaluativas.</textarea>
+      </label>
+    </form>
+    <div class="modal-foot">
+      <button class="btn btn-quiet" type="button" onclick="$('#dialog-gestionar-vitrina').close()">Cancelar</button>
+      <button class="btn btn-primary" type="button" onclick="$('#dialog-gestionar-vitrina').close(); showToast('Configuración de vitrina guardada correctamente.');">Guardar Configuración</button>
+    </div>
+  </div>
+</dialog>
+
+<!-- ================= Modal: Asignar / Editar Docente de la Cohorte ================= -->
 <dialog class="modal modal-md studs" id="dialog-asignar-profesores" aria-labelledby="h-ap-title">
   <div style="display:flex; flex-direction:column; width:100%;">
     <div class="modal-head">
       <div>
         <h2 id="h-ap-title" class="display" style="font-size:18px; margin:0;">ASIGNAR DOCENTE</h2>
-        <p class="muted" style="font-size:13px; margin:2px 0 0;">Incorporá un profesor o ayudante de cátedra a esta cohorte.</p>
+        <p class="muted" id="h-ap-desc" style="font-size:13px; margin:2px 0 0;">Incorporá un profesor o ayudante de cátedra a esta cohorte.</p>
       </div>
       <button class="icon-btn sm" type="button" onclick="$('#dialog-asignar-profesores').close()" aria-label="Cerrar"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
     </div>
     <form class="modal-body" id="form-asignar-profesores" onsubmit="return false;" style="gap:16px;">
+      <input type="hidden" id="asig-prof-edit-id" value="" />
       <label class="field">
         <span class="req">Docente a incorporar</span>
         <select class="control" id="asig-prof-select" required>
@@ -2217,6 +2459,10 @@
           <option value="Sarah Jenkins">Sarah Jenkins (sarah.jenkins@frc.utn.edu.ar)</option>
           <option value="Federico Rossi">Federico Rossi (federico.rossi@frc.utn.edu.ar)</option>
           <option value="Valeria Domínguez">Valeria Domínguez (valeria.dominguez@frc.utn.edu.ar)</option>
+          <option value="Fabio">Fabio (fabio@frc.utn.edu.ar)</option>
+          <option value="Martín Ríos">Martín Ríos (martin.rios@frc.utn.edu.ar)</option>
+          <option value="Laura Pérez">Laura Pérez (laura.perez@frc.utn.edu.ar)</option>
+          <option value="Diego Suárez">Diego Suárez (diego.suarez@frc.utn.edu.ar)</option>
         </select>
       </label>
 
@@ -2273,41 +2519,112 @@
   </div>
 </dialog>
 
-<!-- ================= Modal: Nueva Sección (nueva_seccion.jpg izquierda) ================= -->
-<dialog class="modal modal-md studs" id="dialog-nueva-seccion" aria-labelledby="h-ns-title">
+<!-- ================= Modal: Configurar Materia / Cohorte (Editable y Configurable) ================= -->
+<dialog class="modal modal-md studs" id="dialog-configurar-materia" aria-labelledby="h-cfg-mat-title">
   <div style="display:flex; flex-direction:column; width:100%;">
     <div class="modal-head">
       <div>
-        <h2 id="h-ns-title" class="display" style="font-size:18px; margin:0;">NUEVA SECCIÓN</h2>
-        <p class="muted" style="font-size:13px; margin:2px 0 0;">Se crea oculta y se agrega al final de la cohorte.</p>
+        <h2 id="h-cfg-mat-title" class="display" style="font-size:18px; margin:0;">CONFIGURAR MATERIA & COHORTE</h2>
+        <p class="muted" id="h-cfg-mat-sub" style="font-size:13px; margin:2px 0 0;">Modificá el nombre, régimen académico, fechas y parámetros de la cursada.</p>
       </div>
-      <button class="icon-btn sm" type="button" onclick="$('#dialog-nueva-seccion').close()" aria-label="Cerrar"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
+      <button class="icon-btn sm" type="button" onclick="$('#dialog-configurar-materia').close()" aria-label="Cerrar"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
     </div>
-    <form class="modal-body" id="form-nueva-seccion" onsubmit="return false;" style="gap:16px;">
-      <label class="field">
-        <span class="req">Título</span>
-        <input class="control" id="nueva-sec-titulo" placeholder="Ej. Unidad 1" value="Unidad 1" required />
-      </label>
-
-      <label class="field">
-        <span>Descripción</span>
-        <textarea class="control" id="nueva-sec-desc" rows="3" maxlength="1000" placeholder="Descripción opcional de la sección"></textarea>
-        <div class="char-counter" id="sec-char-count">0/1000</div>
-      </label>
-
-      <div class="field" style="margin-top:4px;">
-        <label class="switch-label">
-          <div class="switch-toggle">
-            <input type="checkbox" id="nueva-sec-visible" />
-            <span class="switch-track"></span>
-          </div>
-          <span>Visible para estudiantes</span>
+    <form class="modal-body" id="form-config-materia" onsubmit="return false;" style="gap:14px; max-height:calc(80vh - 120px); overflow-y:auto; padding-right:6px;">
+      <div style="display:grid; grid-template-columns: 2fr 1fr; gap:12px;">
+        <label class="field">
+          <span class="req">Nombre de la Materia</span>
+          <input class="control" id="cfg-mat-name" placeholder="Ej. Metodología de Sistemas II" required />
         </label>
+        <label class="field">
+          <span class="req">Código / Sigla</span>
+          <input class="control" id="cfg-mat-code" placeholder="Ej. MSI" required />
+        </label>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+        <label class="field">
+          <span class="req">Carácter Académico</span>
+          <select class="control" id="cfg-mat-type">
+            <option value="Obligatoria" selected>Obligatoria</option>
+            <option value="Electiva">Electiva</option>
+            <option value="Optativa">Optativa</option>
+            <option value="Extracurricular">Extracurricular</option>
+          </select>
+        </label>
+        <label class="field">
+          <span class="req">Estado de Cursada</span>
+          <select class="control" id="cfg-mat-status">
+            <option value="Activa" selected>Activa (En curso)</option>
+            <option value="Planificación">En Planificación</option>
+            <option value="Archivada">Archivada / Finalizada</option>
+          </select>
+        </label>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+        <label class="field">
+          <span class="req">Comisión</span>
+          <input class="control" id="cfg-mat-comision" placeholder="Ej. Comisión 4K2" value="Comisión 4K2" required />
+        </label>
+        <label class="field">
+          <span class="req">Modalidad</span>
+          <select class="control" id="cfg-mat-modalidad">
+            <option value="Modalidad Mixta" selected>Modalidad Mixta (Híbrida)</option>
+            <option value="Presencial">Presencial</option>
+            <option value="100% Virtual">100% Virtual</option>
+          </select>
+        </label>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px;">
+        <label class="field">
+          <span class="req">Cuatrimestre</span>
+          <input class="control" id="cfg-mat-period" placeholder="Ej. 4to Cuatrimestre" value="4to Cuatrimestre" required />
+        </label>
+        <label class="field">
+          <span class="req">Fecha Inicio</span>
+          <input class="control" type="text" id="cfg-mat-from" placeholder="DD/MM/AAAA" value="01/08/2026" required />
+        </label>
+        <label class="field">
+          <span class="req">Fecha Cierre</span>
+          <input class="control" type="text" id="cfg-mat-to" placeholder="DD/MM/AAAA" value="15/12/2026" required />
+        </label>
+      </div>
+
+      <!-- Bloque de Régimen y Condiciones de Cursada -->
+      <div style="background:var(--bg-surface-alt); border:1px solid var(--border-subtle); border-radius:var(--radius-control); padding:12px 14px; display:flex; flex-direction:column; gap:8px;">
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <span style="font-size:12.5px; font-weight:700; color:var(--text-primary); display:flex; align-items:center; gap:6px;">
+            <svg class="icon icon-xs" style="color:var(--accent-gold);"><use href="#i-trophy"/></svg>
+            Régimen Académico y Condiciones de Aprobación
+          </span>
+          <span class="badge badge-success sm">P88 · En carrera para P90</span>
+        </div>
+        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5;">
+          <b>Promoción Directa:</b> Asistencia &ge; 80%, 100% de desafíos prácticos obligatorios entregados y promedio general de parciales &ge; 8 (percentil superior P90). Exime de examen final.
+        </div>
+        <div style="font-size:12px; color:var(--text-muted); line-height:1.4;">
+          <b>Régimen Regular:</b> Asistencia &ge; 75%, 100% de TPs prácticos aprobados y notas de exámenes parciales &ge; 6 para regularizar la asignatura y rendir final ordinario.
+        </div>
+      </div>
+
+      <div class="field" id="cfg-mat-invite-group" style="margin-top:2px;">
+        <span style="font-size:12px; font-weight:600; color:var(--text-muted);">Código de Invitación de Alumnos</span>
+        <div style="display:flex; align-items:center; gap:8px; margin-top:4px;">
+          <input class="control num" id="cfg-mat-invite" style="font-family:monospace; letter-spacing:1px; font-weight:700; max-width:180px;" value="KAS5ZNBRT3" readonly />
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-regen-invite-code" title="Generar un nuevo código aleatorio">
+            <svg class="icon icon-sm"><use href="#i-refresh"/></svg>
+            <span>Regenerar</span>
+          </button>
+        </div>
       </div>
     </form>
     <div class="modal-foot">
-      <button class="btn btn-quiet" type="button" onclick="$('#dialog-nueva-seccion').close()">Cancelar</button>
-      <button class="btn btn-primary" type="button" id="btn-crear-seccion-confirm">Crear sección</button>
+      <button class="btn btn-quiet" type="button" id="btn-cancel-config-materia" onclick="$('#dialog-configurar-materia').close()">Cancelar</button>
+      <button class="btn btn-primary" type="button" id="btn-save-config-materia">
+        <svg class="icon icon-sm"><use href="#i-tick"/></svg>
+        <span>Guardar Cambios</span>
+      </button>
     </div>
   </div>
 </dialog>
@@ -2319,7 +2636,7 @@ const DIFF = { 1: 'Básica', 2: 'Media', 3: 'Avanzada' };
 const DAYS = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'];
 const USERS = {
   alumno:   { name: 'Rafael Ceferino Castro', short: 'Rafael C.', initials: 'RC', email: 'rafael.castro@frc.utn.edu.ar', legajo: '40510', role: 'Alumno', level: 'Alumno' },
-  profesor: { name: 'Ana Torres', short: 'Ana T.', initials: 'AT', email: 'ana.torres@frc.utn.edu.ar', legajo: '12877', role: 'Profesora', level: 'Profesora' },
+  profesor: { name: 'Fabio', short: 'Fabio', initials: 'FB', email: 'fabio@frc.utn.edu.ar', legajo: '12877', role: 'Profesor', level: 'Profesor' },
   admin:    { name: 'Admin 2 Demo', short: 'Admin 2', initials: 'A2', email: 'admin2@frc.utn.edu.ar', legajo: '', role: 'Administrador', level: 'Administrador', since: '27/09/2026' },
 };
 const COURSES = {
@@ -2328,11 +2645,12 @@ const COURSES = {
     fullName: '2026 - Metodología de Sistemas II',
     code: 'MSI',
     status: 'Activa',
+    type: 'Obligatoria',
     period: '4to Cuatrimestre',
     from: '01/08/2026',
     to: '15/12/2026',
     weeks: '5 meses (20 semanas)',
-    teacher: 'Ana Torres',
+    teacher: 'Fabio',
     students: 38,
     level: 7,
     xp: 420,
@@ -2356,6 +2674,7 @@ const COURSES = {
     fullName: '2026 - Gestión de Desarrollo de Software',
     code: 'GDS',
     status: 'Activa',
+    type: 'Obligatoria',
     period: '4to Cuatrimestre',
     from: '01/08/2026',
     to: '15/12/2026',
@@ -2382,6 +2701,7 @@ const COURSES = {
     fullName: '2026 - Programación IV',
     code: 'ProgIV',
     status: 'Activa',
+    type: 'Obligatoria',
     period: '4to Cuatrimestre',
     from: '01/08/2026',
     to: '15/12/2026',
@@ -2409,6 +2729,7 @@ const COURSES = {
     fullName: '2026 - Introducción al Análisis de Datos',
     code: 'IAD',
     status: 'Activa',
+    type: 'Obligatoria',
     period: '4to Cuatrimestre',
     from: '01/08/2026',
     to: '15/12/2026',
@@ -2435,6 +2756,7 @@ const COURSES = {
     fullName: '2026 - Legislación',
     code: 'LEG',
     status: 'Activa',
+    type: 'Obligatoria',
     period: '4to Cuatrimestre',
     from: '01/08/2026',
     to: '15/12/2026',
@@ -2460,6 +2782,7 @@ const COURSES = {
     fullName: '2026 - Inglés II',
     code: 'InglesII',
     status: 'Activa',
+    type: 'Obligatoria',
     period: '4to Cuatrimestre',
     from: '10/10/2026',
     to: '31/12/2026',
@@ -2487,6 +2810,7 @@ const COURSES = {
     fullName: 'Programación 2 - Matemática',
     code: 'MAT',
     status: 'Activa',
+    type: 'Obligatoria',
     period: '2do Cuatrimestre',
     from: '01/10/2026',
     to: '28/10/2026',
@@ -2573,7 +2897,7 @@ const COHORTS = [
   { ...COURSES.GDS, inviteCode: 'GDS-2026-X89' },
   { ...COURSES.IAD, inviteCode: 'IAD-2026-F12' },
   { ...COURSES.LEG, inviteCode: 'LEG-2026-K01' },
-  { name: 'MSI 2025', status: 'Archivada', from: '01/03/2025', to: '31/07/2025', weeks: '5 meses (22 semanas)', teacher: 'Ana Torres', students: 41, readOnly: true, inviteCode: 'ARCH-2025-MSI' },
+  { name: 'MSI 2025', status: 'Archivada', from: '01/03/2025', to: '31/07/2025', weeks: '5 meses (22 semanas)', teacher: 'Fabio', students: 41, readOnly: true, inviteCode: 'ARCH-2025-MSI' },
 ];
 
 const TIMELINE_ACTIVITIES = [
@@ -2937,7 +3261,7 @@ function pageList(page, pages) {
 function pagerHTML(page, size, total, noun = 'registros') {
   const pages = Math.max(1, Math.ceil(total / size));
   const from = total ? page * size + 1 : 0, to = Math.min(total, (page + 1) * size);
-  return `<div class="pager-summary"><span>Mostrando <b>${from}–${to}</b> de <b>${total}</b> ${noun}</span></div>
+  return `<div class="pager-summary"><span><b>${from}–${to}</b> de <b>${total}</b> ${noun}</span></div>
     <div class="pager-controls">
       <nav class="pg" aria-label="Paginación de ${noun}">
         <button class="pg-btn pg-arrow" type="button" data-pg-to="${page - 1}" aria-label="Página anterior" ${page === 0 ? 'disabled' : ''}>${icon('i-left', 'icon icon-sm')}</button>
@@ -3156,6 +3480,9 @@ function renderStudentCourses() {
               <span class="btn-text-gamer">Entrar al Mundo</span>
               <svg class="icon icon-sm"><use href="#i-right"/></svg>
             </a>
+            <button class="btn btn-secondary btn-sm" type="button" data-open="dialog-configurar-materia" data-course-code="${c.code || c.name}" title="Ver detalle de cursada">
+              <span>Detalle</span>
+            </button>
             <button class="icon-btn icon-btn-sm course-more-btn" type="button" title="Opciones del curso" aria-label="Opciones">
               <svg class="icon icon-sm"><use href="#i-grip"/></svg>
             </button>
@@ -3194,12 +3521,15 @@ function renderStudentCourses() {
           </div>
         </div>
 
-        <div class="course-card-action">
+        <div class="course-card-action" style="display:flex; align-items:center; gap:8px;">
           <a class="btn btn-primary btn-sm" href="#curso/${c.code || c.name}">
             <span class="btn-text-formal">Continuar cursada</span>
             <span class="btn-text-gamer">Entrar al Mundo</span>
             <svg class="icon icon-sm"><use href="#i-right"/></svg>
           </a>
+          <button class="btn btn-secondary btn-sm" type="button" data-open="dialog-configurar-materia" data-course-code="${c.code || c.name}" title="Ver detalle de cursada">
+            <span>Detalle</span>
+          </button>
         </div>
       </article>
     `).join('');
@@ -3566,33 +3896,51 @@ function renderCourseUnits(c, activeUnitNum = null) {
     const isCriteriosExp = mainCourseExpandedSections.has('criterios');
     html += `
       <div class="minimal-section-card ${isGenExp ? 'is-expanded' : ''}" id="main-sec-general" data-main-section="general">
-        <button type="button" class="minimal-section-header" data-main-toggle="general">
-          <div style="display:flex; align-items:center; gap:8px;">
+        <div class="minimal-section-header" style="cursor:pointer;" data-main-toggle="general">
+          <div style="display:flex; align-items:center; gap:8px; min-width:0; flex:1;">
             <span>📌</span>
             <span>General / Información de la Cursada</span>
+            <span class="visibility-pill visible edit-mode-control" style="margin-left:6px;">● Visible</span>
           </div>
-          <svg class="minimal-section-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-        </button>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <button class="btn btn-ghost btn-xs edit-mode-control" type="button" title="Editar sección General" onclick="event.stopPropagation(); showToast('Editando sección General inline', 'info', 'i-panel')">
+              <svg class="icon icon-xs"><use href="#i-panel"/></svg>Editar
+            </button>
+            <svg class="minimal-section-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </div>
+        </div>
         <div class="minimal-section-body">
-          <a href="javascript:void(0)" class="minimal-resource-card" onclick="alert('Descargando Programa de la Materia 2026 (PDF)...')">
-            <div class="minimal-icon-box">
-              <svg class="icon icon-sm"><use href="#i-file"/></svg>
+          <div class="minimal-resource-card" style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+            <a href="javascript:void(0)" onclick="alert('Descargando Programa de la Materia 2026 (PDF)...')" style="display:flex; align-items:center; gap:14px; min-width:0; flex:1; text-decoration:none; color:inherit;">
+              <div class="minimal-icon-box">
+                <svg class="icon icon-sm"><use href="#i-file"/></svg>
+              </div>
+              <div class="minimal-item-info">
+                <div class="minimal-item-title">Programa de la Materia 2026</div>
+                <div class="minimal-item-meta">PDF · 1.4 MB</div>
+              </div>
+            </a>
+            <div class="resource-right-actions edit-mode-control" style="display:flex; align-items:center; gap:6px;">
+              <button class="btn btn-ghost btn-xs" type="button" title="Editar recurso" onclick="openInlineActivityEditor(this, 'edit', { title: 'Programa de la Materia 2026', type: 'pdf', desc: 'Programa oficial de la cursada 2026 en formato PDF.' })"><svg class="icon icon-xs"><use href="#i-panel"/></svg>Editar</button>
+              <button class="btn btn-ghost btn-xs" type="button" title="Eliminar recurso" style="color:var(--accent-danger);" onclick="if(confirm('¿Deseás eliminar este recurso?')) this.closest('.minimal-resource-card').remove();"><svg class="icon icon-xs"><use href="#i-flame"/></svg></button>
             </div>
-            <div class="minimal-item-info">
-              <div class="minimal-item-title">Programa de la Materia 2026</div>
-              <div class="minimal-item-meta">PDF · 1.4 MB</div>
-            </div>
-          </a>
+          </div>
 
-          <a href="javascript:void(0)" class="minimal-resource-card" onclick="alert('Abriendo cartelera oficial de avisos de la cátedra...')">
-            <div class="minimal-icon-box cyan">
-              <svg class="icon icon-sm"><use href="#i-chat"/></svg>
+          <div class="minimal-resource-card" style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+            <a href="javascript:void(0)" onclick="alert('Abriendo cartelera oficial de avisos de la cátedra...')" style="display:flex; align-items:center; gap:14px; min-width:0; flex:1; text-decoration:none; color:inherit;">
+              <div class="minimal-icon-box cyan">
+                <svg class="icon icon-sm"><use href="#i-chat"/></svg>
+              </div>
+              <div class="minimal-item-info">
+                <div class="minimal-item-title">Avisos Oficiales de la Cátedra</div>
+                <div class="minimal-item-meta">2 nuevos comunicados de los docentes</div>
+              </div>
+            </a>
+            <div class="resource-right-actions edit-mode-control" style="display:flex; align-items:center; gap:6px;">
+              <button class="btn btn-ghost btn-xs" type="button" title="Editar cartelera" onclick="openInlineActivityEditor(this, 'edit', { title: 'Avisos Oficiales de la Cátedra', type: 'aviso', desc: 'Canal oficial de noticias y anuncios para los estudiantes.' })"><svg class="icon icon-xs"><use href="#i-panel"/></svg>Editar</button>
+              <button class="btn btn-ghost btn-xs" type="button" title="Eliminar recurso" style="color:var(--accent-danger);" onclick="if(confirm('¿Deseás eliminar este recurso?')) this.closest('.minimal-resource-card').remove();"><svg class="icon icon-xs"><use href="#i-flame"/></svg></button>
             </div>
-            <div class="minimal-item-info">
-              <div class="minimal-item-title">Avisos Oficiales de la Cátedra</div>
-              <div class="minimal-item-meta">2 nuevos comunicados de los docentes</div>
-            </div>
-          </a>
+          </div>
 
           <!-- Tarjeta Desplegable: Criterios de Evaluación y Régimen P90 -->
           <div class="minimal-expandable-card ${isCriteriosExp ? 'is-expanded' : ''}" id="card-criterios-drawer">
@@ -3650,6 +3998,11 @@ function renderCourseUnits(c, activeUnitNum = null) {
               </div>
             </div>
           </div>
+
+          <!-- Botón Añadir Recurso (Solo Modo Edición) -->
+          <button type="button" class="add-resource-dashed-btn edit-mode-control" onclick="openInlineActivityEditor(this, 'add')">
+            <svg class="icon icon-sm"><use href="#i-plus"/></svg>Añadir recurso o actividad en esta sección
+          </button>
         </div>
       </div>
     `;
@@ -3674,120 +4027,135 @@ function renderCourseUnits(c, activeUnitNum = null) {
 
     html += `
       <div class="minimal-section-card ${isExp ? 'is-expanded' : ''}" id="main-sec-${gId}" data-main-section="${gId}" data-unit-num="${u.num}">
-        <button type="button" class="minimal-section-header" data-main-toggle="${gId}" data-unit-num="${u.num}">
-          <div style="display:flex; align-items:center; gap:8px;">
+        <div class="minimal-section-header" style="cursor:pointer;" data-main-toggle="${gId}" data-unit-num="${u.num}">
+          <div style="display:flex; align-items:center; gap:8px; min-width:0; flex:1;">
             <span>💡</span>
             <span>Unidad ${u.num}: ${cleanTitle}</span>
+            <span class="visibility-pill visible edit-mode-control" style="margin-left:6px;">● Visible</span>
           </div>
-          <svg class="minimal-section-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-        </button>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <button class="btn btn-ghost btn-xs edit-mode-control" type="button" title="Editar unidad" onclick="event.stopPropagation(); showToast('Edición rápida de unidad habilitada', 'info', 'i-pencil')">
+              <svg class="icon icon-xs"><use href="#i-panel"/></svg>Editar
+            </button>
+            <svg class="minimal-section-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </div>
+        </div>
         <div class="minimal-section-body">
           <!-- Materiales Teóricos -->
           ${(uRes.teorico || []).map(it => `
-            <a href="javascript:void(0)" class="minimal-resource-card" onclick="alert('Abriendo recurso teórico: ${it.title}')">
-              <div class="minimal-icon-box">
-                <svg class="icon icon-sm"><use href="#i-file"/></svg>
+            <div class="minimal-resource-card" style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+              <a href="javascript:void(0)" onclick="alert('Abriendo recurso teórico: ${it.title}')" style="display:flex; align-items:center; gap:14px; min-width:0; flex:1; text-decoration:none; color:inherit;">
+                <div class="minimal-icon-box">
+                  <svg class="icon icon-sm"><use href="#i-file"/></svg>
+                </div>
+                <div class="minimal-item-info">
+                  <div class="minimal-item-title">${it.title}</div>
+                  <div class="minimal-item-meta">${it.type || 'PDF · 2.1 MB'}</div>
+                </div>
+              </a>
+              <div class="resource-right-actions edit-mode-control" style="display:flex; align-items:center; gap:6px;">
+                <button class="btn btn-ghost btn-xs" type="button" title="Editar recurso" onclick="openInlineActivityEditor(this, 'edit', { title: '${(it.title || '').replace(/'/g, "\\'")}', type: 'pdf', desc: 'Material teórico de cátedra.' })"><svg class="icon icon-xs"><use href="#i-panel"/></svg>Editar</button>
+                <button class="btn btn-ghost btn-xs" type="button" title="Eliminar recurso" style="color:var(--accent-danger);" onclick="if(confirm('¿Deseás eliminar este recurso?')) this.closest('.minimal-resource-card').remove();"><svg class="icon icon-xs"><use href="#i-flame"/></svg></button>
               </div>
-              <div class="minimal-item-info">
-                <div class="minimal-item-title">${it.title}</div>
-                <div class="minimal-item-meta">${it.type || 'PDF · 2.1 MB'}</div>
-              </div>
-            </a>
+            </div>
           `).join('')}
 
           <!-- Guías y Casos Prácticos -->
           ${(uRes.practico || []).map(it => `
-            <a href="javascript:void(0)" class="minimal-resource-card" onclick="alert('Abriendo guía práctica: ${it.title}')">
-              <div class="minimal-icon-box cyan">
-                <svg class="icon icon-sm"><use href="#i-code"/></svg>
+            <div class="minimal-resource-card" style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+              <a href="javascript:void(0)" onclick="alert('Abriendo guía práctica: ${it.title}')" style="display:flex; align-items:center; gap:14px; min-width:0; flex:1; text-decoration:none; color:inherit;">
+                <div class="minimal-icon-box cyan">
+                  <svg class="icon icon-sm"><use href="#i-code"/></svg>
+                </div>
+                <div class="minimal-item-info">
+                  <div class="minimal-item-title">${it.title}</div>
+                  <div class="minimal-item-meta">${it.tag ? `${it.tag} · Ejercitación de clase` : 'Guía práctica'}</div>
+                </div>
+              </a>
+              <div class="resource-right-actions edit-mode-control" style="display:flex; align-items:center; gap:6px;">
+                <button class="btn btn-ghost btn-xs" type="button" title="Editar recurso" onclick="openInlineActivityEditor(this, 'edit', { title: '${(it.title || '').replace(/'/g, "\\'")}', type: 'guia', desc: 'Guía de ejercitación práctica.' })"><svg class="icon icon-xs"><use href="#i-panel"/></svg>Editar</button>
+                <button class="btn btn-ghost btn-xs" type="button" title="Eliminar recurso" style="color:var(--accent-danger);" onclick="if(confirm('¿Deseás eliminar este recurso?')) this.closest('.minimal-resource-card').remove();"><svg class="icon icon-xs"><use href="#i-flame"/></svg></button>
               </div>
-              <div class="minimal-item-info">
-                <div class="minimal-item-title">${it.title}</div>
-                <div class="minimal-item-meta">${it.tag ? `${it.tag} · Ejercitación de clase` : 'Guía práctica'}</div>
-              </div>
-            </a>
+            </div>
           `).join('')}
 
           <!-- Desafíos / Entregas -->
           ${unitChallenges.map(ch => `
-            <a href="javascript:void(0)" class="minimal-resource-card" onclick="alert('Abriendo entorno para: ${ch.title}')">
-              <div class="minimal-icon-box ${ch.status === 'done' ? 'green' : 'gold'}">
-                <svg class="icon icon-sm"><use href="${ch.status === 'done' ? '#i-check' : '#i-flame'}"/></svg>
+            <div class="minimal-resource-card" style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+              <a href="javascript:void(0)" onclick="alert('Abriendo entorno para: ${ch.title}')" style="display:flex; align-items:center; gap:14px; min-width:0; flex:1; text-decoration:none; color:inherit;">
+                <div class="minimal-icon-box ${ch.status === 'done' ? 'green' : 'gold'}">
+                  <svg class="icon icon-sm"><use href="${ch.status === 'done' ? '#i-check' : '#i-flame'}"/></svg>
+                </div>
+                <div class="minimal-item-info">
+                  <div class="minimal-item-title">${ch.title} ${ch.status === 'done' ? '✅' : ''}</div>
+                  <div class="minimal-item-meta" style="${ch.status !== 'done' ? 'color:var(--accent-gold);' : ''}">
+                    ${ch.status === 'done' ? `Completado (+${ch.xp} XP)` : `${ch.due ? `⏳ Vence el ${short(ch.due)}` : 'Sin fecha límite'} ${ch.req ? '· Obligatorio P90' : ''} · +${ch.xp} XP`}
+                  </div>
+                </div>
+              </a>
+              <div class="resource-right-actions edit-mode-control" style="display:flex; align-items:center; gap:6px;">
+                <button class="btn btn-ghost btn-xs" type="button" title="Editar desafío" onclick="openInlineActivityEditor(this, 'edit', { title: '${(ch.title || '').replace(/'/g, "\\'")}', type: 'tp', desc: 'Desafío y trabajo práctico evaluable.' })"><svg class="icon icon-xs"><use href="#i-panel"/></svg>Editar</button>
+                <button class="btn btn-ghost btn-xs" type="button" title="Eliminar desafío" style="color:var(--accent-danger);" onclick="if(confirm('¿Deseás eliminar este desafío?')) this.closest('.minimal-resource-card').remove();"><svg class="icon icon-xs"><use href="#i-flame"/></svg></button>
+              </div>
+            </div>
+          `).join('')}
+
+          <!-- Botón Añadir Recurso (Solo Modo Edición) -->
+          <button type="button" class="add-resource-dashed-btn edit-mode-control" onclick="openInlineActivityEditor(this, 'add')">
+            <svg class="icon icon-sm"><use href="#i-plus"/></svg>Añadir recurso o actividad en esta sección
+          </button>
+        </div>
+      </div>
+    `;
+  });
+
+  // 3. SECCIONES PERSONALIZADAS
+  customSections.forEach((sec, idx) => {
+    const secId = `custom-sec-${idx}`;
+    const isExp = mainCourseExpandedSections.has(secId);
+    if (q && !sec.title.toLowerCase().includes(q) && !(sec.desc || '').toLowerCase().includes(q)) return;
+
+    html += `
+      <div class="minimal-section-card ${isExp ? 'is-expanded' : ''}" id="main-sec-${secId}" data-main-section="${secId}">
+        <div class="minimal-section-header" style="cursor:pointer;" data-main-toggle="${secId}">
+          <div style="display:flex; align-items:center; gap:8px; min-width:0; flex:1;">
+            <span>${sec.icon || '🚀'}</span>
+            <span>${sec.title}</span>
+            <span class="visibility-pill visible edit-mode-control" style="margin-left:6px;">● Visible</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <button class="btn btn-ghost btn-xs edit-mode-control" type="button" title="Editar sección" onclick="event.stopPropagation(); showToast('Editando sección personalizada', 'info', 'i-pencil')">
+              <svg class="icon icon-xs"><use href="#i-panel"/></svg>Editar
+            </button>
+            <button class="btn btn-ghost btn-xs edit-mode-control" type="button" title="Eliminar sección" style="color:var(--accent-danger);" onclick="event.stopPropagation(); if(confirm('¿Eliminar esta sección personalizada?')) this.closest('.minimal-section-card').remove();">
+              <svg class="icon icon-xs"><use href="#i-flame"/></svg>
+            </button>
+            <svg class="minimal-section-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </div>
+        </div>
+        <div class="minimal-section-body">
+          <div class="minimal-resource-card" style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+            <a href="javascript:void(0)" onclick="alert('Abriendo: ${sec.title}')" style="display:flex; align-items:center; gap:14px; min-width:0; flex:1; text-decoration:none; color:inherit;">
+              <div class="minimal-icon-box gold">
+                <svg class="icon icon-sm"><use href="#i-sparkle"/></svg>
               </div>
               <div class="minimal-item-info">
-                <div class="minimal-item-title">${ch.title} ${ch.status === 'done' ? '✅' : ''}</div>
-                <div class="minimal-item-meta" style="${ch.status !== 'done' ? 'color:var(--accent-gold);' : ''}">
-                  ${ch.status === 'done' ? `Completado (+${ch.xp} XP)` : `${ch.due ? `⏳ Vence el ${short(ch.due)}` : 'Sin fecha límite'} ${ch.req ? '· Obligatorio P90' : ''} · +${ch.xp} XP`}
-                </div>
+                <div class="minimal-item-title">${sec.title}</div>
+                <div class="minimal-item-meta">${sec.desc || 'Módulo personalizado'} · +${sec.xp || 200} XP</div>
               </div>
             </a>
-          `).join('')}
-        </div>
-      </div>
-    `;
-  });
-
-  // 3. SECCIONES PERSONALIZADAS
-  customSections.forEach((sec, idx) => {
-    const secId = `custom-sec-${idx}`;
-    const isExp = mainCourseExpandedSections.has(secId);
-    if (q && !sec.title.toLowerCase().includes(q) && !(sec.desc || '').toLowerCase().includes(q)) return;
-
-    html += `
-      <div class="minimal-section-card ${isExp ? 'is-expanded' : ''}" id="main-sec-${secId}" data-main-section="${secId}">
-        <button type="button" class="minimal-section-header" data-main-toggle="${secId}">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span>${sec.icon || '🚀'}</span>
-            <span>${sec.title}</span>
+            <div class="resource-right-actions edit-mode-control" style="display:flex; align-items:center; gap:6px;">
+              <button class="btn btn-ghost btn-xs" type="button" title="Editar recurso" onclick="openInlineActivityEditor(this, 'edit', { title: '${(sec.title || '').replace(/'/g, "\\'")}', type: 'tp', desc: '${(sec.desc || '').replace(/'/g, "\\'")}' })"><svg class="icon icon-xs"><use href="#i-panel"/></svg>Editar</button>
+            </div>
           </div>
-          <svg class="minimal-section-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-        </button>
-        <div class="minimal-section-body">
-          <a href="javascript:void(0)" class="minimal-resource-card" onclick="alert('Abriendo: ${sec.title}')">
-            <div class="minimal-icon-box gold">
-              <svg class="icon icon-sm"><use href="#i-sparkle"/></svg>
-            </div>
-            <div class="minimal-item-info">
-              <div class="minimal-item-title">${sec.title}</div>
-              <div class="minimal-item-meta">${sec.desc || 'Módulo personalizado'} · +${sec.xp || 200} XP</div>
-            </div>
-          </a>
+          <!-- Botón Añadir Recurso (Solo Modo Edición) -->
+          <button type="button" class="add-resource-dashed-btn edit-mode-control" onclick="openInlineActivityEditor(this, 'add')">
+            <svg class="icon icon-sm"><use href="#i-plus"/></svg>Añadir recurso o actividad en esta sección
+          </button>
         </div>
       </div>
     `;
   });
-
-
-  // 3. SECCIONES PERSONALIZADAS
-  customSections.forEach((sec, idx) => {
-    const secId = `custom-sec-${idx}`;
-    const isExp = mainCourseExpandedSections.has(secId);
-    if (q && !sec.title.toLowerCase().includes(q) && !(sec.desc || '').toLowerCase().includes(q)) return;
-
-    html += `
-      <div class="minimal-section-card ${isExp ? 'is-expanded' : ''}" id="main-sec-${secId}" data-main-section="${secId}">
-        <button type="button" class="minimal-section-header" data-main-toggle="${secId}">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span>${sec.icon || '🚀'}</span>
-            <span>${sec.title}</span>
-          </div>
-          <svg class="minimal-section-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-        </button>
-        <div class="minimal-section-body">
-          <a href="javascript:void(0)" class="minimal-resource-card" onclick="alert('Abriendo: ${sec.title}')">
-            <div class="minimal-icon-box gold">
-              <svg class="icon icon-sm"><use href="#i-sparkle"/></svg>
-            </div>
-            <div class="minimal-item-info">
-              <div class="minimal-item-title">${sec.title}</div>
-              <div class="minimal-item-meta">${sec.desc || 'Módulo personalizado'} · +${sec.xp || 200} XP</div>
-            </div>
-          </a>
-        </div>
-      </div>
-    `;
-  });
-
 
   if (!html) {
     html = `<div class="card p-4 text-center muted" style="padding:32px 20px;">No se encontraron secciones ni materiales que coincidan con "<b>${q}</b>".</div>`;
@@ -3807,20 +4175,21 @@ function fillCourseDetail(name, activeUnitNum = null) {
   $$('[data-course-name]').forEach(el => el.textContent = c.name);
 
   // Hero Tag
-  const heroTag = $('.v3-hero-tag span');
-  if (heroTag) {
-    heroTag.textContent = `⚡ MATERIA ACTIVA · COMISIÓN 4K2 · ${c.code || 'MSI'}`;
-  }
-
-  // Hero Meta
-  $$('[data-course-meta]').forEach(el => {
-    el.innerHTML = `
-      <span>👨‍🏫 Prof. ${c.teacher || 'Ana Torres'}</span>
-      <span>📅 ${c.from || '01/08/2026'} – ${c.to || '15/12/2026'}</span>
-      <span>📍 ${c.period || '4to Cuatrimestre'} (Modalidad Mixta)</span>
-    ` + (currentRole === 'alumno' ? '' :
-    `<span>${icon(c.readOnly ? 'i-lock' : 'i-key', 'icon icon-sm')}Tu permiso: <b>${c.readOnly ? 'Solo lectura' : 'Gestor'}</b></span>`);
+  $$('.v3-hero-tag span').forEach(el => {
+    const isOblig = c.type ? c.type.toUpperCase() : 'OBLIGATORIA';
+    const comLabel = (c.comision || 'COMISIÓN 4K2').toUpperCase();
+    el.textContent = `⚡ MATERIA ACTIVA · ${isOblig} · ${comLabel} · ${c.code || ''}`.replace(/\s+·\s+$/, '');
   });
+
+  // Hero Invite Code & Copy Button
+  const heroInviteCode = $('#hero-invite-code-val');
+  if (heroInviteCode) {
+    heroInviteCode.textContent = c.inviteCode || 'KAS5ZNBRT3';
+  }
+  const heroCopyBtn = $('[data-copy-hero-code]');
+  if (heroCopyBtn) {
+    heroCopyBtn.dataset.copyCode = c.inviteCode || 'KAS5ZNBRT3';
+  }
 
   // Hero Stats
   const statNums = $$('.v3-hero-stats .v3-stat-num');
@@ -3832,6 +4201,8 @@ function fillCourseDetail(name, activeUnitNum = null) {
 
   if (currentRole !== 'alumno') renderCourseAdmin(c);
   $$('[data-staff-only]').forEach(el => el.hidden = currentRole === 'alumno');
+  $$('[data-alumno-only]').forEach(el => el.hidden = currentRole !== 'alumno');
+  $$('[data-admin-only]').forEach(el => el.hidden = currentRole !== 'admin');
   $$('[data-course-stats]').forEach(el => el.innerHTML = c.level ? `
     <div><div class="k">Nivel en ${c.name}</div><div class="v num" style="color:var(--accent-gold);">Nivel ${c.level}</div></div>
     <div><div class="k">XP del curso</div><div class="v num">${c.xp}/${c.xpMax} XP</div></div>
@@ -3933,12 +4304,42 @@ function openCourseAccordionSection(secId) {
   }
 }
 
+function filterProfSections(query) {
+  const q = (query || '').toLowerCase().trim();
+  const sections = $$('#prof-course-accordion-stack .minimal-section-card');
+  sections.forEach(sec => {
+    if (!q) {
+      sec.style.display = '';
+      return;
+    }
+    const text = sec.textContent.toLowerCase();
+    sec.style.display = text.includes(q) ? '' : 'none';
+    if (text.includes(q)) sec.classList.add('is-expanded');
+  });
+}
+
+function toggleAllProfSections() {
+  const stack = $('#prof-course-accordion-stack');
+  if (!stack) return;
+  const sections = stack.querySelectorAll('.minimal-section-card');
+  const anyExpanded = Array.from(sections).some(s => s.classList.contains('is-expanded'));
+  sections.forEach(s => {
+    if (anyExpanded) {
+      s.classList.remove('is-expanded');
+    } else {
+      s.classList.add('is-expanded');
+    }
+  });
+  const txt = $('#txt-toggle-all-prof-sections');
+  if (txt) txt.textContent = anyExpanded ? 'Expandir todo' : 'Colapsar todo';
+}
+
 /* ======================= curso · profesor (Sprint 2) ======================= */
 const DOCENTES_COHORTE = [
-  { name: 'Usuario ...d0ca47b8 (Ana Torres)', perm: 'Gestor', date: '02/10/2026' },
-  { name: 'Usuario ...07a366ba (Martín Ríos)', perm: 'Profesor con escritura', date: '02/10/2026' },
-  { name: 'Usuario ...5bd75e22 (Laura Pérez)', perm: 'Profesor con escritura', date: '28/09/2026' },
-  { name: 'Usuario ...74d674b6 (Diego Suárez)', perm: 'Gestor', date: '28/09/2026' },
+  { id: '1', name: 'Fabio', email: 'fabio@frc.utn.edu.ar', perm: 'Gestor', role: 'Profesor Titular', date: '02/10/2026', initials: 'FB' },
+  { id: '2', name: 'Martín Ríos', email: 'martin.rios@frc.utn.edu.ar', perm: 'Profesor con escritura', role: 'Jefe de Trabajos Prácticos (JTP)', date: '02/10/2026', initials: 'MR' },
+  { id: '3', name: 'Laura Pérez', email: 'laura.perez@frc.utn.edu.ar', perm: 'Profesor con escritura', role: 'Profesora Adjunta', date: '28/09/2026', initials: 'LP' },
+  { id: '4', name: 'Diego Suárez', email: 'diego.suarez@frc.utn.edu.ar', perm: 'Gestor', role: 'Coordinador Académico', date: '28/09/2026', initials: 'DS' },
 ];
 
 const SECTIONS = [
@@ -3968,39 +4369,329 @@ let currentCourse = null;
 
 function renderTeamTable() {
   const q = ($('#team-search-q')?.value || '').toLowerCase().trim();
-  const perm = $('#team-filter-perm')?.value || '';
-  const filtered = DOCENTES_COHORTE.filter(d => (!q || d.name.toLowerCase().includes(q)) && (!perm || d.perm === perm));
-  const tbody = $('#team-table-body');
-  if (tbody) {
-    tbody.innerHTML = filtered.length ? filtered.map(d => `
-      <tr>
-        <td><div class="cell-title font-bold">${d.name}</div></td>
-        <td><span class="badge ${d.perm === 'Gestor' ? 'badge-gold' : 'badge-outline'}">${d.perm}</span></td>
-        <td class="num muted">${d.date}</td>
+  const cb = $('#team-filter-combobox');
+  const perm = cb ? (cb.dataset.value || '') : ($('#team-filter-perm')?.value || '');
+  const filtered = DOCENTES_COHORTE.filter(d => (!q || d.name.toLowerCase().includes(q) || d.role.toLowerCase().includes(q) || d.email.toLowerCase().includes(q)) && (!perm || d.perm === perm));
+  
+  // Show/hide search clear button
+  const clearBtn = $('#team-search-clear');
+  if (clearBtn) clearBtn.style.display = q ? 'inline-flex' : 'none';
+
+  const container = $('#faculty-list-container');
+  if (container) {
+    container.innerHTML = filtered.length ? filtered.map(d => `
+      <tr style="border-bottom:1px solid var(--border-subtle);" data-docente-id="${d.id}">
+        <td style="padding:12px 12px; color:var(--text-primary);">
+          <div style="font-weight:600;">${d.name}</div>
+          <div class="muted" style="font-size:11.5px;">${d.email}</div>
+        </td>
+        <td style="padding:12px 12px;">
+          <span style="color:${d.perm === 'Gestor' ? 'var(--accent-gold, #eab308)' : 'var(--text-primary)'}; font-weight:500;">${d.perm}</span>
+        </td>
+        <td style="padding:12px 12px; color:var(--text-muted); font-size:12.5px;">
+          ${d.date}
+        </td>
+        <td class="edit-mode-control" style="padding:12px 12px; text-align:right;">
+          <div style="display:inline-flex; align-items:center; gap:6px;">
+            <button class="btn btn-ghost btn-xs" type="button" title="Editar rol de ${d.name}" onclick="editDocenteCohorte('${d.id}')">
+              <svg class="icon icon-xs"><use href="#i-pencil"/></svg>Editar
+            </button>
+            <button class="btn btn-ghost btn-xs" type="button" title="Remover de la cohorte" style="color:var(--accent-danger);" onclick="removeDocenteCohorte('${d.id}')">
+              <svg class="icon icon-xs"><use href="#i-trash"/></svg>
+            </button>
+          </div>
+        </td>
       </tr>
-    `).join('') : '<tr><td colspan="3" class="muted">No se encontraron docentes con esos filtros.</td></tr>';
+    `).join('') : '<tr><td colspan="4" class="muted" style="padding:16px 12px; text-align:center;">No se encontraron docentes con ese criterio.</td></tr>';
   }
   const label = $('#team-count-label');
   if (label) label.textContent = `(${filtered.length})`;
 }
 
+window.editDocenteCohorte = function(docId) {
+  const d = DOCENTES_COHORTE.find(item => item.id === String(docId));
+  if (!d) return;
+  const modal = $('#dialog-asignar-profesores');
+  if (!modal) return;
+  $('#h-ap-title').textContent = 'EDITAR DOCENTE';
+  $('#h-ap-desc').textContent = `Modificar permisos o rol de ${d.name} en esta cohorte.`;
+  $('#btn-confirm-asignar-docente').textContent = 'Guardar Cambios';
+  $('#asig-prof-edit-id').value = d.id;
+  
+  const selProf = $('#asig-prof-select');
+  if (selProf) {
+    selProf.value = d.name;
+    selProf.disabled = true; // Can only edit their role/permissions
+  }
+  const selRol = $('#asig-prof-rol');
+  if (selRol) selRol.value = d.perm;
+
+  modal.showModal();
+};
+
+window.removeDocenteCohorte = function(docId) {
+  const idx = DOCENTES_COHORTE.findIndex(item => item.id === String(docId));
+  if (idx === -1) return;
+  const d = DOCENTES_COHORTE[idx];
+  if (confirm(`¿Desvincular a ${d.name} (${d.perm}) de esta cohorte?`)) {
+    DOCENTES_COHORTE.splice(idx, 1);
+    renderTeamTable();
+    showToast(`Docente ${d.name} desvinculado de la cohorte`, 'danger', 'i-trash');
+  }
+};
+
+let padronState = {
+  sortKey: 'legajo',
+  sortDir: 'asc',
+  page: 1,
+  pageSize: 5
+};
+
 function renderOfficialPadron() {
-  const q = ($('#padron-search-q')?.value || '').toLowerCase().trim();
-  const filtered = ROSTER_OFFICIAL.filter(r => !q || r.name.toLowerCase().includes(q) || r.legajo.includes(q) || r.email.toLowerCase().includes(q));
+  const input = $('#padron-search-q');
+  const q = (input?.value || '').toLowerCase().trim();
+  let filtered = ROSTER_OFFICIAL.filter(r => !q || r.name.toLowerCase().includes(q) || r.legajo.includes(q) || r.email.toLowerCase().includes(q));
+
+  // Sort
+  if (padronState.sortKey) {
+    filtered.sort((a, b) => {
+      const valA = (a[padronState.sortKey] || '').toLowerCase();
+      const valB = (b[padronState.sortKey] || '').toLowerCase();
+      const cmp = valA.localeCompare(valB, undefined, { numeric: true });
+      return padronState.sortDir === 'asc' ? cmp : -cmp;
+    });
+  }
+
+  // Update header aria-sort and sort indicators
+  document.querySelectorAll('#padron-official-table th.sortable-th').forEach(th => {
+    const key = th.dataset.sortKey;
+    if (key === padronState.sortKey) {
+      th.setAttribute('aria-sort', padronState.sortDir === 'asc' ? 'ascending' : 'descending');
+    } else {
+      th.setAttribute('aria-sort', 'none');
+    }
+  });
+
+  const total = filtered.length;
+  const totalPages = Math.max(1, Math.ceil(total / padronState.pageSize));
+  if (padronState.page > totalPages) padronState.page = totalPages;
+  if (padronState.page < 1) padronState.page = 1;
+
+  const startIdx = (padronState.page - 1) * padronState.pageSize;
+  const endIdx = Math.min(total, startIdx + padronState.pageSize);
+  const pageItems = filtered.slice(startIdx, endIdx);
+
   const tbody = $('#padron-table-body');
   if (tbody) {
-    tbody.innerHTML = filtered.length ? filtered.map(r => `
-      <tr>
-        <td class="num font-bold"><b>${r.legajo}</b></td>
-        <td><div class="cell-title">${r.name}</div></td>
-        <td><span class="muted">${r.email}</span></td>
-      </tr>
-    `).join('') : '<tr><td colspan="3" class="muted">Ningún alumno coincide con la búsqueda.</td></tr>';
+    if (pageItems.length) {
+      tbody.innerHTML = pageItems.map(r => `
+        <tr>
+          <td class="num col-center" style="font-weight:600; font-family:var(--font-mono, monospace); color:var(--text-primary); text-align:center;">${r.legajo}</td>
+          <td><div class="cell-title" style="font-weight:600; color:var(--text-primary);">${r.name}</div></td>
+          <td>
+            <a href="mailto:${r.email}" style="color:var(--text-muted); text-decoration:none; display:inline-flex; align-items:center; gap:6px;" onmouseover="this.style.color='var(--accent-primary-fill)'" onmouseout="this.style.color='var(--text-muted)'">
+              <span>${r.email}</span>
+            </a>
+          </td>
+        </tr>
+      `).join('');
+    } else {
+      const safeQ = q.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="3" style="text-align:center; padding:36px 16px;">
+            <div style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+              <svg class="icon" style="width:28px; height:28px; color:var(--text-muted);" aria-hidden="true"><use href="#i-search"/></svg>
+              <div style="font-weight:600; font-size:14px; color:var(--text-primary);">No se encontraron alumnos</div>
+              <p class="muted" style="font-size:13px; margin:0 0 12px;">No hay resultados en el padrón para "<strong>${safeQ}</strong>".</p>
+              <button class="btn btn-quiet btn-sm" type="button" id="btn-clear-padron-search">
+                <svg class="icon icon-sm" aria-hidden="true"><use href="#i-refresh"/></svg>
+                <span>Restablecer búsqueda</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      `;
+      $('#btn-clear-padron-search')?.addEventListener('click', () => {
+        if (input) {
+          input.value = '';
+          input.focus();
+        }
+        padronState.page = 1;
+        renderOfficialPadron();
+      });
+    }
   }
+
+  // Counters
   const countEl = $('#padron-realtime-count');
-  if (countEl) countEl.textContent = filtered.length;
+  if (countEl) countEl.textContent = total;
+  const metricCount = $('#metric-padron-count');
+  if (metricCount) metricCount.textContent = total;
   const tabBadge = $('#tab-padron-count');
-  if (tabBadge) tabBadge.textContent = filtered.length;
+  if (tabBadge) tabBadge.textContent = total;
+
+  // Render Pager
+  renderPadronPager(total, totalPages, startIdx, endIdx);
+}
+
+function renderPadronPager(total, totalPages, startIdx, endIdx) {
+  const pager = $('#padron-pager');
+  if (!pager) return;
+
+  if (total === 0) {
+    pager.style.display = 'none';
+    return;
+  }
+  pager.style.display = '';
+
+  const rangeEl = $('#padron-page-range');
+  if (rangeEl) rangeEl.textContent = `${total ? startIdx + 1 : 0}–${endIdx}`;
+  const totalCountEl = $('#padron-total-count');
+  if (totalCountEl) totalCountEl.textContent = total;
+
+  const btnWrap = $('#padron-pagination-buttons');
+  if (!btnWrap) return;
+
+  let btnsHTML = `
+    <button class="pg-btn pg-arrow" type="button" data-pg="prev" ${padronState.page === 1 ? 'disabled' : ''} aria-label="Página anterior">
+      <svg class="icon icon-sm" style="width:14px; height:14px;"><use href="#i-chevron-left"/></svg>
+    </button>
+  `;
+
+  for (let i = 1; i <= totalPages; i++) {
+    const isCurrent = i === padronState.page;
+    btnsHTML += `
+      <button class="pg-btn" type="button" data-pg="${i}" ${isCurrent ? 'aria-current="page"' : ''} aria-label="Página ${i}">
+        ${i}
+      </button>
+    `;
+  }
+
+  btnsHTML += `
+    <button class="pg-btn pg-arrow" type="button" data-pg="next" ${padronState.page === totalPages ? 'disabled' : ''} aria-label="Página siguiente">
+      <svg class="icon icon-sm" style="width:14px; height:14px;"><use href="#i-chevron-right"/></svg>
+    </button>
+  `;
+
+  btnWrap.innerHTML = btnsHTML;
+}
+
+function initPadronTableSort() {
+  const table = $('#padron-official-table');
+  if (!table) return;
+  table.querySelectorAll('th.sortable-th').forEach(th => {
+    const triggerSort = () => {
+      const key = th.dataset.sortKey;
+      if (!key) return;
+      if (padronState.sortKey === key) {
+        padronState.sortDir = padronState.sortDir === 'asc' ? 'desc' : 'asc';
+      } else {
+        padronState.sortKey = key;
+        padronState.sortDir = 'asc';
+      }
+      renderOfficialPadron();
+    };
+    th.addEventListener('click', triggerSort);
+    th.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        triggerSort();
+      }
+    });
+  });
+}
+
+function initPadronActionsAndPager() {
+  // Page size selector
+  $('#padron-page-size')?.addEventListener('change', (e) => {
+    padronState.pageSize = Number(e.target.value) || 5;
+    padronState.page = 1;
+    renderOfficialPadron();
+  });
+
+  // Pagination buttons delegation
+  $('#padron-pagination-buttons')?.addEventListener('click', (e) => {
+    const btn = e.target.closest('.pg-btn');
+    if (!btn || btn.disabled) return;
+    const pg = btn.dataset.pg;
+    if (pg === 'prev') {
+      if (padronState.page > 1) {
+        padronState.page--;
+        renderOfficialPadron();
+      }
+    } else if (pg === 'next') {
+      padronState.page++;
+      renderOfficialPadron();
+    } else {
+      padronState.page = Number(pg);
+      renderOfficialPadron();
+    }
+  });
+
+  // Dropdown menu toggle
+  const toggleBtn = $('#btn-toggle-padron-menu');
+  const menu = $('#menu-padron-options');
+  if (toggleBtn && menu) {
+    toggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isHidden = menu.hidden;
+      menu.hidden = !isHidden;
+      toggleBtn.setAttribute('aria-expanded', String(isHidden));
+      const ch = toggleBtn.querySelector('.chevron-down');
+      if (ch) ch.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!menu.hidden && !e.target.closest('#dropdown-padron-wrap')) {
+        menu.hidden = true;
+        toggleBtn.setAttribute('aria-expanded', 'false');
+        const ch = toggleBtn.querySelector('.chevron-down');
+        if (ch) ch.style.transform = 'rotate(0deg)';
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !menu.hidden) {
+        menu.hidden = true;
+        toggleBtn.setAttribute('aria-expanded', 'false');
+        toggleBtn.focus();
+        const ch = toggleBtn.querySelector('.chevron-down');
+        if (ch) ch.style.transform = 'rotate(0deg)';
+      }
+    });
+  }
+
+  // Import file action
+  const fileInput = $('#input-padron-file');
+  $('#item-import-padron')?.addEventListener('click', () => {
+    if (menu) menu.hidden = true;
+    if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+    fileInput?.click();
+  });
+
+  fileInput?.addEventListener('change', (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      showToast(`Archivo "${file.name}" importado con éxito (9 alumnos sincronizados)`, 'success', 'i-tick');
+      renderOfficialPadron();
+    }
+    fileInput.value = '';
+  });
+
+  // Template download action
+  $('#item-template-padron')?.addEventListener('click', () => {
+    if (menu) menu.hidden = true;
+    if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+    showToast('Descargando plantilla_alumnos_utn.csv...', 'info', 'i-download');
+  });
+
+  // Export action
+  $('#item-export-padron')?.addEventListener('click', () => {
+    if (menu) menu.hidden = true;
+    if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+    showToast('Exportando nómina completa padron_alumnos.csv...', 'success', 'i-tick');
+  });
 }
 
 function renderSections() {
@@ -4050,6 +4741,10 @@ function renderCourseAdmin(c) {
   renderOfficialPadron();
   renderEnroll();
   if ($('#cfg-fs')) $('#cfg-fs').disabled = !!c.readOnly;
+
+  // Sincronizar el selector desplegable con la sección actualmente seleccionada
+  const activeTab = $('#cohort-view-dropdown [data-subtab][aria-selected="true"]') || $('#tab-c-general');
+  if (activeTab) selectSubtab(activeTab);
 }
 $('#enroll-list').addEventListener('click', e => {
   const li = e.target.closest('[data-en]'); if (!li) return;
@@ -4083,8 +4778,161 @@ $('#cfg-save').addEventListener('click', () => {
 /* ======================= Eventos Sprint 2 (Cursos & Cohortes) ======================= */
 /* 1. Búsqueda y filtrado en tiempo real en Padrón y Docentes */
 $('#padron-search-q')?.addEventListener('input', renderOfficialPadron);
+initPadronTableSort();
+initPadronActionsAndPager();
 $('#team-search-q')?.addEventListener('input', renderTeamTable);
 $('#team-filter-perm')?.addEventListener('change', renderTeamTable);
+
+/* 2. Toggle del Buscador Desplegable de Docentes */
+$('#btn-toggle-team-search')?.addEventListener('click', () => {
+  const panel = $('#team-search-collapse');
+  const btn = $('#btn-toggle-team-search');
+  if (!panel || !btn) return;
+  const isHidden = panel.style.display === 'none' || panel.hidden;
+  if (isHidden) {
+    panel.hidden = false;
+    panel.style.display = 'flex';
+    btn.setAttribute('aria-expanded', 'true');
+    btn.classList.add('active');
+    $('#team-search-q')?.focus();
+  } else {
+    panel.hidden = true;
+    panel.style.display = 'none';
+    btn.setAttribute('aria-expanded', 'false');
+    btn.classList.remove('active');
+  }
+});
+
+/* 3. Controlador Universal de Combobox (.combobox) */
+document.addEventListener('click', (e) => {
+  const trigger = e.target.closest('.combobox-trigger');
+  if (trigger) {
+    const cb = trigger.closest('.combobox');
+    const wasOpen = cb.classList.contains('is-open');
+    $$('.combobox.is-open').forEach(c => {
+      c.classList.remove('is-open');
+      c.querySelector('.combobox-options')?.setAttribute('hidden', '');
+      c.querySelector('.combobox-trigger')?.setAttribute('aria-expanded', 'false');
+    });
+    if (!wasOpen) {
+      cb.classList.add('is-open');
+      cb.querySelector('.combobox-options')?.removeAttribute('hidden');
+      trigger.setAttribute('aria-expanded', 'true');
+    }
+    return;
+  }
+
+  const option = e.target.closest('.combobox-option');
+  if (option) {
+    const cb = option.closest('.combobox');
+    const val = option.dataset.value ?? option.textContent.trim();
+    const text = option.textContent.trim();
+    cb.dataset.value = val;
+    const txtEl = cb.querySelector('.combobox-selected-text');
+    if (txtEl) txtEl.textContent = text;
+    cb.querySelectorAll('.combobox-option').forEach(o => {
+      const isSel = o === option;
+      o.classList.toggle('is-selected', isSel);
+      o.setAttribute('aria-selected', isSel ? 'true' : 'false');
+    });
+    cb.classList.remove('is-open');
+    cb.querySelector('.combobox-options')?.setAttribute('hidden', '');
+    cb.querySelector('.combobox-trigger')?.setAttribute('aria-expanded', 'false');
+    cb.dispatchEvent(new CustomEvent('change', { detail: { value: val, text } }));
+    if (cb.id === 'team-filter-combobox') renderTeamTable();
+    return;
+  }
+
+  // Click fuera cierra cualquier combobox abierto
+  if (!e.target.closest('.combobox')) {
+    $$('.combobox.is-open').forEach(c => {
+      c.classList.remove('is-open');
+      c.querySelector('.combobox-options')?.setAttribute('hidden', '');
+      c.querySelector('.combobox-trigger')?.setAttribute('aria-expanded', 'false');
+    });
+  }
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    $$('.combobox.is-open').forEach(c => {
+      c.classList.remove('is-open');
+      c.querySelector('.combobox-options')?.setAttribute('hidden', '');
+      c.querySelector('.combobox-trigger')?.setAttribute('aria-expanded', 'false');
+    });
+  }
+});
+
+/* Asignar o Editar docente en la cohorte */
+$('#btn-confirm-asignar-docente')?.addEventListener('click', () => {
+  const editId = $('#asig-prof-edit-id')?.value;
+  const selProf = $('#asig-prof-select');
+  const selRol = $('#asig-prof-rol');
+  const perm = selRol?.value || 'Profesor con escritura';
+  const roleMap = {
+    'Gestor': 'Profesor Titular (Gestor)',
+    'Profesor con escritura': 'Jefe de Trabajos Prácticos (JTP)',
+    'Ayudante de Cátedra': 'Ayudante de Cátedra'
+  };
+
+  if (editId) {
+    const d = DOCENTES_COHORTE.find(item => item.id === String(editId));
+    if (d) {
+      d.perm = perm;
+      d.role = roleMap[perm] || perm;
+      renderTeamTable();
+      $('#dialog-asignar-profesores')?.close();
+      showToast(`Permisos de ${d.name} actualizados a "${perm}"`, 'success', 'i-tick');
+    }
+    return;
+  }
+
+  const name = selProf?.value;
+  if (!name) {
+    selProf?.focus();
+    return;
+  }
+  const emailMap = {
+    'Carlos Gómez': 'carlos.gomez@frc.utn.edu.ar',
+    'Sarah Jenkins': 'sarah.jenkins@frc.utn.edu.ar',
+    'Federico Rossi': 'federico.rossi@frc.utn.edu.ar',
+    'Valeria Domínguez': 'valeria.dominguez@frc.utn.edu.ar'
+  };
+  const initialsMap = {
+    'Carlos Gómez': 'CG',
+    'Sarah Jenkins': 'SJ',
+    'Federico Rossi': 'FR',
+    'Valeria Domínguez': 'VD'
+  };
+  DOCENTES_COHORTE.push({
+    id: String(DOCENTES_COHORTE.length + 1),
+    name,
+    email: emailMap[name] || `${name.toLowerCase().replace(' ', '.')}@frc.utn.edu.ar`,
+    perm,
+    role: roleMap[perm] || perm,
+    date: new Date().toLocaleDateString('es-AR'),
+    initials: initialsMap[name] || name.slice(0, 2).toUpperCase()
+  });
+  renderTeamTable();
+  $('#dialog-asignar-profesores')?.close();
+  if (selProf) selProf.value = '';
+  showToast(`Docente ${name} asignado a la cohorte`, 'success', 'i-tick');
+});
+
+// Reset modal state when opened for fresh assignment
+document.addEventListener('click', e => {
+  if (e.target.closest('[data-open="dialog-asignar-profesores"]')) {
+    $('#h-ap-title').textContent = 'ASIGNAR DOCENTE';
+    $('#h-ap-desc').textContent = 'Incorporá un profesor o ayudante de cátedra a esta cohorte.';
+    $('#btn-confirm-asignar-docente').textContent = 'Asignar a la Cohorte';
+    if ($('#asig-prof-edit-id')) $('#asig-prof-edit-id').value = '';
+    const selProf = $('#asig-prof-select');
+    if (selProf) {
+      selProf.value = '';
+      selProf.disabled = false;
+    }
+  }
+});
 
 /* 2. Acciones de Secciones (Mostrar/Ocultar y Dar de baja) */
 $('#sections-cards-list')?.addEventListener('click', e => {
@@ -4110,34 +4958,110 @@ $('#sections-cards-list')?.addEventListener('click', e => {
   }
 });
 
-/* 3. Modal Nueva Sección */
-$('#nueva-sec-desc')?.addEventListener('input', e => {
-  const counter = $('#sec-char-count');
-  if (counter) counter.textContent = `${e.target.value.length}/1000`;
-});
-// Pre-completar título con la próxima unidad al abrir el diálogo de nueva sección
-document.addEventListener('click', e => {
-  if (e.target.closest('[data-open="dialog-nueva-seccion"]')) {
-    const cleanHash = location.hash.split('?')[0];
-    const cName = cleanHash.startsWith('#curso/') ? cleanHash.split('/')[1] : 'MSI';
-    const cObj = findCourse(cName) || COURSES.MSI;
-    const nextNum = (cObj?.units?.length || 0) + 1;
-    const titInput = $('#nueva-sec-titulo');
-    if (titInput) titInput.value = `Unidad ${nextNum}`;
+/* 3. Creador de Secciones Inline (Directo en Secciones / Cockpit, Sin Modal) */
+function openInlineSectionCreator(target = 'main') {
+  const isSubpanel = target === 'subpanel';
+  const creator = isSubpanel ? $('#inline-section-creator-subpanel') : $('#inline-section-creator');
+  if (!creator) return;
+
+  const cleanHash = location.hash.split('?')[0];
+  const cName = cleanHash.startsWith('#curso/') ? cleanHash.split('/')[1] : 'MSI';
+  const cObj = findCourse(cName) || COURSES.MSI;
+  const nextNum = (cObj?.units?.length || SECTIONS.length || 0) + 1;
+
+  const titInput = isSubpanel ? $('#subpanel-sec-titulo') : $('#inline-sec-titulo');
+  if (titInput) titInput.value = `Unidad ${nextNum}`;
+
+  creator.hidden = false;
+  creator.style.display = 'block';
+  creator.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  titInput?.focus();
+  titInput?.select();
+}
+
+function closeInlineSectionCreator(target = 'all') {
+  if (target === 'main' || target === 'all') {
+    const c = $('#inline-section-creator');
+    if (c) {
+      c.hidden = true;
+      c.style.display = 'none';
+    }
+  }
+  if (target === 'subpanel' || target === 'all') {
+    const c = $('#inline-section-creator-subpanel');
+    if (c) {
+      c.hidden = true;
+      c.style.display = 'none';
+    }
+  }
+}
+
+// Event Listeners para abrir / cerrar / crear
+$('#btn-toggle-inline-create-section')?.addEventListener('click', () => {
+  const creator = $('#inline-section-creator');
+  if (creator && !creator.hidden && creator.style.display !== 'none') {
+    closeInlineSectionCreator('main');
+  } else {
+    openInlineSectionCreator('main');
   }
 });
 
-$('#btn-crear-seccion-confirm')?.addEventListener('click', () => {
-  const titInput = $('#nueva-sec-titulo');
+$('#btn-add-full-section-inline')?.addEventListener('click', () => {
+  openInlineSectionCreator('main');
+});
+
+$('#btn-toggle-subpanel-create-section')?.addEventListener('click', () => {
+  const creator = $('#inline-section-creator-subpanel');
+  if (creator && !creator.hidden && creator.style.display !== 'none') {
+    closeInlineSectionCreator('subpanel');
+  } else {
+    openInlineSectionCreator('subpanel');
+  }
+});
+
+$('#btn-close-inline-sec')?.addEventListener('click', () => closeInlineSectionCreator('main'));
+$('#btn-cancel-inline-sec')?.addEventListener('click', () => closeInlineSectionCreator('main'));
+$('#btn-close-subpanel-inline-sec')?.addEventListener('click', () => closeInlineSectionCreator('subpanel'));
+$('#btn-cancel-subpanel-inline-sec')?.addEventListener('click', () => closeInlineSectionCreator('subpanel'));
+
+// Toggle label text on checkbox change
+$('#inline-sec-visible')?.addEventListener('change', e => {
+  const lbl = $('#inline-sec-visible-label');
+  if (lbl) {
+    lbl.textContent = e.target.checked ? 'Visible para estudiantes' : 'Oculta (Borrador)';
+    lbl.style.color = e.target.checked ? 'var(--accent-success-fill, #10b981)' : 'var(--text-muted)';
+  }
+});
+
+$('#subpanel-sec-visible')?.addEventListener('change', e => {
+  const lbl = $('#subpanel-sec-visible-label');
+  if (lbl) {
+    lbl.textContent = e.target.checked ? 'Visible para estudiantes' : 'Oculta (Borrador)';
+    lbl.style.color = e.target.checked ? 'var(--accent-success-fill, #10b981)' : 'var(--text-muted)';
+  }
+});
+
+// Character counters
+$('#inline-sec-desc')?.addEventListener('input', e => {
+  const counter = $('#inline-sec-char-count');
+  if (counter) counter.textContent = `${e.target.value.length}/1000`;
+});
+$('#subpanel-sec-desc')?.addEventListener('input', e => {
+  const counter = $('#subpanel-sec-char-count');
+  if (counter) counter.textContent = `${e.target.value.length}/1000`;
+});
+
+function handleConfirmCreateSection(isSubpanel = false) {
+  const titInput = isSubpanel ? $('#subpanel-sec-titulo') : $('#inline-sec-titulo');
   const title = titInput?.value.trim();
   if (!title) {
     titInput?.focus();
     return;
   }
-  const desc = $('#nueva-sec-desc')?.value.trim() || 'Sin descripción.';
-  const visible = $('#nueva-sec-visible')?.checked || false;
+  const desc = (isSubpanel ? $('#subpanel-sec-desc') : $('#inline-sec-desc'))?.value.trim() || 'Sin descripción.';
+  const visible = (isSubpanel ? $('#subpanel-sec-visible') : $('#inline-sec-visible'))?.checked || false;
 
-  // 1. Agregar a SECTIONS para el panel de profesor
+  // 1. Agregar a SECTIONS
   SECTIONS.push({
     title,
     desc,
@@ -4146,7 +5070,7 @@ $('#btn-crear-seccion-confirm')?.addEventListener('click', () => {
   });
   renderSections();
 
-  // 2. Agregar a la materia activa (cObj.units) para la vista de cursada y el subpanel desplegable
+  // 2. Agregar a la materia activa
   const cleanHash = location.hash.split('?')[0];
   const cName = cleanHash.startsWith('#curso/') ? cleanHash.split('/')[1] : 'MSI';
   const cObj = findCourse(cName) || COURSES.MSI;
@@ -4163,10 +5087,8 @@ $('#btn-crear-seccion-confirm')?.addEventListener('click', () => {
       challenges: 0
     });
 
-    // Re-renderizar unidades en la pantalla de la materia
     renderCourseUnits(cObj, currentActiveUnit);
 
-    // Re-renderizar subpanel desplegable para mostrar la nueva sección de inmediato
     const subpanel = $('#subpanel');
     if (subpanel && subpanel.dataset.subpanelMode === 'course-detail') {
       const bodyEl = $('#subpanel-body');
@@ -4176,13 +5098,25 @@ $('#btn-crear-seccion-confirm')?.addEventListener('click', () => {
     }
   }
 
-  $('#dialog-nueva-seccion')?.close();
+  // 3. Resetear formulario y cerrar inline creator
   if (titInput) titInput.value = '';
-  if ($('#nueva-sec-desc')) $('#nueva-sec-desc').value = '';
-  if ($('#sec-char-count')) $('#sec-char-count').textContent = '0/1000';
-  if ($('#nueva-sec-visible')) $('#nueva-sec-visible').checked = false;
-  showToast(`Sección "${title}" creada con éxito y agregada al menú desplegable`, 'success', 'i-tick');
-});
+  if (isSubpanel) {
+    if ($('#subpanel-sec-desc')) $('#subpanel-sec-desc').value = '';
+    if ($('#subpanel-sec-char-count')) $('#subpanel-sec-char-count').textContent = '0/1000';
+    if ($('#subpanel-sec-visible')) $('#subpanel-sec-visible').checked = false;
+    closeInlineSectionCreator('subpanel');
+  } else {
+    if ($('#inline-sec-desc')) $('#inline-sec-desc').value = '';
+    if ($('#inline-sec-char-count')) $('#inline-sec-char-count').textContent = '0/1000';
+    if ($('#inline-sec-visible')) $('#inline-sec-visible').checked = false;
+    closeInlineSectionCreator('main');
+  }
+
+  showToast(`Sección "${title}" creada exitosamente`, 'success', 'i-tick');
+}
+
+$('#btn-confirm-inline-sec')?.addEventListener('click', () => handleConfirmCreateSection(false));
+$('#btn-confirm-subpanel-inline-sec')?.addEventListener('click', () => handleConfirmCreateSection(true));
 
 /* 4. Wizard Crear Cohorte (3 Pasos) */
 let wzCurrentStep = 1;
@@ -4270,9 +5204,9 @@ document.addEventListener('click', e => {
 
 /* 5. Copiar código de invitación en tarjetas de cohorte */
 document.addEventListener('click', e => {
-  const btn = e.target.closest('[data-copy-code]');
+  const btn = e.target.closest('[data-copy-code], [data-copy-hero-code]');
   if (!btn) return;
-  const code = btn.dataset.copyCode;
+  const code = btn.dataset.copyCode || $('#hero-invite-code-val')?.textContent || 'KAS5ZNBRT3';
   if (navigator.clipboard) {
     navigator.clipboard.writeText(code).then(() => {
       showToast(`Código ${code} copiado al portapapeles`, 'success', 'i-copy');
@@ -4284,32 +5218,429 @@ document.addEventListener('click', e => {
   }
 });
 
-/* 6. Editor de Actividad (Contador de palabras y guardado) */
-$('#activity-desc-editor')?.addEventListener('input', e => {
-  const text = e.target.value.trim();
-  const words = text ? text.split(/\s+/).length : 0;
-  const counter = $('#activity-word-count');
-  if (counter) counter.textContent = `${words} ${words === 1 ? 'palabra' : 'palabras'} ✎`;
+/* 5b. Configuración de Materia & Cohorte (Editable / Configurable) */
+let activeConfigCourse = null;
+
+document.addEventListener('click', e => {
+  const cfgBtn = e.target.closest('[data-open="dialog-configurar-materia"]');
+  if (cfgBtn) {
+    const courseCodeFromBtn = cfgBtn.dataset.courseCode;
+    const cleanHash = location.hash.split('?')[0];
+    const cName = courseCodeFromBtn || (cleanHash.startsWith('#curso/') ? cleanHash.split('/')[1] : 'MSI');
+    const c = findCourse(cName) || COURSES.MSI;
+    activeConfigCourse = c;
+
+    const isStudent = (currentRole === 'alumno');
+    const titleEl = $('#h-cfg-mat-title');
+    const subEl = $('#h-cfg-mat-sub');
+    const saveBtn = $('#btn-save-config-materia');
+    const regenBtn = $('#btn-regen-invite-code');
+    const cancelBtn = $('#btn-cancel-config-materia');
+
+    if (titleEl) {
+      titleEl.textContent = isStudent ? 'DETALLE DE CURSADA' : 'CONFIGURAR MATERIA & COHORTE';
+    }
+    if (subEl) {
+      subEl.textContent = isStudent
+        ? 'Información oficial de la asignatura, fechas de cursada y condiciones académicas.'
+        : 'Modificá el nombre, régimen académico, fechas y parámetros de la cursada.';
+    }
+    if (saveBtn) {
+      saveBtn.style.display = isStudent ? 'none' : 'inline-flex';
+    }
+    if (regenBtn) {
+      regenBtn.style.display = isStudent ? 'none' : 'inline-flex';
+    }
+    if (cancelBtn) {
+      cancelBtn.textContent = isStudent ? 'Cerrar' : 'Cancelar';
+    }
+
+    const fields = [
+      '#cfg-mat-name', '#cfg-mat-code', '#cfg-mat-type', '#cfg-mat-status',
+      '#cfg-mat-comision', '#cfg-mat-modalidad', '#cfg-mat-period',
+      '#cfg-mat-from', '#cfg-mat-to'
+    ];
+    fields.forEach(sel => {
+      const el = $(sel);
+      if (el) el.disabled = isStudent;
+    });
+
+    if (c) {
+      if ($('#cfg-mat-name')) $('#cfg-mat-name').value = c.name || '';
+      if ($('#cfg-mat-code')) $('#cfg-mat-code').value = c.code || '';
+      if ($('#cfg-mat-type')) $('#cfg-mat-type').value = c.type || 'Obligatoria';
+      if ($('#cfg-mat-status')) $('#cfg-mat-status').value = c.status || 'Activa';
+      if ($('#cfg-mat-comision')) $('#cfg-mat-comision').value = c.comision || 'Comisión 4K2';
+      if ($('#cfg-mat-modalidad')) $('#cfg-mat-modalidad').value = c.modalidad || 'Modalidad Mixta';
+      if ($('#cfg-mat-period')) $('#cfg-mat-period').value = c.period || '4to Cuatrimestre';
+      if ($('#cfg-mat-from')) $('#cfg-mat-from').value = c.from || '01/08/2026';
+      if ($('#cfg-mat-to')) $('#cfg-mat-to').value = c.to || '15/12/2026';
+      if ($('#cfg-mat-invite')) $('#cfg-mat-invite').value = c.inviteCode || 'KAS5ZNBRT3';
+    }
+
+    const dlg = $('#dialog-configurar-materia');
+    if (dlg && !dlg.open) {
+      if (typeof dlg.showModal === 'function') dlg.showModal();
+      else dlg.setAttribute('open', '');
+    }
+  }
 });
 
-const handleSaveActivity = () => {
-  const saveBtns = [$('#btn-save-actividad'), $('#btn-save-actividad-foot')].filter(Boolean);
-  saveBtns.forEach(b => {
-    b.classList.add('is-loading');
-    b.disabled = true;
-  });
-  setTimeout(() => {
-    saveBtns.forEach(b => {
-      b.classList.remove('is-loading');
-      b.disabled = false;
+$('#btn-regen-invite-code')?.addEventListener('click', () => {
+  const newCode = Math.random().toString(36).substring(2, 10).toUpperCase();
+  const inp = $('#cfg-mat-invite');
+  if (inp) {
+    inp.value = newCode;
+    showToast(`Nuevo código generado: ${newCode}`, 'info', 'i-refresh');
+  }
+});
+
+$('#btn-save-config-materia')?.addEventListener('click', () => {
+  const c = activeConfigCourse || COURSES.MSI;
+  if (!c) return;
+
+  const newName = $('#cfg-mat-name')?.value.trim();
+  if (!newName) {
+    $('#cfg-mat-name')?.focus();
+    return;
+  }
+
+  c.name = newName;
+  c.code = $('#cfg-mat-code')?.value.trim() || c.code;
+  c.type = $('#cfg-mat-type')?.value || 'Obligatoria';
+  c.status = $('#cfg-mat-status')?.value || 'Activa';
+  c.comision = $('#cfg-mat-comision')?.value.trim() || 'Comisión 4K2';
+  c.modalidad = $('#cfg-mat-modalidad')?.value || 'Modalidad Mixta';
+  c.period = $('#cfg-mat-period')?.value.trim() || '4to Cuatrimestre';
+  c.from = $('#cfg-mat-from')?.value.trim() || '01/08/2026';
+  c.to = $('#cfg-mat-to')?.value.trim() || '15/12/2026';
+  c.inviteCode = $('#cfg-mat-invite')?.value.trim() || 'KAS5ZNBRT3';
+
+  // Actualizar la vista en vivo inmediatamente
+  fillCourseDetail(c.name);
+
+  // Cerrar el modal y feedback
+  $('#dialog-configurar-materia')?.close();
+  showToast(`Configuración de ${c.name} actualizada correctamente.`, 'success', 'i-tick');
+});
+
+/* 6. Editor Inline de Actividad / Recurso (Configuración de la actividad debajo de la sección) */
+window.openInlineActivityEditor = function(triggerEl, mode = 'add', initialData = {}) {
+  const sectionBody = triggerEl.closest('.minimal-section-body') || triggerEl.closest('.minimal-section-card') || triggerEl.closest('.section-card') || triggerEl.closest('.section-body-items') || triggerEl.parentElement;
+  if (!sectionBody) return;
+
+  // Cerrar cualquier editor de actividad inline que ya esté abierto
+  const existing = sectionBody.querySelector('.inline-activity-card');
+  if (existing) {
+    existing.remove();
+  }
+
+  const courseName = (typeof COURSES !== 'undefined' && COURSES.MSI) ? COURSES.MSI.name : 'Metodología de Sistemas II';
+  const defaultTitle = initialData.title || (mode === 'edit' ? 'Trabajo Práctico 1: Architecture Specifications' : '');
+  const defaultType = initialData.type || 'tp';
+  const defaultDesc = initialData.desc || (mode === 'edit' ? 'Implementá la separación de responsabilidades y la especificación en inglés según los criterios de rúbrica...' : '');
+  const actionTitle = mode === 'edit' ? 'CONFIGURACIÓN DE LA ACTIVIDAD' : 'AÑADIR NUEVA ACTIVIDAD / RECURSO';
+  const actionSub = mode === 'edit' ? 'Definí los requerimientos pedagógicos, criterios de evaluación y fechas límites.' : 'Completá los datos pedagógicos y requerimientos para publicarlo en esta sección.';
+
+  const card = document.createElement('div');
+  card.className = 'inline-activity-card card studs';
+  card.innerHTML = `
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; gap:16px; flex-wrap:wrap;">
+      <div>
+        <div style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:4px;">
+          Mis Cursos &gt; <span>${courseName}</span> &gt; <span style="color:var(--accent-primary-fill);">${mode === 'edit' ? 'Editar Actividad' : 'Nueva Actividad'}</span>
+        </div>
+        <h3 class="display" style="font-size:18px; margin:0; font-family:'Chakra Petch', sans-serif; letter-spacing:0.04em; color:var(--text-primary);">
+          ${actionTitle}
+        </h3>
+        <p class="muted" style="font-size:12.5px; margin:4px 0 0;">${actionSub}</p>
+      </div>
+      <div>
+        <button class="icon-btn sm btn-inline-act-close" type="button" aria-label="Cerrar"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
+      </div>
+    </div>
+
+    <!-- Fechas Apertura y Vencimiento Configurables (Texto editable + Selector de Calendario) -->
+    <div class="activity-dates-box">
+      <div class="activity-date-item" style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+        <span class="muted" style="font-weight:600; font-size:12.5px; display:inline-flex; align-items:center; gap:6px;">
+          Apertura:
+        </span>
+        <div class="date-input-wrapper">
+          <input type="text" class="control sm input-inline-act-open-text" value="${initialData.openText || '28/06/2026, 12:00 AM'}" placeholder="DD/MM/AAAA, HH:MM" style="height:32px; font-size:12.5px; padding:0 30px 0 10px; width:184px; font-weight:600;" aria-label="Fecha de apertura (escribir o elegir)" />
+          <button type="button" class="btn-picker-trigger btn-trigger-open" title="Elegir desde calendario" aria-label="Abrir calendario de apertura">
+            <svg class="icon icon-xs"><use href="#i-calendar"/></svg>
+          </button>
+          <input type="datetime-local" class="input-inline-act-open-picker" value="${initialData.openIso || '2026-06-28T00:00'}" style="position:absolute; right:0; top:0; width:30px; height:100%; opacity:0; pointer-events:none;" />
+        </div>
+      </div>
+      <div class="activity-date-item" style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+        <span class="muted" style="font-weight:600; font-size:12.5px; display:inline-flex; align-items:center; gap:6px; color:var(--accent-gold);">
+          Vencimiento:
+        </span>
+        <div class="date-input-wrapper">
+          <input type="text" class="control sm input-inline-act-due-text" value="${initialData.dueText || '05/07/2026, 12:00 AM'}" placeholder="DD/MM/AAAA, HH:MM" style="height:32px; font-size:12.5px; padding:0 30px 0 10px; width:184px; font-weight:600; border-color:color-mix(in srgb, var(--accent-gold) 35%, var(--border-subtle));" aria-label="Fecha de vencimiento (escribir o elegir)" />
+          <button type="button" class="btn-picker-trigger btn-trigger-due" title="Elegir desde calendario" aria-label="Abrir calendario de vencimiento">
+            <svg class="icon icon-xs" style="color:var(--accent-gold);"><use href="#i-calendar"/></svg>
+          </button>
+          <input type="datetime-local" class="input-inline-act-due-picker" value="${initialData.dueIso || '2026-07-05T23:59'}" style="position:absolute; right:0; top:0; width:30px; height:100%; opacity:0; pointer-events:none;" />
+        </div>
+        <label class="toggle sm" style="font-size:11.5px; font-weight:500; color:var(--text-muted); cursor:pointer; margin-left:4px;" title="Sin fecha límite">
+          <input type="checkbox" class="chk-inline-act-nodue" ${initialData.noDue ? 'checked' : ''} style="width:14px; height:14px;" />
+          <span>Sin límite</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Formulario / Campos -->
+    <form class="form-inline-activity" onsubmit="return false;" style="display:flex; flex-direction:column; gap:14px;">
+      
+      <!-- Título y Tipo -->
+      <div style="display:grid; grid-template-columns: 2fr 1fr; gap:14px;">
+        <label class="field">
+          <span class="req">Título de la Actividad o Recurso</span>
+          <input class="control input-inline-act-title" placeholder="Ej. Guía Práctica 2: Historias de Usuario" value="${defaultTitle}" required />
+        </label>
+        <label class="field">
+          <span>Tipo de Elemento</span>
+          <select class="control select-inline-act-type">
+            <option value="tp" ${defaultType === 'tp' ? 'selected' : ''}>Trabajo Práctico (Calificable)</option>
+            <option value="desafio" ${defaultType === 'desafio' ? 'selected' : ''}>Desafío Gamificado</option>
+            <option value="pdf" ${defaultType === 'pdf' ? 'selected' : ''}>Documento PDF / Lectura</option>
+            <option value="guia" ${defaultType === 'guia' ? 'selected' : ''}>Guía de Actividades</option>
+            <option value="cuestionario" ${defaultType === 'cuestionario' ? 'selected' : ''}>Cuestionario Teórico</option>
+            <option value="aviso" ${defaultType === 'aviso' ? 'selected' : ''}>Aviso de Cátedra</option>
+          </select>
+        </label>
+      </div>
+
+      <!-- Enunciado / Editor Enriquecido -->
+      <label class="field" style="display:flex; flex-direction:column; gap:6px; margin:0;">
+        <span class="req" style="font-size:13px; font-weight:600; color:var(--text-primary);">Enunciado</span>
+        <div class="editor-box">
+          <div class="editor-toolbar">
+            <button class="icon-btn sm" type="button" title="Negrita"><b>B</b></button>
+            <button class="icon-btn sm" type="button" title="Cursiva"><i>I</i></button>
+            <button class="icon-btn sm" type="button" title="Enlace"><svg class="icon icon-sm"><use href="#i-copy"/></svg></button>
+            <button class="icon-btn sm" type="button" title="Imagen"><svg class="icon icon-sm"><use href="#i-cards"/></svg></button>
+            <button class="icon-btn sm" type="button" title="Video"><svg class="icon icon-sm"><use href="#i-gamepad"/></svg></button>
+            <button class="icon-btn sm" type="button" title="Audio / Grabación"><svg class="icon icon-sm"><use href="#i-chat"/></svg></button>
+            <div style="margin-left:auto; display:flex; align-items:center; gap:6px;">
+              <select class="control sm" style="width:auto; font-size:12px;" aria-label="Formato">
+                <option>Format ▾</option>
+                <option>Encabezado 1</option>
+                <option>Encabezado 2</option>
+                <option>Párrafo</option>
+                <option>Código</option>
+              </select>
+            </div>
+          </div>
+          <textarea class="editor-textarea input-inline-act-desc" rows="4" placeholder="Escribí el enunciado de la actividad en al menos 500 palabras...">${defaultDesc}</textarea>
+          <div class="editor-foot">
+            <span class="inline-act-word-counter">0 palabras ✎</span>
+          </div>
+        </div>
+      </label>
+
+      <!-- Dropzone de Archivos Adjuntos -->
+      <div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <span style="font-size:13px; font-weight:600;">Archivos adjuntos</span>
+          <span class="muted" style="font-size:11px;">(Máximo 1 MB, 20 archivos)</span>
+        </div>
+        <div class="activity-dropzone" onclick="showToast('Explorador de archivos adjuntos simulado', 'info', 'i-download')">
+          <svg class="icon dropzone-icon" style="width:28px; height:28px; color:var(--accent-primary-fill); margin:0 auto 8px; display:block;"><use href="#i-download"/></svg>
+          <div class="dropzone-title" style="font-size:13.5px; font-weight:600;">Arrastrá y soltá los archivos aquí para añadirlos</div>
+          <div class="dropzone-sub muted" style="font-size:12px; margin-top:2px;">o hacé clic para explorar tus carpetas locales</div>
+        </div>
+      </div>
+
+      <!-- Botones al Pie -->
+      <div style="display:flex; justify-content:flex-end; align-items:center; gap:10px; border-top:1px solid var(--border-subtle); padding-top:14px; margin-top:2px;">
+        <button class="btn btn-quiet btn-inline-act-cancel" type="button">Cancelar</button>
+        <button class="btn btn-primary btn-inline-act-save" type="button">
+          <svg class="icon icon-sm"><use href="#i-tick"/></svg>
+          <span>Guardar cambios</span>
+        </button>
+      </div>
+
+    </form>
+  `;
+
+  // Insertar la card justo antes del botón de añadir recurso (o al final del sectionBody)
+  const addBtn = sectionBody.querySelector('.add-resource-dashed-btn');
+  if (addBtn) {
+    sectionBody.insertBefore(card, addBtn);
+  } else {
+    sectionBody.appendChild(card);
+  }
+
+  // Sincronización entre texto escrito y selector de calendario
+  const setupDatePickerSync = (textInput, pickerInput, triggerBtn) => {
+    if (!textInput || !pickerInput || !triggerBtn) return;
+    
+    // Al pulsar el botón de calendario se abre el picker visual nativo
+    triggerBtn.addEventListener('click', () => {
+      if (typeof pickerInput.showPicker === 'function') {
+        try { pickerInput.showPicker(); } catch(err) { pickerInput.click(); }
+      } else {
+        pickerInput.click();
+      }
     });
-    showToast('Configuración de la actividad guardada correctamente', 'success', 'i-tick');
-    location.hash = '#curso';
-  }, 450);
+
+    // Al seleccionar una fecha del calendario, se actualiza el texto en formato amigable
+    pickerInput.addEventListener('input', () => {
+      if (!pickerInput.value) return;
+      const d = new Date(pickerInput.value);
+      if (!isNaN(d.getTime())) {
+        const pad = n => String(n).padStart(2, '0');
+        let hours = d.getHours();
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        const h12 = hours % 12 || 12;
+        textInput.value = `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()}, ${pad(h12)}:${pad(d.getMinutes())} ${ampm}`;
+      }
+    });
+
+    // Al escribir texto libre, se sincroniza el picker si coincide con formato DD/MM/AAAA
+    textInput.addEventListener('input', () => {
+      const val = textInput.value.trim();
+      const match = val.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:,\s*(\d{1,2}):(\d{2})(?:\s*(AM|PM))?)?$/i);
+      if (match) {
+        const day = match[1].padStart(2, '0');
+        const month = match[2].padStart(2, '0');
+        const year = match[3];
+        let hour = parseInt(match[4] || '0', 10);
+        const min = (match[5] || '00').padStart(2, '0');
+        const ampm = (match[6] || '').toUpperCase();
+        if (ampm === 'PM' && hour < 12) hour += 12;
+        if (ampm === 'AM' && hour === 12) hour = 0;
+        pickerInput.value = `${year}-${month}-${day}T${String(hour).padStart(2, '0')}:${min}`;
+      }
+    });
+  };
+
+  const openTextInput = card.querySelector('.input-inline-act-open-text');
+  const openPickerInput = card.querySelector('.input-inline-act-open-picker');
+  const openTriggerBtn = card.querySelector('.btn-trigger-open');
+  setupDatePickerSync(openTextInput, openPickerInput, openTriggerBtn);
+
+  const dueTextInput = card.querySelector('.input-inline-act-due-text');
+  const duePickerInput = card.querySelector('.input-inline-act-due-picker');
+  const dueTriggerBtn = card.querySelector('.btn-trigger-due');
+  setupDatePickerSync(dueTextInput, duePickerInput, dueTriggerBtn);
+
+  // Comportamiento de checkbox sin límite
+  const noDueChk = card.querySelector('.chk-inline-act-nodue');
+  if (noDueChk && dueTextInput && dueTriggerBtn) {
+    const toggleDueState = () => {
+      const isOff = noDueChk.checked;
+      dueTextInput.disabled = isOff;
+      dueTriggerBtn.disabled = isOff;
+      dueTextInput.style.opacity = isOff ? '0.4' : '1';
+      dueTriggerBtn.style.opacity = isOff ? '0.4' : '1';
+    };
+    noDueChk.addEventListener('change', toggleDueState);
+    if (noDueChk.checked) toggleDueState();
+  }
+
+  // Contador de palabras
+  const textarea = card.querySelector('.input-inline-act-desc');
+  const counter = card.querySelector('.inline-act-word-counter');
+  const updateWords = () => {
+    const txt = textarea.value.trim();
+    const words = txt ? txt.split(/\s+/).length : 0;
+    counter.textContent = `${words} ${words === 1 ? 'palabra' : 'palabras'} ✎`;
+  };
+  textarea.addEventListener('input', updateWords);
+  updateWords();
+
+  // Eventos de Cerrar
+  const closeCard = () => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(-6px)';
+    card.style.transition = 'all 0.18s ease';
+    setTimeout(() => card.remove(), 180);
+  };
+  card.querySelectorAll('.btn-inline-act-cancel, .btn-inline-act-close').forEach(b => b.addEventListener('click', closeCard));
+
+  // Eventos de Guardar
+  const handleSave = () => {
+    const title = card.querySelector('.input-inline-act-title').value.trim();
+    if (!title) {
+      showToast('Por favor ingresá un título para la actividad', 'alert', 'i-alert');
+      card.querySelector('.input-inline-act-title').focus();
+      return;
+    }
+    const saveBtns = card.querySelectorAll('.btn-inline-act-save');
+    saveBtns.forEach(b => { b.classList.add('is-loading'); b.disabled = true; });
+
+    const openTextVal = openTextInput?.value.trim() || '28/06/2026, 12:00 AM';
+    const dueTextVal = dueTextInput?.value.trim() || '05/07/2026, 12:00 AM';
+    const isNoDue = noDueChk?.checked;
+
+    setTimeout(() => {
+      if (mode === 'add') {
+        const typeVal = card.querySelector('.select-inline-act-type').value;
+        const iconName = typeVal === 'tp' ? 'i-survey' : typeVal === 'desafio' ? 'i-trophy' : typeVal === 'cuestionario' ? 'i-trophy' : typeVal === 'guia' ? 'i-code' : 'i-file';
+        const iconClass = typeVal === 'tp' ? 'gold' : typeVal === 'cuestionario' ? 'green' : typeVal === 'guia' ? 'cyan' : '';
+        
+        let metaText = '';
+        if (typeVal === 'tp') {
+          metaText = isNoDue ? '📅 Sin límite de entrega · 0 entregas · +40 XP' : `⏳ Vence: ${dueTextVal} · 0 entregas · +40 XP`;
+        } else if (typeVal === 'cuestionario') {
+          metaText = 'Gamificado · Otorga 150 XP y 20 Monedas';
+        } else {
+          metaText = 'Material de cátedra · Lectura obligatoria';
+        }
+
+        const newResourceCard = document.createElement('div');
+        newResourceCard.className = 'minimal-resource-card';
+        newResourceCard.style = 'display:flex; align-items:center; justify-content:space-between; width:100%; animation:fadeIn 0.25s ease;';
+        newResourceCard.innerHTML = `
+          <div style="display:flex; align-items:center; gap:14px; min-width:0; flex:1;">
+            <div class="minimal-icon-box ${iconClass}">
+              <svg class="icon icon-sm"><use href="#${iconName}"/></svg>
+            </div>
+            <div class="minimal-item-info">
+              <div class="minimal-item-title">${title}</div>
+              <div class="minimal-item-meta" ${typeVal === 'tp' ? 'style="color:var(--accent-gold);"' : ''}>${metaText}</div>
+            </div>
+          </div>
+          <div class="resource-right-actions" style="display:flex; align-items:center; gap:6px;">
+            <button class="btn btn-ghost btn-xs" type="button" title="Editar recurso" onclick="openInlineActivityEditor(this, 'edit', { title: '${title.replace(/'/g, "\\'")}', type: '${typeVal}', openText: '${openTextVal.replace(/'/g, "\\'")}', dueText: '${dueTextVal.replace(/'/g, "\\'")}', noDue: ${isNoDue} })">
+              <svg class="icon icon-xs"><use href="#i-panel"/></svg>Editar
+            </button>
+            <button class="btn btn-ghost btn-xs" type="button" title="Eliminar recurso" style="color:var(--accent-danger);" onclick="if(confirm('¿Deseás eliminar este recurso?')) this.closest('.minimal-resource-card').remove();">
+              <svg class="icon icon-xs"><use href="#i-flame"/></svg>
+            </button>
+          </div>
+        `;
+        sectionBody.insertBefore(newResourceCard, card);
+      } else if (triggerEl.closest('.minimal-resource-card')) {
+        const titleEl = triggerEl.closest('.minimal-resource-card').querySelector('.minimal-item-title');
+        if (titleEl) titleEl.textContent = title;
+      }
+
+      showToast(`Actividad "${title}" guardada correctamente`, 'success', 'i-tick');
+      closeCard();
+    }, 380);
+  };
+
+  card.querySelectorAll('.btn-inline-act-save').forEach(b => b.addEventListener('click', handleSave));
+
+  card.querySelector('.input-inline-act-title').focus();
+  card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 };
 
-$('#btn-save-actividad')?.addEventListener('click', handleSaveActivity);
-$('#btn-save-actividad-foot')?.addEventListener('click', handleSaveActivity);
+// Delegación global para asegurar respuesta al clic en cualquier botón de añadir recurso
+document.addEventListener('click', e => {
+  const addBtn = e.target.closest('.add-resource-dashed-btn');
+  if (addBtn && !e.target.closest('.inline-activity-card')) {
+    e.preventDefault();
+    e.stopPropagation();
+    window.openInlineActivityEditor(addBtn, 'add');
+  }
+});
 
 /* 7. Navegación en Pestañas de la Materia (Desafíos, Estado, Material) */
 document.addEventListener('click', e => {
@@ -4901,18 +6232,103 @@ document.addEventListener('click', e => {
   selectSubtab(t);
 });
 function selectSubtab(t) {
+  if (!t) return;
   const scope = t.closest('.screen');
   const group = t.closest('[data-tabgroup]')?.dataset.tabgroup;
   const tabs = group ? $$(`[data-tabgroup="${group}"] [data-subtab]`, scope) : $$('[data-subtab]', scope);
-  tabs.forEach(b => b.setAttribute('aria-selected', String(b === t)));
+  tabs.forEach(b => {
+    const isSel = (b === t);
+    b.setAttribute('aria-selected', String(isSel));
+    b.classList.toggle('is-selected', isSel);
+  });
   const panels = group ? $$(`[data-subpanel][data-group="${group}"], [data-subpanel][data-group="${group}-actions"]`, scope) : $$('[data-subpanel]', scope);
   panels.forEach(p => p.hidden = p.dataset.subpanel !== t.dataset.subtab);
+
+  // Sincronizar trigger del menú desplegable de cohorte si corresponde
+  if (group === 'curso' || t.closest('#cohort-view-dropdown')) {
+    const labelEl = $('#cohort-view-trigger-label');
+    const iconEl = $('#cohort-view-trigger-icon');
+    const itemLabel = t.querySelector('.cohort-menu-item-label')?.textContent || t.textContent.trim();
+    const itemSvg = t.querySelector('svg');
+    if (labelEl && itemLabel) labelEl.textContent = itemLabel;
+    if (iconEl && itemSvg) iconEl.innerHTML = itemSvg.outerHTML;
+    setCohortViewMenu(false);
+  }
 }
 document.addEventListener('click', e => {
   const g = e.target.closest('[data-goto]'); if (!g) return;
   const scope = g.closest('.screen');
   selectSubtab($(`[data-subtab="${g.dataset.goto}"]`, scope));
   if (g.dataset.gotoPill) selectSubtab($(`[data-subtab="${g.dataset.gotoPill}"]`, scope));
+});
+
+/* ======================= cohort view dropdown ======================= */
+function setCohortViewMenu(open) {
+  const trigger = $('#cohort-view-trigger');
+  const menu = $('#cohort-view-menu');
+  const wrap = $('#cohort-view-dropdown');
+  if (!trigger || !menu) return;
+  menu.hidden = !open;
+  trigger.setAttribute('aria-expanded', String(open));
+  if (wrap) wrap.classList.toggle('is-open', open);
+}
+
+document.addEventListener('click', e => {
+  const trigger = e.target.closest('#cohort-view-trigger');
+  if (trigger) {
+    e.preventDefault();
+    e.stopPropagation();
+    const menu = $('#cohort-view-menu');
+    const isCurrentlyHidden = menu ? menu.hidden : true;
+    setCohortViewMenu(isCurrentlyHidden);
+    return;
+  }
+  if (!e.target.closest('#cohort-view-dropdown')) {
+    setCohortViewMenu(false);
+  }
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    const menu = $('#cohort-view-menu');
+    if (menu && !menu.hidden) {
+      setCohortViewMenu(false);
+      $('#cohort-view-trigger')?.focus();
+    }
+  }
+});
+
+/* ======================= Modo Edición Controller ======================= */
+function setCourseEditMode(enabled) {
+  document.body.classList.toggle('course-edit-mode-on', enabled);
+  const screenCurso = $('#screen-curso') || $('#screen-curso-profesor');
+  if (screenCurso) screenCurso.classList.toggle('course-edit-mode-on', enabled);
+  const switchInput = $('#course-edit-mode-toggle');
+  if (switchInput) switchInput.checked = enabled;
+  try { localStorage.setItem('tpi-course-edit-mode', String(enabled)); } catch {}
+}
+
+(function initCourseEditMode() {
+  let isEnabled = true;
+  try {
+    const saved = localStorage.getItem('tpi-course-edit-mode');
+    if (saved !== null) isEnabled = (saved === 'true');
+  } catch {}
+  setCourseEditMode(isEnabled);
+})();
+
+document.addEventListener('change', e => {
+  if (e.target && e.target.id === 'course-edit-mode-toggle') {
+    const isNowOn = e.target.checked;
+    setCourseEditMode(isNowOn);
+    if (typeof showToast === 'function') {
+      showToast(
+        isNowOn ? 'Modo edición activado: podés añadir y modificar contenidos.' : 'Modo edición desactivado: vista previa limpia de estudiante.',
+        isNowOn ? 'success' : 'info',
+        isNowOn ? 'i-pencil' : 'i-eye'
+      );
+    }
+  }
 });
 
 /* ======================= account menu & notifications ======================= */
@@ -5434,12 +6850,10 @@ function openSubpanel(navId = null) {
       else el.removeAttribute('data-subpanel-open');
     });
   }
-  const courseToggleBtn = $('#btn-toggle-course-tree');
-  if (courseToggleBtn) {
-    courseToggleBtn.setAttribute('aria-expanded', 'true');
-    courseToggleBtn.classList.add('btn-primary');
-    courseToggleBtn.classList.remove('btn-ghost');
-  }
+  $$('#btn-toggle-course-tree, #btn-hero-toggle-temario').forEach(btn => {
+    btn.setAttribute('aria-expanded', 'true');
+    btn.classList.add('is-active');
+  });
 }
 
 function closeSubpanel(userInitiated = false) {
@@ -5453,12 +6867,10 @@ function closeSubpanel(userInitiated = false) {
   }
   if (userInitiated) subpanelClosedByUser = true;
   $$('.rail-item[data-subpanel-open]').forEach(el => el.removeAttribute('data-subpanel-open'));
-  const courseToggleBtn = $('#btn-toggle-course-tree');
-  if (courseToggleBtn) {
-    courseToggleBtn.setAttribute('aria-expanded', 'false');
-    courseToggleBtn.classList.remove('btn-primary');
-    courseToggleBtn.classList.add('btn-ghost');
-  }
+  $$('#btn-toggle-course-tree, #btn-hero-toggle-temario').forEach(btn => {
+    btn.setAttribute('aria-expanded', 'false');
+    btn.classList.remove('is-active');
+  });
 }
 
 function buildSubpanelHTML(menuConfig, hashFull, activeCourseCode) {
@@ -5540,10 +6952,10 @@ function buildCourseSubpanelHTML(cObj, hashFull) {
   return `
     <!-- SECCIÓN: SECCIONES DEL CURSO (Tree-View pulido) -->
     <div class="subpanel-section">
-      <div style="display:flex; align-items:center; justify-content:space-between; padding:2px 6px 4px;">
-        <span class="subpanel-section-label" style="padding:0; font-size:11px; font-weight:700; color:var(--text-muted); letter-spacing:0.06em;">SECCIONES DEL CURSO</span>
+      <div style="display:flex; align-items:center; justify-content:space-between; padding:2px 6px 6px;">
+        <span class="subpanel-section-label" style="padding:0; font-size:11.5px; font-weight:700; color:var(--text-secondary); letter-spacing:0.06em;">SECCIONES DEL CURSO</span>
         ${currentRole !== 'alumno' ? `
-        <button type="button" class="icon-btn xs" data-open="dialog-nueva-seccion" title="Crear nueva sección en esta materia" style="width:20px; height:20px; border-radius:var(--radius-control); display:flex; align-items:center; justify-content:center; border:1px solid var(--border-subtle); background:transparent; cursor:pointer;" aria-label="Nueva sección">
+        <button type="button" class="icon-btn xs" onclick="const p = $('#inline-section-creator-subpanel'); if (p) { p.style.display = 'flex'; $('#input-subpanel-sec-name')?.focus(); } else { const m = $('#inline-section-creator'); if(m) { m.style.display = 'flex'; $('#input-inline-sec-name')?.focus(); } }" title="Crear nueva sección en esta materia" style="width:20px; height:20px; border-radius:var(--radius-control); display:flex; align-items:center; justify-content:center; border:1px solid var(--border-subtle); background:transparent; cursor:pointer;" aria-label="Nueva sección">
           <svg class="icon icon-xs"><use href="#i-plus"/></svg>
         </button>` : ''}
       </div>
@@ -5906,6 +7318,7 @@ function renderNav() {
 }
 
 function screenEl(id) {
+  if (id === 'curso') return $('#screen-curso');
   const mappedId = (id === 'contabilidad') ? 'banco' : id;
   const rk = currentRole === 'admin' ? 'profesor' : currentRole;
   return $(`#screen-${mappedId}-${rk}`) || $(`#screen-${mappedId}`) || $(`#screen-${id}-${rk}`) || $(`#screen-${id}`);
@@ -6003,7 +7416,7 @@ document.addEventListener('keydown', e => {
   
   if (e.key === '/' && !isInputFocused) {
     const courseSearch = $('#course-sections-search');
-    if (courseSearch && (currentScreen === 'curso' || currentScreen === 'cursos') && !$('#screen-curso-alumno').hidden) {
+    if (courseSearch && (currentScreen === 'curso' || currentScreen === 'cursos') && !$('#screen-curso')?.hidden) {
       e.preventDefault();
       courseSearch.focus();
       courseSearch.select();
@@ -6027,7 +7440,7 @@ $('#subpanel-close-btn')?.addEventListener('click', () => {
 
 /* Toggle del temario desde la cabecera de la materia */
 document.addEventListener('click', e => {
-  const toggleBtn = e.target.closest('#btn-toggle-course-tree');
+  const toggleBtn = e.target.closest('#btn-toggle-course-tree, #btn-hero-toggle-temario');
   if (!toggleBtn) return;
   e.preventDefault();
   const subpanel = $('#subpanel');
@@ -6035,8 +7448,10 @@ document.addEventListener('click', e => {
   if (isCollapsed) {
     const currentHash = location.hash.slice(1) || 'curso/MSI';
     updateSubpanel('cursos', currentHash, true);
+    showToast('Temario desplegado', 'info', 'i-list');
   } else {
     closeSubpanel(true);
+    showToast('Temario oculto', 'info', 'i-list');
   }
 });
 

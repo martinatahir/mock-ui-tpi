@@ -10,7 +10,7 @@
 :root[data-theme='light'][data-skin='gamer'][data-palette='electric'] {
   --bg-app:#dbe4ee; --bg-surface:#ffffff; --bg-surface-alt:#cbd5e1;
   --border-subtle:#475569; --border-highlight:#0284c7;
-  --text-primary:#0f172a; --text-muted:#334155;
+  --text-primary:#0f172a; --text-secondary:#334155; --text-muted:#475569;
   --accent-primary:#0284c7; --accent-primary-fill:#0284c7; --on-accent-primary:#ffffff;
   --accent-secondary:#7c3aed; --accent-secondary-fill:#7c3aed; --on-accent-secondary:#ffffff;
   --accent-gold:#b45309; --accent-gold-fill:#b45309; --on-accent-gold:#ffffff;
@@ -21,13 +21,19 @@
   --shadow-btn:2px 2px 0px #0f172a;
   --focus-glow:rgba(2,132,199,.45);
   --radius-control:4px; --border-width:2px; --press-y:-2px;
+  /* Badges semánticos accesibles (alto contraste WCAG AA) */
+  --badge-bg: #e0f2fe; --badge-text: #0369a1; --badge-border: #bae6fd;
+  --badge-success-bg: #dcfce7; --badge-success-text: #15803d; --badge-success-border: #bbf7d0;
+  --badge-danger-bg: #ffe4e6; --badge-danger-text: #be123c; --badge-danger-border: #fecdd3;
+  --badge-warning-bg: #fef3c7; --badge-warning-text: #b45309; --badge-warning-border: #fde68a;
+  --badge-neutral-bg: #f1f5f9; --badge-neutral-text: #334155; --badge-neutral-border: #cbd5e1;
 }
 
 /* --- Gamer / Arcade (Light) · Paleta Neón Magenta (Original) --- */
 :root[data-theme='light'][data-skin='gamer'][data-palette='neon'] {
   --bg-app:#e2dbcb; --bg-surface:#ffffff; --bg-surface-alt:#d6ccb6;
   --border-subtle:#4a3f35; --border-highlight:#b81d77;
-  --text-primary:#181512; --text-muted:#3a342c;
+  --text-primary:#181512; --text-secondary:#3a342c; --text-muted:#524b42;
   --accent-primary:#8f1f7c; --accent-primary-fill:#8f1f7c; --on-accent-primary:#ffffff;
   --accent-secondary:#0b5f6c; --accent-secondary-fill:#0b5f6c; --on-accent-secondary:#ffffff;
   --accent-gold:#854d0e; --accent-gold-fill:#854d0e; --on-accent-gold:#ffffff;
@@ -38,32 +44,44 @@
   --shadow-btn:2px 2px 0px #181512;
   --focus-glow:rgba(143,31,124,.45);
   --radius-control:4px; --border-width:2px; --press-y:-2px;
+  /* Badges semánticos accesibles (Neon Light) */
+  --badge-bg: #fce7f3; --badge-text: #9d174d; --badge-border: #fbcfe8;
+  --badge-success-bg: #dcfce7; --badge-success-text: #166534; --badge-success-border: #bbf7d0;
+  --badge-danger-bg: #fee2e2; --badge-danger-text: #991b1b; --badge-danger-border: #fecaca;
+  --badge-warning-bg: #fef3c7; --badge-warning-text: #854d0e; --badge-warning-border: #fde68a;
+  --badge-neutral-bg: #e5e5e5; --badge-neutral-text: #374151; --badge-neutral-border: #d1d5db;
 }
 
 /* --- Gamer / Arcade (Dark) · Paleta Eléctrica / Cyber Cyan (Recomendada) --- */
 :root[data-theme='dark'],
 :root[data-theme='dark'][data-skin='gamer'],
 :root[data-theme='dark'][data-skin='gamer'][data-palette='electric'] {
-  --bg-app:#10141a; --bg-surface:#181d26; --bg-surface-alt:#13171f;
-  --border-subtle:#3b4758; --border-highlight:#00e5ff;
-  --text-primary:#f1f5f9; --text-muted:#94a3b8;
-  --accent-primary:#00e5ff; --accent-primary-fill:#00d2f0; --on-accent-primary:#031520;
-  --accent-secondary:#c084fc; --accent-secondary-fill:#9333ea; --on-accent-secondary:#ffffff;
-  --accent-gold:#ffd600; --accent-gold-fill:#facc15; --on-accent-gold:#221f00;
-  --accent-danger:#ff3366; --accent-danger-fill:#e11d48; --on-accent-danger:#ffffff;
-  --accent-success:#00e676; --accent-success-fill:#10b981; --on-accent-success:#022c15;
-  --sidebar-bg:#13171f; --sidebar-text:#94a3b8; --sidebar-active:#00e5ff;
+  --bg-app:#0f1117; --bg-surface:#161922; --bg-surface-alt:#1e222d;
+  --border-subtle:#2a303c; --border-highlight:#38bdf8;
+  --text-primary:#f8fafc; --text-secondary:#cbd5e1; --text-muted:#94a3b8;
+  --accent-primary:#38bdf8; --accent-primary-fill:#0284c7; --on-accent-primary:#ffffff;
+  --accent-secondary:#7c3aed; --accent-secondary-fill:#7c3aed; --on-accent-secondary:#ffffff;
+  --accent-gold:#eab308; --accent-gold-fill:#eab308; --on-accent-gold:#1e1b04;
+  --accent-danger:#f43f5e; --accent-danger-fill:#f43f5e; --on-accent-danger:#ffffff;
+  --accent-success:#10b981; --accent-success-fill:#10b981; --on-accent-success:#022c15;
+  --sidebar-bg:#12141c; --sidebar-text:#94a3b8; --sidebar-active:#38bdf8;
   --shadow-card:0 4px 16px rgba(0,0,0,0.35);
   --shadow-btn:none;
-  --focus-glow:rgba(0,229,255,.55);
+  --focus-glow:rgba(2,132,199,.35);
   --radius-control:4px; --border-width:2px; --press-y:-2px;
+  /* Badges semánticos accesibles (alto contraste en modo oscuro) */
+  --badge-bg: rgba(2, 132, 199, 0.16); --badge-text: #38bdf8; --badge-border: rgba(2, 132, 199, 0.35);
+  --badge-success-bg: rgba(16, 185, 129, 0.15); --badge-success-text: #34d399; --badge-success-border: rgba(16, 185, 129, 0.35);
+  --badge-danger-bg: rgba(244, 63, 94, 0.15); --badge-danger-text: #fb7185; --badge-danger-border: rgba(244, 63, 94, 0.35);
+  --badge-warning-bg: rgba(234, 179, 8, 0.15); --badge-warning-text: #fde047; --badge-warning-border: rgba(234, 179, 8, 0.35);
+  --badge-neutral-bg: rgba(148, 163, 184, 0.12); --badge-neutral-text: #cbd5e1; --badge-neutral-border: rgba(148, 163, 184, 0.28);
 }
 
 /* --- Gamer / Arcade (Dark) · Paleta Neón Magenta (Original) --- */
 :root[data-theme='dark'][data-skin='gamer'][data-palette='neon'] {
   --bg-app:#141516; --bg-surface:#1e1f21; --bg-surface-alt:#18191b;
   --border-subtle:#5b5e63; --border-highlight:#29c9e0;
-  --text-primary:#e4e2dc; --text-muted:#a9aba8;
+  --text-primary:#e4e2dc; --text-secondary:#cbd5e1; --text-muted:#a9aba8;
   --accent-primary:#f275dc; --accent-primary-fill:#f275dc; --on-accent-primary:#1f0a1b;
   --accent-secondary:#29c9e0; --accent-secondary-fill:#29c9e0; --on-accent-secondary:#062127;
   --accent-gold:#faf22f; --accent-gold-fill:#faf22f; --on-accent-gold:#221f00;
@@ -74,13 +92,19 @@
   --shadow-btn:none;
   --focus-glow:rgba(242,117,220,.6);
   --radius-control:4px; --border-width:2px; --press-y:-2px;
+  /* Badges semánticos accesibles (Neon Dark) */
+  --badge-bg: rgba(242, 117, 220, 0.16); --badge-text: #f472b6; --badge-border: rgba(242, 117, 220, 0.35);
+  --badge-success-bg: rgba(76, 229, 43, 0.14); --badge-success-text: #4ade80; --badge-success-border: rgba(76, 229, 43, 0.35);
+  --badge-danger-bg: rgba(255, 90, 82, 0.15); --badge-danger-text: #f87171; --badge-danger-border: rgba(255, 90, 82, 0.35);
+  --badge-warning-bg: rgba(250, 242, 47, 0.15); --badge-warning-text: #facc15; --badge-warning-border: rgba(250, 242, 47, 0.35);
+  --badge-neutral-bg: rgba(169, 171, 168, 0.12); --badge-neutral-text: #d1d5db; --badge-neutral-border: rgba(169, 171, 168, 0.28);
 }
 
 /* --- Sobrio / Normal (Light - Modo Profesor / Institucional) --- */
 :root[data-theme='light'][data-skin='sobrio'] {
   --bg-app:#f1f5f9; --bg-surface:#ffffff; --bg-surface-alt:#e2e8f0;
   --border-subtle:#cbd5e1; --border-highlight:#1d4ed8;
-  --text-primary:#0f172a; --text-muted:#475569;
+  --text-primary:#0f172a; --text-secondary:#334155; --text-muted:#64748b;
   --accent-primary:#1d4ed8; --accent-primary-fill:#1d4ed8; --on-accent-primary:#ffffff;
   --accent-secondary:#0f766e; --accent-secondary-fill:#0f766e; --on-accent-secondary:#ffffff;
   --accent-gold:#b45309; --accent-gold-fill:#b45309; --on-accent-gold:#ffffff;
@@ -92,23 +116,35 @@
   --shadow-btn:0 1px 2px rgba(0,0,0,0.05);
   --focus-glow:rgba(29,78,216,.35);
   --radius-control:8px; --border-width:1px; --press-y:0px;
+  /* Badges semánticos accesibles Sobrio Light */
+  --badge-bg: #eff6ff; --badge-text: #1d4ed8; --badge-border: #bfdbfe;
+  --badge-success-bg: #ecfdf5; --badge-success-text: #047857; --badge-success-border: #a7f3d0;
+  --badge-danger-bg: #fef2f2; --badge-danger-text: #b91c1c; --badge-danger-border: #fecaca;
+  --badge-warning-bg: #fffbeb; --badge-warning-text: #b45309; --badge-warning-border: #fde68a;
+  --badge-neutral-bg: #f8fafc; --badge-neutral-text: #475569; --badge-neutral-border: #e2e8f0;
 }
 
 /* --- Sobrio / Normal (Dark - Modo Profesor / Institucional) --- */
 :root[data-theme='dark'][data-skin='sobrio'] {
-  --bg-app:#12161c; --bg-surface:#1a1f27; --bg-surface-alt:#151920;
-  --border-subtle:#3c4756; --border-highlight:#6f9bf0;
-  --text-primary:#eef1f5; --text-muted:#a7b0bd;
-  --accent-primary:#6f9bf0; --accent-primary-fill:#6f9bf0; --on-accent-primary:#0b1526;
-  --accent-secondary:#8aa0b8; --accent-secondary-fill:#7d93ac; --on-accent-secondary:#0b1526;
-  --accent-gold:#d9a441; --accent-gold-fill:#d9a441; --on-accent-gold:#241a04;
-  --accent-danger:#ef6a5d; --accent-danger-fill:#e2584c; --on-accent-danger:#2a0705;
-  --accent-success:#59c290; --accent-success-fill:#4caf7d; --on-accent-success:#04210f;
-  --sidebar-bg:#151920; --sidebar-text:#a7b0bd; --sidebar-active:#6f9bf0;
+  --bg-app:#0f1117; --bg-surface:#161922; --bg-surface-alt:#1e222d;
+  --border-subtle:#2a303c; --border-highlight:#3b82f6;
+  --text-primary:#f8fafc; --text-secondary:#cbd5e1; --text-muted:#94a3b8;
+  --accent-primary:#3b82f6; --accent-primary-fill:#3b82f6; --on-accent-primary:#ffffff;
+  --accent-secondary:#64748b; --accent-secondary-fill:#64748b; --on-accent-secondary:#ffffff;
+  --accent-gold:#eab308; --accent-gold-fill:#eab308; --on-accent-gold:#1e1b04;
+  --accent-danger:#ef4444; --accent-danger-fill:#ef4444; --on-accent-danger:#ffffff;
+  --accent-success:#10b981; --accent-success-fill:#10b981; --on-accent-success:#ffffff;
+  --sidebar-bg:#12141c; --sidebar-text:#94a3b8; --sidebar-active:#3b82f6;
   --shadow-card:0 4px 16px rgba(0,0,0,0.35);
   --shadow-btn:none;
-  --focus-glow:rgba(111,155,240,.45);
+  --focus-glow:rgba(59,130,246,.35);
   --radius-control:8px; --border-width:1px; --press-y:0px;
+  /* Badges semánticos accesibles Sobrio Dark */
+  --badge-bg: rgba(59, 130, 246, 0.15); --badge-text: #93c5fd; --badge-border: rgba(59, 130, 246, 0.35);
+  --badge-success-bg: rgba(16, 185, 129, 0.15); --badge-success-text: #6ee7b7; --badge-success-border: rgba(16, 185, 129, 0.35);
+  --badge-danger-bg: rgba(239, 68, 68, 0.15); --badge-danger-text: #fca5a5; --badge-danger-border: rgba(239, 68, 68, 0.35);
+  --badge-warning-bg: rgba(234, 179, 8, 0.15); --badge-warning-text: #fde047; --badge-warning-border: rgba(234, 179, 8, 0.35);
+  --badge-neutral-bg: rgba(148, 163, 184, 0.12); --badge-neutral-text: #cbd5e1; --badge-neutral-border: rgba(148, 163, 184, 0.28);
 }
 
 /* Derived tokens: readable status text on any surface */

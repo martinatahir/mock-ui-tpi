@@ -1,0 +1,610 @@
+<!doctype html>
+<html lang="es-AR" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ingles II · Gestión de Cursada</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =========================================================================
+       MAQUETA BASELINE 1:1 EXACTA A LA IMAGEN ORIGINAL
+       ========================================================================= */
+    :root {
+      --bg-dark: #12151b;
+      --bg-surface: #181d26;
+      --bg-surface-alt: #1e2430;
+      --bg-input: #101319;
+      --border-dark: #273142;
+      --border-dashed: #3a475c;
+      
+      --text-white: #ffffff;
+      --text-light: #e6edf3;
+      --text-muted: #8b99ad;
+      --text-dim: #64748b;
+      
+      --chip-green-bg: #84cc16;
+      --chip-green-text: #1a2e05;
+      
+      --chip-blue-bg: #0284c7;
+      --chip-blue-text: #ffffff;
+      
+      --btn-cyan-bg: #38bdf8;
+      --btn-cyan-text: #0f172a;
+      
+      --btn-gold-bg: #eab308;
+      --btn-gold-text: #1c1917;
+      
+      --folder-yellow: #eab308;
+      --active-cyan: #00e5ff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+      font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      padding: 24px 32px 80px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* 1. BOTÓN VOLVER A MIS CURSOS */
+    .btn-back-wrap {
+      margin-bottom: 4px;
+    }
+
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      border: 1px solid var(--border-dark);
+      color: var(--text-light);
+      padding: 5px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .btn-back:hover {
+      background: var(--bg-surface-alt);
+    }
+
+    /* 2. ENCABEZADO SUPERIOR */
+    .header-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .title-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .course-title {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--text-white);
+    }
+
+    /* CHIPS SUPERIORES */
+    .chip-activa {
+      background: #84cc16;
+      color: #1a2e05;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .chip-gestor-blue {
+      background: #0284c7;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .period-text {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* CAJA CÓDIGO DE INVITACIÓN SUPERIOR DERECHA (PUNTEADA 1:1) */
+    .invitation-card {
+      border: 1px dashed var(--border-dashed);
+      border-radius: 6px;
+      padding: 8px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 240px;
+    }
+
+    .invitation-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #38bdf8;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      text-transform: uppercase;
+    }
+
+    .invitation-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .invitation-code {
+      font-family: monospace;
+      font-size: 14px;
+      font-weight: 700;
+      color: #38bdf8;
+      letter-spacing: 1px;
+      flex: 1;
+    }
+
+    .btn-invite-action {
+      background: transparent;
+      border: 1px solid var(--border-dark);
+      color: var(--text-light);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 11.5px;
+      cursor: pointer;
+    }
+
+    .btn-invite-action:hover {
+      background: var(--bg-surface-alt);
+    }
+
+    /* 3. BARRA DE PESTAÑAS (TABS 1:1) */
+    .tabs-bar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border-bottom: 1px solid var(--border-dark);
+      margin-top: 4px;
+      overflow-x: auto;
+    }
+
+    .tab-link {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 10px 4px 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+    }
+
+    .tab-link:hover {
+      color: var(--text-white);
+    }
+
+    .tab-link.active {
+      color: var(--text-white);
+      border-bottom-color: var(--active-cyan);
+    }
+
+    .tab-icon-yellow {
+      color: var(--folder-yellow);
+    }
+
+    /* 4. CONTENIDO PRINCIPAL: GENERAL */
+    .general-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-dark);
+      border-radius: 8px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* ENCABEZADO DENTRO DE GENERAL */
+    .general-header {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .general-header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .general-title-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .general-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-white);
+    }
+
+    .chip-gestor-green {
+      background: #84cc16;
+      color: #1a2e05;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .general-buttons {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-asignar {
+      background: var(--btn-cyan-bg);
+      color: var(--btn-cyan-text);
+      border: none;
+      padding: 7px 14px;
+      border-radius: 4px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-vitrina {
+      background: var(--btn-gold-bg);
+      color: var(--btn-gold-text);
+      border: none;
+      padding: 7px 14px;
+      border-radius: 4px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .general-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* SECCIÓN 1: EQUIPO DOCENTE */
+    .section-equipo {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .equipo-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-white);
+    }
+
+    .equipo-title span {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .equipo-filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 4px;
+    }
+
+    .search-input {
+      flex: 1;
+      background: var(--bg-input);
+      border: 1px solid var(--border-dark);
+      color: var(--text-light);
+      padding: 7px 12px;
+      border-radius: 4px;
+      font-size: 12.5px;
+      outline: none;
+    }
+
+    .perm-select-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .perm-select {
+      background: var(--bg-input);
+      border: 1px solid var(--border-dark);
+      color: var(--text-light);
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* TABLA EQUIPO DOCENTE */
+    .table-wrap {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .table-wrap th {
+      text-align: left;
+      padding: 8px 12px;
+      color: #38bdf8;
+      font-size: 12px;
+      font-weight: 600;
+      border-bottom: 1px solid var(--border-dark);
+    }
+
+    .table-wrap td {
+      padding: 12px 12px;
+      border-bottom: 1px solid var(--border-dark);
+      color: var(--text-light);
+    }
+
+    /* SECCIÓN 2: CONTENIDOS Y ACTIVIDADES */
+    .section-contenidos {
+      border: 1px solid var(--border-dark);
+      border-radius: 6px;
+      background: var(--bg-surface-alt);
+      padding: 32px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+    }
+
+    .contenidos-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: absolute;
+      top: 12px;
+      left: 16px;
+      right: 16px;
+    }
+
+    .contenidos-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-white);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .contenidos-badge {
+      font-size: 11.5px;
+      color: var(--text-dim);
+    }
+
+    .contenidos-center {
+      text-align: center;
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .contenidos-main-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-white);
+    }
+
+    .contenidos-subtext {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- 1. VOLVER A MIS CURSOS -->
+    <div class="btn-back-wrap">
+      <button class="btn-back">
+        ← Volver a Mis Cursos
+      </button>
+    </div>
+
+    <!-- 2. ENCABEZADO PRINCIPAL -->
+    <header class="header-top">
+      <div class="header-left">
+        <div class="title-row">
+          <h1 class="course-title">Ingles II</h1>
+          <span class="chip-activa">✔ Activa</span>
+          <span class="chip-gestor-blue">👤 Gestor</span>
+        </div>
+        <div class="period-text">
+          🕒 Período: 10/10/2026 — 31/12/2026
+        </div>
+      </div>
+
+      <!-- CÓDIGO DE INVITACIÓN (SUPERIOR DERECHA) -->
+      <div class="invitation-card">
+        <div class="invitation-title">
+          ↗ CÓDIGO DE INVITACIÓN
+        </div>
+        <div class="invitation-actions">
+          <span class="invitation-code" id="inv-code">KAS5ZNBRT3</span>
+          <button class="btn-invite-action" onclick="alert('Código copiado!')">Copiar</button>
+          <button class="btn-invite-action" onclick="alert('Regenerar código')">Regenerar</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- 3. BARRA DE PESTAÑAS (TABS 1:1) -->
+    <nav class="tabs-bar">
+      <button class="tab-link active">
+        <span class="tab-icon-yellow">📁</span> General
+      </button>
+      <button class="tab-link">
+        <span class="tab-icon-yellow">📄</span> Secciones
+      </button>
+      <button class="tab-link">
+        <span style="color:#38bdf8;">👤</span> Padrón de Alumnos
+      </button>
+      <button class="tab-link">
+        <span>🕒</span> Solicitudes Pendientes
+      </button>
+      <button class="tab-link">
+        <span style="color:#84cc16;">✔</span> Asistencias
+      </button>
+      <button class="tab-link">
+        <span style="color:#eab308;">⭐</span> Calificaciones
+      </button>
+      <button class="tab-link">
+        <span>🔒</span> Configuración
+      </button>
+    </nav>
+
+    <!-- 4. CONTENIDO: TAB GENERAL (TARJETA CONTENEDORA) -->
+    <div class="general-card">
+      
+      <!-- SUB-ENCABEZADO GENERAL -->
+      <div class="general-header">
+        <div class="general-header-top">
+          <div class="general-title-group">
+            <h2 class="general-title">Ingles II</h2>
+            <span class="chip-gestor-green">Gestor</span>
+          </div>
+          <div class="general-buttons">
+            <button class="btn-asignar">Asignar profesores</button>
+            <button class="btn-vitrina">Gestionar vitrina</button>
+          </div>
+        </div>
+        <p class="general-desc">
+          Espacio principal de la cursada. Aquí se organiza la estructura de contenidos, unidades temáticas y actividades evaluativas.
+        </p>
+      </div>
+
+      <!-- SECCIÓN 1: EQUIPO DOCENTE -->
+      <section class="section-equipo">
+        <div class="equipo-title">
+          Equipo docente <span>(2)</span>
+        </div>
+
+        <div class="equipo-filter-bar">
+          <input type="text" class="search-input" placeholder="Buscar..." />
+          <div class="perm-select-group">
+            <label for="perm-filter">Permiso</label>
+            <select id="perm-filter" class="perm-select">
+              <option value="todos">Todos</option>
+              <option value="gestor">Gestor</option>
+              <option value="escritura">Profesor con escritura</option>
+            </select>
+          </div>
+        </div>
+
+        <table class="table-wrap">
+          <thead>
+            <tr>
+              <th style="width: 45%;">Nombre ▲</th>
+              <th style="width: 35%;">Permiso ▲</th>
+              <th style="width: 20%;">Incorporado ▲</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Usuario ...d0ca47b8</td>
+              <td>Gestor</td>
+              <td>02/10/2026</td>
+            </tr>
+            <tr>
+              <td>Usuario ...07a366ba</td>
+              <td>Profesor con escritura</td>
+              <td>02/10/2026</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- SECCIÓN 2: CONTENIDOS Y ACTIVIDADES -->
+      <section class="section-contenidos">
+        <div class="contenidos-header">
+          <div class="contenidos-title">
+            <span class="tab-icon-yellow">📁</span> Contenidos y Actividades
+          </div>
+          <div class="contenidos-badge">
+            Vista principal de la cursada
+          </div>
+        </div>
+
+        <div class="contenidos-center">
+          <div class="contenidos-main-title">
+            Estructura del Curso (Secciones y Actividades)
+          </div>
+          <div class="contenidos-subtext">
+            Contenedor preparado para la gestión de unidades temáticas, recursos y actividades pedagógicas al estilo Moodle.
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+  </div>
+
+</body>
+</html>

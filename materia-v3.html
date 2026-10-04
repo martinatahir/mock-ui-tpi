@@ -324,14 +324,19 @@ body {
   transform: translateY(-1px);
 }
 
+.btn-primary:focus-visible {
+  outline: 2px solid var(--accent-cyan);
+  outline-offset: 2px;
+}
+
 .btn-ghost {
-  background: var(--surface-1);
+  background: transparent;
   border: 1px solid var(--border-dim);
   color: var(--text-muted);
-  padding: 8px 14px;
+  padding: 7px 12px;
   border-radius: 6px;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 12.5px;
+  font-weight: 500;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -340,8 +345,14 @@ body {
 }
 
 .btn-ghost:hover {
-  color: #fff;
+  color: var(--text-main, #fff);
   border-color: var(--border-bright);
+  background: var(--surface-1);
+}
+
+.btn-ghost:focus-visible {
+  outline: 2px solid var(--accent-cyan);
+  outline-offset: 2px;
 }
 
 /* 5. STACK DE SECCIONES ACORDEÓN */
@@ -680,6 +691,55 @@ body {
   padding-top: 6px;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
+
+/* Inputs de Fechas con Calendario */
+.minimal-card-dates {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+.card-date-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  cursor: pointer;
+}
+.card-date-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-main);
+  white-space: nowrap;
+}
+.card-date-input-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex: 1;
+  max-width: 155px;
+}
+.card-date-input {
+  height: 30px;
+  padding: 0 8px;
+  font-size: 12px;
+  border-radius: 4px;
+  border: 1px solid var(--border-dim);
+  background: var(--surface-1);
+  color: var(--text-main);
+  font-family: inherit;
+  font-variant-numeric: tabular-nums;
+  width: 100%;
+  cursor: pointer;
+  color-scheme: dark;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.card-date-input:focus,
+.card-date-input:hover {
+  border-color: var(--accent-cyan);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.15);
+}
 </style>
 </head>
 <body>
@@ -801,7 +861,7 @@ body {
             </div>
             <div>
               <div style="font-size:13.5px; font-weight:700; color:#fff;">Avisos oficiales · 2 nuevos</div>
-              <div style="font-size:12px; color:var(--text-muted);">Docente Ana Torres: "Recordamos las fechas límites del Desafío 4 y la pauta de entrega para Promoción Directa."</div>
+              <div style="font-size:12px; color:var(--text-muted);">Docente Fabio: "Recordamos las fechas límites del Desafío 4 y la pauta de entrega para Promoción Directa."</div>
             </div>
           </div>
           <button type="button" class="btn-ghost" style="font-size:12px;" onclick="alert('Abriendo cartelera de comunicados oficiales...')">Ver avisos &rarr;</button>
@@ -919,9 +979,27 @@ body {
                 <div class="minimal-icon-box cyan"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></div>
                 <span>Fechas de Parciales</span>
               </div>
-              <p class="minimal-info-card-desc" style="margin:10px 0 0;"><b>1° Parcial:</b> 18 Octubre<br/><b>2° Parcial:</b> 28 Noviembre<br/><b>Recuperatorios:</b> 05 Diciembre</p>
+              <div class="minimal-card-dates">
+                <label class="card-date-item">
+                  <span class="card-date-label">1° Parcial:</span>
+                  <div class="card-date-input-wrap">
+                    <input type="date" class="card-date-input" value="2026-10-18" aria-label="Fecha 1° Parcial" onclick="this.showPicker?.()" />
+                  </div>
+                </label>
+                <label class="card-date-item">
+                  <span class="card-date-label">2° Parcial:</span>
+                  <div class="card-date-input-wrap">
+                    <input type="date" class="card-date-input" value="2026-11-28" aria-label="Fecha 2° Parcial" onclick="this.showPicker?.()" />
+                  </div>
+                </label>
+                <label class="card-date-item">
+                  <span class="card-date-label">Recuperatorios:</span>
+                  <div class="card-date-input-wrap">
+                    <input type="date" class="card-date-input" value="2026-12-05" aria-label="Fecha Recuperatorios" onclick="this.showPicker?.()" />
+                  </div>
+                </label>
+              </div>
             </div>
-            <button type="button" class="btn-ghost" style="width:100%; justify-content:center;" onclick="alert('Abriendo calendario académico...')">Ver en calendario</button>
           </div>
 
           <!-- 4. Bibliografía Obligatoria -->
