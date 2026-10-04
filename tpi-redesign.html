@@ -511,7 +511,7 @@
               <div class="empty">
                 <svg class="icon" aria-hidden="true"><use href="#i-bag"/></svg>
                 <p>Todavía no desbloqueaste ítems en este curso.</p>
-                <a class="btn btn-secondary btn-sm" href="#marketplace">Ir al Marketplace</a>
+                <a class="btn btn-secondary btn-sm" href="#marketplace">Ir al Mercado</a>
               </div>
             </div>
           </div>
@@ -567,75 +567,57 @@
       </form>
     </section>
 
-    <!-- ================= MARKETPLACE · alumno ================= -->
-    <section class="screen" id="screen-marketplace" aria-labelledby="h-market" data-error="No pudimos cargar la tienda.">
+    <!-- ================= MERCADO · alumno: elegir curso ================= -->
+    <section class="screen" id="screen-marketplace" aria-labelledby="h-market" data-error="No pudimos cargar el mercado.">
       <div class="page-head">
-        <div>
-          <h1 class="display" id="h-market">Marketplace</h1>
-          <p>Canjeá tus monedas acumuladas en desafíos por potenciadores de cursada y cosméticos.</p>
-        </div>
-        <div class="head-tools">
-          <a class="hud-item coins" href="#banco" title="Ver saldo e historial en el Banco" style="font-size:var(--fs-ui); font-weight:700; text-decoration:none;"><svg class="icon"><use href="#i-coin"/></svg> <span class="num">120 monedas en banco</span></a>
-        </div>
+        <div><h1 class="display" id="h-market">Mercado</h1><p>Cada curso tiene su propia vitrina y sus propias monedas. Elegí dónde querés gastar.</p></div>
+        <div class="head-tools"><span data-view-toggle="mercados"></span></div>
       </div>
       <div class="data">
-        <div class="section-head"><h2>Catálogo de recompensas</h2></div>
-        <div class="market-grid">
-          <article class="card studs market-card">
-            <div class="market-top">
-              <div class="market-icon"><svg class="icon"><use href="#i-heart"/></svg></div>
-              <div class="market-info">
-                <h3>Poción de Vida Extra</h3>
-                <p>Recuperá 1 vida perdida inmediatamente para seguir intentando desafíos de código.</p>
-              </div>
-            </div>
-            <div class="market-foot">
-              <span class="market-price"><svg class="icon icon-sm"><use href="#i-coin"/></svg> 40 monedas</span>
-              <button class="btn btn-primary btn-sm" type="button">Canjear</button>
-            </div>
-          </article>
+        <div class="vit-list" id="shop-courses" data-view-target="mercados"></div>
+      </div>
+    </section>
 
-          <article class="card studs market-card">
-            <div class="market-top">
-              <div class="market-icon"><svg class="icon"><use href="#i-shield"/></svg></div>
-              <div class="market-info">
-                <h3>Escudo de Entrega</h3>
-                <p>Prórroga de 24 horas para entregas de desafíos ante imprevistos.</p>
-              </div>
-            </div>
-            <div class="market-foot">
-              <span class="market-price"><svg class="icon icon-sm"><use href="#i-coin"/></svg> 80 monedas</span>
-              <button class="btn btn-primary btn-sm" type="button">Canjear</button>
-            </div>
-          </article>
+    <!-- ================= MERCADO · alumno: mercado de un curso ================= -->
+    <section class="screen" id="screen-mercado" aria-labelledby="h-shop" data-error="No pudimos cargar el mercado de este curso.">
+      <a class="back" href="#marketplace"><svg class="icon icon-sm"><use href="#i-left"/></svg>Mercado</a>
+      <div class="page-head">
+        <div><h1 class="display" id="h-shop">Mercado</h1><p>Lo que compres acá se usa solo en este curso.</p></div>
+        <div class="head-tools"><a class="wallet" id="shop-wallet" href="#banco" title="Ver movimientos en el Banco"></a></div>
+      </div>
+      <div class="data">
+        <div class="tabs" role="tablist" aria-label="Secciones del mercado" id="shop-tabs">
+          <button class="tab" role="tab" type="button" aria-selected="true" data-shop-tab="vitrina" aria-controls="shop-vitrina">Vitrina</button>
+          <button class="tab" role="tab" type="button" aria-selected="false" data-shop-tab="subastas" aria-controls="shop-subastas">Subastas</button>
+          <button class="tab" role="tab" type="button" aria-selected="false" data-shop-tab="metas" aria-controls="shop-metas">Metas colaborativas</button>
+          <a class="tab" href="#inventario">Mi inventario <svg class="icon icon-sm"><use href="#i-right"/></svg></a>
+        </div>
 
-          <article class="card studs market-card">
-            <div class="market-top">
-              <div class="market-icon"><svg class="icon"><use href="#i-bot"/></svg></div>
-              <div class="market-info">
-                <h3>Pistas VIP Tutor IA</h3>
-                <p>Pack de 3 pistas guiadas profundas sin penalización de puntaje en desafíos complejos.</p>
+        <div role="tabpanel" id="shop-vitrina">
+          <section class="card studs shop-hero" aria-labelledby="h-shop-hero">
+            <div class="shop-hero-copy">
+              <h2 id="h-shop-hero">Equipate para tu próxima misión</h2>
+              <p>Explorá las recompensas, compará sus efectos y elegí cómo potenciar tu recorrido.</p>
+              <div class="search-bar">
+                <svg class="icon search-icon"><use href="#i-search"/></svg>
+                <input type="search" id="shop-q" class="search-input" placeholder="Buscá por nombre o efecto" aria-label="Buscar recompensas" />
               </div>
             </div>
-            <div class="market-foot">
-              <span class="market-price"><svg class="icon icon-sm"><use href="#i-coin"/></svg> 60 monedas</span>
-              <button class="btn btn-primary btn-sm" type="button">Canjear</button>
-            </div>
-          </article>
-
-          <article class="card studs market-card">
-            <div class="market-top">
-              <div class="market-icon"><svg class="icon"><use href="#i-shirt"/></svg></div>
-              <div class="market-info">
-                <h3>Skin Arcade Cyberpunk</h3>
-                <p>Equipamiento estético exclusivo de cátedra para personalizar tu avatar 3D.</p>
-              </div>
-            </div>
-            <div class="market-foot">
-              <span class="market-price"><svg class="icon icon-sm"><use href="#i-coin"/></svg> 150 monedas</span>
-              <button class="btn btn-secondary btn-sm" type="button" disabled>Bloqueado (Niv. 8)</button>
-            </div>
-          </article>
+            <img class="shop-hero-art item-icon" src="assets/items/chest.svg" alt="" width="96" height="96" />
+          </section>
+          <div class="vcat-tools">
+            <div class="seg" role="group" aria-label="Tipo de recompensa" id="shop-types"></div>
+            <span data-view-toggle="tienda"></span>
+          </div>
+          <p class="shop-summary" id="shop-summary" aria-live="polite"></p>
+          <div class="offer-grid" id="shop-grid" data-view-target="tienda"></div>
+          <div class="pager" id="shop-pager"></div>
+        </div>
+        <div role="tabpanel" id="shop-subastas" hidden>
+          <div class="empty"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg><p><b>No hay subastas abiertas en este curso.</b> Cuando tu profesor abra una, vas a poder ofertar tus monedas acá.</p></div>
+        </div>
+        <div role="tabpanel" id="shop-metas" hidden>
+          <div class="empty"><svg class="icon" aria-hidden="true"><use href="#i-users"/></svg><p><b>Todavía no hay metas colaborativas.</b> Son objetivos que la cohorte completa en equipo, juntando monedas entre todos.</p></div>
         </div>
       </div>
     </section>
@@ -675,7 +657,7 @@
           <p>Tu bóveda central de monedas ganadas en desafíos, canjes y estado de aranceles académicos.</p>
         </div>
         <div class="head-tools">
-          <a class="btn btn-primary btn-sm" href="#marketplace"><svg class="icon icon-sm"><use href="#i-bag"/></svg>Canjear en Marketplace</a>
+          <a class="btn btn-primary btn-sm" href="#marketplace"><svg class="icon icon-sm"><use href="#i-bag"/></svg>Canjear en el Mercado</a>
         </div>
       </div>
       <div class="data">
@@ -706,9 +688,9 @@
           <div class="section-head">
             <div>
               <h2>Bóveda de Monedas</h2>
-              <span class="muted" style="font-size:var(--fs-small);">Las monedas acumuladas en cualquier curso se depositan en tu banco para usar en el Marketplace.</span>
+              <span class="muted" style="font-size:var(--fs-small);">Las monedas acumuladas en cualquier curso se depositan en tu banco para usar en el Mercado.</span>
             </div>
-            <a class="btn btn-secondary btn-sm" href="#marketplace"><svg class="icon icon-sm"><use href="#i-bag"/></svg>Ir al Marketplace</a>
+            <a class="btn btn-secondary btn-sm" href="#marketplace"><svg class="icon icon-sm"><use href="#i-bag"/></svg>Ir al Mercado</a>
           </div>
           <div class="table-wrap">
             <table class="data">
@@ -1394,6 +1376,118 @@
       </div>
     </section>
 
+    <!-- ================= MERCADO · profesor: vitrinas por cohorte ================= -->
+    <section class="screen" id="screen-vitrinas-profesor" aria-labelledby="h-vit" data-error="No pudimos traer tus vitrinas.">
+      <div class="page-head">
+        <div><h1 class="display" id="h-vit">Vitrinas</h1><p>Lo que cada cohorte puede comprar con sus monedas. Elegí una para publicar o editar ofertas.</p></div>
+        <div class="head-tools">
+          <div class="seg" role="group" aria-label="Qué cohortes mostrar" id="vit-scope">
+            <button type="button" data-scope="active" aria-pressed="true">Activas</button>
+            <button type="button" data-scope="all" aria-pressed="false">Todas</button>
+          </div>
+          <span data-view-toggle="vitrinas"></span>
+        </div>
+      </div>
+      <div class="data">
+        <div class="vit-list" id="vit-list" data-view-target="vitrinas"></div>
+      </div>
+    </section>
+
+    <!-- ================= MERCADO · profesor: catálogo de una cohorte ================= -->
+    <section class="screen" id="screen-vitrina-profesor" aria-labelledby="h-vcat" data-error="No pudimos traer el catálogo de esta vitrina.">
+      <a class="back" href="#vitrinas"><svg class="icon icon-sm"><use href="#i-left"/></svg>Vitrinas</a>
+      <div class="page-head">
+        <div><h1 class="display" id="h-vcat">Catálogo</h1><p id="vcat-sub">Escudos, potenciadores y vidas que tus alumnos pueden comprar.</p></div>
+        <div class="head-tools"><a class="btn btn-primary" id="vcat-new" href="#oferta-nueva"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Publicar oferta</a></div>
+      </div>
+      <div class="data">
+        <div class="stat-strip" id="vcat-stats"></div>
+        <div class="tabs" role="tablist" aria-label="Tipo de ítem" id="vcat-tabs"></div>
+        <div class="vcat-tools">
+          <div class="search-bar sm">
+            <svg class="icon search-icon"><use href="#i-search"/></svg>
+            <input type="search" id="vcat-q" class="search-input" placeholder="Buscá por nombre o efecto" aria-label="Buscar ofertas" />
+          </div>
+          <div class="seg" role="group" aria-label="Estado de la oferta" id="vcat-status"></div>
+          <span data-view-toggle="ofertas"></span>
+        </div>
+        <div class="offer-grid" id="vcat-grid" data-view-target="ofertas" aria-live="polite"></div>
+        <div class="pager" id="vcat-pager"></div>
+      </div>
+    </section>
+
+    <!-- ================= MERCADO · profesor: publicar / editar oferta ================= -->
+    <section class="screen" id="screen-oferta-nueva-profesor" aria-labelledby="h-onew" data-error="No pudimos abrir el editor de ofertas.">
+      <a class="back" id="onew-back" href="#vitrinas"><svg class="icon icon-sm"><use href="#i-left"/></svg>Catálogo</a>
+      <div class="page-head">
+        <div><h1 class="display" id="h-onew">Publicar oferta</h1><p id="onew-sub">Sumá una oferta nueva al catálogo de la cohorte.</p></div>
+      </div>
+      <div class="data offer-editor">
+        <form class="card studs offer-form" id="onew-form" novalidate onsubmit="return false">
+          <ol class="wizard-steps offer-steps" id="onew-steps"></ol>
+
+          <fieldset class="offer-pane" data-pane="1">
+            <legend class="pane-title">Elegí qué vas a vender</legend>
+            <p class="muted pane-sub">Cada tipo trae su mecánica. Después podés ajustar nombre, precio y efecto.</p>
+            <div class="tpl-grid" id="onew-tpls" role="radiogroup" aria-label="Tipo de ítem"></div>
+          </fieldset>
+
+          <fieldset class="offer-pane" data-pane="2" hidden>
+            <legend class="pane-title">Cómo la ven tus alumnos</legend>
+            <p class="muted pane-sub">El nombre y la descripción aparecen tal cual en la tienda.</p>
+            <div class="form-grid">
+              <label class="field full"><span class="req">Nombre de la oferta</span>
+                <input class="control" id="of-name" maxlength="60" placeholder="Por ejemplo: Escudo rúnico de laboratorio" />
+                <span class="err" data-err-for="of-name" hidden>Poné un nombre para que tus alumnos la encuentren.</span>
+              </label>
+              <label class="field full"><span class="req">Descripción</span>
+                <textarea class="control" id="of-desc" rows="4" maxlength="500" placeholder="Contá qué hace este ítem cuando un alumno lo compra"></textarea>
+                <span class="field-foot"><span class="err" data-err-for="of-desc" hidden>Contá en una frase qué hace el ítem.</span><span class="hint num" id="of-desc-count">0/500</span></span>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="offer-pane" data-pane="3" hidden>
+            <legend class="pane-title">Precio y disponibilidad</legend>
+            <p class="muted pane-sub">Dejá vacío lo que no quieras limitar.</p>
+            <div class="form-grid">
+              <label class="field"><span class="req">Precio en monedas</span>
+                <input class="control num" id="of-price" type="number" min="1" step="10" inputmode="numeric" />
+                <span class="err" data-err-for="of-price" hidden>El precio tiene que ser de al menos 1 moneda.</span>
+              </label>
+              <label class="field"><span>Unidades a la venta</span>
+                <input class="control num" id="of-stock" type="number" min="1" inputmode="numeric" placeholder="Sin límite" />
+              </label>
+              <label class="field"><span>Vigencia después de la compra</span>
+                <span class="control-suffix"><input class="control num" id="of-days" type="number" min="1" inputmode="numeric" placeholder="No vence" /><span>días</span></span>
+              </label>
+              <label class="field switch-field"><span>Publicarla activa</span>
+                <span class="switch-row"><input type="checkbox" class="switch" id="of-active" checked /><span class="hint">Si la apagás, queda guardada pero no aparece en la tienda.</span></span>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="offer-pane" data-pane="4" hidden>
+            <legend class="pane-title" id="of-mech-title">Mecánica</legend>
+            <p class="muted pane-sub">Qué pasa en el juego cuando el alumno la usa.</p>
+            <div class="form-grid" id="of-mech"></div>
+          </fieldset>
+
+          <div class="offer-actions">
+            <button class="btn btn-ghost" type="button" id="onew-prev"><svg class="icon icon-sm"><use href="#i-left"/></svg><span>Atrás</span></button>
+            <span class="err" id="onew-err" role="alert" hidden></span>
+            <button class="btn btn-primary" type="button" id="onew-next"><span>Siguiente</span><svg class="icon icon-sm"><use href="#i-right"/></svg></button>
+          </div>
+        </form>
+
+        <aside class="offer-preview" aria-labelledby="h-oprev">
+          <h2 id="h-oprev">Así la ve el alumno</h2>
+          <p class="muted">Se actualiza mientras completás el formulario.</p>
+          <div id="onew-preview"></div>
+        </aside>
+      </div>
+    </section>
+
     <!-- ================= BACKOFFICE · admin ================= -->
     <section class="screen" id="screen-backoffice" aria-labelledby="h-bo" data-error="No se pudieron cargar los datos del backoffice.">
       <div class="page-head">
@@ -2003,6 +2097,23 @@
       <button class="btn btn-primary" type="button" id="wz-btn-finish" style="display:none;">Confirmar y Crear Cohorte</button>
     </div>
   </div>
+</dialog>
+
+<!-- ================= Modal: Confirmar compra en el Mercado ================= -->
+<dialog class="modal modal-md studs" id="dialog-comprar" aria-labelledby="h-buy">
+  <div class="buy">
+    <div class="modal-head">
+      <h2 id="h-buy">Confirmar compra</h2>
+      <button class="icon-btn sm" type="button" data-buy-close aria-label="Cerrar"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="modal-body" id="buy-body"></div>
+    <div class="modal-foot">
+      <button class="btn btn-quiet" type="button" data-buy-close>Cancelar</button>
+      <button class="btn btn-primary" type="button" id="buy-confirm"></button>
+    </div>
+  </div>
+</dialog>
+
 <!-- ================= Modal: Asignar Docente a la Cohorte ================= -->
 <dialog class="modal modal-md studs" id="dialog-asignar-profesores" aria-labelledby="h-ap-title">
   <div style="display:flex; flex-direction:column; width:100%;">
@@ -4815,6 +4926,363 @@ function labelTables() {
 }
 new MutationObserver(() => { labelTables(); if ($('[data-view-toggle]')) applyViews(); }).observe($('#main'), { childList: true, subtree: true });
 
+/* ======================= MERCADO · profesor (vitrinas, catálogo y editor de ofertas) ======================= */
+const OFFER_TYPES = {
+  shield: { label: 'Escudo', plural: 'Escudos', color: '#2f7fd0', badge: 'badge-primary', tpl: 'Escudo base',
+    blurb: 'Absorbe fallos en desafíos', mech: { charges: 2, scope: '' }, price: 350 },
+  xp:     { label: 'Potenciador de XP', plural: 'Potenciadores de XP', color: '#c03ad0', badge: 'badge-secondary', tpl: 'Elixir de sabiduría',
+    blurb: 'Multiplica la XP por un tiempo', mech: { mult: 1.5, minutes: 120 }, price: 400 },
+  coins:  { label: 'Potenciador de monedas', plural: 'Potenciadores de monedas', color: '#e0a91c', badge: 'badge-gold', tpl: 'Imán de monedas',
+    blurb: 'Multiplica las monedas ganadas', mech: { mult: 2, attempts: 3 }, price: 300 },
+  life:   { label: 'Vida extra', plural: 'Vidas extra', color: '#d8343a', badge: 'badge-danger', tpl: 'Poción de vida',
+    blurb: 'Devuelve vidas perdidas', mech: { lives: 1 }, price: 500 },
+};
+const SCOPES = { '': 'Todos los desafíos', practicos: 'Desafíos prácticos', teoricos: 'Cuestionarios teóricos', llm: 'Desafíos con IA' };
+/* Item art from the game's icon set: the sprite tier grows with the offer's strength. */
+const clampTier = (n, max) => Math.min(max, Math.max(1, Math.round(Number(n) || 1)));
+const boostTier = m => (Number(m) || 1) <= 1.25 ? 1 : (Number(m) || 1) <= 1.75 ? 2 : 3;
+function itemSprite(o) {
+  const m = o.mech || OFFER_TYPES[o.type].mech;
+  if (o.type === 'shield') return `shield${clampTier(m.charges, 4)}`;
+  if (o.type === 'life') return `heart${clampTier(m.lives, 3)}`;
+  return `${o.type === 'xp' ? 'xp' : 'coins'}-boost${boostTier(m.mult)}`;
+}
+const itemImg = (name, label = '', cls = 'item-icon') => `<img class="${cls}" src="assets/items/${name}.svg" alt="${label}" width="40" height="40" />`;
+const offerArt = (o, label = '') => itemImg(itemSprite(o), label);
+const coinImg = () => itemImg('coin', '', 'coin-icon');
+function offerEffect(o) {
+  const m = o.mech;
+  if (o.type === 'shield') return `Absorbe hasta ${m.charges || 0} ${m.charges == 1 ? 'fallo' : 'fallos'} en ${(SCOPES[m.scope] || SCOPES['']).toLowerCase()}`;
+  if (o.type === 'xp') return `Multiplica la XP ×${Number(m.mult || 1).toFixed(2)} durante ${m.minutes || 0} min`;
+  if (o.type === 'coins') return `Multiplica las monedas ×${Number(m.mult || 1).toFixed(2)} en los próximos ${m.attempts || 0} intentos`;
+  return `Recupera ${m.lives || 0} ${m.lives == 1 ? 'vida' : 'vidas'} en desafíos`;
+}
+const stockLabel = o => o.stock == null ? 'Stock ilimitado' : `${o.stock - o.sold} de ${o.stock} disponibles`;
+
+const VITRINAS = [
+  { code: 'ProgIV', name: 'Programación IV', status: 'Activa', from: '01/03/2026', to: '15/12/2026', progress: 75, daysLeft: 73, role: 'Titular', canManage: true, updated: 'hoy' },
+  { code: 'MSI', name: 'Metodología de Sistemas II', status: 'Activa', from: '01/08/2026', to: '15/12/2026', progress: 41, daysLeft: 73, role: 'Titular', canManage: true, updated: 'ayer' },
+  { code: 'GDS', name: 'Gestión de Desarrollo de Software', status: 'Activa', from: '01/08/2026', to: '15/12/2026', progress: 41, daysLeft: 73, role: 'Ayudante', canManage: false, updated: 'hace 3 días' },
+  { code: 'LEG', name: 'Legislación', status: 'Activa', from: '01/08/2026', to: '30/11/2026', progress: 48, daysLeft: 58, role: 'Titular', canManage: true, updated: null },
+  { code: 'IAD', name: 'Introducción al Análisis de Datos', status: 'Borrador', from: '01/03/2027', to: '15/07/2027', progress: 0, daysLeft: null, role: 'Titular', canManage: true, updated: null },
+  { code: 'MSI25', name: 'MSI 2025', status: 'Archivada', from: '01/03/2025', to: '31/07/2025', progress: 100, daysLeft: null, role: 'Titular', canManage: false, updated: '31/07/2025' },
+];
+const OFFERS = {
+  ProgIV: [
+    { id: 1, type: 'shield', name: 'Escudo rúnico de laboratorio', desc: 'Te cubre en los ejercicios prácticos más bravos.', price: 350, stock: 10, sold: 0, days: null, active: true, mech: { charges: 2, scope: 'practicos' } },
+    { id: 2, type: 'xp', name: 'Elixir de sabiduría', desc: 'Una hora y media de estudio rinde el doble.', price: 400, stock: null, sold: 3, days: null, active: true, mech: { mult: 1.5, minutes: 120 } },
+    { id: 3, type: 'coins', name: 'Imán de monedas doble', desc: 'Juntá el doble en tus próximos intentos.', price: 300, stock: 5, sold: 0, days: 7, active: true, mech: { mult: 2, attempts: 3 } },
+    { id: 4, type: 'life', name: 'Poción de reanimación', desc: 'Volvé al juego después de un mal día.', price: 500, stock: null, sold: 1, days: null, active: true, mech: { lives: 1 } },
+    { id: 5, type: 'shield', name: 'Escudo de cuestionario', desc: 'Una respuesta equivocada no te cuesta la vida.', price: 200, stock: 2, sold: 2, days: 14, active: false, mech: { charges: 1, scope: 'teoricos' } },
+    { id: 6, type: 'xp', name: 'Tónico de racha', desc: 'XP extra mientras mantenés la racha.', price: 250, stock: null, sold: 0, days: 3, active: true, mech: { mult: 1.25, minutes: 60 } },
+    { id: 7, type: 'life', name: 'Corazón de reserva', desc: 'Dos vidas para el cierre de cuatrimestre.', price: 900, stock: 3, sold: 1, days: null, active: true, mech: { lives: 2 } },
+  ],
+  MSI: [{ id: 11, type: 'shield', name: 'Escudo de entrega', desc: 'Para los prácticos de UML.', price: 300, stock: null, sold: 4, days: null, active: true, mech: { charges: 1, scope: 'practicos' } }],
+  GDS: [
+    { id: 21, type: 'coins', name: 'Bolsa del scrum master', desc: 'Más monedas por cada sprint cerrado.', price: 280, stock: null, sold: 6, days: null, active: true, mech: { mult: 1.5, attempts: 5 } },
+    { id: 22, type: 'life', name: 'Vida de retrospectiva', desc: 'Recuperá una vida al cerrar la retro.', price: 450, stock: 10, sold: 2, days: null, active: true, mech: { lives: 1 } },
+  ],
+  LEG: [], IAD: [], MSI25: [],
+};
+const vitrina = code => VITRINAS.find(v => v.code === code) || VITRINAS[0];
+let vitScope = 'active';
+
+/* Offer card: the professor's catalog and the student's preview share this markup so the preview never drifts. */
+function offerCardHTML(o, mode = 'manage') {
+  const t = OFFER_TYPES[o.type];
+  const soldOut = o.stock != null && o.sold >= o.stock;
+  const shop = mode === 'shop' || mode === 'preview';
+  const lack = mode === 'shop' ? o.price - (STUDENT_COINS[shopCode] || 0) : 0;
+  const actions = mode === 'preview'
+    ? `<button class="btn btn-primary btn-sm" type="button" tabindex="-1">Comprar</button>`
+    : mode === 'shop'
+      ? soldOut ? `<button class="btn btn-ghost btn-sm" type="button" disabled>Agotada</button>`
+        : lack > 0 ? `<span class="offer-lack">Te faltan <b class="num">${lack}</b> monedas</span><button class="btn btn-primary btn-sm" type="button" disabled>Comprar</button>`
+        : `<button class="btn btn-primary btn-sm" type="button" data-buy="${o.id}">Comprar</button>`
+    : mode === 'read'
+      ? ''
+      : `<button class="btn btn-ghost btn-sm" type="button" data-offer-toggle="${o.id}">${o.active ? 'Pausar' : 'Activar'}</button><a class="btn btn-secondary btn-sm" href="#oferta-nueva/${vitCode}?id=${o.id}">${icon('i-pencil', 'icon icon-sm')}Editar</a>`;
+  return `<article class="card studs offer-card${o.active ? '' : ' is-paused'}" style="--offer:${t.color}">
+    <div class="offer-art">${offerArt(o)}</div>
+    <div class="offer-body">
+      <div class="offer-meta"><span class="badge ${t.badge} sm">${t.label}</span>${shop ? '' : `<span class="offer-state ${o.active ? 'on' : ''}">${o.active ? 'Activa' : 'Pausada'}</span>`}</div>
+      <h3 class="offer-name">${o.name || 'Oferta sin nombre'}</h3>
+      <p class="offer-effect">${offerEffect(o)}</p>
+      <dl class="offer-facts">
+        <div><dt class="sr-only">Precio</dt><dd class="offer-price">${coinImg()}<span class="num">${o.price || 0}</span></dd></div>
+        <div><dt class="sr-only">Stock</dt><dd class="${soldOut ? 'urgent' : ''}">${soldOut ? 'Agotada' : stockLabel(o)}</dd></div>
+        ${shop ? '' : `<div><dt class="sr-only">Vendidas</dt><dd><span class="num">${o.sold}</span> vendidas</dd></div>`}
+        ${o.days ? `<div><dt class="sr-only">Vigencia</dt><dd>Vence a los <span class="num">${o.days}</span> días</dd></div>` : ''}
+      </dl>
+      ${actions ? `<div class="offer-cta">${actions}</div>` : ''}
+    </div>
+  </article>`;
+}
+
+function renderVitrinas() {
+  const list = VITRINAS.filter(v => vitScope === 'all' || v.status === 'Activa');
+  $$('#vit-scope [data-scope]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.scope === vitScope)));
+  $('#vit-list').innerHTML = list.map(v => {
+    const offers = OFFERS[v.code] || [];
+    const on = offers.filter(o => o.active).length, off = offers.length - on;
+    const sold = offers.reduce((n, o) => n + o.sold, 0);
+    const stockSummary = offers.length
+      ? `<b class="num">${on}</b> ${on === 1 ? 'oferta activa' : 'ofertas activas'}${off ? ` · <span class="num">${off}</span> ${off === 1 ? 'pausada' : 'pausadas'}` : ''} · <span class="num">${sold}</span> vendidas`
+      : 'Todavía no publicaste ofertas';
+    const cta = v.canManage
+      ? `<a class="btn ${offers.length ? 'btn-secondary' : 'btn-primary'} btn-sm" href="#vitrina/${v.code}">${offers.length ? 'Gestionar vitrina' : 'Armar vitrina'}${icon('i-right', 'icon icon-sm')}</a>`
+      : `<a class="btn btn-ghost btn-sm" href="#vitrina/${v.code}">${icon('i-eye', 'icon icon-sm')}Ver vitrina</a>`;
+    const time = v.status === 'Activa' ? `En curso · faltan <span class="num">${v.daysLeft}</span> días` : v.status === 'Borrador' ? 'Arranca el 01/03/2027' : 'Cursada terminada';
+    return `<article class="card studs vit-card">
+      <div class="vit-head">
+        <h2 class="vit-name"><a href="#vitrina/${v.code}">${v.name}</a></h2>
+        <div class="vit-tags"><span class="badge ${v.status === 'Activa' ? 'badge-success' : 'badge-outline'} sm">${v.status}</span>${v.canManage ? '' : `<span class="badge badge-outline sm" title="Como ${v.role.toLowerCase()} podés ver la vitrina pero no editarla">${icon('i-lock', 'icon icon-sm')}Solo lectura</span>`}</div>
+      </div>
+      <p class="vit-period">${icon('i-calendar', 'icon icon-sm')}<span class="num">${v.from} – ${v.to}</span><span class="vit-role">${v.role}</span></p>
+      <div class="vit-stock">${icon('i-bag', 'icon icon-sm')}<span>${stockSummary}</span>${v.updated ? `<span class="muted">Actualizada ${v.updated}</span>` : ''}</div>
+      <div class="vit-progress"><div class="progress-line"><div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${v.progress}" aria-label="Avance de la cursada"><span style="width:${v.progress}%"></span></div><span class="num">${v.progress}%</span></div><span class="muted">${time}</span></div>
+      <div class="vit-cta">${cta}</div>
+    </article>`;
+  }).join('') || `<div class="empty">${icon('i-bag')}<p>No tenés cohortes activas.</p></div>`;
+}
+$('#vit-scope').addEventListener('click', e => { const b = e.target.closest('[data-scope]'); if (b) { vitScope = b.dataset.scope; renderVitrinas(); } });
+
+/* ---- catálogo de una vitrina ---- */
+let vitCode = 'ProgIV';
+const vcat = { type: '', status: 'all', q: '', page: 0, size: 6 };
+function renderCatalog() {
+  const v = vitrina(vitCode), offers = OFFERS[v.code] || [];
+  const ro = !v.canManage;
+  $('#h-vcat').textContent = v.name;
+  $('#vcat-sub').textContent = ro
+    ? `Estás viendo la vitrina como ${v.role.toLowerCase()}. Solo el titular puede publicar o editar ofertas.`
+    : 'Escudos, potenciadores y vidas que tus alumnos pueden comprar con sus monedas.';
+  $('#vcat-new').hidden = ro;
+  $('#vcat-new').href = `#oferta-nueva/${v.code}`;
+  // An empty vitrina only needs its call to action: stats, tabs and filters would all read zero.
+  [$('#vcat-stats'), $('#vcat-tabs'), $('.vcat-tools')].forEach(x => x.hidden = !offers.length);
+  const sold = offers.reduce((n, o) => n + o.sold, 0);
+  const earned = offers.reduce((n, o) => n + o.sold * o.price, 0);
+  $('#vcat-stats').innerHTML = `
+    <div><div class="k">${icon('i-bag', 'icon icon-sm')}Ofertas</div><div class="v num">${offers.length}</div></div>
+    <div><div class="k">${icon('i-tick', 'icon icon-sm')}Activas</div><div class="v num">${offers.filter(o => o.active).length}</div></div>
+    <div><div class="k">${icon('i-users', 'icon icon-sm')}Unidades vendidas</div><div class="v num">${sold}</div></div>
+    <div><div class="k">${icon('i-coin', 'icon icon-sm')}Monedas gastadas</div><div class="v num coin">${earned.toLocaleString('es-AR')}</div></div>`;
+  const count = t => offers.filter(o => !t || o.type === t).length;
+  $('#vcat-tabs').innerHTML = [['', 'Todas'], ...Object.entries(OFFER_TYPES).map(([k, t]) => [k, t.plural])]
+    .map(([k, l]) => `<button class="tab" role="tab" type="button" aria-selected="${vcat.type === k}" data-vtype="${k}">${l} <span class="count num">${count(k)}</span></button>`).join('');
+  const byType = offers.filter(o => !vcat.type || o.type === vcat.type);
+  $('#vcat-status').innerHTML = [['all', 'Todas', byType.length], ['on', 'Activas', byType.filter(o => o.active).length], ['off', 'Pausadas', byType.filter(o => !o.active).length]]
+    .map(([k, l, n]) => `<button type="button" data-vstatus="${k}" aria-pressed="${vcat.status === k}">${l} <span class="num">${n}</span></button>`).join('');
+  const q = vcat.q.trim().toLowerCase();
+  const rows = byType.filter(o => (vcat.status === 'all' || (vcat.status === 'on') === o.active)
+    && (!q || (o.name + ' ' + o.desc + ' ' + offerEffect(o)).toLowerCase().includes(q)));
+  const pages = Math.max(1, Math.ceil(rows.length / vcat.size));
+  vcat.page = Math.min(vcat.page, pages - 1);
+  const pageRows = rows.slice(vcat.page * vcat.size, (vcat.page + 1) * vcat.size);
+  const filtered = vcat.type || vcat.status !== 'all' || q;
+  $('#vcat-grid').innerHTML = pageRows.map(o => offerCardHTML(o, ro ? 'read' : 'manage')).join('')
+    || (offers.length && filtered
+      ? `<div class="empty">${icon('i-search')}<p>Ninguna oferta coincide con esos filtros.</p><button class="btn btn-ghost btn-sm" type="button" data-vclear>Limpiar filtros</button></div>`
+      : `<div class="empty offer-empty">${itemImg('chest')}<p><b>Esta vitrina está vacía.</b> Tus alumnos todavía no tienen nada para comprar.</p>${ro ? '' : `<a class="btn btn-primary btn-sm" href="#oferta-nueva/${v.code}">${icon('i-plus', 'icon icon-sm')}Publicar la primera oferta</a>`}</div>`);
+  $('#vcat-pager').innerHTML = rows.length > vcat.size ? pagerHTML(vcat.page, vcat.size, rows.length, 'ofertas') : '';
+}
+$('#vcat-tabs').addEventListener('click', e => { const b = e.target.closest('[data-vtype]'); if (b) { vcat.type = b.dataset.vtype; vcat.page = 0; renderCatalog(); } });
+$('#vcat-status').addEventListener('click', e => { const b = e.target.closest('[data-vstatus]'); if (b) { vcat.status = b.dataset.vstatus; vcat.page = 0; renderCatalog(); } });
+$('#vcat-q').addEventListener('input', e => { vcat.q = e.target.value; vcat.page = 0; renderCatalog(); });
+onPager($('#vcat-pager'), p => { vcat.page = p; renderCatalog(); });
+$('#vcat-grid').addEventListener('click', e => {
+  if (e.target.closest('[data-vclear]')) { Object.assign(vcat, { type: '', status: 'all', q: '', page: 0 }); $('#vcat-q').value = ''; renderCatalog(); return; }
+  const t = e.target.closest('[data-offer-toggle]');
+  if (t) {
+    const o = OFFERS[vitCode].find(x => x.id === Number(t.dataset.offerToggle));
+    o.active = !o.active; renderCatalog();
+    showToast(o.active ? `"${o.name}" vuelve a estar en la tienda.` : `"${o.name}" se sacó de la tienda. Los que ya la compraron la conservan.`, o.active ? 'success' : 'info');
+  }
+});
+
+/* ---- editor de ofertas (wizard de 4 pasos) ---- */
+const OFFER_STEPS = ['Tipo', 'Información', 'Precio y stock', 'Mecánica'];
+let draft = null, draftStep = 1, draftEditId = null;
+const blankDraft = () => ({ type: '', name: '', desc: '', price: '', stock: '', days: '', active: true, mech: {} });
+function openOfferEditor(code, editId) {
+  vitCode = code || vitCode;
+  const existing = editId ? (OFFERS[vitCode] || []).find(o => o.id === editId) : null;
+  draftEditId = existing ? existing.id : null;
+  draft = existing ? { ...existing, stock: existing.stock ?? '', days: existing.days ?? '', mech: { ...existing.mech } } : blankDraft();
+  draftStep = existing ? 2 : 1;
+  const v = vitrina(vitCode);
+  $('#h-onew').textContent = existing ? 'Editar oferta' : 'Publicar oferta';
+  $('#onew-sub').textContent = existing ? `Los cambios se ven en la tienda de ${v.name} apenas guardás.` : `Sumá una oferta nueva a la vitrina de ${v.name}.`;
+  $('#onew-back').href = `#vitrina/${vitCode}`;
+  $('#onew-back').lastChild.textContent = v.name;
+  $('#of-name').value = draft.name; $('#of-desc').value = draft.desc;
+  $('#of-price').value = draft.price; $('#of-stock').value = draft.stock; $('#of-days').value = draft.days;
+  $('#of-active').checked = draft.active;
+  $$('#onew-form .err').forEach(x => x.hidden = true);
+  $$('#onew-form [aria-invalid]').forEach(x => x.removeAttribute('aria-invalid'));
+  renderOfferEditor();
+}
+function stepError(step) {
+  if (step === 1 && !draft.type) return ['', 'Elegí un tipo de ítem para seguir.'];
+  if (step === 2 && !draft.name.trim()) return ['of-name'];
+  if (step === 2 && !draft.desc.trim()) return ['of-desc'];
+  if (step === 3 && !(Number(draft.price) >= 1)) return ['of-price'];
+  if (step === 4 && Object.entries(draft.mech).some(([k, v]) => k !== 'scope' && !(Number(v) > 0))) return ['', 'Completá los valores de la mecánica con números mayores a cero.'];
+  return null;
+}
+function renderOfferEditor() {
+  $('#onew-steps').innerHTML = OFFER_STEPS.map((l, i) => {
+    const n = i + 1, done = n < draftStep, cur = n === draftStep;
+    return `<li class="wizard-step${cur ? ' active' : ''}${done ? ' completed' : ''}"${cur ? ' aria-current="step"' : ''}>
+      <button type="button" class="step-btn" data-step="${n}" ${n > draftStep ? 'disabled' : ''}><span class="wizard-step-num">${done ? icon('i-tick', 'icon icon-sm') : n}</span><span class="step-label">${l}</span></button></li>`;
+  }).join('<li class="wizard-step-line" aria-hidden="true"></li>');
+  $$('.offer-pane').forEach(p => p.hidden = Number(p.dataset.pane) !== draftStep);
+  $('#onew-tpls').innerHTML = Object.entries(OFFER_TYPES).map(([k, t]) => `
+    <label class="tpl-card" style="--offer:${t.color}"><input type="radio" name="of-type" value="${k}" ${draft.type === k ? 'checked' : ''} ${draftEditId ? 'disabled' : ''} />
+      ${offerArt({ type: k })}<span class="tpl-name">${t.tpl}</span><span class="tpl-blurb">${t.blurb}</span><span class="badge ${t.badge} sm">${t.label}</span></label>`).join('');
+  renderMechanics();
+  $('#onew-prev').querySelector('span').textContent = draftStep === 1 ? 'Cancelar' : `Volver a ${OFFER_STEPS[draftStep - 2].toLowerCase()}`;
+  const last = draftStep === OFFER_STEPS.length;
+  $('#onew-next').querySelector('span').textContent = last ? (draftEditId ? 'Guardar cambios' : 'Publicar oferta') : `Siguiente: ${OFFER_STEPS[draftStep].toLowerCase()}`;
+  $('#onew-next').classList.toggle('btn-success', last);
+  $('#onew-err').hidden = true;
+  renderOfferPreview();
+}
+function renderMechanics() {
+  const t = draft.type, m = draft.mech;
+  $('#of-mech-title').textContent = { shield: 'Mecánica del escudo', xp: 'Mecánica del potenciador', coins: 'Mecánica del potenciador', life: 'Mecánica de la vida extra' }[t] || 'Mecánica';
+  const num = (key, label, attrs, hint = '') => `<label class="field"><span class="req">${label}</span><input class="control num" type="number" data-mech="${key}" value="${m[key] ?? ''}" ${attrs} />${hint ? `<span class="hint">${hint}</span>` : ''}</label>`;
+  $('#of-mech').innerHTML = !t ? '' : t === 'shield'
+    ? num('charges', 'Fallos que absorbe', 'min="1" max="5"', 'Cada fallo cubierto no descuenta vida.')
+      + `<label class="field"><span>Dónde aplica</span><select class="control" data-mech="scope">${Object.entries(SCOPES).map(([k, l]) => `<option value="${k}" ${m.scope === k ? 'selected' : ''}>${l}</option>`).join('')}</select></label>`
+    : t === 'xp' ? num('mult', 'Multiplicador de XP', 'min="1.05" max="3" step="0.05"', 'Por ejemplo 1.5 da 50% más de XP.') + num('minutes', 'Duración en minutos', 'min="10" step="10"')
+    : t === 'coins' ? num('mult', 'Multiplicador de monedas', 'min="1.05" max="3" step="0.05"') + num('attempts', 'Intentos en los que aplica', 'min="1" max="20"')
+    : num('lives', 'Vidas que recupera', 'min="1" max="3"', 'Nunca supera el máximo de vidas del curso.');
+}
+function renderOfferPreview() {
+  if (!draft.type) { $('#onew-preview').innerHTML = `<div class="empty">${icon('i-bag')}<p>Elegí un tipo de ítem para ver la tarjeta.</p></div>`; return; }
+  const o = { ...draft, type: draft.type || 'shield', price: Number(draft.price) || 0, stock: draft.stock === '' ? null : Number(draft.stock), sold: draftEditId ? draft.sold : 0, days: Number(draft.days) || null };
+  $('#onew-preview').innerHTML = offerCardHTML(o, 'preview') + (draft.desc ? `<p class="offer-desc-preview">${draft.desc.replace(/[<>&]/g, '')}</p>` : '');
+}
+$('#onew-tpls').addEventListener('change', e => {
+  const t = e.target.value;
+  if (draft.type !== t) { draft.type = t; draft.mech = { ...OFFER_TYPES[t].mech }; if (!draft.price) { draft.price = OFFER_TYPES[t].price; $('#of-price').value = draft.price; } }
+  renderOfferEditor();
+});
+$('#onew-form').addEventListener('input', e => {
+  const id = e.target.id, mk = e.target.dataset.mech;
+  if (mk) draft.mech[mk] = e.target.type === 'number' ? Number(e.target.value) : e.target.value;
+  else if (id === 'of-name') draft.name = e.target.value;
+  else if (id === 'of-desc') { draft.desc = e.target.value; $('#of-desc-count').textContent = `${draft.desc.length}/500`; }
+  else if (id === 'of-price') draft.price = e.target.value;
+  else if (id === 'of-stock') draft.stock = e.target.value;
+  else if (id === 'of-days') draft.days = e.target.value;
+  else if (id === 'of-active') draft.active = e.target.checked;
+  if (e.target.getAttribute('aria-invalid')) { e.target.removeAttribute('aria-invalid'); $(`[data-err-for="${id}"]`).hidden = true; }
+  renderOfferPreview();
+});
+$('#onew-form').addEventListener('change', e => { if (e.target.dataset.mech === 'scope') { draft.mech.scope = e.target.value; renderOfferPreview(); } });
+$('#onew-steps').addEventListener('click', e => { const b = e.target.closest('[data-step]'); if (b && !b.disabled) { draftStep = Number(b.dataset.step); renderOfferEditor(); } });
+$('#onew-prev').addEventListener('click', () => { if (draftStep === 1) location.hash = `vitrina/${vitCode}`; else { draftStep--; renderOfferEditor(); } });
+$('#onew-next').addEventListener('click', () => {
+  const err = stepError(draftStep);
+  if (err) {
+    const [field, msg] = err;
+    if (field) { const f = $('#' + field); f.setAttribute('aria-invalid', 'true'); $(`[data-err-for="${field}"]`).hidden = false; f.focus(); }
+    else { $('#onew-err').textContent = msg; $('#onew-err').hidden = false; $('.offer-pane:not([hidden]) input')?.focus(); }
+    return;
+  }
+  if (draftStep < OFFER_STEPS.length) { draftStep++; renderOfferEditor(); $('.offer-pane:not([hidden]) .control, .offer-pane:not([hidden]) input')?.focus(); return; }
+  const offer = { ...draft, name: draft.name.trim(), desc: draft.desc.trim(), price: Number(draft.price), stock: draft.stock === '' ? null : Number(draft.stock), days: Number(draft.days) || null };
+  const list = OFFERS[vitCode] || (OFFERS[vitCode] = []);
+  if (draftEditId) Object.assign(list.find(o => o.id === draftEditId), offer);
+  else list.unshift({ ...offer, id: Date.now(), sold: 0 });
+  const v = vitrina(vitCode); v.updated = 'hoy';
+  Object.assign(vcat, { type: '', status: 'all', q: '', page: 0 }); $('#vcat-q').value = '';
+  location.hash = `vitrina/${vitCode}`;
+  showToast(draftEditId ? `Guardaste los cambios de "${offer.name}".` : `"${offer.name}" ya está en la vitrina de ${v.name}.`, 'success');
+});
+
+/* ---- Mercado del alumno: saldo por curso, vitrina y compra ---- */
+const STUDENT_COINS = { ProgIV: 1240, MSI: 320, GDS: 180, LEG: 90, IAD: 0 };
+const STUDENT_SHOPS = ['ProgIV', 'MSI', 'GDS', 'LEG', 'IAD'];
+let shopCode = 'ProgIV';
+const shop = { type: '', q: '', page: 0, size: 6 };
+const coinsLabel = n => `<span class="num">${n.toLocaleString('es-AR')}</span> ${n === 1 ? 'moneda' : 'monedas'}`;
+const shopOffers = code => (OFFERS[code] || []).filter(o => o.active);
+
+function renderShopCourses() {
+  $('#shop-courses').innerHTML = STUDENT_SHOPS.map(code => {
+    const c = COURSES[code], coins = STUDENT_COINS[code] || 0, offers = shopOffers(code);
+    const affordable = offers.filter(o => o.price <= coins && !(o.stock != null && o.sold >= o.stock)).length;
+    const cheapest = offers.length ? Math.min(...offers.map(o => o.price)) : null;
+    const reach = !offers.length ? 'Tu profesor todavía no publicó recompensas'
+      : affordable ? `Te alcanza para <b class="num">${affordable}</b> de <span class="num">${offers.length}</span> recompensas`
+      : `Ninguna te alcanza todavía. La más barata cuesta <span class="num">${cheapest}</span>`;
+    return `<article class="card studs vit-card shop-course">
+      <div class="vit-head"><h2 class="vit-name"><a href="#mercado/${code}">${c.name}</a></h2><span class="badge badge-success sm">${c.status}</span></div>
+      <p class="wallet-line">${coinImg()}<span>${coinsLabel(coins)}</span></p>
+      <div class="vit-stock">${icon('i-bag', 'icon icon-sm')}<span>${reach}</span></div>
+      <div class="vit-cta"><a class="btn ${offers.length ? 'btn-primary' : 'btn-ghost'} btn-sm" href="#mercado/${code}">${offers.length ? 'Entrar al mercado' : 'Ver mercado'}${icon('i-right', 'icon icon-sm')}</a></div>
+    </article>`;
+  }).join('');
+}
+
+function renderShop() {
+  const c = COURSES[shopCode] || COURSES.ProgIV, coins = STUDENT_COINS[shopCode] || 0, offers = shopOffers(shopCode);
+  $('#h-shop').textContent = c.name;
+  $('#shop-wallet').innerHTML = `${coinImg()}<span>${coinsLabel(coins)}</span>`;
+  $('#shop-types').innerHTML = [['', 'Todo'], ['shield', 'Escudos'], ['xp', 'XP'], ['coins', 'Monedas'], ['life', 'Vidas']]
+    .map(([k, l]) => `<button type="button" data-shop-type="${k}" aria-pressed="${shop.type === k}">${l}</button>`).join('');
+  const q = shop.q.trim().toLowerCase();
+  const rows = offers.filter(o => (!shop.type || o.type === shop.type) && (!q || (o.name + ' ' + o.desc + ' ' + offerEffect(o)).toLowerCase().includes(q)));
+  const pages = Math.max(1, Math.ceil(rows.length / shop.size));
+  shop.page = Math.min(shop.page, pages - 1);
+  const affordable = rows.filter(o => o.price <= coins).length;
+  $('#shop-summary').innerHTML = rows.length ? `<b class="num">${rows.length}</b> ${rows.length === 1 ? 'recompensa' : 'recompensas'} · te alcanza para <b class="num">${affordable}</b>` : '';
+  $('.vcat-tools', $('#shop-vitrina')).hidden = !offers.length;
+  $('#shop-grid').innerHTML = rows.slice(shop.page * shop.size, (shop.page + 1) * shop.size).map(o => offerCardHTML(o, 'shop')).join('')
+    || (offers.length
+      ? `<div class="empty">${icon('i-search')}<p>Nada coincide con esa búsqueda.</p><button class="btn btn-ghost btn-sm" type="button" data-shop-clear>Limpiar filtros</button></div>`
+      : `<div class="empty offer-empty">${itemImg('chest')}<p><b>La vitrina de ${c.name} está vacía.</b> Cuando tu profesor publique recompensas, vas a verlas acá.</p></div>`);
+  $('#shop-pager').innerHTML = rows.length > shop.size ? pagerHTML(shop.page, shop.size, rows.length, 'recompensas') : '';
+}
+function selectShopTab(tab) {
+  $$('#shop-tabs [data-shop-tab]').forEach(b => b.setAttribute('aria-selected', String(b.dataset.shopTab === tab)));
+  ['vitrina', 'subastas', 'metas'].forEach(k => $('#shop-' + k).hidden = k !== tab);
+}
+$('#shop-tabs').addEventListener('click', e => { const b = e.target.closest('[data-shop-tab]'); if (b) selectShopTab(b.dataset.shopTab); });
+$('#shop-types').addEventListener('click', e => { const b = e.target.closest('[data-shop-type]'); if (b) { shop.type = b.dataset.shopType; shop.page = 0; renderShop(); } });
+$('#shop-q').addEventListener('input', e => { shop.q = e.target.value; shop.page = 0; renderShop(); });
+onPager($('#shop-pager'), p => { shop.page = p; renderShop(); });
+
+/* Purchase: a modal is earned here, spending coins can't be undone. */
+let buyOffer = null;
+$('#shop-grid').addEventListener('click', e => {
+  if (e.target.closest('[data-shop-clear]')) { Object.assign(shop, { type: '', q: '', page: 0 }); $('#shop-q').value = ''; renderShop(); return; }
+  const b = e.target.closest('[data-buy]'); if (!b) return;
+  buyOffer = shopOffers(shopCode).find(o => o.id === Number(b.dataset.buy));
+  const t = OFFER_TYPES[buyOffer.type], coins = STUDENT_COINS[shopCode];
+  $('#buy-body').innerHTML = `
+    <div class="buy-item" style="--offer:${t.color}"><div class="offer-art">${offerArt(buyOffer)}</div>
+      <div><span class="badge ${t.badge} sm">${t.label}</span><h3 class="offer-name">${buyOffer.name}</h3><p class="muted">${buyOffer.desc}</p></div></div>
+    <dl class="buy-facts">
+      <div><dt>Efecto</dt><dd>${offerEffect(buyOffer)}</dd></div>
+      <div><dt>Vigencia</dt><dd>${buyOffer.days ? `Vence a los <span class="num">${buyOffer.days}</span> días de comprarla` : 'No vence'}</dd></div>
+      <div><dt>Disponibles</dt><dd>${buyOffer.stock == null ? 'Sin límite' : `<span class="num">${buyOffer.stock - buyOffer.sold}</span> de <span class="num">${buyOffer.stock}</span>`}</dd></div>
+    </dl>
+    <div class="buy-balance"><span>Tu saldo</span><span>${coinsLabel(coins)}</span><span>Precio</span><span class="neg">− ${coinsLabel(buyOffer.price)}</span><span>Te quedan</span><b>${coinsLabel(coins - buyOffer.price)}</b></div>`;
+  $('#buy-confirm').innerHTML = `Comprar por ${coinsLabel(buyOffer.price)}`;
+  $('#dialog-comprar').showModal();
+});
+$$('[data-buy-close]').forEach(b => b.addEventListener('click', () => $('#dialog-comprar').close()));
+$('#buy-confirm').addEventListener('click', () => {
+  STUDENT_COINS[shopCode] -= buyOffer.price; buyOffer.sold++;
+  $('#dialog-comprar').close(); renderShop();
+  showToast(`Compraste "${buyOffer.name}". Ya está en tu inventario.`, 'success');
+});
+
 /* ======================= role / nav / routing ======================= */
 const NAV_TABS = {
   alumno: [
@@ -4828,6 +5296,7 @@ const NAV_TABS = {
     ['cursos', 'i-book', 'Cursos'],
     ['desafios', 'i-flame', 'Desafíos'],
     ['ranking', 'i-trophy', 'Gamificación'],
+    ['vitrinas', 'i-bag', 'Mercado'],
     ['chat', 'i-chat', 'Comunidad'],
   ],
   admin: [
@@ -4863,7 +5332,7 @@ const BOTTOM_NAV_ITEMS = {
 };
 
 const ACCOUNT_SCREENS = {
-  alumno: ['perfil', 'personaje', 'inventario', 'marketplace', 'notificaciones', 'encuestas', 'banco', 'contabilidad', 'panel'],
+  alumno: ['perfil', 'personaje', 'inventario', 'marketplace', 'mercado', 'notificaciones', 'encuestas', 'banco', 'contabilidad', 'panel'],
   profesor: ['perfil', 'encuestas', 'notificaciones', 'banco', 'contabilidad', 'panel'],
   admin: ['perfil', 'encuestas', 'notificaciones', 'banco', 'contabilidad', 'panel'],
 };
@@ -4880,12 +5349,17 @@ const PARENT = {
 
   // Economía
   marketplace: 'banco',
+  mercado: 'banco',
   inventario: 'banco',
   personaje: 'banco',
   banco: 'banco',
 
   // Insignias profesor
   insignias: 'ranking',
+
+  // Mercado profesor
+  vitrina: 'vitrinas',
+  'oferta-nueva': 'vitrinas',
 };
 
 /* ---- Configuración de Sub-menús (Opción D: Split View / Slack & Discord) ---- */
@@ -4918,7 +5392,7 @@ const SUBMENUS = {
           label: 'Finanzas & Monedas',
           items: [
             { id: 'sub-eco-banco', href: '#banco', label: 'Banco & Bóveda', meta: 'Bóveda de Monedas', icon: 'i-coin', match: h => h === 'banco' },
-            { id: 'sub-eco-market', href: '#marketplace', label: 'Marketplace', meta: 'Tienda de Ítems', icon: 'i-bag', match: h => h === 'marketplace' }
+            { id: 'sub-eco-market', href: '#marketplace', label: 'Mercado', meta: 'Vitrina de cada curso', icon: 'i-bag', match: h => h === 'marketplace' || h.startsWith('mercado') }
           ]
         },
         {
@@ -5579,6 +6053,19 @@ function route() {
   let el = screenEl(id);
   if (id === 'curso') fillCourseDetail(decodeURIComponent(arg || 'MSI'), currentActiveUnit);
   if (id === 'ranking') renderRanking();
+  if (id === 'vitrinas') renderVitrinas();
+  if (id === 'marketplace') renderShopCourses();
+  if (id === 'mercado') {
+    const code = decodeURIComponent(arg || shopCode);
+    if (code !== shopCode) { Object.assign(shop, { type: '', q: '', page: 0 }); $('#shop-q').value = ''; selectShopTab('vitrina'); }
+    shopCode = code; renderShop();
+  }
+  if (id === 'vitrina') {
+    const code = decodeURIComponent(arg || vitCode);
+    if (code !== vitCode) { Object.assign(vcat, { type: '', status: 'all', q: '', page: 0 }); $('#vcat-q').value = ''; }
+    vitCode = code; renderCatalog();
+  }
+  if (id === 'oferta-nueva') openOfferEditor(decodeURIComponent(arg || vitCode), Number(new URLSearchParams(queryString || '').get('id')) || null);
   if (!el) {
     el = $('#screen-pending');
     const link = $(`.rail-item[data-screen="${id}"]`);
