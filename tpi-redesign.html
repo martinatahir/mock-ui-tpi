@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="css/base.css?v=2" />
 <link rel="stylesheet" href="css/components.css?v=2" />
 <link rel="stylesheet" href="css/screens.css?v=2" />
+<link rel="stylesheet" href="css/login.css" />
 </head>
 <body>
 
@@ -70,6 +71,7 @@
   <symbol id="i-file" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></symbol>
   <symbol id="i-github" viewBox="0 0 24 24"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></symbol>
   <symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></symbol>
+  <symbol id="i-login" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="m10 17 5-5-5-5"/><path d="M15 12H3"/></symbol>
   <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></symbol>
   <symbol id="i-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></symbol>
   <symbol id="i-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
@@ -1268,10 +1270,36 @@
       <div class="data profile-layout">
         <aside class="card studs identity">
           <span class="badge status-corner"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-tick"/></svg>Cuenta activa</span>
+          <div class="identity-top">
           <div class="identity-head">
-            <span class="initials lg" data-me-initials>MS</span>
+            <div class="avatar-xl" data-me-avatar>
+              <span data-me-initials>MS</span>
+              <img data-me-photo alt="" hidden />
+            </div>
+            <label class="btn btn-quiet btn-sm photo-btn">
+              <svg class="icon icon-sm" aria-hidden="true"><use href="#i-pencil"/></svg>Cambiar foto
+              <input type="file" accept="image/*" data-photo-input hidden />
+            </label>
             <h1 data-me-name>Manuel Sanchez</h1>
             <span class="muted" data-me-email>manuel.sanchez@frc.utn.edu.ar</span>
+          </div>
+          <div class="bio" data-bio>
+            <p class="bio-text" data-bio-text></p>
+            <button class="linkbtn bio-more" type="button" data-bio-more hidden>Ver más</button>
+            <form class="bio-form" data-bio-form hidden>
+              <label class="field"><span class="sr-only">Tu descripción</span>
+                <textarea class="control" rows="4" maxlength="280" data-bio-input placeholder="Contá en pocas palabras quién sos"></textarea>
+              </label>
+              <div class="bio-actions">
+                <span class="hint num" data-bio-count>0 / 280</span>
+                <button class="btn btn-quiet btn-sm" type="button" data-bio-cancel>Cancelar</button>
+                <button class="btn btn-primary btn-sm" type="submit">Guardar</button>
+              </div>
+            </form>
+            <button class="btn btn-ghost btn-sm bio-edit" type="button" data-bio-edit>
+              <svg class="icon icon-sm" aria-hidden="true"><use href="#i-pencil"/></svg>Editar descripción
+            </button>
+          </div>
           </div>
           <dl class="identity-list" aria-label="Información de la cuenta">
             <div><dt>Rol</dt><dd><span class="badge badge-secondary" data-me-role>Alumno</span></dd></div>
@@ -1281,7 +1309,35 @@
             <div><dt>Términos aceptados</dt><dd>Versión 1</dd></div>
           </dl>
         </aside>
-        <div>
+        <div class="profile-panels">
+          <section class="card studs panel" aria-labelledby="h-mycourses" data-alumno-only>
+            <details class="students-disclosure" id="mycourses-disclosure">
+            <summary class="students-summary"><h2 id="h-mycourses">Mis cursos</h2><span class="badge badge-primary num" data-mycourses-count>0</span><span class="students-chev" aria-hidden="true"></span></summary>
+            <p>Tus cursos activos de este cuatrimestre. Entrá a cualquiera para ver tus unidades y desafíos.</p>
+            <div class="table-wrap"><table class="data" id="mycourses-table"></table></div>
+            </details>
+          </section>
+          <section class="card studs panel" aria-labelledby="h-students" data-profesor-only>
+            <details class="students-disclosure" id="students-disclosure">
+            <summary class="students-summary"><h2 id="h-students">Alumnos habilitados</h2><span class="badge badge-primary num" data-students-count>0</span><span class="students-chev" aria-hidden="true"></span></summary>
+            <p>Solo los alumnos de esta lista pueden entrar al curso. Agregalos con su email institucional.</p>
+            <form class="add-email" id="add-student" novalidate>
+              <label class="field grow"><span class="req">Email del alumno</span><input class="control" type="email" id="st-email" placeholder="alumno@frc.utn.edu.ar" aria-describedby="st-hint" /></label>
+              <label class="field">Curso<input class="control" id="st-course-add" list="st-course-list" placeholder="Escribí o elegí un curso" autocomplete="off" /></label>
+              <button class="btn btn-primary" type="submit"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Agregar</button>
+              <span class="hint full" id="st-hint" aria-live="polite">Entra directo a tu curso, sin pedir acceso.</span>
+            </form>
+            <div class="filter-top">
+              <label class="search"><span class="sr-only">Buscar alumno</span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-search"/></svg><input class="control" type="search" id="st-q" placeholder="Buscar por nombre o email" /></label>
+              <label class="field" style="min-width:220px"><span class="sr-only">Filtrar por curso</span><input class="control" id="st-course-filter" list="st-course-list" placeholder="Todos los cursos" autocomplete="off" /></label>
+              <span data-view-toggle="alumnos"></span>
+            </div>
+            <div class="table-wrap" data-view-target="alumnos"><table class="data" id="student-table"></table></div>
+            <div class="empty" id="st-empty" hidden>Todavía no agregaste alumnos a este curso.</div>
+            <div class="st-pager" id="st-pager"></div>
+            <datalist id="st-course-list"></datalist>
+            </details>
+          </section>
           <section class="card studs panel" aria-labelledby="h-access-p" data-admin-only>
             <h2 id="h-access-p">Accesos a la plataforma</h2>
             <p>Aprobá solicitudes pendientes y habilitá emails docentes sin esperar su pedido.</p>
@@ -1323,6 +1379,7 @@
       <div class="data">
         <div class="tabs" role="tablist" aria-label="Estado de las cohortes" id="cohort-tabs"></div>
         <div class="course-grid" id="cohort-grid" data-view-target="cohortes"></div>
+        <div class="st-pager" id="cohort-pager"></div>
       </div>
     </section>
 
@@ -1994,6 +2051,144 @@
           </table>
         </div>
       </section>
+    </section>
+
+    <!-- ================= LOGIN / REGISTRO (mock de acceso) ================= -->
+    <section class="screen" id="screen-login" aria-labelledby="lg-title">
+      <div class="login-stage">
+        <div class="login-wrap">
+
+          <!-- Mascota: la cabeza sigue el mouse, se tapa los ojos con la contraseña y festeja al terminar -->
+          <svg class="mascot" id="lg-mascot" data-mood="idle" viewBox="0 0 200 150" aria-hidden="true" focusable="false">
+            <g class="m-head" id="lg-head">
+              <line class="m-ant" x1="100" y1="36" x2="100" y2="18"/>
+              <circle class="m-bulb" cx="100" cy="12" r="7"/>
+              <rect class="m-ear" x="18" y="72" width="14" height="36" rx="5"/>
+              <rect class="m-ear" x="168" y="72" width="14" height="36" rx="5"/>
+              <rect class="m-body" x="30" y="36" width="140" height="112" rx="16"/>
+              <rect class="m-face" x="44" y="50" width="112" height="72" rx="10"/>
+              <g class="m-look" id="lg-look">
+                <circle class="m-eye" cx="76" cy="82" r="17"/>
+                <circle class="m-eye" cx="124" cy="82" r="17"/>
+                <g class="m-pupil-g" id="lg-pupils">
+                  <circle class="m-pupil" cx="76" cy="82" r="8"/><circle class="m-glint" cx="79" cy="79" r="2.6"/>
+                  <circle class="m-pupil" cx="124" cy="82" r="8"/><circle class="m-glint" cx="127" cy="79" r="2.6"/>
+                </g>
+                <circle class="m-lid" cx="76" cy="82" r="17.5"/>
+                <circle class="m-lid" cx="124" cy="82" r="17.5"/>
+                <path class="m-joy" d="M60 88 Q76 70 92 88"/>
+                <path class="m-joy" d="M108 88 Q124 70 140 88"/>
+                <ellipse class="m-cheek" cx="56" cy="104" rx="8" ry="4"/>
+                <ellipse class="m-cheek" cx="144" cy="104" rx="8" ry="4"/>
+                <path class="m-mouth m-mouth-smile" d="M88 106 Q100 115 112 106"/>
+                <path class="m-mouth m-mouth-flat" d="M90 109 H110"/>
+                <ellipse class="m-mouth m-mouth-o" cx="100" cy="108" rx="5" ry="6"/>
+              </g>
+              <rect class="m-hand m-hand-l" x="52" y="74" width="40" height="30" rx="13"/>
+              <rect class="m-hand m-hand-r" x="108" y="74" width="40" height="30" rx="13"/>
+            </g>
+          </svg>
+
+          <div class="login-card" id="lg-card">
+            <div class="login-head">
+              <h1 id="lg-title">Entrá a TPI 2026</h1>
+              <p id="lg-sub">Seguí con tu <b>legajo</b> o tu mail institucional.</p>
+            </div>
+
+            <div class="seg login-tabs" id="lg-tabs" role="group" aria-label="Acceso">
+              <button type="button" data-lg-mode="login" aria-pressed="true">Ingresar</button>
+              <button type="button" data-lg-mode="register" aria-pressed="false">Crear cuenta</button>
+            </div>
+
+            <ol class="login-steps" id="lg-steps" aria-label="Pasos del registro" hidden>
+              <li data-lg-dot="id"><span class="n">1</span><span class="t">Cuenta</span></li>
+              <li data-lg-dot="otp"><span class="n">2</span><span class="t">Verificación</span></li>
+              <li data-lg-dot="data"><span class="n">3</span><span class="t">Tus datos</span></li>
+            </ol>
+
+            <!-- Ingresar -->
+            <form class="login-step" data-lg-step="login" novalidate>
+              <label class="field">Legajo o mail
+                <input class="control" name="id" autocomplete="username" placeholder="40510 o nombre.apellido@frc.utn.edu.ar" />
+              </label>
+              <label class="field">Contraseña
+                <span class="pw-wrap">
+                  <input class="control" name="pw" type="password" autocomplete="current-password" data-lg-pw />
+                  <button class="pw-toggle" type="button" data-lg-toggle aria-label="Mostrar contraseña" aria-pressed="false"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-eye"/></svg></button>
+                </span>
+              </label>
+              <p class="login-msg" data-lg-msg role="alert"></p>
+              <div class="login-links">
+                <button class="login-lnk" type="button" data-lg-forgot>Olvidé mi contraseña</button>
+              </div>
+              <button class="btn btn-primary login-cta" type="submit">Ingresar<svg class="icon icon-sm" aria-hidden="true"><use href="#i-right"/></svg></button>
+              <div class="login-or" aria-hidden="true">o</div>
+              <button class="btn btn-secondary login-cta" type="button" data-lg-github><svg class="icon icon-sm" aria-hidden="true"><use href="#i-github"/></svg>Continuar con GitHub</button>
+            </form>
+
+            <!-- Registro · 1. un solo campo: mail o legajo -->
+            <form class="login-step" data-lg-step="id" novalidate hidden>
+              <label class="field">Legajo o mail
+                <input class="control" name="id" autocomplete="username" placeholder="40510 o nombre.apellido@frc.utn.edu.ar" />
+                <span class="hint">Si usás tu legajo, mandamos el código a tu mail institucional.</span>
+              </label>
+              <p class="login-msg" data-lg-msg role="alert"></p>
+              <button class="btn btn-primary login-cta" type="submit">Enviar código<svg class="icon icon-sm" aria-hidden="true"><use href="#i-right"/></svg></button>
+            </form>
+
+            <!-- Registro · 2. 2FA de 6 dígitos -->
+            <form class="login-step" data-lg-step="otp" novalidate hidden>
+              <div class="otp6" id="lg-otp" role="group" aria-label="Código de 6 dígitos"></div>
+              <p class="login-msg" data-lg-msg role="alert"></p>
+              <div class="login-links">
+                <button class="login-lnk" type="button" data-lg-change>Cambiar mail o legajo</button>
+                <button class="login-lnk" type="button" data-lg-resend>Reenviar código</button>
+              </div>
+              <button class="btn btn-primary login-cta" type="submit">Confirmar código<svg class="icon icon-sm" aria-hidden="true"><use href="#i-tick"/></svg></button>
+            </form>
+
+            <!-- Registro · 3. datos de la cuenta -->
+            <form class="login-step" data-lg-step="data" novalidate hidden>
+              <div class="field">
+                <span>Mail</span>
+                <span class="email-ok"><input class="control" name="mail" readonly aria-label="Mail verificado" /><span class="badge badge-success"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-tick"/></svg>Verificado</span></span>
+              </div>
+              <div class="login-row">
+                <label class="field">Nombre<input class="control" name="fn" autocomplete="given-name" /></label>
+                <label class="field">Apellido<input class="control" name="ln" autocomplete="family-name" /></label>
+              </div>
+              <div class="login-row">
+                <label class="field">DNI<input class="control" name="dni" inputmode="numeric" autocomplete="off" placeholder="Sin puntos" /></label>
+                <label class="field">Legajo<input class="control" name="leg" inputmode="numeric" autocomplete="off" /></label>
+              </div>
+              <label class="field">Usuario de GitHub <span class="hint">Opcional. Lo usamos para corregir tus entregas.</span>
+                <input class="control" name="gh" autocomplete="off" placeholder="tu-usuario" />
+              </label>
+              <div class="login-row">
+                <label class="field">Contraseña
+                  <span class="pw-wrap"><input class="control" name="p1" type="password" autocomplete="new-password" data-lg-pw /><button class="pw-toggle" type="button" data-lg-toggle aria-label="Mostrar contraseña" aria-pressed="false"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-eye"/></svg></button></span>
+                </label>
+                <label class="field">Repetila
+                  <span class="pw-wrap"><input class="control" name="p2" type="password" autocomplete="new-password" data-lg-pw /><button class="pw-toggle" type="button" data-lg-toggle aria-label="Mostrar contraseña" aria-pressed="false"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-eye"/></svg></button></span>
+                </label>
+              </div>
+              <label class="login-check"><input type="checkbox" name="terms" />Acepto las condiciones de uso de la plataforma y el tratamiento de mis datos académicos.</label>
+              <p class="login-msg" data-lg-msg role="alert"></p>
+              <button class="btn btn-primary login-cta" type="submit">Crear mi cuenta<svg class="icon icon-sm" aria-hidden="true"><use href="#i-tick"/></svg></button>
+            </form>
+
+            <!-- Final -->
+            <div class="login-step login-done" data-lg-step="done" hidden role="status">
+              <span class="tick"><svg class="icon" aria-hidden="true"><use href="#i-tick"/></svg></span>
+              <h2 id="lg-done-title">¡Cuenta creada!</h2>
+              <p>Te llevamos al inicio.</p>
+              <div class="login-progress" aria-hidden="true"><i></i></div>
+            </div>
+          </div>
+
+          <p class="login-foot">Mock de acceso · en esta demo, cualquier código de 6 dígitos sirve salvo <b>000000</b>.</p>
+        </div>
+      </div>
     </section>
 
     <!-- ================= placeholder ================= -->
@@ -3342,43 +3537,44 @@ function renderStudentCourses() {
 }
 
 let cohortTab = 'Activa';
+const cohortPage = { page: 1, size: 10 };
 function renderCohorts() {
   const tabs = [['Activa', 'Activas'], ['Borrador', 'Borradores'], ['Archivada', 'Archivadas'], ['', 'Todas']];
   $('#cohort-tabs').innerHTML = tabs.map(([v, l]) => `<button class="tab" role="tab" aria-selected="${v === cohortTab}" data-cohort="${v}">${l} <span class="count num">${COHORTS.filter(c => !v || c.status === v).length}</span></button>`).join('');
-  const list = COHORTS.filter(c => !cohortTab || c.status === cohortTab);
+  const all = COHORTS.filter(c => !cohortTab || c.status === cohortTab);
+  const pages = Math.max(1, Math.ceil(all.length / cohortPage.size));
+  cohortPage.page = Math.min(cohortPage.page, pages);
+  const from = (cohortPage.page - 1) * cohortPage.size;
+  const list = all.slice(from, from + cohortPage.size);
+  $('#cohort-pager').innerHTML = all.length ? `
+    <label class="st-size">Mostrar <select class="control" id="cohort-size">${[5, 10, 50].map(n => `<option value="${n}" ${n === cohortPage.size ? 'selected' : ''}>${n}</option>`).join('')}</select> por página</label>
+    <span class="num" aria-live="polite">${from + 1}–${from + list.length} de ${all.length}</span>
+    <span class="st-pager-btns">
+      <button class="btn btn-ghost btn-sm" type="button" data-cohort-prev ${cohortPage.page <= 1 ? 'disabled' : ''}>Anterior</button>
+      <span class="num">Página ${cohortPage.page} de ${pages}</span>
+      <button class="btn btn-ghost btn-sm" type="button" data-cohort-next ${cohortPage.page >= pages ? 'disabled' : ''}>Siguiente</button>
+    </span>` : '';
   $('#cohort-grid').innerHTML = list.length ? list.map(c => `
-    <article class="card studs course">
+    <article class="card studs course cohort-card">
       <div class="course-top">
-        <div>
+        <div class="cohort-title">
           <h2>${c.name}</h2>
-          <div class="course-sub">${c.fullName && c.fullName !== c.name ? c.fullName : `${c.students || 0} alumnos`}</div>
+          <div class="course-sub num">${c.students || 0} alumnos · ${c.from} – ${c.to}</div>
         </div>
         <span class="badge ${c.status === 'Activa' ? 'badge-success' : c.status === 'Borrador' ? 'badge-outline' : 'badge-secondary'}">${c.status}</span>
       </div>
-      <dl class="facts">
-        <dt>${icon('i-calendar', 'icon icon-sm')}Inscripción</dt><dd class="num">${c.from} – ${c.to}<small>${c.weeks}</small></dd>
-        <dt>${icon('i-user', 'icon icon-sm')}Docentes</dt><dd>${c.teacher}</dd>
-      </dl>
-      <div class="cohort-invite-box">
-        <div class="cohort-invite-info">
-          <span class="invite-label">CÓDIGO DE INVITACIÓN</span>
-          <code class="invite-code">${c.inviteCode || 'KAS5ZNBRT3'}</code>
-        </div>
-        <div class="cohort-invite-actions">
-          <span class="hint">Compartí con tus alumnos</span>
-          <button class="btn btn-quiet btn-xs" type="button" data-copy-code="${c.inviteCode || 'KAS5ZNBRT3'}">Copiar</button>
-        </div>
-      </div>
       <div class="course-foot">
-        ${c.readOnly ? `<span class="muted" style="font-size:13px; display:inline-flex; gap:6px; align-items:center">${icon('i-lock', 'icon icon-sm')}Solo lectura</span>` : '<span></span>'}
-        <div class="quick-links">
-          <a class="btn btn-secondary btn-sm" href="#curso/${c.code || c.name}">Ver curso</a>
-          <a class="btn btn-quiet btn-sm" href="#curso/${c.code || c.name}">Gestionar</a>
-        </div>
+        ${c.readOnly ? `<span class="muted cohort-ro">${icon('i-lock', 'icon icon-sm')}Solo lectura</span>` : '<span></span>'}
+        <a class="btn btn-primary btn-sm" href="#curso/${c.code || c.name}">Gestionar<svg class="icon icon-sm" aria-hidden="true"><use href="#i-right"/></svg></a>
       </div>
     </article>`).join('') : `<div class="empty">${icon('i-book')}<p>No hay cohortes en este estado.</p></div>`;
 }
-document.addEventListener('click', e => { const t = e.target.closest('[data-cohort]'); if (t) { cohortTab = t.dataset.cohort; renderCohorts(); } });
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-cohort]'); if (t) { cohortTab = t.dataset.cohort; cohortPage.page = 1; renderCohorts(); return; }
+  if (e.target.closest('[data-cohort-prev]')) { cohortPage.page--; renderCohorts(); }
+  if (e.target.closest('[data-cohort-next]')) { cohortPage.page++; renderCohorts(); }
+});
+document.addEventListener('change', e => { if (e.target.id === 'cohort-size') { cohortPage.size = Number(e.target.value); cohortPage.page = 1; renderCohorts(); } });
 
 let currentActiveUnit = 2;
 let mainCourseExpandedSections = new Set(['general', 'u-2']);
@@ -5679,7 +5875,197 @@ function renderProfile() {
   $$('[data-alumno-only]').forEach(el => el.hidden = currentRole !== 'alumno');
   $$('[data-staff-only]').forEach(el => el.hidden = currentRole === 'alumno');
   $$('[data-me-role]').forEach(el => el.textContent = u.role);
+  $$('[data-profesor-only]').forEach(el => el.hidden = currentRole !== 'profesor');
+  $('#screen-perfil .profile-layout').classList.add('is-stacked');
+  renderBio();
+  renderPhoto();
+  renderStudents();
+  renderMyCourses();
 }
+
+/* ======================= perfil (alumno): mis cursos ======================= */
+function renderMyCourses() {
+  if (currentRole !== 'alumno') return;
+  const courses = ['MSI', 'GDS', 'ProgIV', 'IAD', 'LEG'].map(code => COURSES[code]).filter(c => c && c.status === 'Activa');
+  $('[data-mycourses-count]').textContent = courses.length;
+  $('#mycourses-table').innerHTML = `
+    <thead><tr><th>Curso</th><th>Docente</th><th>Progreso</th><th><span class="sr-only">Acciones</span></th></tr></thead>
+    <tbody>${courses.map(c => `<tr>
+      <td class="cell-main">${c.name}</td>
+      <td>${c.teacher}</td>
+      <td><div class="progress-line"><div class="bar" role="progressbar" aria-label="Progreso en ${c.name}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${c.completedPct}"><span style="width:${c.completedPct}%"></span></div><span class="num">${c.completedPct}%</span></div></td>
+      <td><a class="btn btn-quiet btn-sm" href="#curso/${c.code}">Entrar<svg class="icon icon-sm" aria-hidden="true"><use href="#i-right"/></svg></a></td>
+    </tr>`).join('')}</tbody>`;
+}
+
+/* ======================= perfil: descripción y foto ======================= */
+const BIO_DEFAULTS = {
+  alumno: 'Estudiante de Programación IV. Me gusta resolver desafíos de algoritmos y ver mi progreso en el mapa.',
+  profesor: 'Docente de Programación IV. Organizo las cohortes y acompaño a los alumnos en sus entregas.',
+  admin: 'Administración de la plataforma. Gestiono cuentas, accesos y la configuración general.',
+};
+const BIO_MAX = 280;
+const bioText = () => store.get('tpi-bio-' + currentRole) ?? BIO_DEFAULTS[currentRole];
+function renderBio() {
+  const box = $('[data-bio]');
+  const text = bioText().trim();
+  const p = $('[data-bio-text]', box);
+  p.textContent = text || 'Todavía no escribiste tu descripción.';
+  p.classList.toggle('muted', !text);
+  p.classList.remove('expanded');
+  const more = $('[data-bio-more]', box);
+  more.textContent = 'Ver más';
+  requestAnimationFrame(() => { more.hidden = p.scrollHeight <= p.clientHeight + 1; });
+  box.querySelector('[data-bio-form]').hidden = true;
+  box.querySelector('[data-bio-edit]').hidden = false;
+}
+function setBioEditing(on) {
+  const box = $('[data-bio]');
+  box.querySelector('[data-bio-form]').hidden = !on;
+  box.querySelector('[data-bio-edit]').hidden = on;
+  box.querySelector('[data-bio-text]').hidden = on;
+  box.querySelector('[data-bio-more]').hidden = true;
+  if (on) {
+    const input = box.querySelector('[data-bio-input]');
+    input.value = bioText();
+    input.focus();
+    updateBioCount();
+  }
+}
+function updateBioCount() {
+  const input = $('[data-bio-input]');
+  $('[data-bio-count]').textContent = `${input.value.length} / ${BIO_MAX}`;
+}
+document.addEventListener('click', e => {
+  if (e.target.closest('[data-bio-edit]')) setBioEditing(true);
+  if (e.target.closest('[data-bio-cancel]')) { setBioEditing(false); renderBio(); }
+  if (e.target.closest('[data-bio-more]')) {
+    const p = $('[data-bio-text]');
+    const open = p.classList.toggle('expanded');
+    $('[data-bio-more]').textContent = open ? 'Ver menos' : 'Ver más';
+  }
+});
+$('[data-bio-input]').addEventListener('input', updateBioCount);
+$('[data-bio-form]').addEventListener('submit', e => {
+  e.preventDefault();
+  const value = $('[data-bio-input]').value.trim().slice(0, BIO_MAX);
+  try { store.set('tpi-bio-' + currentRole, value); } catch {}
+  setBioEditing(false);
+  renderBio();
+});
+
+/* La foto se guarda en el navegador como vista previa; si el navegador no deja guardarla, sigue visible esta sesión. */
+const photoOf = () => store.get('tpi-photo-' + currentRole);
+function renderPhoto() {
+  const img = $('[data-me-photo]');
+  const src = photoOf();
+  img.hidden = !src;
+  if (src) img.src = src;
+  $('[data-me-initials]').hidden = !!src;
+}
+$('[data-photo-input]').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file || !file.type.startsWith('image/')) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try { store.set('tpi-photo-' + currentRole, reader.result); } catch {}
+    renderPhoto();
+  };
+  reader.readAsDataURL(file);
+  e.target.value = '';
+});
+
+/* ======================= perfil (profesor): alumnos habilitados ======================= */
+const PROFILE_COURSES = ['Programación IV', 'Metodología de Sistemas II', 'Bases de Datos II'];
+const STUDENTS_SEED = [
+  { name: 'Rafael Ceferino Castro', email: 'rafael.castro@frc.utn.edu.ar', course: 'Programación IV' },
+  { name: 'Valentina Ruiz', email: 'valentina.ruiz@frc.utn.edu.ar', course: 'Programación IV' },
+  { name: 'Lucas Ferreyra', email: 'lucas.ferreyra@frc.utn.edu.ar', course: 'Metodología de Sistemas II' },
+];
+const studentsAll = () => { try { return JSON.parse(store.get('tpi-students') || 'null') ?? STUDENTS_SEED; } catch { return STUDENTS_SEED; } };
+const saveStudents = list => { try { store.set('tpi-students', JSON.stringify(list)); } catch {} };
+const nameFromEmail = email => email.split('@')[0].split(/[._-]/).map(w => w ? w[0].toUpperCase() + w.slice(1) : '').join(' ');
+const initialsOf = name => name.split(' ').filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join('');
+const isEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+
+/* Con muchos cursos un select no escala: el campo es de texto y las opciones salen de un datalist que filtra al escribir. */
+const studentPage = { page: 1, size: 10 };
+function fillCourseList() {
+  const list = $('#st-course-list');
+  if (list.children.length !== PROFILE_COURSES.length) list.innerHTML = PROFILE_COURSES.map(c => `<option value="${c}"></option>`).join('');
+  if (!$('#st-course-add').value) $('#st-course-add').value = PROFILE_COURSES[0];
+}
+function renderStudents() {
+  if (currentRole !== 'profesor') return;
+  fillCourseList();
+  const course = $('#st-course-filter').value.trim();
+  const q = $('#st-q').value.trim().toLowerCase();
+  const all = studentsAll().map((s, i) => ({ ...s, i }));
+  const rows = all.filter(s => (!course || s.course === course) && (!q || `${s.name} ${s.email}`.toLowerCase().includes(q)));
+  const pages = Math.max(1, Math.ceil(rows.length / studentPage.size));
+  studentPage.page = Math.min(studentPage.page, pages);
+  const from = (studentPage.page - 1) * studentPage.size;
+  const shown = rows.slice(from, from + studentPage.size);
+  $('[data-students-count]').textContent = all.length;
+  $('#st-empty').hidden = rows.length > 0;
+  $('#student-table').innerHTML = shown.length ? `
+    <thead><tr><th>Alumno</th><th>Email</th><th>Curso</th><th><span class="sr-only">Acciones</span></th></tr></thead>
+    <tbody>${shown.map(s => `<tr>
+      <td class="cell-main"><span class="student-who"><span class="initials">${initialsOf(s.name)}</span><span>${s.name}</span></span></td>
+      <td>${s.email}</td>
+      <td>${s.course}</td>
+      <td><button class="btn btn-quiet btn-sm" type="button" data-remove-student="${s.i}" aria-label="Quitar a ${s.name}"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-trash"/></svg>Quitar</button></td>
+    </tr>`).join('')}</tbody>` : '';
+  renderStudentPager(rows.length, pages, from, shown.length);
+}
+function renderStudentPager(total, pages, from, count) {
+  const first = total ? from + 1 : 0;
+  const last = from + count;
+  $('#st-pager').innerHTML = `
+    <label class="st-size">Mostrar <select class="control" id="st-size">${[5, 10, 50].map(n => `<option value="${n}" ${n === studentPage.size ? 'selected' : ''}>${n}</option>`).join('')}</select> por página</label>
+    <span class="num" aria-live="polite">${first}–${last} de ${total}</span>
+    <span class="st-pager-btns">
+      <button class="btn btn-ghost btn-sm" type="button" data-st-prev ${studentPage.page <= 1 ? 'disabled' : ''}>Anterior</button>
+      <span class="num">Página ${studentPage.page} de ${pages}</span>
+      <button class="btn btn-ghost btn-sm" type="button" data-st-next ${studentPage.page >= pages ? 'disabled' : ''}>Siguiente</button>
+    </span>`;
+}
+$('#st-pager').addEventListener('click', e => {
+  if (e.target.closest('[data-st-prev]')) studentPage.page--;
+  if (e.target.closest('[data-st-next]')) studentPage.page++;
+  if (e.target.closest('[data-st-prev], [data-st-next]')) renderStudents();
+});
+$('#st-pager').addEventListener('change', e => {
+  if (e.target.id !== 'st-size') return;
+  studentPage.size = Number(e.target.value);
+  studentPage.page = 1;
+  renderStudents();
+});
+$('#add-student').addEventListener('submit', e => {
+  e.preventDefault();
+  const email = $('#st-email').value.trim().toLowerCase();
+  const hint = $('#st-hint');
+  if (!isEmail(email)) { hint.textContent = 'Revisá el email: tiene que tener el formato nombre@dominio.'; return; }
+  const course = $('#st-course-add').value.trim();
+  if (!PROFILE_COURSES.includes(course)) { hint.textContent = 'Elegí un curso de la lista.'; return; }
+  const list = studentsAll();
+  if (list.some(s => s.email === email && s.course === course)) { hint.textContent = 'Ese alumno ya está habilitado en este curso.'; return; }
+  list.push({ name: nameFromEmail(email), email, course });
+  saveStudents(list);
+  $('#st-email').value = '';
+  hint.textContent = 'Alumno agregado.';
+  renderStudents();
+});
+$('#student-table').addEventListener('click', e => {
+  const btn = e.target.closest('[data-remove-student]'); if (!btn) return;
+  const list = studentsAll();
+  list.splice(Number(btn.dataset.removeStudent), 1);
+  saveStudents(list);
+  renderStudents();
+});
+const resetAndRender = () => { studentPage.page = 1; renderStudents(); };
+$('#st-q').addEventListener('input', resetAndRender);
+$('#st-course-filter').addEventListener('input', resetAndRender);
 
 /* ======================= quiz (alumno) ======================= */
 $('#quiz-form').addEventListener('change', () => {
@@ -6196,7 +6582,7 @@ renderRequests(); renderEnabled();
 
 /* ======================= view toggle: cards | grilla ======================= */
 // Natural layout of each list; the viewer's choice per list is remembered.
-const VIEW_DEFAULTS = { cursos: 'cards', cohortes: 'cards', insignias: 'cards' };
+const VIEW_DEFAULTS = { cursos: 'cards', cohortes: 'cards', insignias: 'cards', alumnos: 'list', habilitados: 'list' };
 const views = JSON.parse(store.get('tpi-views') || '{}');
 if (!store.get('tpi-cursos-view-explicit')) { views.cursos = 'cards'; }
 const viewOf = key => views[key] || VIEW_DEFAULTS[key] || 'cards';
@@ -6915,7 +7301,8 @@ function renderNav() {
   };
 
   if (sidebarNav) {
-    sidebarNav.innerHTML = tabs.map(renderItem).join('');
+    // El acceso al mock de login va junto a la navegación, siempre visible (el pie del sidebar queda bajo la mockbar).
+    sidebarNav.innerHTML = [...tabs, ['login', 'i-login', 'Login y registro (mock)']].map(renderItem).join('');
   }
   if (sidebarSecNav) {
     sidebarSecNav.innerHTML = '';
@@ -7190,7 +7577,7 @@ function setRole(r) {
   currentRole = r; root.dataset.role = r; store.set('tpi-role', r);
   $$('[data-role-btn]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.roleBtn === r)));
   renderNav(); renderProfile();
-  const allowed = [...NAV_TABS[r].map(i => i[0]), ...ACCOUNT_SCREENS[r], 'uikit'];
+  const allowed = [...NAV_TABS[r].map(i => i[0]), ...ACCOUNT_SCREENS[r], 'uikit', 'login'];
   // Check the screen in the URL, not the boot default, so deep links survive a role reset.
   const screen = location.hash.slice(1).split(/[/?]/)[0] || currentScreen;
   const target = PARENT[screen] || screen;
@@ -7422,5 +7809,6 @@ setRole(store.get('tpi-role') || 'alumno');
 
   </div>
 </div>
+<script src="js/login.js"></script>
 </body>
 </html>
