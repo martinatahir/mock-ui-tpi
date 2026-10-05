@@ -1734,11 +1734,11 @@
         <div class="card studs" style="padding:14px 18px; display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px; font-size:13px;">
           <div>
             <span class="muted">Apertura:</span>
-            <b class="num" style="margin-left:6px;">28/06/2026, 12:00 AM</b>
+            <b class="num" style="margin-left:6px;">28/06/2026, 00:00</b>
           </div>
           <div>
             <span class="muted">Vencimiento:</span>
-            <b class="num" style="margin-left:6px; color:var(--accent-gold);">05/07/2026, 12:00 AM</b>
+            <b class="num" style="margin-left:6px; color:var(--accent-gold);">05/07/2026, 00:00</b>
           </div>
         </div>
 
@@ -6108,11 +6108,11 @@ window.createActivityEditorCard = function(mode = 'add', initialData = {}, opts 
           Apertura:
         </span>
         <div class="date-input-wrapper">
-          <input type="text" class="control sm input-inline-act-open-text" value="${initialData.openText || '28/06/2026, 12:00 AM'}" placeholder="DD/MM/AAAA, HH:MM" style="height:32px; font-size:12.5px; padding:0 30px 0 10px; width:184px; font-weight:600;" aria-label="Fecha de apertura (escribir o elegir)" />
+          <input type="text" class="control sm input-inline-act-open-text" value="${initialData.openText || '28/06/2026, 00:00'}" placeholder="DD/MM/AAAA, HH:MM" style="height:32px; font-size:12.5px; padding:0 30px 0 10px; width:184px; font-weight:600;" aria-label="Fecha de apertura (escribir o elegir)" />
           <button type="button" class="btn-picker-trigger btn-trigger-open" title="Elegir desde calendario" aria-label="Abrir calendario de apertura">
             <svg class="icon icon-xs"><use href="#i-calendar"/></svg>
           </button>
-          <input type="datetime-local" class="input-inline-act-open-picker" value="${initialData.openIso || '2026-06-28T00:00'}" style="position:absolute; right:0; top:0; width:30px; height:100%; opacity:0; pointer-events:none;" />
+          <input type="date" class="input-inline-act-open-picker" tabindex="-1" aria-hidden="true" value="${(initialData.openIso || '2026-06-28').slice(0, 10)}" style="position:absolute; right:0; top:0; width:30px; height:100%; opacity:0; pointer-events:none;" />
         </div>
       </div>
       <div class="activity-date-item" style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
@@ -6120,11 +6120,11 @@ window.createActivityEditorCard = function(mode = 'add', initialData = {}, opts 
           Vencimiento:
         </span>
         <div class="date-input-wrapper">
-          <input type="text" class="control sm input-inline-act-due-text" value="${initialData.dueText || '05/07/2026, 12:00 AM'}" placeholder="DD/MM/AAAA, HH:MM" style="height:32px; font-size:12.5px; padding:0 30px 0 10px; width:184px; font-weight:600; border-color:color-mix(in srgb, var(--accent-gold) 35%, var(--border-subtle));" aria-label="Fecha de vencimiento (escribir o elegir)" />
+          <input type="text" class="control sm input-inline-act-due-text" value="${initialData.dueText || '05/07/2026, 00:00'}" placeholder="DD/MM/AAAA, HH:MM" style="height:32px; font-size:12.5px; padding:0 30px 0 10px; width:184px; font-weight:600; border-color:color-mix(in srgb, var(--accent-gold) 35%, var(--border-subtle));" aria-label="Fecha de vencimiento (escribir o elegir)" />
           <button type="button" class="btn-picker-trigger btn-trigger-due" title="Elegir desde calendario" aria-label="Abrir calendario de vencimiento">
             <svg class="icon icon-xs" style="color:var(--accent-gold);"><use href="#i-calendar"/></svg>
           </button>
-          <input type="datetime-local" class="input-inline-act-due-picker" value="${initialData.dueIso || '2026-07-05T23:59'}" style="position:absolute; right:0; top:0; width:30px; height:100%; opacity:0; pointer-events:none;" />
+          <input type="date" class="input-inline-act-due-picker" tabindex="-1" aria-hidden="true" value="${(initialData.dueIso || '2026-07-05').slice(0, 10)}" style="position:absolute; right:0; top:0; width:30px; height:100%; opacity:0; pointer-events:none;" />
         </div>
         <label class="toggle sm" style="font-size:11.5px; font-weight:500; color:var(--text-muted); cursor:pointer; margin-left:4px;" title="Sin fecha límite">
           <input type="checkbox" class="chk-inline-act-nodue" ${initialData.noDue ? 'checked' : ''} style="width:14px; height:14px;" />
@@ -6221,34 +6221,35 @@ window.createActivityEditorCard = function(mode = 'add', initialData = {}, opts 
       }
     });
 
-    // Al seleccionar una fecha del calendario, se actualiza el texto en formato amigable
+    // Fecha y hora siempre en 24 h: "DD/MM/AAAA, HH:MM". Se aceptan AM/PM al escribir y se pasan a 24 h.
+    const DT_RE = /^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:,?\s*(\d{1,2}):(\d{2})(?:\s*(AM|PM))?)?$/i;
+    const pad = n => String(n).padStart(2, '0');
+    const parseDT = val => {
+      const m = val.trim().match(DT_RE);
+      if (!m) return null;
+      let hour = parseInt(m[4] || '0', 10);
+      const ap = (m[6] || '').toUpperCase();
+      if (ap === 'PM' && hour < 12) hour += 12;
+      if (ap === 'AM' && hour === 12) hour = 0;
+      return { day: pad(m[1]), month: pad(m[2]), year: m[3], hour: pad(hour), min: m[5] || '00' };
+    };
+
+    // Al elegir un día en el calendario solo cambia la fecha del texto; la hora (24 h) se conserva
     pickerInput.addEventListener('input', () => {
       if (!pickerInput.value) return;
-      const d = new Date(pickerInput.value);
-      if (!isNaN(d.getTime())) {
-        const pad = n => String(n).padStart(2, '0');
-        let hours = d.getHours();
-        const ampm = hours >= 12 ? 'PM' : 'AM';
-        const h12 = hours % 12 || 12;
-        textInput.value = `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()}, ${pad(h12)}:${pad(d.getMinutes())} ${ampm}`;
-      }
+      const [y, mo, d] = pickerInput.value.split('-');
+      const cur = parseDT(textInput.value);
+      textInput.value = `${d}/${mo}/${y}, ${cur ? cur.hour : '00'}:${cur ? cur.min : '00'}`;
     });
 
-    // Al escribir texto libre, se sincroniza el picker si coincide con formato DD/MM/AAAA
+    // Al escribir se sincroniza el calendario; al salir del campo se normaliza a 24 h
     textInput.addEventListener('input', () => {
-      const val = textInput.value.trim();
-      const match = val.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:,\s*(\d{1,2}):(\d{2})(?:\s*(AM|PM))?)?$/i);
-      if (match) {
-        const day = match[1].padStart(2, '0');
-        const month = match[2].padStart(2, '0');
-        const year = match[3];
-        let hour = parseInt(match[4] || '0', 10);
-        const min = (match[5] || '00').padStart(2, '0');
-        const ampm = (match[6] || '').toUpperCase();
-        if (ampm === 'PM' && hour < 12) hour += 12;
-        if (ampm === 'AM' && hour === 12) hour = 0;
-        pickerInput.value = `${year}-${month}-${day}T${String(hour).padStart(2, '0')}:${min}`;
-      }
+      const p = parseDT(textInput.value);
+      if (p) pickerInput.value = `${p.year}-${p.month}-${p.day}`;
+    });
+    textInput.addEventListener('change', () => {
+      const p = parseDT(textInput.value);
+      if (p) textInput.value = `${p.day}/${p.month}/${p.year}, ${p.hour}:${p.min}`;
     });
   };
 
@@ -6291,8 +6292,8 @@ window.createActivityEditorCard = function(mode = 'add', initialData = {}, opts 
     title: card.querySelector('.input-inline-act-title').value.trim(),
     type: card.querySelector('.select-inline-act-type').value,
     desc: textarea.value.trim(),
-    openText: openTextInput?.value.trim() || '28/06/2026, 12:00 AM',
-    dueText: dueTextInput?.value.trim() || '05/07/2026, 12:00 AM',
+    openText: openTextInput?.value.trim() || '28/06/2026, 00:00',
+    dueText: dueTextInput?.value.trim() || '05/07/2026, 00:00',
     noDue: !!noDueChk?.checked
   });
 
