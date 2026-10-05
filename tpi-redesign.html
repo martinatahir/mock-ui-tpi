@@ -203,8 +203,8 @@
       <!-- Menú de Cuenta y Preferencias -->
       <div class="account">
         <button class="me-chip" id="account-btn" type="button" aria-expanded="false" aria-controls="account-menu" aria-haspopup="true">
-          <span class="initials" aria-hidden="true" data-me-initials>MS</span>
-          <span class="me-name"><span data-me-short>Manuel S.</span><span class="me-level" data-me-level>Alumno</span></span>
+          <span class="initials" aria-hidden="true" data-me-initials>MP</span>
+          <span class="me-name"><span data-me-short>Matías P.</span><span class="me-level" data-me-level>Alumno</span></span>
           <svg class="icon icon-sm chev" aria-hidden="true"><use href="#i-chevron"/></svg>
         </button>
         <div class="account-menu" id="account-menu" hidden>
@@ -246,7 +246,7 @@
       <!-- HEADER LIMPIO WIDESCREEN (SIN CAJA DE ESTADÍSTICAS) -->
       <div class="dashboard-clean-header">
         <div class="header-title-area">
-          <h1 class="display" id="h-dashboard" data-dashboard-title>¡Bienvenido, Rafael Ceferino!</h1>
+          <h1 class="display" id="h-dashboard" data-dashboard-title>¡Bienvenido, Matías Peralta!</h1>
           <p id="dashboard-sub">Área personal · 4to Cuatrimestre · Resumen de cursada y actividades pendientes.</p>
         </div>
 
@@ -395,8 +395,8 @@
       </div>
 
       <div class="data">
-        <div class="section-head" style="margin-bottom:12px;">
-          <h2 style="font-size:var(--fs-lead);">Vista general de curso</h2>
+        <div class="courses-tabs-header" style="margin-bottom:14px;">
+          <div class="tabs" role="tablist" id="student-course-tabs" aria-label="Filtrar por ciclo de cursada" style="margin-bottom:0;"></div>
         </div>
 
         <div class="courses-toolbar">
@@ -406,9 +406,8 @@
               <input type="search" id="courses-search-input" class="search-input" placeholder="Buscar materia..." aria-label="Buscar por nombre de materia" autocomplete="off" />
               <button type="button" class="search-clear" id="courses-search-clear" aria-label="Limpiar búsqueda" style="display:none;" title="Limpiar búsqueda">✕</button>
             </div>
-            <select class="control sm" id="courses-filter-status" aria-label="Filtrar por estado">
-              <option value="all">Todos los cursos</option>
-              <option value="active">En curso</option>
+            <select class="control sm" id="courses-filter-status" aria-label="Filtrar por estado de entrega">
+              <option value="all">Todas las materias</option>
               <option value="pending">Con desafíos pendientes</option>
             </select>
             <select class="control sm" id="courses-sort-select" aria-label="Ordenar cursos">
@@ -1444,15 +1443,15 @@
           <div class="identity-top">
           <div class="identity-head">
             <div class="avatar-xl" data-me-avatar>
-              <span data-me-initials>MS</span>
+              <span data-me-initials>MP</span>
               <img data-me-photo alt="" hidden />
             </div>
             <label class="btn btn-quiet btn-sm photo-btn">
               <svg class="icon icon-sm" aria-hidden="true"><use href="#i-pencil"/></svg>Cambiar foto
               <input type="file" accept="image/*" data-photo-input hidden />
             </label>
-            <h1 data-me-name>Manuel Sanchez</h1>
-            <span class="muted" data-me-email>manuel.sanchez@frc.utn.edu.ar</span>
+            <h1 data-me-name>Matías Peralta</h1>
+            <span class="muted" data-me-email>matias.peralta@frc.utn.edu.ar</span>
           </div>
           <div class="bio" data-bio>
             <p class="bio-text" data-bio-text></p>
@@ -2580,8 +2579,8 @@
               <tr>
                 <td><b>#49.204</b></td>
                 <td>
-                  <div style="font-weight:600; color:var(--text-primary);">Ceferino, Rafael</div>
-                  <div style="font-size:var(--fs-micro); color:var(--text-muted);">rceferino@frcon.utn.edu.ar</div>
+                  <div style="font-weight:600; color:var(--text-primary);">Peralta, Matías</div>
+                  <div style="font-size:var(--fs-micro); color:var(--text-muted);">mperalta@frcon.utn.edu.ar</div>
                 </td>
                 <td><span class="badge sm">MSI 2026 · C1</span></td>
                 <td><span class="badge badge-success"><svg class="icon icon-sm"><use href="#i-check"/></svg>Regular</span></td>
@@ -2964,7 +2963,7 @@
         <div class="tutor-chat-body" id="tutor-chat-messages">
           <div class="tutor-msg bot">
             <div class="tutor-bubble">
-              ¡Hola Manuel! 👋 Soy tu <b>Tutor IA</b> para este curso. Puedo explicarte conceptos teóricos de las clases, ayudarte a entender los enunciados o darte pistas sobre tus tests sin spoilearte la solución.
+              ¡Hola Matías! 👋 Soy tu <b>Tutor IA</b> para este curso. Puedo explicarte conceptos teóricos de las clases, ayudarte a entender los enunciados o darte pistas sobre tus tests sin spoilearte la solución.
             </div>
             <span class="tutor-time">Recién</span>
           </div>
@@ -3254,7 +3253,7 @@ const TODAY = new Date(2026, 8, 30);
 const DIFF = { 1: 'Básica', 2: 'Media', 3: 'Avanzada' };
 const DAYS = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'];
 const USERS = {
-  alumno:   { name: 'Rafael Ceferino Castro', short: 'Rafael C.', initials: 'RC', email: 'rafael.castro@frc.utn.edu.ar', legajo: '40510', role: 'Alumno', level: 'Alumno' },
+  alumno:   { name: 'Matías Peralta', short: 'Matías P.', initials: 'MP', email: 'matias.peralta@frc.utn.edu.ar', legajo: '40510', role: 'Alumno', level: 'Alumno' },
   profesor: { name: 'Fabio', short: 'Fabio', initials: 'FB', email: 'fabio@frc.utn.edu.ar', legajo: '12877', role: 'Profesor', level: 'Profesor' },
   admin:    { name: 'Admin 2 Demo', short: 'Admin 2', initials: 'A2', email: 'admin2@frc.utn.edu.ar', legajo: '', role: 'Administrador', level: 'Administrador', since: '27/09/2026' },
 };
@@ -3958,28 +3957,42 @@ function renderRecentCourses() {
   const courses = recentCodes.map(code => COURSES[code]).filter(Boolean);
 
   track.innerHTML = courses.map(c => `
-    <a class="recent-card" data-course="${c.code}" href="#curso/${c.code}" style="--course-accent:${c.themeColor};">
-      <div class="recent-banner ${c.bannerTheme}">
-        <div class="course-banner-overlay"></div>
-        <span class="recent-banner-icon" style="color:var(--course-accent);">
-          ${icon(c.icon, 'icon icon-sm')}
-        </span>
+    <article class="card studs course-grid-card recent-card" data-course="${c.code || c.name}" style="--course-accent:${c.themeColor};">
+      <div class="course-card-head">
+        <div class="course-card-head-left">
+          <span class="course-icon-badge" style="color:var(--course-accent); background:color-mix(in srgb, var(--course-accent) 12%, var(--bg-surface-alt));">
+            ${icon(c.icon, 'icon')}
+          </span>
+          <div class="course-meta-tag">${c.period}</div>
+        </div>
         <span class="course-badge-pill ${c.pending > 0 ? 'is-pending' : 'is-ok'}">
           ${c.pending > 0 ? `${c.pending} pendiente${c.pending > 1 ? 's' : ''}` : 'Al día'}
         </span>
       </div>
-      <div class="recent-body">
-        <div class="course-meta-tag">${c.period} · TUP</div>
-        <h3 class="recent-card-title">${c.fullName || c.name}</h3>
-        <div class="recent-card-sub">${c.teacher}</div>
-        <div class="recent-progress">
-          <div class="bar" role="progressbar" aria-valuenow="${c.completedPct}" aria-valuemin="0" aria-valuemax="100">
-            <span style="width:${c.completedPct}%; background:var(--course-accent);"></span>
+      <div class="course-card-content">
+        <div class="course-card-header">
+          <h3 class="course-card-name" title="${c.fullName || c.name}">${c.fullName || c.name}</h3>
+          <div class="course-card-teacher">${c.teacher}</div>
+        </div>
+        <div class="course-progress-section">
+          <div class="course-progress-label">
+            <span class="pct-text">${c.completedPct}% completado</span>
           </div>
-          <span class="pct">${c.completedPct}%</span>
+          <div class="course-progress-track">
+            <div class="bar" role="progressbar" aria-valuenow="${c.completedPct}" aria-valuemin="0" aria-valuemax="100">
+              <span style="width:${c.completedPct}%; background:var(--course-accent);"></span>
+            </div>
+          </div>
+        </div>
+        <div class="course-card-footer">
+          <a class="btn btn-sm course-enter-btn" href="#curso/${c.code || c.name}">
+            <span class="btn-text-formal">Continuar cursada</span>
+            <span class="btn-text-gamer">Continuar cursada</span>
+            <svg class="icon icon-sm"><use href="#i-right"/></svg>
+          </a>
         </div>
       </div>
-    </a>
+    </article>
   `).join('');
 }
 
@@ -4067,8 +4080,33 @@ let courseViewMode = 'grid';
 let courseFilterStatus = 'all';
 let courseSortMode = 'recent';
 let courseSearchQuery = '';
+let studentCourseTab = 'active'; // 'active' (5 en curso) | 'history' (4 anteriores) | 'all' (9 todas)
+const ACTIVE_COURSE_CODES = new Set(['MSI', 'GDS', 'ProgIV', 'IAD', 'LEG']);
+
+function renderStudentCourseTabs() {
+  const tabsContainer = $('#student-course-tabs');
+  if (!tabsContainer) return;
+
+  const allList = Object.values(COURSES);
+  const activeCount = allList.filter(c => ACTIVE_COURSE_CODES.has(c.code)).length;
+  const historyCount = allList.filter(c => !ACTIVE_COURSE_CODES.has(c.code)).length;
+  const totalCount = allList.length;
+
+  const tabsData = [
+    { key: 'active', label: 'En curso', count: activeCount },
+    { key: 'history', label: 'Historial / Anteriores', count: historyCount },
+    { key: 'all', label: 'Todas', count: totalCount }
+  ];
+
+  tabsContainer.innerHTML = tabsData.map(t => `
+    <button class="tab" role="tab" aria-selected="${studentCourseTab === t.key}" tabindex="${studentCourseTab === t.key ? '0' : '-1'}" data-course-tab="${t.key}">
+      ${t.label} <span class="count num">${t.count}</span>
+    </button>
+  `).join('');
+}
 
 function renderStudentCourses() {
+  renderStudentCourseTabs();
   const container = $('#student-courses');
   if (!container) return;
 
@@ -4076,9 +4114,24 @@ function renderStudentCourses() {
 
   let courses = Object.values(COURSES);
 
-  if (courseFilterStatus === 'active') {
-    courses = courses.filter(c => c.status === 'Activa');
-  } else if (courseFilterStatus === 'pending') {
+  const subEl = $('#courses-sub');
+  if (subEl) {
+    if (studentCourseTab === 'active') {
+      subEl.textContent = 'Tus asignaturas activas en curso de la Tecnicatura Universitaria en Programación (4to Cuatrimestre).';
+    } else if (studentCourseTab === 'history') {
+      subEl.textContent = 'Materias de cuatrimestres anteriores e historial académico en modo consulta.';
+    } else {
+      subEl.textContent = 'Todas las asignaturas registradas en tu plan de la Tecnicatura Universitaria en Programación.';
+    }
+  }
+
+  if (studentCourseTab === 'active') {
+    courses = courses.filter(c => ACTIVE_COURSE_CODES.has(c.code));
+  } else if (studentCourseTab === 'history') {
+    courses = courses.filter(c => !ACTIVE_COURSE_CODES.has(c.code));
+  }
+
+  if (courseFilterStatus === 'pending') {
     courses = courses.filter(c => c.pending > 0);
   }
 
@@ -4110,7 +4163,7 @@ function renderStudentCourses() {
             <span class="course-icon-badge" style="color:var(--course-accent); background:color-mix(in srgb, var(--course-accent) 12%, var(--bg-surface-alt));">
               ${icon(c.icon, 'icon')}
             </span>
-            <div class="course-meta-tag">${c.period} · TUP</div>
+            <div class="course-meta-tag">${c.period}</div>
           </div>
           <span class="course-badge-pill ${c.pending > 0 ? 'is-pending' : 'is-ok'}">
             ${c.pending > 0 ? `${c.pending} pendiente${c.pending > 1 ? 's' : ''}` : 'Al día'}
@@ -4126,12 +4179,14 @@ function renderStudentCourses() {
               <span class="pct-text">${c.completedPct}% completado</span>
               <span class="game-stats-pill">LVL ${c.level} · ❤️ ${c.lives}/3</span>
             </div>
-            <div class="bar" role="progressbar" aria-valuenow="${c.completedPct}" aria-valuemin="0" aria-valuemax="100">
-              <span style="width:${c.completedPct}%; background:var(--course-accent);"></span>
+            <div class="course-progress-track">
+              <div class="bar" role="progressbar" aria-valuenow="${c.completedPct}" aria-valuemin="0" aria-valuemax="100">
+                <span style="width:${c.completedPct}%; background:var(--course-accent);"></span>
+              </div>
             </div>
           </div>
           <div class="course-card-footer">
-            <a class="btn btn-primary btn-sm course-enter-btn" href="#curso/${c.code || c.name}">
+            <a class="btn btn-sm course-enter-btn" href="#curso/${c.code || c.name}">
               <span class="btn-text-formal">Continuar cursada</span>
               <span class="btn-text-gamer">Entrar al Mundo</span>
               <svg class="icon icon-sm"><use href="#i-right"/></svg>
@@ -4142,39 +4197,42 @@ function renderStudentCourses() {
     `).join('');
   } else {
     container.innerHTML = courses.map(c => `
-      <article class="card studs course-card-distilled" data-course="${c.code || c.name}" style="--course-accent:${c.themeColor};">
+      <article class="card studs course-card-distilled ${c.pending > 0 ? 'has-pending' : ''}" data-course="${c.code || c.name}" style="--course-accent:${c.themeColor};" role="button" tabindex="0" aria-label="Abrir ${c.name}">
         <div class="course-card-brand">
-          <span class="course-card-icon" style="color:var(--course-accent); background:color-mix(in srgb, var(--course-accent) 12%, var(--bg-surface-alt));">
+          <span class="course-card-icon" style="color:var(--course-accent); background:color-mix(in srgb, var(--course-accent) 14%, var(--bg-surface-alt));">
             ${icon(c.icon, 'icon')}
           </span>
           <div class="course-card-titles">
-            <h2 class="course-card-title">${c.fullName || c.name}</h2>
+            <h2 class="course-card-title">${c.name}</h2>
             <span class="course-card-teacher">${c.period} · ${c.teacher}</span>
           </div>
         </div>
 
-        <div class="course-status-indicator ${c.pending > 0 ? 'is-pending' : 'is-ok'}">
-          <i class="status-dot"></i>
-          <span>${c.pending > 0 ? `${c.pending} pendiente${c.pending > 1 ? 's' : ''}` : 'Al día'}</span>
+        <div class="course-card-status-col">
+          <span class="course-badge-pill ${c.pending > 0 ? 'is-pending' : 'is-ok'}">
+            ${c.pending > 0 ? `${c.pending} pendiente${c.pending > 1 ? 's' : ''}` : 'Al día'}
+          </span>
         </div>
 
-        <div class="course-card-stats muted">
-          Nivel ${c.level} · ❤️ ${c.lives}/3
+        <div class="course-card-gamify">
+          <span class="gamify-lvl">NV ${c.level}</span>
+          <span class="gamify-lives" title="${c.lives} de 3 vidas disponibles"><svg class="icon icon-xs" style="width:12px;height:12px;"><use href="#i-heart"/></svg>${c.lives}/3</span>
         </div>
 
         <div class="course-card-progress">
           <div class="course-card-progress-labels">
-            <span class="meta">${c.completedPct}% completado</span>
+            <span class="pct-num num">${c.completedPct}%</span>
+            <span class="meta">completado</span>
           </div>
-          <div class="bar" role="progressbar" aria-valuenow="${c.completedPct}" aria-valuemin="0" aria-valuemax="100">
-            <span style="width:${c.completedPct}%; background:var(--course-accent);"></span>
+          <div class="bar bar-sm" role="progressbar" aria-valuenow="${c.completedPct}" aria-valuemin="0" aria-valuemax="100">
+            <span style="width:${c.completedPct}%; background:var(--course-accent) !important;"></span>
           </div>
         </div>
 
-        <div class="course-card-action" style="display:flex; align-items:center; gap:8px;">
-          <a class="btn btn-primary btn-sm" href="#curso/${c.code || c.name}">
-            <span class="btn-text-formal">Continuar cursada</span>
-            <span class="btn-text-gamer">Entrar al Mundo</span>
+        <div class="course-card-action">
+          <a class="btn course-enter-btn btn-sm" href="#curso/${c.code || c.name}" tabindex="-1">
+            <span class="btn-text-formal">Entrar</span>
+            <span class="btn-text-gamer">Jugar</span>
             <svg class="icon icon-sm"><use href="#i-right"/></svg>
           </a>
         </div>
@@ -4182,6 +4240,35 @@ function renderStudentCourses() {
     `).join('');
   }
 }
+
+document.addEventListener('click', e => {
+  const tabBtn = e.target.closest('[data-course-tab]');
+  if (tabBtn) {
+    studentCourseTab = tabBtn.dataset.courseTab;
+    renderStudentCourses();
+    return;
+  }
+  const row = e.target.closest('.course-card-distilled, .recent-card, .course-grid-card');
+  if (row && !e.target.closest('a, button')) {
+    const courseCode = row.dataset.course;
+    if (courseCode) {
+      location.hash = `#curso/${courseCode}`;
+    }
+  }
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    const row = e.target.closest('.course-card-distilled');
+    if (row && document.activeElement === row) {
+      e.preventDefault();
+      const courseCode = row.dataset.course;
+      if (courseCode) {
+        location.hash = `#curso/${courseCode}`;
+      }
+    }
+  }
+});
 
 let cohortTab = 'Activa';
 const cohortPage = { page: 1, size: 10 };
@@ -6623,7 +6710,7 @@ function renderRanking() {
   const start = rankPage * RANK_SIZE;
   RANK.slice(start, start + RANK_SIZE).forEach(([xp, lvl, pct], j) => {
     const i = start + j;
-    const name = i === meIdx ? 'Vos' : staff ? (NAMES[i] || 'Manuel S.') : `Estudiante #${String(i + 1).padStart(2, '0')}`;
+    const name = i === meIdx ? 'Vos' : staff ? (NAMES[i] || USERS.alumno.short) : `Estudiante #${String(i + 1).padStart(2, '0')}`;
     const status = RISK_ROWS.has(i) ? '<span class="status-risk">Riesgo</span>' : pct >= 90 ? '<span class="status-promo">Promoción</span>' : '<span class="muted">Regular</span>';
     const z = zoneOf(i, pct);
     if (z !== prevZone) { body += `<tr class="zone ${ZONE_LABEL[z][0]}"><td colspan="6">${ZONE_LABEL[z][1]}</td></tr>`; prevZone = z; }
@@ -6754,7 +6841,7 @@ $('[data-photo-input]').addEventListener('change', e => {
 /* ======================= perfil (profesor): alumnos habilitados ======================= */
 const PROFILE_COURSES = ['Programación IV', 'Metodología de Sistemas II', 'Bases de Datos II'];
 const STUDENTS_SEED = [
-  { name: 'Rafael Ceferino Castro', email: 'rafael.castro@frc.utn.edu.ar', course: 'Programación IV' },
+  { name: 'Matías Peralta', email: 'matias.peralta@frc.utn.edu.ar', course: 'Programación IV' },
   { name: 'Valentina Ruiz', email: 'valentina.ruiz@frc.utn.edu.ar', course: 'Programación IV' },
   { name: 'Lucas Ferreyra', email: 'lucas.ferreyra@frc.utn.edu.ar', course: 'Metodología de Sistemas II' },
 ];
@@ -9855,14 +9942,14 @@ function setSkin(s) {
   const coursesSub = $('#courses-sub');
 
   if (s === 'gamer') {
-    if (dashTitle) dashTitle.textContent = '¡Bienvenido, Rafael Ceferino!';
+    if (dashTitle) dashTitle.textContent = `¡Bienvenido, ${USERS.alumno.name}!`;
     if (dashSub) dashSub.textContent = 'Área personal · 4to Cuatrimestre · Resumen de cursada y actividades pendientes.';
     if (recentHead) recentHead.textContent = 'Cursos a los que se ha accedido recientemente';
     if (timelineHead) timelineHead.textContent = 'Línea de tiempo';
     if (coursesTitle) coursesTitle.textContent = 'Mis Cursos';
     if (coursesSub) coursesSub.textContent = 'Mapeo de asignaturas y niveles de cursada (4to Cuatrimestre TUP).';
   } else {
-    if (dashTitle) dashTitle.textContent = '¡Bienvenido, Rafael Ceferino!';
+    if (dashTitle) dashTitle.textContent = `¡Bienvenido, ${USERS.alumno.name}!`;
     if (dashSub) dashSub.textContent = 'Área personal · 4to Cuatrimestre · Resumen de cursada y próximas actividades.';
     if (recentHead) recentHead.textContent = 'Cursos a los que se ha accedido recientemente';
     if (timelineHead) timelineHead.textContent = 'Línea de tiempo';
