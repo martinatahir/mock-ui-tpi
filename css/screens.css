@@ -6555,7 +6555,7 @@ details.disclosure.cat-group > summary::after { margin-left:12px; }
 }
 [data-view="cards"] table.data.ch-table .cell-sub > span:not(.badge) {
   grid-area:type; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
-  font-size:var(--fs-small); color:var(--text-muted); line-height:1.4; text-align:center;
+  font-size:var(--fs-small); color:var(--text-muted); line-height:1.4; text-align:left;
 }
 [data-view="cards"] table.data.ch-table .cell-sub > .badge-required { grid-area:req; justify-self:end; align-self:center; }
 /* bloques de datos: caja centrada en su columna, etiqueta y valor alineados a la izquierda dentro de la caja */
