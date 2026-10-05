@@ -772,7 +772,8 @@ table.data tbody tr:hover { background:color-mix(in srgb, var(--bg-surface-alt) 
 [data-view="cards"] table.data td { display:block; }
 [data-view="cards"] table.data thead { display:none; }
 [data-view="cards"] table.data { background:transparent; border:0; }
-[data-view="cards"] .table-wrap[data-view="cards"] { border:0; background:transparent; padding:0; overflow:visible; }
+/* el marco de la tabla se anula tanto si el atributo está en el wrap como en un contenedor (catálogo de desafíos) */
+[data-view="cards"] .table-wrap, .table-wrap[data-view="cards"] { border:0; background:transparent; padding:0; overflow:visible; }
 [data-view="cards"] table.data tbody { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:12px; }
 [data-view="cards"] table.data tr {
   background:var(--bg-surface); border:var(--border-width) solid var(--border-subtle);
