@@ -2,8 +2,11 @@
    LOGIN / REGISTRO (mock) — js/login.js
    · Mascota: pupilas y cabeza siguen el mouse; al tipear mira el campo;
      se tapa los ojos con la contraseña; festeja al crear la cuenta.
-   · Ingresar: legajo/mail + contraseña.
-   · Crear cuenta: mail o legajo → código 2FA de 6 dígitos → datos → inicio.
+   · Ingresar: legajo/mail + contraseña → 2FA de 6 dígitos (o directo con Google).
+   · Registro: no hay "crear cuenta". El alumno llega por un magic link (#login/registro)
+     directo al formulario con sus datos → código 2FA de 6 dígitos → vuelve a iniciar sesión.
+   · Hacia el 2FA: la card gira, al robot le aparece el cuerpo, se da vuelta y la card
+     vuelve girando con el código (turnTo).
    Depende de $, $$, setRole y showToast del script principal.
    ========================================================================= */
 (() => {
@@ -17,20 +20,20 @@
   const card = $('#lg-card', root);
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
 
-  const st = { mode: 'login', step: 'login', id: '', kind: '', timer: 0, resendAt: 0, leaving: 0 };
+  const st = { step: 'login', flow: 'login', mail: '', timer: 0, resendAt: 0, leaving: 0, busy: false, anim: [] };
+  const MAGIC_MAIL = 'alumno.nuevo@frc.utn.edu.ar'; // mail al que "llegó" la invitación
 
   /* ---------------- copy por paso ---------------- */
   const COPY = {
     login: ['Entrá a TPI 2026', 'Seguí con tu <b>legajo</b> o tu mail institucional.'],
-    id: ['Creá tu cuenta', 'Empezá con tu <b>legajo</b> o tu <b>mail institucional</b>. Un solo dato.'],
-    otp: ['Confirmá tu mail', () => `Te mandamos un código de 6 dígitos a <b>${maskMail(mailFor(st.id))}</b>.`],
-    data: ['Completá tus datos', 'Último paso: así te armamos el perfil y te sumamos a tu cursada.'],
+    data: ['Completá tu registro', 'Entraste con el enlace de tu invitación. Cargá tus datos para armarte el perfil.'],
+    otp: ['Verificá tu identidad', () => `Te mandamos un código de 6 dígitos a <b>${maskMail(st.mail)}</b>.`],
     done: ['', ''],
   };
   const maskMail = m => { const [u, d] = m.split('@'); return `${u[0]}${'•'.repeat(Math.max(3, u.length - 1))}@${d}`; };
   const isLegajo = v => /^\d{4,6}$/.test(v);
-  const isMail = v => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v);
   const mailFor = v => (isLegajo(v) ? `${v}@frc.utn.edu.ar` : v);
+  const isMail = v => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v);
   const stepEl = s => $(`[data-lg-step="${s}"]`, root);
 
   /* ---------------- mascota ---------------- */
@@ -114,11 +117,10 @@
   function show(step) {
     st.step = step;
     $$('[data-lg-step]', root).forEach(s => { s.hidden = s.dataset.lgStep !== step; });
-    const inFlow = ['id', 'otp', 'data'].includes(step);
-    $('#lg-tabs', root).hidden = step === 'done' || step === 'otp' || step === 'data';
-    $('#lg-steps', root).hidden = !inFlow;
+    const order = ['data', 'otp'];
+    $('#lg-steps', root).hidden = !(st.flow === 'register' && order.includes(step));
+    $('[data-lg-change]', root).textContent = st.flow === 'login' ? 'Volver a ingresar' : 'Volver a mis datos';
     $$('[data-lg-dot]', root).forEach(li => {
-      const order = ['id', 'otp', 'data'];
       const i = order.indexOf(li.dataset.lgDot), cur = order.indexOf(step);
       li.classList.toggle('done', i < cur);
       li.toggleAttribute('aria-current', i === cur);
@@ -130,20 +132,57 @@
     head1.hidden = step === 'done';
     $('#lg-title', root).textContent = t;
     $('#lg-sub', root).innerHTML = typeof s === 'function' ? s() : s;
-    $$('[data-lg-mode]', root).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lgMode === st.mode)));
-    if (step !== 'done') requestAnimationFrame(() => {
-      const first = $(step === 'otp' ? '.otp-d' : 'input:not([readonly])', stepEl(step));
-      first?.focus({ preventScroll: true });
-    });
+    if (step !== 'done' && !st.busy) requestAnimationFrame(() => focusStep(step));
   }
-  function setMode(m) {
-    st.mode = m;
+  function focusStep(step) {
+    const first = $(step === 'otp' ? '.otp-d' : 'input:not([readonly])', stepEl(step));
+    first?.focus({ preventScroll: true });
+  }
+
+  /* ---------------- transición al 2FA: la card gira 360° con el robot colgado ---------------- */
+  const rig = $('#lg-rig', root);
+  const SPIN_MS = 1150;
+  const later = (fn, ms) => { st.anim.push(setTimeout(fn, ms)); };
+  function cancelTurn() {
+    st.anim.forEach(clearTimeout); st.anim = [];
+    st.busy = false;
+    rig.classList.remove('spin');
+    delete mascot.dataset.pose;
+  }
+  function turnTo(step, prepare) {
+    if (st.busy) return;
+    if (reduceMotion.matches) { prepare?.(); show(step); return; }
+    st.busy = true;
+    if (document.activeElement?.blur) document.activeElement.blur();
+    setMood('idle');
+    mascot.dataset.pose = 'hang';
+    rig.classList.add('spin');
+    later(() => { prepare?.(); show(step); }, SPIN_MS * 0.27);   // cambia el contenido con la card de canto
+    later(() => {
+      rig.classList.remove('spin');
+      delete mascot.dataset.pose;
+      st.busy = false;
+      focusStep(step);
+    }, SPIN_MS + 40);
+  }
+
+  function goLogin() {
+    st.flow = 'login';
     clearInterval(st.timer);
     $$('[data-lg-msg]', root).forEach(x => { x.textContent = ''; });
     setMood('idle');
-    show(m === 'login' ? 'login' : 'id');
+    show('login');
   }
-  $$('[data-lg-mode]', root).forEach(b => b.addEventListener('click', () => setMode(b.dataset.lgMode)));
+  /* magic link: el mail llega confirmado y se abre directo el formulario de registro */
+  function goRegister() {
+    clearInterval(st.timer);
+    $$('[data-lg-msg]', root).forEach(x => { x.textContent = ''; });
+    st.flow = 'register';
+    st.mail = MAGIC_MAIL;
+    stepEl('data').mail.value = st.mail;
+    setMood('idle');
+    show('data');
+  }
 
   /* ---------------- ingresar ---------------- */
   stepEl('login').addEventListener('submit', e => {
@@ -155,31 +194,17 @@
     f.id.removeAttribute('aria-invalid');
     if (!f.pw.value) return (f.pw.focus(), msg('Falta la contraseña.'));
     msg('');
-    finish('¡Hola de nuevo!', 'Entrando a tu inicio.');
+    st.flow = 'login'; st.mail = mailFor(id.toLowerCase());
+    turnTo('otp', () => { clearOtp(); startResend(); });
   });
   stepEl('login').addEventListener('input', e => e.target.removeAttribute?.('aria-invalid'));
   $('[data-lg-forgot]', root).addEventListener('click', () => {
-    setMode('register');
-    msg('', true);
-    showToast('Para recuperar el acceso, creá la cuenta de nuevo con tu mail: lo verificamos con un código.', 'info', 'i-key');
+    showToast('Te mandamos un enlace a tu mail institucional para que armes una contraseña nueva.', 'info', 'i-key');
   });
-  $('[data-lg-github]', root).addEventListener('click', () => finish('¡Conectado con GitHub!', 'Entrando a tu inicio.'));
+  $('[data-lg-google]', root).addEventListener('click', () => finish('¡Conectado con Google!', 'Entrando a tu inicio.'));
+  $('[data-lg-magic]', root).addEventListener('click', () => { location.hash = 'login/registro'; goRegister(); });
 
-  /* ---------------- registro 1: identificador ---------------- */
-  stepEl('id').addEventListener('submit', e => {
-    e.preventDefault();
-    const f = e.target, v = f.id.value.trim().toLowerCase();
-    if (!v) return (f.id.setAttribute('aria-invalid', 'true'), msg('Escribí tu legajo o tu mail institucional.'));
-    if (!isLegajo(v) && !isMail(v)) return (f.id.setAttribute('aria-invalid', 'true'), msg('Usá un legajo (4 a 6 números) o un mail completo, con @.'));
-    f.id.removeAttribute('aria-invalid');
-    st.id = v; st.kind = isLegajo(v) ? 'legajo' : 'mail';
-    msg('');
-    show('otp');
-    clearOtp();
-    startResend();
-  });
-
-  /* ---------------- registro 2: código de 6 dígitos ---------------- */
+  /* ---------------- registro 2: 2FA de 6 dígitos ---------------- */
   const otpBox = $('#lg-otp', root);
   otpBox.innerHTML = Array.from({ length: 6 }, (_, i) =>
     `<input class="control otp-d" inputmode="numeric" autocomplete="${i ? 'off' : 'one-time-code'}" maxlength="1" aria-label="Dígito ${i + 1} de 6" />`).join('');
@@ -222,15 +247,12 @@
     otpBox.dataset.state = 'ok';
     msg('');
     setMood('happy', 900);
-    setTimeout(() => {
-      const f = stepEl('data');
-      f.mail.value = mailFor(st.id);
-      if (st.kind === 'legajo') { f.leg.value = st.id; f.leg.readOnly = true; } else { f.leg.value = ''; f.leg.readOnly = false; }
-      show('data');
-    }, 650);
+    setTimeout(() => (st.flow === 'login'
+      ? finish('¡Hola de nuevo!', 'Entrando a tu inicio.')
+      : finish('¡Cuenta creada!', 'Ahora iniciá sesión con tu usuario y contraseña.', 'login')), 650);
   }
   stepEl('otp').addEventListener('submit', e => { e.preventDefault(); verify(); });
-  $('[data-lg-change]', root).addEventListener('click', () => { clearInterval(st.timer); show('id'); });
+  $('[data-lg-change]', root).addEventListener('click', () => { clearInterval(st.timer); if (st.flow === 'login') goLogin(); else show('data'); });
 
   const resendBtn = $('[data-lg-resend]', root);
   function startResend() {
@@ -249,7 +271,7 @@
     msg('Listo, te mandamos un código nuevo.', true);
   });
 
-  /* ---------------- registro 3: datos ---------------- */
+  /* ---------------- registro 1: datos del alumno ---------------- */
   stepEl('data').addEventListener('submit', e => {
     e.preventDefault();
     const f = e.target;
@@ -263,24 +285,27 @@
     if (f.p1.value !== f.p2.value) return bad(f.p2, 'Las contraseñas no coinciden.');
     if (!f.terms.checked) return (f.terms.focus(), msg('Aceptá las condiciones para crear la cuenta.'));
     msg('');
-    finish(`¡Bienvenido, ${f.fn.value.trim().split(/\s+/)[0]}!`, 'Cuenta creada. Te llevamos al inicio.');
+    st.flow = 'register';
+    turnTo('otp', () => { clearOtp(); startResend(); });
   });
   stepEl('data').addEventListener('input', e => { e.target.removeAttribute?.('aria-invalid'); });
 
   /* ---------------- final: festejo y redirección al inicio ---------------- */
-  function finish(title, text) {
+  function finish(title, text, to = 'inicio') {
     $('#lg-done-title', root).textContent = title;
     $('p', stepEl('done')).textContent = text;
     show('done');
     setMood('happy');
     clearTimeout(st.leaving);
     st.leaving = setTimeout(() => {
+      if (to === 'login') { location.hash = 'login'; reset(); return; }
       if (typeof setRole === 'function' && currentRole !== 'alumno') setRole('alumno');
       location.hash = 'dashboard';
       reset();
     }, 2000);
   }
   function reset() {
+    cancelTurn();
     $$('form', root).forEach(f => f.reset());
     $$('.pw-toggle[aria-pressed="true"]', root).forEach(b => {
       b.setAttribute('aria-pressed', 'false'); b.setAttribute('aria-label', 'Mostrar contraseña');
@@ -288,18 +313,19 @@
     });
     $$('.pw-wrap input', root).forEach(i => { i.type = 'password'; });
     clearOtp();
-    setMode('login');
-    setMood('idle');
+    goLogin();
   }
 
   /* al volver a la pantalla desde el sidebar siempre arranca limpia */
   addEventListener('hashchange', () => {
-    if (location.hash.slice(1).split(/[/?]/)[0] === 'login') {
-      clearTimeout(st.leaving);
-      reset();
-    }
+    const [screen, sub] = location.hash.slice(1).split(/[/?]/);
+    if (screen !== 'login') return;
+    clearTimeout(st.leaving);
+    reset();
+    if (sub === 'registro') goRegister();
   });
   new MutationObserver(() => { if (root.hidden) clearInterval(st.timer); }).observe(root, { attributes: true, attributeFilter: ['hidden'] });
 
-  setMode('login');
+  goLogin();
+  if (location.hash.slice(1).split(/[/?]/)[1] === 'registro') goRegister();
 })();

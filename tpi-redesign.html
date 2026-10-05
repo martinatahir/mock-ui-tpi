@@ -70,6 +70,7 @@
   <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><path d="M1 14h6"/><path d="M9 8h6"/><path d="M17 16h6"/></symbol>
   <symbol id="i-cpu" viewBox="0 0 24 24"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></symbol>
   <symbol id="i-file" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></symbol>
+  <symbol id="i-google" viewBox="0 0 24 24"><path d="M21.6 12.23c0-.71-.06-1.4-.18-2.05H12v3.88h5.38a4.6 4.6 0 0 1-2 3.02v2.5h3.24c1.9-1.75 2.98-4.32 2.98-7.35z" fill="#4285F4" stroke="none"/><path d="M12 22c2.7 0 4.96-.9 6.62-2.42l-3.24-2.5c-.9.6-2.04.96-3.38.96-2.6 0-4.8-1.76-5.59-4.12H3.07v2.58A10 10 0 0 0 12 22z" fill="#34A853" stroke="none"/><path d="M6.41 13.92a6 6 0 0 1 0-3.84V7.5H3.07a10 10 0 0 0 0 9l3.34-2.58z" fill="#FBBC05" stroke="none"/><path d="M12 5.96c1.47 0 2.79.5 3.83 1.5l2.87-2.87C16.96 2.99 14.7 2 12 2A10 10 0 0 0 3.07 7.5l3.34 2.58C7.2 7.72 9.4 5.96 12 5.96z" fill="#EA4335" stroke="none"/></symbol>
   <symbol id="i-github" viewBox="0 0 24 24"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></symbol>
   <symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></symbol>
   <symbol id="i-login" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="m10 17 5-5-5-5"/><path d="M15 12H3"/></symbol>
@@ -1505,7 +1506,7 @@
             </div>
             <div class="table-wrap" data-view-target="alumnos"><table class="data" id="student-table"></table></div>
             <div class="empty" id="st-empty" hidden>Todavía no agregaste alumnos a este curso.</div>
-            <div class="st-pager" id="st-pager"></div>
+            <div class="pager" id="st-pager"></div>
             <datalist id="st-course-list"></datalist>
             </details>
           </section>
@@ -1549,7 +1550,7 @@
       <div class="data">
         <div class="tabs" role="tablist" aria-label="Estado de las cohortes" id="cohort-tabs"></div>
         <div class="course-grid" id="cohort-grid" data-view-target="cohortes"></div>
-        <div class="st-pager" id="cohort-pager"></div>
+        <div class="pager" id="cohort-pager"></div>
         <!-- Crear cohorte: vista inline que ocupa el lugar de la grilla (sin modal) -->
         <div class="cohorte-creator" id="cohorte-creator" hidden>
           <nav class="campus-breadcrumb" aria-label="Miga de pan">
@@ -2803,9 +2804,15 @@
           </div>
         </div>
         <div class="login-wrap">
+          <div class="login-rig" id="lg-rig">
 
           <!-- Mascota: la cabeza sigue el mouse, se tapa los ojos con la contraseña y festeja al terminar -->
           <svg class="mascot" id="lg-mascot" data-mood="idle" viewBox="0 0 200 150" aria-hidden="true" focusable="false">
+            <!-- Brazos agarrados al borde de la card: se ven solo durante el giro -->
+            <g class="m-grip">
+              <rect class="m-garm" x="26" y="92" width="14" height="36" rx="7"/><rect class="m-gfist" x="14" y="108" width="34" height="26" rx="11"/>
+              <rect class="m-garm" x="160" y="92" width="14" height="36" rx="7"/><rect class="m-gfist" x="152" y="108" width="34" height="26" rx="11"/>
+            </g>
             <g class="m-head" id="lg-head">
               <line class="m-ant" x1="100" y1="36" x2="100" y2="18"/>
               <circle class="m-bulb" cx="100" cy="12" r="7"/>
@@ -2813,6 +2820,7 @@
               <rect class="m-ear" x="168" y="72" width="14" height="36" rx="5"/>
               <rect class="m-body" x="30" y="36" width="140" height="112" rx="16"/>
               <rect class="m-face" x="44" y="50" width="112" height="72" rx="10"/>
+              <g class="m-back"><rect x="44" y="50" width="112" height="72" rx="10"/><path d="M62 74 H138 M62 88 H138 M62 102 H138"/><circle cx="100" cy="112" r="4"/></g>
               <g class="m-look" id="lg-look">
                 <circle class="m-eye" cx="76" cy="82" r="17"/>
                 <circle class="m-eye" cx="124" cy="82" r="17"/>
@@ -2841,15 +2849,9 @@
               <p id="lg-sub">Seguí con tu <b>legajo</b> o tu mail institucional.</p>
             </div>
 
-            <div class="seg login-tabs" id="lg-tabs" role="group" aria-label="Acceso">
-              <button type="button" data-lg-mode="login" aria-pressed="true">Ingresar</button>
-              <button type="button" data-lg-mode="register" aria-pressed="false">Crear cuenta</button>
-            </div>
-
             <ol class="login-steps" id="lg-steps" aria-label="Pasos del registro" hidden>
-              <li data-lg-dot="id"><span class="n">1</span><span class="t">Cuenta</span></li>
+              <li data-lg-dot="data"><span class="n">1</span><span class="t">Tus datos</span></li>
               <li data-lg-dot="otp"><span class="n">2</span><span class="t">Verificación</span></li>
-              <li data-lg-dot="data"><span class="n">3</span><span class="t">Tus datos</span></li>
             </ol>
 
             <!-- Ingresar -->
@@ -2869,35 +2871,25 @@
               </div>
               <button class="btn btn-primary login-cta" type="submit">Ingresar<svg class="icon icon-sm" aria-hidden="true"><use href="#i-right"/></svg></button>
               <div class="login-or" aria-hidden="true">o</div>
-              <button class="btn btn-secondary login-cta" type="button" data-lg-github><svg class="icon icon-sm" aria-hidden="true"><use href="#i-github"/></svg>Continuar con GitHub</button>
+              <button class="btn btn-secondary login-cta" type="button" data-lg-google><svg class="icon icon-sm" aria-hidden="true"><use href="#i-google"/></svg>Continuar con Google</button>
             </form>
 
-            <!-- Registro · 1. un solo campo: mail o legajo -->
-            <form class="login-step" data-lg-step="id" novalidate hidden>
-              <label class="field">Legajo o mail
-                <input class="control" name="id" autocomplete="username" placeholder="40510 o nombre.apellido@frc.utn.edu.ar" />
-                <span class="hint">Si usás tu legajo, mandamos el código a tu mail institucional.</span>
-              </label>
-              <p class="login-msg" data-lg-msg role="alert"></p>
-              <button class="btn btn-primary login-cta" type="submit">Enviar código<svg class="icon icon-sm" aria-hidden="true"><use href="#i-right"/></svg></button>
-            </form>
-
-            <!-- Registro · 2. 2FA de 6 dígitos -->
+            <!-- Registro · 2. 2FA de 6 dígitos (tras completar los datos) -->
             <form class="login-step" data-lg-step="otp" novalidate hidden>
               <div class="otp6" id="lg-otp" role="group" aria-label="Código de 6 dígitos"></div>
               <p class="login-msg" data-lg-msg role="alert"></p>
               <div class="login-links">
-                <button class="login-lnk" type="button" data-lg-change>Cambiar mail o legajo</button>
+                <button class="login-lnk" type="button" data-lg-change>Volver a mis datos</button>
                 <button class="login-lnk" type="button" data-lg-resend>Reenviar código</button>
               </div>
               <button class="btn btn-primary login-cta" type="submit">Confirmar código<svg class="icon icon-sm" aria-hidden="true"><use href="#i-tick"/></svg></button>
             </form>
 
-            <!-- Registro · 3. datos de la cuenta -->
+            <!-- Registro · 1. datos del alumno (se llega desde el magic link) -->
             <form class="login-step" data-lg-step="data" novalidate hidden>
               <div class="field">
                 <span>Mail</span>
-                <span class="email-ok"><input class="control" name="mail" readonly aria-label="Mail verificado" /><span class="badge badge-success"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-tick"/></svg>Verificado</span></span>
+                <span class="email-ok"><input class="control" name="mail" readonly aria-label="Mail de tu invitación" /><span class="badge badge-success"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-tick"/></svg>Por tu enlace</span></span>
               </div>
               <div class="login-row">
                 <label class="field">Nombre<input class="control" name="fn" autocomplete="given-name" /></label>
@@ -2920,7 +2912,7 @@
               </div>
               <label class="login-check"><input type="checkbox" name="terms" />Acepto las condiciones de uso de la plataforma y el tratamiento de mis datos académicos.</label>
               <p class="login-msg" data-lg-msg role="alert"></p>
-              <button class="btn btn-primary login-cta" type="submit">Crear mi cuenta<svg class="icon icon-sm" aria-hidden="true"><use href="#i-tick"/></svg></button>
+              <button class="btn btn-primary login-cta" type="submit">Continuar<svg class="icon icon-sm" aria-hidden="true"><use href="#i-right"/></svg></button>
             </form>
 
             <!-- Final -->
@@ -2931,8 +2923,9 @@
               <div class="login-progress" aria-hidden="true"><i></i></div>
             </div>
           </div>
+          </div>
 
-          <p class="login-foot">Mock de acceso · en esta demo, cualquier código de 6 dígitos sirve salvo <b>000000</b>.</p>
+          <p class="login-foot">Mock de acceso · cualquier código de 6 dígitos sirve salvo <b>000000</b>. <button class="login-lnk" type="button" data-lg-magic>Simular magic link de registro</button></p>
         </div>
       </div>
     </section>
@@ -3913,10 +3906,14 @@ function pageList(page, pages) {
   [...keep].sort((a, b) => a - b).forEach((i, k, arr) => { if (k && i - arr[k - 1] > 1) out.push('…'); out.push(i); });
   return out;
 }
-function pagerHTML(page, size, total, noun = 'registros') {
+function pagerHTML(page, size, total, noun = 'registros', sizeId = '') {
   const pages = Math.max(1, Math.ceil(total / size));
   const from = total ? page * size + 1 : 0, to = Math.min(total, (page + 1) * size);
-  return `<div class="pager-summary"><span><b>${from}–${to}</b> de <b>${total}</b> ${noun}</span></div>
+  const sizeSel = sizeId ? `<span class="muted">·</span>
+    <label class="pager-size">Por página:
+      <select class="control" id="${sizeId}">${[5, 10, 50].map(n => `<option value="${n}" ${n === size ? 'selected' : ''}>${n}</option>`).join('')}</select>
+    </label>` : '';
+  return `<div class="pager-summary"><span><b>${from}–${to}</b> de <b>${total}</b> ${noun}</span>${sizeSel}</div>
     <div class="pager-controls">
       <nav class="pg" aria-label="Paginación de ${noun}">
         <button class="pg-btn pg-arrow" type="button" data-pg-to="${page - 1}" aria-label="Página anterior" ${page === 0 ? 'disabled' : ''}>${icon('i-left', 'icon icon-sm')}</button>
@@ -4193,14 +4190,7 @@ function renderCohorts() {
   cohortPage.page = Math.min(cohortPage.page, pages);
   const from = (cohortPage.page - 1) * cohortPage.size;
   const list = all.slice(from, from + cohortPage.size);
-  $('#cohort-pager').innerHTML = all.length ? `
-    <label class="st-size">Mostrar <select class="control" id="cohort-size">${[5, 10, 50].map(n => `<option value="${n}" ${n === cohortPage.size ? 'selected' : ''}>${n}</option>`).join('')}</select> por página</label>
-    <span class="num" aria-live="polite">${from + 1}–${from + list.length} de ${all.length}</span>
-    <span class="st-pager-btns">
-      <button class="btn btn-ghost btn-sm" type="button" data-cohort-prev ${cohortPage.page <= 1 ? 'disabled' : ''}>Anterior</button>
-      <span class="num">Página ${cohortPage.page} de ${pages}</span>
-      <button class="btn btn-ghost btn-sm" type="button" data-cohort-next ${cohortPage.page >= pages ? 'disabled' : ''}>Siguiente</button>
-    </span>` : '';
+  $('#cohort-pager').innerHTML = all.length ? pagerHTML(cohortPage.page - 1, cohortPage.size, all.length, 'cursos', 'cohort-size') : '';
   $('#cohort-grid').innerHTML = list.length ? list.map(c => `
     <article class="card studs course cohort-card">
       <div class="course-top">
@@ -4218,9 +4208,8 @@ function renderCohorts() {
 }
 document.addEventListener('click', e => {
   const t = e.target.closest('[data-cohort]'); if (t) { cohortTab = t.dataset.cohort; cohortPage.page = 1; renderCohorts(); return; }
-  if (e.target.closest('[data-cohort-prev]')) { cohortPage.page--; renderCohorts(); }
-  if (e.target.closest('[data-cohort-next]')) { cohortPage.page++; renderCohorts(); }
 });
+onPager($('#cohort-pager'), n => { cohortPage.page = n + 1; renderCohorts(); });
 document.addEventListener('change', e => { if (e.target.id === 'cohort-size') { cohortPage.size = Number(e.target.value); cohortPage.page = 1; renderCohorts(); } });
 
 let currentActiveUnit = 2;
@@ -6797,20 +6786,9 @@ function renderStudents() {
 function renderStudentPager(total, pages, from, count) {
   const first = total ? from + 1 : 0;
   const last = from + count;
-  $('#st-pager').innerHTML = `
-    <label class="st-size">Mostrar <select class="control" id="st-size">${[5, 10, 50].map(n => `<option value="${n}" ${n === studentPage.size ? 'selected' : ''}>${n}</option>`).join('')}</select> por página</label>
-    <span class="num" aria-live="polite">${first}–${last} de ${total}</span>
-    <span class="st-pager-btns">
-      <button class="btn btn-ghost btn-sm" type="button" data-st-prev ${studentPage.page <= 1 ? 'disabled' : ''}>Anterior</button>
-      <span class="num">Página ${studentPage.page} de ${pages}</span>
-      <button class="btn btn-ghost btn-sm" type="button" data-st-next ${studentPage.page >= pages ? 'disabled' : ''}>Siguiente</button>
-    </span>`;
+  $('#st-pager').innerHTML = pagerHTML(studentPage.page - 1, studentPage.size, total, 'alumnos', 'st-size');
 }
-$('#st-pager').addEventListener('click', e => {
-  if (e.target.closest('[data-st-prev]')) studentPage.page--;
-  if (e.target.closest('[data-st-next]')) studentPage.page++;
-  if (e.target.closest('[data-st-prev], [data-st-next]')) renderStudents();
-});
+onPager($('#st-pager'), n => { studentPage.page = n + 1; renderStudents(); });
 $('#st-pager').addEventListener('change', e => {
   if (e.target.id !== 'st-size') return;
   studentPage.size = Number(e.target.value);
