@@ -1660,12 +1660,12 @@
         </div>
 
         <div class="form-grid">
-          <label class="field"><span>Horario desde (opcional)</span><input class="control" type="time" id="wz-hora-desde" value="18:30" /></label>
-          <label class="field"><span>Horario hasta (opcional)</span><input class="control" type="time" id="wz-hora-hasta" value="22:30" /></label>
+          <label class="field"><span>Horario desde <span class="hint">Opcional</span></span><input class="control" type="time" id="wz-hora-desde" value="18:30" /></label>
+          <label class="field"><span>Horario hasta <span class="hint">Opcional</span></span><input class="control" type="time" id="wz-hora-hasta" value="22:30" /></label>
         </div>
 
         <label class="field">
-          <span>Aula / Espacio o enlace de reunión (opcional)</span>
+          <span>Aula / Espacio o enlace de reunión <span class="hint">Opcional</span></span>
           <input class="control" id="wz-aula" placeholder="Ej. Aula 304 / https://meet.google.com/xyz" value="https://meet.google.com/xyz" />
         </label>
       </div>
@@ -1674,11 +1674,11 @@
       <div class="wizard-pane" id="wz-pane-3" style="display:none; flex-direction:column; gap:16px;">
         <div class="form-grid">
           <label class="field">
-            <span>Cupo máximo de estudiantes (opcional)</span>
+            <span>Cupo máximo de estudiantes <span class="hint">Opcional</span></span>
             <input class="control num" type="number" id="wz-cupo" placeholder="Ilimitado si queda vacío" />
           </label>
           <label class="field">
-            <span>Fecha límite de inscripción (opcional)</span>
+            <span>Fecha límite de inscripción <span class="hint">Opcional</span></span>
             <input class="control" type="date" id="wz-limite-inscripcion" />
           </label>
         </div>
@@ -1859,8 +1859,8 @@
             </div>
           </div>
           <div class="card studs">
-            <label class="field">Título del cuestionario<input class="control" value="Complejidad y búsqueda" /></label>
-            <label class="field" style="margin-top:12px">Cohorte<select class="control"><option value="ProgIV">Programación IV</option><option value="InglesII">Inglés II</option><option value="BDII">BD II</option><option value="MSI" selected>MSI</option></select></label>
+            <label class="field"><span class="req">Título del cuestionario</span><input class="control" value="Complejidad y búsqueda" /></label>
+            <label class="field" style="margin-top:12px"><span class="req">Cohorte</span><select class="control"><option value="ProgIV">Programación IV</option><option value="InglesII">Inglés II</option><option value="BDII">BD II</option><option value="MSI" selected>MSI</option></select></label>
           </div>
         </aside>
         <div>
@@ -2003,10 +2003,10 @@
                 <input class="control num" id="of-price" type="number" min="1" step="10" inputmode="numeric" />
                 <span class="err" data-err-for="of-price" hidden>El precio tiene que ser de al menos 1 moneda.</span>
               </label>
-              <label class="field"><span>Unidades a la venta</span>
+              <label class="field"><span>Unidades a la venta <span class="hint">Opcional</span></span>
                 <input class="control num" id="of-stock" type="number" min="1" inputmode="numeric" placeholder="Sin límite" />
               </label>
-              <label class="field"><span>Vigencia después de la compra</span>
+              <label class="field"><span>Vigencia después de la compra <span class="hint">Opcional</span></span>
                 <span class="control-suffix"><input class="control num" id="of-days" type="number" min="1" inputmode="numeric" placeholder="No vence" /><span>días</span></span>
               </label>
               <label class="field switch-field"><span>Publicarla activa</span>
@@ -2856,10 +2856,10 @@
 
             <!-- Ingresar -->
             <form class="login-step" data-lg-step="login" novalidate>
-              <label class="field">Legajo o mail
+              <label class="field"><span class="req">Legajo o mail</span>
                 <input class="control" name="id" autocomplete="username" placeholder="40510 o nombre.apellido@frc.utn.edu.ar" />
               </label>
-              <label class="field">Contraseña
+              <label class="field"><span class="req">Contraseña</span>
                 <span class="pw-wrap">
                   <input class="control" name="pw" type="password" autocomplete="current-password" data-lg-pw />
                   <button class="pw-toggle" type="button" data-lg-toggle aria-label="Mostrar contraseña" aria-pressed="false"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-eye"/></svg></button>
@@ -2887,30 +2887,31 @@
 
             <!-- Registro · 1. datos del alumno (se llega desde el magic link) -->
             <form class="login-step" data-lg-step="data" novalidate hidden>
+              <p class="hint req-note">Los campos marcados con<span class="req"></span> son obligatorios.</p>
               <div class="field">
                 <span>Mail</span>
                 <span class="email-ok"><input class="control" name="mail" readonly aria-label="Mail de tu invitación" /><span class="badge badge-success"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-tick"/></svg>Por tu enlace</span></span>
               </div>
               <div class="login-row">
-                <label class="field">Nombre<input class="control" name="fn" autocomplete="given-name" /></label>
-                <label class="field">Apellido<input class="control" name="ln" autocomplete="family-name" /></label>
+                <label class="field"><span class="req">Nombre</span><input class="control" name="fn" autocomplete="given-name" /></label>
+                <label class="field"><span class="req">Apellido</span><input class="control" name="ln" autocomplete="family-name" /></label>
               </div>
               <div class="login-row">
-                <label class="field">DNI<input class="control" name="dni" inputmode="numeric" autocomplete="off" placeholder="Sin puntos" /></label>
-                <label class="field">Legajo<input class="control" name="leg" inputmode="numeric" autocomplete="off" /></label>
+                <label class="field"><span class="req">DNI</span><input class="control" name="dni" inputmode="numeric" autocomplete="off" placeholder="Sin puntos" /></label>
+                <label class="field"><span class="req">Legajo</span><input class="control" name="leg" inputmode="numeric" autocomplete="off" /></label>
               </div>
               <label class="field">Usuario de GitHub <span class="hint">Opcional. Lo usamos para corregir tus entregas.</span>
                 <input class="control" name="gh" autocomplete="off" placeholder="tu-usuario" />
               </label>
               <div class="login-row">
-                <label class="field">Contraseña
+                <label class="field"><span class="req">Contraseña</span>
                   <span class="pw-wrap"><input class="control" name="p1" type="password" autocomplete="new-password" data-lg-pw /><button class="pw-toggle" type="button" data-lg-toggle aria-label="Mostrar contraseña" aria-pressed="false"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-eye"/></svg></button></span>
                 </label>
-                <label class="field">Repetila
+                <label class="field"><span class="req">Repetila</span>
                   <span class="pw-wrap"><input class="control" name="p2" type="password" autocomplete="new-password" data-lg-pw /><button class="pw-toggle" type="button" data-lg-toggle aria-label="Mostrar contraseña" aria-pressed="false"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-eye"/></svg></button></span>
                 </label>
               </div>
-              <label class="login-check"><input type="checkbox" name="terms" />Acepto las condiciones de uso de la plataforma y el tratamiento de mis datos académicos.</label>
+              <label class="login-check"><input type="checkbox" name="terms" /><span class="req">Acepto las condiciones de uso de la plataforma y el tratamiento de mis datos académicos.</span></label>
               <p class="login-msg" data-lg-msg role="alert"></p>
               <button class="btn btn-primary login-cta" type="submit">Continuar<svg class="icon icon-sm" aria-hidden="true"><use href="#i-right"/></svg></button>
             </form>
@@ -3024,6 +3025,7 @@
       <button class="icon-btn sm" value="cancel" aria-label="Cerrar"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
     </div>
     <div class="drawer-body">
+      <p class="hint req-note">Los campos marcados con<span class="req"></span> son obligatorios.</p>
       <fieldset class="group"><legend>Consigna</legend>
         <label class="field"><span class="req">Título</span><input class="control" name="titulo" maxlength="100" placeholder="Por ejemplo: Introducción a algoritmos" aria-describedby="t-hint" /><span class="hint" id="t-hint">Hasta 100 caracteres.</span></label>
         <label class="field">Descripción <span class="hint">Opcional</span><textarea class="control" name="desc" maxlength="500" placeholder="Consigna inicial del desafío"></textarea></label>
@@ -3040,7 +3042,7 @@
       <fieldset class="group"><legend>Publicación</legend>
         <div class="form-grid">
           <label class="field"><span class="req">Cohorte</span><select class="control" name="curso"><option value="ProgIV">Programación IV</option><option value="InglesII">Inglés II</option><option value="BDII">BD II</option><option value="MSI" selected>MSI</option></select></label>
-          <label class="field">Fecha límite<input class="control" type="date" name="due" /></label>
+          <label class="field">Fecha límite <span class="hint">Opcional</span><input class="control" type="date" name="due" /></label>
           <label class="field"><span class="req">XP</span><input class="control num" type="number" min="0" value="40" name="xp" /></label>
           <label class="field"><span class="req">Monedas</span><input class="control num" type="number" min="0" value="10" name="coins" /></label>
         </div>
@@ -7594,12 +7596,12 @@ document.addEventListener('click', e => {
 let editingParam = null;
 function paramFieldsHTML(p) {
   const v = p.value;
-  if (p.type === 'map') return `<div class="param-fields">${p.fields.map(([k, l]) => `<label class="field">${l} (${p.unit})<input class="control num" type="number" min="0" step="1" inputmode="numeric" data-k="${k}" value="${v[k]}" /><span class="hint">Vigente: ${fmtN(v[k])}</span></label>`).join('')}</div>`;
+  if (p.type === 'map') return `<div class="param-fields">${p.fields.map(([k, l]) => `<label class="field"><span class="req">${l} (${p.unit})</span><input class="control num" type="number" min="0" step="1" inputmode="numeric" data-k="${k}" value="${v[k]}" /><span class="hint">Vigente: ${fmtN(v[k])}</span></label>`).join('')}</div>`;
   if (p.type === 'bool') return `<label class="toggle"><input type="checkbox" data-k="v" ${v ? 'checked' : ''} /> Activado</label>`;
-  if (p.type === 'list') return `<label class="field">Valores<input class="control" data-k="v" value="${esc(v.join(', '))}" /><span class="hint">Separalos con coma.</span></label>`;
-  if (p.type === 'choice') return `<label class="field">Opción<select class="control" data-k="v">${p.options.map(([k, l]) => `<option value="${k}" ${k === v ? 'selected' : ''}>${l}</option>`).join('')}</select></label>`;
+  if (p.type === 'list') return `<label class="field"><span class="req">Valores</span><input class="control" data-k="v" value="${esc(v.join(', '))}" /><span class="hint">Separalos con coma.</span></label>`;
+  if (p.type === 'choice') return `<label class="field"><span class="req">Opción</span><select class="control" data-k="v">${p.options.map(([k, l]) => `<option value="${k}" ${k === v ? 'selected' : ''}>${l}</option>`).join('')}</select></label>`;
   const max = p.type === 'percent' ? 'max="100"' : '';
-  return `<label class="field">Valor (${p.type === 'percent' ? '%' : p.unit})<input class="control num" type="number" min="0" ${max} step="1" inputmode="numeric" data-k="v" value="${v}" style="max-width:220px" /><span class="hint">Vigente: ${paramValueText(p)}</span></label>`;
+  return `<label class="field"><span class="req">Valor (${p.type === 'percent' ? '%' : p.unit})</span><input class="control num" type="number" min="0" ${max} step="1" inputmode="numeric" data-k="v" value="${v}" style="max-width:220px" /><span class="hint">Vigente: ${paramValueText(p)}</span></label>`;
 }
 function readParamFields(p) {
   const box = $('#pm-fields');

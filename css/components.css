@@ -132,6 +132,7 @@ label.field, .field { display:flex; flex-direction:column; gap:5px; font-size:va
 .field .hint { font-size:var(--fs-micro); font-weight:400; color:var(--text-muted); }
 .field .err { font-size:var(--fs-micro); font-weight:600; color:var(--urgent); }
 .req::after { content:' *'; color:var(--urgent); }
+.req-note { margin:0; }
 .control {
   height:38px; padding:0 12px; border-radius:var(--radius-control); border:var(--border-width) solid var(--border-subtle);
   background:var(--bg-app); color:var(--text-primary); font:inherit; font-size:var(--fs-ui); font-weight:400; width:100%;
@@ -511,9 +512,11 @@ select.control { padding-right:32px; appearance:none; cursor:pointer;
 
 /* ---- Paginación Estandarizada ---- */
 .pager {
-  display:flex; justify-content:space-between; align-items:center; gap:12px;
-  margin-top:14px; font-size:var(--fs-small); color:var(--text-muted); flex-wrap:wrap;
+  display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:12px 16px;
+  margin-top:14px; font-size:var(--fs-small); color:var(--text-muted);
 }
+.pager > .pager-summary { justify-self:start; }
+.pager > .pager-controls { grid-column:2; justify-self:center; }
 .pager-summary { display:flex; align-items:center; gap:6px; font-size:var(--fs-small); }
 .pager-summary b { color:var(--text-primary); font-variant-numeric:tabular-nums; }
 .pager-controls { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
