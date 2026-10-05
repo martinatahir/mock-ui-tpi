@@ -6540,7 +6540,7 @@ details.disclosure.cat-group > summary::after { margin-left:12px; }
 .uikit-inventory td:nth-child(2), .uikit-inventory td:nth-child(3) { font-size:var(--fs-small); }
 .uikit-inventory td:last-child { font-size:var(--fs-small); color:var(--text-muted); max-width:320px; }
 /* ===== Catálogo del profesor: ficha con bloques =====
-   La card es una grilla fija de 6 filas (estado/obligatorio · título · tipo · dificultad+vence · evaluación+recompensa · pie).
+   La card es una grilla fija de 6 filas (estado/obligatorio · título en una línea · tipo · dificultad+vence · evaluación+recompensa · pie).
    Con subgrid, las filas se sincronizan entre cards de la misma fila: lo que es igual queda a la misma altura. */
 [data-view="cards"] table.data.ch-table tbody { grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); grid-auto-rows:auto; gap:12px; }
 [data-view="cards"] table.data.ch-table tr {
@@ -6551,7 +6551,7 @@ details.disclosure.cat-group > summary::after { margin-left:12px; }
 [data-view="cards"] table.data.ch-table td.cell-main, [data-view="cards"] table.data.ch-table .cell-sub { display:contents; }
 [data-view="cards"] table.data.ch-table .cell-title {
   grid-area:title; font-size:var(--fs-h3); line-height:1.3; font-weight:700; min-width:0; align-self:start;
-  display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; text-wrap:balance;
+  display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
 [data-view="cards"] table.data.ch-table .cell-sub > span:not(.badge) {
   grid-area:type; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
