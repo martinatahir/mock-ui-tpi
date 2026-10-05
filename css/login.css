@@ -1,7 +1,7 @@
 /* =========================================================================
    LOGIN / REGISTRO — pantalla #screen-login
-   Mascota que sigue el mouse + card de acceso + alta en 3 pasos
-   (cuenta → código 2FA → datos). Solo usa tokens de tokens.css.
+   Mascota que sigue el mouse + card de acceso + alta (datos → 2FA).
+   El 2FA se pide tanto al ingresar como al registrarse: la card gira 360° con el robot colgado de su borde. Solo usa tokens de tokens.css.
    ========================================================================= */
 
 .login-stage {
@@ -26,7 +26,7 @@
   -webkit-mask-image:radial-gradient(ellipse at 50% 30%, #000 20%, transparent 75%); mask-image:radial-gradient(ellipse at 50% 30%, #000 20%, transparent 75%);
 }
 
-.login-wrap { position:relative; width:min(440px, 100%); padding-top:118px; margin-top:clamp(0px, 3vh, 28px); }
+.login-wrap { position:relative; width:min(440px, 100%); margin-top:clamp(0px, 3vh, 28px); }
 
 /* ---------- mascota ---------- */
 .mascot {
@@ -52,6 +52,20 @@
 @keyframes m-blink { 0%, 93%, 100% { transform:scaleY(0); } 96% { transform:scaleY(1); } }
 .m-bulb { animation:m-pulse 2.4s ease-in-out infinite; }
 @keyframes m-pulse { 50% { fill:color-mix(in srgb, var(--accent-gold-fill) 45%, var(--bg-surface)); } }
+
+/* colgado de la card: brazos agarrados al borde mientras la card gira (transición al 2FA) */
+.m-grip { opacity:0; }
+.m-garm, .m-gfist { fill:var(--accent-secondary-fill); stroke:var(--border-subtle); stroke-width:3; }
+.mascot[data-pose='hang'] .m-grip { opacity:1; }
+/* espalda de la cabeza: se ve solo cuando el robot está de espaldas */
+.m-back { opacity:0; }
+.m-back rect { fill:var(--bg-surface-alt); stroke:var(--border-subtle); stroke-width:2; }
+.m-back path { fill:none; stroke:var(--border-subtle); stroke-width:4; stroke-linecap:round; }
+.m-back circle { fill:var(--accent-gold-fill); }
+.login-rig.spin .m-back { animation:m-back-show 1.15s steps(1, end) both; }
+.login-rig.spin .m-face, .login-rig.spin .m-look { animation:m-face-hide 1.15s steps(1, end) both; }
+@keyframes m-back-show { 0% { opacity:0; } 25% { opacity:1; } 75% { opacity:0; } }
+@keyframes m-face-hide { 0% { opacity:1; } 25% { opacity:0; } 75% { opacity:1; } }
 
 /* estados de ánimo */
 .mascot[data-mood='shy'] .m-hand { transform:translateY(-6px); }
@@ -79,6 +93,12 @@
   box-shadow:var(--shadow-card, 0 12px 32px -12px rgba(0,0,0,.35));
 }
 [data-skin='sobrio'] .login-card { box-shadow:0 18px 40px -20px rgba(15,23,42,.35), 0 1px 3px rgba(15,23,42,.08); }
+/* la card y el robot colgado giran juntos una vuelta de 360°; el contenido se cambia con la card de canto */
+.login-rig { position:relative; padding-top:118px; }
+.login-rig.spin { animation:rig-spin 1.15s cubic-bezier(.45,0,.25,1) both; }
+.login-rig.spin .login-card > * { animation:card-content-hide 1.15s steps(1, end) both; }
+@keyframes rig-spin { from { transform:perspective(1100px) rotateY(0); } to { transform:perspective(1100px) rotateY(360deg); } }
+@keyframes card-content-hide { 0% { opacity:1; } 25% { opacity:0; } 75% { opacity:1; } }
 .login-head h1 { font-size:var(--fs-h2); line-height:1.2; text-wrap:balance; }
 [data-skin='gamer'] .login-head h1 { font-family:var(--font-display); font-weight:400; font-size:var(--fs-h2-px); line-height:1.5; letter-spacing:.02em; }
 .login-head p { margin-top:6px; color:var(--text-muted); font-size:var(--fs-ui); text-wrap:pretty; }
@@ -175,7 +195,7 @@
   .otp6 .control { height:48px; font-size:20px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .m-lid, .m-bulb, .login-step, .mascot .m-head, .otp6[data-state='error'] .control { animation:none !important; }
+  .m-lid, .m-bulb, .login-step, .mascot .m-head, .otp6[data-state='error'] .control, .login-rig.spin, .login-rig.spin * { animation:none !important; }
   .m-hand { transition:none; }
   .login-progress i { animation-duration:.01s; }
 }

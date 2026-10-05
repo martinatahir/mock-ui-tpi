@@ -70,6 +70,7 @@
   <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><path d="M1 14h6"/><path d="M9 8h6"/><path d="M17 16h6"/></symbol>
   <symbol id="i-cpu" viewBox="0 0 24 24"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></symbol>
   <symbol id="i-file" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></symbol>
+  <symbol id="i-google" viewBox="0 0 24 24"><path d="M21.6 12.23c0-.71-.06-1.4-.18-2.05H12v3.88h5.38a4.6 4.6 0 0 1-2 3.02v2.5h3.24c1.9-1.75 2.98-4.32 2.98-7.35z" fill="#4285F4" stroke="none"/><path d="M12 22c2.7 0 4.96-.9 6.62-2.42l-3.24-2.5c-.9.6-2.04.96-3.38.96-2.6 0-4.8-1.76-5.59-4.12H3.07v2.58A10 10 0 0 0 12 22z" fill="#34A853" stroke="none"/><path d="M6.41 13.92a6 6 0 0 1 0-3.84V7.5H3.07a10 10 0 0 0 0 9l3.34-2.58z" fill="#FBBC05" stroke="none"/><path d="M12 5.96c1.47 0 2.79.5 3.83 1.5l2.87-2.87C16.96 2.99 14.7 2 12 2A10 10 0 0 0 3.07 7.5l3.34 2.58C7.2 7.72 9.4 5.96 12 5.96z" fill="#EA4335" stroke="none"/></symbol>
   <symbol id="i-github" viewBox="0 0 24 24"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></symbol>
   <symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></symbol>
   <symbol id="i-login" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="m10 17 5-5-5-5"/><path d="M15 12H3"/></symbol>
@@ -1504,7 +1505,7 @@
             </div>
             <div class="table-wrap" data-view-target="alumnos"><table class="data" id="student-table"></table></div>
             <div class="empty" id="st-empty" hidden>Todavía no agregaste alumnos a este curso.</div>
-            <div class="st-pager" id="st-pager"></div>
+            <div class="pager" id="st-pager"></div>
             <datalist id="st-course-list"></datalist>
             </details>
           </section>
@@ -1548,7 +1549,7 @@
       <div class="data">
         <div class="tabs" role="tablist" aria-label="Estado de las cohortes" id="cohort-tabs"></div>
         <div class="course-grid" id="cohort-grid" data-view-target="cohortes"></div>
-        <div class="st-pager" id="cohort-pager"></div>
+        <div class="pager" id="cohort-pager"></div>
         <!-- Crear cohorte: vista inline que ocupa el lugar de la grilla (sin modal) -->
         <div class="cohorte-creator" id="cohorte-creator" hidden>
           <nav class="campus-breadcrumb" aria-label="Miga de pan">
@@ -1658,12 +1659,12 @@
         </div>
 
         <div class="form-grid">
-          <label class="field"><span>Horario desde (opcional)</span><input class="control" type="time" id="wz-hora-desde" value="18:30" /></label>
-          <label class="field"><span>Horario hasta (opcional)</span><input class="control" type="time" id="wz-hora-hasta" value="22:30" /></label>
+          <label class="field"><span>Horario desde <span class="hint">Opcional</span></span><input class="control" type="time" id="wz-hora-desde" value="18:30" /></label>
+          <label class="field"><span>Horario hasta <span class="hint">Opcional</span></span><input class="control" type="time" id="wz-hora-hasta" value="22:30" /></label>
         </div>
 
         <label class="field">
-          <span>Aula / Espacio o enlace de reunión (opcional)</span>
+          <span>Aula / Espacio o enlace de reunión <span class="hint">Opcional</span></span>
           <input class="control" id="wz-aula" placeholder="Ej. Aula 304 / https://meet.google.com/xyz" value="https://meet.google.com/xyz" />
         </label>
       </div>
@@ -1672,11 +1673,11 @@
       <div class="wizard-pane" id="wz-pane-3" style="display:none; flex-direction:column; gap:16px;">
         <div class="form-grid">
           <label class="field">
-            <span>Cupo máximo de estudiantes (opcional)</span>
+            <span>Cupo máximo de estudiantes <span class="hint">Opcional</span></span>
             <input class="control num" type="number" id="wz-cupo" placeholder="Ilimitado si queda vacío" />
           </label>
           <label class="field">
-            <span>Fecha límite de inscripción (opcional)</span>
+            <span>Fecha límite de inscripción <span class="hint">Opcional</span></span>
             <input class="control" type="date" id="wz-limite-inscripcion" />
           </label>
         </div>
@@ -1732,11 +1733,11 @@
         <div class="card studs" style="padding:14px 18px; display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px; font-size:13px;">
           <div>
             <span class="muted">Apertura:</span>
-            <b class="num" style="margin-left:6px;">28/06/2026, 12:00 AM</b>
+            <b class="num" style="margin-left:6px;">28/06/2026, 00:00</b>
           </div>
           <div>
             <span class="muted">Vencimiento:</span>
-            <b class="num" style="margin-left:6px; color:var(--accent-gold);">05/07/2026, 12:00 AM</b>
+            <b class="num" style="margin-left:6px; color:var(--accent-gold);">05/07/2026, 00:00</b>
           </div>
         </div>
 
@@ -1790,7 +1791,7 @@
     <section class="screen" id="screen-desafios-profesor" aria-labelledby="h-cat" data-error="Ocurrió un error al consultar los desafíos con el servidor.">
       <div class="page-head">
         <div><h1 class="display" id="h-cat">Desafíos</h1><p>El catálogo de todas tus cohortes: desafíos prácticos, cuestionarios teóricos y el banco de preguntas.</p></div>
-        <button class="btn btn-primary" type="button" data-open="dialog-nuevo-desafio"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Nuevo desafío</button>
+        <a class="btn btn-primary" href="#desafio-tipo"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Nuevo desafío</a>
       </div>
       <div class="tabs" role="tablist" aria-label="Sección">
         <button class="tab" role="tab" aria-selected="true" data-subtab="cat-practicos">Catálogo <span class="count num">14</span></button>
@@ -1831,6 +1832,64 @@
       </div>
     </section>
 
+    <!-- ================= NUEVO DESAFÍO: elegir tipo · profesor ================= -->
+    <section class="screen" id="screen-desafio-tipo-profesor" aria-labelledby="h-nd" data-error="No pudimos abrir el editor de desafíos.">
+      <div class="page-head">
+        <div><h1 class="display" id="h-nd">Nuevo desafío</h1><p>Elegí qué vas a evaluar. Después completás la consigna y la recompensa.</p></div>
+      </div>
+      <div class="data">
+        <div class="type-pick" style="max-width:760px;">
+          <button type="button" class="type-card" data-nd="practico">
+            <span class="type-ic"><svg class="icon"><use href="#i-code"/></svg></span>
+            <span class="type-name">Desafío práctico</span>
+            <span class="type-desc">El alumno escribe código y lo corrigen pruebas automáticas. Sirve para algoritmos y refactorizaciones.</span>
+            <span class="type-go">Elegir<svg class="icon icon-sm"><use href="#i-right"/></svg></span>
+          </button>
+          <button type="button" class="type-card" data-nd="teorico">
+            <span class="type-ic"><svg class="icon"><use href="#i-survey"/></svg></span>
+            <span class="type-name">Cuestionario teórico</span>
+            <span class="type-desc">Preguntas nuevas o de tu banco, con puntaje que suma 100. Sirve para evaluar conceptos.</span>
+            <span class="type-go">Elegir<svg class="icon icon-sm"><use href="#i-right"/></svg></span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= NUEVO DESAFÍO PRÁCTICO · profesor ================= -->
+    <section class="screen" id="screen-desafio-nuevo-profesor" aria-labelledby="h-dd" data-error="No pudimos abrir el editor de desafíos.">
+      <div class="page-head">
+        <div><h1 class="display" id="h-dd">Nuevo desafío práctico</h1><p>El alumno escribe código y lo corrigen pruebas automáticas.</p></div>
+      </div>
+      <form class="data" id="form-desafio" novalidate onsubmit="return false" style="max-width:820px; display:flex; flex-direction:column; gap:16px;">
+        <p class="hint req-note">Los campos marcados con<span class="req"></span> son obligatorios.</p>
+        <fieldset class="group"><legend>Consigna</legend>
+          <label class="field"><span class="req">Título</span><input class="control" name="titulo" maxlength="100" placeholder="Por ejemplo: Introducción a algoritmos" aria-describedby="t-hint" /><span class="hint" id="t-hint">Hasta 100 caracteres.</span></label>
+          <label class="field">Descripción <span class="hint">Opcional</span><textarea class="control" name="desc" maxlength="500" placeholder="Consigna inicial del desafío"></textarea></label>
+        </fieldset>
+        <fieldset class="group"><legend>Evaluación</legend>
+          <div class="form-grid">
+            <label class="field"><span class="req">Tipo</span><select class="control" name="tipo"><option>Algoritmo con pruebas automáticas</option><option>Refactorización</option></select></label>
+            <label class="field"><span class="req">Dificultad</span><select class="control" name="dif"><option>Básica</option><option>Media</option><option>Avanzada</option></select></label>
+            <label class="field"><span class="req">Reintentos</span><input class="control num" type="number" min="0" max="3" value="2" name="reint" /><span class="hint">De 0 a 3.</span></label>
+            <label class="field"><span class="req">Aprobación</span><input class="control num" type="number" min="0" max="100" value="70" name="aprob" /><span class="hint">Porcentaje mínimo, de 0 a 100.</span></label>
+          </div>
+          <label class="toggle"><input type="checkbox" name="oblig" checked />Obligatorio: cuenta para la regularidad</label>
+        </fieldset>
+        <fieldset class="group"><legend>Publicación</legend>
+          <div class="form-grid">
+            <label class="field"><span class="req">Cohorte</span><select class="control" name="curso"><option value="ProgIV">Programación IV</option><option value="InglesII">Inglés II</option><option value="BDII">BD II</option><option value="MSI" selected>MSI</option></select></label>
+            <label class="field">Fecha límite <span class="hint">Opcional</span><input class="control" type="date" name="due" /></label>
+            <label class="field"><span class="req">XP</span><input class="control num" type="number" min="0" value="40" name="xp" /></label>
+            <label class="field"><span class="req">Monedas</span><input class="control num" type="number" min="0" value="10" name="coins" /></label>
+          </div>
+        </fieldset>
+        <div style="display:flex; justify-content:flex-end; gap:10px;">
+          <a class="btn btn-quiet" href="#desafio-tipo">Cancelar</a>
+          <button class="btn btn-primary" id="dd-submit" type="button">Crear desafío práctico</button>
+        </div>
+      </form>
+    </section>
+
     <!-- ================= ARMAR CUESTIONARIO · profesor ================= -->
     <section class="screen" id="screen-cuestionario-nuevo-profesor" aria-labelledby="h-build" data-error="No pudimos cargar el banco de preguntas.">
       <nav class="campus-breadcrumb" aria-label="Miga de pan">
@@ -1857,8 +1916,8 @@
             </div>
           </div>
           <div class="card studs">
-            <label class="field">Título del cuestionario<input class="control" value="Complejidad y búsqueda" /></label>
-            <label class="field" style="margin-top:12px">Cohorte<select class="control"><option value="ProgIV">Programación IV</option><option value="InglesII">Inglés II</option><option value="BDII">BD II</option><option value="MSI" selected>MSI</option></select></label>
+            <label class="field"><span class="req">Título del cuestionario</span><input class="control" id="cq-title" value="Complejidad y búsqueda" /></label>
+            <label class="field" style="margin-top:12px"><span class="req">Cohorte</span><select class="control"><option value="ProgIV">Programación IV</option><option value="InglesII">Inglés II</option><option value="BDII">BD II</option><option value="MSI" selected>MSI</option></select></label>
           </div>
         </aside>
         <div>
@@ -2001,10 +2060,10 @@
                 <input class="control num" id="of-price" type="number" min="1" step="10" inputmode="numeric" />
                 <span class="err" data-err-for="of-price" hidden>El precio tiene que ser de al menos 1 moneda.</span>
               </label>
-              <label class="field"><span>Unidades a la venta</span>
+              <label class="field"><span>Unidades a la venta <span class="hint">Opcional</span></span>
                 <input class="control num" id="of-stock" type="number" min="1" inputmode="numeric" placeholder="Sin límite" />
               </label>
-              <label class="field"><span>Vigencia después de la compra</span>
+              <label class="field"><span>Vigencia después de la compra <span class="hint">Opcional</span></span>
                 <span class="control-suffix"><input class="control num" id="of-days" type="number" min="1" inputmode="numeric" placeholder="No vence" /><span>días</span></span>
               </label>
               <label class="field switch-field"><span>Publicarla activa</span>
@@ -2191,13 +2250,13 @@
     <!-- ================= ACCESOS (whitelist) · admin ================= -->
     <section class="screen" id="screen-accesos" aria-labelledby="h-acc-page" data-error="No pudimos traer las solicitudes ni los emails habilitados.">
       <div class="page-head">
-        <div><h1 class="display" id="h-acc-page">Accesos</h1><p>Resolvé los pedidos de habilitación y gestioná qué emails de profesores y gestores pueden entrar a la plataforma.</p></div>
-        <a class="btn btn-ghost" href="#administradores"><svg class="icon icon-sm"><use href="#i-lock"/></svg>Administradores</a>
+        <div><h1 class="display" id="h-acc-page">Accesos</h1><p>Resolvé los pedidos de habilitación, gestioná qué emails de profesores y gestores pueden entrar a la plataforma y quiénes son administradores.</p></div>
       </div>
       <div class="data">
         <div class="tabs" role="tablist" aria-label="Accesos" id="acc-tabs">
           <button class="tab" role="tab" aria-selected="true" data-subtab="acc-pend">Pendientes <span class="count num" data-pend-count>1</span></button>
           <button class="tab" role="tab" aria-selected="false" data-subtab="acc-ok">Habilitados <span class="count num" data-ok-count>12</span></button>
+          <button class="tab" role="tab" aria-selected="false" data-subtab="acc-adm">Administradores <span class="count num" data-adm-count>5</span></button>
         </div>
 
         <div data-subpanel="acc-pend">
@@ -2223,18 +2282,15 @@
           <div class="table-wrap" data-view-target="habilitados"><table class="data" id="ok-table"></table></div>
           <div class="pager" id="ok-pager"></div>
         </div>
-      </div>
-    </section>
 
-    <!-- ================= ADMINISTRADORES · admin ================= -->
-    <section class="screen" id="screen-administradores" aria-labelledby="h-adm" data-error="No pudimos traer la lista de administradores.">
-      <div class="page-head">
-        <div><h1 class="display" id="h-adm">Administradores</h1><p>Cuentas con rol de administrador. El rol se asigna en Identidad (Tema 01) y siempre tiene que quedar al menos uno activo.</p></div>
-        <button class="btn btn-primary" type="button" id="adm-new"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Asignar administrador</button>
-      </div>
-      <div class="data">
-        <div class="card admin-count" id="adm-count"></div>
-        <div class="table-wrap"><table class="data" id="adm-table"></table></div>
+        <div data-subpanel="acc-adm" hidden>
+          <div class="section-head">
+            <p>Cuentas con rol de administrador. El rol se asigna en Identidad (Tema 01) y siempre tiene que quedar al menos uno activo.</p>
+            <button class="btn btn-primary" type="button" id="adm-new"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Asignar administrador</button>
+          </div>
+          <div class="card admin-count" id="adm-count"></div>
+          <div class="table-wrap"><table class="data" id="adm-table"></table></div>
+        </div>
       </div>
     </section>
 
@@ -2724,8 +2780,6 @@
         <h2>15. Superposiciones (modal, drawer, toast)</h2>
         <p class="hint" style="margin-bottom:14px;">Modal centrado para decisiones o confirmaciones que no se pueden deshacer, drawer lateral para formularios largos y toast para confirmar acciones.</p>
         <div class="uikit-row">
-          <button class="btn btn-secondary" type="button" data-open="dialog-nuevo-desafio">Abrir modal</button>
-          <button class="btn btn-secondary" type="button" data-open="drawer-desafio">Abrir drawer</button>
           <button class="btn btn-ghost" type="button" onclick="showToast('Guardaste los cambios.', 'success')">Toast de éxito</button>
           <button class="btn btn-ghost" type="button" onclick="showToast('Se sacó de la tienda.', 'info')">Toast informativo</button>
         </div>
@@ -2802,9 +2856,15 @@
           </div>
         </div>
         <div class="login-wrap">
+          <div class="login-rig" id="lg-rig">
 
           <!-- Mascota: la cabeza sigue el mouse, se tapa los ojos con la contraseña y festeja al terminar -->
           <svg class="mascot" id="lg-mascot" data-mood="idle" viewBox="0 0 200 150" aria-hidden="true" focusable="false">
+            <!-- Brazos agarrados al borde de la card: se ven solo durante el giro -->
+            <g class="m-grip">
+              <rect class="m-garm" x="26" y="92" width="14" height="36" rx="7"/><rect class="m-gfist" x="14" y="108" width="34" height="26" rx="11"/>
+              <rect class="m-garm" x="160" y="92" width="14" height="36" rx="7"/><rect class="m-gfist" x="152" y="108" width="34" height="26" rx="11"/>
+            </g>
             <g class="m-head" id="lg-head">
               <line class="m-ant" x1="100" y1="36" x2="100" y2="18"/>
               <circle class="m-bulb" cx="100" cy="12" r="7"/>
@@ -2812,6 +2872,7 @@
               <rect class="m-ear" x="168" y="72" width="14" height="36" rx="5"/>
               <rect class="m-body" x="30" y="36" width="140" height="112" rx="16"/>
               <rect class="m-face" x="44" y="50" width="112" height="72" rx="10"/>
+              <g class="m-back"><rect x="44" y="50" width="112" height="72" rx="10"/><path d="M62 74 H138 M62 88 H138 M62 102 H138"/><circle cx="100" cy="112" r="4"/></g>
               <g class="m-look" id="lg-look">
                 <circle class="m-eye" cx="76" cy="82" r="17"/>
                 <circle class="m-eye" cx="124" cy="82" r="17"/>
@@ -2840,23 +2901,17 @@
               <p id="lg-sub">Seguí con tu <b>legajo</b> o tu mail institucional.</p>
             </div>
 
-            <div class="seg login-tabs" id="lg-tabs" role="group" aria-label="Acceso">
-              <button type="button" data-lg-mode="login" aria-pressed="true">Ingresar</button>
-              <button type="button" data-lg-mode="register" aria-pressed="false">Crear cuenta</button>
-            </div>
-
             <ol class="login-steps" id="lg-steps" aria-label="Pasos del registro" hidden>
-              <li data-lg-dot="id"><span class="n">1</span><span class="t">Cuenta</span></li>
+              <li data-lg-dot="data"><span class="n">1</span><span class="t">Tus datos</span></li>
               <li data-lg-dot="otp"><span class="n">2</span><span class="t">Verificación</span></li>
-              <li data-lg-dot="data"><span class="n">3</span><span class="t">Tus datos</span></li>
             </ol>
 
             <!-- Ingresar -->
             <form class="login-step" data-lg-step="login" novalidate>
-              <label class="field">Legajo o mail
+              <label class="field"><span class="req">Legajo o mail</span>
                 <input class="control" name="id" autocomplete="username" placeholder="40510 o nombre.apellido@frc.utn.edu.ar" />
               </label>
-              <label class="field">Contraseña
+              <label class="field"><span class="req">Contraseña</span>
                 <span class="pw-wrap">
                   <input class="control" name="pw" type="password" autocomplete="current-password" data-lg-pw />
                   <button class="pw-toggle" type="button" data-lg-toggle aria-label="Mostrar contraseña" aria-pressed="false"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-eye"/></svg></button>
@@ -2868,58 +2923,49 @@
               </div>
               <button class="btn btn-primary login-cta" type="submit">Ingresar<svg class="icon icon-sm" aria-hidden="true"><use href="#i-right"/></svg></button>
               <div class="login-or" aria-hidden="true">o</div>
-              <button class="btn btn-secondary login-cta" type="button" data-lg-github><svg class="icon icon-sm" aria-hidden="true"><use href="#i-github"/></svg>Continuar con GitHub</button>
+              <button class="btn btn-secondary login-cta" type="button" data-lg-google><svg class="icon icon-sm" aria-hidden="true"><use href="#i-google"/></svg>Continuar con Google</button>
             </form>
 
-            <!-- Registro · 1. un solo campo: mail o legajo -->
-            <form class="login-step" data-lg-step="id" novalidate hidden>
-              <label class="field">Legajo o mail
-                <input class="control" name="id" autocomplete="username" placeholder="40510 o nombre.apellido@frc.utn.edu.ar" />
-                <span class="hint">Si usás tu legajo, mandamos el código a tu mail institucional.</span>
-              </label>
-              <p class="login-msg" data-lg-msg role="alert"></p>
-              <button class="btn btn-primary login-cta" type="submit">Enviar código<svg class="icon icon-sm" aria-hidden="true"><use href="#i-right"/></svg></button>
-            </form>
-
-            <!-- Registro · 2. 2FA de 6 dígitos -->
+            <!-- Registro · 2. 2FA de 6 dígitos (tras completar los datos) -->
             <form class="login-step" data-lg-step="otp" novalidate hidden>
               <div class="otp6" id="lg-otp" role="group" aria-label="Código de 6 dígitos"></div>
               <p class="login-msg" data-lg-msg role="alert"></p>
               <div class="login-links">
-                <button class="login-lnk" type="button" data-lg-change>Cambiar mail o legajo</button>
+                <button class="login-lnk" type="button" data-lg-change>Volver a mis datos</button>
                 <button class="login-lnk" type="button" data-lg-resend>Reenviar código</button>
               </div>
               <button class="btn btn-primary login-cta" type="submit">Confirmar código<svg class="icon icon-sm" aria-hidden="true"><use href="#i-tick"/></svg></button>
             </form>
 
-            <!-- Registro · 3. datos de la cuenta -->
+            <!-- Registro · 1. datos del alumno (se llega desde el magic link) -->
             <form class="login-step" data-lg-step="data" novalidate hidden>
+              <p class="hint req-note">Los campos marcados con<span class="req"></span> son obligatorios.</p>
               <div class="field">
                 <span>Mail</span>
-                <span class="email-ok"><input class="control" name="mail" readonly aria-label="Mail verificado" /><span class="badge badge-success"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-tick"/></svg>Verificado</span></span>
+                <span class="email-ok"><input class="control" name="mail" readonly aria-label="Mail de tu invitación" /><span class="badge badge-success"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-tick"/></svg>Por tu enlace</span></span>
               </div>
               <div class="login-row">
-                <label class="field">Nombre<input class="control" name="fn" autocomplete="given-name" /></label>
-                <label class="field">Apellido<input class="control" name="ln" autocomplete="family-name" /></label>
+                <label class="field"><span class="req">Nombre</span><input class="control" name="fn" autocomplete="given-name" /></label>
+                <label class="field"><span class="req">Apellido</span><input class="control" name="ln" autocomplete="family-name" /></label>
               </div>
               <div class="login-row">
-                <label class="field">DNI<input class="control" name="dni" inputmode="numeric" autocomplete="off" placeholder="Sin puntos" /></label>
-                <label class="field">Legajo<input class="control" name="leg" inputmode="numeric" autocomplete="off" /></label>
+                <label class="field"><span class="req">DNI</span><input class="control" name="dni" inputmode="numeric" autocomplete="off" placeholder="Sin puntos" /></label>
+                <label class="field"><span class="req">Legajo</span><input class="control" name="leg" inputmode="numeric" autocomplete="off" /></label>
               </div>
               <label class="field">Usuario de GitHub <span class="hint">Opcional. Lo usamos para corregir tus entregas.</span>
                 <input class="control" name="gh" autocomplete="off" placeholder="tu-usuario" />
               </label>
               <div class="login-row">
-                <label class="field">Contraseña
+                <label class="field"><span class="req">Contraseña</span>
                   <span class="pw-wrap"><input class="control" name="p1" type="password" autocomplete="new-password" data-lg-pw /><button class="pw-toggle" type="button" data-lg-toggle aria-label="Mostrar contraseña" aria-pressed="false"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-eye"/></svg></button></span>
                 </label>
-                <label class="field">Repetila
+                <label class="field"><span class="req">Repetila</span>
                   <span class="pw-wrap"><input class="control" name="p2" type="password" autocomplete="new-password" data-lg-pw /><button class="pw-toggle" type="button" data-lg-toggle aria-label="Mostrar contraseña" aria-pressed="false"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-eye"/></svg></button></span>
                 </label>
               </div>
-              <label class="login-check"><input type="checkbox" name="terms" />Acepto las condiciones de uso de la plataforma y el tratamiento de mis datos académicos.</label>
+              <label class="login-check"><input type="checkbox" name="terms" /><span class="req">Acepto las condiciones de uso de la plataforma y el tratamiento de mis datos académicos.</span></label>
               <p class="login-msg" data-lg-msg role="alert"></p>
-              <button class="btn btn-primary login-cta" type="submit">Crear mi cuenta<svg class="icon icon-sm" aria-hidden="true"><use href="#i-tick"/></svg></button>
+              <button class="btn btn-primary login-cta" type="submit">Continuar<svg class="icon icon-sm" aria-hidden="true"><use href="#i-right"/></svg></button>
             </form>
 
             <!-- Final -->
@@ -2930,8 +2976,9 @@
               <div class="login-progress" aria-hidden="true"><i></i></div>
             </div>
           </div>
+          </div>
 
-          <p class="login-foot">Mock de acceso · en esta demo, cualquier código de 6 dígitos sirve salvo <b>000000</b>.</p>
+          <p class="login-foot">Mock de acceso · cualquier código de 6 dígitos sirve salvo <b>000000</b>. <button class="login-lnk" type="button" data-lg-magic>Simular magic link de registro</button></p>
         </div>
       </div>
     </section>
@@ -2995,69 +3042,6 @@
 <!-- ================= Navegación Móvil Inferior (Bottom Bar) ================= -->
 <nav class="bottom-nav" id="bottom-nav" aria-label="Navegación móvil"></nav>
 
-
-<!-- ================= Drawer: crear desafío ================= -->
-<!-- ================= Modal: elegir tipo de desafío ================= -->
-<dialog class="modal modal-md studs" id="dialog-nuevo-desafio" aria-labelledby="h-nd">
-  <div class="buy">
-    <div class="modal-head">
-      <div><h2 id="h-nd">Nuevo desafío</h2><p>Elegí qué vas a evaluar. Después completás la consigna y la recompensa.</p></div>
-      <button class="icon-btn sm" type="button" data-nd-close aria-label="Cerrar"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
-    </div>
-    <div class="modal-body">
-      <div class="type-pick">
-        <button type="button" class="type-card" data-nd="practico">
-          <span class="type-ic"><svg class="icon"><use href="#i-code"/></svg></span>
-          <span class="type-name">Desafío práctico</span>
-          <span class="type-desc">El alumno escribe código y lo corrigen pruebas automáticas. Sirve para algoritmos y refactorizaciones.</span>
-          <span class="type-go">Elegir<svg class="icon icon-sm"><use href="#i-right"/></svg></span>
-        </button>
-        <button type="button" class="type-card" data-nd="teorico">
-          <span class="type-ic"><svg class="icon"><use href="#i-survey"/></svg></span>
-          <span class="type-name">Cuestionario teórico</span>
-          <span class="type-desc">Preguntas nuevas o de tu banco, con puntaje que suma 100. Sirve para evaluar conceptos.</span>
-          <span class="type-go">Elegir<svg class="icon icon-sm"><use href="#i-right"/></svg></span>
-        </button>
-      </div>
-    </div>
-  </div>
-</dialog>
-
-<dialog class="drawer" id="drawer-desafio" aria-labelledby="h-dd">
-  <form method="dialog" style="display:contents" id="form-desafio" novalidate>
-    <div class="drawer-head">
-      <div><h2 id="h-dd" class="display">Nuevo desafío práctico</h2><p>El alumno escribe código y lo corrigen pruebas automáticas.</p></div>
-      <button class="icon-btn sm" value="cancel" aria-label="Cerrar"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
-    </div>
-    <div class="drawer-body">
-      <fieldset class="group"><legend>Consigna</legend>
-        <label class="field"><span class="req">Título</span><input class="control" name="titulo" maxlength="100" placeholder="Por ejemplo: Introducción a algoritmos" aria-describedby="t-hint" /><span class="hint" id="t-hint">Hasta 100 caracteres.</span></label>
-        <label class="field">Descripción <span class="hint">Opcional</span><textarea class="control" name="desc" maxlength="500" placeholder="Consigna inicial del desafío"></textarea></label>
-      </fieldset>
-      <fieldset class="group"><legend>Evaluación</legend>
-        <div class="form-grid">
-          <label class="field"><span class="req">Tipo</span><select class="control" name="tipo"><option>Algoritmo con pruebas automáticas</option><option>Refactorización</option></select></label>
-          <label class="field"><span class="req">Dificultad</span><select class="control" name="dif"><option>Básica</option><option>Media</option><option>Avanzada</option></select></label>
-          <label class="field"><span class="req">Reintentos</span><input class="control num" type="number" min="0" max="3" value="2" name="reint" /><span class="hint">De 0 a 3.</span></label>
-          <label class="field"><span class="req">Aprobación</span><input class="control num" type="number" min="0" max="100" value="70" name="aprob" /><span class="hint">Porcentaje mínimo, de 0 a 100.</span></label>
-        </div>
-        <label class="toggle"><input type="checkbox" name="oblig" checked />Obligatorio: cuenta para la regularidad</label>
-      </fieldset>
-      <fieldset class="group"><legend>Publicación</legend>
-        <div class="form-grid">
-          <label class="field"><span class="req">Cohorte</span><select class="control" name="curso"><option value="ProgIV">Programación IV</option><option value="InglesII">Inglés II</option><option value="BDII">BD II</option><option value="MSI" selected>MSI</option></select></label>
-          <label class="field">Fecha límite<input class="control" type="date" name="due" /></label>
-          <label class="field"><span class="req">XP</span><input class="control num" type="number" min="0" value="40" name="xp" /></label>
-          <label class="field"><span class="req">Monedas</span><input class="control num" type="number" min="0" value="10" name="coins" /></label>
-        </div>
-      </fieldset>
-    </div>
-    <div class="drawer-foot">
-      <button class="btn btn-quiet" value="cancel">Cancelar</button>
-      <button class="btn btn-primary" id="dd-submit" type="button">Crear desafío práctico</button>
-    </div>
-  </form>
-</dialog>
 
 
 
@@ -3855,7 +3839,7 @@ function Catalog(root) {
     syncFilterCount(root, [!locked && st.course, st.type, st.diff, st.state, st.req].filter(Boolean).length);
     if (!list.length) { res.innerHTML = `<div class="empty">${icon('i-filter-off')}<p>Ningún desafío coincide con estos filtros.</p></div>`; pagerEl.innerHTML = ''; return; }
     const rowsHTML = (items, showCourse) => items.map(c => `<tr>
-        <td class="cell-main"><div class="cell-title">${c.title}</div><div class="cell-sub">${c.req ? '<span class="badge badge-required">Obligatorio</span>' : ''}<span>${c.type}</span></div></td>
+        <td class="cell-main"><div class="cell-title" title="${c.title}">${c.title}</div><div class="cell-sub">${c.req ? '<span class="badge badge-required">Obligatorio</span>' : ''}<span>${c.type}</span></div></td>
         ${showCourse ? `<td>${c.course}</td>` : ''}
         <td><span class="diff"><span class="pips" data-level="${c.diff}" aria-hidden="true"><i></i><i></i><i></i></span>${DIFF[c.diff]}</span></td>
         <td class="num" style="white-space:nowrap">${c.due ? short(c.due) : c.done ? '—' : 'Sin fecha'}</td>
@@ -3863,7 +3847,7 @@ function Catalog(root) {
         <td>${c.published ? '<span class="badge badge-success">Publicado</span>' : '<span class="badge badge-outline">Borrador</span>'}</td>
         <td><div class="row-actions"><button class="icon-btn sm" aria-label="Editar ${c.title}"><svg class="icon icon-sm"><use href="#i-pencil"/></svg></button><button class="icon-btn sm" aria-label="Vista previa de ${c.title}"><svg class="icon icon-sm"><use href="#i-eye"/></svg></button></div></td>
       </tr>`).join('');
-    const tableHTML = (items, showCourse) => `<div class="table-wrap"><table class="data">
+    const tableHTML = (items, showCourse) => `<div class="table-wrap"><table class="data ch-table">
       <thead><tr><th>Desafío</th>${showCourse ? '<th>Cohorte</th>' : ''}<th>Dificultad</th><th>Vence</th><th>Evaluación</th><th>Recompensa</th><th>Estado</th><th><span class="sr-only">Acciones</span></th></tr></thead>
       <tbody>${rowsHTML(items, showCourse)}</tbody></table></div>`;
     if (locked) {
@@ -3912,10 +3896,14 @@ function pageList(page, pages) {
   [...keep].sort((a, b) => a - b).forEach((i, k, arr) => { if (k && i - arr[k - 1] > 1) out.push('…'); out.push(i); });
   return out;
 }
-function pagerHTML(page, size, total, noun = 'registros') {
+function pagerHTML(page, size, total, noun = 'registros', sizeId = '') {
   const pages = Math.max(1, Math.ceil(total / size));
   const from = total ? page * size + 1 : 0, to = Math.min(total, (page + 1) * size);
-  return `<div class="pager-summary"><span><b>${from}–${to}</b> de <b>${total}</b> ${noun}</span></div>
+  const sizeSel = sizeId ? `<span class="muted">·</span>
+    <label class="pager-size">Por página:
+      <select class="control" id="${sizeId}">${[5, 10, 50].map(n => `<option value="${n}" ${n === size ? 'selected' : ''}>${n}</option>`).join('')}</select>
+    </label>` : '';
+  return `<div class="pager-summary"><span><b>${from}–${to}</b> de <b>${total}</b> ${noun}</span>${sizeSel}</div>
     <div class="pager-controls">
       <nav class="pg" aria-label="Paginación de ${noun}">
         <button class="pg-btn pg-arrow" type="button" data-pg-to="${page - 1}" aria-label="Página anterior" ${page === 0 ? 'disabled' : ''}>${icon('i-left', 'icon icon-sm')}</button>
@@ -4280,14 +4268,7 @@ function renderCohorts() {
   cohortPage.page = Math.min(cohortPage.page, pages);
   const from = (cohortPage.page - 1) * cohortPage.size;
   const list = all.slice(from, from + cohortPage.size);
-  $('#cohort-pager').innerHTML = all.length ? `
-    <label class="st-size">Mostrar <select class="control" id="cohort-size">${[5, 10, 50].map(n => `<option value="${n}" ${n === cohortPage.size ? 'selected' : ''}>${n}</option>`).join('')}</select> por página</label>
-    <span class="num" aria-live="polite">${from + 1}–${from + list.length} de ${all.length}</span>
-    <span class="st-pager-btns">
-      <button class="btn btn-ghost btn-sm" type="button" data-cohort-prev ${cohortPage.page <= 1 ? 'disabled' : ''}>Anterior</button>
-      <span class="num">Página ${cohortPage.page} de ${pages}</span>
-      <button class="btn btn-ghost btn-sm" type="button" data-cohort-next ${cohortPage.page >= pages ? 'disabled' : ''}>Siguiente</button>
-    </span>` : '';
+  $('#cohort-pager').innerHTML = all.length ? pagerHTML(cohortPage.page - 1, cohortPage.size, all.length, 'cursos', 'cohort-size') : '';
   $('#cohort-grid').innerHTML = list.length ? list.map(c => `
     <article class="card studs course cohort-card">
       <div class="course-top">
@@ -4305,9 +4286,8 @@ function renderCohorts() {
 }
 document.addEventListener('click', e => {
   const t = e.target.closest('[data-cohort]'); if (t) { cohortTab = t.dataset.cohort; cohortPage.page = 1; renderCohorts(); return; }
-  if (e.target.closest('[data-cohort-prev]')) { cohortPage.page--; renderCohorts(); }
-  if (e.target.closest('[data-cohort-next]')) { cohortPage.page++; renderCohorts(); }
 });
+onPager($('#cohort-pager'), n => { cohortPage.page = n + 1; renderCohorts(); });
 document.addEventListener('change', e => { if (e.target.id === 'cohort-size') { cohortPage.size = Number(e.target.value); cohortPage.page = 1; renderCohorts(); } });
 
 let currentActiveUnit = 2;
@@ -6204,11 +6184,11 @@ window.createActivityEditorCard = function(mode = 'add', initialData = {}, opts 
           Apertura:
         </span>
         <div class="date-input-wrapper">
-          <input type="text" class="control sm input-inline-act-open-text" value="${initialData.openText || '28/06/2026, 12:00 AM'}" placeholder="DD/MM/AAAA, HH:MM" style="height:32px; font-size:12.5px; padding:0 30px 0 10px; width:184px; font-weight:600;" aria-label="Fecha de apertura (escribir o elegir)" />
+          <input type="text" class="control sm input-inline-act-open-text" value="${initialData.openText || '28/06/2026, 00:00'}" placeholder="DD/MM/AAAA, HH:MM" style="height:32px; font-size:12.5px; padding:0 30px 0 10px; width:184px; font-weight:600;" aria-label="Fecha de apertura (escribir o elegir)" />
           <button type="button" class="btn-picker-trigger btn-trigger-open" title="Elegir desde calendario" aria-label="Abrir calendario de apertura">
             <svg class="icon icon-xs"><use href="#i-calendar"/></svg>
           </button>
-          <input type="datetime-local" class="input-inline-act-open-picker" value="${initialData.openIso || '2026-06-28T00:00'}" style="position:absolute; right:0; top:0; width:30px; height:100%; opacity:0; pointer-events:none;" />
+          <input type="date" class="input-inline-act-open-picker" tabindex="-1" aria-hidden="true" value="${(initialData.openIso || '2026-06-28').slice(0, 10)}" style="position:absolute; right:0; top:0; width:30px; height:100%; opacity:0; pointer-events:none;" />
         </div>
       </div>
       <div class="activity-date-item" style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
@@ -6216,11 +6196,11 @@ window.createActivityEditorCard = function(mode = 'add', initialData = {}, opts 
           Vencimiento:
         </span>
         <div class="date-input-wrapper">
-          <input type="text" class="control sm input-inline-act-due-text" value="${initialData.dueText || '05/07/2026, 12:00 AM'}" placeholder="DD/MM/AAAA, HH:MM" style="height:32px; font-size:12.5px; padding:0 30px 0 10px; width:184px; font-weight:600; border-color:color-mix(in srgb, var(--accent-gold) 35%, var(--border-subtle));" aria-label="Fecha de vencimiento (escribir o elegir)" />
+          <input type="text" class="control sm input-inline-act-due-text" value="${initialData.dueText || '05/07/2026, 00:00'}" placeholder="DD/MM/AAAA, HH:MM" style="height:32px; font-size:12.5px; padding:0 30px 0 10px; width:184px; font-weight:600; border-color:color-mix(in srgb, var(--accent-gold) 35%, var(--border-subtle));" aria-label="Fecha de vencimiento (escribir o elegir)" />
           <button type="button" class="btn-picker-trigger btn-trigger-due" title="Elegir desde calendario" aria-label="Abrir calendario de vencimiento">
             <svg class="icon icon-xs" style="color:var(--accent-gold);"><use href="#i-calendar"/></svg>
           </button>
-          <input type="datetime-local" class="input-inline-act-due-picker" value="${initialData.dueIso || '2026-07-05T23:59'}" style="position:absolute; right:0; top:0; width:30px; height:100%; opacity:0; pointer-events:none;" />
+          <input type="date" class="input-inline-act-due-picker" tabindex="-1" aria-hidden="true" value="${(initialData.dueIso || '2026-07-05').slice(0, 10)}" style="position:absolute; right:0; top:0; width:30px; height:100%; opacity:0; pointer-events:none;" />
         </div>
         <label class="toggle sm" style="font-size:11.5px; font-weight:500; color:var(--text-muted); cursor:pointer; margin-left:4px;" title="Sin fecha límite">
           <input type="checkbox" class="chk-inline-act-nodue" ${initialData.noDue ? 'checked' : ''} style="width:14px; height:14px;" />
@@ -6317,34 +6297,35 @@ window.createActivityEditorCard = function(mode = 'add', initialData = {}, opts 
       }
     });
 
-    // Al seleccionar una fecha del calendario, se actualiza el texto en formato amigable
+    // Fecha y hora siempre en 24 h: "DD/MM/AAAA, HH:MM". Se aceptan AM/PM al escribir y se pasan a 24 h.
+    const DT_RE = /^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:,?\s*(\d{1,2}):(\d{2})(?:\s*(AM|PM))?)?$/i;
+    const pad = n => String(n).padStart(2, '0');
+    const parseDT = val => {
+      const m = val.trim().match(DT_RE);
+      if (!m) return null;
+      let hour = parseInt(m[4] || '0', 10);
+      const ap = (m[6] || '').toUpperCase();
+      if (ap === 'PM' && hour < 12) hour += 12;
+      if (ap === 'AM' && hour === 12) hour = 0;
+      return { day: pad(m[1]), month: pad(m[2]), year: m[3], hour: pad(hour), min: m[5] || '00' };
+    };
+
+    // Al elegir un día en el calendario solo cambia la fecha del texto; la hora (24 h) se conserva
     pickerInput.addEventListener('input', () => {
       if (!pickerInput.value) return;
-      const d = new Date(pickerInput.value);
-      if (!isNaN(d.getTime())) {
-        const pad = n => String(n).padStart(2, '0');
-        let hours = d.getHours();
-        const ampm = hours >= 12 ? 'PM' : 'AM';
-        const h12 = hours % 12 || 12;
-        textInput.value = `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()}, ${pad(h12)}:${pad(d.getMinutes())} ${ampm}`;
-      }
+      const [y, mo, d] = pickerInput.value.split('-');
+      const cur = parseDT(textInput.value);
+      textInput.value = `${d}/${mo}/${y}, ${cur ? cur.hour : '00'}:${cur ? cur.min : '00'}`;
     });
 
-    // Al escribir texto libre, se sincroniza el picker si coincide con formato DD/MM/AAAA
+    // Al escribir se sincroniza el calendario; al salir del campo se normaliza a 24 h
     textInput.addEventListener('input', () => {
-      const val = textInput.value.trim();
-      const match = val.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:,\s*(\d{1,2}):(\d{2})(?:\s*(AM|PM))?)?$/i);
-      if (match) {
-        const day = match[1].padStart(2, '0');
-        const month = match[2].padStart(2, '0');
-        const year = match[3];
-        let hour = parseInt(match[4] || '0', 10);
-        const min = (match[5] || '00').padStart(2, '0');
-        const ampm = (match[6] || '').toUpperCase();
-        if (ampm === 'PM' && hour < 12) hour += 12;
-        if (ampm === 'AM' && hour === 12) hour = 0;
-        pickerInput.value = `${year}-${month}-${day}T${String(hour).padStart(2, '0')}:${min}`;
-      }
+      const p = parseDT(textInput.value);
+      if (p) pickerInput.value = `${p.year}-${p.month}-${p.day}`;
+    });
+    textInput.addEventListener('change', () => {
+      const p = parseDT(textInput.value);
+      if (p) textInput.value = `${p.day}/${p.month}/${p.year}, ${p.hour}:${p.min}`;
     });
   };
 
@@ -6387,8 +6368,8 @@ window.createActivityEditorCard = function(mode = 'add', initialData = {}, opts 
     title: card.querySelector('.input-inline-act-title').value.trim(),
     type: card.querySelector('.select-inline-act-type').value,
     desc: textarea.value.trim(),
-    openText: openTextInput?.value.trim() || '28/06/2026, 12:00 AM',
-    dueText: dueTextInput?.value.trim() || '05/07/2026, 12:00 AM',
+    openText: openTextInput?.value.trim() || '28/06/2026, 00:00',
+    dueText: dueTextInput?.value.trim() || '05/07/2026, 00:00',
     noDue: !!noDueChk?.checked
   });
 
@@ -6884,20 +6865,9 @@ function renderStudents() {
 function renderStudentPager(total, pages, from, count) {
   const first = total ? from + 1 : 0;
   const last = from + count;
-  $('#st-pager').innerHTML = `
-    <label class="st-size">Mostrar <select class="control" id="st-size">${[5, 10, 50].map(n => `<option value="${n}" ${n === studentPage.size ? 'selected' : ''}>${n}</option>`).join('')}</select> por página</label>
-    <span class="num" aria-live="polite">${first}–${last} de ${total}</span>
-    <span class="st-pager-btns">
-      <button class="btn btn-ghost btn-sm" type="button" data-st-prev ${studentPage.page <= 1 ? 'disabled' : ''}>Anterior</button>
-      <span class="num">Página ${studentPage.page} de ${pages}</span>
-      <button class="btn btn-ghost btn-sm" type="button" data-st-next ${studentPage.page >= pages ? 'disabled' : ''}>Siguiente</button>
-    </span>`;
+  $('#st-pager').innerHTML = pagerHTML(studentPage.page - 1, studentPage.size, total, 'alumnos', 'st-size');
 }
-$('#st-pager').addEventListener('click', e => {
-  if (e.target.closest('[data-st-prev]')) studentPage.page--;
-  if (e.target.closest('[data-st-next]')) studentPage.page++;
-  if (e.target.closest('[data-st-prev], [data-st-next]')) renderStudents();
-});
+onPager($('#st-pager'), n => { studentPage.page = n + 1; renderStudents(); });
 $('#st-pager').addEventListener('change', e => {
   if (e.target.id !== 'st-size') return;
   studentPage.size = Number(e.target.value);
@@ -6942,33 +6912,36 @@ $('#quiz-form').addEventListener('change', () => {
 
 /* ======================= cuestionario builder (profesor) ======================= */
 const questions = [
-  { text: '¿Cuál es la complejidad de la búsqueda binaria?', mode: 'Una correcta', options: ['O(log n)', 'O(n)', 'O(n log n)'], correct: [0], points: 40, penalty: false, open: false },
-  { text: '', mode: 'Una correcta', options: ['', ''], correct: [0], points: '', penalty: false, open: true },
+  { text: '¿Cuál es la complejidad de la búsqueda binaria?', mode: 'Una correcta', options: ['O(log n)', 'O(n)', 'O(n log n)'], correct: [0], points: 40, penalty: false, open: false, touched: {} },
+  { text: '', mode: 'Una correcta', options: ['', ''], correct: [0], points: '', penalty: false, open: true, touched: {} },
 ];
-function qIssues(q) {
+/* Con touchedOnly, solo cuenta lo que la persona ya tocó y abandonó (blur): ahí recién se muestra el error en rojo. */
+function qIssues(q, touchedOnly = false) {
   const out = [];
-  if (!q.text.trim()) out.push('Falta el enunciado.');
-  const empty = q.options.map((o, i) => o.trim() ? null : i + 1).filter(Boolean);
+  const t = k => !touchedOnly || q.touched[k];
+  if (t('text') && !q.text.trim()) out.push('Falta el enunciado.');
+  const empty = q.options.map((o, i) => o.trim() || !t('o' + i) ? null : i + 1).filter(Boolean);
   if (empty.length) out.push(`${empty.length > 1 ? 'Las opciones' : 'La opción'} ${empty.join(' y ')} ${empty.length > 1 ? 'están vacías' : 'está vacía'}.`);
-  if (!Number(q.points)) out.push('Falta el puntaje.');
+  if (t('points') && !Number(q.points)) out.push('Falta el puntaje.');
   return out;
 }
 function renderBuilder() {
   $('#q-list').innerHTML = questions.map((q, qi) => {
     const issues = qIssues(q);
+    const shown = qIssues(q, true);
     return `<article class="card studs q-card" data-q="${qi}">
       <div class="q-head">
         <span class="q-num">${qi + 1}</span>
         <span class="q-title">${q.text || '<span class="muted">Pregunta sin enunciado</span>'}</span>
         ${issues.length ? '<span class="badge badge-gold">Incompleta</span>' : '<span class="badge badge-success">Lista</span>'}
         <label class="sr-only" for="pts-${qi}">Puntaje de la pregunta ${qi + 1}</label>
-        <input class="control num points" id="pts-${qi}" type="number" min="0" max="100" placeholder="Puntaje" value="${q.points}" data-field="points" ${!Number(q.points) ? 'aria-invalid="true"' : ''} />
+        <input class="control num points" id="pts-${qi}" type="number" min="0" max="100" placeholder="Puntaje" value="${q.points}" data-field="points" ${q.touched.points && !Number(q.points) ? 'aria-invalid="true"' : ''} />
         <button class="icon-btn sm" type="button" data-toggle aria-expanded="${q.open}" aria-label="${q.open ? 'Contraer' : 'Editar'} pregunta ${qi + 1}">${icon(q.open ? 'i-x' : 'i-pencil', 'icon icon-sm')}</button>
         <button class="icon-btn sm" type="button" data-del aria-label="Quitar pregunta ${qi + 1}" style="color:var(--urgent)">${icon('i-trash', 'icon icon-sm')}</button>
       </div>
       ${q.open ? `<div class="q-body">
-        ${issues.length ? `<ul class="q-issues">${issues.map(s => `<li>${s}</li>`).join('')}</ul>` : ''}
-        <label class="field"><span class="req">Enunciado</span><textarea class="control" data-field="text" placeholder="Escribí la consigna" ${!q.text ? 'aria-invalid="true"' : ''}>${q.text}</textarea></label>
+        ${shown.length ? `<ul class="q-issues">${shown.map(s => `<li>${s}</li>`).join('')}</ul>` : ''}
+        <label class="field"><span class="req">Enunciado</span><textarea class="control" data-field="text" placeholder="Escribí la consigna" ${q.touched.text && !q.text.trim() ? 'aria-invalid="true"' : ''}>${q.text}</textarea></label>
         <div class="form-grid">
           <label class="field">Cómo se corrige<select class="control" data-field="mode"><option ${q.mode === 'Una correcta' ? 'selected' : ''}>Una correcta</option><option ${q.mode === 'Varias correctas' ? 'selected' : ''}>Varias correctas</option></select>
             <span class="hint">${q.mode === 'Una correcta' ? 'El alumno elige una sola opción. Si es la correcta, suma el puntaje.' : 'El alumno puede marcar varias. Suma en proporción a las correctas.'}</span></label>
@@ -6977,7 +6950,7 @@ function renderBuilder() {
         <div class="field"><span>Opciones</span>
           ${q.options.map((o, oi) => `<div class="opt-row">
             <button class="mark" type="button" data-mark="${oi}" aria-pressed="${q.correct.includes(oi)}">${icon('i-tick', 'icon icon-sm')}${q.correct.includes(oi) ? 'Correcta' : 'Marcar'}</button>
-            <input class="control" data-opt="${oi}" value="${o}" placeholder="Texto de la opción ${oi + 1}" aria-label="Opción ${oi + 1}" ${!o ? 'aria-invalid="true"' : ''} />
+            <input class="control" data-opt="${oi}" value="${o}" placeholder="Texto de la opción ${oi + 1}" aria-label="Opción ${oi + 1}" ${q.touched['o' + oi] && !o.trim() ? 'aria-invalid="true"' : ''} />
           </div>`).join('')}
           <div><button class="btn btn-quiet btn-sm" type="button" data-addopt>${icon('i-plus', 'icon icon-sm')}Agregar opción</button></div>
         </div>
@@ -6990,15 +6963,17 @@ function renderSum() {
   const sum = questions.reduce((s, q) => s + (Number(q.points) || 0), 0);
   const firstBad = questions.findIndex(q => qIssues(q).length);
   const cls = sum === 100 ? 'ok' : sum > 100 ? 'over' : '';
+  const touchedBad = questions.findIndex(q => qIssues(q, true).length);
   const msg = !questions.length ? 'Agregá al menos una pregunta.'
-    : firstBad >= 0 ? `Completá la pregunta ${firstBad + 1}: ${qIssues(questions[firstBad]).join(' ')}`
+    : touchedBad >= 0 ? `Completá la pregunta ${touchedBad + 1}: ${qIssues(questions[touchedBad], true).join(' ')}`
+    : firstBad >= 0 ? 'Completá las preguntas marcadas como incompletas para poder guardar.'
     : sum !== 100 ? `Los puntajes tienen que sumar 100 (${sum > 100 ? 'sobran' : 'faltan'} ${Math.abs(100 - sum)}).` : 'Todo listo para guardar.';
   const ok = questions.length && firstBad < 0 && sum === 100;
   $('#sum-bar').innerHTML = `
     <div class="meter ${cls}"><div class="sum-label"><span>Puntaje total</span><span class="num">${sum} / 100</span></div><div class="bar"><span style="width:${Math.min(sum, 100)}%"></span></div></div>
     <button class="btn btn-ghost btn-sm" type="button" data-even ${questions.length ? '' : 'disabled'}>Repartir en partes iguales</button>
     <button class="btn btn-primary" type="button" ${ok ? '' : 'disabled'}>Guardar cuestionario</button>
-    <p class="sum-msg ${ok ? 'ok' : ''}" role="status">${msg}</p>`;
+    <p class="sum-msg ${ok ? 'ok' : touchedBad >= 0 || sum > 100 ? 'err' : ''}" role="status">${msg}</p>`;
 }
 $('#q-list').addEventListener('input', e => {
   const card = e.target.closest('[data-q]'); if (!card) return;
@@ -7010,7 +6985,12 @@ $('#q-list').addEventListener('input', e => {
   renderSum();
 });
 $('#q-list').addEventListener('change', e => { if (e.target.dataset.field === 'mode') { questions[e.target.closest('[data-q]').dataset.q].mode = e.target.value; renderBuilder(); } });
-$('#q-list').addEventListener('focusout', e => { if (e.target.matches('[data-opt],[data-field="text"],[data-field="points"]')) setTimeout(renderBuilder, 0); });
+$('#q-list').addEventListener('focusout', e => {
+  if (!e.target.matches('[data-opt],[data-field="text"],[data-field="points"]')) return;
+  const card = e.target.closest('[data-q]');
+  if (card) questions[card.dataset.q].touched[e.target.dataset.opt !== undefined ? 'o' + e.target.dataset.opt : e.target.dataset.field] = true;
+  setTimeout(renderBuilder, 0);
+});
 $('#q-list').addEventListener('click', e => {
   const card = e.target.closest('[data-q]'); if (!card) return;
   const qi = Number(card.dataset.q), q = questions[qi];
@@ -7029,11 +7009,13 @@ $('#sum-bar').addEventListener('click', e => {
   questions.forEach((q, i) => q.points = base + (i < 100 - base * questions.length ? 1 : 0));
   renderBuilder();
 });
-$('#add-custom').addEventListener('click', () => { questions.forEach(q => q.open = false); questions.push({ text: '', mode: 'Una correcta', options: ['', ''], correct: [0], points: '', penalty: false, open: true }); renderBuilder(); });
+$('#add-custom').addEventListener('click', () => { questions.forEach(q => q.open = false); questions.push({ text: '', mode: 'Una correcta', options: ['', ''], correct: [0], points: '', penalty: false, open: true, touched: {} }); renderBuilder(); });
+$('#cq-title').addEventListener('focusout', e => e.target.setAttribute('aria-invalid', String(!e.target.value.trim())));
+$('#cq-title').addEventListener('input', e => { if (e.target.getAttribute('aria-invalid') === 'true') e.target.setAttribute('aria-invalid', String(!e.target.value.trim())); });
 $('#bank-pick').addEventListener('change', e => { $('#add-bank').disabled = !e.target.value; });
 $('#add-bank').addEventListener('click', () => {
   const v = $('#bank-pick').value; if (!v) return;
-  questions.push({ text: v, mode: 'Una correcta', options: ['Opción A', 'Opción B', 'Opción C'], correct: [0], points: '', penalty: false, open: false });
+  questions.push({ text: v, mode: 'Una correcta', options: ['Opción A', 'Opción B', 'Opción C'], correct: [0], points: '', penalty: false, open: false, touched: {} });
   $('#bank-pick').value = ''; $('#add-bank').disabled = true; renderBuilder();
 });
 
@@ -7080,20 +7062,38 @@ $('#nb-cancel').addEventListener('click', () => { nbForm.reset(); nbForm.hidden 
 /* ======================= drawers ======================= */
 document.addEventListener('click', e => { const t = e.target.closest('[data-open]'); if (t) $('#' + t.dataset.open).showModal(); });
 /* One "Nuevo desafío" entry point: the type is the first decision, then each type opens its own editor. */
-$('#dialog-nuevo-desafio').addEventListener('click', e => {
-  if (e.target.closest('[data-nd-close]')) { $('#dialog-nuevo-desafio').close(); return; }
+$('#screen-desafio-tipo-profesor').addEventListener('click', e => {
   const b = e.target.closest('[data-nd]'); if (!b) return;
-  $('#dialog-nuevo-desafio').close();
-  if (b.dataset.nd === 'practico') $('#drawer-desafio').showModal(); else location.hash = 'cuestionario-nuevo';
+  location.hash = b.dataset.nd === 'practico' ? 'desafio-nuevo' : 'cuestionario-nuevo';
+});
+/* Validación del desafío práctico: el error aparece recién cuando el campo se tocó y se salió de él (blur). */
+function ddCheck(c) {
+  const v = c.value.trim();
+  let bad = false;
+  if (c.name === 'titulo') {
+    bad = !v;
+    $('#t-hint').className = bad ? 'err' : 'hint';
+    $('#t-hint').textContent = bad ? 'Escribí un título para el desafío.' : 'Hasta 100 caracteres.';
+  } else if (c.type === 'number') {
+    bad = v === '' || Number(v) < Number(c.min || -Infinity) || Number(v) > Number(c.max || Infinity);
+  }
+  c.setAttribute('aria-invalid', String(bad));
+  return !bad;
+}
+$('#form-desafio').addEventListener('focusout', e => {
+  if (e.target.matches('input.control')) ddCheck(e.target);
+});
+$('#form-desafio').addEventListener('input', e => {
+  if (e.target.getAttribute('aria-invalid') === 'true') ddCheck(e.target);
 });
 $('#dd-submit').addEventListener('click', () => {
-  const t = $('#form-desafio [name="titulo"]');
-  const bad = !t.value.trim();
-  t.setAttribute('aria-invalid', String(bad));
-  $('#t-hint').className = bad ? 'err' : 'hint';
-  $('#t-hint').textContent = bad ? 'Escribí un título para el desafío.' : 'Hasta 100 caracteres.';
-  if (bad) { t.focus(); return; }
-  $('#drawer-desafio').close();
+  const controls = $$('#form-desafio input.control[name]');
+  const firstBad = controls.filter(c => !ddCheck(c))[0];
+  if (firstBad) { firstBad.focus(); return; }
+  $('#form-desafio').reset();
+  controls.forEach(c => c.removeAttribute('aria-invalid'));
+  showToast('Desafío práctico creado.', 'success');
+  location.hash = 'desafios';
 });
 
 /* ======================= sub-tabs (static panels) ======================= */
@@ -7703,12 +7703,12 @@ document.addEventListener('click', e => {
 let editingParam = null;
 function paramFieldsHTML(p) {
   const v = p.value;
-  if (p.type === 'map') return `<div class="param-fields">${p.fields.map(([k, l]) => `<label class="field">${l} (${p.unit})<input class="control num" type="number" min="0" step="1" inputmode="numeric" data-k="${k}" value="${v[k]}" /><span class="hint">Vigente: ${fmtN(v[k])}</span></label>`).join('')}</div>`;
+  if (p.type === 'map') return `<div class="param-fields">${p.fields.map(([k, l]) => `<label class="field"><span class="req">${l} (${p.unit})</span><input class="control num" type="number" min="0" step="1" inputmode="numeric" data-k="${k}" value="${v[k]}" /><span class="hint">Vigente: ${fmtN(v[k])}</span></label>`).join('')}</div>`;
   if (p.type === 'bool') return `<label class="toggle"><input type="checkbox" data-k="v" ${v ? 'checked' : ''} /> Activado</label>`;
-  if (p.type === 'list') return `<label class="field">Valores<input class="control" data-k="v" value="${esc(v.join(', '))}" /><span class="hint">Separalos con coma.</span></label>`;
-  if (p.type === 'choice') return `<label class="field">Opción<select class="control" data-k="v">${p.options.map(([k, l]) => `<option value="${k}" ${k === v ? 'selected' : ''}>${l}</option>`).join('')}</select></label>`;
+  if (p.type === 'list') return `<label class="field"><span class="req">Valores</span><input class="control" data-k="v" value="${esc(v.join(', '))}" /><span class="hint">Separalos con coma.</span></label>`;
+  if (p.type === 'choice') return `<label class="field"><span class="req">Opción</span><select class="control" data-k="v">${p.options.map(([k, l]) => `<option value="${k}" ${k === v ? 'selected' : ''}>${l}</option>`).join('')}</select></label>`;
   const max = p.type === 'percent' ? 'max="100"' : '';
-  return `<label class="field">Valor (${p.type === 'percent' ? '%' : p.unit})<input class="control num" type="number" min="0" ${max} step="1" inputmode="numeric" data-k="v" value="${v}" style="max-width:220px" /><span class="hint">Vigente: ${paramValueText(p)}</span></label>`;
+  return `<label class="field"><span class="req">Valor (${p.type === 'percent' ? '%' : p.unit})</span><input class="control num" type="number" min="0" ${max} step="1" inputmode="numeric" data-k="v" value="${v}" style="max-width:220px" /><span class="hint">Vigente: ${paramValueText(p)}</span></label>`;
 }
 function readParamFields(p) {
   const box = $('#pm-fields');
@@ -7944,7 +7944,8 @@ const ADMINS = [
 let revoking = null;
 function renderAdmins() {
   const act = ADMINS.filter(a => a.active).length, rev = ADMINS.length - act;
-  $('#adm-count').innerHTML = `<span>Activos: <b class="num">${act}</b></span>${rev ? `<span class="muted">Revocados: <b class="num">${rev}</b></span>` : ''}<span class="muted">No podés revocar tu propio rol.</span>`;
+  $('[data-adm-count]').textContent = act;
+  $('#adm-count').innerHTML =`<span>Activos: <b class="num">${act}</b></span>${rev ? `<span class="muted">Revocados: <b class="num">${rev}</b></span>` : ''}<span class="muted">No podés revocar tu propio rol.</span>`;
   const rows = [...ADMINS].sort((a, b) => b.active - a.active);
   $('#adm-table').innerHTML = `<thead><tr><th>Persona</th><th>ID de usuario</th><th>Estado</th><th>Asignado</th><th><span class="sr-only">Acciones</span></th></tr></thead><tbody>${
     rows.map(a => { const me = a.email === ME_ADMIN.email; return `<tr>
@@ -8856,13 +8857,14 @@ const PARENT = {
   quiz: 'desafios',
   ranking: 'desafios',
   'cuestionario-nuevo': 'desafios',
+  'desafio-tipo': 'desafios',
+  'desafio-nuevo': 'desafios',
 
   // Economía
   marketplace: 'banco',
   mercado: 'banco',
   inventario: 'banco',
   personaje: 'banco',
-  banco: 'banco',
 
   // Insignias profesor
   insignias: 'ranking',
@@ -8874,11 +8876,16 @@ const PARENT = {
   auditoria: 'backoffice',
   ingesta: 'backoffice',
   reportes: 'backoffice',
-  administradores: 'accesos',
   // Mercado profesor
   vitrina: 'vitrinas',
   'oferta-nueva': 'vitrinas',
 };
+/* Ítem del riel al que pertenece una pantalla. El profesor tiene "Gamificación" (ranking) como ítem propio:
+   para él #ranking no cuelga de Desafíos, o el sub-panel de Gamificación se cerraba al abrir su ranking. */
+function navOf(id) {
+  if (currentRole === 'profesor' && id === 'ranking') return 'ranking';
+  return PARENT[id] || id;
+}
 
 /* ---- Configuración de Sub-menús (Opción D: Split View / Slack & Discord) ---- */
 const SUBMENUS = {
@@ -8922,9 +8929,9 @@ const SUBMENUS = {
         {
           label: 'Canales de Consulta',
           items: [
-            { id: 'sub-chat-general', href: '#chat', label: '#general-dudas', meta: 'Cátedras 2026', icon: 'i-chat', match: h => h === 'chat' },
-            { id: 'sub-chat-tp1', href: '#chat', label: '#prog-concurrencia', meta: '14 mensajes hoy', icon: 'i-chat', match: () => false },
-            { id: 'sub-chat-anuncios', href: '#chat', label: '#anuncios-catedra', meta: 'Solo lectura', icon: 'i-chat', match: () => false }
+            { id: 'sub-chat-general', href: '#chat/general', label: '#general-dudas', meta: 'Cátedras 2026', icon: 'i-chat', match: h => h === 'chat' || h === 'chat/general' },
+            { id: 'sub-chat-tp1', href: '#chat/concurrencia', label: '#prog-concurrencia', meta: '14 mensajes hoy', icon: 'i-chat', match: h => h === 'chat/concurrencia' },
+            { id: 'sub-chat-anuncios', href: '#chat/anuncios', label: '#anuncios-catedra', meta: 'Solo lectura', icon: 'i-chat', match: h => h === 'chat/anuncios' }
           ]
         }
       ]
@@ -8951,8 +8958,8 @@ const SUBMENUS = {
         {
           label: 'Canales',
           items: [
-            { id: 'sub-pchat-general', href: '#chat', label: '#general-dudas', meta: 'Docentes & Alumnos', icon: 'i-chat', match: h => h === 'chat' },
-            { id: 'sub-pchat-priv', href: '#chat', label: '#docentes-privado', meta: 'Equipo de cátedra', icon: 'i-chat', match: () => false }
+            { id: 'sub-pchat-general', href: '#chat/general', label: '#general-dudas', meta: 'Docentes & Alumnos', icon: 'i-chat', match: h => h === 'chat' || h === 'chat/general' },
+            { id: 'sub-pchat-priv', href: '#chat/docentes', label: '#docentes-privado', meta: 'Equipo de cátedra', icon: 'i-chat', match: h => h === 'chat/docentes' }
           ]
         }
       ]
@@ -8982,25 +8989,6 @@ const SUBMENUS = {
           label: 'Análisis',
           items: [
             { id: 'sub-abo-rep', href: '#reportes', label: 'Reportes dinámicos', meta: 'Métricas agregadas por curso', icon: 'i-table', match: h => h === 'reportes' }
-          ]
-        }
-      ]
-    },
-    accesos: {
-      tag: 'Seguridad',
-      title: 'Accesos',
-      sections: [
-        {
-          label: 'Habilitación de docentes',
-          items: [
-            { id: 'sub-aacc-pend', href: '#accesos?tab=acc-pend', label: 'Solicitudes pendientes', icon: 'i-clock', badge: () => REQUESTS.filter(r => r.state === 'pending').length || '', match: (h, f) => h === 'accesos' && !/tab=acc-ok/.test(f) },
-            { id: 'sub-aacc-ok', href: '#accesos?tab=acc-ok', label: 'Emails habilitados', meta: 'Profesores y gestores', icon: 'i-check', match: (h, f) => h === 'accesos' && /tab=acc-ok/.test(f) }
-          ]
-        },
-        {
-          label: 'Roles de plataforma',
-          items: [
-            { id: 'sub-aacc-adm', href: '#administradores', label: 'Administradores', meta: 'Asignar y revocar', icon: 'i-lock', match: h => h === 'administradores' }
           ]
         }
       ]
@@ -9041,7 +9029,8 @@ function closeSubpanel(userInitiated = false) {
   if (subpanel) {
     subpanel.classList.add('collapsed');
     subpanel.setAttribute('aria-hidden', 'true');
-    delete subpanel.dataset.currentNav;
+    // Si lo cerró el usuario se recuerda la sección: navegar dentro de ella no lo reabre solo
+    if (!userInitiated) delete subpanel.dataset.currentNav;
   }
   if (userInitiated) subpanelClosedByUser = true;
   $$('.rail-item[data-subpanel-open]').forEach(el => el.removeAttribute('data-subpanel-open'));
@@ -9283,7 +9272,7 @@ function updateSubpanel(navId, hashFull, forceOpen = false) {
     }
 
     if (subpanelClosedByUser && !forceOpen) {
-      closeSubpanel(false);
+      closeSubpanel(true);
       return;
     }
 
@@ -9323,7 +9312,7 @@ function updateSubpanel(navId, hashFull, forceOpen = false) {
   }
 
   if (subpanelClosedByUser) {
-    closeSubpanel(false);
+    closeSubpanel(true);
     return;
   }
 
@@ -9603,7 +9592,9 @@ function breadcrumbTrail(id, arg) {
       return [L('Vitrinas', '#vitrinas'), L('Catálogo ' + vcode, '#vitrina/' + encodeURIComponent(vcode)), C('Publicar oferta')];
     }
     case 'actividad-editar': return [L('Cursos', '#cursos'), L(cc.name, cc.href), C('Configurar actividad')];
-    case 'cuestionario-nuevo': return [L('Desafíos', '#desafios'), C('Nuevo cuestionario')];
+    case 'cuestionario-nuevo': return [L('Desafíos', '#desafios'), L('Nuevo desafío', '#desafio-tipo'), C('Nuevo cuestionario')];
+    case 'desafio-tipo': return [L('Desafíos', '#desafios'), C('Nuevo desafío')];
+    case 'desafio-nuevo': return [L('Desafíos', '#desafios'), L('Nuevo desafío', '#desafio-tipo'), C('Desafío práctico')];
     default: return null;
   }
 }
@@ -9708,12 +9699,14 @@ function renderBreadcrumb(fullHash) {
 }
 
 function route() {
-  const defaultScreen = currentRole === 'alumno' ? 'dashboard' : currentRole === 'admin' ? 'backoffice' : 'desafios';
+  const defaultScreen = NAV_TABS[currentRole][0][0]; // primer ítem del riel de cada rol
   const fullHash = location.hash.slice(1) || defaultScreen;
   const [routePath, queryString] = fullHash.split('?');
   const [id, arg] = routePath.split('/');
+  /* Administradores ahora es una pestaña de Accesos: los links viejos van ahí. */
+  if (id === 'administradores') { location.replace('#accesos?tab=acc-adm'); return; }
   currentScreen = id;
-  const navId = PARENT[id] || id;
+  const navId = navOf(id);
 
   let unitParam = null;
   if (queryString) {
@@ -9865,10 +9858,10 @@ document.addEventListener('click', e => {
   const subpanel = $('#subpanel');
   if (!subpanel || subpanel.classList.contains('collapsed')) return;
   if (!e.target.closest('#subpanel') && !e.target.closest('#sidebar')) {
-    const currentNav = PARENT[currentScreen] || currentScreen;
+    const currentNav = navOf(currentScreen);
     const subNav = subpanel.dataset.currentNav;
     if (currentNav !== subNav) {
-      closeSubpanel(true);
+      closeSubpanel(false);
     }
   }
 });
@@ -9886,15 +9879,17 @@ document.addEventListener('click', e => {
   const currentSubNav = subpanel ? subpanel.dataset.currentNav : null;
 
   if (hasSubmenu) {
-    // Si abro una sección con submenú desde inicio (o cualquier página), alternar/abrir el subpanel
     e.preventDefault();
-
-    if (isAlreadyOpen && currentSubNav === targetNav) {
-      // Ya está abierto mostrando esta misma categoría: alternar (cerrar)
-      closeSubpanel(true);
+    if (navOf(currentScreen) === targetNav) {
+      // Ya estoy en la sección: asegurar el panel abierto (no se alterna; se cierra con la X o Ctrl+B)
+      if (!isAlreadyOpen || currentSubNav !== targetNav) {
+        updateSubpanel(targetNav, location.hash.slice(1) || targetNav, true);
+      }
     } else {
-      // Abrir o alternar al submenú targetNav manteniendo la página actual de fondo
-      updateSubpanel(targetNav, location.hash.slice(1) || targetNav, true);
+      // Entrar directo a la primera opción del submenú: route() abre el panel con esa opción resaltada
+      const first = roleMenus[targetNav].sections.flatMap(sec => sec.items)[0];
+      subpanelClosedByUser = false;
+      location.hash = first.href.replace(/^#/, '');
     }
   } else {
     // Pantalla sin submenú (ej. dashboard, uikit, cursos): navegar normalmente a la pantalla y repliega el subpanel
@@ -9973,11 +9968,13 @@ function setRole(r) {
   currentRole = r; root.dataset.role = r; if (document.body) document.body.dataset.role = r; store.set('tpi-role', r);
   $$('[data-role-btn]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.roleBtn === r)));
   renderNav(); renderProfile();
+  closeSubpanel(false); // el sub-panel del rol anterior no se reutiliza
   const allowed = [...NAV_TABS[r].map(i => i[0]), ...ACCOUNT_SCREENS[r], 'uikit', 'login'];
   // Check the screen in the URL, not the boot default, so deep links survive a role reset.
   const screen = location.hash.slice(1).split(/[/?]/)[0] || currentScreen;
-  const target = PARENT[screen] || screen;
-  if (!allowed.includes(target)) location.hash = r === 'admin' ? 'backoffice' : allowed.includes('desafios') ? 'desafios' : 'perfil';
+  const target = navOf(screen);
+  const home = NAV_TABS[r][0][0];
+  if (!allowed.includes(target) && location.hash.slice(1) !== home) { location.hash = home; return; } // hashchange dispara route()
   route();
 }
 $$('[data-theme-btn]').forEach(b => b.addEventListener('click', () => setTheme(b.dataset.themeBtn)));
@@ -10125,7 +10122,7 @@ window.addEventListener('keydown', e => {
       const currentHash = location.hash.slice(1) || 'dashboard';
       const isCourseDetail = currentHash.startsWith('curso/');
       const roleMenus = SUBMENUS[currentRole] || {};
-      const navId = PARENT[currentScreen] || currentScreen;
+      const navId = navOf(currentScreen);
       if (roleMenus[navId] || (navId === 'cursos' && isCourseDetail && currentRole === 'alumno')) {
         const isCollapsed = subpanel.classList.contains('collapsed');
         if (isCollapsed) {
