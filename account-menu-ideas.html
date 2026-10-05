@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="es-AR" data-theme="dark" data-skin="gamer" data-palette="electric">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TPI 2026 · Rediseño Menú de Cuenta & Apariencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/tokens.css" />
+<link rel="stylesheet" href="css/base.css" />
+<link rel="stylesheet" href="css/components.css" />
+<style>
+  body { background: var(--bg-app); color: var(--text-primary); font-family: var(--font-body); min-height: 100vh; padding: 0 0 80px 0; }
+  
+  /* Topbar de control de prueba */
+  .ideas-bar {
+    position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; flex-wrap: wrap; padding: 14px 24px;
+    background: var(--bg-surface); border-bottom: var(--border-width) solid var(--border-subtle);
+    box-shadow: 0 4px 20px rgba(0,0,0,.25);
+  }
+  .ideas-bar h1 { font-family: var(--font-display); font-size: 26px; margin: 0; }
+  .ideas-bar-controls { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .control-group { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); }
+
+  .container { max-width: 1380px; margin: 0 auto; padding: 32px 24px; }
+  
+  .critique-summary {
+    background: var(--bg-surface); border: var(--border-width) solid var(--border-subtle);
+    border-radius: var(--radius-card); padding: 22px 24px; margin-bottom: 32px;
+  }
+  .critique-summary h2 { font-family: var(--font-display); font-size: 20px; margin-bottom: 10px; color: var(--accent-primary); }
+  .critique-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 14px; }
+  .critique-card {
+    background: var(--bg-surface-alt); border-radius: var(--radius-control); padding: 14px 16px;
+    font-size: 12px; line-height: 1.5; border: 1px solid var(--border-subtle);
+  }
+  .critique-card strong { display: block; color: var(--text-primary); margin-bottom: 4px; font-size: 13px; }
+
+  /* Grid de comparación de menús */
+  .menu-showcase {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 28px;
+    align-items: start;
+  }
+  .showcase-column {
+    background: var(--bg-surface); border: var(--border-width) solid var(--border-subtle);
+    border-radius: var(--radius-card); padding: 20px; box-shadow: var(--shadow-card);
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .column-badge {
+    display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px;
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; width: fit-content;
+  }
+  .badge-current { background: rgba(239, 68, 68, .15); color: #f87171; border: 1px solid rgba(239, 68, 68, .3); }
+  .badge-recommended { background: rgba(56, 189, 248, .15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, .3); }
+  .badge-alt { background: rgba(168, 85, 247, .15); color: #c084fc; border: 1px solid rgba(168, 85, 247, .3); }
+
+  .showcase-title { font-family: var(--font-display); font-size: 16px; margin: 0; }
+  .showcase-desc { font-size: 13px; color: var(--text-muted); margin: 0; line-height: 1.4; }
+
+  /* Preview Frame para el Menú */
+  .menu-stage {
+    position: relative; background: var(--bg-app); border: 1px dashed var(--border-subtle);
+    border-radius: var(--radius-control); padding: 20px 16px; min-height: 480px;
+    display: flex; justify-content: center; align-items: flex-start;
+  }
+
+  /* ========================================================
+     ESTILOS PROPUESTA 1: Tarjeta Enriquecida & Toggles Claros
+     ======================================================== */
+  .menu-p1 {
+    width: 290px; background: var(--bg-surface); border: var(--border-width) solid var(--border-subtle);
+    border-radius: var(--radius-card); box-shadow: 0 16px 36px -10px rgba(0,0,0,.5);
+    overflow: hidden; animation: screen-in .2s var(--ease-out);
+  }
+  .p1-header {
+    padding: 14px 16px; border-bottom: 1px solid var(--border-subtle);
+    background: var(--bg-surface-alt); display: flex; align-items: center; gap: 12px;
+  }
+  .p1-avatar {
+    width: 44px; height: 44px; border-radius: 999px; background: var(--accent-primary-fill);
+    color: var(--on-accent-primary); display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 16px; flex-shrink: 0;
+    border: 2px solid var(--border-subtle);
+  }
+  [data-skin='gamer'] .p1-avatar { border-radius: 4px; font-family: var(--font-display); }
+  .p1-user-info { min-width: 0; flex: 1; }
+  .p1-user-name { font-weight: 700; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .p1-user-role { font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 6px; margin-top: 2px; }
+  .p1-role-chip {
+    display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600;
+    background: var(--bg-surface); border: 1px solid var(--border-subtle);
+  }
+  [data-skin='gamer'] .p1-role-chip { color: var(--accent-gold); border-color: var(--accent-gold); }
+
+  .p1-stats-strip {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 16px; background: color-mix(in srgb, var(--accent-primary-fill) 8%, var(--bg-surface));
+    border-bottom: 1px solid var(--border-subtle); font-size: 12px;
+  }
+  .p1-stat-item { display: flex; align-items: center; gap: 5px; font-weight: 600; }
+  .p1-stat-item span.lbl { color: var(--text-muted); font-weight: 400; font-size: 11px; }
+
+  .p1-nav-group { padding: 6px; }
+  .p1-nav-group-title {
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
+    color: var(--text-muted); padding: 6px 10px 4px;
+  }
+  .p1-item {
+    display: flex; align-items: center; gap: 10px; width: 100%; border: 0; background: transparent;
+    color: var(--text-primary); padding: 8px 10px; border-radius: var(--radius-control);
+    font-size: 13px; font-weight: 500; cursor: pointer; text-decoration: none;
+    transition: background .15s ease, color .15s ease;
+  }
+  .p1-item:hover { background: var(--bg-surface-alt); }
+  .p1-item svg { width: 16px; height: 16px; color: var(--text-muted); flex-shrink: 0; }
+  .p1-item:hover svg { color: var(--accent-primary); }
+  .p1-item .badge { margin-left: auto; font-size: 11px; }
+
+  /* Apariencia mejorada en P1 */
+  .p1-pref-box {
+    margin: 6px; padding: 12px; border-radius: var(--radius-control);
+    background: var(--bg-surface-alt); border: 1px solid var(--border-subtle);
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .p1-pref-row {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  }
+  .p1-pref-label { font-size: 12px; font-weight: 600; color: var(--text-muted); display: flex; align-items: center; gap: 5px; }
+  
+  .seg-refined {
+    display: inline-flex; background: var(--bg-surface); border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-control); padding: 4px; gap: 4px;
+  }
+  .seg-refined button {
+    border: 0; background: transparent; color: var(--text-muted); font-size: 11px; font-weight: 600;
+    padding: 4px 8px; border-radius: calc(var(--radius-control) - 2px); cursor: pointer;
+    display: inline-flex; align-items: center; gap: 4px; font-family: inherit;
+    transition: all .15s ease;
+  }
+  .seg-refined button:hover { color: var(--text-primary); }
+  .seg-refined button[aria-pressed='true'] {
+    background: var(--accent-primary-fill); color: var(--on-accent-primary);
+  }
+  [data-skin='gamer'] .seg-refined button[aria-pressed='true'] {
+    box-shadow: 1px 1px 0 #000;
+  }
+
+  .palette-swatches {
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .palette-dot-btn {
+    border: 2px solid transparent; background: transparent; cursor: pointer; padding: 3px;
+    border-radius: 999px; display: flex; align-items: center; justify-content: center;
+    transition: transform .15s ease, border-color .15s ease;
+  }
+  .palette-dot-btn:hover { transform: scale(1.1); }
+  .palette-dot-btn[aria-pressed='true'] {
+    border-color: var(--text-primary);
+  }
+  .palette-dot-btn .dot {
+    width: 14px; height: 14px; border-radius: 999px; display: inline-block;
+  }
+  .dot-electric { background: linear-gradient(135deg, #0284c7, #38bdf8); }
+  .dot-neon { background: linear-gradient(135deg, #8f1f7c, #f43f5e); }
+
+  .p1-footer {
+    padding: 6px; border-top: 1px solid var(--border-subtle);
+  }
+  .p1-logout {
+    display: flex; align-items: center; gap: 10px; width: 100%; border: 0; background: transparent;
+    color: var(--urgent); padding: 8px 10px; border-radius: var(--radius-control);
+    font-size: 13px; font-weight: 600; cursor: pointer;
+  }
+  .p1-logout:hover { background: rgba(239, 68, 68, .12); }
+
+
+  /* ========================================================
+     ESTILOS PROPUESTA 2: Perfil Esencial + Trigger a Preferencias
+     ======================================================== */
+  .menu-p2 {
+    width: 270px; background: var(--bg-surface); border: var(--border-width) solid var(--border-subtle);
+    border-radius: var(--radius-card); box-shadow: 0 16px 36px -10px rgba(0,0,0,.5);
+    overflow: hidden;
+  }
+  .p2-header {
+    padding: 14px 16px; border-bottom: 1px solid var(--border-subtle);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .p2-quick-theme {
+    display: flex; align-items: center; justify-content: space-between; padding: 10px 14px;
+    background: var(--bg-surface-alt); border-bottom: 1px solid var(--border-subtle);
+    font-size: 12px; font-weight: 600;
+  }
+  .p2-list { padding: 6px; }
+  .p2-item {
+    display: flex; align-items: center; justify-content: space-between; width: 100%;
+    padding: 8px 10px; border: 0; background: transparent; color: var(--text-primary);
+    font-size: 13px; border-radius: var(--radius-control); cursor: pointer; text-decoration: none;
+  }
+  .p2-item:hover { background: var(--bg-surface-alt); }
+  .p2-item-left { display: flex; align-items: center; gap: 10px; }
+  .p2-item-left svg { width: 16px; height: 16px; color: var(--text-muted); }
+
+  /* Modal preview para P2 */
+  .p2-modal-preview {
+    margin-top: 12px; padding: 12px; background: var(--bg-surface-alt);
+    border: 1px dashed var(--border-subtle); border-radius: var(--radius-control);
+    font-size: 12px; color: var(--text-muted); text-align: center;
+  }
+
+
+  /* ========================================================
+     ESTILOS PROPUESTA 3: Gamer HUD / Level Pass
+     ======================================================== */
+  .menu-p3 {
+    width: 300px; background: var(--bg-surface); border: 2px solid var(--border-highlight);
+    border-radius: 4px; box-shadow: 4px 4px 0 #000; overflow: hidden;
+  }
+  .p3-hud-head {
+    padding: 12px 14px; background: linear-gradient(180deg, var(--bg-surface-alt) 0%, var(--bg-surface) 100%);
+    border-bottom: 2px solid var(--border-subtle);
+  }
+  .p3-hud-row { display: flex; align-items: center; gap: 12px; }
+  .p3-avatar-frame {
+    width: 46px; height: 46px; border: 2px solid var(--accent-gold);
+    display: flex; align-items: center; justify-content: center; background: #000;
+    box-shadow: 2px 2px 0 var(--accent-gold); font-family: var(--font-display); font-size: 14px;
+    color: var(--accent-gold); flex-shrink: 0;
+  }
+  .p3-progress-wrap { flex: 1; min-width: 0; }
+  .p3-level-lbl { display: flex; justify-content: space-between; font-size: 11px; font-family: var(--font-display); margin-bottom: 4px; }
+  .p3-level-bar { height: 8px; background: var(--bg-app); border: 1px solid var(--border-subtle); border-radius: 2px; overflow: hidden; }
+  .p3-level-fill { width: 72%; height: 100%; background: linear-gradient(90deg, var(--accent-primary-fill), var(--accent-secondary-fill)); }
+  
+  .p3-subgrid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 10px 12px;
+    background: color-mix(in srgb, var(--accent-gold-fill) 8%, var(--bg-surface));
+    border-bottom: 2px solid var(--border-subtle); font-size: 11px;
+  }
+  .p3-chip-stat { display: flex; align-items: center; gap: 6px; font-weight: 700; }
+
+  .p3-menu-grid { padding: 6px; display: grid; gap: 2px; }
+  .p3-btn {
+    display: flex; align-items: center; gap: 8px; width: 100%; padding: 8px 10px;
+    background: transparent; border: 1px solid transparent; color: var(--text-primary);
+    font-size: 12px; cursor: pointer; text-align: left; text-decoration: none; font-family: inherit;
+  }
+  .p3-btn:hover { background: var(--bg-surface-alt); border-color: var(--border-highlight); transform: translateX(2px); }
+  .p3-btn svg { width: 15px; height: 15px; color: var(--text-muted); }
+  
+  .p3-appearance {
+    margin: 6px; padding: 12px; background: var(--bg-surface-alt); border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-control); display: flex; flex-direction: column; gap: 8px;
+  }
+  .p3-app-title { font-family: var(--font-display); font-size: 11px; color: var(--accent-primary); letter-spacing: .05em; }
+</style>
+</head>
+<body>
+
+<!-- SVG ICONS EMBEDDED -->
+<svg style="display:none" aria-hidden="true">
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-shirt" viewBox="0 0 24 24"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></symbol>
+  <symbol id="i-backpack" viewBox="0 0 24 24"><path d="M4 10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M8 10h8"/><path d="M8 18h8"/><path d="M8 22v-6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v6"/><path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></symbol>
+  <symbol id="i-survey" viewBox="0 0 24 24"><rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 24 24"><circle cx="12" cy="9" r="7"/><path d="M12 6v6"/><path d="m10 8 4 2"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+  <symbol id="i-gamepad" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2"/><path d="M6 12h4"/><path d="M8 10v4"/><circle cx="15" cy="12" r="1"/><circle cx="18" cy="10" r="1"/></symbol>
+  <symbol id="i-briefcase" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><path d="M1 14h6"/><path d="M9 8h6"/><path d="M17 16h6"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></symbol>
+  <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></symbol>
+</svg>
+
+<!-- BARRA DE CONTROLES DE PRUEBA EN VIVO -->
+<header class="ideas-bar">
+  <div>
+    <h1>Laboratorio de Diseño · Menú de Cuenta</h1>
+    <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">Probá los estados y tokens en tiempo real con la paleta de la cátedra</div>
+  </div>
+  <div class="ideas-bar-controls">
+    <!-- Tema -->
+    <div class="control-group">
+      <span>Tema:</span>
+      <div class="seg sm" role="group">
+        <button id="toggle-dark" aria-pressed="true">Oscuro</button>
+        <button id="toggle-light" aria-pressed="false">Claro</button>
+      </div>
+    </div>
+    <!-- Estilo -->
+    <div class="control-group">
+      <span>Modo:</span>
+      <div class="seg sm" role="group">
+        <button id="toggle-gamer" aria-pressed="true">Arcade</button>
+        <button id="toggle-sobrio" aria-pressed="false">Sobrio</button>
+      </div>
+    </div>
+    <!-- Paleta -->
+    <div class="control-group" id="ctrl-palette">
+      <span>Paleta:</span>
+      <div class="seg sm" role="group">
+        <button id="toggle-electric" aria-pressed="true">⚡ Cian</button>
+        <button id="toggle-neon" aria-pressed="false">🌸 Magenta</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- RESUMEN DE LA CRÍTICA -->
+  <section class="critique-summary">
+    <h2>Diagnóstico Crítico de la Versión Actual</h2>
+    <p style="color:var(--text-muted); margin:0; font-size:14px;">
+      El menú de usuario de la captura combina navegación personal con interruptores globales de configuración de forma apelmazada, generando fatiga visual y problemas de ergonomía:
+    </p>
+    <div class="critique-grid">
+      <div class="critique-card">
+        <strong>1. Falta de Identidad (User Card ausente)</strong>
+        Al abrir el menú, lo primero es un botón genérico "Mi perfil". No se muestra quién está conectado, su rol (Alumno / Docente), su avatar ni sus estadísticas clave (Monedas/XP).
+      </div>
+      <div class="critique-card">
+        <strong>2. Interruptores apretados y sin claridad</strong>
+        <code>[Arcade | Sobrio]</code> y <code>[Oscuro | Claro]</code> están apretados en una sola fila de 26px de alto sin iconos ni etiquetas de qué controla cada uno.
+      </div>
+      <div class="critique-card">
+        <strong>3. Inconsistencia de estado de Paleta</strong>
+        "Paleta Arcade" sigue mostrándose y con opción activa ("Magenta") incluso cuando el usuario tiene seleccionado el modo "Sobrio", lo cual confunde.
+      </div>
+      <div class="critique-card">
+        <strong>4. Área de click deficiente (Fitts's Law)</strong>
+        Píldoras minúsculas y foco visual tosco (un borde azul pesado en "Mi perfil") que deteriora la sensación de producto terminado.
+      </div>
+    </div>
+  </section>
+
+  <!-- MUESTRA DE 3 DISEÑOS -->
+  <section class="menu-showcase">
+
+    <!-- PROPUESTA 1 (RECOMENDADA): TODO-EN-UNO ENRIQUECIDO -->
+    <div class="showcase-column">
+      <div class="column-badge badge-recommended">★ Propuesta 1 (Recomendada)</div>
+      <h3 class="showcase-title">User Card + Switchers Semánticos</h3>
+      <p class="showcase-desc">
+        Diseño balanceado: cabecera con avatar e identidad, tira de saldo rápido (monedas y nivel), navegación limpia agrupada y bloque de apariencia con iconos legibles y paleta contextual.
+      </p>
+
+      <div class="menu-stage">
+        <!-- MENÚ PROPUESTA 1 -->
+        <div class="menu-p1">
+          <!-- Cabecera de Usuario -->
+          <div class="p1-header">
+            <div class="p1-avatar">MP</div>
+            <div class="p1-user-info">
+              <div class="p1-user-name">Matías Peralta</div>
+              <div class="p1-user-role">
+                <span class="p1-role-chip">Alumno</span>
+                <span>4to Cuatrimestre</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tira de Balances (Gamificación Rápida) -->
+          <div class="p1-stats-strip">
+            <div class="p1-stat-item">
+              <svg class="icon icon-sm" style="color:var(--accent-gold);"><use href="#i-coin"/></svg>
+              <span>1.250</span> <span class="lbl">monedas</span>
+            </div>
+            <div class="p1-stat-item">
+              <svg class="icon icon-sm" style="color:var(--accent-primary);"><use href="#i-sparkle"/></svg>
+              <span>Nvl 4</span> <span class="lbl">(450 XP)</span>
+            </div>
+          </div>
+
+          <!-- Navegación Personal -->
+          <div class="p1-nav-group">
+            <a class="p1-item" href="#perfil">
+              <svg><use href="#i-user"/></svg>
+              <span>Mi perfil</span>
+            </a>
+            <a class="p1-item" href="#personaje">
+              <svg><use href="#i-shirt"/></svg>
+              <span>Mi personaje 3D</span>
+            </a>
+            <a class="p1-item" href="#inventario">
+              <svg><use href="#i-backpack"/></svg>
+              <span>Inventario</span>
+            </a>
+            <a class="p1-item" href="#encuestas">
+              <svg><use href="#i-survey"/></svg>
+              <span>Encuestas</span>
+              <span class="badge badge-secondary sm">1 pendiente</span>
+            </a>
+          </div>
+
+          <!-- Bloque de Apariencia Mejorado -->
+          <div class="p1-pref-box">
+            <!-- Estilo de Experiencia -->
+            <div class="p1-pref-row">
+              <span class="p1-pref-label">Experiencia</span>
+              <div class="seg-refined" role="group" aria-label="Modo de experiencia">
+                <button type="button" class="btn-skin-arcade" aria-pressed="true">
+                  <svg style="width:13px;height:13px;"><use href="#i-gamepad"/></svg> Arcade
+                </button>
+                <button type="button" class="btn-skin-sobrio" aria-pressed="false">
+                  <svg style="width:13px;height:13px;"><use href="#i-briefcase"/></svg> Sobrio
+                </button>
+              </div>
+            </div>
+
+            <!-- Tema Claro / Oscuro -->
+            <div class="p1-pref-row">
+              <span class="p1-pref-label">Tema</span>
+              <div class="seg-refined" role="group" aria-label="Tema visual">
+                <button type="button" class="btn-theme-dark" aria-pressed="true">
+                  <svg style="width:13px;height:13px;"><use href="#i-moon"/></svg> Oscuro
+                </button>
+                <button type="button" class="btn-theme-light" aria-pressed="false">
+                  <svg style="width:13px;height:13px;"><use href="#i-sun"/></svg> Claro
+                </button>
+              </div>
+            </div>
+
+            <!-- Paleta Arcade (Solo visible en Arcade) -->
+            <div class="p1-pref-row p1-palette-row" id="p1-pal-row">
+              <span class="p1-pref-label">Paleta Arcade</span>
+              <div class="palette-swatches" role="group" aria-label="Paleta arcade">
+                <button type="button" class="palette-dot-btn btn-pal-elec" aria-pressed="true" title="Cyber Cian">
+                  <span class="dot dot-electric"></span>
+                </button>
+                <button type="button" class="palette-dot-btn btn-pal-neon" aria-pressed="false" title="Neón Magenta">
+                  <span class="dot dot-neon"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Footer: Cerrar Sesión -->
+          <div class="p1-footer">
+            <button type="button" class="p1-logout">
+              <svg style="width:16px;height:16px;"><use href="#i-logout"/></svg>
+              <span>Cerrar sesión</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROPUESTA 2: PERFIL ESENCIAL + PREFERENCIAS SEPARADAS -->
+    <div class="showcase-column">
+      <div class="column-badge badge-alt">Propuesta 2</div>
+      <h3 class="showcase-title">Perfil Limpio & Desacoplado</h3>
+      <p class="showcase-desc">
+        Separa la navegación de las preferencias globales: el menú queda 100% ligero para el usuario y se añade un acceso "Preferencias del sistema" o toggle rápido sol/luna en barra superior.
+      </p>
+
+      <div class="menu-stage">
+        <!-- MENÚ PROPUESTA 2 -->
+        <div class="menu-p2">
+          <div class="p2-header">
+            <div class="p1-avatar">MP</div>
+            <div class="p1-user-info">
+              <div class="p1-user-name">Matías Peralta</div>
+              <div style="font-size:12px; color:var(--text-muted);">matias.peralta@utn.edu.ar</div>
+            </div>
+          </div>
+
+          <!-- Toggle Rápido Sol / Luna -->
+          <div class="p2-quick-theme">
+            <span>Modo de luz</span>
+            <div class="seg sm" role="group">
+              <button type="button" class="btn-theme-dark" aria-pressed="true">🌙</button>
+              <button type="button" class="btn-theme-light" aria-pressed="false">☀️</button>
+            </div>
+          </div>
+
+          <div class="p2-list">
+            <a class="p2-item" href="#perfil">
+              <div class="p2-item-left"><svg><use href="#i-user"/></svg><span>Mi perfil</span></div>
+              <svg style="width:14px;height:14px;color:var(--text-muted);"><use href="#i-chevron-right"/></svg>
+            </a>
+            <a class="p2-item" href="#personaje">
+              <div class="p2-item-left"><svg><use href="#i-shirt"/></svg><span>Mi personaje</span></div>
+            </a>
+            <a class="p2-item" href="#inventario">
+              <div class="p2-item-left"><svg><use href="#i-backpack"/></svg><span>Inventario y Objetos</span></div>
+            </a>
+            <a class="p2-item" href="#encuestas">
+              <div class="p2-item-left"><svg><use href="#i-survey"/></svg><span>Encuestas</span></div>
+              <span class="badge badge-secondary sm">1</span>
+            </a>
+            <hr style="border:0; border-top:1px solid var(--border-subtle); margin:6px 0;" />
+            <!-- Botón dedicado a abrir modal de ajustes -->
+            <button type="button" class="p2-item" style="color:var(--accent-primary); font-weight:600;">
+              <div class="p2-item-left"><svg style="color:var(--accent-primary);"><use href="#i-sliders"/></svg><span>Apariencia y Sistema...</span></div>
+            </button>
+            <button type="button" class="p2-item" style="color:var(--urgent);">
+              <div class="p2-item-left"><svg style="color:var(--urgent);"><use href="#i-logout"/></svg><span>Cerrar sesión</span></div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROPUESTA 3: GAMER HUD & COMMAND CENTER -->
+    <div class="showcase-column">
+      <div class="column-badge badge-alt">Propuesta 3</div>
+      <h3 class="showcase-title">Gamer HUD (Estilo Arcade Máximo)</h3>
+      <p class="showcase-desc">
+        Diseñado para potenciar al máximo el mundo de juego del TPI: barra de nivel animada, marco de avatar pixelado, estadísticas directas y selectores estilo arcade retro.
+      </p>
+
+      <div class="menu-stage">
+        <!-- MENÚ PROPUESTA 3 -->
+        <div class="menu-p3">
+          <!-- Cabecera HUD -->
+          <div class="p3-hud-head">
+            <div class="p3-hud-row">
+              <div class="p3-avatar-frame">MP</div>
+              <div class="p3-progress-wrap">
+                <div class="p3-level-lbl">
+                  <span style="color:var(--accent-gold);">NIVEL 4</span>
+                  <span style="color:var(--text-muted);">450 / 600 XP</span>
+                </div>
+                <div class="p3-level-bar">
+                  <div class="p3-level-fill"></div>
+                </div>
+                <div style="font-size:11px; font-weight:700; margin-top:4px;">Matías Peralta</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mini Strip de Recursos -->
+          <div class="p3-subgrid">
+            <div class="p3-chip-stat">
+              <span>🪙</span> <span>1,250 COINS</span>
+            </div>
+            <div class="p3-chip-stat">
+              <span>🎒</span> <span>8 ITEMS</span>
+            </div>
+          </div>
+
+          <!-- Items del HUD -->
+          <div class="p3-menu-grid">
+            <a class="p3-btn" href="#perfil"><svg><use href="#i-user"/></svg> <span>PERFIL DE JUGADOR</span></a>
+            <a class="p3-btn" href="#personaje"><svg><use href="#i-shirt"/></svg> <span>CUSTOMIZAR AVATAR</span></a>
+            <a class="p3-btn" href="#inventario"><svg><use href="#i-backpack"/></svg> <span>INVENTARIO</span></a>
+            <a class="p3-btn" href="#encuestas"><svg><use href="#i-survey"/></svg> <span>ENCUESTAS [1]</span></a>
+          </div>
+
+          <!-- Controles Arcade -->
+          <div class="p3-appearance">
+            <div class="p3-app-title">CONFIGURACIÓN VISUAL</div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:11px; color:var(--text-muted);">ESTILO:</span>
+              <div class="seg sm">
+                <button type="button" class="btn-skin-arcade" aria-pressed="true">ARCADE</button>
+                <button type="button" class="btn-skin-sobrio" aria-pressed="false">SOBRIO</button>
+              </div>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:11px; color:var(--text-muted);">TEMA:</span>
+              <div class="seg sm">
+                <button type="button" class="btn-theme-dark" aria-pressed="true">OSCURO</button>
+                <button type="button" class="btn-theme-light" aria-pressed="false">CLARO</button>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding:6px; border-top:1px solid var(--border-subtle);">
+            <button type="button" class="p3-btn" style="color:var(--urgent); justify-content:center; width:100%;">
+              <svg><use href="#i-logout"/></svg> <span>SALIR DEL SISTEMA</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+  // Control de Tema, Modo y Paleta para la demo
+  const root = document.documentElement;
+
+  function setSkin(skin) {
+    root.setAttribute('data-skin', skin);
+    document.querySelectorAll('[data-skin-btn], .btn-skin-arcade, .btn-skin-sobrio').forEach(b => {
+      const isArcade = b.classList.contains('btn-skin-arcade') || b.textContent.toLowerCase().includes('arcade');
+      b.setAttribute('aria-pressed', skin === 'gamer' ? isArcade : !isArcade);
+    });
+    // Ocultar o mostrar fila de paleta en Propuesta 1
+    const palRow = document.getElementById('p1-pal-row');
+    const ctrlPal = document.getElementById('ctrl-palette');
+    if (palRow) palRow.style.display = skin === 'gamer' ? 'flex' : 'none';
+    if (ctrlPal) ctrlPal.style.opacity = skin === 'gamer' ? '1' : '0.4';
+  }
+
+  function setTheme(theme) {
+    root.setAttribute('data-theme', theme);
+    document.querySelectorAll('.btn-theme-dark, .btn-theme-light, #toggle-dark, #toggle-light').forEach(b => {
+      const isDark = b.classList.contains('btn-theme-dark') || b.id === 'toggle-dark' || b.textContent.includes('🌙') || b.textContent.toLowerCase().includes('oscuro');
+      b.setAttribute('aria-pressed', theme === 'dark' ? isDark : !isDark);
+    });
+  }
+
+  function setPalette(palette) {
+    root.setAttribute('data-palette', palette);
+    document.querySelectorAll('.btn-pal-elec, .btn-pal-neon, #toggle-electric, #toggle-neon').forEach(b => {
+      const isElec = b.classList.contains('btn-pal-elec') || b.id === 'toggle-electric' || b.textContent.toLowerCase().includes('cian');
+      b.setAttribute('aria-pressed', palette === 'electric' ? isElec : !isElec);
+    });
+  }
+
+  // Bindings de la barra superior
+  document.getElementById('toggle-dark').addEventListener('click', () => setTheme('dark'));
+  document.getElementById('toggle-light').addEventListener('click', () => setTheme('light'));
+  document.getElementById('toggle-gamer').addEventListener('click', () => setSkin('gamer'));
+  document.getElementById('toggle-sobrio').addEventListener('click', () => setSkin('sobrio'));
+  document.getElementById('toggle-electric').addEventListener('click', () => setPalette('electric'));
+  document.getElementById('toggle-neon').addEventListener('click', () => setPalette('neon'));
+
+  // Bindings en los propios menús interactivos
+  document.querySelectorAll('.btn-skin-arcade').forEach(b => b.addEventListener('click', () => setSkin('gamer')));
+  document.querySelectorAll('.btn-skin-sobrio').forEach(b => b.addEventListener('click', () => setSkin('sobrio')));
+  document.querySelectorAll('.btn-theme-dark').forEach(b => b.addEventListener('click', () => setTheme('dark')));
+  document.querySelectorAll('.btn-theme-light').forEach(b => b.addEventListener('click', () => setTheme('light')));
+  document.querySelectorAll('.btn-pal-elec').forEach(b => b.addEventListener('click', () => setPalette('electric')));
+  document.querySelectorAll('.btn-pal-neon').forEach(b => b.addEventListener('click', () => setPalette('neon')));
+</script>
+</body>
+</html>
