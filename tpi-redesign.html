@@ -6,7 +6,7 @@
 <title>TPI 2026 · Rediseño de páginas reales</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,400;0,600;0,700;1,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Orbitron:wght@700;900&family=Pixelify+Sans:wght@400;600;700&family=Press+Start+2P&family=Rajdhani:wght@500;600;700&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,400;0,600;0,700;1,700&family=Inter:wght@400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="css/tokens.css?v=2" />
 <link rel="stylesheet" href="css/base.css?v=2" />
 <link rel="stylesheet" href="css/components.css?v=2" />
@@ -19,6 +19,8 @@
   <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></symbol>
   <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
   <symbol id="i-flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+  <symbol id="i-swords" viewBox="0 0 24 24"><path d="m13 19 6-6"/><path d="M14.5 17.5 3.586 6.586A2 2 0 0 1 3 5.172V3h2.172a2 2 0 0 1 1.414.586L17.5 14.5"/><path d="m14.828 6.172 2.586-2.586A2 2 0 0 1 18.828 3H21v2.172a2 2 0 0 1-.586 1.414l-2.586 2.586"/><path d="m16 16 4 4"/><path d="m19 21 2-2"/><path d="m5 14 4 4"/><path d="m5 21-2-2"/><path d="M7.5 16.5 4 20"/></symbol>
   <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></symbol>
   <symbol id="i-map" viewBox="0 0 24 24"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3z"/><path d="M9 3v15"/><path d="M15 6v15"/></symbol>
   <symbol id="i-bot" viewBox="0 0 24 24"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></symbol>
@@ -84,6 +86,7 @@
   <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
   <symbol id="i-grip" viewBox="0 0 24 24"><path d="M9 5h.01M9 12h.01M9 19h.01M15 5h.01M15 12h.01M15 19h.01" stroke-width="3"/></symbol>
   <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></symbol>
+  <symbol id="i-palette" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.563-2.512 5.563-5.563C22 6.5 17.5 2 12 2Z"/></symbol>
 </svg>
 
 <div class="mockbar" role="region" aria-label="Controles del mock">
@@ -109,15 +112,6 @@
     <button data-palette-btn="electric" aria-pressed="true" title="Paleta Cian Eléctrico y Oro (Recomendada)">⚡ Cian Eléctrico</button>
     <button data-palette-btn="neon" aria-pressed="false" title="Paleta Magenta Original (Vaporwave)">🌸 Magenta Original</button>
   </div>
-  <span>Fuente Títulos/Display:</span>
-  <div class="seg" role="group" aria-label="Fuente Títulos y Logo">
-    <button data-font-btn="pressstart" aria-pressed="true" title="Press Start 2P (Clásico Arcade 80s/90s)">🕹️ Press Start</button>
-    <button data-font-btn="pixelify" aria-pressed="false" title="Pixelify Sans (Pixel art moderno, estético y con peso)">✨ Pixelify Sans</button>
-    <button data-font-btn="chakra" aria-pressed="false" title="Chakra Petch (Arcade Mecha / Capcom)">⚡ Chakra Petch</button>
-    <button data-font-btn="orbitron" aria-pressed="false" title="Orbitron (HUD Sci-Fi / Cyberpunk)">Orbitron</button>
-    <button data-font-btn="silkscreen" aria-pressed="false" title="Silkscreen (La anterior, trazo fino)">Silkscreen</button>
-  </div>
-  <a class="uikit-link" href="font-comparison.html" target="_blank" title="Abrir comparativa lado a lado de tipografías retro">🔍 Comparador</a>
   <label><input type="checkbox" id="sim-error" /> Simular error</label>
   <a class="uikit-link" href="#uikit" title="Ver catálogo de componentes y tokens de diseño">🎨 UI Kit / Componentes</a>
 </div>
@@ -209,32 +203,65 @@
           <svg class="icon icon-sm chev" aria-hidden="true"><use href="#i-chevron"/></svg>
         </button>
         <div class="account-menu" id="account-menu" hidden>
-          <a class="nav-item" href="#perfil"><svg class="icon"><use href="#i-user"/></svg>Mi perfil</a>
-          <a class="nav-item" href="#personaje" data-alumno-only><svg class="icon"><use href="#i-shirt"/></svg>Mi personaje</a>
-          <a class="nav-item" href="#inventario" data-alumno-only><svg class="icon"><use href="#i-backpack"/></svg>Inventario</a>
-          <a class="nav-item" href="#encuestas"><svg class="icon"><use href="#i-survey"/></svg>Encuestas <span class="badge badge-secondary sm" style="margin-left:auto">1</span></a>
-          <a class="nav-item" href="#banco"><svg class="icon"><use href="#i-coin"/></svg>Billetera</a>
-          <hr />
-          <div class="menu-pref-title">Apariencia</div>
-          <div class="menu-pref-row">
-            <div class="seg sm" role="group" aria-label="Estilo">
-              <button data-skin-btn="gamer" aria-pressed="true">Arcade</button>
-              <button data-skin-btn="sobrio" aria-pressed="false">Sobrio</button>
-            </div>
-            <div class="seg sm" role="group" aria-label="Tema">
-              <button data-theme-btn="dark" aria-pressed="true">Oscuro</button>
-              <button data-theme-btn="light" aria-pressed="false">Claro</button>
+          <!-- Cabecera de Usuario -->
+          <div class="menu-user-head">
+            <div class="menu-avatar" data-me-initials>MP</div>
+            <div class="menu-user-info">
+              <div class="menu-user-name" data-me-name>Matías Peralta</div>
+              <div class="menu-user-role">
+                <span class="role-chip" data-me-role>Alumno</span>
+                <span class="text-muted" data-alumno-only>Leg. <span data-me-legajo>40510</span></span>
+              </div>
             </div>
           </div>
-          <div class="menu-pref-title">Paleta Arcade</div>
-          <div class="menu-pref-row">
-            <div class="seg sm" role="group" aria-label="Paleta Arcade">
-              <button data-palette-btn="electric" aria-pressed="true">⚡ Cian</button>
-              <button data-palette-btn="neon" aria-pressed="false">🌸 Magenta</button>
+
+          <!-- Tira de Balances Rápidos (solo alumno) -->
+          <div class="menu-stats-strip" data-alumno-only>
+            <div class="stat-pill">
+              <svg class="icon icon-sm" style="color:var(--accent-gold);"><use href="#i-coin"/></svg>
+              <span>1.250</span> <span class="lbl">monedas</span>
+            </div>
+            <div class="stat-pill">
+              <svg class="icon icon-sm" style="color:var(--accent-primary);"><use href="#i-sparkle"/></svg>
+              <span>Nvl 4</span> <span class="lbl">(450 XP)</span>
             </div>
           </div>
-          <hr />
-          <button class="nav-item danger" type="button"><svg class="icon"><use href="#i-logout"/></svg>Cerrar sesión</button>
+
+          <!-- Enlaces de Navegación Personal (Sin encuestas) -->
+          <div class="menu-group">
+            <a class="nav-item" href="#perfil"><svg class="icon"><use href="#i-user"/></svg>Mi perfil</a>
+            <a class="nav-item" href="#personaje" data-alumno-only><svg class="icon"><use href="#i-shirt"/></svg>Mi personaje</a>
+            <a class="nav-item" href="#inventario" data-alumno-only><svg class="icon"><use href="#i-backpack"/></svg>Inventario</a>
+            <a class="nav-item" href="#banco"><svg class="icon"><use href="#i-coin"/></svg>Billetera</a>
+          </div>
+
+          <!-- Preferencias Rápidas de Apariencia -->
+          <div class="menu-pref-box">
+            <div class="pref-row">
+              <span class="pref-label">Experiencia</span>
+              <div class="seg sm" role="group" aria-label="Modo de experiencia">
+                <button type="button" data-skin-btn="gamer" aria-pressed="true"><svg class="icon icon-xs"><use href="#i-gamepad"/></svg> Arcade</button>
+                <button type="button" data-skin-btn="sobrio" aria-pressed="false"><svg class="icon icon-xs"><use href="#i-briefcase"/></svg> Sobrio</button>
+              </div>
+            </div>
+            <div class="pref-row">
+              <span class="pref-label">Tema</span>
+              <div class="seg sm" role="group" aria-label="Tema visual">
+                <button type="button" data-theme-btn="dark" aria-pressed="true"><svg class="icon icon-xs"><use href="#i-moon"/></svg> Oscuro</button>
+                <button type="button" data-theme-btn="light" aria-pressed="false"><svg class="icon icon-xs"><use href="#i-sun"/></svg> Claro</button>
+              </div>
+            </div>
+            <div style="padding-top:4px; border-top:1px solid var(--border-subtle); text-align:center;">
+              <a href="#perfil?tab=appearance" style="font-size:11px; color:var(--accent-primary); text-decoration:none; font-weight:600; display:inline-flex; align-items:center; gap:4px;">
+                🎨 Personalizar paleta en Mi Perfil →
+              </a>
+            </div>
+          </div>
+
+          <!-- Pie Destructivo -->
+          <div class="menu-foot">
+            <button class="nav-item danger" type="button"><svg class="icon"><use href="#i-logout"/></svg>Cerrar sesión</button>
+          </div>
         </div>
       </div>
     </div>
@@ -265,8 +292,8 @@
             <span class="recent-title-text" data-recent-heading>Cursos a los que se ha accedido recientemente</span>
           </h2>
           <div class="recent-nav-btns">
-            <button class="icon-btn sm" id="recent-prev-btn" type="button" aria-label="Anterior" title="Desplazar a la izquierda"><svg class="icon icon-sm"><use href="#i-left"/></svg></button>
-            <button class="icon-btn sm" id="recent-next-btn" type="button" aria-label="Siguiente" title="Desplazar a la derecha"><svg class="icon icon-sm"><use href="#i-right"/></svg></button>
+            <button class="icon-btn sm" id="recent-prev-btn" type="button" aria-label="Cursos anteriores" title="Desplazar a la izquierda" disabled><svg class="icon icon-sm"><use href="#i-left"/></svg></button>
+            <button class="icon-btn sm" id="recent-next-btn" type="button" aria-label="Cursos siguientes" title="Desplazar a la derecha"><svg class="icon icon-sm"><use href="#i-right"/></svg></button>
           </div>
         </div>
         <div class="recent-courses-track" id="recent-courses-track">
@@ -1204,10 +1231,10 @@
       </div>
       <div class="data">
         <div class="tabs" role="tablist" aria-label="Secciones del mercado" id="shop-tabs">
-          <button class="tab" role="tab" type="button" aria-selected="true" data-shop-tab="vitrina" aria-controls="shop-vitrina">Vitrina</button>
-          <button class="tab" role="tab" type="button" aria-selected="false" tabindex="-1" data-shop-tab="subastas" aria-controls="shop-subastas">Subastas</button>
-          <button class="tab" role="tab" type="button" aria-selected="false" tabindex="-1" data-shop-tab="metas" aria-controls="shop-metas">Metas colaborativas</button>
-          <a class="tab" href="#inventario">Mi inventario <svg class="icon icon-sm"><use href="#i-right"/></svg></a>
+          <button class="tab" role="tab" type="button" aria-selected="true" data-shop-tab="vitrina" aria-controls="shop-vitrina"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-cards"/></svg><span>Vitrina</span></button>
+          <button class="tab" role="tab" type="button" aria-selected="false" tabindex="-1" data-shop-tab="subastas" aria-controls="shop-subastas"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-clock"/></svg><span>Subastas</span></button>
+          <button class="tab" role="tab" type="button" aria-selected="false" tabindex="-1" data-shop-tab="metas" aria-controls="shop-metas"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-trophy"/></svg><span>Metas colaborativas</span></button>
+          <a class="tab" href="#inventario"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-backpack"/></svg><span>Mi inventario</span> <svg class="icon icon-sm" aria-hidden="true"><use href="#i-right"/></svg></a>
         </div>
 
         <div role="tabpanel" id="shop-vitrina">
@@ -1451,102 +1478,334 @@
 
     <!-- ================= PERFIL (todos) ================= -->
     <section class="screen" id="screen-perfil" aria-labelledby="h-perfil" data-error="No pudimos traer tu perfil.">
-      <div class="page-head"><div><h1 class="display" id="h-perfil">Mi perfil</h1></div></div>
-      <div class="data profile-layout">
+      <div class="data profile-layout is-stacked">
+        <!-- Hero de Identidad (Compacto y Horizontal) -->
         <aside class="card studs identity">
-          <span class="badge status-corner"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-tick"/></svg>Cuenta activa</span>
-          <div class="identity-top">
-          <div class="identity-head">
+          
+          <!-- Columna Izquierda: Foto fija -->
+          <div class="identity-photo-col">
             <div class="avatar-xl" data-me-avatar>
               <span data-me-initials>MP</span>
-              <img data-me-photo alt="" hidden />
+              <img data-me-photo alt="Foto de perfil" hidden />
             </div>
             <label class="btn btn-quiet btn-sm photo-btn">
               <svg class="icon icon-sm" aria-hidden="true"><use href="#i-pencil"/></svg>Cambiar foto
               <input type="file" accept="image/*" data-photo-input hidden />
             </label>
-            <h1 data-me-name>Matías Peralta</h1>
-            <span class="muted" data-me-email>matias.peralta@frc.utn.edu.ar</span>
           </div>
-          <div class="bio" data-bio>
-            <p class="bio-text" data-bio-text></p>
-            <button class="linkbtn bio-more" type="button" data-bio-more hidden>Ver más</button>
-            <form class="bio-form" data-bio-form hidden>
-              <label class="field"><span class="sr-only">Tu descripción</span>
-                <textarea class="control" rows="4" maxlength="280" data-bio-input placeholder="Contá en pocas palabras quién sos"></textarea>
-              </label>
-              <div class="bio-actions">
-                <span class="hint num" data-bio-count>0 / 280</span>
-                <button class="btn btn-quiet btn-sm" type="button" data-bio-cancel>Cancelar</button>
-                <button class="btn btn-primary btn-sm" type="submit">Guardar</button>
+
+          <!-- Columna Derecha: Todo el contenido apilado armónicamente -->
+          <div class="identity-main-col">
+            <!-- Fila Superior: Nombre, badges y acción -->
+            <div class="identity-header-row">
+              <div class="identity-titles">
+                <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                  <h1 style="font-size:var(--fs-h2); font-weight:700; margin:0;" id="h-perfil" data-me-name>Matías Peralta</h1>
+                  <span class="badge badge-secondary" data-me-role>Alumno</span>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-size:var(--fs-small);">
+                  <span class="muted" data-me-email>matias.peralta@frc.utn.edu.ar</span>
+                  <span class="badge badge-quiet sm" style="display:inline-flex; align-items:center; gap:4px; color:var(--good); padding:1px 6px;" title="Email institucional verificado">
+                    <svg class="icon icon-xs" aria-hidden="true"><use href="#i-tick"/></svg>Verificado
+                  </span>
+                </div>
               </div>
-            </form>
-            <button class="btn btn-ghost btn-sm bio-edit" type="button" data-bio-edit>
-              <svg class="icon icon-sm" aria-hidden="true"><use href="#i-pencil"/></svg>Editar descripción
-            </button>
+              <div class="identity-actions">
+                <span class="badge badge-success sm" style="display:inline-flex; align-items:center; gap:5px;">
+                  <svg class="icon icon-xs" aria-hidden="true"><use href="#i-tick"/></svg>Cuenta activa
+                </span>
+                <button class="btn btn-ghost btn-sm bio-edit" type="button" data-bio-edit>
+                  <svg class="icon icon-sm" aria-hidden="true"><use href="#i-pencil"/></svg>Editar descripción
+                </button>
+              </div>
+            </div>
+
+            <!-- Fila Media: Descripción / Bio -->
+            <div class="bio" data-bio style="padding:0; margin:4px 0 8px;">
+              <p class="bio-text" data-bio-text style="margin:0;"></p>
+              <button class="linkbtn bio-more" type="button" data-bio-more hidden>Ver más</button>
+              <form class="bio-form" data-bio-form hidden>
+                <label class="field"><span class="sr-only">Tu descripción</span>
+                  <textarea class="control" rows="3" maxlength="280" data-bio-input placeholder="Contá en pocas palabras quién sos"></textarea>
+                </label>
+                <div class="bio-actions">
+                  <span class="hint num" data-bio-count>0 / 280</span>
+                  <button class="btn btn-quiet btn-sm" type="button" data-bio-cancel>Cancelar</button>
+                  <button class="btn btn-primary btn-sm" type="submit">Guardar</button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Fila Inferior: Tira de datos académicos horizontal -->
+            <div class="identity-meta-strip">
+              <div class="meta-item" data-legajo-row>
+                <span class="meta-label">Legajo:</span>
+                <span class="meta-val num" data-me-legajo>40510</span>
+              </div>
+              <span class="meta-sep" aria-hidden="true">·</span>
+              <div class="meta-item">
+                <span class="meta-label">Miembro desde:</span>
+                <span class="meta-val num" data-me-since>28/09/2026</span>
+              </div>
+              <span class="meta-sep" aria-hidden="true">·</span>
+              <div class="meta-item">
+                <span class="meta-label">Condición:</span>
+                <span class="meta-val" style="color:var(--good); font-weight:600;">Regular</span>
+              </div>
+            </div>
           </div>
-          </div>
-          <dl class="identity-list" aria-label="Información de la cuenta">
-            <div><dt>Rol</dt><dd><span class="badge badge-secondary" data-me-role>Alumno</span></dd></div>
-            <div><dt>Email</dt><dd class="ok"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-tick"/></svg>Verificado</dd></div>
-            <div data-legajo-row><dt>Legajo</dt><dd class="num" data-me-legajo>40510</dd></div>
-            <div><dt>Miembro desde</dt><dd class="num" data-me-since>28/09/2026</dd></div>
-            <div><dt>Términos aceptados</dt><dd>Versión 1</dd></div>
-          </dl>
         </aside>
+
+        <!-- Barra de Pestañas Segmentada -->
+        <nav class="profile-tabs-nav" role="tablist" aria-label="Secciones del perfil">
+          <button type="button" class="profile-tab-btn" role="tab" id="tab-profile-account" aria-selected="true" aria-controls="pane-profile-account">
+            <svg class="icon icon-sm" aria-hidden="true"><use href="#i-cards"/></svg>
+            <span>Mi Cuenta y Cursada</span>
+          </button>
+          <button type="button" class="profile-tab-btn" role="tab" id="tab-profile-appearance" aria-selected="false" aria-controls="pane-profile-appearance">
+            <svg class="icon icon-sm" aria-hidden="true"><use href="#i-palette"/></svg>
+            <span>Apariencia y Color</span>
+          </button>
+          <button type="button" class="profile-tab-btn" role="tab" id="tab-profile-security" aria-selected="false" aria-controls="pane-profile-security">
+            <svg class="icon icon-sm" aria-hidden="true"><use href="#i-lock"/></svg>
+            <span>Seguridad y Sesión</span>
+          </button>
+        </nav>
+
         <div class="profile-panels">
-          <section class="card studs panel" aria-labelledby="h-mycourses" data-alumno-only>
-            <details class="students-disclosure" id="mycourses-disclosure">
-            <summary class="students-summary"><h2 id="h-mycourses">Mis cursos</h2><span class="badge badge-primary num" data-mycourses-count>0</span><span class="students-chev" aria-hidden="true"></span></summary>
-            <p>Tus cursos activos de este cuatrimestre. Entrá a cualquiera para ver tus unidades y desafíos.</p>
-            <div class="table-wrap"><table class="data" id="mycourses-table"></table></div>
+          <!-- PESTAÑA 1: MI CUENTA Y CURSADA -->
+          <div class="profile-tab-pane" id="pane-profile-account" role="tabpanel" aria-labelledby="tab-profile-account">
+            <!-- Cursos del alumno (Desplegable / Colapsable) -->
+            <details class="card studs panel disclosure" data-alumno-only open>
+              <summary>
+                <h2 id="h-mycourses" style="margin:0; font-size:var(--fs-h2); display:flex; align-items:center; gap:8px;">
+                  <span>Mis cursos activos</span>
+                </h2>
+              </summary>
+              <div style="padding-top:4px;">
+                <p style="margin-bottom:12px;">Tus cursos activos de este cuatrimestre. Entrá a cualquiera para ver tus unidades y desafíos.</p>
+                <div class="table-wrap"><table class="data" id="mycourses-table"></table></div>
+              </div>
             </details>
-          </section>
-          <section class="card studs panel" aria-labelledby="h-students" data-profesor-only>
-            <details class="students-disclosure" id="students-disclosure">
-            <summary class="students-summary"><h2 id="h-students">Alumnos habilitados</h2><span class="badge badge-primary num" data-students-count>0</span><span class="students-chev" aria-hidden="true"></span></summary>
-            <p>Solo los alumnos de esta lista pueden entrar al curso. Agregalos con su email institucional.</p>
-            <form class="add-email" id="add-student" novalidate>
-              <label class="field grow"><span class="req">Email del alumno</span><input class="control" type="email" id="st-email" placeholder="alumno@frc.utn.edu.ar" aria-describedby="st-hint" /></label>
-              <label class="field">Curso<input class="control" id="st-course-add" list="st-course-list" placeholder="Escribí o elegí un curso" autocomplete="off" /></label>
-              <button class="btn btn-primary" type="submit"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Agregar</button>
-              <span class="hint full" id="st-hint" aria-live="polite">Entra directo a tu curso, sin pedir acceso.</span>
-            </form>
-            <div class="filter-top">
-              <label class="search"><span class="sr-only">Buscar alumno</span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-search"/></svg><input class="control" type="search" id="st-q" placeholder="Buscar por nombre o email" /></label>
-              <label class="field" style="min-width:220px"><span class="sr-only">Filtrar por curso</span><input class="control" id="st-course-filter" list="st-course-list" placeholder="Todos los cursos" autocomplete="off" /></label>
-              <span data-view-toggle="alumnos"></span>
+
+            <!-- Docente: Alumnos habilitados -->
+            <section class="card studs panel" aria-labelledby="h-students" data-profesor-only>
+              <h2 id="h-students" style="margin:0 0 8px;">Alumnos habilitados</h2>
+              <p>Solo los alumnos de esta lista pueden entrar al curso. Agregalos con su email institucional.</p>
+              <form class="add-email" id="add-student" novalidate>
+                <label class="field grow"><span class="req">Email del alumno</span><input class="control" type="email" id="st-email" placeholder="alumno@frc.utn.edu.ar" aria-describedby="st-hint" /></label>
+                <label class="field">Curso<input class="control" id="st-course-add" list="st-course-list" placeholder="Escribí o elegí un curso" autocomplete="off" /></label>
+                <button class="btn btn-primary" type="submit"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Agregar</button>
+                <span class="hint full" id="st-hint" aria-live="polite">Entra directo a tu curso, sin pedir acceso.</span>
+              </form>
+              <div class="filter-top" style="margin-top:14px;">
+                <label class="search"><span class="sr-only">Buscar alumno</span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-search"/></svg><input class="control" type="search" id="st-q" placeholder="Buscar por nombre o email" /></label>
+                <label class="field" style="min-width:220px"><span class="sr-only">Filtrar por curso</span><input class="control" id="st-course-filter" list="st-course-list" placeholder="Todos los cursos" autocomplete="off" /></label>
+                <span data-view-toggle="alumnos"></span>
+              </div>
+              <div class="table-wrap" data-view-target="alumnos"><table class="data" id="student-table"></table></div>
+              <div class="empty" id="st-empty" hidden>Todavía no agregaste alumnos a este curso.</div>
+              <div class="pager" id="st-pager"></div>
+              <datalist id="st-course-list"></datalist>
+            </section>
+
+            <!-- Admin: Accesos a la plataforma -->
+            <section class="card studs panel" aria-labelledby="h-access-p" data-admin-only>
+              <h2 id="h-access-p">Accesos a la plataforma</h2>
+              <p>Aprobá solicitudes pendientes y habilitá emails docentes sin esperar su pedido.</p>
+              <div class="link-row">
+                <span class="who"><span class="badge badge-primary num">1</span>solicitud pendiente</span>
+                <a class="btn btn-secondary" href="#accesos"><svg class="icon icon-sm"><use href="#i-key"/></svg>Gestionar accesos</a>
+              </div>
+            </section>
+
+            <!-- Vinculación de GitHub -->
+            <section class="card studs panel" aria-labelledby="h-gh">
+              <h2 id="h-gh">GitHub y Entregas</h2>
+              <p>Vinculá tu cuenta para enviar trabajos prácticos y acceder a los repositorios oficiales de la cátedra.</p>
+              <div class="link-row">
+                <span class="who"><svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>Sin cuenta vinculada</span>
+                <button class="btn btn-secondary" type="button"><svg class="icon icon-sm"><use href="#i-github"/></svg>Vincular GitHub</button>
+              </div>
+            </section>
+          </div>
+
+          <!-- PESTAÑA 2: APARIENCIA Y COLOR -->
+          <div class="profile-tab-pane" id="pane-profile-appearance" role="tabpanel" aria-labelledby="tab-profile-appearance" hidden>
+            <section class="card studs panel" aria-labelledby="h-appearance-panel">
+              <h2 id="h-appearance-panel">Personalización y Apariencia</h2>
+              <p>Elegí libremente tu color de acento y los modos visuales de la plataforma.</p>
+              
+              <div class="pref-profile-block" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:14px; margin-top:10px; align-items:start;">
+                <!-- Columna Izquierda: Modos + Paletas Recomendadas + Sandbox -->
+                <div style="display:flex; flex-direction:column; gap:10px;">
+                  <!-- Modos de Experiencia y Luz -->
+                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:10px 14px; background:var(--bg-surface-alt); border-radius:var(--radius-control); border:1px solid var(--border-subtle);">
+                    <div>
+                      <div style="font-size:var(--fs-micro); font-weight:700; color:var(--text-muted); margin-bottom:6px;">Estilo de Experiencia</div>
+                      <div class="seg sm" role="group" aria-label="Modo de experiencia" style="width:100%;">
+                        <button type="button" data-skin-btn="gamer" aria-pressed="true" style="flex:1; padding:4px 6px;"><svg class="icon icon-xs"><use href="#i-gamepad"/></svg> Arcade</button>
+                        <button type="button" data-skin-btn="sobrio" aria-pressed="false" style="flex:1; padding:4px 6px;"><svg class="icon icon-xs"><use href="#i-briefcase"/></svg> Sobrio</button>
+                      </div>
+                    </div>
+                    <div>
+                      <div style="font-size:var(--fs-micro); font-weight:700; color:var(--text-muted); margin-bottom:6px;">Tema Visual</div>
+                      <div class="seg sm" role="group" aria-label="Tema visual" style="width:100%;">
+                        <button type="button" data-theme-btn="dark" aria-pressed="true" style="flex:1; padding:4px 6px;"><svg class="icon icon-xs"><use href="#i-moon"/></svg> Oscuro</button>
+                        <button type="button" data-theme-btn="light" aria-pressed="false" style="flex:1; padding:4px 6px;"><svg class="icon icon-xs"><use href="#i-sun"/></svg> Claro</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Paleta de colores recomendadas (Grilla 3x2 compacta) -->
+                  <div>
+                    <div style="font-size:var(--fs-small); font-weight:700; margin-bottom:8px; display:flex; align-items:center; justify-content:space-between;">
+                      <span style="display:flex; align-items:center; gap:6px;">🎨 Paletas Recomendadas</span>
+                    </div>
+                    <div class="palette-picker-grid" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:8px;">
+                      <!-- Cyber Clan -->
+                      <button type="button" class="palette-card-btn" data-color-preset="#0284c7" data-palette-btn="electric" aria-pressed="true" style="padding:6px 8px; gap:8px;">
+                        <span class="swatch-circle" style="width:18px; height:18px; border-radius:999px; background:linear-gradient(135deg, #0284c7, #38bdf8); flex-shrink:0;"></span>
+                        <div style="text-align:left; min-width:0; overflow:hidden;">
+                          <div style="font-weight:700; font-size:11.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Cyber Clan</div>
+                        </div>
+                      </button>
+                      <!-- Neón Magenta -->
+                      <button type="button" class="palette-card-btn" data-color-preset="#8f1f7c" data-palette-btn="neon" aria-pressed="false" style="padding:6px 8px; gap:8px;">
+                        <span class="swatch-circle" style="width:18px; height:18px; border-radius:999px; background:linear-gradient(135deg, #8f1f7c, #f43f5e); flex-shrink:0;"></span>
+                        <div style="text-align:left; min-width:0; overflow:hidden;">
+                          <div style="font-weight:700; font-size:11.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Neón</div>
+                        </div>
+                      </button>
+                      <!-- Hacker Verde -->
+                      <button type="button" class="palette-card-btn" data-color-preset="#10b981" aria-pressed="false" style="padding:6px 8px; gap:8px;">
+                        <span class="swatch-circle" style="width:18px; height:18px; border-radius:999px; background:linear-gradient(135deg, #10b981, #047857); flex-shrink:0;"></span>
+                        <div style="text-align:left; min-width:0; overflow:hidden;">
+                          <div style="font-weight:700; font-size:11.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Hacker</div>
+                        </div>
+                      </button>
+                      <!-- Oro Épico -->
+                      <button type="button" class="palette-card-btn" data-color-preset="#f59e0b" aria-pressed="false" style="padding:6px 8px; gap:8px;">
+                        <span class="swatch-circle" style="width:18px; height:18px; border-radius:999px; background:linear-gradient(135deg, #f59e0b, #d97706); flex-shrink:0;"></span>
+                        <div style="text-align:left; min-width:0; overflow:hidden;">
+                          <div style="font-weight:700; font-size:11.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Oro Épico</div>
+                        </div>
+                      </button>
+                      <!-- Ultra Violeta -->
+                      <button type="button" class="palette-card-btn" data-color-preset="#8b5cf6" aria-pressed="false" style="padding:6px 8px; gap:8px;">
+                        <span class="swatch-circle" style="width:18px; height:18px; border-radius:999px; background:linear-gradient(135deg, #8b5cf6, #6d28d9); flex-shrink:0;"></span>
+                        <div style="text-align:left; min-width:0; overflow:hidden;">
+                          <div style="font-weight:700; font-size:11.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Violeta</div>
+                        </div>
+                      </button>
+                      <!-- Fuego Carmesí -->
+                      <button type="button" class="palette-card-btn" data-color-preset="#ef4444" aria-pressed="false" style="padding:6px 8px; gap:8px;">
+                        <span class="swatch-circle" style="width:18px; height:18px; border-radius:999px; background:linear-gradient(135deg, #ef4444, #b91c1c); flex-shrink:0;"></span>
+                        <div style="text-align:left; min-width:0; overflow:hidden;">
+                          <div style="font-weight:700; font-size:11.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Carmesí</div>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Previsualización en Tiempo Real de las 3 Zonas Estratégicas -->
+                  <div style="margin-top:2px;">
+                    <div style="font-size:var(--fs-micro); font-weight:700; color:var(--text-muted); margin-bottom:6px;">
+                      Previsualización de zonas clave:
+                    </div>
+                    <div class="color-sandbox-preview" id="sandbox-preview-box" style="margin-top:0; padding:8px 12px; gap:8px;">
+                      <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                        <button type="button" class="btn btn-primary btn-sm" id="sandbox-btn-preview" style="height:26px; padding:0 10px; font-size:12px;">1. Botón</button>
+                        <span id="sandbox-sidebar-preview" style="display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:4px; border:1px solid var(--accent-primary); background:rgba(2,132,199,0.15); color:var(--accent-primary); font-size:12px; font-weight:700;">
+                          <svg class="icon icon-xs"><use href="#i-home"/></svg> 2. Sidebar
+                        </span>
+                        <span class="badge sm" id="sandbox-badge-preview" style="font-size:11.5px; padding:2px 6px;">3. Foco</span>
+                      </div>
+                      <span class="num font-bold" id="sandbox-hex-label" style="font-size:12px; font-family:monospace; margin-left:auto;">#0284C7</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Columna Derecha: Espectro 2D (Modelo A) compacto -->
+                <div>
+                  <div style="font-size:var(--fs-small); font-weight:700; margin-bottom:8px; display:flex; align-items:center; justify-content:space-between;">
+                    <span style="display:flex; align-items:center; gap:6px;">🎛️ Selector Libre · Espectro 2D</span>
+                  </div>
+                  
+                  <div class="spectrum-card" style="margin-top:0; padding:10px; gap:8px;">
+                    <!-- Canvas 2D interactivo con altura reducida a 90px -->
+                    <div class="spectrum-canvas-wrap" id="spectrum-canvas-wrap" style="height:90px;">
+                      <canvas id="spectrum-canvas"></canvas>
+                      <div id="spectrum-handle" aria-hidden="true"></div>
+                    </div>
+
+                    <!-- Slider de Tono Arcoíris -->
+                    <div class="hue-slider-row" style="gap:2px;">
+                      <input type="range" id="spectrum-hue-slider" class="hue-slider" min="0" max="360" value="198" aria-label="Tono del espectro" style="height:10px;" />
+                    </div>
+
+                    <!-- Barra de acciones, Swatch y HEX -->
+                    <div class="spectrum-actions-bar" style="padding-top:2px; gap:8px;">
+                      <div class="spectrum-swatch-chip" style="gap:8px;">
+                        <span class="spectrum-swatch-circle" id="spectrum-active-swatch" style="width:26px; height:26px; background:#0284c7;"></span>
+                        <div class="color-hex-wrapper" style="max-width:125px; padding:2px 8px;">
+                          <span class="color-hex-prefix" style="font-size:12px;">#</span>
+                          <input type="text" class="color-hex-field" id="custom-hex-field" maxlength="6" value="0284C7" placeholder="FFFFFF" spellcheck="false" autocomplete="off" aria-label="Código hexadecimal de color acento" style="font-size:12px;" />
+                        </div>
+                        <input type="color" class="color-picker-native" id="custom-accent-picker" value="#0284c7" title="Cuentagotas del sistema operativo" aria-label="Selector de color del sistema" style="width:26px; height:26px;" />
+                      </div>
+
+                      <div style="display:flex; align-items:center; gap:6px; margin-left:auto;">
+                        <button type="button" class="btn btn-ghost btn-sm" id="btn-reset-color" style="height:28px; padding:0 8px; font-size:11.5px;">Restablecer</button>
+                        <button type="button" class="btn btn-primary btn-sm" id="btn-save-color" style="height:28px; padding:0 10px; font-size:11.5px;">✓ Guardar</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <!-- PESTAÑA 3: SEGURIDAD Y SESIÓN -->
+          <div class="profile-tab-pane" id="pane-profile-security" role="tabpanel" aria-labelledby="tab-profile-security" hidden>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:12px; align-items:start;">
+              <!-- Columna 1: Contraseña y Términos -->
+              <div style="display:flex; flex-direction:column; gap:12px;">
+                <section class="card studs panel" aria-labelledby="h-sec">
+                  <h2 id="h-sec" style="font-size:var(--fs-lead);">Seguridad de la cuenta</h2>
+                  <p style="font-size:var(--fs-small); margin-bottom:10px;">Gestioná la seguridad y la contraseña de la plataforma institucional.</p>
+                  <div class="link-row" style="margin-top:4px;">
+                    <div style="display:flex; flex-direction:column; gap:2px;">
+                      <strong style="font-size:var(--fs-ui);">Contraseña</strong>
+                      <span class="muted" style="font-size:var(--fs-micro);">Último cambio hace más de 30 días.</span>
+                    </div>
+                    <button class="btn btn-secondary btn-sm" type="button"><svg class="icon icon-sm"><use href="#i-key"/></svg>Cambiar contraseña</button>
+                  </div>
+                </section>
+
+                <section class="card studs panel" aria-labelledby="h-terms">
+                  <h2 id="h-terms" style="font-size:var(--fs-lead);">Términos y condiciones</h2>
+                  <p style="font-size:var(--fs-small); margin-bottom:8px;">Reglamento de convivencia académica y uso del campus virtual.</p>
+                  <div class="link-row" style="margin-top:4px;">
+                    <span class="who" style="font-size:var(--fs-small);"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-tick"/></svg>Aceptados (Versión 1)</span>
+                    <a class="btn btn-ghost btn-sm" href="#">Leer términos</a>
+                  </div>
+                </section>
+              </div>
+
+              <!-- Columna 2: Zona de Sesión / Cerrar sesión -->
+              <div>
+                <section class="card studs panel" aria-labelledby="h-danger" style="border-color:color-mix(in srgb, var(--danger, #ef4444) 40%, var(--border-subtle));">
+                  <h2 id="h-danger" style="color:var(--danger, #ef4444); font-size:var(--fs-lead);">Cerrar sesión</h2>
+                  <p style="font-size:var(--fs-small); margin-bottom:10px;">Cerrá tu sesión en este dispositivo cuando termines de estudiar en computadoras públicas o compartidas.</p>
+                  <div class="link-row" style="margin-top:6px;">
+                    <span class="muted" style="font-size:var(--fs-micro);">Tu progreso y monedas quedan guardados en tu cuenta.</span>
+                    <button class="btn btn-ghost danger btn-sm" type="button"><svg class="icon icon-sm"><use href="#i-logout"/></svg>Cerrar sesión</button>
+                  </div>
+                </section>
+              </div>
             </div>
-            <div class="table-wrap" data-view-target="alumnos"><table class="data" id="student-table"></table></div>
-            <div class="empty" id="st-empty" hidden>Todavía no agregaste alumnos a este curso.</div>
-            <div class="pager" id="st-pager"></div>
-            <datalist id="st-course-list"></datalist>
-            </details>
-          </section>
-          <section class="card studs panel" aria-labelledby="h-access-p" data-admin-only>
-            <h2 id="h-access-p">Accesos a la plataforma</h2>
-            <p>Aprobá solicitudes pendientes y habilitá emails docentes sin esperar su pedido.</p>
-            <div class="link-row">
-              <span class="who"><span class="badge badge-primary num">1</span>solicitud pendiente</span>
-              <a class="btn btn-secondary" href="#accesos"><svg class="icon icon-sm"><use href="#i-key"/></svg>Gestionar accesos</a>
-            </div>
-          </section>
-          <section class="card studs panel" aria-labelledby="h-gh">
-            <h2 id="h-gh">GitHub</h2>
-            <p>Vinculá tu cuenta para las entregas y los repositorios de la cátedra.</p>
-            <div class="link-row">
-              <span class="who"><svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>Sin cuenta vinculada</span>
-              <button class="btn btn-secondary" type="button"><svg class="icon icon-sm"><use href="#i-github"/></svg>Vincular GitHub</button>
-            </div>
-          </section>
-          <section class="card studs panel" aria-labelledby="h-sec">
-            <h2 id="h-sec">Seguridad y sesión</h2>
-            <p>Cambiá tu contraseña o cerrá la sesión en este dispositivo.</p>
-            <div class="link-row">
-              <a class="btn btn-ghost" href="#"><svg class="icon icon-sm"><use href="#i-key"/></svg>Cambiar contraseña</a>
-              <button class="btn btn-ghost danger" type="button"><svg class="icon icon-sm"><use href="#i-logout"/></svg>Cerrar sesión</button>
-            </div>
-          </section>
+          </div>
         </div>
       </div>
     </section>
@@ -1808,9 +2067,9 @@
         <a class="btn btn-primary" href="#desafio-tipo"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Nuevo desafío</a>
       </div>
       <div class="tabs" role="tablist" aria-label="Sección">
-        <button class="tab" role="tab" aria-selected="true" data-subtab="cat-practicos">Catálogo <span class="count num">14</span></button>
-        <button class="tab" role="tab" aria-selected="false" data-subtab="cat-cuestionarios">Cuestionarios teóricos <span class="count num">3</span></button>
-        <button class="tab" role="tab" aria-selected="false" data-subtab="cat-banco">Banco de preguntas <span class="count num">24</span></button>
+        <button class="tab" role="tab" aria-selected="true" data-subtab="cat-practicos"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-cards"/></svg><span>Catálogo</span></button>
+        <button class="tab" role="tab" aria-selected="false" data-subtab="cat-cuestionarios"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-survey"/></svg><span>Cuestionarios teóricos</span></button>
+        <button class="tab" role="tab" aria-selected="false" data-subtab="cat-banco"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-book"/></svg><span>Banco de preguntas</span></button>
       </div>
       <div class="data">
         <div data-subpanel="cat-practicos"><div data-catalog></div></div>
@@ -2268,9 +2527,9 @@
       </div>
       <div class="data">
         <div class="tabs" role="tablist" aria-label="Accesos" id="acc-tabs">
-          <button class="tab" role="tab" aria-selected="true" data-subtab="acc-pend">Pendientes <span class="count num" data-pend-count>1</span></button>
-          <button class="tab" role="tab" aria-selected="false" data-subtab="acc-ok">Habilitados <span class="count num" data-ok-count>12</span></button>
-          <button class="tab" role="tab" aria-selected="false" data-subtab="acc-adm">Administradores <span class="count num" data-adm-count>5</span></button>
+          <button class="tab" role="tab" aria-selected="true" data-subtab="acc-pend"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-clock"/></svg><span>Pendientes</span></button>
+          <button class="tab" role="tab" aria-selected="false" data-subtab="acc-ok"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"/></svg><span>Habilitados</span></button>
+          <button class="tab" role="tab" aria-selected="false" data-subtab="acc-adm"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-shield"/></svg><span>Administradores</span></button>
         </div>
 
         <div data-subpanel="acc-pend">
@@ -2705,9 +2964,9 @@
         <p class="hint" style="margin-bottom:14px;">Pestañas con contador, pestañas de curso con scroll horizontal, segmentado de filtros, alternador cards/grilla, volver y miga de pan.</p>
         <div class="uikit-demo">
           <div class="tabs" role="tablist" aria-label="Ejemplo de pestañas">
-            <button class="tab" role="tab" type="button" aria-selected="true">Catálogo <span class="count num">14</span></button>
-            <button class="tab" role="tab" type="button" aria-selected="false">Cuestionarios teóricos <span class="count num">3</span></button>
-            <button class="tab" role="tab" type="button" aria-selected="false">Banco de preguntas <span class="count num">24</span></button>
+            <button class="tab" role="tab" type="button" aria-selected="true"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-cards"/></svg><span>Catálogo</span></button>
+            <button class="tab" role="tab" type="button" aria-selected="false"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-survey"/></svg><span>Cuestionarios teóricos</span></button>
+            <button class="tab" role="tab" type="button" aria-selected="false"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-book"/></svg><span>Banco de preguntas</span></button>
           </div>
           <div class="tabs course-tabs" role="tablist" aria-label="Ejemplo de pestañas de curso">
             <button class="tab" role="tab" type="button" aria-selected="true">Programación IV</button>
@@ -3732,8 +3991,8 @@ function ChallengeList(root) {
   const st = { tab: 'todo', q: '', course: '', type: '', diff: '', req: false, unit: null };
   root.innerHTML = `
     <div class="tabs" role="tablist" aria-label="Estado de los desafíos">
-      <button class="tab" role="tab" id="${uid}-todo" aria-selected="true" aria-controls="${uid}-res" data-tab="todo">Por hacer <span class="count num"></span></button>
-      <button class="tab" role="tab" id="${uid}-done" aria-selected="false" aria-controls="${uid}-res" data-tab="done">Completados <span class="count num"></span></button>
+      <button class="tab" role="tab" id="${uid}-todo" aria-selected="true" aria-controls="${uid}-res" data-tab="todo"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-todo"/></svg><span>Por hacer</span></button>
+      <button class="tab" role="tab" id="${uid}-done" aria-selected="false" aria-controls="${uid}-res" data-tab="done"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"/></svg><span>Completados</span></button>
     </div>
     ${filterBar(uid, "Buscar por nombre del desafío", `
       ${locked ? '' : '<label class="field">Curso<select class="control" name="course"><option value="">Todos</option><option value="ProgIV">Programación IV</option><option value="InglesII">Inglés II</option><option value="BDII">BD II</option><option value="MSI">MSI</option></select></label>'}
@@ -3760,8 +4019,8 @@ function ChallengeList(root) {
 
   function render(animate = true) {
     const counts = $$('.tab .count', root);
-    counts[0].textContent = CHALLENGES.filter(c => c.status !== 'done' && matches(c)).length;
-    counts[1].textContent = CHALLENGES.filter(c => c.status === 'done' && matches(c)).length;
+    if (counts[0]) counts[0].textContent = CHALLENGES.filter(c => c.status !== 'done' && matches(c)).length;
+    if (counts[1]) counts[1].textContent = CHALLENGES.filter(c => c.status === 'done' && matches(c)).length;
     const list = CHALLENGES.filter(c => (st.tab === 'done' ? c.status === 'done' : c.status !== 'done') && matches(c));
     const groups = new Map(); // group -> items: O(n) bucketing, then read in fixed GROUP_ORDER
     for (const c of list) { const g = groupOf(c); (groups.get(g) || groups.set(g, []).get(g)).push(c); }
@@ -3996,6 +4255,44 @@ function renderRecentCourses() {
       </div>
     </article>
   `).join('');
+
+  requestAnimationFrame(updateRecentNavButtons);
+}
+
+function scrollRecentCourses(direction) {
+  const track = $('#recent-courses-track');
+  if (!track) return;
+  const firstCard = track.querySelector('.course-grid-card, .recent-card');
+  const gap = parseFloat(getComputedStyle(track).gap) || 16;
+  const step = firstCard ? (firstCard.offsetWidth + gap) : 280;
+  track.scrollBy({ left: direction * step, behavior: 'smooth' });
+  setTimeout(updateRecentNavButtons, 350);
+}
+
+function updateRecentNavButtons() {
+  const track = $('#recent-courses-track');
+  const prevBtn = $('#recent-prev-btn');
+  const nextBtn = $('#recent-next-btn');
+  if (!track || !prevBtn || !nextBtn) return;
+
+  const maxScroll = track.scrollWidth - track.clientWidth;
+  const hasOverflow = maxScroll > 4;
+
+  if (!hasOverflow) {
+    prevBtn.disabled = true;
+    nextBtn.disabled = true;
+    prevBtn.setAttribute('aria-disabled', 'true');
+    nextBtn.setAttribute('aria-disabled', 'true');
+    return;
+  }
+
+  const atStart = track.scrollLeft <= 4;
+  const atEnd = track.scrollLeft >= maxScroll - 4;
+
+  prevBtn.disabled = atStart;
+  nextBtn.disabled = atEnd;
+  prevBtn.setAttribute('aria-disabled', atStart ? 'true' : 'false');
+  nextBtn.setAttribute('aria-disabled', atEnd ? 'true' : 'false');
 }
 
 /* ======================= LÍNEA DE TIEMPO (INICIO) ======================= */
@@ -4095,14 +4392,15 @@ function renderStudentCourseTabs() {
   const totalCount = allList.length;
 
   const tabsData = [
-    { key: 'active', label: 'En curso', count: activeCount },
-    { key: 'history', label: 'Historial / Anteriores', count: historyCount },
-    { key: 'all', label: 'Todas', count: totalCount }
+    { key: 'active', label: 'En curso', icon: 'i-book' },
+    { key: 'history', label: 'Historial / Anteriores', icon: 'i-clock' },
+    { key: 'all', label: 'Todas', icon: 'i-cards' }
   ];
 
   tabsContainer.innerHTML = tabsData.map(t => `
     <button class="tab" role="tab" aria-selected="${studentCourseTab === t.key}" tabindex="${studentCourseTab === t.key ? '0' : '-1'}" data-course-tab="${t.key}">
-      ${t.label} <span class="count num">${t.count}</span>
+      <svg class="icon icon-sm" aria-hidden="true"><use href="#${t.icon}"/></svg>
+      <span>${t.label}</span>
     </button>
   `).join('');
 }
@@ -4275,8 +4573,18 @@ document.addEventListener('keydown', e => {
 let cohortTab = 'Activa';
 const cohortPage = { page: 1, size: 10 };
 function renderCohorts() {
-  const tabs = [['Activa', 'Activas'], ['Borrador', 'Borradores'], ['Archivada', 'Archivadas'], ['', 'Todas']];
-  $('#cohort-tabs').innerHTML = tabs.map(([v, l]) => `<button class="tab" role="tab" aria-selected="${v === cohortTab}" tabindex="${v === cohortTab ? '0' : '-1'}" data-cohort="${v}">${l} <span class="count num">${COHORTS.filter(c => !v || c.status === v).length}</span></button>`).join('');
+  const tabs = [
+    ['Activa', 'Activas', 'i-check'],
+    ['Borrador', 'Borradores', 'i-pencil'],
+    ['Archivada', 'Archivadas', 'i-clock'],
+    ['', 'Todas', 'i-cards']
+  ];
+  $('#cohort-tabs').innerHTML = tabs.map(([v, l, ic]) => `
+    <button class="tab" role="tab" aria-selected="${v === cohortTab}" tabindex="${v === cohortTab ? '0' : '-1'}" data-cohort="${v}">
+      <svg class="icon icon-sm" aria-hidden="true"><use href="#${ic}"/></svg>
+      <span>${l}</span>
+    </button>
+  `).join('');
   const all = COHORTS.filter(c => !cohortTab || c.status === cohortTab);
   const pages = Math.max(1, Math.ceil(all.length / cohortPage.size));
   cohortPage.page = Math.min(cohortPage.page, pages);
@@ -6720,6 +7028,32 @@ onPager($('#rank-pager'), n => { rankPage = n; renderRanking(); });
 $('#rank-you').addEventListener('click', e => { if (e.target.closest('[data-rank-me]')) { rankPage = Math.floor((RANK_N - 1) / RANK_SIZE); renderRanking(); $('#rank-table tr.me')?.scrollIntoView({ block: 'center', behavior: 'smooth' }); } });
 
 /* ======================= perfil ======================= */
+function selectProfileTab(tabNameOrId) {
+  if (!tabNameOrId) return;
+  const btn = tabNameOrId.startsWith('#') || tabNameOrId.startsWith('tab-') || tabNameOrId.startsWith('pane-')
+    ? $(`#${tabNameOrId.replace(/^#/, '')}`)
+    : $(`#tab-profile-${tabNameOrId}`);
+  if (!btn) return;
+  const targetPaneId = btn.getAttribute('aria-controls');
+  $$('.profile-tab-btn').forEach(b => {
+    const isSelected = b === btn;
+    b.setAttribute('aria-selected', String(isSelected));
+  });
+  $$('.profile-tab-pane').forEach(pane => {
+    const match = pane.id === targetPaneId;
+    pane.hidden = !match;
+  });
+
+  // Si abrimos la pestaña de apariencia, redibujar el canvas al tamaño real
+  if (targetPaneId === 'pane-profile-appearance') {
+    setTimeout(() => {
+      if (typeof drawSpectrum === 'function') {
+        drawSpectrum(typeof spectrumHue !== 'undefined' ? spectrumHue : 198);
+      }
+    }, 50);
+  }
+}
+
 function renderProfile() {
   const u = USERS[currentRole];
   $$('[data-me-initials]').forEach(el => el.textContent = u.initials);
@@ -6746,7 +7080,8 @@ function renderProfile() {
 function renderMyCourses() {
   if (currentRole !== 'alumno') return;
   const courses = ['MSI', 'GDS', 'ProgIV', 'IAD', 'LEG'].map(code => COURSES[code]).filter(c => c && c.status === 'Activa');
-  $('[data-mycourses-count]').textContent = courses.length;
+  const countEl = $('[data-mycourses-count]');
+  if (countEl) countEl.textContent = courses.length;
   $('#mycourses-table').innerHTML = `
     <thead><tr><th>Curso</th><th>Docente</th><th>Progreso</th><th><span class="sr-only">Acciones</span></th></tr></thead>
     <tbody>${courses.map(c => `<tr>
@@ -6776,12 +7111,14 @@ function renderBio() {
   more.textContent = 'Ver más';
   requestAnimationFrame(() => { more.hidden = p.scrollHeight <= p.clientHeight + 1; });
   box.querySelector('[data-bio-form]').hidden = true;
-  box.querySelector('[data-bio-edit]').hidden = false;
+  const editBtn = $('[data-bio-edit]');
+  if (editBtn) editBtn.hidden = false;
 }
 function setBioEditing(on) {
   const box = $('[data-bio]');
   box.querySelector('[data-bio-form]').hidden = !on;
-  box.querySelector('[data-bio-edit]').hidden = on;
+  const editBtn = $('[data-bio-edit]');
+  if (editBtn) editBtn.hidden = on;
   box.querySelector('[data-bio-text]').hidden = on;
   box.querySelector('[data-bio-more]').hidden = true;
   if (on) {
@@ -7280,7 +7617,18 @@ if (accBtn && accMenu) {
   accBtn.addEventListener('click', () => { const open = accMenu.hidden; if (open) setNotifMenu(false); setAccount(open); if (open) $('.nav-item', accMenu)?.focus(); });
   document.addEventListener('click', e => { if (!e.target.closest('.account')) setAccount(false); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && !accMenu.hidden) { setAccount(false); accBtn.focus(); } });
-  accMenu.addEventListener('click', e => { if (e.target.closest('a')) setAccount(false); });
+  accMenu.addEventListener('click', e => {
+    const a = e.target.closest('a');
+    if (a) {
+      setAccount(false);
+      const targetHash = a.getAttribute('href');
+      if (targetHash && targetHash.startsWith('#')) {
+        if (location.hash === targetHash) {
+          route();
+        }
+      }
+    }
+  });
 }
 
 /* ======================= notifications menu ======================= */
@@ -7959,10 +8307,13 @@ const ADMINS = [
 let revoking = null;
 function renderAdmins() {
   const act = ADMINS.filter(a => a.active).length, rev = ADMINS.length - act;
-  $('[data-adm-count]').textContent = act;
-  $('#adm-count').innerHTML =`<span>Activos: <b class="num">${act}</b></span>${rev ? `<span class="muted">Revocados: <b class="num">${rev}</b></span>` : ''}<span class="muted">No podés revocar tu propio rol.</span>`;
+  const admCountBadge = $('[data-adm-count]');
+  if (admCountBadge) admCountBadge.textContent = act;
+  const admCountCard = $('#adm-count');
+  if (admCountCard) admCountCard.innerHTML =`<span>Activos: <b class="num">${act}</b></span>${rev ? `<span class="muted">Revocados: <b class="num">${rev}</b></span>` : ''}<span class="muted">No podés revocar tu propio rol.</span>`;
   const rows = [...ADMINS].sort((a, b) => b.active - a.active);
-  $('#adm-table').innerHTML = `<thead><tr><th>Persona</th><th>ID de usuario</th><th>Estado</th><th>Asignado</th><th><span class="sr-only">Acciones</span></th></tr></thead><tbody>${
+  const admTable = $('#adm-table');
+  if (admTable) admTable.innerHTML = `<thead><tr><th>Persona</th><th>ID de usuario</th><th>Estado</th><th>Asignado</th><th><span class="sr-only">Acciones</span></th></tr></thead><tbody>${
     rows.map(a => { const me = a.email === ME_ADMIN.email; return `<tr>
       <td><div class="cell-title with-badge">${esc(a.name)}${me ? '<span class="badge badge-primary sm">Tu sesión</span>' : ''}</div><div class="cell-sub">${esc(a.email)}</div></td>
       <td><span class="mono-id" title="${a.id}">${a.id.slice(0, 8)}…</span></td>
@@ -8373,9 +8724,8 @@ function renderCatalog() {
     <div><div class="k">${icon('i-tick', 'icon icon-sm')}Activas</div><div class="v num">${offers.filter(o => o.active).length}</div></div>
     <div><div class="k">${icon('i-users', 'icon icon-sm')}Unidades vendidas</div><div class="v num">${sold}</div></div>
     <div><div class="k">${icon('i-coin', 'icon icon-sm')}Monedas gastadas</div><div class="v num coin">${earned.toLocaleString('es-AR')}</div></div>`;
-  const count = t => offers.filter(o => !t || o.type === t).length;
   $('#vcat-tabs').innerHTML = [['', 'Todas'], ...Object.entries(OFFER_TYPES).map(([k, t]) => [k, t.plural])]
-    .map(([k, l]) => `<button class="tab" role="tab" type="button" aria-selected="${vcat.type === k}" data-vtype="${k}">${l} <span class="count num">${count(k)}</span></button>`).join('');
+    .map(([k, l]) => `<button class="tab" role="tab" type="button" aria-selected="${vcat.type === k}" data-vtype="${k}">${l}</button>`).join('');
   const byType = offers.filter(o => !vcat.type || o.type === vcat.type);
   $('#vcat-status').innerHTML = [['all', 'Todas', byType.length], ['on', 'Activas', byType.filter(o => o.active).length], ['off', 'Pausadas', byType.filter(o => !o.active).length]]
     .map(([k, l, n]) => `<button type="button" data-vstatus="${k}" aria-pressed="${vcat.status === k}">${l} <span class="num">${n}</span></button>`).join('');
@@ -8562,7 +8912,7 @@ const SHOP_TAB_LABELS = {
 function getShopActiveTabLabel() {
   const activeBtn = document.querySelector('#shop-tabs [data-shop-tab][aria-selected="true"]');
   if (activeBtn) {
-    const txt = activeBtn.childNodes[0]?.textContent?.trim() || activeBtn.textContent.trim();
+    const txt = activeBtn.querySelector('span')?.textContent?.trim() || activeBtn.textContent.trim();
     if (txt) return txt;
   }
   return SHOP_TAB_LABELS[shopActiveTab] || 'Vitrina';
@@ -8836,14 +9186,14 @@ const NAV_TABS = {
   alumno: [
     ['dashboard', 'i-home', 'Inicio'],
     ['cursos', 'i-book', 'Cursos'],
-    ['desafios', 'i-flame', 'Desafíos', 3],
+    ['desafios', 'i-swords', 'Desafíos', 3],
     ['ranking', 'i-trophy', 'Ranking'],
     ['banco', 'i-coin', 'Economía'],
     ['chat', 'i-chat', 'Comunidad'],
   ],
   profesor: [
     ['cursos', 'i-book', 'Cursos'],
-    ['desafios', 'i-flame', 'Desafíos'],
+    ['desafios', 'i-swords', 'Desafíos'],
     ['ranking', 'i-trophy', 'Gamificación'],
     ['vitrinas', 'i-bag', 'Mercado'],
     ['chat', 'i-chat', 'Comunidad'],
@@ -8852,7 +9202,7 @@ const NAV_TABS = {
     ['backoffice', 'i-sliders', 'Backoffice'],
     ['accesos', 'i-key', 'Accesos', 1],
     ['cursos', 'i-book', 'Cursos'],
-    ['desafios', 'i-flame', 'Desafíos'],
+    ['desafios', 'i-swords', 'Desafíos'],
   ],
 };
 
@@ -8860,14 +9210,14 @@ const BOTTOM_NAV_ITEMS = {
   alumno: [
     ['dashboard', 'i-home', 'Inicio'],
     ['cursos', 'i-book', 'Cursos'],
-    ['desafios', 'i-flame', 'Desafíos'],
+    ['desafios', 'i-swords', 'Desafíos'],
     ['ranking', 'i-trophy', 'Ranking'],
     ['banco', 'i-coin', 'Economía'],
     ['chat', 'i-chat', 'Chat'],
   ],
   profesor: [
     ['cursos', 'i-book', 'Cursos'],
-    ['desafios', 'i-flame', 'Desafíos'],
+    ['desafios', 'i-swords', 'Desafíos'],
     ['ranking', 'i-trophy', 'Alumnos'],
     ['chat', 'i-chat', 'Chat'],
     ['perfil', 'i-user', 'Perfil'],
@@ -8876,7 +9226,7 @@ const BOTTOM_NAV_ITEMS = {
     ['backoffice', 'i-sliders', 'Backoffice'],
     ['accesos', 'i-key', 'Accesos'],
     ['cursos', 'i-book', 'Cursos'],
-    ['desafios', 'i-flame', 'Desafíos'],
+    ['desafios', 'i-swords', 'Desafíos'],
     ['perfil', 'i-user', 'Perfil'],
   ],
 };
@@ -8928,8 +9278,8 @@ function navOf(id) {
 const SUBMENUS = {
   alumno: {
     chat: {
-      tag: 'Comunidad',
-      title: 'Canales de Chat',
+      tag: '',
+      title: 'Comunidad',
       sections: [
         {
           label: 'Canales de Consulta',
@@ -8957,8 +9307,8 @@ const SUBMENUS = {
       ]
     },
     chat: {
-      tag: 'Comunidad',
-      title: 'Canales de Chat',
+      tag: '',
+      title: 'Comunidad',
       sections: [
         {
           label: 'Canales',
@@ -9002,6 +9352,7 @@ const SUBMENUS = {
 };
 
 let currentRole = 'alumno', currentScreen = 'dashboard';
+let lastNonSubpanelHash = 'dashboard';
 let subpanelClosedByUser = false;
 let subpanelNavFromPanel = false;
 
@@ -9049,6 +9400,17 @@ function closeSubpanel(userInitiated = false) {
     btn.setAttribute('aria-expanded', 'false');
     btn.classList.remove('is-active');
   });
+
+  // Si estamos en una vista contextual (como Comunidad / Chat) y el usuario cierra el submenú,
+  // volver a la pantalla anterior (ej: Inicio / Dashboard)
+  if (userInitiated && currentScreen === 'chat') {
+    const targetHash = (lastNonSubpanelHash && lastNonSubpanelHash !== 'chat') ? lastNonSubpanelHash : 'dashboard';
+    if (location.hash.slice(1) !== targetHash) {
+      location.hash = targetHash;
+    } else {
+      route();
+    }
+  }
 }
 
 function buildSubpanelHTML(menuConfig, hashFull, activeCourseCode) {
@@ -9290,7 +9652,10 @@ function updateSubpanel(navId, hashFull, forceOpen = false) {
     subpanel.dataset.subpanelMode = 'course-detail';
     subpanel.dataset.currentCourse = activeCourseCode;
     subpanel.dataset.currentNav = 'cursos';
-    if (tagEl) tagEl.textContent = 'Materia · 4to Cuatrimestre';
+    if (tagEl) {
+      tagEl.textContent = 'Materia · 4to Cuatrimestre';
+      tagEl.style.display = '';
+    }
     if (titleEl) titleEl.textContent = cObj?.name ? cObj.name : 'Metodología de Sistemas II';
 
     if (bodyEl) {
@@ -9342,7 +9707,15 @@ function updateSubpanel(navId, hashFull, forceOpen = false) {
   if (isNewNavSection || wasCourseDetail || courseChanged) {
     subpanel.dataset.currentCourse = activeCourseCode || '';
 
-    if (tagEl) tagEl.textContent = menuConfig.tag || 'Cursos & Materias';
+    if (tagEl) {
+      if (menuConfig.tag) {
+        tagEl.textContent = menuConfig.tag;
+        tagEl.style.display = '';
+      } else {
+        tagEl.textContent = '';
+        tagEl.style.display = 'none';
+      }
+    }
     if (titleEl) titleEl.textContent = menuConfig.title || 'Mis Cursos';
 
     if (bodyEl) {
@@ -9749,6 +10122,9 @@ function route() {
   const [id, arg] = routePath.split('/');
   /* Administradores ahora es una pestaña de Accesos: los links viejos van ahí. */
   if (id === 'administradores') { location.replace('#accesos?tab=acc-adm'); return; }
+  if (id !== 'chat') {
+    lastNonSubpanelHash = fullHash;
+  }
   currentScreen = id;
   const navId = navOf(id);
 
@@ -9830,6 +10206,26 @@ function route() {
     $('#pending-title').textContent = link ? link.getAttribute('data-tooltip') || link.textContent.trim() : 'Página';
   }
   el.hidden = false;
+  if (id === 'dashboard') {
+    requestAnimationFrame(updateRecentNavButtons);
+  }
+  if (id === 'perfil') {
+    renderProfile();
+    const qTab = queryString ? new URLSearchParams(queryString).get('tab') : null;
+    if (qTab) {
+      if (typeof selectProfileTab === 'function') {
+        selectProfileTab(qTab);
+      } else {
+        const targetTab = $(`#tab-profile-${qTab}`);
+        if (targetTab) targetTab.click();
+      }
+      if (qTab === 'appearance') {
+        requestAnimationFrame(() => {
+          $('#pane-profile-appearance')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      }
+    }
+  }
   if (id === 'accesos') selectSubtab($(`[data-subtab="${new URLSearchParams(queryString || '').get('tab') || 'acc-pend'}"]`, el));
   el.style.animation = 'none'; el.offsetHeight; el.style.animation = '';
   applyError(el);
@@ -9982,6 +10378,11 @@ const root = document.documentElement;
 function setTheme(t) {
   root.dataset.theme = t; store.set('tpi-theme', t);
   $$('[data-theme-btn]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.themeBtn === t)));
+  // Re-mezclar el sidebar con la base correcta del theme si hay accent custom
+  try {
+    const cur = ($('#custom-hex-field')?.value || '').trim();
+    if (cur && typeof setCustomAccent === 'function') setCustomAccent('#' + cur, true);
+  } catch {}
 }
 const FONT_MAP = {
   pixelify: "'Pixelify Sans', sans-serif",
@@ -9995,10 +10396,11 @@ function setSkin(s) {
   root.dataset.skin = s; store.set('tpi-skin', s);
   $$('[data-skin-btn]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.skinBtn === s)));
   if (s === 'sobrio') {
-    root.style.setProperty('--font-display', "'IBM Plex Sans', sans-serif");
+    root.style.setProperty('--font-display', "'Chakra Petch', sans-serif");
+    root.style.setProperty('--font-ui', "'Inter', sans-serif");
   } else {
-    const f = store.get('tpi-font') || 'pressstart';
-    root.style.setProperty('--font-display', FONT_MAP[f] || FONT_MAP.pressstart);
+    root.style.setProperty('--font-display', "'Press Start 2P', monospace");
+    root.style.setProperty('--font-ui', "'Chakra Petch', sans-serif");
   }
 
   const dashTitle = $('[data-dashboard-title]');
@@ -10055,13 +10457,287 @@ $$('[data-palette-btn]').forEach(b => b.addEventListener('click', () => setPalet
 $$('[data-font-btn]').forEach(b => b.addEventListener('click', () => setFont(b.dataset.fontBtn)));
 $$('[data-role-btn]').forEach(b => b.addEventListener('click', () => setRole(b.dataset.roleBtn)));
 
+/* ---- Personalización de Color de Acento (Presets + HEX manual + Live Preview) ---- */
+function getContrastColor(hex) {
+  let c = hex.replace('#', '');
+  if (c.length === 3) c = c[0] + c[0] + c[1] + c[1] + c[2] + c[2];
+  const r = parseInt(c.slice(0, 2), 16) || 0;
+  const g = parseInt(c.slice(2, 4), 16) || 0;
+  const b = parseInt(c.slice(4, 6), 16) || 0;
+  const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+  return (yiq >= 145) ? '#0f172a' : '#ffffff';
+}
+
+function setCustomAccent(hex, isTemp = false) {
+  if (!hex) return;
+  if (!hex.startsWith('#')) hex = '#' + hex;
+
+  const onAccent = getContrastColor(hex);
+  // YIQ para decidir intensidad del tinte (colores casi blancos lavan el rail)
+  let _c = hex.replace('#', '');
+  if (_c.length === 3) _c = _c[0] + _c[0] + _c[1] + _c[1] + _c[2] + _c[2];
+  const _r = parseInt(_c.slice(0, 2), 16) || 0;
+  const _g = parseInt(_c.slice(2, 4), 16) || 0;
+  const _b = parseInt(_c.slice(4, 6), 16) || 0;
+  const _yiq = ((_r * 299) + (_g * 587) + (_b * 114)) / 1000;
+  // Tinte sutil: mezcla sobre base oscura canónica para no romper iconos.
+  // No se lee el valor computado para evitar acumular mixes en cada cambio.
+  const _isLight = root.getAttribute('data-theme') === 'light';
+  const _base = _isLight ? '#1e293b' : '#12141c';
+  const _mixPct = _yiq >= 200 ? 14 : 22;
+  root.style.setProperty('--accent-primary', hex);
+  root.style.setProperty('--accent-primary-fill', hex);
+  root.style.setProperty('--on-accent-primary', onAccent);
+  root.style.setProperty('--border-highlight', hex);
+  root.style.setProperty('--sidebar-active', hex);
+  root.style.setProperty('--sidebar-bg', `color-mix(in srgb, ${hex} ${_mixPct}%, ${_base})`);
+
+  const hexField = $('#custom-hex-field');
+  const picker = $('#custom-accent-picker');
+  const hexLbl = $('#sandbox-hex-label');
+  const sandbox = $('#sandbox-preview-box');
+  const sandboxBtn = $('#sandbox-btn-preview');
+  const sandboxBadge = $('#sandbox-badge-preview');
+  const sandboxSidebar = $('#sandbox-sidebar-preview');
+
+  if (hexField) hexField.value = hex.replace('#', '').toUpperCase();
+  if (picker) picker.value = hex;
+  const activeSwatch = $('#spectrum-active-swatch');
+  if (activeSwatch) activeSwatch.style.backgroundColor = hex;
+  if (hexLbl) { hexLbl.textContent = hex.toUpperCase(); hexLbl.style.color = hex; }
+  if (sandbox) sandbox.style.borderColor = hex;
+  if (sandboxBtn) {
+    sandboxBtn.style.background = hex;
+    sandboxBtn.style.color = onAccent;
+  }
+  if (sandboxSidebar) {
+    // Refleja el rail real: fondo teñido oscuro + texto blanco + acento en borde
+    sandboxSidebar.style.color = '#ffffff';
+    sandboxSidebar.style.borderColor = hex;
+    sandboxSidebar.style.backgroundColor = `color-mix(in srgb, ${hex} ${_mixPct}%, ${_base})`;
+  }
+  if (sandboxBadge) {
+    // Badge desacoplado del accent: rojo fijo de urgencia, siempre legible
+    const dangerFill = _isLight ? '#e11d48' : '#f43f5e';
+    sandboxBadge.style.color = '#ffffff';
+    sandboxBadge.style.borderColor = dangerFill;
+    sandboxBadge.style.backgroundColor = dangerFill;
+  }
+
+  if (!isTemp) {
+    store.set('tpi-custom-accent', hex);
+  }
+}
+
+/* ========================================================
+   LOGICA DEL ESPECTRO 2D Y SLIDER ARCOIRIS (MODELO A)
+   ======================================================== */
+let spectrumHue = 198;
+const specCanvas = $('#spectrum-canvas');
+const specHandle = $('#spectrum-handle');
+const specWrap = $('#spectrum-canvas-wrap');
+const specHueSlider = $('#spectrum-hue-slider');
+const specHueLabel = $('#hue-val-label');
+
+function drawSpectrum(hue) {
+  if (!specCanvas || !specWrap) return;
+  const ctx = specCanvas.getContext('2d');
+  const w = specCanvas.width = specWrap.clientWidth || 300;
+  const h = specCanvas.height = specWrap.clientHeight || 140;
+
+  // Base hue fill
+  ctx.fillStyle = `hsl(${hue}, 100%, 50%)`;
+  ctx.fillRect(0, 0, w, h);
+
+  // Gradiente horizontal: blanco a transparente
+  const gradWhite = ctx.createLinearGradient(0, 0, w, 0);
+  gradWhite.addColorStop(0, 'rgba(255, 255, 255, 1)');
+  gradWhite.addColorStop(1, 'rgba(255, 255, 255, 0)');
+  ctx.fillStyle = gradWhite;
+  ctx.fillRect(0, 0, w, h);
+
+  // Gradiente vertical: transparente a negro
+  const gradBlack = ctx.createLinearGradient(0, 0, 0, h);
+  gradBlack.addColorStop(0, 'rgba(0, 0, 0, 0)');
+  gradBlack.addColorStop(1, 'rgba(0, 0, 0, 1)');
+  ctx.fillStyle = gradBlack;
+  ctx.fillRect(0, 0, w, h);
+}
+
+function pickSpectrumColorAt(x, y) {
+  if (!specCanvas) return;
+  const ctx = specCanvas.getContext('2d');
+  const clampedX = Math.max(0, Math.min(specCanvas.width - 1, Math.round(x)));
+  const clampedY = Math.max(0, Math.min(specCanvas.height - 1, Math.round(y)));
+  try {
+    const pixel = ctx.getImageData(clampedX, clampedY, 1, 1).data;
+    const hex = '#' + [pixel[0], pixel[1], pixel[2]].map(c => c.toString(16).padStart(2, '0')).join('').toUpperCase();
+    setCustomAccent(hex, true);
+    $$('[data-color-preset]').forEach(b => b.setAttribute('aria-pressed', 'false'));
+  } catch (err) {
+    console.warn('Canvas pixel read error', err);
+  }
+}
+
+function updateSpectrumHandle(x, y) {
+  if (!specWrap || !specHandle) return;
+  const rect = specWrap.getBoundingClientRect();
+  const clampedX = Math.max(0, Math.min(rect.width, x));
+  const clampedY = Math.max(0, Math.min(rect.height, y));
+  specHandle.style.left = clampedX + 'px';
+  specHandle.style.top = clampedY + 'px';
+  pickSpectrumColorAt(clampedX, clampedY);
+}
+
+if (specHueSlider) {
+  specHueSlider.addEventListener('input', e => {
+    spectrumHue = parseInt(e.target.value, 10) || 0;
+    if (specHueLabel) specHueLabel.textContent = `${spectrumHue}°`;
+    drawSpectrum(spectrumHue);
+    if (specHandle) {
+      const x = parseFloat(specHandle.style.left) || (specWrap ? specWrap.clientWidth * 0.7 : 100);
+      const y = parseFloat(specHandle.style.top) || (specWrap ? specWrap.clientHeight * 0.3 : 40);
+      pickSpectrumColorAt(x, y);
+    }
+  });
+}
+
+if (specWrap) {
+  let isDraggingSpectrum = false;
+
+  const onPointerDown = e => {
+    isDraggingSpectrum = true;
+    const rect = specWrap.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    updateSpectrumHandle(clientX - rect.left, clientY - rect.top);
+  };
+
+  const onPointerMove = e => {
+    if (!isDraggingSpectrum) return;
+    const rect = specWrap.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    updateSpectrumHandle(clientX - rect.left, clientY - rect.top);
+  };
+
+  const onPointerUp = () => {
+    if (isDraggingSpectrum) {
+      isDraggingSpectrum = false;
+      const hexField = $('#custom-hex-field');
+      if (hexField) {
+        setCustomAccent('#' + hexField.value, false);
+      }
+    }
+  };
+
+  specWrap.addEventListener('mousedown', onPointerDown);
+  window.addEventListener('mousemove', onPointerMove);
+  window.addEventListener('mouseup', onPointerUp);
+
+  specWrap.addEventListener('touchstart', onPointerDown, { passive: true });
+  window.addEventListener('touchmove', onPointerMove, { passive: true });
+  window.addEventListener('touchend', onPointerUp);
+}
+
+// Inicialización diferida del canvas al redimensionar o al abrir la pantalla de perfil
+window.addEventListener('resize', () => {
+  if (specWrap && specWrap.clientWidth > 0) {
+    drawSpectrum(spectrumHue);
+  }
+});
+
+// Hook cuando la ruta navega a #perfil
+const initSpectrumOnShow = () => {
+  if (specWrap && specWrap.clientWidth > 0) {
+    drawSpectrum(spectrumHue);
+  } else {
+    setTimeout(initSpectrumOnShow, 150);
+  }
+};
+setTimeout(initSpectrumOnShow, 300);
+
+/* Pestañas internas de Mi Perfil */
+$$('.profile-tab-btn').forEach(tabBtn => {
+  tabBtn.addEventListener('click', () => {
+    selectProfileTab(tabBtn.id);
+  });
+});
+
+$$('[data-color-preset]').forEach(b => {
+  b.addEventListener('click', () => {
+    const hex = b.dataset.colorPreset;
+    setCustomAccent(hex, false);
+    $$('[data-color-preset]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+    showToast(`Color aplicado: ${hex.toUpperCase()}`, 'success');
+  });
+});
+
+$('#custom-hex-field')?.addEventListener('input', e => {
+  let val = e.target.value.replace(/[^0-9A-Fa-f]/g, '');
+  if (val.length === 6 || val.length === 3) {
+    setCustomAccent('#' + val, true);
+    $$('[data-color-preset]').forEach(x => x.setAttribute('aria-pressed', 'false'));
+  }
+});
+
+$('#custom-accent-picker')?.addEventListener('input', e => {
+  setCustomAccent(e.target.value, true);
+  $$('[data-color-preset]').forEach(x => x.setAttribute('aria-pressed', 'false'));
+});
+
+$('#btn-save-color')?.addEventListener('click', () => {
+  const hexField = $('#custom-hex-field');
+  const hex = hexField ? '#' + hexField.value : '#0284c7';
+  setCustomAccent(hex, false);
+  showToast(`Color guardado exitosamente: ${hex.toUpperCase()}`, 'success');
+});
+
+$('#btn-reset-color')?.addEventListener('click', () => {
+  root.style.removeProperty('--accent-primary');
+  root.style.removeProperty('--accent-primary-fill');
+  root.style.removeProperty('--border-highlight');
+  root.style.removeProperty('--sidebar-active');
+  root.style.removeProperty('--sidebar-bg');
+  try { localStorage.removeItem('tpi-custom-accent'); } catch {}
+  setPalette('electric');
+  setCustomAccent('#0284c7', false);
+  spectrumHue = 198;
+  if (specHueSlider) specHueSlider.value = '198';
+  if (specHueLabel) specHueLabel.textContent = '198°';
+  drawSpectrum(198);
+  if (specHandle && specWrap) {
+    specHandle.style.left = (specWrap.clientWidth * 0.7) + 'px';
+    specHandle.style.top = (specWrap.clientHeight * 0.3) + 'px';
+  }
+  const el = $('[data-color-preset="#0284c7"]');
+  if (el) el.setAttribute('aria-pressed', 'true');
+  showToast('Color restablecido a Cyber Clan (#0284C7)', 'info');
+});
+
+// Restaurar color personalizado guardado al cargar
+const savedAccent = store.get('tpi-custom-accent');
+if (savedAccent) {
+  setCustomAccent(savedAccent, false);
+}
+
 /* Eventos de Cursos Recientes, Línea de Tiempo y Mis Cursos */
-$('#recent-prev-btn')?.addEventListener('click', () => {
-  $('#recent-courses-track')?.scrollBy({ left: -280, behavior: 'smooth' });
-});
-$('#recent-next-btn')?.addEventListener('click', () => {
-  $('#recent-courses-track')?.scrollBy({ left: 280, behavior: 'smooth' });
-});
+$('#recent-prev-btn')?.addEventListener('click', () => scrollRecentCourses(-1));
+$('#recent-next-btn')?.addEventListener('click', () => scrollRecentCourses(1));
+
+const recentTrack = $('#recent-courses-track');
+if (recentTrack) {
+  recentTrack.addEventListener('scroll', () => {
+    updateRecentNavButtons();
+  }, { passive: true });
+
+  if (window.ResizeObserver) {
+    new ResizeObserver(() => {
+      updateRecentNavButtons();
+    }).observe(recentTrack);
+  }
+}
+window.addEventListener('resize', updateRecentNavButtons);
 
 $('#timeline-filter-select')?.addEventListener('change', e => {
   timelineFilter = e.target.value;
