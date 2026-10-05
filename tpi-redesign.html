@@ -8753,7 +8753,6 @@ const PARENT = {
   mercado: 'banco',
   inventario: 'banco',
   personaje: 'banco',
-  banco: 'banco',
 
   // Insignias profesor
   insignias: 'ranking',
@@ -8770,6 +8769,12 @@ const PARENT = {
   vitrina: 'vitrinas',
   'oferta-nueva': 'vitrinas',
 };
+/* Ítem del riel al que pertenece una pantalla. El profesor tiene "Gamificación" (ranking) como ítem propio:
+   para él #ranking no cuelga de Desafíos, o el sub-panel de Gamificación se cerraba al abrir su ranking. */
+function navOf(id) {
+  if (currentRole === 'profesor' && id === 'ranking') return 'ranking';
+  return PARENT[id] || id;
+}
 
 /* ---- Configuración de Sub-menús (Opción D: Split View / Slack & Discord) ---- */
 const SUBMENUS = {
@@ -8813,9 +8818,9 @@ const SUBMENUS = {
         {
           label: 'Canales de Consulta',
           items: [
-            { id: 'sub-chat-general', href: '#chat', label: '#general-dudas', meta: 'Cátedras 2026', icon: 'i-chat', match: h => h === 'chat' },
-            { id: 'sub-chat-tp1', href: '#chat', label: '#prog-concurrencia', meta: '14 mensajes hoy', icon: 'i-chat', match: () => false },
-            { id: 'sub-chat-anuncios', href: '#chat', label: '#anuncios-catedra', meta: 'Solo lectura', icon: 'i-chat', match: () => false }
+            { id: 'sub-chat-general', href: '#chat/general', label: '#general-dudas', meta: 'Cátedras 2026', icon: 'i-chat', match: h => h === 'chat' || h === 'chat/general' },
+            { id: 'sub-chat-tp1', href: '#chat/concurrencia', label: '#prog-concurrencia', meta: '14 mensajes hoy', icon: 'i-chat', match: h => h === 'chat/concurrencia' },
+            { id: 'sub-chat-anuncios', href: '#chat/anuncios', label: '#anuncios-catedra', meta: 'Solo lectura', icon: 'i-chat', match: h => h === 'chat/anuncios' }
           ]
         }
       ]
@@ -8842,8 +8847,8 @@ const SUBMENUS = {
         {
           label: 'Canales',
           items: [
-            { id: 'sub-pchat-general', href: '#chat', label: '#general-dudas', meta: 'Docentes & Alumnos', icon: 'i-chat', match: h => h === 'chat' },
-            { id: 'sub-pchat-priv', href: '#chat', label: '#docentes-privado', meta: 'Equipo de cátedra', icon: 'i-chat', match: () => false }
+            { id: 'sub-pchat-general', href: '#chat/general', label: '#general-dudas', meta: 'Docentes & Alumnos', icon: 'i-chat', match: h => h === 'chat' || h === 'chat/general' },
+            { id: 'sub-pchat-priv', href: '#chat/docentes', label: '#docentes-privado', meta: 'Equipo de cátedra', icon: 'i-chat', match: h => h === 'chat/docentes' }
           ]
         }
       ]
@@ -8932,7 +8937,8 @@ function closeSubpanel(userInitiated = false) {
   if (subpanel) {
     subpanel.classList.add('collapsed');
     subpanel.setAttribute('aria-hidden', 'true');
-    delete subpanel.dataset.currentNav;
+    // Si lo cerró el usuario se recuerda la sección: navegar dentro de ella no lo reabre solo
+    if (!userInitiated) delete subpanel.dataset.currentNav;
   }
   if (userInitiated) subpanelClosedByUser = true;
   $$('.rail-item[data-subpanel-open]').forEach(el => el.removeAttribute('data-subpanel-open'));
@@ -9174,7 +9180,7 @@ function updateSubpanel(navId, hashFull, forceOpen = false) {
     }
 
     if (subpanelClosedByUser && !forceOpen) {
-      closeSubpanel(false);
+      closeSubpanel(true);
       return;
     }
 
@@ -9214,7 +9220,7 @@ function updateSubpanel(navId, hashFull, forceOpen = false) {
   }
 
   if (subpanelClosedByUser) {
-    closeSubpanel(false);
+    closeSubpanel(true);
     return;
   }
 
@@ -9599,12 +9605,12 @@ function renderBreadcrumb(fullHash) {
 }
 
 function route() {
-  const defaultScreen = currentRole === 'alumno' ? 'dashboard' : currentRole === 'admin' ? 'backoffice' : 'desafios';
+  const defaultScreen = NAV_TABS[currentRole][0][0]; // primer ítem del riel de cada rol
   const fullHash = location.hash.slice(1) || defaultScreen;
   const [routePath, queryString] = fullHash.split('?');
   const [id, arg] = routePath.split('/');
   currentScreen = id;
-  const navId = PARENT[id] || id;
+  const navId = navOf(id);
 
   let unitParam = null;
   if (queryString) {
@@ -9756,10 +9762,10 @@ document.addEventListener('click', e => {
   const subpanel = $('#subpanel');
   if (!subpanel || subpanel.classList.contains('collapsed')) return;
   if (!e.target.closest('#subpanel') && !e.target.closest('#sidebar')) {
-    const currentNav = PARENT[currentScreen] || currentScreen;
+    const currentNav = navOf(currentScreen);
     const subNav = subpanel.dataset.currentNav;
     if (currentNav !== subNav) {
-      closeSubpanel(true);
+      closeSubpanel(false);
     }
   }
 });
@@ -9777,15 +9783,17 @@ document.addEventListener('click', e => {
   const currentSubNav = subpanel ? subpanel.dataset.currentNav : null;
 
   if (hasSubmenu) {
-    // Si abro una sección con submenú desde inicio (o cualquier página), alternar/abrir el subpanel
     e.preventDefault();
-
-    if (isAlreadyOpen && currentSubNav === targetNav) {
-      // Ya está abierto mostrando esta misma categoría: alternar (cerrar)
-      closeSubpanel(true);
+    if (navOf(currentScreen) === targetNav) {
+      // Ya estoy en la sección: asegurar el panel abierto (no se alterna; se cierra con la X o Ctrl+B)
+      if (!isAlreadyOpen || currentSubNav !== targetNav) {
+        updateSubpanel(targetNav, location.hash.slice(1) || targetNav, true);
+      }
     } else {
-      // Abrir o alternar al submenú targetNav manteniendo la página actual de fondo
-      updateSubpanel(targetNav, location.hash.slice(1) || targetNav, true);
+      // Entrar directo a la primera opción del submenú: route() abre el panel con esa opción resaltada
+      const first = roleMenus[targetNav].sections.flatMap(sec => sec.items)[0];
+      subpanelClosedByUser = false;
+      location.hash = first.href.replace(/^#/, '');
     }
   } else {
     // Pantalla sin submenú (ej. dashboard, uikit, cursos): navegar normalmente a la pantalla y repliega el subpanel
@@ -9864,11 +9872,13 @@ function setRole(r) {
   currentRole = r; root.dataset.role = r; if (document.body) document.body.dataset.role = r; store.set('tpi-role', r);
   $$('[data-role-btn]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.roleBtn === r)));
   renderNav(); renderProfile();
+  closeSubpanel(false); // el sub-panel del rol anterior no se reutiliza
   const allowed = [...NAV_TABS[r].map(i => i[0]), ...ACCOUNT_SCREENS[r], 'uikit', 'login'];
   // Check the screen in the URL, not the boot default, so deep links survive a role reset.
   const screen = location.hash.slice(1).split(/[/?]/)[0] || currentScreen;
-  const target = PARENT[screen] || screen;
-  if (!allowed.includes(target)) location.hash = r === 'admin' ? 'backoffice' : allowed.includes('desafios') ? 'desafios' : 'perfil';
+  const target = navOf(screen);
+  const home = NAV_TABS[r][0][0];
+  if (!allowed.includes(target) && location.hash.slice(1) !== home) { location.hash = home; return; } // hashchange dispara route()
   route();
 }
 $$('[data-theme-btn]').forEach(b => b.addEventListener('click', () => setTheme(b.dataset.themeBtn)));
@@ -10016,7 +10026,7 @@ window.addEventListener('keydown', e => {
       const currentHash = location.hash.slice(1) || 'dashboard';
       const isCourseDetail = currentHash.startsWith('curso/');
       const roleMenus = SUBMENUS[currentRole] || {};
-      const navId = PARENT[currentScreen] || currentScreen;
+      const navId = navOf(currentScreen);
       if (roleMenus[navId] || (navId === 'cursos' && isCourseDetail && currentRole === 'alumno')) {
         const isCollapsed = subpanel.classList.contains('collapsed');
         if (isCollapsed) {
