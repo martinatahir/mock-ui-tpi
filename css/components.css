@@ -62,6 +62,11 @@
   color:var(--badge-text);
   border-color:var(--badge-border);
 }
+.badge-optional {
+  background:var(--badge-neutral-bg, var(--bg-surface-alt));
+  color:var(--badge-neutral-text, var(--text-secondary));
+  border-color:var(--badge-neutral-border, var(--border-subtle));
+}
 .badge-success {
   background:var(--badge-success-bg);
   color:var(--badge-success-text);
@@ -493,7 +498,7 @@ select.control { padding-right:32px; appearance:none; cursor:pointer;
 .head-meta { display:flex; flex-wrap:wrap; gap:6px 18px; margin-top:8px; font-size:var(--fs-ui); color:var(--text-muted); }
 .head-meta span { display:inline-flex; align-items:center; gap:6px; }
 
-.tabs { display:flex; flex-wrap:wrap; gap:4px; border-bottom:var(--border-width) solid var(--border-subtle); margin-bottom:16px; }
+.tabs { display:flex; justify-content:center; flex-wrap:wrap; gap:4px; border-bottom:var(--border-width) solid var(--border-subtle); margin-bottom:16px; }
 .tab {
   display:inline-flex; align-items:center; gap:8px; border:0; background:transparent; cursor:pointer; white-space:nowrap; text-decoration:none;
   padding:10px 14px; font:inherit; font-weight:600; color:var(--text-muted);
@@ -593,17 +598,33 @@ table.table-institutional th,
   opacity: 0.8;
 }
 
-/* Centrado de columnas en padrón */
+/* Centrado de columnas en tablas */
+table.data th.col-center,
+table.data td.col-center,
+table.data th.c,
+table.data td.c,
+table.data-table th.col-center,
+table.data-table td.col-center,
+table.data-table th.c,
+table.data-table td.c,
 #padron-official-table th.col-center,
 #padron-official-table td.col-center {
   text-align: center !important;
 }
+table.data th.col-center .th-content,
+table.data th.c .th-content,
+table.data-table th.col-center .th-content,
+table.data-table th.c .th-content,
 #padron-official-table th.col-center .th-content {
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
   width: 100% !important;
   margin: 0 auto !important;
+}
+table.data td.col-center > .badge,
+table.data-table td.col-center > .badge {
+  margin-inline: auto;
 }
 
 /* Action Dropdown Menu */

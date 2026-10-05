@@ -5781,14 +5781,35 @@ body.course-edit-mode-on td.edit-mode-control,
 .vit-cta { margin-top:auto; display:flex; justify-content:flex-end; }
 .vit-list[data-view="list"] { grid-template-columns:1fr; gap:8px; }
 .vit-list[data-view="list"] .vit-card {
-  display:grid; grid-template-columns:minmax(0,1.4fr) minmax(0,1.3fr) minmax(160px,1fr) auto; align-items:center; column-gap:24px; row-gap:2px; padding:14px 18px;
+  display:grid; grid-template-columns:minmax(0,1fr) 250px 160px 180px; align-items:center; column-gap:28px; row-gap:2px; padding:14px 20px;
   grid-template-areas:'head stock prog cta' 'period stock prog cta';
+  transition:border-color .15s ease, background-color .15s ease;
 }
-.vit-list[data-view="list"] .vit-head { grid-area:head; }
-.vit-list[data-view="list"] .vit-period { grid-area:period; }
-.vit-list[data-view="list"] .vit-stock { grid-area:stock; border:0; padding:0; }
-.vit-list[data-view="list"] .vit-progress { grid-area:prog; }
-.vit-list[data-view="list"] .vit-cta { grid-area:cta; margin:0; }
+.vit-list[data-view="list"] .vit-card:hover {
+  border-color:var(--border-highlight);
+}
+.vit-list[data-view="list"] .vit-head { grid-area:head; justify-self:start; }
+.vit-list[data-view="list"] .vit-period { grid-area:period; justify-self:start; }
+.vit-list[data-view="list"] .vit-stock {
+  grid-area:stock; border:0; padding:0;
+  display:flex; align-items:center; flex-wrap:nowrap; gap:8px;
+  justify-self:start; justify-content:flex-start; text-align:left;
+  font-size:var(--fs-ui);
+}
+.vit-list[data-view="list"] .vit-stock .muted { flex-basis:auto; padding-left:0; font-size:inherit; }
+.vit-list[data-view="list"] .vit-stock > .icon { color:var(--text-muted); opacity:0.8; }
+.vit-list[data-view="list"] .vit-stock b { color:var(--text-primary); }
+.vit-list[data-view="list"] .vit-progress {
+  grid-area:prog; justify-self:start; align-items:flex-start; text-align:left;
+  width:100%; max-width:220px;
+}
+.vit-list[data-view="list"] .wallet-line {
+  grid-area:prog; justify-self:start; justify-content:flex-start; text-align:left;
+  margin:0; font-size:var(--fs-body);
+}
+.vit-list[data-view="list"] .wallet-line .num { font-weight:700; color:var(--accent-gold); }
+.vit-list[data-view="list"] .wallet-line .coin-unit { font-size:var(--fs-small); color:var(--text-muted); font-weight:500; font-family:var(--font-body); }
+.vit-list[data-view="list"] .vit-cta { grid-area:cta; margin:0; justify-self:end; }
 .vit-list[data-view="list"] .vit-role { margin-left:12px; }
 
 /* Catálogo */
@@ -5827,14 +5848,39 @@ body.course-edit-mode-on td.edit-mode-control,
 .offer-grid[data-view="list"] .offer-card { grid-template-columns:56px minmax(0,1fr); }
 .offer-grid[data-view="list"] .offer-art .item-icon { width:32px; height:32px; }
 .offer-grid[data-view="list"] .offer-body {
-  display:grid; grid-template-columns:minmax(0,1.6fr) minmax(0,1.2fr) auto; column-gap:24px; row-gap:4px; align-items:center; padding:12px 16px;
+  display:grid; grid-template-columns:minmax(0,1.5fr) auto auto; column-gap:24px; row-gap:4px; align-items:center; padding:12px 16px;
   grid-template-areas:'meta facts cta' 'name facts cta' 'effect facts cta';
 }
 .offer-grid[data-view="list"] .offer-meta { grid-area:meta; }
 .offer-grid[data-view="list"] .offer-name { grid-area:name; }
 .offer-grid[data-view="list"] .offer-effect { grid-area:effect; }
-.offer-grid[data-view="list"] .offer-facts { grid-area:facts; margin:0; }
-.offer-grid[data-view="list"] .offer-cta { grid-area:cta; padding:0; margin:0; flex-wrap:nowrap; }
+.offer-grid[data-view="list"] .offer-facts {
+  grid-area:facts;
+  margin:0;
+  display:grid;
+  grid-template-columns:100px 145px 160px;
+  align-items:center;
+  gap:16px;
+  justify-self:start;
+}
+.offer-grid[data-view="list"] .offer-fact-price {
+  justify-self:start;
+}
+.offer-grid[data-view="list"] .offer-fact-stock {
+  justify-self:start;
+}
+.offer-grid[data-view="list"] .offer-fact-valid {
+  justify-self:start;
+}
+.offer-grid[data-view="list"] .offer-facts dd {
+  white-space:nowrap;
+  margin:0;
+}
+.offer-grid[data-view="list"] .offer-facts .empty-fact {
+  min-height:1px;
+}
+.offer-grid[data-view="list"] .offer-cta { grid-area:cta; padding:0; margin:0; flex-wrap:nowrap; justify-self:end; min-width:100px; }
+.offer-grid[data-view="list"] .offer-cta .btn { min-width:96px; justify-content:center; }
 .offer-empty .item-icon { width:56px; height:56px; margin:0 auto 12px; }
 #vcat-pager:empty { display:none; }
 
@@ -5895,6 +5941,9 @@ body.course-edit-mode-on td.edit-mode-control,
   .offer-editor { grid-template-columns:1fr; }
   .offer-preview { position:static; }
   .vit-list[data-view="list"] .vit-card, .offer-grid[data-view="list"] .offer-body { display:flex; flex-direction:column; align-items:stretch; }
+  .offer-grid[data-view="list"] .offer-facts { display:flex; flex-wrap:wrap; gap:12px; margin-top:8px; }
+  .offer-grid[data-view="list"] .offer-cta { width:100%; margin-top:12px; }
+  .offer-grid[data-view="list"] .offer-cta .btn { width:100%; }
 }
 @media (max-width: 600px) {
   .offer-steps .step-label { display:none; }
@@ -5914,6 +5963,43 @@ body.course-edit-mode-on td.edit-mode-control,
 .wallet-line { display:flex; align-items:center; gap:8px; font-size:var(--fs-lead); font-weight:700; color:var(--accent-gold); }
 .wallet-line .coin-icon { width:22px; height:22px; }
 [data-skin='gamer'] .wallet-line { font-family:var(--font-display); font-weight:400; font-size:var(--fs-h3-px); }
+.shop-toolbar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.shop-toolbar .shop-summary {
+  margin: 0;
+  justify-self: start;
+}
+.shop-toolbar #shop-types {
+  justify-self: center;
+}
+.shop-toolbar-end {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  justify-self: end;
+}
+@media (max-width: 860px) {
+  .shop-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .shop-toolbar #shop-types {
+    order: -1;
+    width: 100%;
+    overflow-x: auto;
+    justify-content: flex-start;
+  }
+  .shop-toolbar-end {
+    margin-left: auto;
+  }
+}
 .shop-summary { font-size:var(--fs-small); color:var(--text-muted); margin:0 0 12px; }
 .shop-summary b { color:var(--text-primary); }
 .shop-summary:empty { display:none; }
@@ -5960,8 +6046,11 @@ body.course-edit-mode-on td.edit-mode-control,
 /* =========================================================================
    BILLETERA y EQUIPAR ÍTEMS · alumno
    ========================================================================= */
-.course-tabs { margin-bottom:20px; flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; }
+.course-tabs { margin-bottom:20px; flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; justify-content:center; justify-content:safe center; }
 .course-tabs .tab { white-space:nowrap; }
+@media (max-width: 860px) {
+  .course-tabs { justify-content:flex-start; }
+}
 .link-btn { margin-left:auto; padding:0; border:0; background:none; color:var(--accent-secondary); font:inherit; font-size:var(--fs-micro); font-weight:600; cursor:pointer; text-decoration:underline; text-underline-offset:.2em; }
 .link-btn:hover { color:var(--text-primary); }
 .wallet-strip > .stat-btn { flex:1 1 240px; padding:16px 20px; display:flex; flex-direction:column; align-items:stretch; gap:4px; text-align:left; font:inherit; color:inherit; cursor:pointer;
@@ -6800,7 +6889,8 @@ details.disclosure.cat-group > summary::after { margin-left:12px; }
   grid-area:type; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
   font-size:var(--fs-small); color:var(--text-muted); line-height:1.4; text-align:left;
 }
-[data-view="cards"] table.data.ch-table .cell-sub > .badge-required { grid-area:req; justify-self:end; align-self:center; }
+[data-view="cards"] table.data.ch-table .cell-sub > .badge-required,
+[data-view="cards"] table.data.ch-table .cell-sub > .badge-optional { grid-area:req; justify-self:end; align-self:center; }
 /* bloques de datos: caja centrada en su columna, etiqueta y valor alineados a la izquierda dentro de la caja */
 [data-view="cards"] table.data.ch-table td:nth-child(n+2):nth-child(-n+5) {
   display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-start; gap:3px; text-align:left; min-width:0;
@@ -6831,3 +6921,22 @@ details.disclosure.cat-group > summary::after { margin-left:12px; }
 @media (max-width:640px) {
   [data-view="cards"] table.data.ch-table tbody { grid-template-columns:1fr; }
 }
+
+/* Catálogo de desafíos en vista tabla: centrado de columnas de datos y acciones */
+table.data.ch-table th:nth-child(n+3):nth-child(-n+7),
+table.data.ch-table td:nth-child(n+3):nth-child(-n+7),
+table.data.ch-table th:last-child,
+table.data.ch-table td:last-child {
+  text-align: center;
+}
+table.data.ch-table td .diff {
+  justify-content: center;
+}
+table.data.ch-table td .row-actions {
+  justify-content: center;
+}
+table.data.ch-table td.reward-cell {
+  align-items: center;
+  text-align: center;
+}
+

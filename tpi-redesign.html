@@ -211,7 +211,7 @@
         <div class="account-menu" id="account-menu" hidden>
           <a class="nav-item" href="#perfil"><svg class="icon"><use href="#i-user"/></svg>Mi perfil</a>
           <a class="nav-item" href="#personaje" data-alumno-only><svg class="icon"><use href="#i-shirt"/></svg>Mi personaje</a>
-          <a class="nav-item" href="#inventario" data-alumno-only><svg class="icon"><use href="#i-backpack"/></svg>Equipar ítems</a>
+          <a class="nav-item" href="#inventario" data-alumno-only><svg class="icon"><use href="#i-backpack"/></svg>Inventario</a>
           <a class="nav-item" href="#encuestas"><svg class="icon"><use href="#i-survey"/></svg>Encuestas <span class="badge badge-secondary sm" style="margin-left:auto">1</span></a>
           <a class="nav-item" href="#banco"><svg class="icon"><use href="#i-coin"/></svg>Billetera</a>
           <hr />
@@ -723,9 +723,9 @@
                   <thead>
                     <tr>
                       <th scope="col" style="width:40%;">Nombre ▲</th>
-                      <th scope="col" style="width:30%;">Permiso ▲</th>
-                      <th scope="col" style="width:15%;">Incorporado ▲</th>
-                      <th scope="col" class="edit-mode-control" style="width:15%; text-align:right;">Acciones</th>
+                      <th scope="col" class="col-center" style="width:30%;">Permiso ▲</th>
+                      <th scope="col" class="col-center" style="width:15%;">Incorporado ▲</th>
+                      <th scope="col" class="edit-mode-control col-center" style="width:15%;">Acciones</th>
                     </tr>
                   </thead>
                   <tbody id="faculty-list-container"></tbody>
@@ -1096,11 +1096,15 @@
       </div>
     </section>
 
-    <!-- ================= EQUIPAR ÍTEMS · alumno ================= -->
+    <!-- ================= INVENTARIO · alumno ================= -->
     <section class="screen" id="screen-inventario-alumno" aria-labelledby="h-inv" data-error="No pudimos traer tu inventario.">
-      <a class="back" href="#banco"><svg class="icon icon-sm"><use href="#i-left"/></svg>Billetera</a>
       <div class="page-head">
-        <div><h1 class="display" id="h-inv">Equipar ítems</h1><p>Tocá un ítem y después una ranura libre de la maleta, o arrastralo. Los generales entran en cualquier ranura.</p></div>
+        <div><h1 class="display" id="h-inv">Economía</h1><p>Tocá un ítem y después una ranura libre de la maleta, o arrastralo. Los generales entran en cualquier ranura.</p></div>
+      </div>
+      <div class="tabs" role="navigation" aria-label="Secciones de Economía" style="margin-bottom:18px;">
+        <a class="tab" href="#banco" aria-selected="false"><svg class="icon icon-sm"><use href="#i-coin"/></svg>Billetera</a>
+        <a class="tab" href="#marketplace" aria-selected="false"><svg class="icon icon-sm"><use href="#i-bag"/></svg>Mercado</a>
+        <a class="tab" href="#inventario" aria-selected="true"><svg class="icon icon-sm"><use href="#i-backpack"/></svg>Inventario</a>
       </div>
       <div class="data">
         <div class="tabs course-tabs" role="tablist" aria-label="Curso" id="inv-tabs"></div>
@@ -1178,8 +1182,13 @@
     <!-- ================= MERCADO · alumno: elegir curso ================= -->
     <section class="screen" id="screen-marketplace" aria-labelledby="h-market" data-error="No pudimos cargar el mercado.">
       <div class="page-head">
-        <div><h1 class="display" id="h-market">Mercado</h1><p>Cada curso tiene su propia vitrina y sus propias monedas. Elegí dónde querés gastar.</p></div>
+        <div><h1 class="display" id="h-market">Economía</h1><p>Cada curso tiene su propia vitrina y sus propias monedas. Elegí dónde querés gastar.</p></div>
         <div class="head-tools"><span data-view-toggle="mercados"></span></div>
+      </div>
+      <div class="tabs" role="navigation" aria-label="Secciones de Economía" style="margin-bottom:18px;">
+        <a class="tab" href="#banco" aria-selected="false"><svg class="icon icon-sm"><use href="#i-coin"/></svg>Billetera</a>
+        <a class="tab" href="#marketplace" aria-selected="true"><svg class="icon icon-sm"><use href="#i-bag"/></svg>Mercado</a>
+        <a class="tab" href="#inventario" aria-selected="false"><svg class="icon icon-sm"><use href="#i-backpack"/></svg>Inventario</a>
       </div>
       <div class="data">
         <div class="vit-list" id="shop-courses" data-view-target="mercados"></div>
@@ -1213,11 +1222,11 @@
             </div>
             <img class="shop-hero-art item-icon" src="assets/items/chest.svg" alt="" width="96" height="96" />
           </section>
-          <div class="vcat-tools">
+          <div class="vcat-tools shop-toolbar">
+            <p class="shop-summary" id="shop-summary" aria-live="polite"></p>
             <div class="seg" role="group" aria-label="Tipo de recompensa" id="shop-types"></div>
-            <span data-view-toggle="tienda"></span>
+            <div class="shop-toolbar-end"><span data-view-toggle="tienda"></span></div>
           </div>
-          <p class="shop-summary" id="shop-summary" aria-live="polite"></p>
           <div class="offer-grid" id="shop-grid" data-view-target="tienda"></div>
           <div class="pager" id="shop-pager"></div>
         </div>
@@ -1260,7 +1269,12 @@
     <!-- ================= BILLETERA · alumno ================= -->
     <section class="screen" id="screen-banco-alumno" aria-labelledby="h-wallet" data-error="No pudimos cargar tu billetera.">
       <div class="page-head">
-        <div><h1 class="display" id="h-wallet">Billetera</h1><p>Tus vidas, monedas, XP e ítems en cada curso, con el detalle de cada movimiento.</p></div>
+        <div><h1 class="display" id="h-wallet">Economía</h1><p>Tus vidas, monedas, XP e ítems en cada curso, con el detalle de cada movimiento.</p></div>
+      </div>
+      <div class="tabs" role="navigation" aria-label="Secciones de Economía" style="margin-bottom:18px;">
+        <a class="tab" href="#banco" aria-selected="true"><svg class="icon icon-sm"><use href="#i-coin"/></svg>Billetera</a>
+        <a class="tab" href="#marketplace" aria-selected="false"><svg class="icon icon-sm"><use href="#i-bag"/></svg>Mercado</a>
+        <a class="tab" href="#inventario" aria-selected="false"><svg class="icon icon-sm"><use href="#i-backpack"/></svg>Inventario</a>
       </div>
       <div class="data">
         <div class="tabs course-tabs" role="tablist" aria-label="Curso" id="wal-tabs"></div>
@@ -1354,46 +1368,46 @@
             <table class="data">
               <thead>
                 <tr>
-                  <th>Fecha</th>
+                  <th class="col-center">Fecha</th>
                   <th>Concepto</th>
-                  <th>Curso / Origen</th>
-                  <th>Tipo</th>
-                  <th>Monto</th>
-                  <th>Saldo</th>
+                  <th class="col-center">Curso / Origen</th>
+                  <th class="col-center">Tipo</th>
+                  <th class="col-center">Monto</th>
+                  <th class="col-center">Saldo</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td class="num">29/09/2026</td>
+                  <td class="num col-center">29/09/2026</td>
                   <td><b>Desafío: Recursividad de Fibonacci</b></td>
-                  <td>MSI</td>
-                  <td><span class="badge badge-success">Ingreso</span></td>
-                  <td class="num" style="color:var(--accent-success-fill); font-weight:700;">+40 🪙</td>
-                  <td class="num">120 🪙</td>
+                  <td class="col-center">MSI</td>
+                  <td class="col-center"><span class="badge badge-success">Ingreso</span></td>
+                  <td class="num col-center" style="color:var(--accent-success-fill); font-weight:700;">+40 🪙</td>
+                  <td class="num col-center">120 🪙</td>
                 </tr>
                 <tr>
-                  <td class="num">26/09/2026</td>
+                  <td class="num col-center">26/09/2026</td>
                   <td><b>Marketplace: Canje Capucha Hacker</b></td>
-                  <td>Tienda global</td>
-                  <td><span class="badge badge-secondary">Canje</span></td>
-                  <td class="num" style="color:var(--text-muted); font-weight:700;">-30 🪙</td>
-                  <td class="num">80 🪙</td>
+                  <td class="col-center">Tienda global</td>
+                  <td class="col-center"><span class="badge badge-secondary">Canje</span></td>
+                  <td class="num col-center" style="color:var(--text-muted); font-weight:700;">-30 🪙</td>
+                  <td class="num col-center">80 🪙</td>
                 </tr>
                 <tr>
-                  <td class="num">22/09/2026</td>
+                  <td class="num col-center">22/09/2026</td>
                   <td><b>Quiz Teórico: Tipado y protocolos</b></td>
-                  <td>MSI</td>
-                  <td><span class="badge badge-success">Ingreso</span></td>
-                  <td class="num" style="color:var(--accent-success-fill); font-weight:700;">+50 🪙</td>
-                  <td class="num">110 🪙</td>
+                  <td class="col-center">MSI</td>
+                  <td class="col-center"><span class="badge badge-success">Ingreso</span></td>
+                  <td class="num col-center" style="color:var(--accent-success-fill); font-weight:700;">+50 🪙</td>
+                  <td class="num col-center">110 🪙</td>
                 </tr>
                 <tr>
-                  <td class="num">15/09/2026</td>
+                  <td class="num col-center">15/09/2026</td>
                   <td><b>Bono de bienvenida a cohorte 2026</b></td>
-                  <td>Academia UTN</td>
-                  <td><span class="badge badge-success">Ingreso</span></td>
-                  <td class="num" style="color:var(--accent-success-fill); font-weight:700;">+60 🪙</td>
-                  <td class="num">60 🪙</td>
+                  <td class="col-center">Academia UTN</td>
+                  <td class="col-center"><span class="badge badge-success">Ingreso</span></td>
+                  <td class="num col-center" style="color:var(--accent-success-fill); font-weight:700;">+60 🪙</td>
+                  <td class="num col-center">60 🪙</td>
                 </tr>
               </tbody>
             </table>
@@ -1410,10 +1424,10 @@
           </div>
           <div class="table-wrap">
             <table class="data">
-              <thead><tr><th>Período</th><th>Concepto</th><th>Importe</th><th>Fecha de pago</th><th>Estado</th><th>Comprobante</th></tr></thead>
+              <thead><tr><th>Período</th><th>Concepto</th><th class="col-center">Importe</th><th class="col-center">Fecha de pago</th><th class="col-center">Estado</th><th class="col-center">Comprobante</th></tr></thead>
               <tbody>
-                <tr><td><b>Octubre 2026</b></td><td>Cuota ordinaria cursada 2026</td><td class="num">$18.500</td><td class="num">01/10/2026</td><td><span class="badge badge-success">Pagado</span></td><td><button class="btn btn-ghost btn-sm" type="button"><svg class="icon icon-sm"><use href="#i-download"/></svg>PDF</button></td></tr>
-                <tr><td><b>Septiembre 2026</b></td><td>Cuota ordinaria cursada 2026</td><td class="num">$18.500</td><td class="num">02/09/2026</td><td><span class="badge badge-success">Pagado</span></td><td><button class="btn btn-ghost btn-sm" type="button"><svg class="icon icon-sm"><use href="#i-download"/></svg>PDF</button></td></tr>
+                <tr><td><b>Octubre 2026</b></td><td>Cuota ordinaria cursada 2026</td><td class="num col-center">$18.500</td><td class="num col-center">01/10/2026</td><td class="col-center"><span class="badge badge-success">Pagado</span></td><td class="col-center"><button class="btn btn-ghost btn-sm" type="button"><svg class="icon icon-sm"><use href="#i-download"/></svg>PDF</button></td></tr>
+                <tr><td><b>Septiembre 2026</b></td><td>Cuota ordinaria cursada 2026</td><td class="num col-center">$18.500</td><td class="num col-center">02/09/2026</td><td class="col-center"><span class="badge badge-success">Pagado</span></td><td class="col-center"><button class="btn btn-ghost btn-sm" type="button"><svg class="icon icon-sm"><use href="#i-download"/></svg>PDF</button></td></tr>
               </tbody>
             </table>
           </div>
@@ -3679,7 +3693,7 @@ function rowHTML(c, i, showCourse) {
     </div>
     <div class="info">
       <div class="tags">
-        ${c.req ? '<span class="badge badge-required">Obligatorio</span>' : ''}
+        ${c.req ? '<span class="badge badge-required">Obligatorio</span>' : '<span class="badge badge-optional">Optativo</span>'}
         <span class="diff"><span class="pips" data-level="${c.diff}" aria-hidden="true"><i></i><i></i><i></i></span>${DIFF[c.diff]}</span>
       </div>
       <div class="due ${due.urgent ? 'urgent' : ''}">${icon(due.ic, 'icon icon-sm')}<span><b>${due.main}</b>${due.sub}</span></div>
@@ -3839,7 +3853,7 @@ function Catalog(root) {
     syncFilterCount(root, [!locked && st.course, st.type, st.diff, st.state, st.req].filter(Boolean).length);
     if (!list.length) { res.innerHTML = `<div class="empty">${icon('i-filter-off')}<p>Ningún desafío coincide con estos filtros.</p></div>`; pagerEl.innerHTML = ''; return; }
     const rowsHTML = (items, showCourse) => items.map(c => `<tr>
-        <td class="cell-main"><div class="cell-title" title="${c.title}">${c.title}</div><div class="cell-sub">${c.req ? '<span class="badge badge-required">Obligatorio</span>' : ''}<span>${c.type}</span></div></td>
+        <td class="cell-main"><div class="cell-title" title="${c.title}">${c.title}</div><div class="cell-sub">${c.req ? '<span class="badge badge-required">Obligatorio</span>' : '<span class="badge badge-optional">Optativo</span>'}<span>${c.type}</span></div></td>
         ${showCourse ? `<td>${c.course}</td>` : ''}
         <td><span class="diff"><span class="pips" data-level="${c.diff}" aria-hidden="true"><i></i><i></i><i></i></span>${DIFF[c.diff]}</span></td>
         <td class="num" style="white-space:nowrap">${c.due ? short(c.due) : c.done ? '—' : 'Sin fecha'}</td>
@@ -4803,7 +4817,7 @@ function renderCourseUnits(c, activeUnitNum = null) {
                 <div class="minimal-item-info">
                   <div class="minimal-item-title">${ch.title} ${ch.status === 'done' ? '✅' : ''}</div>
                   <div class="minimal-item-meta" style="${ch.status !== 'done' ? 'color:var(--accent-gold);' : ''}">
-                    ${ch.status === 'done' ? `Completado (+${ch.xp} XP)` : `${ch.due ? `⏳ Vence el ${short(ch.due)}` : 'Sin fecha límite'} ${ch.req ? '· Obligatorio P90' : ''} · +${ch.xp} XP`}
+                    ${ch.status === 'done' ? `Completado (+${ch.xp} XP)` : `${ch.due ? `⏳ Vence el ${short(ch.due)}` : 'Sin fecha límite'} ${ch.req ? '· Obligatorio P90' : '· Optativo'} · +${ch.xp} XP`}
                   </div>
                 </div>
               </a>
@@ -5271,25 +5285,25 @@ function renderTeamTable() {
             <span style="color:var(--text-muted);">${d.role || 'Docente UTN'}</span>
           </div>
         </td>
-        <td style="padding:10px 12px;">
+        <td class="col-center" style="padding:10px 12px; text-align:center;">
           <!-- En modo normal: vista limpia de permiso -->
           <div class="docente-perm-normal" style="font-weight:500; font-size:13px; color:${d.perm === 'Gestor' ? 'var(--accent-gold, #eab308)' : 'var(--text-primary)'};">
             ${d.perm}
           </div>
           <!-- En modo edición: selector directo inline para modificar permisos sin modal -->
           <div class="edit-mode-control" style="margin-top:2px;">
-            <select class="control sm inline-perm-changer" aria-label="Cambiar permiso de ${d.name}" onchange="updateDocentePermisoInline('${d.id}', this.value)" style="height:28px; font-size:12px; padding:0 8px; width:auto; border-color:var(--border-subtle);">
+            <select class="control sm inline-perm-changer" aria-label="Cambiar permiso de ${d.name}" onchange="updateDocentePermisoInline('${d.id}', this.value)" style="height:28px; font-size:12px; padding:0 8px; width:auto; border-color:var(--border-subtle); margin:0 auto;">
               <option value="Gestor" ${d.perm === 'Gestor' ? 'selected' : ''}>👑 Gestor</option>
               <option value="Profesor con escritura" ${d.perm === 'Profesor con escritura' ? 'selected' : ''}>✏️ Con escritura</option>
               <option value="Ayudante de Cátedra" ${d.perm === 'Ayudante de Cátedra' ? 'selected' : ''}>🎓 Ayudante</option>
             </select>
           </div>
         </td>
-        <td style="padding:10px 12px; color:var(--text-muted); font-size:12px;">
+        <td class="col-center" style="padding:10px 12px; color:var(--text-muted); font-size:12px; text-align:center;">
           ${d.date}
         </td>
-        <td class="edit-mode-control" style="padding:10px 12px; text-align:right;">
-          <button class="btn btn-ghost btn-xs" type="button" title="Desvincular a ${d.name} de la cohorte" style="color:var(--accent-danger); font-size:12px;" onclick="removeDocenteCohorte('${d.id}')">
+        <td class="edit-mode-control col-center" style="padding:10px 12px; text-align:center;">
+          <button class="btn btn-ghost btn-xs" type="button" title="Desvincular a ${d.name} de la cohorte" style="color:var(--accent-danger); font-size:12px; margin:0 auto;" onclick="removeDocenteCohorte('${d.id}')">
             <svg class="icon icon-xs"><use href="#i-trash"/></svg>Desvincular
           </button>
         </td>
@@ -6529,6 +6543,7 @@ document.addEventListener('click', e => {
       else if (target === 'estado') bc.textContent = 'Mi Estado & Promoción';
       else if (target === 'material') bc.textContent = 'Material & Bibliografía';
     }
+    updateCursoCrumbs();
 
     // Sincronizar estado activo en el subpanel de la materia (árbol de secciones)
     const subpanel = $('#subpanel');
@@ -6695,10 +6710,10 @@ function renderRanking() {
     const status = RISK_ROWS.has(i) ? '<span class="status-risk">Riesgo</span>' : pct >= 90 ? '<span class="status-promo">Promoción</span>' : '<span class="muted">Regular</span>';
     const z = zoneOf(i, pct);
     if (z !== prevZone) { body += `<tr class="zone ${ZONE_LABEL[z][0]}"><td colspan="6">${ZONE_LABEL[z][1]}</td></tr>`; prevZone = z; }
-    body += `<tr class="${i === meIdx ? 'me' : ''}"><td class="num">${i + 1}</td><td><span class="rank-name">${face(i + 3)}${name}</span></td><td class="r num">P${pct}</td><td class="r num">${lvl}</td><td class="r num">${xp.toLocaleString('es-AR')}</td><td>${status}</td></tr>`;
+    body += `<tr class="${i === meIdx ? 'me' : ''}"><td class="num col-center">${i + 1}</td><td><span class="rank-name">${face(i + 3)}${name}</span></td><td class="r num">P${pct}</td><td class="r num">${lvl}</td><td class="r num">${xp.toLocaleString('es-AR')}</td><td class="col-center">${status}</td></tr>`;
   });
   $('#rank-pager').innerHTML = pagerHTML(rankPage, RANK_SIZE, RANK_N, 'posiciones');
-  $('#rank-table').innerHTML = `<thead><tr><th>#</th><th>${staff ? 'Alumno' : 'Estudiante'}</th><th class="r">Percentil</th><th class="r">Nivel</th><th class="r">XP</th><th>Estado</th></tr></thead><tbody>${body}</tbody>`;
+  $('#rank-table').innerHTML = `<thead><tr><th class="col-center">#</th><th>${staff ? 'Alumno' : 'Estudiante'}</th><th class="r">Percentil</th><th class="r">Nivel</th><th class="r">XP</th><th class="col-center">Estado</th></tr></thead><tbody>${body}</tbody>`;
 }
 $('#rank-course').addEventListener('change', () => { rankPage = 0; renderRanking(); });
 onPager($('#rank-pager'), n => { rankPage = n; renderRanking(); });
@@ -8299,10 +8314,10 @@ function offerCardHTML(o, mode = 'manage') {
       <h3 class="offer-name">${o.name || 'Oferta sin nombre'}</h3>
       <p class="offer-effect">${offerEffect(o)}</p>
       <dl class="offer-facts">
-        <div><dt class="sr-only">Precio</dt><dd class="offer-price">${coinImg()}<span class="num">${o.price || 0}</span></dd></div>
-        <div><dt class="sr-only">Stock</dt><dd class="${soldOut ? 'urgent' : ''}">${soldOut ? 'Agotada' : stockLabel(o)}</dd></div>
-        ${shop ? '' : `<div><dt class="sr-only">Vendidas</dt><dd><span class="num">${o.sold}</span> vendidas</dd></div>`}
-        ${o.days ? `<div><dt class="sr-only">Vigencia</dt><dd>Vence a los <span class="num">${o.days}</span> días</dd></div>` : ''}
+        <div class="offer-fact-price"><dt class="sr-only">Precio</dt><dd class="offer-price">${coinImg()}<span class="num">${o.price || 0}</span></dd></div>
+        <div class="offer-fact-stock"><dt class="sr-only">Stock</dt><dd class="${soldOut ? 'urgent' : ''}">${soldOut ? 'Agotada' : stockLabel(o)}</dd></div>
+        ${shop ? '' : `<div class="offer-fact-sold"><dt class="sr-only">Vendidas</dt><dd><span class="num">${o.sold}</span> vendidas</dd></div>`}
+        ${o.days ? `<div class="offer-fact-valid"><dt class="sr-only">Vigencia</dt><dd>Vence a los <span class="num">${o.days}</span> días</dd></div>` : '<div class="offer-fact-valid empty-fact" aria-hidden="true"></div>'}
       </dl>
       ${actions ? `<div class="offer-cta">${actions}</div>` : ''}
     </div>
@@ -8499,7 +8514,7 @@ const STUDENT_COINS = { ProgIV: 1240, MSI: 320, GDS: 180, LEG: 90, IAD: 0 };
 const STUDENT_SHOPS = ['ProgIV', 'MSI', 'GDS', 'LEG', 'IAD'];
 let shopCode = 'ProgIV';
 const shop = { type: '', q: '', page: 0, size: 6 };
-const coinsLabel = n => `<span class="num">${n.toLocaleString('es-AR')}</span> ${n === 1 ? 'moneda' : 'monedas'}`;
+const coinsLabel = n => `<span class="num">${n.toLocaleString('es-AR')}</span> <span class="coin-unit">${n === 1 ? 'moneda' : 'monedas'}</span>`;
 const shopOffers = code => (OFFERS[code] || []).filter(o => o.active);
 
 function renderShopCourses() {
@@ -8507,14 +8522,14 @@ function renderShopCourses() {
     const c = COURSES[code], coins = STUDENT_COINS[code] || 0, offers = shopOffers(code);
     const affordable = offers.filter(o => o.price <= coins && !(o.stock != null && o.sold >= o.stock)).length;
     const cheapest = offers.length ? Math.min(...offers.map(o => o.price)) : null;
-    const reach = !offers.length ? 'Tu profesor todavía no publicó recompensas'
-      : affordable ? `Te alcanza para <b class="num">${affordable}</b> de <span class="num">${offers.length}</span> recompensas`
-      : `Ninguna te alcanza todavía. La más barata cuesta <span class="num">${cheapest}</span>`;
+    const reach = !offers.length ? '<span class="muted">Sin recompensas publicadas</span>'
+      : affordable ? `Te alcanza para <b class="num">${affordable}</b> de <span class="num">${offers.length}</span>`
+      : `La más barata cuesta <b class="num">${cheapest}</b>`;
     return `<article class="card studs vit-card shop-course">
-      <div class="vit-head"><h2 class="vit-name"><a href="#mercado/${code}">${c.name}</a></h2><span class="badge badge-success sm">${c.status}</span></div>
-      <p class="wallet-line">${coinImg()}<span>${coinsLabel(coins)}</span></p>
+      <div class="vit-head"><h2 class="vit-name"><a href="#mercado/${code}">${c.name}</a></h2></div>
       <div class="vit-stock">${icon('i-bag', 'icon icon-sm')}<span>${reach}</span></div>
-      <div class="vit-cta"><a class="btn ${offers.length ? 'btn-primary' : 'btn-ghost'} btn-sm" href="#mercado/${code}">${offers.length ? 'Entrar al mercado' : 'Ver mercado'}${icon('i-right', 'icon icon-sm')}</a></div>
+      <p class="wallet-line">${coinImg()}<span>${coinsLabel(coins)}</span></p>
+      <div class="vit-cta"><a class="btn ${offers.length ? 'btn-secondary' : 'btn-ghost'} btn-sm" href="#mercado/${code}">${offers.length ? 'Entrar al mercado' : 'Ver mercado'}${icon('i-right', 'icon icon-sm')}</a></div>
     </article>`;
   }).join('');
 }
@@ -8538,13 +8553,33 @@ function renderShop() {
       : `<div class="empty offer-empty">${itemImg('chest')}<p><b>La vitrina de ${c.name} está vacía.</b> Cuando tu profesor publique recompensas, vas a verlas acá.</p></div>`);
   $('#shop-pager').innerHTML = rows.length > shop.size ? pagerHTML(shop.page, shop.size, rows.length, 'recompensas') : '';
 }
+let shopActiveTab = 'vitrina';
+const SHOP_TAB_LABELS = {
+  vitrina: 'Vitrina',
+  subastas: 'Subastas',
+  metas: 'Metas colaborativas'
+};
+function getShopActiveTabLabel() {
+  const activeBtn = document.querySelector('#shop-tabs [data-shop-tab][aria-selected="true"]');
+  if (activeBtn) {
+    const txt = activeBtn.childNodes[0]?.textContent?.trim() || activeBtn.textContent.trim();
+    if (txt) return txt;
+  }
+  return SHOP_TAB_LABELS[shopActiveTab] || 'Vitrina';
+}
 function selectShopTab(tab) {
+  if (!SHOP_TAB_LABELS[tab]) tab = 'vitrina';
+  shopActiveTab = tab;
   $$('#shop-tabs [data-shop-tab]').forEach(b => {
     const sel = b.dataset.shopTab === tab;
     b.setAttribute('aria-selected', String(sel));
     b.tabIndex = sel ? 0 : -1;
   });
-  ['vitrina', 'subastas', 'metas'].forEach(k => $('#shop-' + k).hidden = k !== tab);
+  ['vitrina', 'subastas', 'metas'].forEach(k => {
+    const p = $('#shop-' + k);
+    if (p) p.hidden = k !== tab;
+  });
+  if (typeof renderBreadcrumb === 'function') renderBreadcrumb();
 }
 $('#shop-tabs').addEventListener('click', e => { const b = e.target.closest('[data-shop-tab]'); if (b) selectShopTab(b.dataset.shopTab); });
 $('#shop-types').addEventListener('click', e => { const b = e.target.closest('[data-shop-type]'); if (b) { shop.type = b.dataset.shopType; shop.page = 0; renderShop(); } });
@@ -8661,6 +8696,7 @@ function renderWallet() {
     <button type="button" class="stat-btn" data-wal-res="xp"><span class="k">${icon('i-star', 'icon icon-sm')}XP<span class="stat-filter">Filtrar movimientos</span></span><span class="v num">${c.xp.toLocaleString('es-AR')}<span class="of">/ ${c.xpMax}</span></span><span class="bar" aria-hidden="true"><span style="width:${c.xp / c.xpMax * 100}%"></span></span><span class="sub">Nivel ${c.level} · faltan <span class="num">${c.xpMax - c.xp}</span> XP para el ${c.level + 1}</span></button>`;
   syncStatFilter();
   renderMoves(); renderInvPanel();
+  if (typeof renderBreadcrumb === 'function') renderBreadcrumb();
 }
 function renderMoves() {
   // Balance after each move, walking back from today's balance.
@@ -8761,6 +8797,7 @@ function renderInventory() {
   }).join('');
   $('#bag-detail').innerHTML = picked ? itemDetailHTML(picked) + `<p class="bag-detail-hint">Ahora tocá una ranura iluminada o arrastralo.</p>` : 'Tocá un ítem para ver qué hace y en qué ranuras entra.';
   $('#bag-detail').classList.toggle('has-item', !!picked);
+  if (currentScreen === 'inventario' && typeof renderBreadcrumb === 'function') renderBreadcrumb();
 }
 function equip(key, slot) {
   const [sc, i] = slot.split(':'), it = invOf(walCode).find(x => x.key === key), eq = equipOf(walCode);
@@ -8800,6 +8837,7 @@ const NAV_TABS = {
     ['dashboard', 'i-home', 'Inicio'],
     ['cursos', 'i-book', 'Cursos'],
     ['desafios', 'i-flame', 'Desafíos', 3],
+    ['ranking', 'i-trophy', 'Ranking'],
     ['banco', 'i-coin', 'Economía'],
     ['chat', 'i-chat', 'Comunidad'],
   ],
@@ -8823,6 +8861,7 @@ const BOTTOM_NAV_ITEMS = {
     ['dashboard', 'i-home', 'Inicio'],
     ['cursos', 'i-book', 'Cursos'],
     ['desafios', 'i-flame', 'Desafíos'],
+    ['ranking', 'i-trophy', 'Ranking'],
     ['banco', 'i-coin', 'Economía'],
     ['chat', 'i-chat', 'Chat'],
   ],
@@ -8855,7 +8894,6 @@ const PARENT = {
 
   // Desafíos
   quiz: 'desafios',
-  ranking: 'desafios',
   'cuestionario-nuevo': 'desafios',
   'desafio-tipo': 'desafios',
   'desafio-nuevo': 'desafios',
@@ -8880,48 +8918,15 @@ const PARENT = {
   vitrina: 'vitrinas',
   'oferta-nueva': 'vitrinas',
 };
-/* Ítem del riel al que pertenece una pantalla. El profesor tiene "Gamificación" (ranking) como ítem propio:
-   para él #ranking no cuelga de Desafíos, o el sub-panel de Gamificación se cerraba al abrir su ranking. */
+/* Ítem del riel al que pertenece una pantalla. Ranking es ítem propio tanto en alumno como profesor. */
 function navOf(id) {
-  if (currentRole === 'profesor' && id === 'ranking') return 'ranking';
+  if (id === 'ranking') return 'ranking';
   return PARENT[id] || id;
 }
 
 /* ---- Configuración de Sub-menús (Opción D: Split View / Slack & Discord) ---- */
 const SUBMENUS = {
   alumno: {
-    desafios: {
-      tag: 'Práctica & Retos',
-      title: 'Desafíos',
-      sections: [
-        {
-          label: 'Práctica y Evaluaciones',
-          items: [
-            { id: 'sub-desafios-all', href: '#desafios', label: 'Todos los Desafíos', badge: '3', icon: 'i-flame', match: h => h === 'desafios' },
-            { id: 'sub-desafios-quiz', href: '#quiz', label: 'Quiz de Tipado', meta: '⏱️ 12 min', icon: 'i-gamepad', match: h => h === 'quiz' }
-          ]
-        },
-        {
-          label: 'Competencia',
-          items: [
-            { id: 'sub-desafios-rank', href: '#ranking', label: 'Ranking Global', icon: 'i-trophy', match: h => h === 'ranking' }
-          ]
-        }
-      ]
-    },
-    banco: {
-      tag: 'Economía & Tienda',
-      title: 'Economía',
-      sections: [
-        {
-          label: 'Finanzas & Monedas',
-          items: [
-            { id: 'sub-eco-banco', href: '#banco', label: 'Billetera', meta: 'Vidas, monedas y XP', icon: 'i-coin', match: h => h === 'banco' },
-            { id: 'sub-eco-market', href: '#marketplace', label: 'Mercado', meta: 'Vitrina de cada curso', icon: 'i-bag', match: h => h === 'marketplace' || h.startsWith('mercado') }
-          ]
-        }
-      ]
-    },
     chat: {
       tag: 'Comunidad',
       title: 'Canales de Chat',
@@ -9012,8 +9017,13 @@ function openSubpanel(navId = null) {
   const activeNav = navId || subpanel?.dataset.currentNav;
   if (activeNav) {
     $$('.rail-item').forEach(el => {
-      if (el.dataset.screen === activeNav) el.setAttribute('data-subpanel-open', 'true');
-      else el.removeAttribute('data-subpanel-open');
+      if (el.dataset.screen === activeNav) {
+        el.setAttribute('data-subpanel-open', 'true');
+        if (el.hasAttribute('aria-haspopup')) el.setAttribute('aria-expanded', 'true');
+      } else {
+        el.removeAttribute('data-subpanel-open');
+        if (el.hasAttribute('aria-haspopup')) el.setAttribute('aria-expanded', 'false');
+      }
     });
   }
   $$('#btn-toggle-course-tree, #btn-hero-toggle-temario').forEach(btn => {
@@ -9034,6 +9044,7 @@ function closeSubpanel(userInitiated = false) {
   }
   if (userInitiated) subpanelClosedByUser = true;
   $$('.rail-item[data-subpanel-open]').forEach(el => el.removeAttribute('data-subpanel-open'));
+  $$('.rail-item[aria-haspopup]').forEach(el => el.setAttribute('aria-expanded', 'false'));
   $$('#btn-toggle-course-tree, #btn-hero-toggle-temario').forEach(btn => {
     btn.setAttribute('aria-expanded', 'false');
     btn.classList.remove('is-active');
@@ -9466,7 +9477,9 @@ function renderNav() {
 
   const renderItem = ([id, ic, label, count]) => {
     const tip = count ? `${label} (${count})` : label;
-    return `<a class="rail-item" href="#${id}" data-screen="${id}" data-tooltip="${tip}" aria-label="${tip}">
+    const roleMenus = SUBMENUS[currentRole] || {};
+    const hasSub = Boolean(roleMenus[id]);
+    return `<a class="rail-item" href="#${id}" data-screen="${id}" data-tooltip="${tip}" aria-label="${tip}" ${hasSub ? 'aria-haspopup="true" aria-expanded="false"' : ''}>
       ${icon(ic)}
       <span class="rail-label">${label}</span>
       ${count ? `<span class="nav-count" title="${id === 'accesos' ? 'Solicitudes pendientes' : 'Obligatorios pendientes'}">${count}</span>` : ''}
@@ -9564,19 +9577,32 @@ function breadcrumbTrail(id, arg) {
     case 'quiz': return [H, L('Desafíos', '#desafios'), L(courseName, courseHref), C('Tipado y protocolos')];
     case 'ranking':
       if (role === 'profesor') return [L('Desafíos', '#desafios'), C('Ranking')];
-      return [H, L('Desafíos', '#desafios'), C('Ranking')];
+      return [H, C('Ranking')];
     case 'insignias':
       if (role === 'profesor') return [L('Desafíos', '#desafios'), L('Ranking', '#ranking'), C('Insignias')];
       return [H, L('Ranking', '#ranking'), C('Insignias')];
     case 'roadmap': return [L('Cursos', '#cursos'), C('Roadmap')];
-    case 'banco': return role === 'alumno' ? [H, C('Economía')] : [C('Banco & Finanzas')];
+    case 'banco': {
+      if (role !== 'alumno') return [C('Banco & Finanzas')];
+      const wcode = arg || (typeof walCode !== 'undefined' && walCode) || 'ProgIV';
+      const wCourseName = (typeof COURSES !== 'undefined' && COURSES[wcode]?.name) || (typeof findCourse === 'function' && findCourse(wcode)?.name) || wcode;
+      return [H, L('Economía', '#banco'), L('Billetera', '#banco'), C(wCourseName)];
+    }
     case 'marketplace': return role === 'alumno' ? [H, L('Economía', '#banco'), C('Mercado')] : [L('Economía', '#banco'), C('Mercado')];
     case 'mercado': {
-      const items = [L('Economía', '#banco'), L('Mercado', '#marketplace'), C(courseName)];
+      const activeTabLabel = getShopActiveTabLabel();
+      const items = [
+        L('Economía', '#banco'),
+        L('Mercado', '#marketplace'),
+        L(courseName, '#mercado/' + encodeURIComponent(courseArg)),
+        C(activeTabLabel)
+      ];
       return role === 'alumno' ? [H, ...items] : items;
     }
     case 'inventario': {
-      const items = [L('Economía', '#banco'), C('Equipar ítems')];
+      const wcode = arg || (typeof walCode !== 'undefined' && walCode) || 'ProgIV';
+      const wCourseName = (typeof COURSES !== 'undefined' && COURSES[wcode]?.name) || (typeof findCourse === 'function' && findCourse(wcode)?.name) || wcode;
+      const items = [L('Economía', '#banco'), L('Inventario', '#inventario'), C(wCourseName)];
       return role === 'alumno' ? [H, ...items] : items;
     }
     case 'personaje': return role === 'alumno' ? [H, C('Personaje')] : [C('Personaje')];
@@ -9654,16 +9680,25 @@ function updateCursoCrumbs() {
     if (studentWrap) studentWrap.hidden = true;
     staffBars.forEach(b => { b.hidden = false; });
   }
+  const hasSubtab = subtab && subtab !== 'Contenidos de la cursada';
   if (studentNav) {
     const trail = currentRole === 'alumno'
-      ? [{ ...home, home: true }, { label: 'Mis Cursos', href: '#cursos' }, { label: cc.name, href: cc.href, current: true, id: 'materia-breadcrumb-course-link' }]
-      : [{ label: 'Cursos', href: '#cursos', home: true }, { label: cc.name, href: cc.href, current: true, id: 'materia-breadcrumb-course-link' }];
+      ? (hasSubtab
+          ? [{ ...home, home: true }, { label: 'Mis Cursos', href: '#cursos' }, { label: cc.name, href: cc.href, id: 'materia-breadcrumb-course-link' }, { label: subtab, current: true }]
+          : [{ ...home, home: true }, { label: 'Mis Cursos', href: '#cursos' }, { label: cc.name, href: cc.href, current: true, id: 'materia-breadcrumb-course-link' }])
+      : (hasSubtab
+          ? [{ label: 'Cursos', href: '#cursos', home: true }, { label: cc.name, href: cc.href, id: 'materia-breadcrumb-course-link' }, { label: subtab, current: true }]
+          : [{ label: 'Cursos', href: '#cursos', home: true }, { label: cc.name, href: cc.href, current: true, id: 'materia-breadcrumb-course-link' }]);
     paintBreadcrumbNav(studentNav, trail);
   }
   if (staffNav && staffNav !== studentNav) {
     const staffTrail = currentRole === 'admin'
-      ? [{ ...home, home: true }, { label: 'Cursos', href: '#cursos' }, { label: cc.name, href: cc.href, current: true }]
-      : [{ label: 'Cursos', href: '#cursos', home: true }, { label: cc.name, href: cc.href, current: true }];
+      ? (hasSubtab
+          ? [{ ...home, home: true }, { label: 'Cursos', href: '#cursos' }, { label: cc.name, href: cc.href }, { label: subtab, current: true }]
+          : [{ ...home, home: true }, { label: 'Cursos', href: '#cursos', current: true }])
+      : (hasSubtab
+          ? [{ label: 'Cursos', href: '#cursos', home: true }, { label: cc.name, href: cc.href }, { label: subtab, current: true }]
+          : [{ label: 'Cursos', href: '#cursos', home: true }, { label: cc.name, href: cc.href, current: true }]);
     paintBreadcrumbNav(staffNav, staffTrail);
   }
 }
@@ -9697,6 +9732,15 @@ function renderBreadcrumb(fullHash) {
     paintBreadcrumbNav(nav, trail);
   }
 }
+
+document.addEventListener('click', e => {
+  const bcLink = e.target.closest('.campus-breadcrumb a');
+  if (!bcLink) return;
+  const href = bcLink.getAttribute('href') || '';
+  if (href.startsWith('#mercado/') && currentScreen === 'mercado') {
+    selectShopTab('vitrina');
+  }
+});
 
 function route() {
   const defaultScreen = NAV_TABS[currentRole][0][0]; // primer ítem del riel de cada rol
@@ -9752,12 +9796,27 @@ function route() {
   if (id === 'vitrinas') renderVitrinas();
   if (id === 'marketplace') renderShopCourses();
   if (id === 'uikit') renderUikitSamples();
-  if (id === 'banco' && currentRole === 'alumno') renderWallet();
-  if (id === 'inventario') renderInventory();
+  if (id === 'banco' && currentRole === 'alumno') {
+    if (arg) {
+      const decoded = decodeURIComponent(arg);
+      if (typeof COURSES !== 'undefined' && COURSES[decoded]) walCode = decoded;
+    }
+    renderWallet();
+  }
+  if (id === 'inventario') {
+    if (arg) {
+      const decoded = decodeURIComponent(arg);
+      if (typeof COURSES !== 'undefined' && COURSES[decoded]) walCode = decoded;
+    }
+    renderInventory();
+  }
   if (id === 'mercado') {
     const code = decodeURIComponent(arg || shopCode);
-    if (code !== shopCode) { Object.assign(shop, { type: '', q: '', page: 0 }); $('#shop-q').value = ''; selectShopTab('vitrina'); }
-    shopCode = code; renderShop();
+    const qTab = queryString ? new URLSearchParams(queryString).get('tab') : null;
+    if (code !== shopCode) { Object.assign(shop, { type: '', q: '', page: 0 }); $('#shop-q').value = ''; }
+    shopCode = code;
+    selectShopTab(qTab || (code !== shopCode ? 'vitrina' : (shopActiveTab || 'vitrina')));
+    renderShop();
   }
   if (id === 'vitrina') {
     const code = decodeURIComponent(arg || vitCode);
@@ -9866,33 +9925,46 @@ document.addEventListener('click', e => {
   }
 });
 
-/* Al hacer click en un icono del dock: si tiene submenú configurado, alternar o abrir el sub-panel SIN cambiar de página */
+/* Al hacer click en un icono del dock: si tiene submenú configurado, abrir o minimizar (alternar) el sub-panel */
 document.addEventListener('click', e => {
   const railLink = e.target.closest('.rail-item');
   if (!railLink) return;
 
   const targetNav = railLink.dataset.screen;
   const roleMenus = SUBMENUS[currentRole] || {};
-  const hasSubmenu = Boolean(roleMenus[targetNav]);
+  const currentCleanHash = (location.hash.slice(1) || '').split('?')[0];
+  const isCourseDetail = currentCleanHash.startsWith('curso/');
+  const isCourseSubmenu = (targetNav === 'cursos' && isCourseDetail && currentRole === 'alumno');
+  const hasSubmenu = Boolean(roleMenus[targetNav]) || isCourseSubmenu;
   const subpanel = $('#subpanel');
   const isAlreadyOpen = subpanel && !subpanel.classList.contains('collapsed');
   const currentSubNav = subpanel ? subpanel.dataset.currentNav : null;
 
   if (hasSubmenu) {
     e.preventDefault();
+
+    // Si el sub-panel ya está desplegado para este ítem: minimizarlo haciendo click en el mismo icono
+    if (isAlreadyOpen && currentSubNav === targetNav) {
+      closeSubpanel(true);
+      return;
+    }
+
+    // Si no está abierto pero ya estamos en esta sección: abrir o restaurar el sub-panel
     if (navOf(currentScreen) === targetNav) {
-      // Ya estoy en la sección: asegurar el panel abierto (no se alterna; se cierra con la X o Ctrl+B)
-      if (!isAlreadyOpen || currentSubNav !== targetNav) {
-        updateSubpanel(targetNav, location.hash.slice(1) || targetNav, true);
-      }
-    } else {
-      // Entrar directo a la primera opción del submenú: route() abre el panel con esa opción resaltada
+      updateSubpanel(targetNav, location.hash.slice(1) || targetNav, true);
+      return;
+    }
+
+    // Si estamos en otra sección: navegar a la primera opción del submenú (route() abrirá el sub-panel)
+    if (roleMenus[targetNav]) {
       const first = roleMenus[targetNav].sections.flatMap(sec => sec.items)[0];
       subpanelClosedByUser = false;
       location.hash = first.href.replace(/^#/, '');
+    } else {
+      updateSubpanel(targetNav, location.hash.slice(1) || targetNav, true);
     }
   } else {
-    // Pantalla sin submenú (ej. dashboard, uikit, cursos): navegar normalmente a la pantalla y repliega el subpanel
+    // Pantalla sin submenú (ej. dashboard, uikit, cursos fuera de detalle): navegar normalmente a la pantalla y repliega el subpanel
     closeSubpanel(false);
   }
 });
