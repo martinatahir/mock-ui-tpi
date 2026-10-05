@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="css/tokens.css" />
 <link rel="stylesheet" href="css/base.css" />
 <link rel="stylesheet" href="css/components.css" />
+<link rel="stylesheet" href="css/screens.css" />
 
 <style>
 /* =========================================================================
@@ -32,36 +33,7 @@ body {
   gap: 16px;
 }
 
-/* 1. BREADCRUMBS SUPERIORES */
-.course-breadcrumb {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  color: #8c93a0;
-  background: #14181f;
-  padding: 8px 14px;
-  border-radius: 6px;
-  border: 1px solid #262b35;
-  width: fit-content;
-}
-
-.course-breadcrumb a {
-  color: #8c93a0;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.course-breadcrumb a:hover {
-  color: #ffffff;
-}
-
-.course-breadcrumb .current {
-  color: #cbd0d8;
-  font-weight: 600;
-}
+/* 1. BREADCRUMBS: miga del UI kit (.campus-breadcrumb en css/screens.css) */
 
 /* 2. PESTAÑAS PRINCIPALES DEL CURSO (BOXED TABS) */
 .course-nav-tabs-wrapper {
@@ -438,13 +410,16 @@ body {
 
 <div class="course-page-wrap">
 
-  <!-- 1. BREADCRUMBS EXACTOS DE LA MAQUETA -->
-  <nav class="course-breadcrumb" aria-label="Miga de pan">
-    <a href="#home"><span>🏠</span></a>
-    <span>&gt;</span>
-    <a href="#mis-cursos">Mis cursos</a>
-    <span>&gt;</span>
-    <span class="current">2026 - Gestión de Desarrollo de Software</span>
+  <!-- 1. BREADCRUMBS DEL UI KIT -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="i-home" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></symbol><symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol></defs></svg>
+  <nav class="campus-breadcrumb" aria-label="Miga de pan">
+    <ol>
+      <li><a href="tpi-redesign.html#dashboard"><svg class="icon icon-sm icon-home" width="14" height="14" aria-hidden="true"><use href="#i-home"/></svg><span>Inicio</span></a></li>
+      <li aria-hidden="true"><span class="sep"><svg class="icon icon-xs" width="12" height="12" aria-hidden="true"><use href="#i-chevron"/></svg></span></li>
+      <li><a href="tpi-redesign.html#cursos"><span>Mis cursos</span></a></li>
+      <li aria-hidden="true"><span class="sep"><svg class="icon icon-xs" width="12" height="12" aria-hidden="true"><use href="#i-chevron"/></svg></span></li>
+      <li><span class="current" aria-current="page">2026 - Gestión de Desarrollo de Software</span></li>
+    </ol>
   </nav>
 
   <!-- 2. PESTAÑAS EN RECUADRO SUPERIOR (CURSO / PARTICIPANTES / ACTIVIDADES / COMPETENCIAS) -->
@@ -741,9 +716,38 @@ function toggleAll() {
 }
 
 function switchTab(tab, el) {
-  document.querySelectorAll('.course-tab-item').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
+  document.querySelectorAll('.course-tab-item').forEach(b => {
+    var sel = (b === el);
+    b.classList.toggle('active', sel);
+    b.setAttribute('aria-selected', String(sel));
+    b.tabIndex = sel ? 0 : -1;
+  });
+  // Este mock solo tiene contenido de "Curso"; el resto es placeholder sin panel propio.
 }
+(function initRedesignTabs(){
+  var list = document.querySelector('.course-nav-tabs');
+  if (!list) return;
+  if (!list.hasAttribute('role')) list.setAttribute('role', 'tablist');
+  list.querySelectorAll('.course-tab-item').forEach(function(t){
+    if (!t.hasAttribute('role')) t.setAttribute('role', 'tab');
+    if (!t.hasAttribute('aria-selected')) t.setAttribute('aria-selected', t.classList.contains('active') ? 'true' : 'false');
+    if (t.getAttribute('aria-selected') === 'false' && !t.hasAttribute('tabindex')) t.tabIndex = -1;
+  });
+  list.addEventListener('keydown', function(e){
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft' && e.key !== 'Home' && e.key !== 'End') return;
+    e.preventDefault();
+    var tabs = Array.prototype.slice.call(list.querySelectorAll('[role="tab"]'));
+    var i = tabs.indexOf(document.activeElement);
+    if (i < 0) i = 0;
+    var n = i;
+    if (e.key === 'ArrowRight') n = (i + 1) % tabs.length;
+    if (e.key === 'ArrowLeft') n = (i - 1 + tabs.length) % tabs.length;
+    if (e.key === 'Home') n = 0;
+    if (e.key === 'End') n = tabs.length - 1;
+    tabs[n].focus();
+    tabs[n].click();
+  });
+})();
 
 function openSectionModal() {
   document.getElementById('sectionModal').classList.add('open');

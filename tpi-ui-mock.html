@@ -108,8 +108,29 @@ h1,h2,h3 { margin:0 0 .4em; }
   width: 248px; flex: 0 0 248px; background: var(--bg-surface); border-right: var(--border-width) solid var(--border-subtle);
   padding: 16px 10px; overflow-y:auto;
 }
-.sidebar .group-label { font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--text-muted); margin:18px 8px 6px; }
+.sidebar .group-label { font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--text-muted); margin:18px 8px 6px; font-weight:600; }
 .sidebar .group-label:first-child { margin-top:4px; }
+h2.group-label { font-family:inherit; }
+/* Skip-link */
+.skip-link { position:absolute; left:12px; top:-48px; z-index:50; background:var(--accent-primary-fill); color:var(--on-accent-primary); padding:8px 14px; border-radius:6px; font-weight:700; text-decoration:none; transition:top .15s ease; }
+.skip-link:focus { top:8px; }
+/* Grupo colapsable "Más" (secundarios del mock) */
+.nav-more { margin-top:14px; border-top:var(--border-width) solid var(--border-subtle); padding-top:6px; }
+.nav-more > summary { cursor:pointer; font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--text-muted); font-weight:600; padding:10px 8px 4px; list-style:none; }
+.nav-more > summary::-webkit-details-marker { display:none; }
+.nav-more > summary::before { content:"▸ "; }
+.nav-more[open] > summary::before { content:"▾ "; }
+/* Drawer movil */
+.nav-toggle { display:none; border:var(--border-width) solid var(--border-subtle); background:transparent; color:var(--text-primary); border-radius:var(--radius-control); padding:7px 10px; font:inherit; cursor:pointer; }
+.scrim { display:none; }
+@media (max-width: 900px){
+  .nav-toggle { display:inline-block; }
+  .shell { position:relative; }
+  .sidebar { position:fixed; top:0; left:0; z-index:40; height:100dvh; transform:translateX(-105%); transition:transform .2s ease; box-shadow:0 12px 32px rgba(0,0,0,.35); }
+  .shell.nav-open .sidebar { transform:none; }
+  .shell.nav-open .scrim { display:block; position:fixed; inset:0; z-index:30; background:rgba(0,0,0,.45); border:0; padding:0; cursor:pointer; }
+  .content { padding:18px; }
+}
 .nav-item {
   display:flex; align-items:center; gap:10px; width:100%; text-align:left; border:0; background:transparent;
   color: var(--text-primary); padding:9px 10px; border-radius: var(--radius-control); font:inherit; font-size:14px; cursor:pointer; margin-bottom:2px;
@@ -187,15 +208,39 @@ table.data tr.me { background: var(--bg-surface-alt); font-weight:600; }
 .auth-shell .card { padding:28px; }
 .tabs-row { display:flex; gap:4px; border-bottom: var(--border-width) solid var(--border-subtle); margin-bottom:18px; }
 .tabs-row button { border:0; background:transparent; padding:10px 16px; font:inherit; font-weight:600; color:var(--text-muted); cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-2px; }
-.tabs-row button.active { color:var(--text-primary); border-color: var(--accent-primary); }
+.tabs-row button.active, .tabs-row button[aria-selected="true"] { color:var(--text-primary); border-color: var(--accent-primary); }
+/* Tabs accesibles: foco visible, scroll horizontal en auth, roving tabindex */
+.subnav[role="tablist"] { scrollbar-gutter: stable; }
+#auth-shell .subnav { flex-wrap:nowrap; overflow-x:auto; justify-content:flex-start; max-width:100%; padding-bottom:4px; }
+#auth-shell .subnav .chip { flex:none; }
+.chip[role="tab"][aria-selected="true"] { background: var(--accent-secondary-fill); color: var(--on-accent-secondary); border-color: transparent; }
+.tabs-row[role="tablist"] button[role="tab"] { border-bottom-width:2px; }
+@media (prefers-reduced-motion: reduce) { .screen, .subscreen { transition:none !important; } }
 
 .mock-note { font-size:11px; color:var(--text-muted); background:var(--bg-surface-alt); border:1px dashed var(--border-subtle); padding:8px 12px; border-radius:6px; margin-bottom:16px; }
+.ph-badge { display:inline-block; font-size:11px; font-weight:600; color:var(--text-muted); border:1px dashed var(--border-subtle); border-radius:999px; padding:2px 10px; margin-bottom:12px; }
 .section-title-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; flex-wrap:wrap; gap:10px; }
+
+/* MIGA DE PAN — estructura del UI kit (canon visual: css/screens.css), tokens locales de esta guía */
+.campus-breadcrumb { display:flex; align-items:center; margin-bottom:14px; font-family:var(--font-body); font-size:14px; line-height:1.4; overflow-x:auto; scrollbar-width:none; scrollbar-gutter:stable; }
+.campus-breadcrumb::-webkit-scrollbar { display:none; }
+.campus-breadcrumb ol { display:flex; align-items:center; gap:6px; list-style:none; margin:0; padding:0; flex-wrap:nowrap; white-space:nowrap; }
+.campus-breadcrumb li { display:inline-flex; align-items:center; gap:6px; color:var(--text-muted); }
+.campus-breadcrumb a { color:var(--text-muted); text-decoration:none; display:inline-flex; align-items:center; gap:5px; padding:3px 7px; border-radius:var(--radius-control); transition:color .15s ease, background-color .15s ease; font-weight:500; }
+.campus-breadcrumb a:hover { color:var(--text-primary); background:color-mix(in srgb, var(--accent-primary-fill) 12%, transparent); text-decoration:none; }
+.campus-breadcrumb a:focus-visible { outline:2px solid var(--accent-primary-fill); outline-offset:2px; }
+.campus-breadcrumb svg { width:14px; height:14px; flex:none; }
+.campus-breadcrumb .sep { display:inline-flex; color:var(--text-muted); opacity:.6; user-select:none; }
+.campus-breadcrumb .sep svg { width:12px; height:12px; }
+.campus-breadcrumb .current { display:inline-flex; align-items:center; color:var(--text-primary); font-weight:700; padding:3px 8px; border-radius:var(--radius-control); background:var(--bg-surface-alt); border:1px solid var(--border-subtle); max-width:280px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+@media (max-width:480px) { .campus-breadcrumb a span { max-width:96px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; } .campus-breadcrumb .current { max-width:160px; } }
 </style>
 </head>
 <body data-theme="dark" data-skin="gamer">
+<a class="skip-link" href="#main-content">Saltar al contenido principal</a>
 
 <div class="topbar">
+  <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="sidebar-nav">☰ <span aria-hidden="true">Menú</span><span class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">Abrir navegación principal</span></button>
   <div class="brand display">TPI · Plataforma Gamificada</div>
   <div class="mode-switch">
     <button id="mode-app" class="active" onclick="setMode('app')">Vista app</button>
@@ -219,73 +264,89 @@ table.data tr.me { background: var(--bg-surface-alt); font-weight:600; }
 
 <!-- ============================= APP SHELL (sidebar) ============================= -->
 <div class="shell" id="app-shell">
-  <aside class="sidebar">
-    <div class="group-label">Inicio</div>
-    <button class="nav-item active" data-screen="dashboard" onclick="showScreen('dashboard', this)">🏠 Panel principal</button>
+  <aside class="sidebar" id="sidebar-nav">
+  <nav aria-label="Principal">
+    <div role="group" aria-labelledby="nav-g-inicio">
+      <h2 class="group-label" id="nav-g-inicio">Inicio</h2>
+      <button class="nav-item active" data-screen="dashboard" aria-current="page" onclick="showScreen('dashboard', this)"><span aria-hidden="true">🏠</span> Panel principal</button>
+    </div>
 
-    <div class="group-label">Aprender</div>
-    <button class="nav-item" data-screen="cursos" onclick="showScreen('cursos', this)">📚 Cursos</button>
-    <button class="nav-item" data-screen="desafios" onclick="showScreen('desafios', this)">🔥 Desafíos</button>
-    <button class="nav-item" data-screen="roadmap" onclick="showScreen('roadmap', this)">🗺️ Roadmap</button>
-    <button class="nav-item" data-screen="ai-tutor" onclick="showScreen('ai-tutor', this)">🤖 Tutor IA <span class="beta">Beta</span></button>
+    <div role="group" aria-labelledby="nav-g-aprender">
+      <h2 class="group-label" id="nav-g-aprender">Aprender</h2>
+      <button class="nav-item" data-screen="cursos" onclick="showScreen('cursos', this)"><span aria-hidden="true">📚</span> Cursos</button>
+      <button class="nav-item" data-screen="desafios" onclick="showScreen('desafios', this)"><span aria-hidden="true">🔥</span> Desafíos</button>
+      <button class="nav-item" data-screen="roadmap" onclick="showScreen('roadmap', this)"><span aria-hidden="true">🗺️</span> Roadmap</button>
+      <button class="nav-item" data-screen="ai-tutor" onclick="showScreen('ai-tutor', this)"><span aria-hidden="true">🤖</span> Tutor IA <span class="beta">Beta</span></button>
+    </div>
 
-    <div class="group-label">Progreso</div>
-    <button class="nav-item" data-screen="ranking" onclick="showScreen('ranking', this)">🏆 Ranking</button>
-    <button class="nav-item" data-screen="banco" onclick="showScreen('banco', this)">🪙 Banco <span class="beta">Beta</span></button>
+    <div role="group" aria-labelledby="nav-g-progreso">
+      <h2 class="group-label" id="nav-g-progreso">Progreso</h2>
+      <button class="nav-item" data-screen="ranking" onclick="showScreen('ranking', this)"><span aria-hidden="true">🏆</span> Ranking</button>
+      <button class="nav-item" data-screen="banco" onclick="showScreen('banco', this)"><span aria-hidden="true">🪙</span> Banco <span class="beta">Beta</span></button>
+    </div>
 
-    <div class="group-label">Tienda</div>
-    <button class="nav-item" data-screen="marketplace" onclick="showScreen('marketplace', this)">🎒 Marketplace <span class="beta">Beta</span></button>
+    <div role="group" aria-labelledby="nav-g-tienda">
+      <h2 class="group-label" id="nav-g-tienda">Tienda</h2>
+      <button class="nav-item" data-screen="marketplace" onclick="showScreen('marketplace', this)"><span aria-hidden="true">🎒</span> Marketplace <span class="beta">Beta</span></button>
+    </div>
 
-    <div class="group-label">Comunidad</div>
-    <button class="nav-item" data-screen="chat" onclick="showScreen('chat', this)">💬 Chat <span class="beta">Beta</span></button>
-    <button class="nav-item" data-screen="notificaciones" onclick="showScreen('notificaciones', this)">🔔 Notificaciones <span class="beta">Beta</span></button>
-    <button class="nav-item" data-screen="encuestas" onclick="showScreen('encuestas', this)">⭐ Encuestas <span class="beta">Beta</span></button>
+    <details class="nav-more" open>
+      <summary>Más (mock: cubre pantallas reales)</summary>
+      <div role="group" aria-labelledby="nav-g-comunidad">
+        <h2 class="group-label" id="nav-g-comunidad">Comunidad</h2>
+        <button class="nav-item" data-screen="chat" onclick="showScreen('chat', this)"><span aria-hidden="true">💬</span> Chat <span class="beta">Beta</span></button>
+        <button class="nav-item" data-screen="notificaciones" onclick="showScreen('notificaciones', this)"><span aria-hidden="true">🔔</span> Notificaciones <span class="beta">Beta</span></button>
+        <button class="nav-item" data-screen="encuestas" onclick="showScreen('encuestas', this)"><span aria-hidden="true">⭐</span> Encuestas <span class="beta">Beta</span></button>
+      </div>
 
-    <div class="group-label">Cuenta</div>
-    <button class="nav-item" data-screen="perfil" onclick="showScreen('perfil', this)">🙂 Mi perfil</button>
+      <div role="group" aria-labelledby="nav-g-cuenta">
+        <h2 class="group-label" id="nav-g-cuenta">Cuenta</h2>
+        <button class="nav-item" data-screen="perfil" onclick="showScreen('perfil', this)"><span aria-hidden="true">🙂</span> Mi perfil</button>
+      </div>
 
-    <div class="group-label">Administración <span class="beta">Rol: Gestor/Admin</span></div>
-    <button class="nav-item" data-screen="admin" onclick="showScreen('admin', this)">🔒 Backoffice</button>
+      <div role="group" aria-labelledby="nav-g-admin">
+        <h2 class="group-label" id="nav-g-admin">Administración <span class="beta">Rol: Gestor/Admin</span></h2>
+        <button class="nav-item" data-screen="admin" onclick="showScreen('admin', this)"><span aria-hidden="true">🔒</span> Backoffice</button>
+      </div>
+    </details>
 
     <div class="sidebar-footer">
       <div style="font-size:12px; color:var(--text-muted);">
         Grupos <b>Aprender / Progreso / Tienda</b> son la propuesta final (≤5 destinos). Comunidad, Cuenta y Administración
         quedan disponibles para que este mock cubra las ~50 pantallas reales; en producción cada ítem "Beta" se oculta
         hasta que su feature deje de ser el scaffold genérico (ver Fase 3 del plan).
+        La insignia ◌ marca contenido ilustrativo, no final.
       </div>
     </div>
+  </nav>
   </aside>
+  <button class="scrim" id="nav-scrim" tabindex="-1" aria-hidden="true"></button>
 
-  <main class="content">
+  <main class="content" id="main-content" tabindex="-1">
 
     <!-- ============ DASHBOARD (Fase 3: home real) ============ -->
     <section class="screen visible" id="screen-dashboard">
+      <nav class="campus-breadcrumb" aria-label="Miga de pan">
+        <ol>
+          <li><span class="current" aria-current="page">Inicio</span></li>
+        </ol>
+      </nav>
       <div class="mock-note">Reemplaza el placeholder "My Dashboard" en inglés. Propuesta de home real (Fase 3).</div>
       <h1 class="display">Hola, Manu 👋</h1>
-      <div class="grid cols-3">
-        <div class="card">
-          <div style="font-size:12px;color:var(--text-muted);text-transform:uppercase;">XP total</div>
-          <div style="font-size:28px;font-weight:700;margin:6px 0;">2.340 XP</div>
-          <div class="progress"><span style="width:64%"></span></div>
-          <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">Nivel 7 · faltan 460 XP para el nivel 8</div>
+      <div class="card" style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+        <div style="flex:1; min-width:200px;">
+          <div style="font-size:12px;color:var(--text-muted);text-transform:uppercase;">Nivel 7 · 2.340 XP</div>
+          <div class="progress" style="margin:6px 0;"><span style="width:64%"></span></div>
+          <div style="font-size:12px;color:var(--text-muted);">Faltan 460 XP para el nivel 8 · <span class="streak-flame">🔥 6 días de racha</span> · 🪙 1.280</div>
         </div>
-        <div class="card">
-          <div style="font-size:12px;color:var(--text-muted);text-transform:uppercase;">Racha</div>
-          <div class="streak-flame" style="font-size:26px;margin:6px 0;">🔥 6 días</div>
-          <div style="font-size:12px;color:var(--text-muted);">Entrá hoy para no perderla</div>
-        </div>
-        <div class="card">
-          <div style="font-size:12px;color:var(--text-muted);text-transform:uppercase;">Monedas</div>
-          <div style="font-size:28px;font-weight:700;margin:6px 0;">🪙 1.280</div>
-          <div style="font-size:12px;color:var(--text-muted);">Usalas en el Marketplace</div>
-        </div>
+        <button class="btn btn-ghost" onclick="showScreen('banco', null)">Ver movimientos</button>
       </div>
       <div class="alert alert-info">
         <div>⚠️</div>
         <div>
           <b>Zona de riesgo de regularidad</b>
           <p>Te faltan 2 desafíos obligatorios de "Estructuras de control" para salir de zona de riesgo.</p>
-          <div class="action"><button class="btn btn-cyan">Ir al desafío pendiente</button></div>
+          <div class="action"><button class="btn btn-cyan" onclick="showScreen('desafios', null)">Ir al desafío pendiente</button> <button class="btn btn-ghost" onclick="showScreen('ranking', null)">Ver mi posición</button></div>
         </div>
       </div>
       <div class="card">
@@ -297,18 +358,35 @@ table.data tr.me { background: var(--bg-surface-alt); font-weight:600; }
 
     <!-- ============ CURSOS ============ -->
     <section class="screen" id="screen-cursos">
+      <nav class="campus-breadcrumb" aria-label="Miga de pan">
+        <ol>
+          <li><a href="#dashboard"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg><span>Inicio</span></a></li>
+          <li aria-hidden="true"><span class="sep"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></li>
+          <li><span class="current" aria-current="page">Cursos</span></li>
+        </ol>
+      </nav>
       <div class="subnav">
         <button class="chip active" onclick="showSub('cursos','lista', this)">Mis cursos</button>
         <button class="chip" onclick="showSub('cursos','detalle', this)">Detalle de curso</button>
       </div>
-      <div class="subscreen visible" id="sub-cursos-lista">
+      <div class="subscreen visible" id="sub-cursos-lista" role="tabpanel" aria-labelledby="tab-cursos-lista">
         <div class="section-title-row"><h1 class="display">Cursos</h1><button class="btn btn-magenta">+ Crear curso base</button></div>
-        <div class="tabs-row">
-          <button class="active">Activos</button><button>Borrador</button><button>Archivados</button>
+        <div class="tabs-row" role="tablist" aria-label="Estado de cursos">
+          <button role="tab" aria-selected="true" aria-controls="sub-cursos-estado-activos" id="tab-cursos-estado-activos" class="active" onclick="showCursoEstado('activos', this)">Activos</button>
+          <button role="tab" aria-selected="false" aria-controls="sub-cursos-estado-borrador" id="tab-cursos-estado-borrador" tabindex="-1" onclick="showCursoEstado('borrador', this)">Borrador</button>
+          <button role="tab" aria-selected="false" aria-controls="sub-cursos-estado-archivados" id="tab-cursos-estado-archivados" tabindex="-1" onclick="showCursoEstado('archivados', this)">Archivados</button>
         </div>
-        <div class="grid cols-2">
-          <div class="card"><h3>Programación IV — Comisión A</h3><p style="color:var(--text-muted)">32 alumnos · 4 secciones</p><span class="badge badge-green">Activo</span></div>
-          <div class="card"><h3>Programación IV — Comisión B</h3><p style="color:var(--text-muted)">28 alumnos · 4 secciones</p><span class="badge badge-green">Activo</span></div>
+        <div id="sub-cursos-estado-activos" role="tabpanel" aria-labelledby="tab-cursos-estado-activos">
+          <div class="grid cols-2">
+            <div class="card"><h3>Programación IV — Comisión A</h3><p style="color:var(--text-muted)">32 alumnos · 4 secciones</p><span class="badge badge-green">Activo</span></div>
+            <div class="card"><h3>Programación IV — Comisión B</h3><p style="color:var(--text-muted)">28 alumnos · 4 secciones</p><span class="badge badge-green">Activo</span></div>
+          </div>
+        </div>
+        <div id="sub-cursos-estado-borrador" role="tabpanel" aria-labelledby="tab-cursos-estado-borrador" hidden>
+          <div class="empty-state"><div class="icon">📝</div><p>No tenés cursos en borrador.</p></div>
+        </div>
+        <div id="sub-cursos-estado-archivados" role="tabpanel" aria-labelledby="tab-cursos-estado-archivados" hidden>
+          <div class="empty-state"><div class="icon">📦</div><p>No hay cursos archivados.</p></div>
         </div>
       </div>
       <div class="subscreen" id="sub-cursos-detalle">
@@ -319,6 +397,13 @@ table.data tr.me { background: var(--bg-surface-alt); font-weight:600; }
 
     <!-- ============ DESAFÍOS ============ -->
     <section class="screen" id="screen-desafios">
+      <nav class="campus-breadcrumb" aria-label="Miga de pan">
+        <ol>
+          <li><a href="#dashboard"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg><span>Inicio</span></a></li>
+          <li aria-hidden="true"><span class="sep"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></li>
+          <li><span class="current" aria-current="page">Desafíos</span></li>
+        </ol>
+      </nav>
       <div class="subnav">
         <button class="chip active" onclick="showSub('desafios','lista', this)">Lista</button>
         <button class="chip" onclick="showSub('desafios','detalle', this)">Detalle</button>
@@ -345,31 +430,49 @@ table.data tr.me { background: var(--bg-surface-alt); font-weight:600; }
 
     <!-- ============ ROADMAP ============ -->
     <section class="screen" id="screen-roadmap">
-      <div class="pill-toggle" style="margin-bottom:14px;">
-        <button class="active" onclick="toggleRoadmapRole('alumno', this)">Vista alumno</button>
-        <button onclick="toggleRoadmapRole('profesor', this)">Vista profesor</button>
+      <nav class="campus-breadcrumb" aria-label="Miga de pan">
+        <ol>
+          <li><a href="#dashboard"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg><span>Inicio</span></a></li>
+          <li aria-hidden="true"><span class="sep"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></li>
+          <li><span class="current" aria-current="page">Roadmap</span></li>
+        </ol>
+      </nav>
+      <div class="pill-toggle" style="margin-bottom:14px;" role="tablist" aria-label="Vista de roadmap">
+        <button role="tab" aria-selected="true" class="active" onclick="toggleRoadmapRole('alumno', this)">Vista alumno</button>
+        <button role="tab" aria-selected="false" tabindex="-1" onclick="toggleRoadmapRole('profesor', this)">Vista profesor</button>
       </div>
 
       <div id="roadmap-alumno">
         <div class="subnav">
-          <button class="chip active" onclick="showSub('roadmap','mis-clases', this)">Mis clases</button>
-          <button class="chip" onclick="showSub('roadmap','mundo3d', this)">Mundo 3D</button>
-          <button class="chip" onclick="showSub('roadmap','avatar', this)">Editor de avatar</button>
-          <button class="chip" onclick="showSub('roadmap','seccion', this)">Mapa de sección</button>
-          <button class="chip" onclick="showSub('roadmap','materiales', this)">Materiales</button>
-          <button class="chip" onclick="showSub('roadmap','archipielago', this)">Archipiélago</button>
-          <button class="chip" onclick="showSub('roadmap','hex', this)">Mundo hexagonal</button>
-          <button class="chip" onclick="showSub('roadmap','insignias', this)">Insignias</button>
+          <button class="chip active" onclick="showSub('roadmap-a','mis-clases', this)">Mis clases</button>
+          <button class="chip" id="chip-roadmap-a-mundo" onclick="showSub('roadmap-a','mundo', this)">Mundo</button>
+          <button class="chip" onclick="showSub('roadmap-a','avatar', this)">Editor de avatar</button>
+          <button class="chip" onclick="showSub('roadmap-a','materiales', this)">Materiales</button>
+          <button class="chip" onclick="showSub('roadmap-a','insignias', this)">Insignias</button>
         </div>
         <div class="subscreen visible" id="sub-roadmap-mis-clases">
           <h1 class="display">Mis clases</h1>
           <div class="grid cols-2">
-            <div class="card"><h3>Programación IV</h3><p style="color:var(--text-muted)">5 secciones · Fundamentos, Estructuras de control, Funciones, Estructuras de datos, Concurrencia y Redes</p><button class="btn btn-cyan">Entrar al mundo</button></div>
+            <div class="card"><h3>Programación IV</h3><p style="color:var(--text-muted)">5 secciones · Fundamentos, Estructuras de control, Funciones, Estructuras de datos, Concurrencia y Redes</p><button class="btn btn-cyan" onclick="document.getElementById('chip-roadmap-a-mundo').click()">Entrar al mundo</button></div>
           </div>
         </div>
-        <div class="subscreen" id="sub-roadmap-mundo3d">
-          <h1 class="display">Mundo 3D — Programación IV</h1>
-          <div class="card" style="height:220px; display:flex; align-items:center; justify-content:center; color:var(--text-muted);">[ escena 3D: islas por sección ]</div>
+        <div class="subscreen" id="sub-roadmap-a-mundo">
+          <h1 class="display">Mundo — Programación IV</h1>
+          <p style="color:var(--text-muted)">Elegí una sección para entrar a su mundo. Cambiá de vista sin salir de acá.</p>
+          <div class="pill-toggle" style="margin-bottom:14px;" role="tablist" aria-label="Vista del mundo">
+            <button role="tab" aria-selected="true" class="active" id="tab-mundo-3d" onclick="showMundoVista('3d', this)">Vista 3D</button>
+            <button role="tab" aria-selected="false" tabindex="-1" id="tab-mundo-hex" onclick="showMundoVista('hex', this)">Hexagonal</button>
+            <button role="tab" aria-selected="false" tabindex="-1" id="tab-mundo-seccion" onclick="showMundoVista('seccion', this)">Por sección</button>
+          </div>
+          <div id="mundo-vista-3d" role="tabpanel" aria-labelledby="tab-mundo-3d">
+            <div class="card" style="height:220px; display:flex; align-items:center; justify-content:center; color:var(--text-muted);">[ escena 3D: islas por sección ]</div>
+          </div>
+          <div id="mundo-vista-hex" role="tabpanel" aria-labelledby="tab-mundo-hex" hidden>
+            <div class="card" style="height:200px; display:flex; align-items:center; justify-content:center; color:var(--text-muted);">[ tablero hex, unidades completadas en verde ]</div>
+          </div>
+          <div id="mundo-vista-seccion" role="tabpanel" aria-labelledby="tab-mundo-seccion" hidden>
+            <div class="card" style="height:180px; display:flex; align-items:center; justify-content:center; color:var(--text-muted);">[ nodos: intro → teoría → práctica guiada → práctica libre → desafío → boss ]</div>
+          </div>
         </div>
         <div class="subscreen" id="sub-roadmap-avatar">
           <h1 class="display">Tu personaje</h1>
@@ -380,26 +483,14 @@ table.data tr.me { background: var(--bg-surface-alt); font-weight:600; }
             <label class="field"><span class="lbl">Accesorio</span><select><option>Ninguno</option><option>Anteojos</option></select></label>
           </div>
         </div>
-        <div class="subscreen" id="sub-roadmap-seccion">
-          <h1 class="display">Fundamentos — mapa de la sección</h1>
-          <div class="card" style="height:180px; display:flex; align-items:center; justify-content:center; color:var(--text-muted);">[ nodos: intro → teoría → práctica guiada → práctica libre → desafío → boss ]</div>
-        </div>
-        <div class="subscreen" id="sub-roadmap-materiales">
+        <div class="subscreen" id="sub-roadmap-a-materiales">
           <h1 class="display">Materiales</h1>
           <div class="grid cols-2">
             <div class="card">📄 Guía de estructuras de control</div>
             <div class="card">📄 Apunte de funciones</div>
           </div>
         </div>
-        <div class="subscreen" id="sub-roadmap-archipielago">
-          <h1 class="display">Archipiélago de Programación IV</h1>
-          <p style="color:var(--text-muted)">Elegí una sección para entrar a su mundo hexagonal.</p>
-        </div>
-        <div class="subscreen" id="sub-roadmap-hex">
-          <h1 class="display">Fundamentos — mundo hexagonal</h1>
-          <div class="card" style="height:200px; display:flex; align-items:center; justify-content:center; color:var(--text-muted);">[ tablero hex, unidades completadas en verde ]</div>
-        </div>
-        <div class="subscreen" id="sub-roadmap-insignias">
+        <div class="subscreen" id="sub-roadmap-a-insignias">
           <h1 class="display">Catálogo de insignias</h1>
           <div class="grid cols-4">
             <div class="card" style="text-align:center;">🥇<div>Primer desafío</div></div>
@@ -410,9 +501,9 @@ table.data tr.me { background: var(--bg-surface-alt); font-weight:600; }
 
       <div id="roadmap-profesor" style="display:none;">
         <div class="subnav">
-          <button class="chip active" onclick="showSub('roadmap','p-inicio', this)">Inicio</button>
-          <button class="chip" onclick="showSub('roadmap','p-constructor', this)">Constructor</button>
-          <button class="chip" onclick="showSub('roadmap','p-mapa', this)">Mapa de curso</button>
+          <button class="chip active" onclick="showSub('roadmap-p','inicio', this)">Inicio</button>
+          <button class="chip" onclick="showSub('roadmap-p','constructor', this)">Constructor</button>
+          <button class="chip" onclick="showSub('roadmap-p','mapa', this)">Mapa de curso</button>
         </div>
         <div class="subscreen visible" id="sub-roadmap-p-inicio">
           <div class="section-title-row"><h1 class="display">Panel del profesor</h1><button class="btn btn-magenta">+ Nueva materia</button></div>
@@ -424,7 +515,7 @@ table.data tr.me { background: var(--bg-surface-alt); font-weight:600; }
           <h1 class="display">Constructor — Programación IV</h1>
           <p style="color:var(--text-muted)">Niveles, unidades y nodos de la materia.</p>
         </div>
-        <div class="subscreen" id="sub-roadmap-p-mapa">
+        <div class="subscreen" id="sub-roadmap-p-mapa" data-legacy-id="sub-roadmap-p-mapa">
           <h1 class="display">Mapa de curso</h1>
           <div class="card" style="height:200px; display:flex; align-items:center; justify-content:center; color:var(--text-muted);">[ grafo de secciones ]</div>
         </div>
@@ -433,6 +524,13 @@ table.data tr.me { background: var(--bg-surface-alt); font-weight:600; }
 
     <!-- ============ RANKING ============ -->
     <section class="screen" id="screen-ranking">
+      <nav class="campus-breadcrumb" aria-label="Miga de pan">
+        <ol>
+          <li><a href="#dashboard"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg><span>Inicio</span></a></li>
+          <li aria-hidden="true"><span class="sep"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></li>
+          <li><span class="current" aria-current="page">Ranking</span></li>
+        </ol>
+      </nav>
       <div class="subnav">
         <button class="chip active" onclick="showSub('ranking','alumno', this)">Vista alumno</button>
         <button class="chip" onclick="showSub('ranking','staff', this)">Vista staff</button>
@@ -442,8 +540,8 @@ table.data tr.me { background: var(--bg-surface-alt); font-weight:600; }
         <h1 class="display">Ranking — Programación IV</h1>
         <div class="alert alert-danger">
           <div>⚠️</div>
-          <div><b>Estás en zona de riesgo</b><p>Te faltan ejercicios obligatorios para mantener la regularidad.</p>
-          <div class="action"><button class="btn btn-cyan">Ver qué me falta</button></div></div>
+          <div><b>Zona de riesgo de regularidad</b><p>Te faltan 2 desafíos obligatorios de "Estructuras de control" para salir de zona de riesgo.</p>
+          <div class="action"><button class="btn btn-cyan" onclick="showScreen('desafios', null)">Ver qué me falta</button></div></div>
         </div>
         <table class="data">
           <thead><tr><th>#</th><th>Alumno</th><th>XP</th><th>Percentil</th><th>Estado</th></tr></thead>
@@ -476,7 +574,14 @@ table.data tr.me { background: var(--bg-surface-alt); font-weight:600; }
 
     <!-- ============ BANCO ============ -->
     <section class="screen" id="screen-banco">
-      <div class="mock-note">Hoy es el scaffold genérico "GET /v1/bank" — se muestra acá con datos de ejemplo para revisar el layout propuesto.</div>
+      <nav class="campus-breadcrumb" aria-label="Miga de pan">
+        <ol>
+          <li><a href="#dashboard"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg><span>Inicio</span></a></li>
+          <li aria-hidden="true"><span class="sep"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></li>
+          <li><span class="current" aria-current="page">Banco</span></li>
+        </ol>
+      </nav>
+      <div><span class="ph-badge">◌ Contenido ilustrativo</span></div>
       <h1 class="display">Banco</h1>
       <div class="grid cols-3">
         <div class="card"><div style="color:var(--text-muted);font-size:12px;">Saldo actual</div><div style="font-size:26px;font-weight:700;">🪙 1.280</div></div>
@@ -494,7 +599,16 @@ table.data tr.me { background: var(--bg-surface-alt); font-weight:600; }
 
     <!-- ============ MARKETPLACE ============ -->
     <section class="screen" id="screen-marketplace">
-      <div class="mock-note">Hoy es el scaffold genérico en las 3 sub-rutas — mockeado acá con contenido ilustrativo.</div>
+      <nav class="campus-breadcrumb" aria-label="Miga de pan">
+        <ol>
+          <li><a href="#dashboard"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg><span>Inicio</span></a></li>
+          <li aria-hidden="true"><span class="sep"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></li>
+          <li><a href="#banco"><span>Banco</span></a></li>
+          <li aria-hidden="true"><span class="sep"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></li>
+          <li><span class="current" aria-current="page">Marketplace</span></li>
+        </ol>
+      </nav>
+      <div><span class="ph-badge">◌ Contenido ilustrativo</span></div>
       <div class="subnav">
         <button class="chip active" onclick="showSub('marketplace','catalogo', this)">Catálogo</button>
         <button class="chip" onclick="showSub('marketplace','subastas', this)">Subastas</button>
@@ -522,7 +636,14 @@ table.data tr.me { background: var(--bg-surface-alt); font-weight:600; }
 
     <!-- ============ CHAT ============ -->
     <section class="screen" id="screen-chat">
-      <div class="mock-note">Scaffold genérico hoy — mockeado con canales de ejemplo.</div>
+      <nav class="campus-breadcrumb" aria-label="Miga de pan">
+        <ol>
+          <li><a href="#dashboard"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg><span>Inicio</span></a></li>
+          <li aria-hidden="true"><span class="sep"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></li>
+          <li><span class="current" aria-current="page">Chat</span></li>
+        </ol>
+      </nav>
+      <div><span class="ph-badge">◌ Contenido ilustrativo</span></div>
       <div class="subnav">
         <button class="chip active" onclick="showSub('chat','lista', this)">Canales</button>
         <button class="chip" onclick="showSub('chat','canal', this)">Canal</button>
@@ -541,7 +662,14 @@ table.data tr.me { background: var(--bg-surface-alt); font-weight:600; }
 
     <!-- ============ NOTIFICACIONES ============ -->
     <section class="screen" id="screen-notificaciones">
-      <div class="mock-note">Scaffold genérico hoy — mockeado con notificaciones de ejemplo.</div>
+      <nav class="campus-breadcrumb" aria-label="Miga de pan">
+        <ol>
+          <li><a href="#dashboard"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg><span>Inicio</span></a></li>
+          <li aria-hidden="true"><span class="sep"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></li>
+          <li><span class="current" aria-current="page">Notificaciones</span></li>
+        </ol>
+      </nav>
+      <div><span class="ph-badge">◌ Contenido ilustrativo</span></div>
       <h1 class="display">Notificaciones</h1>
       <div class="card">🏆 Subiste al puesto #7 del ranking</div>
       <div class="card">🔥 ¡Tu racha llegó a 6 días!</div>
@@ -549,7 +677,14 @@ table.data tr.me { background: var(--bg-surface-alt); font-weight:600; }
 
     <!-- ============ ENCUESTAS ============ -->
     <section class="screen" id="screen-encuestas">
-      <div class="mock-note">Scaffold genérico hoy — mockeado.</div>
+      <nav class="campus-breadcrumb" aria-label="Miga de pan">
+        <ol>
+          <li><a href="#dashboard"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg><span>Inicio</span></a></li>
+          <li aria-hidden="true"><span class="sep"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></li>
+          <li><span class="current" aria-current="page">Encuestas</span></li>
+        </ol>
+      </nav>
+      <div><span class="ph-badge">◌ Contenido ilustrativo</span></div>
       <div class="subnav">
         <button class="chip active" onclick="showSub('encuestas','lista', this)">Pendientes</button>
         <button class="chip" onclick="showSub('encuestas','responder', this)">Responder</button>
@@ -567,7 +702,14 @@ table.data tr.me { background: var(--bg-surface-alt); font-weight:600; }
 
     <!-- ============ IA TUTOR ============ -->
     <section class="screen" id="screen-ai-tutor">
-      <div class="mock-note">Scaffold genérico hoy — mockeado como chat.</div>
+      <nav class="campus-breadcrumb" aria-label="Miga de pan">
+        <ol>
+          <li><a href="#dashboard"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg><span>Inicio</span></a></li>
+          <li aria-hidden="true"><span class="sep"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></li>
+          <li><span class="current" aria-current="page">Tutor IA</span></li>
+        </ol>
+      </nav>
+      <div><span class="ph-badge">◌ Contenido ilustrativo</span></div>
       <h1 class="display">Tutor IA</h1>
       <div class="card" style="height:160px;"></div>
       <label class="field" style="margin-top:10px;"><input placeholder="Preguntale algo al tutor…" /></label>
@@ -575,6 +717,13 @@ table.data tr.me { background: var(--bg-surface-alt); font-weight:600; }
 
     <!-- ============ PERFIL ============ -->
     <section class="screen" id="screen-perfil">
+      <nav class="campus-breadcrumb" aria-label="Miga de pan">
+        <ol>
+          <li><a href="#dashboard"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg><span>Inicio</span></a></li>
+          <li aria-hidden="true"><span class="sep"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></li>
+          <li><span class="current" aria-current="page">Mi perfil</span></li>
+        </ol>
+      </nav>
       <div class="subnav">
         <button class="chip active" onclick="showSub('perfil','mi-perfil', this)">Mi perfil</button>
         <button class="chip" onclick="showSub('perfil','publico', this)">Perfil público</button>
@@ -608,24 +757,19 @@ table.data tr.me { background: var(--bg-surface-alt); font-weight:600; }
 
     <!-- ============ ADMIN ============ -->
     <section class="screen" id="screen-admin">
+      <nav class="campus-breadcrumb" aria-label="Miga de pan">
+        <ol>
+          <li><span class="current" aria-current="page">Backoffice</span></li>
+        </ol>
+      </nav>
       <div class="subnav">
-        <button class="chip active" onclick="showSub('admin','dashboard', this)">Dashboard</button>
-        <button class="chip" onclick="showSub('admin','usuarios', this)">Usuarios</button>
-        <button class="chip" onclick="showSub('admin','crear', this)">Crear usuario</button>
-        <button class="chip" onclick="showSub('admin','rol', this)">Rol de usuario</button>
-        <button class="chip" onclick="showSub('admin','eliminar', this)">Eliminar usuario</button>
-        <button class="chip" onclick="showSub('admin','whitelist', this)">Solicitudes de acceso</button>
-        <button class="chip" onclick="showSub('admin','config', this)">Configuración global</button>
-        <button class="chip" onclick="showSub('admin','parametros', this)">Parámetros</button>
-        <button class="chip" onclick="showSub('admin','llm', this)">Proveedores LLM</button>
+        <button class="chip active" onclick="showSub('admin','usuarios', this)">Usuarios</button>
+        <button class="chip" onclick="showSub('admin','solicitudes', this)">Solicitudes de acceso</button>
+        <button class="chip" onclick="showSub('admin','configuracion', this)">Configuración</button>
       </div>
-      <div class="subscreen visible" id="sub-admin-dashboard">
-        <h1 class="display">Backoffice</h1>
-        <p style="color:var(--text-muted)">Bienvenido/a al panel de administración.</p>
-      </div>
-      <div class="subscreen" id="sub-admin-usuarios">
-        <div class="section-title-row"><h1 class="display">Usuarios</h1><button class="btn btn-magenta">+ Nuevo usuario</button></div>
-        <label class="field"><input placeholder="Buscar por nombre o email…" /></label>
+      <div class="subscreen visible" id="sub-admin-usuarios">
+        <div class="section-title-row"><h1 class="display">Usuarios</h1><button class="btn btn-magenta" onclick="document.getElementById('admin-crear-card').scrollIntoView({block:'center'})">+ Nuevo usuario</button></div>
+        <label class="field"><input placeholder="Buscar por nombre o email…" aria-label="Buscar por nombre o email" /></label>
         <table class="data">
           <thead><tr><th>Nombre</th><th>Email</th><th>Rol</th><th>Estado</th></tr></thead>
           <tbody>
@@ -633,31 +777,31 @@ table.data tr.me { background: var(--bg-surface-alt); font-weight:600; }
             <tr><td>Fabio</td><td>fabio@frc.utn.edu.ar</td><td><span class="badge badge-gold">Profesor</span></td><td><span class="badge badge-green">Activo</span></td></tr>
           </tbody>
         </table>
-      </div>
-      <div class="subscreen" id="sub-admin-crear">
-        <h1 class="display">Nuevo usuario administrador</h1>
-        <p style="color:var(--text-muted); font-size:13px;">Profesores y gestores ingresan por solicitud de acceso, no desde acá.</p>
-        <div class="grid cols-2">
-          <label class="field"><span class="lbl">Nombre</span><input /></label>
-          <label class="field"><span class="lbl">Apellido</span><input /></label>
+        <div class="card" id="admin-crear-card" style="margin-top:16px;">
+          <h2 style="font-size:16px;">Nuevo usuario administrador</h2>
+          <p style="color:var(--text-muted); font-size:13px;">Profesores y gestores ingresan por solicitud de acceso, no desde acá.</p>
+          <div class="grid cols-2">
+            <label class="field"><span class="lbl">Nombre</span><input /></label>
+            <label class="field"><span class="lbl">Apellido</span><input /></label>
+          </div>
+          <label class="field"><span class="lbl">Email</span><input type="email" /></label>
+          <button class="btn btn-magenta">Crear</button>
         </div>
-        <label class="field"><span class="lbl">Email</span><input type="email" /></label>
-        <button class="btn btn-magenta">Crear</button>
-      </div>
-      <div class="subscreen" id="sub-admin-rol">
-        <h1 class="display">Rol de usuario — Fabio</h1>
-        <div style="display:flex; gap:8px; margin-bottom:14px;">
-          <span class="badge badge-outline">Alumno</span><span class="badge badge-gold">Profesora ✓</span><span class="badge badge-outline">Gestor</span><span class="badge badge-outline">Admin</span>
+        <div class="card" id="admin-rol-card" style="margin-top:16px;">
+          <h2 style="font-size:16px;">Rol de usuario — Fabio</h2>
+          <div style="display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap;">
+            <span class="badge badge-outline">Alumno</span><span class="badge badge-gold">Profesor ✓</span><span class="badge badge-outline">Gestor</span><span class="badge badge-outline">Admin</span>
+          </div>
+          <button class="btn btn-green">Guardar</button>
         </div>
-        <button class="btn btn-green">Guardar</button>
+        <div class="card" id="admin-eliminar-card" style="margin-top:16px;">
+          <h2 style="font-size:16px;">Eliminar usuario</h2>
+          <div class="alert alert-danger"><div>⚠️</div><div><b>Esta acción no se puede deshacer</b><p>Ingresá el código de confirmación enviado por email.</p></div></div>
+          <label class="field"><span class="lbl">Código de confirmación</span><input /></label>
+          <button class="btn btn-danger">Eliminar cuenta</button>
+        </div>
       </div>
-      <div class="subscreen" id="sub-admin-eliminar">
-        <h1 class="display">Eliminar usuario</h1>
-        <div class="alert alert-danger"><div>⚠️</div><div><b>Esta acción no se puede deshacer</b><p>Ingresá el código de confirmación enviado por email.</p></div></div>
-        <label class="field"><span class="lbl">Código de confirmación</span><input /></label>
-        <button class="btn btn-danger">Eliminar cuenta</button>
-      </div>
-      <div class="subscreen" id="sub-admin-whitelist">
+      <div class="subscreen" id="sub-admin-solicitudes">
         <h1 class="display">Solicitudes de acceso</h1>
         <table class="data">
           <thead><tr><th>Email</th><th>Rol solicitado</th><th>Motivo</th><th></th></tr></thead>
@@ -666,21 +810,17 @@ table.data tr.me { background: var(--bg-surface-alt); font-weight:600; }
           </tbody>
         </table>
       </div>
-      <div class="subscreen" id="sub-admin-config">
-        <h1 class="display">Configuración global</h1>
+      <div class="subscreen" id="sub-admin-configuracion">
+        <h1 class="display">Configuración</h1>
         <div class="mock-note">Prototipo visual — todavía no existe el backend, "Guardar" no persiste nada.</div>
         <div class="grid cols-2">
           <label class="field"><span class="lbl">XP por desafío básico</span><input type="number" value="40" /></label>
           <label class="field"><span class="lbl">XP por desafío avanzado</span><input type="number" value="120" /></label>
         </div>
         <button class="btn btn-gold">Guardar</button>
-      </div>
-      <div class="subscreen" id="sub-admin-parametros">
-        <h1 class="display">Parámetros globales</h1>
+        <h2 style="font-size:16px; margin-top:20px;">Parámetros globales</h2>
         <div class="placeholder-dev">Scaffold genérico — pendiente de diseño.</div>
-      </div>
-      <div class="subscreen" id="sub-admin-llm">
-        <h1 class="display">Proveedores LLM</h1>
+        <h2 style="font-size:16px; margin-top:20px;">Proveedores LLM</h2>
         <div class="placeholder-dev">Scaffold genérico — pendiente de diseño.</div>
       </div>
     </section>
@@ -729,12 +869,16 @@ table.data tr.me { background: var(--bg-surface-alt); font-weight:600; }
     <div class="subscreen auth-shell" id="sub-auth-registro" style="max-width:560px;">
       <div class="card">
         <h1 class="display">Crear cuenta</h1>
-        <div class="tabs-row"><button class="active">Alumno</button><button>Profesor</button></div>
+        <div class="tabs-row" role="tablist" aria-label="Tipo de cuenta">
+          <button role="tab" aria-selected="true" class="active" id="tab-registro-alumno" onclick="showRegistroTipo('alumno', this)">Alumno</button>
+          <button role="tab" aria-selected="false" tabindex="-1" id="tab-registro-profesor" onclick="showRegistroTipo('profesor', this)">Profesor</button>
+        </div>
         <div class="grid cols-2">
           <label class="field"><span class="lbl">Nombre</span><input /></label>
           <label class="field"><span class="lbl">Apellido</span><input /></label>
         </div>
-        <label class="field"><span class="lbl">Legajo</span><input /></label>
+        <label class="field" id="field-registro-legajo"><span class="lbl">Legajo</span><input /></label>
+        <label class="field" id="field-registro-motivo" hidden><span class="lbl">Motivo / materia que dicta</span><textarea rows="2" placeholder="Ej: Dicto Programación IV, comisión C"></textarea></label>
         <label class="field"><span class="lbl">Email institucional</span><input type="email" autocomplete="email" /></label>
         <label class="field"><span class="lbl">Contraseña</span><input type="password" autocomplete="new-password" /></label>
         <button class="btn btn-magenta" style="width:100%;justify-content:center;">Crear cuenta</button>
@@ -841,28 +985,350 @@ function setMode(m){
   document.getElementById('auth-shell').style.display = m==='auth' ? 'block' : 'none';
   document.getElementById('mode-app').classList.toggle('active', m==='app');
   document.getElementById('mode-auth').classList.toggle('active', m==='auth');
+  if (m === 'auth') syncHash();
 }
-function showScreen(id, btn){
-  document.querySelectorAll('.sidebar .nav-item').forEach(el => el.classList.remove('active'));
+/* ---------- utilidades de tabs accesibles ---------- */
+var ROADMAP_A_REDIRECTS = { mundo3d: 'mundo', archipielago: 'mundo', hex: 'mundo', seccion: 'mundo' };
+var ROADMAP_A_VISTA = { mundo3d: '3d', archipielago: '3d', hex: 'hex', seccion: 'seccion' };
+var ADMIN_REDIRECTS = { dashboard: 'usuarios', crear: 'usuarios', rol: 'usuarios', eliminar: 'usuarios', whitelist: 'solicitudes', config: 'configuracion', parametros: 'configuracion', llm: 'configuracion' };
+function resolveSubTarget(group, id){
+  if (group === 'roadmap-a' && ROADMAP_A_REDIRECTS[id]) id = ROADMAP_A_REDIRECTS[id];
+  if (group === 'admin' && ADMIN_REDIRECTS[id]) id = ADMIN_REDIRECTS[id];
+  var direct = document.getElementById('sub-'+group+'-'+id);
+  if (direct) return direct;
+  // Compat legacy roadmap: roadmap-a/* vive como sub-roadmap-*
+  if (group === 'roadmap-a') return document.getElementById('sub-roadmap-'+id);
+  return null;
+}
+function showMundoVista(vista, btn){
+  var list = btn ? btn.closest('[role="tablist"]') : null;
+  if (list) activateTabInList(list, btn);
+  ['3d', 'hex', 'seccion'].forEach(function(v){
+    var el = document.getElementById('mundo-vista-' + v);
+    if (el) el.hidden = (v !== vista);
+  });
+}
+function scopeForSub(btn, group){
+  if (btn && btn.closest('#roadmap-alumno')) return document.getElementById('roadmap-alumno');
+  if (btn && btn.closest('#roadmap-profesor')) return document.getElementById('roadmap-profesor');
+  if (btn && btn.closest('section.screen')) return btn.closest('section.screen');
+  if (btn && btn.closest('#auth-shell')) return document.getElementById('auth-shell');
+  return document;
+}
+function activateTabInList(tablist, tab){
+  var tabs = Array.prototype.slice.call(tablist.querySelectorAll('[role="tab"]'));
+  tabs.forEach(function(t){
+    var sel = (t === tab);
+    t.classList.toggle('active', sel);
+    t.setAttribute('aria-selected', String(sel));
+    t.tabIndex = sel ? 0 : -1;
+  });
+}
+var SCREEN_TITLES = { dashboard: 'Panel principal', cursos: 'Cursos', desafios: 'Desafíos', roadmap: 'Roadmap', 'ai-tutor': 'Tutor IA', ranking: 'Ranking', banco: 'Banco', marketplace: 'Marketplace', chat: 'Chat', notificaciones: 'Notificaciones', encuestas: 'Encuestas', perfil: 'Mi perfil', admin: 'Backoffice' };
+function markSidebarCurrent(id){
+  var activeBtn = null;
+  document.querySelectorAll('.sidebar .nav-item').forEach(function(el){
+    var sel = (el.dataset.screen === id);
+    el.classList.toggle('active', sel);
+    if (sel){
+      el.setAttribute('aria-current', 'page');
+      activeBtn = el;
+    }
+    else el.removeAttribute('aria-current');
+  });
+  // Si el destino vive dentro del desplegable "Más" y está cerrado, abrirlo:
+  // si no, el ítem activo queda oculto y la redirección parece no funcionar.
+  // (El colapso tras click explícito lo hace showScreen; acá solo auto-abrir
+  // para deep-link, recarga y back/forward.)
+  if (activeBtn){
+    var more = activeBtn.closest('details.nav-more');
+    if (more && !more.open) more.open = true;
+  }
+}
+function focusScreenHeading(id, moveFocus){
+  var screen = document.getElementById('screen-'+id);
+  if (!screen) return;
+  var h = screen.querySelector('h1');
+  if (!h) return;
+  if (!h.hasAttribute('tabindex')) h.setAttribute('tabindex', '-1');
+  document.title = 'TPI 2026 · ' + (SCREEN_TITLES[id] || h.textContent.trim());
+  if (moveFocus !== false){
+    try { h.focus({ preventScroll: true }); } catch (e) { h.focus(); }
+  }
+}
+function closeNav(){
+  document.getElementById('app-shell').classList.remove('nav-open');
+  var t = document.getElementById('nav-toggle');
+  if (t) t.setAttribute('aria-expanded', 'false');
+}
+function showScreen(id, btn, opts){
+  if (!document.getElementById('screen-'+id)) return;
+  markSidebarCurrent(id);
   if (btn) btn.classList.add('active');
-  document.querySelectorAll('#app-shell > main > .screen').forEach(el => el.classList.remove('visible'));
+  document.querySelectorAll('#app-shell > main > .screen').forEach(function(el){ el.classList.remove('visible'); });
   document.getElementById('screen-'+id).classList.add('visible');
+  syncHash(id);
+  // Toda navegación por click mueve el foco al h1: el control que originó
+  // el click queda en una pantalla oculta (sidebar, alerta, miga).
+  // Hash/back-forward usan showScreenSilent, que no roba foco.
+  if (!(opts && opts.keepFocus)) focusScreenHeading(id, true);
+  else document.title = 'TPI 2026 · ' + (SCREEN_TITLES[id] || id);
+  // Click explícito en un ítem del desplegable "Más": colapsarlo tras navegar.
+  if (btn && btn.classList.contains('nav-item')){
+    var more = btn.closest('details.nav-more');
+    if (more) more.open = false;
+  }
+  closeNav();
 }
+function currentSubFor(screenId){
+  var screen = document.getElementById('screen-'+screenId);
+  if (!screen) return null;
+  // Roadmap tiene dos roles; reportar el visible
+  if (screenId === 'roadmap'){
+    var profVisible = document.getElementById('roadmap-profesor').style.display !== 'none';
+    var scope = profVisible ? document.getElementById('roadmap-profesor') : document.getElementById('roadmap-alumno');
+    var vis = scope.querySelector('.subscreen.visible');
+    if (!vis) return null;
+    var m = vis.id.replace(/^sub-roadmap-(a-|p-)?/, '');
+    return (profVisible ? 'p/' : 'a/') + m;
+  }
+  var vis2 = screen.querySelector('.subscreen.visible');
+  if (!vis2) return null;
+  var prefix = 'sub-'+screenId+'-';
+  // grupos con nombre distinto (roadmap-a, auth, etc.)
+  if (vis2.id.indexOf(prefix) === 0) return vis2.id.slice(prefix.length);
+  return vis2.id.replace(/^sub-[a-z-]+-/, '');
+}
+function syncHash(screenId){
+  var active = document.querySelector('#app-shell > main > .screen.visible');
+  var sid = screenId || (active ? active.id.replace(/^screen-/, '') : 'dashboard');
+  if (document.getElementById('auth-shell').style.display === 'block'){
+    var avis = document.querySelector('#auth-shell .subscreen.visible');
+    var aid = avis ? avis.id.replace(/^sub-auth-/, '') : 'login';
+    history.replaceState(null, '', '#auth/' + aid);
+    return;
+  }
+  var sub = currentSubFor(sid);
+  var h = sub ? '#' + sid + '/' + sub : '#' + sid;
+  if (location.hash !== h) history.replaceState(null, '', h);
+}
+function parseHash(){
+  var h = location.hash.replace(/^#/, '');
+  if (!h) return {};
+  var parts = h.split('/');
+  if (parts[0] === 'auth') return { mode: 'auth', sub: parts[1] };
+  return { mode: 'app', screen: parts[0], sub: parts[1] };
+}
+window.addEventListener('hashchange', function(){
+  var p = parseHash();
+  if (p.mode === 'auth'){
+    setMode('auth');
+    // Sub de auth desconocido: caer al login en vez de dejar el hash huérfano.
+    if (p.sub && !document.getElementById('sub-auth-' + p.sub)) history.replaceState(null, '', '#auth/login');
+    else if (p.sub) showSub('auth', p.sub, null);
+    return;
+  }
+  if (p.screen){
+    if (document.getElementById('auth-shell').style.display === 'block') setMode('app');
+    // Pantalla desconocida: fallback a dashboard para no desincronizar hash y contenido.
+    if (!document.getElementById('screen-' + p.screen)){ history.replaceState(null, '', '#dashboard'); showScreenSilent('dashboard'); return; }
+    showScreenSilent(p.screen);
+    if (p.sub) showSubFromHash(p.screen, p.sub);
+  }
+});
+function showScreenSilent(id){
+  if (!document.getElementById('screen-'+id)) return;
+  markSidebarCurrent(id);
+  document.querySelectorAll('#app-shell > main > .screen').forEach(function(el){ el.classList.remove('visible'); });
+  document.getElementById('screen-'+id).classList.add('visible');
+  focusScreenHeading(id, false);
+}
+function showSubFromHash(screen, sub){
+  if (screen === 'roadmap'){
+    // formato a/<id> o p/<id>
+    var role = 'alumno', sid = sub;
+    if (sub && sub.indexOf('a/') === 0){ role = 'alumno'; sid = sub.slice(2); }
+    if (sub && sub.indexOf('p/') === 0){ role = 'profesor'; sid = sub.slice(2); }
+    var trigger = document.querySelector('.pill-toggle [role="tab"]');
+    toggleRoadmapRole(role, role === 'alumno'
+      ? document.querySelector('#screen-roadmap .pill-toggle button:first-child')
+      : document.querySelector('#screen-roadmap .pill-toggle button:last-child'));
+    var grp = role === 'alumno' ? 'roadmap-a' : 'roadmap-p';
+    // sid legacy puede venir como p-inicio; normalizar
+    if (role === 'profesor' && sid.indexOf('p-') === 0) sid = sid.slice(2);
+    var legacyVista = (role === 'alumno') ? ROADMAP_A_VISTA[sid] : null;
+    showSub(grp, sid, null);
+    if (legacyVista){
+      var vbtn = document.getElementById('tab-mundo-' + legacyVista);
+      if (vbtn) showMundoVista(legacyVista, vbtn);
+    }
+    return;
+  }
+  // mapear grupo por pantalla (auth vive fuera del shell)
+  var group = screen;
+  if (screen === 'cursos' && ['activos','borrador','archivados'].indexOf(sub) >= 0){
+    var btn = document.getElementById('tab-cursos-estado-' + sub);
+    if (btn) showCursoEstado(sub, btn);
+    return;
+  }
+  showSub(group, sub, null);
+}
+(function initDeepLink(){
+  var p = parseHash();
+  if (p.mode === 'auth'){
+    setMode('auth');
+    if (p.sub && document.getElementById('sub-auth-' + p.sub)) showSub('auth', p.sub, null);
+    else if (p.sub) history.replaceState(null, '', '#auth/login');
+    return;
+  }
+  if (p.screen){
+    if (!document.getElementById('screen-' + p.screen)){ history.replaceState(null, '', '#dashboard'); return; }
+    showScreenSilent(p.screen);
+    if (p.sub) showSubFromHash(p.screen, p.sub);
+  }
+})();
 function showSub(group, id, btn){
-  if (btn){
-    btn.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  var target = resolveSubTarget(group, id);
+  if (!target) return;
+  var scope = scopeForSub(btn, group);
+  // Si no hay btn (deep-link), inferir scope desde el target
+  if (!btn){
+    scope = target.closest('#roadmap-alumno') || target.closest('#roadmap-profesor')
+      || target.closest('section.screen') || target.closest('#auth-shell') || document;
+    var list = scope.querySelector('.subnav, .tabs-row');
+    if (list) btn = list.querySelector('[onclick*="\'' + id + '\'"]');
+  }
+  var tablist = btn ? btn.closest('[role="tablist"], .subnav, .tabs-row') : null;
+  if (tablist && btn) activateTabInList(tablist, btn);
+  else if (btn){
+    var sibs = (btn.parentElement || scope).querySelectorAll('.chip, .tabs-row button');
+    Array.prototype.forEach.call(sibs, function(c){ c.classList.remove('active'); });
     btn.classList.add('active');
   }
-  document.querySelectorAll('[id^="sub-'+group+'-"]').forEach(el => el.classList.remove('visible'));
-  var target = document.getElementById('sub-'+group+'-'+id);
-  if (target) target.classList.add('visible');
+  // Ocultar solo hermanos del mismo scope (fix colision roadmap alumno/profesor)
+  var siblings;
+  if (scope.querySelectorAll) {
+    if (group === 'roadmap-a' || group === 'roadmap-p' || target.closest('#roadmap-alumno,#roadmap-profesor'))
+      siblings = (target.closest('#roadmap-alumno,#roadmap-profesor') || scope).querySelectorAll('.subscreen');
+    else if (target.closest('section.screen'))
+      siblings = target.closest('section.screen').querySelectorAll(':scope > .subscreen, #roadmap-alumno .subscreen, #roadmap-profesor .subscreen');
+    else
+      siblings = scope.querySelectorAll('.subscreen');
+  }
+  Array.prototype.forEach.call(siblings || [], function(el){ el.classList.remove('visible'); el.setAttribute('aria-hidden', 'true'); });
+  target.classList.add('visible');
+  target.removeAttribute('aria-hidden');
+  syncHash();
 }
 function toggleRoadmapRole(role, btn){
-  btn.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
+  var list = btn ? btn.closest('[role="tablist"]') : document.querySelector('#screen-roadmap .pill-toggle');
+  if (list && btn) activateTabInList(list, btn);
+  else if (btn){
+    Array.prototype.forEach.call(btn.parentElement.querySelectorAll('button'), function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+  }
   document.getElementById('roadmap-alumno').style.display = role==='alumno' ? 'block' : 'none';
   document.getElementById('roadmap-profesor').style.display = role==='profesor' ? 'block' : 'none';
+  document.getElementById('roadmap-alumno').setAttribute('aria-hidden', String(role !== 'alumno'));
+  document.getElementById('roadmap-profesor').setAttribute('aria-hidden', String(role !== 'profesor'));
+  syncHash('roadmap');
 }
+/* Tabs simples: estado de cursos + tipo de registro */
+function showCursoEstado(estado, btn){
+  var map = { activos: 'sub-cursos-estado-activos', borrador: 'sub-cursos-estado-borrador', archivados: 'sub-cursos-estado-archivados' };
+  var list = btn ? btn.closest('[role="tablist"]') : null;
+  if (list) activateTabInList(list, btn);
+  Object.keys(map).forEach(function(k){
+    var el = document.getElementById(map[k]);
+    if (el) el.hidden = (k !== estado);
+  });
+}
+function showRegistroTipo(tipo, btn){
+  var list = btn ? btn.closest('[role="tablist"]') : null;
+  if (list) activateTabInList(list, btn);
+  var isAlumno = (tipo === 'alumno');
+  document.getElementById('field-registro-legajo').hidden = !isAlumno;
+  document.getElementById('field-registro-motivo').hidden = isAlumno;
+}
+/* ---------- mejora progresiva: ARIA + teclado ---------- */
+(function enhanceTabs(){
+  // 1. .subnav y .tabs-row sin rol -> tablist; .chip/button -> tab con aria-controls
+  document.querySelectorAll('.subnav, .tabs-row, .pill-toggle[role="tablist"]').forEach(function(list){
+    if (!list.hasAttribute('role')) list.setAttribute('role', 'tablist');
+    var tabs = list.querySelectorAll('.chip, button');
+    tabs.forEach(function(tab){
+      if (!tab.hasAttribute('role')) tab.setAttribute('role', 'tab');
+      var onclick = tab.getAttribute('onclick') || '';
+      var m = onclick.match(/showSub\('([^']+)'\s*,\s*'([^']+)'/) || onclick.match(/showCursoEstado\('([^']+)'/) || onclick.match(/showRegistroTipo\('([^']+)'/) || onclick.match(/toggleRoadmapRole\('([^']+)'/);
+      var labelled = tab.textContent.trim().slice(0, 40);
+      if (!tab.hasAttribute('aria-selected'))
+        tab.setAttribute('aria-selected', tab.classList.contains('active') ? 'true' : 'false');
+      if (!tab.hasAttribute('tabindex') && tab.getAttribute('aria-selected') === 'false') tab.tabIndex = -1;
+      if (m && !tab.hasAttribute('aria-controls')){
+        var gid = m[1] === 'activos' || m[1] === 'borrador' || m[1] === 'archivados' ? 'sub-cursos-estado-' + m[1]
+          : (m[2] ? 'sub-' + m[1] + '-' + m[2] : null);
+        if (gid && document.getElementById(gid)) tab.setAttribute('aria-controls', gid);
+      }
+    });
+  });
+  // 2. paneles subscreen -> tabpanel + hidden semantico
+  document.querySelectorAll('.subscreen').forEach(function(p){
+    if (!p.hasAttribute('role')) p.setAttribute('role', 'tabpanel');
+    if (!p.classList.contains('visible')) p.setAttribute('aria-hidden', 'true');
+  });
+  // 3. teclado: flechas + Home/End en cada tablist (no secuestra Tab/Enter)
+  document.querySelectorAll('[role="tablist"]').forEach(function(list){
+    list.addEventListener('keydown', function(e){
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft' && e.key !== 'Home' && e.key !== 'End') return;
+      e.preventDefault();
+      var tabs = Array.prototype.slice.call(list.querySelectorAll('[role="tab"]'));
+      var i = tabs.indexOf(document.activeElement);
+      if (i < 0) i = tabs.findIndex(function(t){ return t.getAttribute('aria-selected') === 'true'; });
+      var n = i;
+      if (e.key === 'ArrowRight') n = (i + 1) % tabs.length;
+      if (e.key === 'ArrowLeft') n = (i - 1 + tabs.length) % tabs.length;
+      if (e.key === 'Home') n = 0;
+      if (e.key === 'End') n = tabs.length - 1;
+      tabs[n].focus();
+      tabs[n].click();
+    });
+  });
+  // 4. migas: no saltar con anchor, navegar por showScreen
+  document.querySelectorAll('.campus-breadcrumb a[href^="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      var h = a.getAttribute('href').slice(1);
+      if (h && document.getElementById('screen-' + h)){ e.preventDefault(); setMode('app'); showScreen(h, null); focusScreenHeading(h, true); }
+    });
+  });
+  // 5. sidebar: sincronizar aria-current inicial + drawer movil
+  (function initSidebar(){
+    var visible = document.querySelector('#app-shell > main > .screen.visible');
+    if (visible) markSidebarCurrent(visible.id.replace(/^screen-/, ''));
+    var toggle = document.getElementById('nav-toggle');
+    var shell = document.getElementById('app-shell');
+    var scrim = document.getElementById('nav-scrim');
+    function setNav(open){
+      shell.classList.toggle('nav-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+      if (open){
+        var cur = shell.querySelector('.sidebar .nav-item[aria-current="page"]') || shell.querySelector('.sidebar .nav-item');
+        if (cur) cur.focus();
+      } else {
+        toggle.focus();
+      }
+    }
+    if (toggle) toggle.addEventListener('click', function(){
+      setNav(!shell.classList.contains('nav-open'));
+    });
+    if (scrim) scrim.addEventListener('click', closeNav);
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && shell.classList.contains('nav-open')){
+        closeNav();
+        toggle.focus();
+      }
+    });
+  })();
+})();
 </script>
 </body>
 </html>

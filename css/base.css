@@ -32,6 +32,7 @@ h1,h2,h3,p { margin:0; }
 .sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
 .icon { width:18px; height:18px; flex:none; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
 .icon-sm { width:15px; height:15px; }
+.icon-xs { width:12px; height:12px; }
 .num { font-variant-numeric:tabular-nums; }
 .muted { color:var(--text-muted); }
 .pixel { image-rendering:pixelated; shape-rendering:crispEdges; display:block; }
@@ -892,8 +893,8 @@ h1,h2,h3,p { margin:0; }
   border-radius:3px; font-family:var(--font-display); font-size:var(--fs-micro);
 }
 
-.content { flex:1; min-width:0; max-width:1600px; margin:0 auto; padding:32px 32px 48px; box-sizing:border-box; }
-.screen { max-width:100%; animation:screen-in .22s var(--ease-out) both; }
+.content { flex:1; min-width:0; max-width:1600px; margin:0 auto; padding:36px 32px 48px; box-sizing:border-box; }
+.screen { max-width:100%; padding-top:4px; animation:screen-in .22s var(--ease-out) both; }
 [data-skin='gamer'] .screen { animation:screen-in .2s var(--ease-out) both; }
 @keyframes screen-in { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
 

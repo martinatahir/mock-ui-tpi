@@ -120,100 +120,74 @@ details.group[open] .group-hint { display:none; }
   gap: 10px;
 }
 
-/* ---- VISTA TARJETA CON PORTADA (ESTILO CAMPUS TUP / MOODLE) ---- */
+/* ---- VISTA TARJETA COMPACTA (SAAS COCKPIT) ---- */
 .course-grid-card {
   display: flex;
   flex-direction: column;
   border-radius: var(--radius-card);
   background: var(--bg-surface);
   border: var(--border-width) solid var(--border-subtle);
-  overflow: hidden;
-  transition: transform 0.18s var(--ease-out), box-shadow 0.18s ease, border-color 0.18s ease;
+  border-top: 3.5px solid var(--course-accent);
+  padding: 16px 18px;
+  gap: 12px;
   position: relative;
+  transition: transform 0.18s var(--ease-out), box-shadow 0.18s ease, border-color 0.18s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 .course-grid-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.28);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px -4px rgba(0, 0, 0, 0.22);
   border-color: var(--border-highlight);
 }
 
-/* Portadas Visuales / Banners Temáticos */
-.course-banner {
-  height: 115px;
-  width: 100%;
-  position: relative;
-  overflow: hidden;
+:root[data-theme='light'] .course-grid-card {
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+:root[data-theme='light'] .course-grid-card:hover {
+  box-shadow: 0 10px 24px -4px rgba(15, 23, 42, 0.1), 0 4px 6px -2px rgba(15, 23, 42, 0.04);
+}
+
+/* Cabecera de la Tarjeta Compacta */
+.course-card-head {
   display: flex;
-  align-items: flex-end;
-  padding: 12px 14px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.course-card-head-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.course-icon-badge {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-control);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid color-mix(in srgb, var(--course-accent) 25%, transparent);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.06);
+}
+.course-icon-badge .icon {
+  width: 18px;
+  height: 18px;
 }
 
-/* Patrón 1: Metodología de Sistemas II (Blueprint Cyan / Grid Técnico) */
-.course-banner.blueprint {
-  background: linear-gradient(135deg, #091a2e 0%, #0d2c4d 100%);
-  background-image:
-    linear-gradient(rgba(0, 229, 255, 0.12) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 229, 255, 0.12) 1px, transparent 1px);
-  background-size: 16px 16px;
-}
-
-/* Patrón 2: Gestión de Desarrollo de Software (Dev Blue / Workspace) */
-.course-banner.devspace {
-  background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #2563eb 100%);
-  background-image:
-    radial-gradient(circle at 80% 20%, rgba(96, 165, 250, 0.3) 0%, transparent 50%),
-    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.04) 0, rgba(255, 255, 255, 0.04) 10px, transparent 10px, transparent 20px);
-}
-
-/* Patrón 3: Programación IV (Circuits Gold / Microprocesadores) */
-.course-banner.circuits {
-  background: linear-gradient(135deg, #78350f 0%, #92400e 50%, #b45309 100%);
-  background-image:
-    radial-gradient(circle at 20% 80%, rgba(251, 191, 36, 0.25) 0%, transparent 60%),
-    repeating-linear-gradient(135deg, rgba(255, 214, 0, 0.06) 0, rgba(255, 214, 0, 0.06) 12px, transparent 12px, transparent 24px);
-}
-
-/* Patrón 4: Introducción al Análisis de Datos (Analytics / Polígonos Magenta) */
-.course-banner.analytics {
-  background: linear-gradient(135deg, #831843 0%, #9d174d 50%, #be185d 100%);
-  background-image:
-    radial-gradient(circle at 85% 85%, rgba(244, 114, 182, 0.3) 0%, transparent 60%),
-    repeating-linear-gradient(60deg, rgba(255, 255, 255, 0.05) 0, rgba(255, 255, 255, 0.05) 15px, transparent 15px, transparent 30px);
-}
-
-/* Patrón 5: Legislación (Legal / Hexagonal Grafito Sobrio) */
-.course-banner.legal {
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
-  background-image:
-    radial-gradient(circle at 50% 50%, rgba(148, 163, 184, 0.15) 0%, transparent 70%),
-    repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.03) 0, rgba(255, 255, 255, 0.03) 10px, transparent 10px, transparent 20px);
-}
-
-.course-banner-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(10, 15, 24, 0.85) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-:root[data-theme='light'] .course-banner-overlay {
-  background: linear-gradient(to top, rgba(15, 23, 42, 0.45) 0%, transparent 80%);
-}
-
+/* Indicador de Estado / Status Pill */
 .course-badge-pill {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  font-size:var(--fs-micro);
+  font-size: var(--fs-micro);
   font-weight: 700;
-  padding: 3px 8px;
+  padding: 3px 9px;
   border-radius: 999px;
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  z-index: 2;
   font-family: var(--font-body);
   border: 1px solid transparent;
+  white-space: nowrap;
 }
 .course-badge-pill.is-pending {
   background: var(--badge-danger-bg);
@@ -231,18 +205,106 @@ details.group[open] .group-hint { display:none; }
 [data-skin='gamer'] .course-badge-pill.is-ok {
   border-radius: 2px;
 }
-.course-icon-badge {
+
+/* Accesibilidad y alto contraste en Modo Claro */
+:root[data-theme='light'] [data-course='MSI'] {
+  --course-accent: #0284c7;
+}
+:root[data-theme='light'] [data-course='GDS'] {
+  --course-accent: #1d4ed8;
+}
+:root[data-theme='light'] [data-course='ProgIV'] {
+  --course-accent: #b45309;
+}
+:root[data-theme='light'] [data-course='IAD'] {
+  --course-accent: #be185d;
+}
+:root[data-theme='light'] [data-course='LEG'] {
+  --course-accent: #475569;
+}
+:root[data-theme='light'] .course-badge-pill.is-pending {
+  background: #fee2e2;
+  color: #991b1b;
+  border-color: #fca5a5;
+}
+:root[data-theme='light'] .course-badge-pill.is-ok {
+  background: #dcfce7;
+  color: #166534;
+  border-color: #86efac;
+}
+:root[data-theme='light'] .game-stats-pill {
+  color: #854d0e;
+  background: #fef9c3;
+  border: 1px solid #fef08a;
+}
+
+/* Portadas Visuales / Banners Temáticos (Utilizados en Cursos Recientes) */
+.course-banner,
+.recent-banner {
+  height: 75px;
+  width: 100%;
   position: relative;
-  z-index: 2;
-  width: 38px;
-  height: 38px;
-  border-radius: var(--radius-control);
-  background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  padding: 8px 12px;
+}
+
+/* Patrón 1: Metodología de Sistemas II (Blueprint Cyan / Grid Técnico) */
+.course-banner.blueprint,
+.recent-banner.blueprint {
+  background: linear-gradient(135deg, #091a2e 0%, #0d2c4d 100%);
+  background-image:
+    linear-gradient(rgba(0, 229, 255, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 229, 255, 0.12) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+/* Patrón 2: Gestión de Desarrollo de Software (Dev Blue / Workspace) */
+.course-banner.devspace,
+.recent-banner.devspace {
+  background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #2563eb 100%);
+  background-image:
+    radial-gradient(circle at 80% 20%, rgba(96, 165, 250, 0.3) 0%, transparent 50%),
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.04) 0, rgba(255, 255, 255, 0.04) 10px, transparent 10px, transparent 20px);
+}
+
+/* Patrón 3: Programación IV (Circuits Gold / Microprocesadores) */
+.course-banner.circuits,
+.recent-banner.circuits {
+  background: linear-gradient(135deg, #78350f 0%, #92400e 50%, #b45309 100%);
+  background-image:
+    radial-gradient(circle at 20% 80%, rgba(251, 191, 36, 0.25) 0%, transparent 60%),
+    repeating-linear-gradient(135deg, rgba(255, 214, 0, 0.06) 0, rgba(255, 214, 0, 0.06) 12px, transparent 12px, transparent 24px);
+}
+
+/* Patrón 4: Introducción al Análisis de Datos (Analytics / Polígonos Magenta) */
+.course-banner.analytics,
+.recent-banner.analytics {
+  background: linear-gradient(135deg, #831843 0%, #9d174d 50%, #be185d 100%);
+  background-image:
+    radial-gradient(circle at 85% 85%, rgba(244, 114, 182, 0.3) 0%, transparent 60%),
+    repeating-linear-gradient(60deg, rgba(255, 255, 255, 0.05) 0, rgba(255, 255, 255, 0.05) 15px, transparent 15px, transparent 30px);
+}
+
+/* Patrón 5: Legislación (Legal / Hexagonal Grafito Sobrio) */
+.course-banner.legal,
+.recent-banner.legal {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+  background-image:
+    radial-gradient(circle at 50% 50%, rgba(148, 163, 184, 0.15) 0%, transparent 70%),
+    repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.03) 0, rgba(255, 255, 255, 0.03) 10px, transparent 10px, transparent 20px);
+}
+
+.course-banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10, 15, 24, 0.85) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+:root[data-theme='light'] .course-banner-overlay {
+  background: linear-gradient(to top, rgba(15, 23, 42, 0.45) 0%, transparent 80%);
 }
 
 /* Contenido de la Tarjeta */
@@ -253,8 +315,12 @@ details.group[open] .group-hint { display:none; }
   flex: 1;
   gap: 12px;
 }
+.course-grid-card .course-card-content {
+  padding: 0;
+  gap: 12px;
+}
 .course-meta-tag {
-  font-size:var(--fs-micro);
+  font-size: var(--fs-micro);
   font-weight: 600;
   color: var(--text-muted);
   text-transform: uppercase;
@@ -262,15 +328,23 @@ details.group[open] .group-hint { display:none; }
   font-family: var(--font-body);
 }
 .course-card-name {
-  font-size:var(--fs-h3);
+  font-size: var(--fs-h3);
   font-weight: 700;
   line-height: 1.35;
   margin: 3px 0 2px;
   color: var(--text-primary);
   font-family: var(--font-body) !important;
 }
+.course-grid-card .course-card-name {
+  margin: 0 0 2px;
+  min-height: 2.6em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 .course-card-teacher {
-  font-size:var(--fs-micro);
+  font-size: var(--fs-micro);
   color: var(--text-muted);
   font-family: var(--font-body);
 }
@@ -279,13 +353,13 @@ details.group[open] .group-hint { display:none; }
   display: flex;
   flex-direction: column;
   gap: 6px;
-  padding-top: 8px;
+  padding-top: 4px;
 }
 .course-progress-label {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size:var(--fs-micro);
+  font-size: var(--fs-micro);
   font-family: var(--font-body);
 }
 .course-progress-label .pct-text {
@@ -293,7 +367,7 @@ details.group[open] .group-hint { display:none; }
   color: var(--text-primary);
 }
 .game-stats-pill {
-  font-size:var(--fs-micro);
+  font-size: var(--fs-micro);
   font-weight: 600;
   color: var(--accent-gold);
   background: color-mix(in srgb, var(--accent-gold) 12%, transparent);
@@ -305,20 +379,20 @@ details.group[open] .group-hint { display:none; }
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  padding-top: 6px;
+  padding-top: 8px;
   border-top: 1px solid var(--border-subtle);
+}
+.course-grid-card .course-card-footer {
+  padding-top: 10px;
+}
+.course-grid-card .course-enter-btn {
+  width: 100%;
+  justify-content: center;
+  gap: 8px;
 }
 .course-card-footer .btn {
   font-family: var(--font-body) !important;
   font-weight: 600;
-}
-.course-more-btn {
-  color: var(--text-muted);
-  border-radius: var(--radius-control);
-}
-.course-more-btn:hover {
-  color: var(--text-primary);
-  background: var(--bg-surface-alt);
 }
 
 /* Switches de texto Gamer vs Formal en botones */
@@ -448,11 +522,13 @@ details.group[open] .group-hint { display:none; }
 [data-skin='gamer'] .course-card-distilled {
   border-radius: 4px;
   border: var(--border-width, 2px) solid var(--border-subtle);
+  border-top: 4px solid var(--course-accent);
   box-shadow: var(--shadow-card, 3px 3px 0 #000);
 }
 :root[data-theme='light'][data-skin='gamer'] .course-grid-card,
 :root[data-theme='light'][data-skin='gamer'] .course-card-distilled {
   border-color: var(--border-subtle, #475569);
+  border-top-color: var(--course-accent);
   box-shadow: 3px 3px 0 var(--border-subtle, #475569);
   background: #ffffff;
 }
@@ -461,10 +537,12 @@ details.group[open] .group-hint { display:none; }
   transform: translateY(-2px);
   box-shadow: 5px 5px 0 var(--border-subtle, #000);
   border-color: var(--accent-primary);
+  border-top-color: var(--course-accent);
 }
 :root[data-theme='light'][data-skin='gamer'] .course-grid-card:hover,
 :root[data-theme='light'][data-skin='gamer'] .course-card-distilled:hover {
   box-shadow: 5px 5px 0 var(--border-subtle, #475569);
+  border-top-color: var(--course-accent);
 }
 [data-skin='gamer'] .course-badge-pill {
   border-radius: 2px;
@@ -490,6 +568,7 @@ details.group[open] .group-hint { display:none; }
 [data-skin='sobrio'] .course-card-distilled {
   border-radius: 10px;
   border: 1px solid var(--border-subtle);
+  border-top: 3.5px solid var(--course-accent);
   box-shadow: var(--shadow-card, 0 1px 3px 0 rgba(15, 23, 42, 0.08));
   background: var(--bg-surface);
 }
@@ -497,6 +576,7 @@ details.group[open] .group-hint { display:none; }
 [data-skin='sobrio'] .course-card-distilled:hover {
   box-shadow: var(--shadow-card-hover, 0 10px 25px -5px rgba(15, 23, 42, 0.1));
   border-color: var(--accent-primary);
+  border-top-color: var(--course-accent);
   transform: translateY(-2px);
 }
 [data-skin='sobrio'] .course-banner-overlay {
@@ -513,30 +593,108 @@ details.group[open] .group-hint { display:none; }
 .campus-breadcrumb {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size:var(--fs-small);
-  color: var(--text-muted);
-  margin-bottom: 12px;
+  margin-top: 8px;
+  margin-bottom: 20px;
   font-family: var(--font-body);
+  font-size: var(--fs-small);
+  line-height: 1.4;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.campus-breadcrumb::-webkit-scrollbar { display: none; }
+.campus-breadcrumb ol,
+.campus-breadcrumb ul {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+.campus-breadcrumb li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted);
 }
 .campus-breadcrumb a {
   color: var(--text-muted);
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
+  padding: 3px 7px;
+  border-radius: var(--radius-control);
+  transition: color 0.15s ease, background-color 0.15s ease, transform 0.1s ease;
+  font-weight: 500;
 }
 .campus-breadcrumb a:hover {
   color: var(--accent-primary);
-  text-decoration: underline;
+  background: color-mix(in srgb, var(--accent-primary-fill) 12%, transparent);
+  text-decoration: none;
+}
+.campus-breadcrumb a:active {
+  transform: translateY(1px);
+}
+.campus-breadcrumb .icon-home {
+  width: 14px;
+  height: 14px;
+  opacity: 0.85;
 }
 .campus-breadcrumb .sep {
-  opacity: 0.5;
-  font-size:var(--fs-micro);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  opacity: 0.45;
+  user-select: none;
+  font-size: 11px;
 }
 .campus-breadcrumb .current {
+  display: inline-flex;
+  align-items: center;
   color: var(--text-primary);
-  font-weight: 600;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radius-control);
+  background: color-mix(in srgb, var(--bg-surface-alt) 80%, transparent);
+  border: 1px solid var(--border-subtle);
+  max-width: 280px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+[data-skin='gamer'] .campus-breadcrumb .current {
+  font-family: 'Chakra Petch', var(--font-body);
+  letter-spacing: 0.02em;
+  border-color: color-mix(in srgb, var(--accent-primary-fill) 35%, var(--border-subtle));
+  background: color-mix(in srgb, var(--accent-primary-fill) 8%, var(--bg-surface));
+  color: var(--accent-primary);
+}
+[data-skin='sobrio'] .campus-breadcrumb .current {
+  background: transparent;
+  border-color: transparent;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+/* ---- Extensiones breadcrumb: solo tokens del kit (AA + mobile + motion) ---- */
+.campus-breadcrumb { scrollbar-gutter: stable; }
+.campus-breadcrumb a { color: var(--text-secondary); }
+.campus-breadcrumb a:focus-visible {
+  outline: 2px solid var(--accent-primary-fill);
+  outline-offset: 2px;
+}
+:root[data-theme='light'] .campus-breadcrumb .sep { opacity: .6; }
+@media (max-width: 480px) {
+  .campus-breadcrumb a span { max-width: 96px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .campus-breadcrumb .current { max-width: 160px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .campus-breadcrumb a { transition: none; }
+  .campus-breadcrumb a:active { transform: none; }
 }
 
 /* Badge Institucional UTN-FRC */
@@ -614,35 +772,121 @@ details.group[open] .group-hint { display:none; }
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 12px 16px;
+  padding: 10px 14px;
   background: var(--bg-surface);
   border: var(--border-width) solid var(--border-subtle);
   border-radius: var(--radius-card);
   margin-bottom: 22px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
-.courses-toolbar-left,
-.courses-toolbar-right {
+.courses-toolbar-left {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 10px;
+  flex: 1 1 auto;
+  min-width: 0;
 }
-.search-input-wrap {
-  position: relative;
-  display: inline-flex;
+.courses-toolbar-right {
+  display: flex;
   align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
 }
-.search-input-wrap .icon {
-  position: absolute;
-  left: 10px;
+.courses-toolbar .search-bar {
+  flex: 1 1 240px;
+  min-width: 200px;
+  max-width: 320px;
+  height: 34px;
+  background: var(--bg-surface-alt);
+}
+.courses-toolbar .search-bar:focus-within {
+  background: var(--bg-surface);
+}
+.courses-toolbar select.control.sm {
+  width: auto;
+  flex: 0 0 auto;
+  height: 34px;
+  padding: 0 32px 0 12px;
+  background-color: var(--bg-surface-alt);
+}
+.courses-toolbar select.control.sm:hover {
+  background-color: var(--bg-surface);
+}
+.courses-toolbar #courses-filter-status {
+  min-width: 175px;
+}
+.courses-toolbar #courses-sort-select {
+  min-width: 215px;
+}
+.courses-toolbar .seg.sm {
+  height: 34px;
+  border-radius: var(--radius-control);
+}
+.courses-toolbar .seg.sm button {
+  height: 34px;
+  padding: 0 12px;
+  gap: 6px;
+  font-size: var(--fs-small);
+  font-weight: 600;
   color: var(--text-muted);
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.courses-toolbar .seg.sm button .icon {
+  width: 15px;
+  height: 15px;
   pointer-events: none;
 }
-.search-input-wrap input {
-  padding-left: 32px;
-  min-width: 200px;
-  height: 32px;
-  font-family: var(--font-body);
+.courses-toolbar .seg.sm button span {
+  pointer-events: none;
+}
+.courses-toolbar .seg.sm button:hover:not([aria-pressed='true']) {
+  color: var(--text-primary);
+  background: color-mix(in srgb, var(--text-primary) 6%, transparent);
+}
+.courses-toolbar .seg.sm button[aria-pressed='true'] {
+  background: var(--accent-primary-fill);
+  color: var(--on-accent-primary);
+}
+
+@media (max-width: 860px) {
+  .courses-toolbar {
+    gap: 10px;
+  }
+  .courses-toolbar-left {
+    flex: 1 1 100%;
+  }
+  .courses-toolbar .search-bar {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
+@media (max-width: 580px) {
+  .courses-toolbar-left {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .courses-toolbar select.control.sm {
+    width: 100%;
+  }
+  .courses-toolbar-right {
+    width: 100%;
+  }
+  .courses-toolbar .seg.sm {
+    width: 100%;
+  }
+  .courses-toolbar .seg.sm button {
+    flex: 1;
+    justify-content: center;
+  }
+}
+
+[data-skin='gamer'] .courses-toolbar {
+  border-radius: 0;
+  box-shadow: 2px 2px 0 #000;
+}
+[data-skin='gamer'] .courses-toolbar .seg.sm {
+  border-radius: 0;
 }
 
 /* ---- CURSOS ACCEDIDOS RECIENTEMENTE (CARRUSEL 1 FILA) ---- */
@@ -1521,7 +1765,7 @@ fieldset.question .q-hint { clear:both; font-size:var(--fs-small); color:var(--t
   .sidebar, .shell.nav-hidden .sidebar { margin-left:0; visibility:visible; }
   .sidebar { position:fixed; top:0; left:0; z-index:25; height:100vh; transform:translateX(-100%); transition:transform .25s var(--ease-out); box-shadow:0 12px 32px rgba(0,0,0,.35); }
   .sidebar.open { transform:none; }
-  .content { padding:20px 16px 48px; }
+  .content { padding:28px 16px 48px; }
   .me-chip .me-name, .seg .seg-label { display:none; }
   .seg button { padding:0 10px; }
 }
@@ -3800,6 +4044,12 @@ fieldset.question .q-hint { clear:both; font-size:var(--fs-small); color:var(--t
 }
 
 /* 5. Tarjetas de Información General (4 módulos) */
+.minimal-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+  align-items: stretch;
+}
 .minimal-info-card {
   border-radius: 6px;
   padding: 14px 16px;
@@ -4211,7 +4461,27 @@ fieldset.question .q-hint { clear:both; font-size:var(--fs-small); color:var(--t
 .cohort-invite-chip-actions {
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 4px;
+}
+
+.cohort-invite-chip-body .icon-btn {
+  width: 26px;
+  height: 26px;
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-control);
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.cohort-invite-chip-body .icon-btn:hover {
+  color: var(--text-primary);
+  background: var(--bg-surface);
 }
 
 .cohort-invite-status-msg {
@@ -4224,8 +4494,44 @@ fieldset.question .q-hint { clear:both; font-size:var(--fs-small); color:var(--t
 .course-admin-hero-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  row-gap: 8px;
   flex-wrap: wrap;
+}
+
+.course-admin-hero-actions .btn-sm {
+  height: 36px;
+  padding: 0 14px;
+}
+
+.course-admin-hero-actions .edit-mode-switch {
+  height: 36px;
+  padding: 4px 14px 4px 8px;
+}
+
+.course-admin-hero-actions .cohort-invite-chip-body {
+  height: 36px;
+  padding: 0 12px;
+  gap: 10px;
+  box-sizing: border-box;
+}
+
+.btn-vitrina {
+  color: var(--accent-gold, #f59e0b) !important;
+  border: 1px solid rgba(245, 158, 11, 0.35) !important;
+  background: rgba(245, 158, 11, 0.08) !important;
+  font-weight: 600;
+  transition: all 0.15s ease;
+}
+
+.btn-vitrina:hover {
+  background: rgba(245, 158, 11, 0.18) !important;
+  border-color: rgba(245, 158, 11, 0.6) !important;
+  color: #fbbf24 !important;
+}
+
+.btn-vitrina svg {
+  color: var(--accent-gold, #f59e0b);
 }
 
 /* ---- Course Admin Topbar & Module Dropdown Nav ---- */
@@ -4233,24 +4539,64 @@ fieldset.question .q-hint { clear:both; font-size:var(--fs-small); color:var(--t
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 14px;
-  margin-bottom: 18px;
-  padding-bottom: 14px;
+  gap: 16px;
+  row-gap: 12px;
+  margin-top: 0;
+  margin-bottom: 24px;
+  padding-bottom: 18px;
   border-bottom: 1px solid var(--border-subtle);
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 .course-admin-topbar-left {
   display: flex;
   align-items: center;
   gap: 12px;
-  flex-wrap: wrap;
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+@media (max-width: 1080px) {
+  .course-admin-topbar {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .course-admin-topbar-left {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .course-admin-hero-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+/* ---- Curso: aire entre migajas y contenido (evita que se pisen) ---- */
+#screen-curso > div[data-alumno-only='true'],
+#screen-curso > div[data-alumno-only],
+.course-student-breadcrumb-bar {
+  margin-top: 8px;
+  margin-bottom: 22px;
+}
+
+.course-staff-breadcrumb-bar {
+  margin-top: 4px;
+  margin-bottom: 18px;
+}
+
+#screen-curso .data {
+  padding-top: 4px;
+}
+
+#screen-curso .v3-hero-card {
+  margin-top: 4px;
 }
 
 .topbar-nav-divider {
   width: 1px;
-  height: 22px;
+  height: 20px;
   background: var(--border-subtle);
+  margin: 0 2px;
 }
 
 /* ---- Modo Edición Toggle Switch ---- */
@@ -4346,12 +4692,14 @@ fieldset.question .q-hint { clear:both; font-size:var(--fs-small); color:var(--t
 [hidden] {
   display: none !important;
 }
-html[data-role='alumno'] [data-staff-only='true'],
-body[data-role='alumno'] [data-staff-only='true'] {
+[data-role='alumno'] [data-staff-only='true'],
+[data-role='alumno'] [data-staff-only] {
   display: none !important;
 }
-html:not([data-role='alumno']) [data-alumno-only='true'],
-body:not([data-role='alumno']) [data-alumno-only='true'] {
+[data-role='profesor'] [data-alumno-only='true'],
+[data-role='profesor'] [data-alumno-only],
+[data-role='admin'] [data-alumno-only='true'],
+[data-role='admin'] [data-alumno-only] {
   display: none !important;
 }
 
@@ -5746,6 +6094,12 @@ button.slot.off { opacity:.3; }
   align-items: center;
   gap: 6px;
   flex-shrink: 0;
+}
+.resource-right-actions .btn[title*="Eliminar"]:hover,
+.resource-right-actions .btn[aria-label*="Eliminar"]:hover {
+  background: color-mix(in srgb, var(--accent-danger) 14%, transparent);
+  border-color: var(--accent-danger);
+  color: var(--accent-danger);
 }
 
 .add-resource-dashed-btn {

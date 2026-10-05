@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="css/tokens.css" />
 <link rel="stylesheet" href="css/base.css" />
 <link rel="stylesheet" href="css/components.css" />
+<link rel="stylesheet" href="css/screens.css" />
 
 <style>
 /* =========================================================================
@@ -54,43 +55,13 @@ body {
   gap: 18px;
 }
 
-/* 1. TOP HEADER & BREADCRUMBS */
+/* 1. TOP HEADER (miga del UI kit: .campus-breadcrumb en css/screens.css) */
 .v3-top-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
   flex-wrap: wrap;
-}
-
-.v3-breadcrumb {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  color: var(--text-muted);
-  background: var(--surface-1);
-  border: 1px solid var(--border-dim);
-  padding: 6px 14px;
-  border-radius: 6px;
-}
-
-.v3-breadcrumb a {
-  color: var(--text-muted);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  transition: color 0.15s;
-}
-
-.v3-breadcrumb a:hover {
-  color: #fff;
-}
-
-.v3-breadcrumb .current {
-  color: var(--text-main);
-  font-weight: 600;
 }
 
 /* THEME & SKIN TOGGLES */
@@ -746,15 +717,15 @@ body {
 
 <div class="course-container">
 
-  <!-- TOP HEADER & BREADCRUMBS -->
+  <!-- TOP HEADER & BREADCRUMBS (UI kit) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="i-home" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></symbol><symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol></defs></svg>
   <header class="v3-top-header">
-    <nav class="v3-breadcrumb">
-      <a href="#">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-        Mis Cursos
-      </a>
-      <span style="color:#4a576d;">/</span>
-      <span class="current">TPI 2026 (MSI)</span>
+    <nav class="campus-breadcrumb" aria-label="Miga de pan">
+      <ol>
+        <li><a href="tpi-redesign.html#cursos"><svg class="icon icon-sm icon-home" width="14" height="14" aria-hidden="true"><use href="#i-home"/></svg><span>Mis Cursos</span></a></li>
+        <li aria-hidden="true"><span class="sep"><svg class="icon icon-xs" width="12" height="12" aria-hidden="true"><use href="#i-chevron"/></svg></span></li>
+        <li><span class="current" aria-current="page">TPI 2026 (MSI)</span></li>
+      </ol>
     </nav>
 
     <div style="display:flex; align-items:center; gap:12px;">
@@ -1342,9 +1313,41 @@ function setSkinMode(skin, btn) {
 }
 
 function switchCourseTab(tabName, btn) {
-  document.querySelectorAll('.v3-tab-item').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
+  document.querySelectorAll('.v3-tab-item').forEach(b => {
+    var sel = (b === btn);
+    b.classList.toggle('active', sel);
+    b.setAttribute('aria-selected', String(sel));
+    b.tabIndex = sel ? 0 : -1;
+  });
 }
+(function initV3Tabs(){
+  var list = document.querySelector('.v3-tabs, .v3-tab-list, nav[aria-label="Pestañas de la materia"]');
+  if (!list) {
+    var first = document.querySelector('.v3-tab-item');
+    list = first ? first.parentElement : null;
+  }
+  if (!list) return;
+  if (!list.hasAttribute('role')) list.setAttribute('role', 'tablist');
+  list.querySelectorAll('.v3-tab-item').forEach(function(t){
+    if (!t.hasAttribute('role')) t.setAttribute('role', 'tab');
+    if (!t.hasAttribute('aria-selected')) t.setAttribute('aria-selected', t.classList.contains('active') ? 'true' : 'false');
+    if (t.getAttribute('aria-selected') === 'false' && !t.hasAttribute('tabindex')) t.tabIndex = -1;
+  });
+  list.addEventListener('keydown', function(e){
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft' && e.key !== 'Home' && e.key !== 'End') return;
+    e.preventDefault();
+    var tabs = Array.prototype.slice.call(list.querySelectorAll('[role="tab"]'));
+    var i = tabs.indexOf(document.activeElement);
+    if (i < 0) i = 0;
+    var n = i;
+    if (e.key === 'ArrowRight') n = (i + 1) % tabs.length;
+    if (e.key === 'ArrowLeft') n = (i - 1 + tabs.length) % tabs.length;
+    if (e.key === 'Home') n = 0;
+    if (e.key === 'End') n = tabs.length - 1;
+    tabs[n].focus();
+    tabs[n].click();
+  });
+})();
 </script>
 </body>
 </html>

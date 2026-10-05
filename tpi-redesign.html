@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="css/screens.css?v=2" />
 <link rel="stylesheet" href="css/login.css" />
 </head>
-<body>
+<body data-role="alumno">
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></symbol>
@@ -101,7 +101,7 @@
   <span>Estilo:</span>
   <div class="seg" role="group" aria-label="Estilo">
     <button data-skin-btn="gamer" aria-pressed="true">🎮 Arcade</button>
-    <button data-skin-btn="sobrio" aria-pressed="false">💼 Fabio</button>
+    <button data-skin-btn="sobrio" aria-pressed="false">💼 Sobrio</button>
   </div>
   <span>Paleta Arcade:</span>
   <div class="seg" role="group" aria-label="Paleta Arcade">
@@ -218,7 +218,7 @@
           <div class="menu-pref-row">
             <div class="seg sm" role="group" aria-label="Estilo">
               <button data-skin-btn="gamer" aria-pressed="true">Arcade</button>
-              <button data-skin-btn="sobrio" aria-pressed="false">Fabio</button>
+              <button data-skin-btn="sobrio" aria-pressed="false">Sobrio</button>
             </div>
             <div class="seg sm" role="group" aria-label="Tema">
               <button data-theme-btn="dark" aria-pressed="true">Oscuro</button>
@@ -264,8 +264,8 @@
             <span class="recent-title-text" data-recent-heading>Cursos a los que se ha accedido recientemente</span>
           </h2>
           <div class="recent-nav-btns">
-            <button class="icon-btn icon-btn-sm" id="recent-prev-btn" type="button" aria-label="Anterior" title="Desplazar a la izquierda"><svg class="icon icon-sm"><use href="#i-left"/></svg></button>
-            <button class="icon-btn icon-btn-sm" id="recent-next-btn" type="button" aria-label="Siguiente" title="Desplazar a la derecha"><svg class="icon icon-sm"><use href="#i-right"/></svg></button>
+            <button class="icon-btn sm" id="recent-prev-btn" type="button" aria-label="Anterior" title="Desplazar a la izquierda"><svg class="icon icon-sm"><use href="#i-left"/></svg></button>
+            <button class="icon-btn sm" id="recent-next-btn" type="button" aria-label="Siguiente" title="Desplazar a la derecha"><svg class="icon icon-sm"><use href="#i-right"/></svg></button>
           </div>
         </div>
         <div class="recent-courses-track" id="recent-courses-track">
@@ -330,7 +330,15 @@
 
     <!-- ================= DESAFÍO TEÓRICO · alumno ================= -->
     <section class="screen quiz" id="screen-quiz-alumno" aria-labelledby="h-quiz" data-error="El servicio de desafíos teóricos no respondió. Tus respuestas guardadas no se perdieron.">
-      <a class="back" href="#desafios"><svg class="icon icon-sm"><use href="#i-left"/></svg>Desafíos</a>
+      <nav class="campus-breadcrumb" aria-label="Miga de pan">
+        <ol>
+          <li><a href="#desafios"><svg class="icon icon-sm icon-home"><use href="#i-flame"/></svg><span>Desafíos</span></a></li>
+          <li aria-hidden="true"><span class="sep"><svg class="icon icon-xs"><use href="#i-chevron"/></svg></span></li>
+          <li><a href="#curso/MSI"><span>MSI</span></a></li>
+          <li aria-hidden="true"><span class="sep"><svg class="icon icon-xs"><use href="#i-chevron"/></svg></span></li>
+          <li><span class="current" aria-current="page">Tipado y protocolos</span></li>
+        </ol>
+      </nav>
       <div class="quiz-head">
         <div>
           <h1 class="display" id="h-quiz">Tipado y protocolos</h1>
@@ -369,11 +377,11 @@
     <!-- ================= CURSOS · alumno (VISTA GENERAL DE CURSO TUP) ================= -->
     <section class="screen" id="screen-cursos-alumno" aria-labelledby="h-cursos-a" data-error="No pudimos traer tus cursos.">
       <nav class="campus-breadcrumb" aria-label="Miga de pan">
-        <a href="#dashboard"><svg class="icon icon-sm"><use href="#i-home"/></svg>Inicio</a>
-        <span class="sep">/</span>
-        <span>Páginas del sitio</span>
-        <span class="sep">/</span>
-        <span class="current">Mis cursos</span>
+        <ol>
+          <li><a href="#dashboard"><svg class="icon icon-sm icon-home"><use href="#i-home"/></svg><span>Inicio</span></a></li>
+          <li aria-hidden="true"><span class="sep"><svg class="icon icon-xs"><use href="#i-chevron"/></svg></span></li>
+          <li><span class="current" aria-current="page">Mis Cursos</span></li>
+        </ol>
       </nav>
 
       <div class="page-head">
@@ -393,16 +401,17 @@
 
         <div class="courses-toolbar">
           <div class="courses-toolbar-left">
-            <select class="input sm" id="courses-filter-status" aria-label="Filtrar por estado">
+            <div class="search-bar sm">
+              <svg class="icon search-icon"><use href="#i-search"/></svg>
+              <input type="search" id="courses-search-input" class="search-input" placeholder="Buscar materia..." aria-label="Buscar por nombre de materia" autocomplete="off" />
+              <button type="button" class="search-clear" id="courses-search-clear" aria-label="Limpiar búsqueda" style="display:none;" title="Limpiar búsqueda">✕</button>
+            </div>
+            <select class="control sm" id="courses-filter-status" aria-label="Filtrar por estado">
               <option value="all">Todos los cursos</option>
               <option value="active">En curso</option>
               <option value="pending">Con desafíos pendientes</option>
             </select>
-            <div class="search-bar sm" style="width: 220px;">
-              <svg class="icon search-icon"><use href="#i-search"/></svg>
-              <input type="search" id="courses-search-input" class="search-input" placeholder="Buscar materia..." aria-label="Buscar por nombre de materia" />
-            </div>
-            <select class="input sm" id="courses-sort-select" aria-label="Ordenar cursos">
+            <select class="control sm" id="courses-sort-select" aria-label="Ordenar cursos">
               <option value="recent">Ordenar por último acceso</option>
               <option value="name">Ordenar por nombre</option>
               <option value="progress">Ordenar por progreso</option>
@@ -410,8 +419,14 @@
           </div>
           <div class="courses-toolbar-right">
             <div class="seg sm" id="course-view-mode-seg" role="group" aria-label="Modo de visualización">
-              <button type="button" data-view-btn="grid" aria-pressed="true" title="Vista de Tarjetas con Portada">🎴 Tarjeta</button>
-              <button type="button" data-view-btn="list" aria-pressed="false" title="Vista de Filas Compactas">📄 Filas</button>
+              <button type="button" data-view-btn="grid" aria-pressed="true" title="Vista de Tarjetas con Portada">
+                <svg class="icon icon-sm"><use href="#i-cards"/></svg>
+                <span>Tarjeta</span>
+              </button>
+              <button type="button" data-view-btn="list" aria-pressed="false" title="Vista de Filas Compactas">
+                <svg class="icon icon-sm"><use href="#i-list"/></svg>
+                <span>Filas</span>
+              </button>
             </div>
           </div>
         </div>
@@ -422,13 +437,20 @@
 
     <!-- ================= CURSO (detalle unificado) · estudiante / profesor / admin ================= -->
     <section class="screen" id="screen-curso" aria-labelledby="h-curso" data-error="No pudimos traer este curso.">
-      <!-- Barra Superior de Navegación y Herramientas Docentes (con Menú Desplegable a la Izquierda) · Solo Rol Profesor / Administrador -->
+      <!-- Miga de pan Docente / Administrador (Nivel Superior) -->
+      <div data-staff-only="true" class="course-staff-breadcrumb-bar">
+        <nav class="campus-breadcrumb" aria-label="Miga de pan docente" style="margin:0;">
+          <ol>
+            <li><a href="#cursos"><svg class="icon icon-sm icon-home"><use href="#i-home"/></svg><span>Cursos</span></a></li>
+            <li aria-hidden="true"><span class="sep"><svg class="icon icon-xs"><use href="#i-chevron"/></svg></span></li>
+            <li><span style="font-weight:600; color:var(--text-primary);" aria-current="page" data-course-name>Metodología de Sistemas II</span></li>
+          </ol>
+        </nav>
+      </div>
+
+      <!-- Barra de Módulos y Herramientas Docentes · Solo Rol Profesor / Administrador -->
       <div class="course-admin-topbar" data-staff-only="true">
         <div class="course-admin-topbar-left">
-          <a class="back" href="#cursos" style="margin:0;"><svg class="icon icon-sm"><use href="#i-left"/></svg>Volver a Mis Cursos</a>
-          
-          <div class="topbar-nav-divider" aria-hidden="true"></div>
-
           <!-- Selector Desplegable de Módulos de la Cohorte -->
           <div class="cohort-view-dropdown" id="cohort-view-dropdown" data-tabgroup="curso">
             <button class="cohort-view-trigger" id="cohort-view-trigger" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="cohort-view-menu" aria-label="Cambiar módulo de la cohorte">
@@ -487,13 +509,6 @@
                 <svg class="icon icon-xs cohort-menu-check" aria-hidden="true"><use href="#i-check"/></svg>
               </button>
               <hr class="cohort-menu-divider" />
-              <button class="cohort-menu-item" type="button" role="menuitem" data-open="dialog-configurar-materia">
-                <span class="cohort-menu-item-icon"><svg class="icon icon-sm"><use href="#i-book"/></svg></span>
-                <div class="cohort-menu-item-content">
-                  <span class="cohort-menu-item-label">Detalle de Cursada</span>
-                  <span class="cohort-menu-item-desc">Fechas, modalidad y parámetros</span>
-                </div>
-              </button>
               <button class="cohort-menu-item" type="button" role="menuitem" id="tab-c-config" aria-controls="panel-c-config" aria-selected="false" data-subtab="c-config">
                 <span class="cohort-menu-item-icon"><svg class="icon icon-sm"><use href="#i-lock"/></svg></span>
                 <div class="cohort-menu-item-content">
@@ -504,10 +519,42 @@
               </button>
             </div>
           </div>
+        </div>
+
+        <div class="course-admin-hero-actions">
+          <!-- 1. Gestionar Vitrina -->
+          <button class="btn btn-ghost btn-sm btn-vitrina" type="button" data-open="dialog-gestionar-vitrina" title="Gestionar vitrina de ofertas y proyectos destacados">
+            <svg class="icon icon-sm"><use href="#i-star"/></svg><span>Gestionar vitrina</span>
+          </button>
+
+          <!-- 2. Importar CSV -->
+          <button class="btn btn-ghost btn-sm" type="button" data-open="dialog-gestion-padron" title="Importar padrón de alumnos mediante CSV">
+            <svg class="icon icon-sm"><use href="#i-file"/></svg><span>Importar CSV</span>
+          </button>
+
+          <!-- Asignar Docente (Exclusivo Administrador) -->
+          <button class="btn btn-primary btn-sm edit-mode-control" type="button" id="btn-topbar-asignar-docente" data-admin-only title="Desplegar equipo docente e incorporar">
+            <svg class="icon icon-sm"><use href="#i-users"/></svg><span>Asignar docente</span>
+          </button>
 
           <div class="topbar-nav-divider" aria-hidden="true"></div>
 
-          <!-- Switch Modo Edición (Solo Docente) -->
+          <!-- 3. Código de Invitación de la Cohorte -->
+          <div class="cohort-invite-chip" role="group" aria-label="Código de invitación de la cohorte">
+            <div class="cohort-invite-chip-body">
+              <span class="cohort-invite-chip-label">Código:</span>
+              <code class="invite-code" id="invite-code">KAS5ZNBRT3</code>
+              <div class="cohort-invite-chip-actions">
+                <button class="icon-btn" type="button" id="invite-copy" aria-label="Copiar código de invitación" title="Copiar código"><svg class="icon icon-xs"><use href="#i-copy"/></svg></button>
+                <button class="icon-btn" type="button" id="invite-regen" aria-label="Regenerar código de invitación" title="Regenerar código"><svg class="icon icon-xs"><use href="#i-refresh"/></svg></button>
+              </div>
+            </div>
+            <span class="cohort-invite-status-msg" id="invite-status" role="status"></span>
+          </div>
+
+          <div class="topbar-nav-divider" aria-hidden="true"></div>
+
+          <!-- 4. Switch Modo Edición (Solo Docente / Admin) -->
           <div class="edit-mode-switch-wrapper" title="Activar/desactivar modo edición de actividades y recursos">
             <label class="edit-mode-switch" for="course-edit-mode-toggle">
               <input type="checkbox" id="course-edit-mode-toggle" checked />
@@ -516,41 +563,18 @@
             </label>
           </div>
         </div>
-
-        <div class="course-admin-hero-actions">
-          <button class="btn btn-secondary btn-sm" type="button" data-open="dialog-configurar-materia" title="Configurar y ver detalle de cursada">
-            <svg class="icon icon-sm"><use href="#i-book"/></svg>Detalle de cursada
-          </button>
-          <button class="btn btn-primary btn-sm edit-mode-control" type="button" id="btn-topbar-asignar-docente" data-admin-only title="Desplegar equipo docente e incorporar">
-            <svg class="icon icon-sm"><use href="#i-users"/></svg>Asignar docente
-          </button>
-          <button class="btn btn-secondary btn-sm" type="button" data-open="dialog-gestionar-vitrina" style="color:var(--accent-gold); border-color:rgba(245,158,11,0.35); background:rgba(245,158,11,0.1);">
-            <svg class="icon icon-sm"><use href="#i-star"/></svg>Gestionar vitrina
-          </button>
-          <button class="btn btn-quiet btn-sm" type="button" data-open="dialog-gestion-padron">
-            <svg class="icon icon-sm"><use href="#i-file"/></svg>Importar CSV
-          </button>
-
-          <div class="cohort-invite-chip" role="group" aria-label="Código de invitación de la cohorte">
-            <div class="cohort-invite-chip-body">
-              <span class="cohort-invite-chip-label">Código alumnos:</span>
-              <code class="invite-code" id="invite-code">KAS5ZNBRT3</code>
-              <button class="icon-btn xs" type="button" id="invite-copy" aria-label="Copiar código de invitación" title="Copiar código"><svg class="icon icon-xs"><use href="#i-copy"/></svg></button>
-              <button class="icon-btn xs" type="button" id="invite-regen" aria-label="Regenerar código de invitación" title="Regenerar código"><svg class="icon icon-xs"><use href="#i-refresh"/></svg></button>
-            </div>
-            <span class="cohort-invite-status-msg" id="invite-status" role="status"></span>
-          </div>
-        </div>
       </div>
 
       <!-- Miga de pan de Estudiante (Visible solo cuando rol es alumno) -->
-      <div data-alumno-only="true" style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; flex-wrap:wrap;">
-        <nav class="campus-breadcrumb" aria-label="Miga de pan" style="margin-bottom:0;">
-          <a href="#cursos">Mis Cursos</a>
-          <span class="sep">&gt;</span>
-          <span data-course-name>Metodología de Sistemas II</span>
-          <span class="sep">&gt;</span>
-          <span class="current" id="materia-breadcrumb-active">Contenidos de la cursada</span>
+      <div data-alumno-only="true" class="course-student-breadcrumb-bar" style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:8px; margin-bottom:20px; flex-wrap:wrap;">
+        <nav class="campus-breadcrumb" aria-label="Miga de pan" style="margin:0;">
+          <ol>
+            <li><a href="#dashboard"><svg class="icon icon-sm icon-home"><use href="#i-home"/></svg><span>Inicio</span></a></li>
+            <li aria-hidden="true"><span class="sep"><svg class="icon icon-xs"><use href="#i-chevron"/></svg></span></li>
+            <li><a href="#cursos"><span>Mis Cursos</span></a></li>
+            <li aria-hidden="true"><span class="sep"><svg class="icon icon-xs"><use href="#i-chevron"/></svg></span></li>
+            <li><span class="current" id="materia-breadcrumb-course-link" aria-current="page"><span data-course-name>Metodología de Sistemas II</span></span></li>
+          </ol>
         </nav>
 
         <button type="button" class="btn btn-ghost btn-sm" id="btn-toggle-course-tree" aria-controls="subpanel" title="Alternar temario y unidades (Ctrl+B)" style="border:1px solid var(--border-subtle); display:inline-flex; align-items:center; gap:6px; font-weight:600;">
@@ -1181,8 +1205,8 @@
       <div class="data">
         <div class="tabs" role="tablist" aria-label="Secciones del mercado" id="shop-tabs">
           <button class="tab" role="tab" type="button" aria-selected="true" data-shop-tab="vitrina" aria-controls="shop-vitrina">Vitrina</button>
-          <button class="tab" role="tab" type="button" aria-selected="false" data-shop-tab="subastas" aria-controls="shop-subastas">Subastas</button>
-          <button class="tab" role="tab" type="button" aria-selected="false" data-shop-tab="metas" aria-controls="shop-metas">Metas colaborativas</button>
+          <button class="tab" role="tab" type="button" aria-selected="false" tabindex="-1" data-shop-tab="subastas" aria-controls="shop-subastas">Subastas</button>
+          <button class="tab" role="tab" type="button" aria-selected="false" tabindex="-1" data-shop-tab="metas" aria-controls="shop-metas">Metas colaborativas</button>
           <a class="tab" href="#inventario">Mi inventario <svg class="icon icon-sm"><use href="#i-right"/></svg></a>
         </div>
 
@@ -1306,23 +1330,23 @@
       <div class="data">
         <!-- Resumen de Bóveda de Monedas y Cuotas -->
         <div class="stat-strip">
-          <div class="stat-item">
-            <span class="stat-label">Bóveda de monedas</span>
-            <span class="stat-value num" style="color:var(--accent-gold); display:flex; align-items:center; gap:6px;">
+          <div>
+            <span class="k">Bóveda de monedas</span>
+            <span class="v num" style="color:var(--accent-gold); display:flex; align-items:center; gap:6px;">
               <svg class="icon icon-sm"><use href="#i-coin"/></svg> 120
             </span>
           </div>
-          <div class="stat-item">
-            <span class="stat-label">Total ganado</span>
-            <span class="stat-value num" style="color:var(--accent-success-fill);">+150 monedas</span>
+          <div>
+            <span class="k">Total ganado</span>
+            <span class="v num" style="color:var(--accent-success-fill);">+150 monedas</span>
           </div>
-          <div class="stat-item">
-            <span class="stat-label">Total canjeado</span>
-            <span class="stat-value num" style="color:var(--text-muted);">-30 monedas</span>
+          <div>
+            <span class="k">Total canjeado</span>
+            <span class="v num" style="color:var(--text-muted);">-30 monedas</span>
           </div>
-          <div class="stat-item">
-            <span class="stat-label">Estado de matrícula</span>
-            <span class="stat-value" style="color:var(--accent-success-fill); font-size:var(--fs-body); font-weight:700;">Al día ✅</span>
+          <div>
+            <span class="k">Estado de matrícula</span>
+            <span class="v" style="color:var(--accent-success-fill); font-size:var(--fs-body); font-weight:700;">Al día ✅</span>
           </div>
         </div>
 
@@ -1538,9 +1562,11 @@
         <!-- Crear cohorte: vista inline que ocupa el lugar de la grilla (sin modal) -->
         <div class="cohorte-creator" id="cohorte-creator" hidden>
           <nav class="campus-breadcrumb" aria-label="Miga de pan">
-            <a href="#cursos" id="cohorte-creator-back-crumb">Cursos</a>
-            <span class="sep">&gt;</span>
-            <span class="current">Nuevo curso</span>
+            <ol>
+              <li><a href="#cursos" id="cohorte-creator-back-crumb"><svg class="icon icon-sm icon-home"><use href="#i-home"/></svg><span>Cursos</span></a></li>
+              <li aria-hidden="true"><span class="sep"><svg class="icon icon-xs"><use href="#i-chevron"/></svg></span></li>
+              <li><span class="current" aria-current="page">Nuevo curso</span></li>
+            </ol>
           </nav>
           <div class="page-head" style="margin-bottom:0;">
             <div>
@@ -1695,11 +1721,13 @@
     <!-- ================= CONFIGURACIÓN DE LA ACTIVIDAD · profesor (nueva_seccion.jpg derecha) ================= -->
     <section class="screen" id="screen-actividad-editar" aria-labelledby="h-act-edit" data-error="No pudimos cargar la configuración de la actividad.">
       <nav class="campus-breadcrumb" aria-label="Miga de pan">
-        <a href="#cursos">Mis Cursos</a>
-        <span class="sep">&gt;</span>
-        <a href="#curso" data-course-name>Programación IV</a>
-        <span class="sep">&gt;</span>
-        <span class="current">Editar Actividad</span>
+        <ol>
+          <li><a href="#cursos"><svg class="icon icon-sm icon-home"><use href="#i-home"/></svg><span>Cursos</span></a></li>
+          <li aria-hidden="true"><span class="sep"><svg class="icon icon-xs"><use href="#i-chevron"/></svg></span></li>
+          <li><a href="#curso"><span data-course-name>Metodología de Sistemas II</span></a></li>
+          <li aria-hidden="true"><span class="sep"><svg class="icon icon-xs"><use href="#i-chevron"/></svg></span></li>
+          <li><span class="current" aria-current="page">Configurar actividad</span></li>
+        </ol>
       </nav>
 
       <div class="page-head" style="margin-bottom:18px;">
@@ -1815,7 +1843,15 @@
 
     <!-- ================= ARMAR CUESTIONARIO · profesor ================= -->
     <section class="screen" id="screen-cuestionario-nuevo-profesor" aria-labelledby="h-build" data-error="No pudimos cargar el banco de preguntas.">
-      <a class="back" href="#desafios"><svg class="icon icon-sm"><use href="#i-left"/></svg>Desafíos</a>
+      <nav class="campus-breadcrumb" aria-label="Miga de pan">
+        <ol>
+          <li><a href="#desafios"><svg class="icon icon-sm icon-home"><use href="#i-flame"/></svg><span>Desafíos</span></a></li>
+          <li aria-hidden="true"><span class="sep"><svg class="icon icon-xs"><use href="#i-chevron"/></svg></span></li>
+          <li><a href="#desafios"><span>Cuestionarios</span></a></li>
+          <li aria-hidden="true"><span class="sep"><svg class="icon icon-xs"><use href="#i-chevron"/></svg></span></li>
+          <li><span class="current" aria-current="page">Nuevo cuestionario</span></li>
+        </ol>
+      </nav>
       <div class="page-head">
         <div><h1 class="display" id="h-build">Nuevo cuestionario teórico</h1><p>Agregá preguntas nuevas o de tu banco, ordenalas y repartí el puntaje hasta llegar a 100.</p></div>
       </div>
@@ -2104,7 +2140,7 @@
           <span class="meta" style="font-weight:600;">Estilo:</span>
           <div class="seg" role="group" aria-label="Estilo">
             <button data-skin-btn="gamer" aria-pressed="true">🎮 Arcade (Gamer)</button>
-            <button data-skin-btn="sobrio" aria-pressed="false">💼 Fabio</button>
+            <button data-skin-btn="sobrio" aria-pressed="false">💼 Sobrio</button>
           </div>
         </div>
       </div>
@@ -2493,8 +2529,15 @@
             <span data-view-toggle="uikit-demo"></span>
           </div>
           <div class="uikit-row">
-            <a class="back" href="#uikit" style="margin:0"><svg class="icon icon-sm"><use href="#i-left"/></svg>Volver</a>
-            <nav class="campus-breadcrumb" aria-label="Miga de pan de ejemplo" style="margin:0"><a href="#uikit"><svg class="icon icon-sm"><use href="#i-home"/></svg>Inicio</a><span class="sep">/</span><span>Cursos</span><span class="sep">/</span><span class="current">Programación IV</span></nav>
+            <nav class="campus-breadcrumb" aria-label="Miga de pan de ejemplo" style="margin:0;">
+              <ol>
+                <li><a href="#uikit"><svg class="icon icon-sm icon-home"><use href="#i-home"/></svg><span>Inicio</span></a></li>
+                <li aria-hidden="true"><span class="sep"><svg class="icon icon-xs"><use href="#i-chevron"/></svg></span></li>
+                <li><a href="#uikit"><span>Cursos</span></a></li>
+                <li aria-hidden="true"><span class="sep"><svg class="icon icon-xs"><use href="#i-chevron"/></svg></span></li>
+                <li><span class="current" aria-current="page">Programación IV</span></li>
+              </ol>
+            </nav>
           </div>
         </div>
       </section>
@@ -2634,7 +2677,7 @@
           </div>
           <div class="seg sm" role="group" aria-label="Estilo">
             <button type="button" data-skin-btn="gamer" aria-pressed="true"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-gamepad"/></svg>Arcade</button>
-            <button type="button" data-skin-btn="sobrio" aria-pressed="false"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-briefcase"/></svg>Fabio</button>
+            <button type="button" data-skin-btn="sobrio" aria-pressed="false"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-briefcase"/></svg>Sobrio</button>
           </div>
         </div>
         <div class="login-wrap">
@@ -2980,115 +3023,6 @@
   </div>
 </dialog>
 
-<!-- ================= Modal: Configurar Materia / Cohorte (Editable y Configurable) ================= -->
-<dialog class="modal modal-md studs" id="dialog-configurar-materia" aria-labelledby="h-cfg-mat-title">
-  <div style="display:flex; flex-direction:column; width:100%;">
-    <div class="modal-head">
-      <div>
-        <h2 id="h-cfg-mat-title" class="display" style="font-size:18px; margin:0;">CONFIGURAR MATERIA & COHORTE</h2>
-        <p class="muted" id="h-cfg-mat-sub" style="font-size:13px; margin:2px 0 0;">Modificá el nombre, régimen académico, fechas y parámetros de la cursada.</p>
-      </div>
-      <button class="icon-btn sm" type="button" onclick="$('#dialog-configurar-materia').close()" aria-label="Cerrar"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
-    </div>
-    <form class="modal-body" id="form-config-materia" onsubmit="return false;" style="gap:14px; max-height:calc(80vh - 120px); overflow-y:auto; padding-right:6px;">
-      <div style="display:grid; grid-template-columns: 2fr 1fr; gap:12px;">
-        <label class="field">
-          <span class="req">Nombre de la Materia</span>
-          <input class="control" id="cfg-mat-name" placeholder="Ej. Metodología de Sistemas II" required />
-        </label>
-        <label class="field">
-          <span class="req">Código / Sigla</span>
-          <input class="control" id="cfg-mat-code" placeholder="Ej. MSI" required />
-        </label>
-      </div>
-
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
-        <label class="field">
-          <span class="req">Carácter Académico</span>
-          <select class="control" id="cfg-mat-type">
-            <option value="Obligatoria" selected>Obligatoria</option>
-            <option value="Electiva">Electiva</option>
-            <option value="Optativa">Optativa</option>
-            <option value="Extracurricular">Extracurricular</option>
-          </select>
-        </label>
-        <label class="field">
-          <span class="req">Estado de Cursada</span>
-          <select class="control" id="cfg-mat-status">
-            <option value="Activa" selected>Activa (En curso)</option>
-            <option value="Planificación">En Planificación</option>
-            <option value="Archivada">Archivada / Finalizada</option>
-          </select>
-        </label>
-      </div>
-
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
-        <label class="field">
-          <span class="req">Comisión</span>
-          <input class="control" id="cfg-mat-comision" placeholder="Ej. Comisión 4K2" value="Comisión 4K2" required />
-        </label>
-        <label class="field">
-          <span class="req">Modalidad</span>
-          <select class="control" id="cfg-mat-modalidad">
-            <option value="Modalidad Mixta" selected>Modalidad Mixta (Híbrida)</option>
-            <option value="Presencial">Presencial</option>
-            <option value="100% Virtual">100% Virtual</option>
-          </select>
-        </label>
-      </div>
-
-      <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px;">
-        <label class="field">
-          <span class="req">Cuatrimestre</span>
-          <input class="control" id="cfg-mat-period" placeholder="Ej. 4to Cuatrimestre" value="4to Cuatrimestre" required />
-        </label>
-        <label class="field">
-          <span class="req">Fecha Inicio</span>
-          <input class="control" type="text" id="cfg-mat-from" placeholder="DD/MM/AAAA" value="01/08/2026" required />
-        </label>
-        <label class="field">
-          <span class="req">Fecha Cierre</span>
-          <input class="control" type="text" id="cfg-mat-to" placeholder="DD/MM/AAAA" value="15/12/2026" required />
-        </label>
-      </div>
-
-      <!-- Bloque de Régimen y Condiciones de Cursada -->
-      <div style="background:var(--bg-surface-alt); border:1px solid var(--border-subtle); border-radius:var(--radius-control); padding:12px 14px; display:flex; flex-direction:column; gap:8px;">
-        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
-          <span style="font-size:12.5px; font-weight:700; color:var(--text-primary); display:flex; align-items:center; gap:6px;">
-            <svg class="icon icon-xs" style="color:var(--accent-gold);"><use href="#i-trophy"/></svg>
-            Régimen Académico y Condiciones de Aprobación
-          </span>
-          <span class="badge badge-success sm">P88 · En carrera para P90</span>
-        </div>
-        <div style="font-size:12px; color:var(--text-secondary); line-height:1.5;">
-          <b>Promoción Directa:</b> Asistencia &ge; 80%, 100% de desafíos prácticos obligatorios entregados y promedio general de parciales &ge; 8 (percentil superior P90). Exime de examen final.
-        </div>
-        <div style="font-size:12px; color:var(--text-muted); line-height:1.4;">
-          <b>Régimen Regular:</b> Asistencia &ge; 75%, 100% de TPs prácticos aprobados y notas de exámenes parciales &ge; 6 para regularizar la asignatura y rendir final ordinario.
-        </div>
-      </div>
-
-      <div class="field" id="cfg-mat-invite-group" style="margin-top:2px;">
-        <span style="font-size:12px; font-weight:600; color:var(--text-muted);">Código de Invitación de Alumnos</span>
-        <div style="display:flex; align-items:center; gap:8px; margin-top:4px;">
-          <input class="control num" id="cfg-mat-invite" style="font-family:monospace; letter-spacing:1px; font-weight:700; max-width:180px;" value="KAS5ZNBRT3" readonly />
-          <button type="button" class="btn btn-secondary btn-sm" id="btn-regen-invite-code" title="Generar un nuevo código aleatorio">
-            <svg class="icon icon-sm"><use href="#i-refresh"/></svg>
-            <span>Regenerar</span>
-          </button>
-        </div>
-      </div>
-    </form>
-    <div class="modal-foot">
-      <button class="btn btn-quiet" type="button" id="btn-cancel-config-materia" onclick="$('#dialog-configurar-materia').close()">Cancelar</button>
-      <button class="btn btn-primary" type="button" id="btn-save-config-materia">
-        <svg class="icon icon-sm"><use href="#i-tick"/></svg>
-        <span>Guardar Cambios</span>
-      </button>
-    </div>
-  </div>
-</dialog>
 
 <script>
 /* ======================= data (synthetic) ======================= */
@@ -3643,8 +3577,16 @@ function ChallengeList(root) {
   root.addEventListener('click', e => { if (e.target.closest('[data-clear]')) clear(); });
   $$('.tab', root).forEach(t => t.addEventListener('click', () => selectTab(t.dataset.tab)));
   $('.tabs', root).addEventListener('keydown', e => {
-    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
-    const next = st.tab === 'todo' ? 'done' : 'todo'; selectTab(next); $(`#${uid}-${next}`).focus();
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft' && e.key !== 'Home' && e.key !== 'End') return;
+    e.preventDefault();
+    const tabs = $$('.tab', root);
+    const ids = tabs.map(t => t.dataset.tab);
+    let i = ids.indexOf(st.tab);
+    if (e.key === 'ArrowRight') i = (i + 1) % tabs.length;
+    if (e.key === 'ArrowLeft') i = (i - 1 + tabs.length) % tabs.length;
+    if (e.key === 'Home') i = 0;
+    if (e.key === 'End') i = tabs.length - 1;
+    selectTab(ids[i]); $(`#${uid}-${ids[i]}`).focus();
   });
   const api = {
     render,
@@ -3792,10 +3734,10 @@ function renderRecentCourses() {
   const courses = recentCodes.map(code => COURSES[code]).filter(Boolean);
 
   track.innerHTML = courses.map(c => `
-    <a class="recent-card" href="#curso/${c.code}" style="--course-accent:${c.themeColor};">
+    <a class="recent-card" data-course="${c.code}" href="#curso/${c.code}" style="--course-accent:${c.themeColor};">
       <div class="recent-banner ${c.bannerTheme}">
         <div class="course-banner-overlay"></div>
-        <span class="recent-banner-icon" style="color:${c.themeColor};">
+        <span class="recent-banner-icon" style="color:var(--course-accent);">
           ${icon(c.icon, 'icon icon-sm')}
         </span>
         <span class="course-badge-pill ${c.pending > 0 ? 'is-pending' : 'is-ok'}">
@@ -3808,7 +3750,7 @@ function renderRecentCourses() {
         <div class="recent-card-sub">${c.teacher}</div>
         <div class="recent-progress">
           <div class="bar" role="progressbar" aria-valuenow="${c.completedPct}" aria-valuemin="0" aria-valuemax="100">
-            <span style="width:${c.completedPct}%; background:${c.themeColor};"></span>
+            <span style="width:${c.completedPct}%; background:var(--course-accent);"></span>
           </div>
           <span class="pct">${c.completedPct}%</span>
         </div>
@@ -3938,19 +3880,20 @@ function renderStudentCourses() {
 
   if (courseViewMode === 'grid') {
     container.innerHTML = courses.map(c => `
-      <article class="card studs course-grid-card" style="--course-accent:${c.themeColor};">
-        <div class="course-banner ${c.bannerTheme}">
-          <div class="course-banner-overlay"></div>
+      <article class="card studs course-grid-card" data-course="${c.code || c.name}" style="--course-accent:${c.themeColor};">
+        <div class="course-card-head">
+          <div class="course-card-head-left">
+            <span class="course-icon-badge" style="color:var(--course-accent); background:color-mix(in srgb, var(--course-accent) 12%, var(--bg-surface-alt));">
+              ${icon(c.icon, 'icon')}
+            </span>
+            <div class="course-meta-tag">${c.period} · TUP</div>
+          </div>
           <span class="course-badge-pill ${c.pending > 0 ? 'is-pending' : 'is-ok'}">
             ${c.pending > 0 ? `${c.pending} pendiente${c.pending > 1 ? 's' : ''}` : 'Al día'}
-          </span>
-          <span class="course-icon-badge" style="color:${c.themeColor};">
-            ${icon(c.icon, 'icon')}
           </span>
         </div>
         <div class="course-card-content">
           <div class="course-card-header">
-            <div class="course-meta-tag">${c.period} · TUP</div>
             <h2 class="course-card-name" title="${c.fullName || c.name}">${c.fullName || c.name}</h2>
             <div class="course-card-teacher">${c.teacher}</div>
           </div>
@@ -3960,30 +3903,24 @@ function renderStudentCourses() {
               <span class="game-stats-pill">LVL ${c.level} · ❤️ ${c.lives}/3</span>
             </div>
             <div class="bar" role="progressbar" aria-valuenow="${c.completedPct}" aria-valuemin="0" aria-valuemax="100">
-              <span style="width:${c.completedPct}%; background:${c.themeColor};"></span>
+              <span style="width:${c.completedPct}%; background:var(--course-accent);"></span>
             </div>
           </div>
           <div class="course-card-footer">
-            <a class="btn btn-primary btn-sm" href="#curso/${c.code || c.name}">
+            <a class="btn btn-primary btn-sm course-enter-btn" href="#curso/${c.code || c.name}">
               <span class="btn-text-formal">Continuar cursada</span>
               <span class="btn-text-gamer">Entrar al Mundo</span>
               <svg class="icon icon-sm"><use href="#i-right"/></svg>
             </a>
-            <button class="btn btn-secondary btn-sm" type="button" data-open="dialog-configurar-materia" data-course-code="${c.code || c.name}" title="Ver detalle de cursada">
-              <span>Detalle</span>
-            </button>
-            <button class="icon-btn icon-btn-sm course-more-btn" type="button" title="Opciones del curso" aria-label="Opciones">
-              <svg class="icon icon-sm"><use href="#i-grip"/></svg>
-            </button>
           </div>
         </div>
       </article>
     `).join('');
   } else {
     container.innerHTML = courses.map(c => `
-      <article class="card studs course-card-distilled" style="--course-accent:${c.themeColor};">
+      <article class="card studs course-card-distilled" data-course="${c.code || c.name}" style="--course-accent:${c.themeColor};">
         <div class="course-card-brand">
-          <span class="course-card-icon" style="color:${c.themeColor}; background:${c.themeColor}18;">
+          <span class="course-card-icon" style="color:var(--course-accent); background:color-mix(in srgb, var(--course-accent) 12%, var(--bg-surface-alt));">
             ${icon(c.icon, 'icon')}
           </span>
           <div class="course-card-titles">
@@ -4006,7 +3943,7 @@ function renderStudentCourses() {
             <span class="meta">${c.completedPct}% completado</span>
           </div>
           <div class="bar" role="progressbar" aria-valuenow="${c.completedPct}" aria-valuemin="0" aria-valuemax="100">
-            <span style="width:${c.completedPct}%; background:${c.themeColor};"></span>
+            <span style="width:${c.completedPct}%; background:var(--course-accent);"></span>
           </div>
         </div>
 
@@ -4016,9 +3953,6 @@ function renderStudentCourses() {
             <span class="btn-text-gamer">Entrar al Mundo</span>
             <svg class="icon icon-sm"><use href="#i-right"/></svg>
           </a>
-          <button class="btn btn-secondary btn-sm" type="button" data-open="dialog-configurar-materia" data-course-code="${c.code || c.name}" title="Ver detalle de cursada">
-            <span>Detalle</span>
-          </button>
         </div>
       </article>
     `).join('');
@@ -4029,7 +3963,7 @@ let cohortTab = 'Activa';
 const cohortPage = { page: 1, size: 10 };
 function renderCohorts() {
   const tabs = [['Activa', 'Activas'], ['Borrador', 'Borradores'], ['Archivada', 'Archivadas'], ['', 'Todas']];
-  $('#cohort-tabs').innerHTML = tabs.map(([v, l]) => `<button class="tab" role="tab" aria-selected="${v === cohortTab}" data-cohort="${v}">${l} <span class="count num">${COHORTS.filter(c => !v || c.status === v).length}</span></button>`).join('');
+  $('#cohort-tabs').innerHTML = tabs.map(([v, l]) => `<button class="tab" role="tab" aria-selected="${v === cohortTab}" tabindex="${v === cohortTab ? '0' : '-1'}" data-cohort="${v}">${l} <span class="count num">${COHORTS.filter(c => !v || c.status === v).length}</span></button>`).join('');
   const all = COHORTS.filter(c => !cohortTab || c.status === cohortTab);
   const pages = Math.max(1, Math.ceil(all.length / cohortPage.size));
   cohortPage.page = Math.min(cohortPage.page, pages);
@@ -4411,7 +4345,7 @@ function renderCourseUnits(c, activeUnitNum = null) {
             </a>
             <div class="resource-right-actions edit-mode-control" style="display:flex; align-items:center; gap:6px;">
               <button class="btn btn-ghost btn-xs" type="button" title="Editar recurso" onclick="openInlineActivityEditor(this, 'edit', { title: 'Programa de la Materia 2026', type: 'pdf', desc: 'Programa oficial de la cursada 2026 en formato PDF.' })"><svg class="icon icon-xs"><use href="#i-panel"/></svg>Editar</button>
-              <button class="btn btn-ghost btn-xs" type="button" title="Eliminar recurso" style="color:var(--accent-danger);" onclick="if(confirm('¿Deseás eliminar este recurso?')) this.closest('.minimal-resource-card').remove();"><svg class="icon icon-xs"><use href="#i-flame"/></svg></button>
+              <button class="btn btn-ghost btn-xs" type="button" title="Eliminar recurso" aria-label="Eliminar recurso" style="color:var(--accent-danger);" onclick="if(confirm('¿Deseás eliminar este recurso?')) this.closest('.minimal-resource-card').remove();"><svg class="icon icon-xs"><use href="#i-trash"/></svg></button>
             </div>
           </div>
 
@@ -4427,7 +4361,7 @@ function renderCourseUnits(c, activeUnitNum = null) {
             </a>
             <div class="resource-right-actions edit-mode-control" style="display:flex; align-items:center; gap:6px;">
               <button class="btn btn-ghost btn-xs" type="button" title="Editar cartelera" onclick="openInlineActivityEditor(this, 'edit', { title: 'Avisos Oficiales de la Cátedra', type: 'aviso', desc: 'Canal oficial de noticias y anuncios para los estudiantes.' })"><svg class="icon icon-xs"><use href="#i-panel"/></svg>Editar</button>
-              <button class="btn btn-ghost btn-xs" type="button" title="Eliminar recurso" style="color:var(--accent-danger);" onclick="if(confirm('¿Deseás eliminar este recurso?')) this.closest('.minimal-resource-card').remove();"><svg class="icon icon-xs"><use href="#i-flame"/></svg></button>
+              <button class="btn btn-ghost btn-xs" type="button" title="Eliminar recurso" aria-label="Eliminar recurso" style="color:var(--accent-danger);" onclick="if(confirm('¿Deseás eliminar este recurso?')) this.closest('.minimal-resource-card').remove();"><svg class="icon icon-xs"><use href="#i-trash"/></svg></button>
             </div>
           </div>
 
@@ -4544,7 +4478,7 @@ function renderCourseUnits(c, activeUnitNum = null) {
               </a>
               <div class="resource-right-actions edit-mode-control" style="display:flex; align-items:center; gap:6px;">
                 <button class="btn btn-ghost btn-xs" type="button" title="Editar recurso" onclick="openInlineActivityEditor(this, 'edit', { title: '${(it.title || '').replace(/'/g, "\\'")}', type: 'pdf', desc: 'Material teórico de cátedra.' })"><svg class="icon icon-xs"><use href="#i-panel"/></svg>Editar</button>
-                <button class="btn btn-ghost btn-xs" type="button" title="Eliminar recurso" style="color:var(--accent-danger);" onclick="if(confirm('¿Deseás eliminar este recurso?')) this.closest('.minimal-resource-card').remove();"><svg class="icon icon-xs"><use href="#i-flame"/></svg></button>
+                <button class="btn btn-ghost btn-xs" type="button" title="Eliminar recurso" aria-label="Eliminar recurso" style="color:var(--accent-danger);" onclick="if(confirm('¿Deseás eliminar este recurso?')) this.closest('.minimal-resource-card').remove();"><svg class="icon icon-xs"><use href="#i-trash"/></svg></button>
               </div>
             </div>
           `).join('')}
@@ -4563,7 +4497,7 @@ function renderCourseUnits(c, activeUnitNum = null) {
               </a>
               <div class="resource-right-actions edit-mode-control" style="display:flex; align-items:center; gap:6px;">
                 <button class="btn btn-ghost btn-xs" type="button" title="Editar recurso" onclick="openInlineActivityEditor(this, 'edit', { title: '${(it.title || '').replace(/'/g, "\\'")}', type: 'guia', desc: 'Guía de ejercitación práctica.' })"><svg class="icon icon-xs"><use href="#i-panel"/></svg>Editar</button>
-                <button class="btn btn-ghost btn-xs" type="button" title="Eliminar recurso" style="color:var(--accent-danger);" onclick="if(confirm('¿Deseás eliminar este recurso?')) this.closest('.minimal-resource-card').remove();"><svg class="icon icon-xs"><use href="#i-flame"/></svg></button>
+                <button class="btn btn-ghost btn-xs" type="button" title="Eliminar recurso" aria-label="Eliminar recurso" style="color:var(--accent-danger);" onclick="if(confirm('¿Deseás eliminar este recurso?')) this.closest('.minimal-resource-card').remove();"><svg class="icon icon-xs"><use href="#i-trash"/></svg></button>
               </div>
             </div>
           `).join('')}
@@ -4584,7 +4518,7 @@ function renderCourseUnits(c, activeUnitNum = null) {
               </a>
               <div class="resource-right-actions edit-mode-control" style="display:flex; align-items:center; gap:6px;">
                 <button class="btn btn-ghost btn-xs" type="button" title="Editar desafío" onclick="openInlineActivityEditor(this, 'edit', { title: '${(ch.title || '').replace(/'/g, "\\'")}', type: 'tp', desc: 'Desafío y trabajo práctico evaluable.' })"><svg class="icon icon-xs"><use href="#i-panel"/></svg>Editar</button>
-                <button class="btn btn-ghost btn-xs" type="button" title="Eliminar desafío" style="color:var(--accent-danger);" onclick="if(confirm('¿Deseás eliminar este desafío?')) this.closest('.minimal-resource-card').remove();"><svg class="icon icon-xs"><use href="#i-flame"/></svg></button>
+                <button class="btn btn-ghost btn-xs" type="button" title="Eliminar desafío" aria-label="Eliminar desafío" style="color:var(--accent-danger);" onclick="if(confirm('¿Deseás eliminar este desafío?')) this.closest('.minimal-resource-card').remove();"><svg class="icon icon-xs"><use href="#i-trash"/></svg></button>
               </div>
             </div>
           `).join('')}
@@ -4616,8 +4550,8 @@ function renderCourseUnits(c, activeUnitNum = null) {
             <button class="btn btn-ghost btn-xs edit-mode-control" type="button" title="Editar sección" onclick="event.stopPropagation(); showToast('Editando sección personalizada', 'info', 'i-pencil')">
               <svg class="icon icon-xs"><use href="#i-panel"/></svg>Editar
             </button>
-            <button class="btn btn-ghost btn-xs edit-mode-control" type="button" title="Eliminar sección" style="color:var(--accent-danger);" onclick="event.stopPropagation(); if(confirm('¿Eliminar esta sección personalizada?')) this.closest('.minimal-section-card').remove();">
-              <svg class="icon icon-xs"><use href="#i-flame"/></svg>
+            <button class="btn btn-ghost btn-xs edit-mode-control" type="button" title="Eliminar sección" aria-label="Eliminar sección" style="color:var(--accent-danger);" onclick="event.stopPropagation(); if(confirm('¿Eliminar esta sección personalizada?')) this.closest('.minimal-section-card').remove();">
+              <svg class="icon icon-xs"><use href="#i-trash"/></svg>
             </button>
             <svg class="minimal-section-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
           </div>
@@ -4662,7 +4596,10 @@ function renderCourseUnits(c, activeUnitNum = null) {
 
 function fillCourseDetail(name, activeUnitNum = null) {
   const c = findCourse(name);
+  currentCourse = c;
   $$('[data-course-name]').forEach(el => el.textContent = c.name);
+  const courseCrumbLink = $('#materia-breadcrumb-course-link');
+  if (courseCrumbLink && c.code) courseCrumbLink.href = `#curso/${c.code}`;
 
   // Hero Tag
   $$('.v3-hero-tag span').forEach(el => {
@@ -4706,6 +4643,7 @@ function fillCourseDetail(name, activeUnitNum = null) {
     l.setUnit(activeUnitNum);
   });
   $$('[data-catalog]').forEach((el, i) => { if (el.hasAttribute('data-locked-course')) catalogInstances[i]?.setCourse(c.code || c.name); });
+  updateCursoCrumbs();
 }
 
 // Delegación de clics para el acordeón modular de la materia
@@ -5920,111 +5858,6 @@ document.addEventListener('click', e => {
   }
 });
 
-/* 5b. Configuración de Materia & Cohorte (Editable / Configurable) */
-let activeConfigCourse = null;
-
-document.addEventListener('click', e => {
-  const cfgBtn = e.target.closest('[data-open="dialog-configurar-materia"]');
-  if (cfgBtn) {
-    const courseCodeFromBtn = cfgBtn.dataset.courseCode;
-    const cleanHash = location.hash.split('?')[0];
-    const cName = courseCodeFromBtn || (cleanHash.startsWith('#curso/') ? cleanHash.split('/')[1] : 'MSI');
-    const c = findCourse(cName) || COURSES.MSI;
-    activeConfigCourse = c;
-
-    const isStudent = (currentRole === 'alumno');
-    const titleEl = $('#h-cfg-mat-title');
-    const subEl = $('#h-cfg-mat-sub');
-    const saveBtn = $('#btn-save-config-materia');
-    const regenBtn = $('#btn-regen-invite-code');
-    const cancelBtn = $('#btn-cancel-config-materia');
-
-    if (titleEl) {
-      titleEl.textContent = isStudent ? 'DETALLE DE CURSADA' : 'CONFIGURAR MATERIA & COHORTE';
-    }
-    if (subEl) {
-      subEl.textContent = isStudent
-        ? 'Información oficial de la asignatura, fechas de cursada y condiciones académicas.'
-        : 'Modificá el nombre, régimen académico, fechas y parámetros de la cursada.';
-    }
-    if (saveBtn) {
-      saveBtn.style.display = isStudent ? 'none' : 'inline-flex';
-    }
-    if (regenBtn) {
-      regenBtn.style.display = isStudent ? 'none' : 'inline-flex';
-    }
-    if (cancelBtn) {
-      cancelBtn.textContent = isStudent ? 'Cerrar' : 'Cancelar';
-    }
-
-    const fields = [
-      '#cfg-mat-name', '#cfg-mat-code', '#cfg-mat-type', '#cfg-mat-status',
-      '#cfg-mat-comision', '#cfg-mat-modalidad', '#cfg-mat-period',
-      '#cfg-mat-from', '#cfg-mat-to'
-    ];
-    fields.forEach(sel => {
-      const el = $(sel);
-      if (el) el.disabled = isStudent;
-    });
-
-    if (c) {
-      if ($('#cfg-mat-name')) $('#cfg-mat-name').value = c.name || '';
-      if ($('#cfg-mat-code')) $('#cfg-mat-code').value = c.code || '';
-      if ($('#cfg-mat-type')) $('#cfg-mat-type').value = c.type || 'Obligatoria';
-      if ($('#cfg-mat-status')) $('#cfg-mat-status').value = c.status || 'Activa';
-      if ($('#cfg-mat-comision')) $('#cfg-mat-comision').value = c.comision || 'Comisión 4K2';
-      if ($('#cfg-mat-modalidad')) $('#cfg-mat-modalidad').value = c.modalidad || 'Modalidad Mixta';
-      if ($('#cfg-mat-period')) $('#cfg-mat-period').value = c.period || '4to Cuatrimestre';
-      if ($('#cfg-mat-from')) $('#cfg-mat-from').value = c.from || '01/08/2026';
-      if ($('#cfg-mat-to')) $('#cfg-mat-to').value = c.to || '15/12/2026';
-      if ($('#cfg-mat-invite')) $('#cfg-mat-invite').value = c.inviteCode || 'KAS5ZNBRT3';
-    }
-
-    const dlg = $('#dialog-configurar-materia');
-    if (dlg && !dlg.open) {
-      if (typeof dlg.showModal === 'function') dlg.showModal();
-      else dlg.setAttribute('open', '');
-    }
-  }
-});
-
-$('#btn-regen-invite-code')?.addEventListener('click', () => {
-  const newCode = Math.random().toString(36).substring(2, 10).toUpperCase();
-  const inp = $('#cfg-mat-invite');
-  if (inp) {
-    inp.value = newCode;
-    showToast(`Nuevo código generado: ${newCode}`, 'info', 'i-refresh');
-  }
-});
-
-$('#btn-save-config-materia')?.addEventListener('click', () => {
-  const c = activeConfigCourse || COURSES.MSI;
-  if (!c) return;
-
-  const newName = $('#cfg-mat-name')?.value.trim();
-  if (!newName) {
-    $('#cfg-mat-name')?.focus();
-    return;
-  }
-
-  c.name = newName;
-  c.code = $('#cfg-mat-code')?.value.trim() || c.code;
-  c.type = $('#cfg-mat-type')?.value || 'Obligatoria';
-  c.status = $('#cfg-mat-status')?.value || 'Activa';
-  c.comision = $('#cfg-mat-comision')?.value.trim() || 'Comisión 4K2';
-  c.modalidad = $('#cfg-mat-modalidad')?.value || 'Modalidad Mixta';
-  c.period = $('#cfg-mat-period')?.value.trim() || '4to Cuatrimestre';
-  c.from = $('#cfg-mat-from')?.value.trim() || '01/08/2026';
-  c.to = $('#cfg-mat-to')?.value.trim() || '15/12/2026';
-  c.inviteCode = $('#cfg-mat-invite')?.value.trim() || 'KAS5ZNBRT3';
-
-  // Actualizar la vista en vivo inmediatamente
-  fillCourseDetail(c.name);
-
-  // Cerrar el modal y feedback
-  $('#dialog-configurar-materia')?.close();
-  showToast(`Configuración de ${c.name} actualizada correctamente.`, 'success', 'i-tick');
-});
 
 /* 6. Editor Inline de Actividad / Recurso (Configuración de la actividad debajo de la sección) */
 window.createActivityEditorCard = function(mode = 'add', initialData = {}, opts = {}) {
@@ -6296,8 +6129,8 @@ function resourceCardInnerHTML(data) {
       <button class="btn btn-ghost btn-xs" type="button" title="Editar recurso" onclick="openInlineActivityEditor(this, 'edit', ${editData})">
         <svg class="icon icon-xs"><use href="#i-panel"/></svg>Editar
       </button>
-      <button class="btn btn-ghost btn-xs" type="button" title="Eliminar recurso" style="color:var(--accent-danger);" onclick="if(confirm('¿Deseás eliminar este recurso?')) this.closest('.minimal-resource-card').remove();">
-        <svg class="icon icon-xs"><use href="#i-flame"/></svg>
+      <button class="btn btn-ghost btn-xs" type="button" title="Eliminar recurso" aria-label="Eliminar recurso" style="color:var(--accent-danger);" onclick="if(confirm('¿Deseás eliminar este recurso?')) this.closest('.minimal-resource-card').remove();">
+        <svg class="icon icon-xs"><use href="#i-trash"/></svg>
       </button>
     </div>`;
 }
@@ -6964,7 +6797,9 @@ function selectSubtab(t) {
   const tabs = group ? $$(`[data-tabgroup="${group}"] [data-subtab]`, scope) : $$('[data-subtab]', scope);
   tabs.forEach(b => {
     const isSel = (b === t);
-    b.setAttribute('aria-selected', String(isSel));
+    // menuitemradio del dropdown usa aria-checked; tabs reales usan aria-selected
+    if (b.getAttribute('role') === 'menuitemradio') b.setAttribute('aria-checked', String(isSel));
+    else b.setAttribute('aria-selected', String(isSel));
     b.classList.toggle('is-selected', isSel);
   });
   const panels = group ? $$(`[data-subpanel][data-group="${group}"], [data-subpanel][data-group="${group}-actions"]`, scope) : $$('[data-subpanel]', scope);
@@ -6980,6 +6815,7 @@ function selectSubtab(t) {
     if (iconEl && itemSvg) iconEl.innerHTML = itemSvg.outerHTML;
     setCohortViewMenu(false);
   }
+  if (t.closest('#screen-curso')) updateCursoCrumbs();
 }
 document.addEventListener('click', e => {
   const g = e.target.closest('[data-goto]'); if (!g) return;
@@ -6987,6 +6823,60 @@ document.addEventListener('click', e => {
   selectSubtab($(`[data-subtab="${g.dataset.goto}"]`, scope));
   if (g.dataset.gotoPill) selectSubtab($(`[data-subtab="${g.dataset.gotoPill}"]`, scope));
 });
+/* Fix a11y: [role=menuitem][aria-selected] es invalido. Los items del dropdown
+   que conmutan vista son menuitemradio con aria-checked. + teclado global tabs. */
+(function fixTabsA11y(){
+  document.querySelectorAll('#cohort-view-menu [role="menuitem"][data-subtab]').forEach(b => {
+    b.setAttribute('role', 'menuitemradio');
+    const sel = b.getAttribute('aria-selected');
+    if (sel !== null){ b.setAttribute('aria-checked', sel); b.removeAttribute('aria-selected'); }
+    else if (!b.hasAttribute('aria-checked')) b.setAttribute('aria-checked', b.classList.contains('is-selected') ? 'true' : 'false');
+  });
+  // Roving tabindex inicial para tablists estaticas
+  document.querySelectorAll('[role="tablist"]').forEach(list => {
+    const tabs = Array.from(list.querySelectorAll('[role="tab"]'));
+    const anySel = tabs.some(t => t.getAttribute('aria-selected') === 'true');
+    tabs.forEach((t, i) => { if (!t.hasAttribute('tabindex')) t.tabIndex = (anySel ? t.getAttribute('aria-selected') !== 'true' : i !== 0) ? -1 : 0; });
+  });
+  // Teclado: flechas + Home/End en cualquier tablist (shop, cohort, cat, acc, curso...)
+  document.querySelectorAll('[role="tablist"]').forEach(list => {
+    if (list.dataset.kbBound) return;
+    list.dataset.kbBound = '1';
+    list.addEventListener('keydown', e => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft' && e.key !== 'Home' && e.key !== 'End') return;
+      e.preventDefault();
+      const tabs = Array.from(list.querySelectorAll('[role="tab"], [role="menuitemradio"]'));
+      if (!tabs.length) return;
+      let i = tabs.indexOf(document.activeElement);
+      if (i < 0) i = Math.max(0, tabs.findIndex(t => t.getAttribute('aria-selected') === 'true' || t.getAttribute('aria-checked') === 'true'));
+      let n = i;
+      if (e.key === 'ArrowRight') n = (i + 1) % tabs.length;
+      if (e.key === 'ArrowLeft') n = (i - 1 + tabs.length) % tabs.length;
+      if (e.key === 'Home') n = 0;
+      if (e.key === 'End') n = tabs.length - 1;
+      tabs[n].focus();
+      tabs[n].click();
+    });
+  });
+  // Teclado en el menu dropdown (flechas arriba/abajo segun patron menu)
+  const menu = document.getElementById('cohort-view-menu');
+  if (menu && !menu.dataset.kbBound){
+    menu.dataset.kbBound = '1';
+    menu.addEventListener('keydown', e => {
+      if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp' && e.key !== 'Home' && e.key !== 'End') return;
+      e.preventDefault();
+      const items = Array.from(menu.querySelectorAll('[role="menuitemradio"], [role="menuitem"]'));
+      let i = items.indexOf(document.activeElement);
+      if (i < 0) i = 0;
+      let n = i;
+      if (e.key === 'ArrowDown') n = (i + 1) % items.length;
+      if (e.key === 'ArrowUp') n = (i - 1 + items.length) % items.length;
+      if (e.key === 'Home') n = 0;
+      if (e.key === 'End') n = items.length - 1;
+      items[n].focus();
+    });
+  }
+})();
 
 /* ======================= cohort view dropdown ======================= */
 function setCohortViewMenu(open) {
@@ -7666,7 +7556,11 @@ function renderShop() {
   $('#shop-pager').innerHTML = rows.length > shop.size ? pagerHTML(shop.page, shop.size, rows.length, 'recompensas') : '';
 }
 function selectShopTab(tab) {
-  $$('#shop-tabs [data-shop-tab]').forEach(b => b.setAttribute('aria-selected', String(b.dataset.shopTab === tab)));
+  $$('#shop-tabs [data-shop-tab]').forEach(b => {
+    const sel = b.dataset.shopTab === tab;
+    b.setAttribute('aria-selected', String(sel));
+    b.tabIndex = sel ? 0 : -1;
+  });
   ['vitrina', 'subastas', 'metas'].forEach(k => $('#shop-' + k).hidden = k !== tab);
 }
 $('#shop-tabs').addEventListener('click', e => { const b = e.target.closest('[data-shop-tab]'); if (b) selectShopTab(b.dataset.shopTab); });
@@ -7775,7 +7669,7 @@ const dayLabel = d => { const n = Math.round((TODAY - parse(d)) / 864e5); return
 
 function renderWallet() {
   const c = COURSES[walCode] || COURSES.ProgIV, coins = STUDENT_COINS[walCode] || 0;
-  $('#wal-tabs').innerHTML = STUDENT_SHOPS.map(k => `<button class="tab" role="tab" type="button" aria-selected="${k === walCode}" data-wal="${k}">${COURSES[k].name}</button>`).join('');
+  $('#wal-tabs').innerHTML = STUDENT_SHOPS.map(k => `<button class="tab" role="tab" type="button" aria-selected="${k === walCode}" tabindex="${k === walCode ? '0' : '-1'}" data-wal="${k}">${COURSES[k].name}</button>`).join('');
   const lifeItems = invOf(walCode).filter(i => i.type === 'life').reduce((n, i) => n + freeQty(walCode, i), 0);
   const recent = (MOVES[walCode] || []).filter(m => (TODAY - parse(m.d)) / 864e5 <= 7).reduce((n, m) => n + (m.coins || 0), 0);
   $('#wal-stats').innerHTML = `
@@ -7859,7 +7753,7 @@ let bagPick = null;
 const poolQ = { q: '' };
 function renderInventory() {
   const code = walCode, items = invOf(code), eq = equipOf(code), c = COURSES[code] || COURSES.ProgIV;
-  $('#inv-tabs').innerHTML = STUDENT_SHOPS.map(k => `<button class="tab" role="tab" type="button" aria-selected="${k === code}" data-inv="${k}">${COURSES[k].name}</button>`).join('');
+  $('#inv-tabs').innerHTML = STUDENT_SHOPS.map(k => `<button class="tab" role="tab" type="button" aria-selected="${k === code}" tabindex="${k === code ? '0' : '-1'}" data-inv="${k}">${COURSES[k].name}</button>`).join('');
   const pc = avatarState.pack;
   $('#inv-backpack').innerHTML = pixel(BACKPACK, { a: pc, b: shade(pc, 55), c: tint(pc, 70), d: shade(pc, 75) }, `Mochila de ${USERS.alumno.name}`);
   $('#h-bag').textContent = `Maleta de ${c.name}`;
@@ -8106,6 +8000,7 @@ const SUBMENUS = {
 
 let currentRole = 'alumno', currentScreen = 'dashboard';
 let subpanelClosedByUser = false;
+let subpanelNavFromPanel = false;
 
 function openSubpanel(navId = null) {
   const shell = $('.shell');
@@ -8228,7 +8123,7 @@ function buildCourseSubpanelHTML(cObj, hashFull) {
       <div style="display:flex; align-items:center; justify-content:space-between; padding:2px 6px 6px;">
         <span class="subpanel-section-label" style="padding:0; font-size:11.5px; font-weight:700; color:var(--text-secondary); letter-spacing:0.06em;">SECCIONES DEL CURSO</span>
         ${currentRole !== 'alumno' ? `
-        <button type="button" class="icon-btn xs" onclick="const p = $('#inline-section-creator-subpanel'); if (p) { p.style.display = 'flex'; $('#input-subpanel-sec-name')?.focus(); } else { const m = $('#inline-section-creator'); if(m) { m.style.display = 'flex'; $('#input-inline-sec-name')?.focus(); } }" title="Crear nueva sección en esta materia" style="width:20px; height:20px; border-radius:var(--radius-control); display:flex; align-items:center; justify-content:center; border:1px solid var(--border-subtle); background:transparent; cursor:pointer;" aria-label="Nueva sección">
+        <button type="button" class="icon-btn sm" onclick="const p = $('#inline-section-creator-subpanel'); if (p) { p.style.display = 'flex'; $('#input-subpanel-sec-name')?.focus(); } else { const m = $('#inline-section-creator'); if(m) { m.style.display = 'flex'; $('#input-inline-sec-name')?.focus(); } }" title="Crear nueva sección en esta materia" style="width:20px; height:20px; border-radius:var(--radius-control); display:flex; align-items:center; justify-content:center; border:1px solid var(--border-subtle); background:transparent; cursor:pointer;" aria-label="Nueva sección">
           <svg class="icon icon-xs"><use href="#i-plus"/></svg>
         </button>` : ''}
       </div>
@@ -8390,7 +8285,12 @@ function updateSubpanel(navId, hashFull, forceOpen = false) {
     if (bodyEl) {
       bodyEl.innerHTML = buildCourseSubpanelHTML(cObj, hashFull);
     }
-    openSubpanel('cursos');
+    // Al abrir una materia el temario queda cerrado por defecto; solo se abre
+    // con el toggle (Temario del Curso) o navegando desde el propio sub-panel.
+    const keepOpen = forceOpen || subpanelNavFromPanel;
+    subpanelNavFromPanel = false;
+    if (keepOpen) openSubpanel('cursos');
+    else closeSubpanel(false);
     return;
   }
 
@@ -8606,6 +8506,196 @@ function applyError(el) {
   head.insertAdjacentHTML('afterend', `<div class="alert load-error" role="alert">${icon('i-alert')}<div><div class="alert-title">No se pudo sincronizar esta página</div><div class="alert-body">${el.dataset.error} Se muestra la copia guardada en caché local (modo sólo lectura).</div></div><button class="btn btn-ghost" type="button" onclick="document.getElementById('sim-error').checked=false; route()">${icon('i-refresh', 'icon icon-sm')}Reintentar conexión</button></div>`);
 }
 
+/* ======================= breadcrumbs UI kit (.campus-breadcrumb) =======================
+   Canon visual: css/screens.css (MIGA DE PAN), demo en #screen-uikit.
+   renderBreadcrumb() re-renderiza el nav de la pantalla activa en cada route(),
+   al cambiar de subtab dentro de #screen-curso y al completar fillCourseDetail().
+   Solo tokens del kit; prohibido crear .breadcrumb/.crumb paralelos. */
+const CRUMB_HOME = {
+  alumno: { id: 'dashboard', label: 'Inicio', href: '#dashboard' },
+  profesor: { id: 'cursos', label: 'Cursos', href: '#cursos' },
+  admin: { id: 'backoffice', label: 'Backoffice', href: '#backoffice' },
+};
+const CRUMB_SKIP = new Set(['login', 'pending', 'uikit']);
+const escCrumb = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+function crumbSepHTML() {
+  return `<li aria-hidden="true"><span class="sep">${icon('i-chevron', 'icon icon-xs')}</span></li>`;
+}
+function crumbOlHTML(trail) {
+  return trail.map((c, i) => {
+    const last = i === trail.length - 1;
+    const label = escCrumb(c.label);
+    if (!last && c.href) {
+      const homeIcon = (i === 0 && c.home) ? icon('i-home', 'icon icon-sm icon-home') : '';
+      return `<li><a href="${c.href}">${homeIcon}<span>${label}</span></a></li>`;
+    }
+    if (!last) return `<li><span>${label}</span></li>`;
+    const idAttr = c.id ? ` id="${c.id}"` : '';
+    return `<li><span class="current"${idAttr} aria-current="page">${label}</span></li>`;
+  }).join(crumbSepHTML());
+}
+function crumbCourse() {
+  let code = 'MSI';
+  try { code = decodeURIComponent((window.currentCourse && currentCourse.code) || 'MSI'); } catch { code = 'MSI'; }
+  let name = code;
+  try { name = findCourse(code).name || code; } catch { name = code; }
+  return { code, name, href: '#curso/' + encodeURIComponent(code) };
+}
+function breadcrumbTrail(id, arg) {
+  const role = currentRole;
+  const home = CRUMB_HOME[role] || CRUMB_HOME.alumno;
+  const H = { ...home, home: true };
+  const L = (label, href) => ({ label, href });
+  const C = (label) => ({ label, current: true });
+  const alias = id === 'contabilidad' ? 'banco' : id;
+  const cc = crumbCourse();
+  const courseArg = (() => { try { return decodeURIComponent(arg || cc.code); } catch { return cc.code; } })();
+  const courseName = (() => { try { return findCourse(courseArg).name || courseArg; } catch { return courseArg; } })();
+  const courseHref = '#curso/' + encodeURIComponent(courseArg);
+  switch (alias) {
+    case 'dashboard': return home.id === 'dashboard' ? [C(home.label)] : [H, C('Inicio')];
+    case 'cursos':
+      if (role === 'alumno') return [H, C('Mis Cursos')];
+      if (role === 'profesor') return [C('Cursos')];
+      return [H, C('Cursos')];
+    case 'desafios':
+      if (role === 'profesor') return [C('Desafíos')];
+      return [H, C('Desafíos')];
+    case 'quiz': return [H, L('Desafíos', '#desafios'), L(courseName, courseHref), C('Tipado y protocolos')];
+    case 'ranking':
+      if (role === 'profesor') return [L('Desafíos', '#desafios'), C('Ranking')];
+      return [H, L('Desafíos', '#desafios'), C('Ranking')];
+    case 'insignias':
+      if (role === 'profesor') return [L('Desafíos', '#desafios'), L('Ranking', '#ranking'), C('Insignias')];
+      return [H, L('Ranking', '#ranking'), C('Insignias')];
+    case 'roadmap': return [L('Cursos', '#cursos'), C('Roadmap')];
+    case 'banco': return role === 'alumno' ? [H, C('Economía')] : [C('Banco & Finanzas')];
+    case 'marketplace': return role === 'alumno' ? [H, L('Economía', '#banco'), C('Mercado')] : [L('Economía', '#banco'), C('Mercado')];
+    case 'mercado': {
+      const items = [L('Economía', '#banco'), L('Mercado', '#marketplace'), C(courseName)];
+      return role === 'alumno' ? [H, ...items] : items;
+    }
+    case 'inventario': {
+      const items = [L('Economía', '#banco'), C('Equipar ítems')];
+      return role === 'alumno' ? [H, ...items] : items;
+    }
+    case 'personaje': return role === 'alumno' ? [H, C('Personaje')] : [C('Personaje')];
+    case 'encuestas': return role === 'alumno' ? [H, C('Encuestas')] : [C('Encuestas')];
+    case 'perfil': return role === 'alumno' ? [H, C('Mi perfil')] : [C('Mi perfil')];
+    case 'backoffice': return [C('Backoffice')];
+    case 'accesos': return [L('Backoffice', '#backoffice'), C('Accesos')];
+    case 'vitrinas': return role === 'admin' ? [H, C('Vitrinas')] : [C('Vitrinas')];
+    case 'vitrina': return [L('Vitrinas', '#vitrinas'), C('Catálogo ' + courseArg)];
+    case 'oferta-nueva': {
+      let vcode = courseArg;
+      try { vcode = decodeURIComponent(arg || (typeof vitCode !== 'undefined' && vitCode) || courseArg); } catch { vcode = courseArg; }
+      return [L('Vitrinas', '#vitrinas'), L('Catálogo ' + vcode, '#vitrina/' + encodeURIComponent(vcode)), C('Publicar oferta')];
+    }
+    case 'actividad-editar': return [L('Cursos', '#cursos'), L(cc.name, cc.href), C('Configurar actividad')];
+    case 'cuestionario-nuevo': return [L('Desafíos', '#desafios'), C('Nuevo cuestionario')];
+    default: return null;
+  }
+}
+function ensureBreadcrumbNav(section) {
+  if (!section || section.id === 'screen-curso') return null;
+  let nav = Array.from(section.children).find(el => el.classList && el.classList.contains('campus-breadcrumb'));
+  if (!nav) {
+    nav = document.createElement('nav');
+    nav.className = 'campus-breadcrumb';
+    nav.setAttribute('data-breadcrumb', 'auto');
+    nav.innerHTML = '<ol></ol>';
+    section.insertBefore(nav, section.firstChild);
+  } else if (!nav.hasAttribute('data-breadcrumb')) {
+    nav.setAttribute('data-breadcrumb', 'static');
+  }
+  return nav;
+}
+function paintBreadcrumbNav(nav, trail) {
+  const ol = nav.querySelector('ol') || nav.querySelector('ul');
+  if (!ol || !trail || !trail.length) return;
+  ol.innerHTML = crumbOlHTML(trail);
+  const current = trail[trail.length - 1];
+  nav.setAttribute('aria-label', current ? 'Miga de pan: ' + current.label : 'Miga de pan');
+}
+function cursoSubtabLabel() {
+  const mapSubtab = {
+    'c-general': 'Contenidos de la cursada',
+    'c-secciones': 'Secciones',
+    'c-padron': 'Padrón de Alumnos',
+    'c-solicitudes': 'Solicitudes Pendientes',
+    'c-asistencias': 'Asistencias',
+    'c-calificaciones': 'Calificaciones',
+    'c-config': 'Configuración',
+  };
+  const selected = document.querySelector('#screen-curso #cohort-view-dropdown [data-subtab][aria-selected="true"]')
+    || document.querySelector('#screen-curso [data-tabgroup="curso"] [data-subtab].is-selected');
+  if (selected && mapSubtab[selected.dataset.subtab]) return mapSubtab[selected.dataset.subtab];
+  const legacy = document.querySelector('#screen-curso [data-mat-tab].active');
+  const legacyMap = { desafios: 'Desafíos & Entregas', estado: 'Mi Estado & Promoción', material: 'Material & Bibliografía' };
+  if (legacy && legacyMap[legacy.dataset.matTab]) return legacyMap[legacy.dataset.matTab];
+  return 'Contenidos de la cursada';
+}
+function updateCursoCrumbs() {
+  const section = $('#screen-curso');
+  if (!section) return;
+  const cc = crumbCourse();
+  const home = CRUMB_HOME[currentRole] || CRUMB_HOME.alumno;
+  const subtab = cursoSubtabLabel();
+  const studentNav = section.querySelector('[data-alumno-only] nav.campus-breadcrumb') || $('#materia-breadcrumb-active')?.closest('nav.campus-breadcrumb') || $('#materia-breadcrumb-course-link')?.closest('nav.campus-breadcrumb');
+  const staffBars = section.querySelectorAll('[data-staff-only]');
+  const staffNav = section.querySelector('.course-staff-breadcrumb-bar nav.campus-breadcrumb') || section.querySelector('.course-admin-topbar nav.campus-breadcrumb');
+  const studentWrap = studentNav ? (studentNav.closest('[data-alumno-only]') || studentNav) : null;
+  if (currentRole === 'alumno') {
+    if (studentWrap) studentWrap.hidden = false;
+    staffBars.forEach(b => { b.hidden = true; });
+  } else {
+    if (studentWrap) studentWrap.hidden = true;
+    staffBars.forEach(b => { b.hidden = false; });
+  }
+  if (studentNav) {
+    const trail = currentRole === 'alumno'
+      ? [{ ...home, home: true }, { label: 'Mis Cursos', href: '#cursos' }, { label: cc.name, href: cc.href, current: true, id: 'materia-breadcrumb-course-link' }]
+      : [{ label: 'Cursos', href: '#cursos', home: true }, { label: cc.name, href: cc.href, current: true, id: 'materia-breadcrumb-course-link' }];
+    paintBreadcrumbNav(studentNav, trail);
+  }
+  if (staffNav && staffNav !== studentNav) {
+    const staffTrail = currentRole === 'admin'
+      ? [{ ...home, home: true }, { label: 'Cursos', href: '#cursos' }, { label: cc.name, href: cc.href, current: true }]
+      : [{ label: 'Cursos', href: '#cursos', home: true }, { label: cc.name, href: cc.href, current: true }];
+    paintBreadcrumbNav(staffNav, staffTrail);
+  }
+}
+function renderBreadcrumb(fullHash) {
+  const hash = typeof fullHash === 'string' ? fullHash : (location.hash.slice(1) || '');
+  const [routePath] = hash.split('?');
+  const [id, arg] = (routePath || '').split('/');
+  if (!id || CRUMB_SKIP.has(id)) return;
+  if (id === 'curso') { updateCursoCrumbs(); return; }
+  const trail = breadcrumbTrail(id, arg);
+  const section = screenEl(id);
+  if (!section) return;
+
+  const existingNav = Array.from(section.children).find(el => el.classList && el.classList.contains('campus-breadcrumb'));
+  // Suprimir miga si tiene menos de 2 elementos (pantalla raíz como Inicio o Cursos/Desafíos docentes)
+  if (!trail || trail.length < 2) {
+    if (existingNav) {
+      if (existingNav.getAttribute('data-breadcrumb') === 'auto') {
+        existingNav.remove();
+      } else {
+        existingNav.hidden = true;
+      }
+    }
+    return;
+  }
+
+  if (existingNav) existingNav.hidden = false;
+  const nav = ensureBreadcrumbNav(section);
+  if (nav) {
+    nav.hidden = false;
+    paintBreadcrumbNav(nav, trail);
+  }
+}
+
 function route() {
   const defaultScreen = currentRole === 'alumno' ? 'dashboard' : 'desafios';
   const fullHash = location.hash.slice(1) || defaultScreen;
@@ -8676,6 +8766,7 @@ function route() {
   el.hidden = false;
   el.style.animation = 'none'; el.offsetHeight; el.style.animation = '';
   applyError(el);
+  renderBreadcrumb(fullHash);
   window.scrollTo(0, 0);
 
   // Visibilidad del widget flotante de Tutor IA en cursos y desafíos (exclusivo de rol alumno)
@@ -8748,8 +8839,9 @@ document.addEventListener('click', e => {
 $('#subpanel')?.addEventListener('click', e => {
   const item = e.target.closest('.subpanel-item');
   if (!item) return;
-  // Permitir la navegación fluida
+  // Permitir la navegación fluida manteniendo el temario abierto
   subpanelClosedByUser = false;
+  subpanelNavFromPanel = true;
 });
 
 /* Click-outside: si el sub-panel fue abierto como menú desplegable desde otra sección (ej. desde el inicio),
@@ -8863,7 +8955,7 @@ function setFont(f) {
   $$('[data-font-btn]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.fontBtn === f)));
 }
 function setRole(r) {
-  currentRole = r; root.dataset.role = r; store.set('tpi-role', r);
+  currentRole = r; root.dataset.role = r; if (document.body) document.body.dataset.role = r; store.set('tpi-role', r);
   $$('[data-role-btn]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.roleBtn === r)));
   renderNav(); renderProfile();
   const allowed = [...NAV_TABS[r].map(i => i[0]), ...ACCOUNT_SCREENS[r], 'uikit', 'login'];
@@ -8904,9 +8996,25 @@ $('#courses-filter-status')?.addEventListener('change', e => {
   courseFilterStatus = e.target.value;
   renderStudentCourses();
 });
-$('#courses-search-input')?.addEventListener('input', e => {
-  courseSearchQuery = e.target.value;
-  renderStudentCourses();
+const courseSearchInp = $('#courses-search-input');
+const courseSearchClr = $('#courses-search-clear');
+if (courseSearchInp) {
+  courseSearchInp.addEventListener('input', e => {
+    courseSearchQuery = e.target.value;
+    if (courseSearchClr) {
+      courseSearchClr.style.display = courseSearchQuery ? 'inline-flex' : 'none';
+    }
+    renderStudentCourses();
+  });
+}
+courseSearchClr?.addEventListener('click', () => {
+  if (courseSearchInp) {
+    courseSearchInp.value = '';
+    courseSearchQuery = '';
+    courseSearchClr.style.display = 'none';
+    renderStudentCourses();
+    courseSearchInp.focus();
+  }
 });
 $('#courses-sort-select')?.addEventListener('change', e => {
   courseSortMode = e.target.value;
