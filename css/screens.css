@@ -1333,7 +1333,11 @@ select.control.sm option {
 .course-grid[data-view="list"] .cohort-card .course-foot { margin:0; padding:0; border:0; justify-content:flex-end; gap:16px; }
 [data-skin='gamer'] .course-grid[data-view="list"] .cohort-card h2 { font-size:var(--fs-h3-px); }
 #cohort-pager { margin-top:18px; }
-.cohort-ro { font-size:var(--fs-small); display:inline-flex; gap:6px; align-items:center; }
+/* Formularios con validación al salir del campo: el asterisco es neutro y se pone rojo recién cuando hay error */
+#form-desafio .req::after, #screen-cuestionario-nuevo-profesor .req::after { color:var(--text-muted); }
+#form-desafio .field:has(.control[aria-invalid='true']) .req::after,
+#screen-cuestionario-nuevo-profesor .field:has(.control[aria-invalid='true']) .req::after,
+#form-desafio .field:has(.control[aria-invalid='true']) > .hint { color:var(--urgent); }.cohort-ro { font-size:var(--fs-small); display:inline-flex; gap:6px; align-items:center; }
 .course-sub { font-size:var(--fs-small); color:var(--text-muted); margin-top:4px; }
 dl.facts { margin:0; display:grid; grid-template-columns:auto 1fr; gap:8px 14px; font-size:var(--fs-ui); }
 dl.facts dt { color:var(--text-muted); display:flex; align-items:center; gap:6px; }
@@ -1625,10 +1629,6 @@ tr.zone.risk td { color:var(--urgent); }
 .students-summary:focus-visible { outline:3px solid var(--focus-glow); outline-offset:4px; border-radius:var(--radius-control); }
 
 /* Paginado */
-.st-pager { display:flex; align-items:center; justify-content:space-between; gap:12px 20px; flex-wrap:wrap; margin-top:14px; font-size:var(--fs-small); color:var(--text-muted); }
-.st-size { display:inline-flex; align-items:center; gap:8px; }
-.st-size select { width:auto; min-width:72px; }
-.st-pager-btns { display:inline-flex; align-items:center; gap:8px; }
 
 /* Foto y nombre con aire entre sí, en la tabla y en la vista de cards */
 .student-who { display:inline-flex; align-items:center; gap:12px; min-width:0; }
@@ -1666,7 +1666,8 @@ tr.zone.risk td { color:var(--urgent); }
 .sum-bar .meter.ok .bar > span { background:var(--accent-success-fill); }
 .sum-bar .meter.over .bar > span { background:var(--accent-danger-fill); }
 .sum-label { font-size:var(--fs-small); font-weight:600; margin-bottom:6px; display:flex; justify-content:space-between; }
-.sum-msg { font-size:var(--fs-small); color:var(--urgent); font-weight:600; flex-basis:100%; }
+.sum-msg.err { color:var(--urgent); }
+.sum-msg { font-size:var(--fs-small); color:var(--text-muted); font-weight:600; flex-basis:100%; }
 .sum-msg.ok { color:var(--good); }
 
 .quiz { max-width:760px; }
@@ -1833,7 +1834,8 @@ table.data tr.rep-total td { border-top:var(--border-width) solid var(--border-h
   .sec-row .row-actions { justify-content:flex-start; }
 }
 @media (max-width: 600px) {
-  .pager { flex-direction:column; align-items:flex-start; }
+  .pager { grid-template-columns:1fr; justify-items:center; }
+  .pager > .pager-summary, .pager > .pager-controls { grid-column:auto; justify-self:center; flex-wrap:wrap; justify-content:center; }
   .pg-btn { width:34px; height:34px; }
   .filters, .filters.no-course { grid-template-columns:1fr 1fr; }
   .page-head h1 { font-size:var(--fs-h1); }
@@ -6539,6 +6541,7 @@ details.disclosure.cat-group > summary::after { margin-left:12px; }
 .item-sheet figcaption { font-size:11px; color:var(--text-muted); font-family:var(--font-mono, monospace); }
 .uikit-inventory td:nth-child(2), .uikit-inventory td:nth-child(3) { font-size:var(--fs-small); }
 .uikit-inventory td:last-child { font-size:var(--fs-small); color:var(--text-muted); max-width:320px; }
+
 /* ===== Catálogo del profesor: ficha con bloques =====
    La card es una grilla fija de 6 filas (estado/obligatorio · título en una línea · tipo · dificultad+vence · evaluación+recompensa · pie).
    Con subgrid, las filas se sincronizan entre cards de la misma fila: lo que es igual queda a la misma altura. */
