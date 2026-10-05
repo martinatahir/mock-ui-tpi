@@ -713,17 +713,8 @@
           <!-- Contenido de la Materia (Acordeón Modular) -->
           <div class="materia-content" style="display: flex; flex-direction: column; gap: 14px;">
             <!-- Barra superior de control de secciones -->
-            <div class="course-sections-toolbar" style="display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; padding: 4px 0 8px;">
-              <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-                <span style="font-family: 'Chakra Petch', sans-serif; font-size: 15px; font-weight: 700; color: var(--text-primary);">Módulos & Unidades Temáticas</span>
-                <div class="search-bar sm" style="width: 260px;">
-                  <svg class="icon search-icon"><use href="#i-search"/></svg>
-                  <input type="search" id="course-sections-search" class="search-input" placeholder="Buscar material o TP..." autocomplete="off" />
-                  <kbd class="search-kbd">/</kbd>
-                </div>
-              </div>
+            <div class="course-sections-toolbar" style="display: flex; align-items: center; justify-content: flex-end; gap: 14px; flex-wrap: wrap; padding: 4px 0 8px;">
               <div style="display: flex; align-items: center; gap: 10px;">
-                
                 <button type="button" class="btn btn-ghost btn-sm" id="btn-toggle-all-sections" style="border-radius: 6px;">
                   <svg class="icon icon-sm"><use href="#i-chevron"/></svg>
                   <span id="txt-toggle-all-sections">Colapsar todo</span>
@@ -2011,46 +2002,165 @@
     <!-- ================= BACKOFFICE · admin ================= -->
     <section class="screen" id="screen-backoffice" aria-labelledby="h-bo" data-error="No se pudieron cargar los datos del backoffice.">
       <div class="page-head">
-        <div><h1 class="display" id="h-bo">Backoffice</h1><p>Parámetros globales, auditoría de la plataforma y monitoreo de eventos.</p></div>
+        <div><h1 class="display" id="h-bo">Panel de control</h1><p>Configuración global de la plataforma: parámetros, proveedores de IA, auditoría y monitoreo de eventos.</p></div>
       </div>
       <div class="data">
-        <div class="module-grid">
-          <a class="card studs module" href="#"><span class="ic"><svg class="icon"><use href="#i-users"/></svg></span><div><h2>Usuarios</h2><p>Altas, roles y bajas. <span class="num">412</span> cuentas.</p></div></a>
-          <a class="card studs module" href="#accesos"><span class="ic"><svg class="icon"><use href="#i-key"/></svg></span><div><h2>Accesos <span class="badge badge-primary num">1</span></h2><p>Solicitudes pendientes y emails habilitados.</p></div></a>
-          <a class="card studs module" href="#"><span class="ic"><svg class="icon"><use href="#i-sliders"/></svg></span><div><h2>Parámetros globales</h2><p>XP por dificultad, vidas, umbrales.</p></div></a>
-          <a class="card studs module" href="#"><span class="ic"><svg class="icon"><use href="#i-cpu"/></svg></span><div><h2>Proveedores LLM</h2><p>Modelos del tutor IA y corrección.</p></div></a>
-          <a class="card studs module" href="#"><span class="ic"><svg class="icon"><use href="#i-file"/></svg></span><div><h2>Auditoría</h2><p>Quién cambió qué y cuándo.</p></div></a>
-        </div>
+        <div class="stat-strip" id="bo-stats"></div>
+        <div class="admin-attn" id="bo-attn"></div>
 
         <section class="section" aria-labelledby="h-audit">
-          <div class="section-head"><h2 id="h-audit">Actividad reciente</h2><div class="quick-links"><span data-view-toggle="auditoria"></span><a class="btn btn-quiet btn-sm" href="#">Ver auditoría<svg class="icon icon-sm"><use href="#i-right"/></svg></a></div></div>
-          <div class="table-wrap" data-view-target="auditoria"><table class="data">
-            <thead><tr><th>Cuándo</th><th>Quién</th><th>Acción</th></tr></thead>
-            <tbody>
-              <tr><td class="num">30/09 14:12</td><td>Fabio</td><td>Creó el desafío "Recursión de Fibonacci" en MSI</td></tr>
-              <tr><td class="num">30/09 11:40</td><td>admin@frc.utn.edu.ar</td><td>Cambió "XP por desafío avanzado" de 100 a 120</td></tr>
-              <tr><td class="num">29/09 18:03</td><td>admin@frc.utn.edu.ar</td><td>Aprobó la solicitud de prof.gomez@frc.utn.edu.ar</td></tr>
-              <tr><td class="num">29/09 09:27</td><td>Sistema</td><td>Otorgó 6 insignias "Primeros pasos"</td></tr>
-            </tbody>
-          </table></div>
+          <div class="section-head"><h2 id="h-audit">Actividad reciente</h2><div class="quick-links"><span data-view-toggle="auditoria"></span></div></div>
+          <div class="table-wrap" data-view-target="auditoria"><table class="data" id="bo-recent"></table></div>
         </section>
 
         <details class="section card studs disclosure">
           <summary><h2><span>Exportar datos</span><span class="disc-sum">Se generan en tu navegador, sin pasar por el servidor.</span></h2></summary>
-          <div class="export-row"><span>Catálogo de parámetros</span><div class="btns"><button class="btn btn-ghost btn-sm"><svg class="icon icon-sm"><use href="#i-download"/></svg>JSON</button><button class="btn btn-ghost btn-sm"><svg class="icon icon-sm"><use href="#i-download"/></svg>CSV</button></div></div>
-          <div class="export-row"><span>Historial de auditoría</span><div class="btns"><button class="btn btn-ghost btn-sm"><svg class="icon icon-sm"><use href="#i-download"/></svg>JSON</button><button class="btn btn-ghost btn-sm"><svg class="icon icon-sm"><use href="#i-download"/></svg>CSV</button></div></div>
+          <div class="export-row"><span>Catálogo de parámetros</span><div class="btns"><button class="btn btn-ghost btn-sm" type="button" data-export="params-json"><svg class="icon icon-sm"><use href="#i-download"/></svg>JSON</button><button class="btn btn-ghost btn-sm" type="button" data-export="params-csv"><svg class="icon icon-sm"><use href="#i-download"/></svg>CSV</button></div></div>
+          <div class="export-row"><span>Historial de auditoría</span><div class="btns"><button class="btn btn-ghost btn-sm" type="button" data-export="audit-json"><svg class="icon icon-sm"><use href="#i-download"/></svg>JSON</button><button class="btn btn-ghost btn-sm" type="button" data-export="audit-csv"><svg class="icon icon-sm"><use href="#i-download"/></svg>CSV</button></div></div>
         </details>
+      </div>
+    </section>
+
+    <!-- ================= PARÁMETROS GLOBALES · admin ================= -->
+    <section class="screen" id="screen-parametros" aria-labelledby="h-par" data-error="No pudimos traer el catálogo de parámetros.">
+      <div class="page-head">
+        <div><h1 class="display" id="h-par">Parámetros globales</h1><p>Valores que usa toda la plataforma. Los cambios rigen desde ahora y quedan versionados con su motivo.</p></div>
+      </div>
+      <div class="data">
+        <div class="param-filters">
+          <label class="search"><span class="sr-only">Buscar parámetro</span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-search"/></svg><input class="control" type="search" id="par-q" placeholder="Buscar por clave, nombre o descripción" /></label>
+          <div class="seg" role="group" aria-label="Filtrar por estado" id="par-state"></div>
+        </div>
+        <div class="table-wrap"><table class="data" id="par-table"></table></div>
+        <div class="pager pager-centered" id="par-pager"></div>
+      </div>
+    </section>
+
+    <!-- ================= HISTORIAL DE UN PARÁMETRO · admin ================= -->
+    <section class="screen" id="screen-parametro" aria-labelledby="h-parh">
+      <a class="back" href="#parametros"><svg class="icon icon-sm"><use href="#i-left"/></svg>Parámetros globales</a>
+      <div class="page-head">
+        <div><h1 class="display" id="h-parh">Historial</h1><p id="parh-sub">Todas las versiones, quién las cargó y por qué. El historial no se puede editar.</p></div>
+        <div class="head-tools" id="parh-tools"></div>
+      </div>
+      <ol class="version-list" id="parh-list"></ol>
+    </section>
+
+    <!-- ================= PROVEEDORES LLM · admin ================= -->
+    <section class="screen" id="screen-llm" aria-labelledby="h-llm" data-error="No pudimos traer las credenciales de proveedores.">
+      <div class="page-head">
+        <div><h1 class="display" id="h-llm">Proveedores LLM</h1><p>Credenciales de los proveedores que usa el Tutor IA. Las claves viajan protegidas y solo se guardan enmascaradas.</p></div>
+      </div>
+      <div class="data">
+        <form class="card studs section" id="cred-form" onsubmit="return false" novalidate aria-labelledby="h-cred-new">
+          <div class="section-head"><h2 id="h-cred-new">Nueva credencial</h2></div>
+          <div class="cred-form">
+            <label class="field"><span class="req">Proveedor</span><select class="control" id="cred-provider"></select></label>
+            <label class="field"><span class="req">Nombre</span><input class="control" id="cred-name" placeholder="Por ejemplo: OpenAI Producción" maxlength="60" /><span class="hint" id="cred-name-hint">Para reconocerla en la lista.</span></label>
+            <label class="field full"><span class="req">Clave de API</span><input class="control" type="password" id="cred-key" placeholder="sk-…" autocomplete="off" /><span class="hint" id="cred-key-hint">Por seguridad, no se vuelve a mostrar completa.</span></label>
+            <div class="actions"><button class="btn btn-primary" type="submit"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Guardar credencial</button></div>
+          </div>
+        </form>
+        <section class="section" aria-labelledby="h-cred-list">
+          <div class="section-head"><h2 id="h-cred-list">Credenciales configuradas</h2></div>
+          <div class="table-wrap"><table class="data" id="cred-table"></table></div>
+        </section>
+      </div>
+    </section>
+
+    <!-- ================= AUDITORÍA · admin ================= -->
+    <section class="screen" id="screen-auditoria" aria-labelledby="h-aud" data-error="No pudimos traer el historial de auditoría.">
+      <div class="page-head">
+        <div><h1 class="display" id="h-aud">Auditoría</h1><p>Historial de acciones administrativas. Cada registro lleva su identificador de traza para seguirlo entre servicios.</p></div>
+      </div>
+      <div class="data">
+        <form class="card studs audit-filters" id="aud-form" onsubmit="return false">
+          <label class="field">Recurso<input class="control" id="aud-res" placeholder="PAR-13, un email…" /></label>
+          <label class="field">Actor<select class="control" id="aud-actor"></select></label>
+          <label class="field">Tipo de evento<select class="control" id="aud-type"></select></label>
+          <label class="field">Desde<input class="control" type="date" id="aud-from" /></label>
+          <label class="field">Hasta<input class="control" type="date" id="aud-to" /></label>
+          <div class="btns"><button class="btn btn-quiet" type="reset" id="aud-clear">Limpiar</button><button class="btn btn-primary" type="submit">Aplicar filtros</button></div>
+        </form>
+        <p class="result-line" id="aud-count" aria-live="polite"></p>
+        <div class="table-wrap"><table class="data" id="aud-table"></table></div>
+        <div class="pager pager-centered" id="aud-pager"></div>
+      </div>
+    </section>
+
+    <!-- ================= MONITOR DE DATOS · admin ================= -->
+    <section class="screen" id="screen-ingesta" aria-labelledby="h-ing" data-error="No pudimos traer el estado del monitor de datos.">
+      <div class="page-head">
+        <div><h1 class="display" id="h-ing">Monitor de datos</h1><p>Eventos que consume el backoffice: se descartan los repetidos por eventId, los que fallan van al Dead Letter Topic y cada tema tiene una frescura esperada (PAR-23).</p></div>
+      </div>
+      <div class="data">
+        <h2 class="sr-only">Resumen por tema</h2>
+        <div class="topic-grid" id="ing-topics"></div>
+        <section class="section" aria-labelledby="h-ing-ev">
+          <div class="section-head"><h2 id="h-ing-ev">Últimos 50 eventos</h2></div>
+          <div class="param-filters">
+            <div class="seg" role="group" aria-label="Filtrar por tema" id="ing-topic"></div>
+            <label class="field" style="flex-direction:row; align-items:center; gap:8px;"><span>Resultado</span><select class="control" id="ing-result" style="width:auto">
+              <option value="">Todos</option><option value="ok">Procesados</option><option value="dup">Duplicados</option><option value="dlt">En Dead Letter Topic</option>
+            </select></label>
+          </div>
+          <div class="table-wrap"><table class="data" id="ing-table"></table></div>
+          <div class="pager pager-centered" id="ing-pager"></div>
+        </section>
+      </div>
+    </section>
+
+    <!-- ================= REPORTES DINÁMICOS · admin ================= -->
+    <section class="screen" id="screen-reportes" aria-labelledby="h-rep" data-error="No pudimos generar el reporte.">
+      <div class="page-head">
+        <div><h1 class="display" id="h-rep">Reportes dinámicos</h1><p>Elegí las métricas, cómo agruparlas y el período. Cada reporte muestra solo datos agregados de un curso, nunca comparaciones entre docentes.</p></div>
+      </div>
+      <div class="data">
+        <form class="card studs section" id="rep-form" onsubmit="return false" novalidate aria-label="Configurar reporte">
+          <div class="rep-top">
+            <label class="field">Plantilla guardada<select class="control" id="rep-tpl"></select></label>
+            <label class="field"><span class="req">Curso</span><select class="control" id="rep-course"></select></label>
+            <label class="field"><span class="req">Desde</span><input class="control" type="date" id="rep-from" value="2026-09-01" /></label>
+            <label class="field"><span class="req">Hasta</span><input class="control" type="date" id="rep-to" value="2026-09-30" /><span class="err" id="rep-date-err" hidden></span></label>
+          </div>
+
+          <div class="rep-box">
+            <div class="tabs" role="tablist" aria-label="Opciones del reporte" data-tabgroup="rep">
+              <button class="tab" type="button" role="tab" aria-selected="true" data-subtab="rep-met">Métricas <span class="count num" id="rep-met-n">2</span></button>
+              <button class="tab" type="button" role="tab" aria-selected="false" data-subtab="rep-grp">Agrupar por <span class="count" id="rep-grp-n">semana</span></button>
+              <button class="tab" type="button" role="tab" aria-selected="false" data-subtab="rep-risk">Riesgo <span class="count" id="rep-risk-n">todos</span></button>
+            </div>
+            <fieldset class="group rep-panel" data-subpanel="rep-met" data-group="rep"><legend class="sr-only">Métricas</legend><span class="rep-req" id="rep-met-hint">Elegí al menos una métrica.</span><div class="rep-opts" id="rep-metrics"></div></fieldset>
+            <fieldset class="group rep-panel" data-subpanel="rep-grp" data-group="rep" hidden><legend class="sr-only">Agrupar por</legend><div class="rep-opts" id="rep-groups"></div></fieldset>
+            <fieldset class="group rep-panel" data-subpanel="rep-risk" data-group="rep" hidden><legend class="sr-only">Nivel de riesgo</legend><div class="rep-opts" id="rep-risks"></div><span class="hint">Sin selección se incluyen todos los niveles.</span></fieldset>
+          </div>
+
+          <p class="rep-summary"><b>Resumen:</b> <span id="rep-summary"></span></p>
+          <div class="rep-actions">
+            <button class="btn btn-ghost" type="button" id="rep-save-tpl"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Guardar como plantilla</button>
+            <button class="btn btn-primary" type="submit" id="rep-run">Generar reporte</button>
+          </div>
+        </form>
+
+        <section class="section" id="rep-result" aria-labelledby="h-rep-res" aria-live="polite" hidden>
+          <div class="section-head">
+            <div><h2 id="h-rep-res">Resultado</h2><p id="rep-res-sub"></p></div>
+            <div class="quick-links"><button class="btn btn-ghost btn-sm" type="button" id="rep-csv"><svg class="icon icon-sm"><use href="#i-download"/></svg>CSV</button></div>
+          </div>
+          <div class="stat-strip" id="rep-totals"></div>
+          <div class="table-wrap"><table class="data" id="rep-table"></table></div>
+        </section>
       </div>
     </section>
 
     <!-- ================= ACCESOS (whitelist) · admin ================= -->
     <section class="screen" id="screen-accesos" aria-labelledby="h-acc-page" data-error="No pudimos traer las solicitudes ni los emails habilitados.">
-      <a class="back" href="#backoffice"><svg class="icon icon-sm"><use href="#i-left"/></svg>Backoffice</a>
       <div class="page-head">
-        <div><h1 class="display" id="h-acc-page">Accesos</h1><p>Resolvé los pedidos de habilitación y gestioná qué emails docentes pueden entrar a la plataforma.</p></div>
+        <div><h1 class="display" id="h-acc-page">Accesos</h1><p>Resolvé los pedidos de habilitación y gestioná qué emails de profesores y gestores pueden entrar a la plataforma.</p></div>
+        <a class="btn btn-ghost" href="#administradores"><svg class="icon icon-sm"><use href="#i-lock"/></svg>Administradores</a>
       </div>
       <div class="data">
-        <div class="tabs" role="tablist" aria-label="Accesos">
+        <div class="tabs" role="tablist" aria-label="Accesos" id="acc-tabs">
           <button class="tab" role="tab" aria-selected="true" data-subtab="acc-pend">Pendientes <span class="count num" data-pend-count>1</span></button>
           <button class="tab" role="tab" aria-selected="false" data-subtab="acc-ok">Habilitados <span class="count num" data-ok-count>12</span></button>
         </div>
@@ -2078,6 +2188,18 @@
           <div class="table-wrap" data-view-target="habilitados"><table class="data" id="ok-table"></table></div>
           <div class="pager" id="ok-pager"></div>
         </div>
+      </div>
+    </section>
+
+    <!-- ================= ADMINISTRADORES · admin ================= -->
+    <section class="screen" id="screen-administradores" aria-labelledby="h-adm" data-error="No pudimos traer la lista de administradores.">
+      <div class="page-head">
+        <div><h1 class="display" id="h-adm">Administradores</h1><p>Cuentas con rol de administrador. El rol se asigna en Identidad (Tema 01) y siempre tiene que quedar al menos uno activo.</p></div>
+        <button class="btn btn-primary" type="button" id="adm-new"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Asignar administrador</button>
+      </div>
+      <div class="data">
+        <div class="card admin-count" id="adm-count"></div>
+        <div class="table-wrap"><table class="data" id="adm-table"></table></div>
       </div>
     </section>
 
@@ -2923,6 +3045,108 @@
     <div class="modal-foot">
       <button class="btn btn-quiet" type="button" onclick="$('#dialog-gestionar-vitrina').close()">Cancelar</button>
       <button class="btn btn-primary" type="button" onclick="$('#dialog-gestionar-vitrina').close(); showToast('Configuración de vitrina guardada correctamente.');">Guardar Configuración</button>
+    </div>
+  </div>
+</dialog>
+
+<!-- ================= Modal: Guardar plantilla de reporte ================= -->
+<dialog class="modal modal-sm studs" id="dialog-rep-tpl" aria-labelledby="h-rt-title">
+  <div style="display:flex; flex-direction:column; width:100%;">
+    <div class="modal-head">
+      <div>
+        <h2 id="h-rt-title">Guardar plantilla</h2>
+        <p>Guarda métricas, agrupación y riesgo. El curso y las fechas se eligen cada vez.</p>
+      </div>
+      <button class="icon-btn sm" type="button" data-close-dialog aria-label="Cerrar"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
+    </div>
+    <form class="modal-body" id="rt-form" onsubmit="return false" novalidate>
+      <label class="field"><span class="req">Nombre</span>
+        <input class="control" id="rt-name" maxlength="60" placeholder="Por ejemplo: Seguimiento semanal de riesgo" />
+        <span class="hint" id="rt-hint">Aparece en "Plantilla guardada".</span>
+      </label>
+    </form>
+    <div class="modal-foot">
+      <button class="btn btn-quiet" type="button" data-close-dialog>Cancelar</button>
+      <button class="btn btn-primary" type="button" id="rt-save">Guardar plantilla</button>
+    </div>
+  </div>
+</dialog>
+
+<!-- ================= Modal: Modificar parámetro global (admin) ================= -->
+<dialog class="modal modal-md studs" id="dialog-param" aria-labelledby="h-pm-title">
+  <div style="display:flex; flex-direction:column; width:100%;">
+    <div class="modal-head">
+      <div>
+        <h2 id="h-pm-title">Modificar parámetro</h2>
+        <p id="h-pm-desc"></p>
+      </div>
+      <button class="icon-btn sm" type="button" data-close-dialog aria-label="Cerrar"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
+    </div>
+    <form class="modal-body" id="pm-form" onsubmit="return false" novalidate>
+      <div class="alert info"><svg class="icon"><use href="#i-info"/></svg><div><div class="alert-title">El cambio no es retroactivo</div><div class="alert-body">Rige de ahora en adelante y no recalcula lo que ya pasó.</div></div></div>
+      <fieldset class="group"><legend>Nuevo valor</legend><div id="pm-fields"></div><span class="err" id="pm-val-err" hidden></span></fieldset>
+      <label class="field"><span class="req">Motivo del cambio</span>
+        <textarea class="control" id="pm-reason" rows="3" maxlength="500" placeholder="Explicá por qué se modifica este parámetro"></textarea>
+        <span class="hint" id="pm-reason-hint">Queda en el historial y en la auditoría.</span>
+        <span class="char-count" id="pm-count">0/500</span>
+      </label>
+    </form>
+    <div class="modal-foot">
+      <button class="btn btn-quiet" type="button" data-close-dialog>Cancelar</button>
+      <button class="btn btn-primary" type="button" id="pm-save">Guardar cambio</button>
+    </div>
+  </div>
+</dialog>
+
+<!-- ================= Modal: Asignar administrador ================= -->
+<dialog class="modal modal-md studs" id="dialog-adm-new" aria-labelledby="h-an-title">
+  <div style="display:flex; flex-direction:column; width:100%;">
+    <div class="modal-head">
+      <div>
+        <h2 id="h-an-title">Asignar administrador</h2>
+        <p>La cuenta tiene que existir en la plataforma.</p>
+      </div>
+      <button class="icon-btn sm" type="button" data-close-dialog aria-label="Cerrar"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
+    </div>
+    <form class="modal-body" id="an-form" onsubmit="return false" novalidate>
+      <label class="field"><span class="req">Email de la cuenta</span>
+        <input class="control" type="email" id="an-email" list="an-users" placeholder="persona@frc.utn.edu.ar" autocomplete="off" />
+        <datalist id="an-users"></datalist>
+        <span class="hint" id="an-email-hint">Empezá a escribir para ver las cuentas existentes.</span>
+      </label>
+      <label class="field"><span class="req">Motivo</span>
+        <textarea class="control" id="an-reason" rows="2" placeholder="Por ejemplo: se suma a la coordinación de la plataforma"></textarea>
+        <span class="hint" id="an-reason-hint">Queda registrado en la auditoría.</span>
+      </label>
+      <div class="alert info"><svg class="icon"><use href="#i-info"/></svg><div><div class="alert-body">La persona va a tener acceso completo al backoffice la próxima vez que inicie sesión.</div></div></div>
+    </form>
+    <div class="modal-foot">
+      <button class="btn btn-quiet" type="button" data-close-dialog>Cancelar</button>
+      <button class="btn btn-primary" type="button" id="an-save">Asignar rol</button>
+    </div>
+  </div>
+</dialog>
+
+<!-- ================= Modal: Revocar administrador ================= -->
+<dialog class="modal modal-sm studs" id="dialog-adm-revoke" aria-labelledby="h-ar-title">
+  <div style="display:flex; flex-direction:column; width:100%;">
+    <div class="modal-head">
+      <div>
+        <h2 id="h-ar-title">Revocar administrador</h2>
+        <p id="h-ar-desc"></p>
+      </div>
+      <button class="icon-btn sm" type="button" data-close-dialog aria-label="Cerrar"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
+    </div>
+    <form class="modal-body" id="ar-form" onsubmit="return false" novalidate>
+      <p class="muted" style="font-size:var(--fs-ui)">Pierde el acceso al backoffice en su próxima solicitud. La cuenta sigue existiendo con su rol anterior.</p>
+      <label class="field"><span class="req">Motivo</span>
+        <textarea class="control" id="ar-reason" rows="2" placeholder="Por ejemplo: dejó la coordinación"></textarea>
+        <span class="hint" id="ar-reason-hint">Queda registrado en la auditoría.</span>
+      </label>
+    </form>
+    <div class="modal-foot">
+      <button class="btn btn-quiet" type="button" data-close-dialog>Cancelar</button>
+      <button class="btn btn-danger" type="button" id="ar-save">Revocar rol</button>
     </div>
   </div>
 </dialog>
@@ -7242,6 +7466,7 @@ $('#req-list').addEventListener('click', e => {
     r.state = 'approved';
     ENABLED.unshift([r.email, r.role, '30/09/2026 15:02']);
     renderEnabled();
+    logAudit('ACCESS_APPROVED', r.email, `Aprobó la solicitud como ${r.role}.`);
     showToast(`Acceso aprobado para ${r.email}`, 'success', 'i-tick');
   }
   else if (e.target.closest('[data-reject]')) r.rejecting = !r.rejecting;
@@ -7249,6 +7474,7 @@ $('#req-list').addEventListener('click', e => {
     const ta = $('[data-reason]', li);
     if (!ta.value.trim()) { ta.setAttribute('aria-invalid', 'true'); const h = $('[data-reason-hint]', li); h.className = 'err'; h.textContent = 'Escribí el motivo para poder rechazar.'; ta.focus(); return; }
     r.state = 'rejected';
+    logAudit('ACCESS_REJECTED', r.email, `Rechazó la solicitud: ${ta.value.trim()}`);
     showToast(`Solicitud rechazada para ${r.email}`, 'info', 'i-x');
   } else return;
   renderRequests();
@@ -7280,6 +7506,7 @@ $('#ok-table').addEventListener('click', e => {
     const removed = b.dataset.remove;
     ENABLED.splice(i, 1);
     renderEnabled();
+    logAudit('EMAIL_REMOVED', removed, 'Quitó el email de la lista de habilitados.');
     showToast(`Acceso revocado para ${removed}`, 'danger', 'i-trash');
   }
 });
@@ -7301,10 +7528,678 @@ $('#add-email').addEventListener('submit', () => {
     inp.value = '';
     okState.page = 0;
     renderEnabled();
+    logAudit('EMAIL_ENABLED', v, `Habilitó el email como ${roleVal}.`);
     showToast(`Email ${v} habilitado como ${roleVal}`, 'success', 'i-tick');
   }, 500);
 });
 renderRequests(); renderEnabled();
+
+/* ======================= backoffice (admin) ======================= */
+const ME_ADMIN = { name: 'Admin 2 Demo', email: 'admin2@frc.utn.edu.ar' };
+const pad2 = n => String(n).padStart(2, '0');
+const nowISO = () => { const d = new Date(); return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}T${pad2(d.getHours())}:${pad2(d.getMinutes())}`; };
+const fmtAt = s => { const [d, t] = s.split('T'); const [y, m, dd] = d.split('-'); return `${dd}/${m}/${y}${t ? ' ' + t : ''}`; };
+const fmtN = n => Number(n).toLocaleString('es-AR');
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const hex = n => Array.from({ length: n }, () => Math.floor(Math.random() * 16).toString(16)).join('');
+const newTrace = () => `00-${hex(32)}-${hex(16)}-01`;
+document.addEventListener('click', e => { const b = e.target.closest('[data-close-dialog]'); if (b) b.closest('dialog').close(); });
+
+const TOPIC_NAMES = { T01: 'Identidad', T02: 'Cursos', T03: 'Desafíos', T05: 'Economía', T07: 'Tutor IA', T08: 'Chat', T09: 'Notificaciones', T10: 'Encuestas', T12: 'Backoffice' };
+const PARAM_STATES = {
+  confirmado: { label: 'Confirmado', badge: 'badge-success', plural: 'Confirmados' },
+  candidato: { label: 'Candidato', badge: 'badge-gold', plural: 'Candidatos' },
+  externo: { label: 'Externo', badge: 'badge-outline', plural: 'Externos' },
+};
+const PARAM_TYPES = { map: 'Por categoría', number: 'Número', percent: 'Porcentaje', duration: 'Plazo', bool: 'Sí / No', list: 'Lista', choice: 'Opción' };
+const SEED_AT = '2026-09-17T04:09';
+const seedVersion = value => ({ v: 1, by: 'Sistema', at: SEED_AT, reason: 'Carga inicial del catálogo.', value });
+const mkParam = p => ({ ...p, history: p.history || [seedVersion(structuredClone(p.value))] });
+
+const PARAMS = [
+  { key: 'PAR-01', name: 'XP base por dificultad', desc: 'XP que otorga un desafío según su dificultad.', state: 'confirmado', type: 'map', unit: 'XP',
+    fields: [['easy', 'Fácil'], ['medium', 'Media'], ['hard', 'Difícil']], value: { easy: 100, medium: 250, hard: 500 }, consumers: ['T03'],
+    history: [seedVersion({ easy: 100, medium: 250, hard: 400 }),
+      { v: 2, by: 'admin@frc.utn.edu.ar', at: '2026-09-30T11:40', reason: 'Los desafíos difíciles rendían poco frente a los medios; se sube la recompensa para que valga la pena el intento.', value: { easy: 100, medium: 250, hard: 500 } }] },
+  { key: 'PAR-02', name: 'XP de desafíos personalizados', desc: 'XP de los desafíos que arma cada docente, según complejidad.', state: 'confirmado', type: 'map', unit: 'XP',
+    fields: [['low', 'Baja'], ['medium', 'Media'], ['high', 'Alta']], value: { low: 10, medium: 20, high: 30 }, consumers: ['T03'] },
+  { key: 'PAR-03', name: 'Vidas por desafío', desc: 'Intentos fallidos permitidos antes de bloquear el desafío.', state: 'confirmado', type: 'number', unit: 'vidas', value: 3, consumers: ['T03'],
+    history: [seedVersion(5), { v: 2, by: 'admin1@frc.utn.edu.ar', at: '2026-09-22T09:15', reason: 'Con 5 vidas se resolvía por prueba y error. Acordado con las cátedras.', value: 3 }] },
+  { key: 'PAR-04', name: 'Bonus por racha diaria', desc: 'XP extra por resolver desafíos días seguidos.', state: 'confirmado', type: 'percent', unit: '%', value: 10, consumers: ['T03', 'T05'] },
+  { key: 'PAR-05', name: 'Monedas por desafío completado', desc: 'Monedas que se acreditan al completar, según dificultad.', state: 'confirmado', type: 'map', unit: 'monedas',
+    fields: [['easy', 'Fácil'], ['medium', 'Media'], ['hard', 'Difícil']], value: { easy: 5, medium: 10, hard: 20 }, consumers: ['T05'] },
+  { key: 'PAR-06', name: 'Tope diario de monedas', desc: 'Máximo de monedas que una persona puede ganar por día.', state: 'confirmado', type: 'number', unit: 'monedas', value: 150, consumers: ['T05'] },
+  { key: 'PAR-07', name: 'Comisión del marketplace', desc: 'Porcentaje que se retiene en cada venta entre estudiantes.', state: 'confirmado', type: 'percent', unit: '%', value: 5, consumers: ['T05'],
+    history: [seedVersion(8), { v: 2, by: 'admin3@frc.utn.edu.ar', at: '2026-09-26T16:20', reason: 'Baja la comisión para reactivar el intercambio entre estudiantes.', value: 5 }] },
+  { key: 'PAR-08', name: 'Umbral de riesgo académico', desc: 'Debajo de este progreso la persona aparece en riesgo.', state: 'confirmado', type: 'percent', unit: '%', value: 60, consumers: ['T02'] },
+  { key: 'PAR-09', name: 'Ventana de entrega tardía', desc: 'Tiempo después del vencimiento en que todavía se acepta una entrega.', state: 'confirmado', type: 'duration', unit: 'horas', value: 48, consumers: ['T02', 'T03'] },
+  { key: 'PAR-10', name: 'Penalización por entrega tardía', desc: 'Descuento sobre la XP de una entrega fuera de término.', state: 'confirmado', type: 'percent', unit: '%', value: 20, consumers: ['T03'] },
+  { key: 'PAR-11', name: 'XP necesaria por nivel', desc: 'XP acumulada que hace falta para alcanzar cada nivel.', state: 'confirmado', type: 'map', unit: 'XP',
+    fields: [['n2', 'Nivel 2'], ['n3', 'Nivel 3'], ['n4', 'Nivel 4'], ['n5', 'Nivel 5']], value: { n2: 500, n3: 1200, n4: 2000, n5: 3000 }, consumers: ['T03', 'T05'] },
+  { key: 'PAR-12', name: 'Ranking visible para estudiantes', desc: 'Si los estudiantes ven el ranking de su curso.', state: 'confirmado', type: 'bool', value: true, consumers: ['T03'] },
+  { key: 'PAR-13', name: 'Retención de la auditoría', desc: 'Tiempo que se conservan los registros de auditoría.', state: 'confirmado', type: 'duration', unit: 'días', value: 365, consumers: ['T12'] },
+  { key: 'PAR-14', name: 'Tamaño máximo de adjuntos', desc: 'Peso máximo de un archivo en entregas y materiales.', state: 'confirmado', type: 'number', unit: 'MB', value: 25, consumers: ['T02'] },
+  { key: 'PAR-15', name: 'Consultas diarias al Tutor IA', desc: 'Preguntas por día que puede hacer cada estudiante.', state: 'candidato', type: 'number', unit: 'consultas', value: 40, consumers: ['T07'] },
+  { key: 'PAR-16', name: 'Modelo por defecto del Tutor IA', desc: 'Modelo que responde cuando el curso no eligió otro.', state: 'candidato', type: 'choice',
+    options: [['claude-sonnet-5', 'Claude Sonnet 5'], ['claude-haiku-4-5', 'Claude Haiku 4.5'], ['gpt-4.1-mini', 'GPT-4.1 mini']], value: 'claude-haiku-4-5', consumers: ['T07'] },
+  { key: 'PAR-17', name: 'Insignias por cuatrimestre', desc: 'Máximo de insignias que un docente puede crear por cuatrimestre.', state: 'candidato', type: 'number', unit: 'insignias', value: 12, consumers: ['T05'] },
+  { key: 'PAR-18', name: 'Aviso antes del vencimiento', desc: 'Con cuánta anticipación se avisa que vence una actividad.', state: 'candidato', type: 'duration', unit: 'horas', value: 24, consumers: ['T10'] },
+  { key: 'PAR-19', name: 'Duración de la sesión', desc: 'Tiempo de inactividad antes de cerrar la sesión.', state: 'externo', owner: 'T01', type: 'duration', unit: 'horas', value: 8, consumers: ['T01'] },
+  { key: 'PAR-20', name: 'Intentos de login antes de bloquear', desc: 'Intentos fallidos seguidos antes de bloquear la cuenta.', state: 'externo', owner: 'T01', type: 'number', unit: 'intentos', value: 5, consumers: ['T01'] },
+  { key: 'PAR-21', name: 'Dominios institucionales', desc: 'Dominios de email que se aceptan en el registro.', state: 'externo', owner: 'T01', type: 'list', value: ['frc.utn.edu.ar', 'utn.edu.ar'], consumers: ['T01'] },
+  { key: 'PAR-22', name: 'Canales de chat por curso', desc: 'Canales que se crean al abrir un curso.', state: 'externo', owner: 'T08', type: 'number', unit: 'canales', value: 3, consumers: ['T08'] },
+  { key: 'PAR-23', name: 'Frescura esperada por tema', desc: 'Tiempo máximo sin recibir eventos antes de marcar un tema como atrasado.', state: 'externo', owner: 'T09', type: 'map', unit: 'min',
+    fields: [['T02', 'Cursos (T02)'], ['T03', 'Desafíos (T03)']], value: { T02: 15, T03: 5 }, consumers: ['T12'] },
+  { key: 'PAR-24', name: 'Recordatorios por email', desc: 'Si se mandan recordatorios por email además de la notificación.', state: 'externo', owner: 'T09', type: 'bool', value: false, consumers: ['T09'] },
+].map(mkParam);
+const findParam = k => PARAMS.find(p => p.key === k);
+
+/* Values read as values, not as JSON. */
+function paramValueHTML(p, val = p.value) {
+  if (p.type === 'map') return `<div class="pv">${p.fields.map(([k, l]) => `<div class="pv-row"><span>${l}</span><span><b>${fmtN(val[k])}</b> ${p.unit}</span></div>`).join('')}</div>`;
+  if (p.type === 'percent') return `<span class="pv-one"><b>${fmtN(val)} %</b></span>`;
+  if (p.type === 'bool') return val ? '<span class="badge badge-success">Activado</span>' : '<span class="badge badge-outline">Desactivado</span>';
+  if (p.type === 'list') return `<div class="pv-chips">${val.map(v => `<span class="badge badge-outline">${esc(v)}</span>`).join('')}</div>`;
+  if (p.type === 'choice') return `<span class="badge badge-secondary">${(p.options.find(([k]) => k === val) || [, val])[1]}</span>`;
+  return `<span class="pv-one"><b>${fmtN(val)}</b><span class="u">${p.unit}</span></span>`;
+}
+function paramValueText(p, val = p.value) {
+  if (p.type === 'map') return p.fields.map(([k, l]) => `${l}: ${val[k]} ${p.unit}`).join(' · ');
+  if (p.type === 'percent') return `${val} %`;
+  if (p.type === 'bool') return val ? 'Activado' : 'Desactivado';
+  if (p.type === 'list') return val.join(', ');
+  if (p.type === 'choice') return (p.options.find(([k]) => k === val) || [, val])[1];
+  return `${val} ${p.unit}`;
+}
+/* Rows that changed between two versions: [label, before, after]. */
+function paramDiff(p, a, b) {
+  if (p.type === 'map') return p.fields.filter(([k]) => a[k] !== b[k]).map(([k, l]) => [l, `${fmtN(a[k])} ${p.unit}`, `${fmtN(b[k])} ${p.unit}`]);
+  return JSON.stringify(a) === JSON.stringify(b) ? [] : [['Valor', paramValueText(p, a), paramValueText(p, b)]];
+}
+
+/* ---- auditoría ---- */
+const AUDIT_TYPES = {
+  PARAMETER_CHANGED: ['Cambio de parámetro', 'badge-gold'],
+  PARAMETER_CONFIRMED: ['Parámetro confirmado', 'badge-success'],
+  ADMIN_ASSIGNED: ['Alta de administrador', 'badge-success'],
+  ADMIN_REVOKED: ['Baja de administrador', 'badge-danger'],
+  ACCESS_APPROVED: ['Acceso aprobado', 'badge-success'],
+  ACCESS_REJECTED: ['Acceso rechazado', 'badge-danger'],
+  EMAIL_ENABLED: ['Email habilitado', 'badge-secondary'],
+  EMAIL_REMOVED: ['Email quitado', 'badge-danger'],
+  CREDENTIAL_CREATED: ['Credencial creada', 'badge-secondary'],
+  CREDENTIAL_ENABLED: ['Credencial activada', 'badge-success'],
+  CREDENTIAL_DISABLED: ['Credencial desactivada', 'badge-danger'],
+  MODELS_DISCOVERED: ['Modelos descubiertos', 'badge-outline'],
+  DLT_REPLAYED: ['Reproceso desde DLT', 'badge-outline'],
+};
+const AUDIT = [
+  ['2026-10-03T18:22', 'admin2@frc.utn.edu.ar', 'DLT_REPLAYED', 'desafios.eventos.v1', 'Reprocesó 2 eventos de Desafíos que habían fallado por timeout.'],
+  ['2026-10-02T10:05', 'admin4@frc.utn.edu.ar', 'MODELS_DISCOVERED', 'Anthropic Tutor IA', 'Encontró 3 modelos disponibles.'],
+  ['2026-09-30T15:02', 'admin@frc.utn.edu.ar', 'EMAIL_ENABLED', 'gestor5@frc.utn.edu.ar', 'Habilitó el email como Gestor.'],
+  ['2026-09-30T11:40', 'admin@frc.utn.edu.ar', 'PARAMETER_CHANGED', 'PAR-01', 'XP base por dificultad · Difícil: 400 → 500 XP.'],
+  ['2026-09-29T18:03', 'admin@frc.utn.edu.ar', 'ACCESS_APPROVED', 'prof.gomez@frc.utn.edu.ar', 'Aprobó la solicitud como Profesor.'],
+  ['2026-09-28T20:10', 'admin3@frc.utn.edu.ar', 'EMAIL_ENABLED', 'manuuusanchez@gmail.com', 'Habilitó el email como Gestor.'],
+  ['2026-09-27T14:57', 'admin@frc.utn.edu.ar', 'ADMIN_ASSIGNED', 'admin4@frc.utn.edu.ar', 'Asignó el rol de administrador.'],
+  ['2026-09-27T14:57', 'admin@frc.utn.edu.ar', 'ADMIN_ASSIGNED', 'admin3@frc.utn.edu.ar', 'Asignó el rol de administrador.'],
+  ['2026-09-27T14:57', 'admin@frc.utn.edu.ar', 'ADMIN_ASSIGNED', 'admin2@frc.utn.edu.ar', 'Asignó el rol de administrador.'],
+  ['2026-09-27T14:57', 'admin@frc.utn.edu.ar', 'ADMIN_ASSIGNED', 'admin1@frc.utn.edu.ar', 'Asignó el rol de administrador.'],
+  ['2026-09-26T16:20', 'admin3@frc.utn.edu.ar', 'PARAMETER_CHANGED', 'PAR-07', 'Comisión del marketplace: 8 % → 5 %.'],
+  ['2026-09-25T09:31', 'admin1@frc.utn.edu.ar', 'ACCESS_REJECTED', 'invitado@gmail.com', 'Rechazó la solicitud: el email no corresponde a la cátedra.'],
+  ['2026-09-22T09:15', 'admin1@frc.utn.edu.ar', 'PARAMETER_CHANGED', 'PAR-03', 'Vidas por desafío: 5 → 3 vidas.'],
+  ['2026-09-20T12:44', 'admin1@frc.utn.edu.ar', 'CREDENTIAL_DISABLED', 'Gemini pruebas', 'Desactivó la credencial.'],
+  ['2026-09-18T17:12', 'admin@frc.utn.edu.ar', 'CREDENTIAL_CREATED', 'Anthropic Tutor IA', 'Registró una credencial de Anthropic.'],
+  ['2026-09-18T17:02', 'admin@frc.utn.edu.ar', 'CREDENTIAL_CREATED', 'OpenAI Producción', 'Registró una credencial de OpenAI.'],
+].map(([at, actor, type, resource, detail]) => ({ at, actor, type, resource, detail, trace: newTrace() }));
+function logAudit(type, resource, detail) {
+  AUDIT.unshift({ at: nowISO(), actor: ME_ADMIN.email, type, resource, detail, trace: newTrace() });
+  renderAudit(); renderBackoffice();
+}
+const auditBadge = t => `<span class="badge ${(AUDIT_TYPES[t] || [])[1] || 'badge-outline'}">${(AUDIT_TYPES[t] || [t])[0]}</span>`;
+
+/* ---- panel de control ---- */
+function renderBackoffice() {
+  const n = s => PARAMS.filter(p => p.state === s).length;
+  const own = PARAMS.length - n('externo');
+  $('#bo-stats').innerHTML = [
+    ['i-sliders', 'Parámetros propios', own, `de ${PARAMS.length} en el catálogo`],
+    ['i-tick', 'Confirmados', n('confirmado'), 'vigentes y versionados'],
+    ['i-clock', 'Candidatos', n('candidato'), 'esperan confirmación'],
+    ['i-globe', 'De otros temas', n('externo'), 'solo lectura'],
+  ].map(([ic, k, v, sub]) => `<div><span class="k">${icon(ic, 'icon icon-sm')}${k}</span><div class="v num">${v}</div><span class="k">${sub}</span></div>`).join('');
+  $$('[data-param-total]').forEach(el => el.textContent = PARAMS.length);
+
+  const dlt = INGEST_EVENTS.filter(e => e.result === 'dlt').length;
+  const late = INGEST_TOPICS.filter(t => topicLate(t));
+  const pend = REQUESTS.filter(r => r.state === 'pending').length;
+  const cand = n('candidato');
+  const attn = [];
+  if (dlt || late.length) attn.push(`<div class="alert" role="status">${icon('i-alert')}<div><div class="alert-title">${dlt ? `${dlt} ${dlt === 1 ? 'evento' : 'eventos'} en el Dead Letter Topic` : 'Datos atrasados'}</div><div class="alert-body">${[dlt ? 'No se pudieron procesar; podés reprocesarlos desde el monitor de datos.' : '', late.length ? `${late.map(t => t.name).join(' y ')} no recibe eventos dentro de la frescura esperada.` : ''].filter(Boolean).join(' ')}</div></div><a class="btn btn-ghost btn-sm" href="#ingesta">Ver monitor de datos</a></div>`);
+  if (pend) attn.push(`<div class="alert info" role="status">${icon('i-key')}<div><div class="alert-title">${pend} ${pend === 1 ? 'solicitud de acceso pendiente' : 'solicitudes de acceso pendientes'}</div><div class="alert-body">Docentes esperando que los habilites.</div></div><a class="btn btn-ghost btn-sm" href="#accesos?tab=acc-pend">Revisar</a></div>`);
+  if (cand) attn.push(`<div class="alert info" role="status">${icon('i-clock')}<div><div class="alert-title">${cand} parámetros candidatos</div><div class="alert-body">Están cargados pero todavía no se confirmaron.</div></div><a class="btn btn-ghost btn-sm" href="#parametros?f=candidato">Ver candidatos</a></div>`);
+  $('#bo-attn').innerHTML = attn.join('');
+
+  $('#bo-recent').innerHTML = `<thead><tr><th>Cuándo</th><th>Quién</th><th>Evento</th><th>Detalle</th></tr></thead><tbody>${
+    AUDIT.slice(0, 5).map(a => `<tr><td class="num nowrap">${fmtAt(a.at)}</td><td>${esc(a.actor)}</td><td>${auditBadge(a.type)}</td><td>${esc(a.detail)}</td></tr>`).join('')}</tbody>`;
+}
+
+/* ---- parámetros ---- */
+const parState = { q: '', f: '', page: 0 };
+const PAR_PAGE = 8;
+function renderParams() {
+  const counts = { '': PARAMS.length };
+  PARAMS.forEach(p => counts[p.state] = (counts[p.state] || 0) + 1);
+  $('#par-state').innerHTML = [['', 'Todos'], ...Object.entries(PARAM_STATES).map(([k, s]) => [k, s.plural])]
+    .map(([k, l]) => `<button type="button" data-f="${k}" aria-pressed="${parState.f === k}">${l} <span class="num">(${counts[k] || 0})</span></button>`).join('');
+  const q = parState.q.trim().toLowerCase();
+  const list = PARAMS.filter(p => (!parState.f || p.state === parState.f) && (!q || `${p.key} ${p.name} ${p.desc}`.toLowerCase().includes(q)));
+  const parPages = Math.max(1, Math.ceil(list.length / PAR_PAGE));
+  parState.page = Math.min(parState.page, parPages - 1);
+  const pageList_ = list.slice(parState.page * PAR_PAGE, (parState.page + 1) * PAR_PAGE);
+  $('#par-table').innerHTML = `<thead><tr><th>Clave</th><th>Parámetro</th><th>Estado</th><th>Valor vigente</th><th><span class="sr-only">Acciones</span></th></tr></thead><tbody>${
+    pageList_.length ? pageList_.map(p => `<tr>
+      <td class="top"><span class="badge badge-secondary num">${p.key}</span></td>
+      <td class="top"><div class="cell-title">${p.name}</div><div class="cell-sub">${p.desc}</div><div class="cell-sub">Usado por ${p.consumers.map(t => `${TOPIC_NAMES[t]} (${t})`).join(', ')}</div></td>
+      <td class="top"><span class="badge ${PARAM_STATES[p.state].badge}">${PARAM_STATES[p.state].label}</span></td>
+      <td class="top">${paramValueHTML(p)}</td>
+      <td class="top"><div class="row-actions">${p.state === 'externo'
+        ? `<span class="muted nowrap" style="font-size:var(--fs-micro); align-self:center">Lo gestiona ${p.owner}</span>`
+        : `${p.state === 'candidato' ? `<button class="btn btn-ghost btn-sm" type="button" data-par-confirm="${p.key}">${icon('i-tick', 'icon icon-sm')}Confirmar</button>` : ''}<button class="btn btn-ghost btn-sm" type="button" data-par-edit="${p.key}">${icon('i-pencil', 'icon icon-sm')}Editar<span class="sr-only"> ${p.key}</span></button>`}
+        <a class="btn btn-quiet btn-sm" href="#parametro/${p.key}">${icon('i-clock', 'icon icon-sm')}Historial<span class="sr-only"> de ${p.key}</span></a></div></td>
+    </tr>`).join('') : `<tr><td colspan="5" class="muted">Ningún parámetro coincide con la búsqueda.</td></tr>`}</tbody>`;
+  $('#par-pager').innerHTML = list.length > PAR_PAGE ? pagerHTML(parState.page, PAR_PAGE, list.length, 'parámetros') : '';
+}
+onPager($('#par-pager'), n => { parState.page = n; renderParams(); });
+$('#par-q').addEventListener('input', e => { parState.q = e.target.value; parState.page = 0; renderParams(); });
+$('#par-state').addEventListener('click', e => { const b = e.target.closest('[data-f]'); if (!b) return; parState.f = b.dataset.f; parState.page = 0; renderParams(); });
+document.addEventListener('click', e => {
+  const ed = e.target.closest('[data-par-edit]'); if (ed) { openParamEditor(ed.dataset.parEdit); return; }
+  const cf = e.target.closest('[data-par-confirm]'); if (!cf) return;
+  const p = findParam(cf.dataset.parConfirm);
+  p.state = 'confirmado';
+  logAudit('PARAMETER_CONFIRMED', p.key, `${p.name} pasó de candidato a confirmado.`);
+  renderParams();
+  showToast(`${p.key} quedó confirmado`, 'success', 'i-tick');
+});
+
+/* Edit form: one input per meaning, never a JSON textarea. */
+let editingParam = null;
+function paramFieldsHTML(p) {
+  const v = p.value;
+  if (p.type === 'map') return `<div class="param-fields">${p.fields.map(([k, l]) => `<label class="field">${l} (${p.unit})<input class="control num" type="number" min="0" step="1" inputmode="numeric" data-k="${k}" value="${v[k]}" /><span class="hint">Vigente: ${fmtN(v[k])}</span></label>`).join('')}</div>`;
+  if (p.type === 'bool') return `<label class="toggle"><input type="checkbox" data-k="v" ${v ? 'checked' : ''} /> Activado</label>`;
+  if (p.type === 'list') return `<label class="field">Valores<input class="control" data-k="v" value="${esc(v.join(', '))}" /><span class="hint">Separalos con coma.</span></label>`;
+  if (p.type === 'choice') return `<label class="field">Opción<select class="control" data-k="v">${p.options.map(([k, l]) => `<option value="${k}" ${k === v ? 'selected' : ''}>${l}</option>`).join('')}</select></label>`;
+  const max = p.type === 'percent' ? 'max="100"' : '';
+  return `<label class="field">Valor (${p.type === 'percent' ? '%' : p.unit})<input class="control num" type="number" min="0" ${max} step="1" inputmode="numeric" data-k="v" value="${v}" style="max-width:220px" /><span class="hint">Vigente: ${paramValueText(p)}</span></label>`;
+}
+function readParamFields(p) {
+  const box = $('#pm-fields');
+  const int = el => { const n = Number(el.value); return el.value.trim() === '' || !Number.isInteger(n) || n < 0 || (el.max && n > Number(el.max)) ? null : n; };
+  if (p.type === 'map') {
+    const out = {}; let bad = null;
+    $$('[data-k]', box).forEach(el => { const n = int(el); el.setAttribute('aria-invalid', String(n === null)); if (n === null && !bad) bad = el; out[el.dataset.k] = n; });
+    return bad ? { error: 'Completá cada valor con un número entero, 0 o más.', el: bad } : { value: out };
+  }
+  const el = $('[data-k]', box);
+  if (p.type === 'bool') return { value: el.checked };
+  if (p.type === 'choice') return { value: el.value };
+  if (p.type === 'list') { const arr = el.value.split(',').map(s => s.trim()).filter(Boolean); return arr.length ? { value: arr } : { error: 'Cargá al menos un valor.', el }; }
+  const n = int(el); el.setAttribute('aria-invalid', String(n === null));
+  return n === null ? { error: p.type === 'percent' ? 'Ingresá un porcentaje entre 0 y 100.' : 'Ingresá un número entero, 0 o más.', el } : { value: n };
+}
+function openParamEditor(key) {
+  const p = findParam(key); if (!p || p.state === 'externo') return;
+  editingParam = p;
+  $('#h-pm-desc').textContent = `${p.key} · ${p.name}`;
+  $('#pm-fields').innerHTML = paramFieldsHTML(p);
+  $('#pm-reason').value = ''; $('#pm-reason').removeAttribute('aria-invalid');
+  $('#pm-reason-hint').className = 'hint'; $('#pm-reason-hint').textContent = 'Queda en el historial y en la auditoría.';
+  $('#pm-count').textContent = '0/500'; $('#pm-val-err').hidden = true;
+  $('#dialog-param').showModal();
+}
+$('#pm-reason').addEventListener('input', e => { $('#pm-count').textContent = `${e.target.value.length}/500`; });
+$('#pm-save').addEventListener('click', () => {
+  const p = editingParam; if (!p) return;
+  const r = readParamFields(p), errEl = $('#pm-val-err');
+  const same = !r.error && JSON.stringify(r.value) === JSON.stringify(p.value);
+  errEl.hidden = !(r.error || same);
+  errEl.textContent = r.error || (same ? 'El valor nuevo es igual al vigente.' : '');
+  if (r.error) { r.el.focus(); return; }
+  if (same) return;
+  const ta = $('#pm-reason'), reason = ta.value.trim(), hint = $('#pm-reason-hint');
+  if (reason.length < 10) { ta.setAttribute('aria-invalid', 'true'); hint.className = 'err'; hint.textContent = 'Contá el motivo en al menos 10 caracteres.'; ta.focus(); return; }
+  const diff = paramDiff(p, p.value, r.value);
+  p.history.push({ v: p.history.length + 1, by: ME_ADMIN.email, at: nowISO(), reason, value: structuredClone(r.value) });
+  p.value = r.value;
+  logAudit('PARAMETER_CHANGED', p.key, `${p.name} · ${diff.map(([l, a, b]) => `${l}: ${a} → ${b}`).join('; ')}.`);
+  $('#dialog-param').close();
+  renderParams();
+  if (currentScreen === 'parametro') renderParamHistory(p.key);
+  showToast(`${p.key} actualizado (versión ${p.history.length})`, 'success', 'i-tick');
+});
+
+function renderParamHistory(key) {
+  const p = findParam(key);
+  if (!p) { $('#h-parh').textContent = 'Parámetro no encontrado'; $('#parh-list').innerHTML = ''; $('#parh-tools').innerHTML = ''; return; }
+  $('#h-parh').innerHTML = `<span class="badge badge-secondary num" style="vertical-align:middle">${p.key}</span> ${p.name}`;
+  $('#parh-sub').textContent = `${p.history.length} ${p.history.length === 1 ? 'versión' : 'versiones'}. Quién cargó cada una y por qué; el historial no se puede editar.`;
+  $('#parh-tools').innerHTML = p.state === 'externo' ? `<span class="badge badge-outline">Lo gestiona ${p.owner} · solo lectura</span>`
+    : `<button class="btn btn-primary" type="button" data-par-edit="${p.key}">${icon('i-pencil', 'icon icon-sm')}Modificar</button>`;
+  const hs = [...p.history].reverse();
+  $('#parh-list').innerHTML = hs.map((h, i) => {
+    const prev = p.history[h.v - 2];
+    const diff = prev ? paramDiff(p, prev.value, h.value) : null;
+    return `<li class="card studs version">
+      <span class="badge ${i === 0 ? 'badge-primary' : 'badge-outline'} num">v${h.v}</span>
+      <div class="version-meta"><span>${i === 0 ? '<b>Vigente</b> · ' : ''}Cargó <b>${esc(h.by)}</b></span><span class="num">${fmtAt(h.at)}</span></div>
+      <p class="version-reason">${esc(h.reason)}</p>
+      <div class="version-diff">${diff
+        ? diff.map(([l, a, b]) => `<div class="diff-row"><span class="k">${l}</span><span class="diff-old">${a}</span>${icon('i-right', 'icon icon-sm')}<span class="diff-new">${b}</span></div>`).join('')
+        : `<div class="diff-row"><span class="k">Valor inicial</span>${paramValueHTML(p, h.value)}</div>`}</div>
+    </li>`;
+  }).join('');
+}
+
+/* ---- proveedores LLM ---- */
+const LLM_PROVIDERS = { openai: ['OpenAI', 'sk-'], anthropic: ['Anthropic', 'sk-ant-'], google: ['Google Gemini', 'AIza'], azure: ['Azure OpenAI', ''], mistral: ['Mistral', ''] };
+const LLM_CATALOG = {
+  openai: ['gpt-4.1', 'gpt-4.1-mini', 'gpt-4o-mini'], anthropic: ['claude-opus-5-5', 'claude-sonnet-5', 'claude-haiku-4-5'],
+  google: ['gemini-2.5-pro', 'gemini-2.5-flash'], azure: ['tutor-gpt-4.1'], mistral: ['mistral-large', 'mistral-small'],
+};
+const CREDS = [
+  { provider: 'openai', name: 'OpenAI Producción', masked: 'sk-…Q7aZ', active: true, models: ['gpt-4.1-mini', 'gpt-4o-mini'], created: '2026-09-18T17:02' },
+  { provider: 'anthropic', name: 'Anthropic Tutor IA', masked: 'sk-ant-…9fK2', active: true, models: ['claude-sonnet-5', 'claude-haiku-4-5', 'claude-opus-5-5'], created: '2026-09-18T17:12' },
+  { provider: 'google', name: 'Gemini pruebas', masked: 'AIza…x81Q', active: false, models: [], created: '2026-09-19T10:30' },
+];
+$('#cred-provider').innerHTML = Object.entries(LLM_PROVIDERS).map(([k, [l]]) => `<option value="${k}">${l}</option>`).join('');
+$('#cred-provider').addEventListener('change', e => { $('#cred-key').placeholder = (LLM_PROVIDERS[e.target.value][1] || '') + '…'; });
+function renderCreds() {
+  $('#cred-table').innerHTML = `<thead><tr><th>Credencial</th><th>Clave</th><th>Estado</th><th>Modelos</th><th><span class="sr-only">Acciones</span></th></tr></thead><tbody>${
+    CREDS.length ? CREDS.map((c, i) => `<tr>
+      <td><div class="cell-title">${esc(c.name)}</div><div class="cell-sub">${LLM_PROVIDERS[c.provider][0]} · desde ${fmtAt(c.created).split(' ')[0]}</div></td>
+      <td><span class="mono-id">${esc(c.masked)}</span></td>
+      <td>${c.active ? '<span class="badge badge-success">Activa</span>' : '<span class="badge badge-outline">Inactiva</span>'}</td>
+      <td>${c.models.length ? `<div class="pv-chips">${c.models.map(m => `<span class="badge badge-outline sm">${m}</span>`).join('')}</div>` : '<span class="muted">Sin descubrir</span>'}</td>
+      <td><div class="row-actions">
+        <button class="btn btn-ghost btn-sm" type="button" data-cred-discover="${i}" ${c.active ? '' : 'disabled title="Activá la credencial para consultar sus modelos"'}>${icon('i-refresh', 'icon icon-sm')}<span class="btn-text">Descubrir modelos</span></button>
+        <button class="btn btn-quiet btn-sm ${c.active ? 'danger' : ''}" type="button" data-cred-toggle="${i}">${c.active ? 'Desactivar' : 'Activar'}<span class="sr-only"> ${esc(c.name)}</span></button>
+      </div></td></tr>`).join('') : `<tr><td colspan="5" class="muted">Todavía no hay credenciales. El Tutor IA no va a responder hasta que cargues una.</td></tr>`}</tbody>`;
+}
+$('#cred-table').addEventListener('click', e => {
+  const t = e.target.closest('[data-cred-toggle]');
+  if (t) {
+    const c = CREDS[t.dataset.credToggle];
+    if (c.active && CREDS.filter(x => x.active).length === 1) { showToast('Es la única credencial activa: el Tutor IA se quedaría sin proveedor.', 'danger', 'i-alert'); return; }
+    c.active = !c.active;
+    logAudit(c.active ? 'CREDENTIAL_ENABLED' : 'CREDENTIAL_DISABLED', c.name, `${c.active ? 'Activó' : 'Desactivó'} la credencial.`);
+    renderCreds(); showToast(`${c.name} ${c.active ? 'activada' : 'desactivada'}`, c.active ? 'success' : 'info', c.active ? 'i-tick' : 'i-x');
+    return;
+  }
+  const d = e.target.closest('[data-cred-discover]'); if (!d || d.disabled) return;
+  const c = CREDS[d.dataset.credDiscover];
+  d.classList.add('is-loading'); d.innerHTML = `<span class="spinner spinner-sm"></span><span class="btn-text">Consultando…</span>`;
+  setTimeout(() => {
+    c.models = [...LLM_CATALOG[c.provider]];
+    logAudit('MODELS_DISCOVERED', c.name, `Encontró ${c.models.length} modelos disponibles.`);
+    renderCreds(); showToast(`${c.models.length} modelos disponibles en ${c.name}`, 'success', 'i-tick');
+  }, 700);
+});
+$('#cred-form').addEventListener('submit', () => {
+  const prov = $('#cred-provider').value, name = $('#cred-name'), key = $('#cred-key');
+  const nErr = !name.value.trim() ? 'Poné un nombre para reconocerla.' : CREDS.some(c => c.name.toLowerCase() === name.value.trim().toLowerCase()) ? 'Ya hay una credencial con ese nombre.' : '';
+  const kErr = key.value.trim().length < 12 ? 'La clave parece incompleta.' : '';
+  [[name, nErr, '#cred-name-hint', 'Para reconocerla en la lista.'], [key, kErr, '#cred-key-hint', 'Por seguridad, no se vuelve a mostrar completa.']].forEach(([el, err, h, ok]) => {
+    el.setAttribute('aria-invalid', String(!!err)); $(h).className = err ? 'err' : 'hint'; $(h).textContent = err || ok;
+  });
+  if (nErr || kErr) { (nErr ? name : key).focus(); return; }
+  const v = key.value.trim(), prefix = LLM_PROVIDERS[prov][1];
+  CREDS.unshift({ provider: prov, name: name.value.trim(), masked: `${v.startsWith(prefix) && prefix ? prefix : v.slice(0, 3)}…${v.slice(-4)}`, active: true, models: [], created: nowISO() });
+  logAudit('CREDENTIAL_CREATED', name.value.trim(), `Registró una credencial de ${LLM_PROVIDERS[prov][0]}.`);
+  showToast(`Credencial "${name.value.trim()}" guardada`, 'success', 'i-tick');
+  name.value = ''; key.value = '';
+  renderCreds();
+});
+
+/* ---- auditoría ---- */
+const audState = { res: '', actor: '', type: '', from: '', to: '', page: 0 };
+const AUD_PAGE = 8;
+function renderAudit() {
+  const actors = [...new Set(AUDIT.map(a => a.actor))].sort();
+  $('#aud-actor').innerHTML = `<option value="">Todos</option>${actors.map(a => `<option ${a === audState.actor ? 'selected' : ''}>${a}</option>`).join('')}`;
+  if (!$('#aud-type').options.length) $('#aud-type').innerHTML = `<option value="">Todos</option>${Object.entries(AUDIT_TYPES).map(([k, [l]]) => `<option value="${k}">${l}</option>`).join('')}`;
+  const q = audState.res.trim().toLowerCase();
+  const list = AUDIT.filter(a => (!q || a.resource.toLowerCase().includes(q)) && (!audState.actor || a.actor === audState.actor) && (!audState.type || a.type === audState.type)
+    && (!audState.from || a.at.slice(0, 10) >= audState.from) && (!audState.to || a.at.slice(0, 10) <= audState.to));
+  const pages = Math.max(1, Math.ceil(list.length / AUD_PAGE));
+  audState.page = Math.min(audState.page, pages - 1);
+  const filtered = q || audState.actor || audState.type || audState.from || audState.to;
+  $('#aud-count').textContent = `${list.length} ${list.length === 1 ? 'registro' : 'registros'}${filtered ? ' con estos filtros' : ''}`;
+  $('#aud-table').innerHTML = `<thead><tr><th>Cuándo</th><th>Evento</th><th>Recurso y detalle</th><th>Traza</th></tr></thead><tbody>${
+    list.length ? list.slice(audState.page * AUD_PAGE, (audState.page + 1) * AUD_PAGE).map(a => `<tr>
+      <td class="num nowrap top">${fmtAt(a.at)}</td>
+      <td class="top">${auditBadge(a.type)}<div class="cell-sub">${esc(a.actor)}</div></td>
+      <td class="top"><div class="cell-title">${esc(a.resource)}</div><div class="cell-sub">${esc(a.detail)}</div></td>
+      <td class="top"><span class="mono-id" title="traceparent ${a.trace}">${a.trace.slice(3, 11)}…</span></td></tr>`).join('')
+    : `<tr><td colspan="4" class="muted">No hay registros con estos filtros.</td></tr>`}</tbody>`;
+  $('#aud-pager').innerHTML = list.length > AUD_PAGE ? pagerHTML(audState.page, AUD_PAGE, list.length, 'registros') : '';
+}
+$('#aud-form').addEventListener('submit', () => {
+  Object.assign(audState, { res: $('#aud-res').value, actor: $('#aud-actor').value, type: $('#aud-type').value, from: $('#aud-from').value, to: $('#aud-to').value, page: 0 });
+  renderAudit();
+});
+$('#aud-form').addEventListener('reset', () => { Object.assign(audState, { res: '', actor: '', type: '', from: '', to: '', page: 0 }); setTimeout(renderAudit); });
+onPager($('#aud-pager'), n => { audState.page = n; renderAudit(); });
+
+/* ---- monitor de datos ---- */
+const INGEST_TOPICS = [
+  { code: 'T02', name: 'Cursos', topic: 'cursos.eventos.v1', lastMin: 3, processed24h: 1284, dupes24h: 37 },
+  { code: 'T03', name: 'Desafíos', topic: 'desafios.eventos.v1', lastMin: 12, processed24h: 3420, dupes24h: 112 },
+];
+const topicLate = t => t.lastMin > (findParam('PAR-23').value[t.code] ?? Infinity);
+const INGEST_KINDS = {
+  T02: [['CourseCreated', 'Curso creado', 'Curso MSI · cohorte 2026'], ['EnrollmentAdded', 'Inscripción', 'Alumno agregado a PROG4'], ['SectionPublished', 'Sección publicada', 'Unidad 3 de GDS'], ['CohortUpdated', 'Cohorte actualizada', 'Cambio de fechas en IAD']],
+  T03: [['ChallengeCompleted', 'Desafío completado', 'Recursión de Fibonacci · 250 XP'], ['AttemptFailed', 'Intento fallido', 'Quiz de tipado · quedan 2 vidas'], ['ChallengeCreated', 'Desafío creado', 'Árboles binarios en PROG4'], ['XpGranted', 'XP otorgada', '+120 XP por racha']],
+};
+const DLT_REASONS = ['Esquema inválido: falta challengeId', 'Versión de evento no soportada (v0)', 'Timeout al escribir en la base'];
+const INGEST_EVENTS = Array.from({ length: 50 }, (_, i) => {
+  const code = i % 3 === 0 ? 'T02' : 'T03';
+  const [type, label, ok] = INGEST_KINDS[code][(i * 7) % 4];
+  const secs = 10 * 3600 + 28 * 60 - i * 97 - (code === 'T03' ? 12 * 60 : 3 * 60);
+  const at = `${pad2(Math.floor(secs / 3600))}:${pad2(Math.floor(secs / 60) % 60)}:${pad2(secs % 60)}`;
+  const dlt = code === 'T03' && [4, 19, 37].includes(i);
+  const dup = !dlt && i % 9 === 5;
+  return { at, code, type, label, id: `${hex(8)}-${hex(4)}-4${hex(3)}-${hex(4)}-${hex(12)}`, result: dlt ? 'dlt' : dup ? 'dup' : 'ok',
+    detail: dlt ? DLT_REASONS[[4, 19, 37].indexOf(i)] : dup ? 'Ya se había procesado este eventId.' : ok };
+});
+const ingState = { topic: '', result: '', page: 0 };
+const ING_PAGE = 10;
+const ING_RESULTS = { ok: ['Procesado', 'badge-success'], dup: ['Duplicado', 'badge-outline'], dlt: ['En DLT', 'badge-danger'] };
+function renderIngest() {
+  $('#ing-topics').innerHTML = INGEST_TOPICS.map(t => {
+    const evs = INGEST_EVENTS.filter(e => e.code === t.code), late = topicLate(t), lim = findParam('PAR-23').value[t.code];
+    const dlt = evs.filter(e => e.result === 'dlt').length;
+    return `<article class="card studs topic-card">
+      <header><div><h3>${t.name} <span class="muted">(${t.code})</span></h3><span class="mono-id">${t.topic}</span></div>
+        ${late ? '<span class="badge badge-danger">Atrasado</span>' : '<span class="badge badge-success">Al día</span>'}</header>
+      <p class="fresh">Último evento hace <b class="num">${t.lastMin} min</b> · se espera al menos uno cada ${lim} min (PAR-23).</p>
+      <div class="stat-strip">
+        <div><span class="k">Procesados 24 h</span><div class="v num">${fmtN(t.processed24h)}</div></div>
+        <div><span class="k">Duplicados</span><div class="v num">${fmtN(t.dupes24h)}</div></div>
+        <div><span class="k">En DLT</span><div class="v num" ${dlt ? 'style="color:var(--urgent)"' : ''}>${dlt}</div></div>
+      </div></article>`;
+  }).join('');
+  $('#ing-topic').innerHTML = [['', 'Todos'], ...INGEST_TOPICS.map(t => [t.code, t.name])]
+    .map(([k, l]) => `<button type="button" data-t="${k}" aria-pressed="${ingState.topic === k}">${l}</button>`).join('');
+  const list = INGEST_EVENTS.filter(e => (!ingState.topic || e.code === ingState.topic) && (!ingState.result || e.result === ingState.result));
+  const pages = Math.max(1, Math.ceil(list.length / ING_PAGE));
+  ingState.page = Math.min(ingState.page, pages - 1);
+  $('#ing-table').innerHTML = `<thead><tr><th>Recibido</th><th>Tema</th><th>Evento</th><th>eventId</th><th>Resultado</th><th>Detalle</th><th><span class="sr-only">Acciones</span></th></tr></thead><tbody>${
+    list.length ? list.slice(ingState.page * ING_PAGE, (ingState.page + 1) * ING_PAGE).map(e => `<tr>
+      <td class="num">${e.at}</td><td class="nowrap">${TOPIC_NAMES[e.code]}</td>
+      <td><div class="cell-title">${e.label}</div><div class="cell-sub">${e.type}</div></td>
+      <td><span class="mono-id" title="${e.id}">${e.id.slice(0, 8)}…</span></td>
+      <td><span class="badge ${ING_RESULTS[e.result][1]}">${ING_RESULTS[e.result][0]}</span></td>
+      <td>${esc(e.detail)}</td>
+      <td><div class="row-actions">${e.result === 'dlt' ? `<button class="btn btn-ghost btn-sm" type="button" data-replay="${e.id}">${icon('i-refresh', 'icon icon-sm')}Reprocesar</button>` : ''}</div></td></tr>`).join('')
+    : `<tr><td colspan="7" class="muted">No hay eventos para esta selección.</td></tr>`}</tbody>`;
+  $('#ing-pager').innerHTML = list.length > ING_PAGE ? pagerHTML(ingState.page, ING_PAGE, list.length, 'eventos') : '';
+}
+$('#ing-topic').addEventListener('click', e => { const b = e.target.closest('[data-t]'); if (!b) return; ingState.topic = b.dataset.t; ingState.page = 0; renderIngest(); });
+$('#ing-result').addEventListener('change', e => { ingState.result = e.target.value; ingState.page = 0; renderIngest(); });
+onPager($('#ing-pager'), n => { ingState.page = n; renderIngest(); });
+$('#ing-table').addEventListener('click', e => {
+  const b = e.target.closest('[data-replay]'); if (!b) return;
+  const ev = INGEST_EVENTS.find(x => x.id === b.dataset.replay);
+  ev.result = 'ok'; ev.detail = 'Reprocesado manualmente desde el Dead Letter Topic.';
+  logAudit('DLT_REPLAYED', INGEST_TOPICS.find(t => t.code === ev.code).topic, `Reprocesó el evento ${ev.id.slice(0, 8)} (${ev.label}).`);
+  renderIngest(); showToast('Evento reprocesado', 'success', 'i-tick');
+});
+
+/* ---- administradores ---- */
+const ADMINS = [
+  { id: '3c1878a6-2374-4e8c-8d78-b458dad86fa2', name: 'Admin 4 Demo', email: 'admin4@frc.utn.edu.ar', since: '2026-09-27T14:57', active: true },
+  { id: 'bf41b10c-fb57-4929-8636-82a67ad1af83', name: 'Admin 3 Demo', email: 'admin3@frc.utn.edu.ar', since: '2026-09-27T14:57', active: true },
+  { id: '656241f5-1586-4c09-835c-078a7d64f496', name: 'Admin 2 Demo', email: 'admin2@frc.utn.edu.ar', since: '2026-09-27T14:57', active: true },
+  { id: '99ea66bb-70b0-40b7-8812-8050b1a75a31', name: 'Admin 1 Demo', email: 'admin1@frc.utn.edu.ar', since: '2026-09-27T14:57', active: true },
+  { id: '2703a1c8-8236-4411-ba3e-5416366973f7', name: 'Admin Inicial', email: 'admin@frc.utn.edu.ar', since: '2026-09-17T04:09', active: true },
+];
+let revoking = null;
+function renderAdmins() {
+  const act = ADMINS.filter(a => a.active).length, rev = ADMINS.length - act;
+  $('#adm-count').innerHTML = `<span>Activos: <b class="num">${act}</b></span>${rev ? `<span class="muted">Revocados: <b class="num">${rev}</b></span>` : ''}<span class="muted">No podés revocar tu propio rol.</span>`;
+  const rows = [...ADMINS].sort((a, b) => b.active - a.active);
+  $('#adm-table').innerHTML = `<thead><tr><th>Persona</th><th>ID de usuario</th><th>Estado</th><th>Asignado</th><th><span class="sr-only">Acciones</span></th></tr></thead><tbody>${
+    rows.map(a => { const me = a.email === ME_ADMIN.email; return `<tr>
+      <td><div class="cell-title with-badge">${esc(a.name)}${me ? '<span class="badge badge-primary sm">Tu sesión</span>' : ''}</div><div class="cell-sub">${esc(a.email)}</div></td>
+      <td><span class="mono-id" title="${a.id}">${a.id.slice(0, 8)}…</span></td>
+      <td>${a.active ? '<span class="badge badge-success">Activo</span>' : '<span class="badge badge-outline">Revocado</span>'}</td>
+      <td class="num muted nowrap">${fmtAt(a.since)}</td>
+      <td><div class="row-actions">${a.active ? `<button class="btn btn-quiet btn-sm danger" type="button" data-adm-revoke="${a.id}" ${me ? 'disabled title="No podés revocar tu propio rol"' : ''}>Revocar<span class="sr-only"> a ${esc(a.name)}</span></button>` : ''}</div></td>
+    </tr>`; }).join('')}</tbody>`;
+}
+$('#adm-new').addEventListener('click', () => {
+  $('#an-users').innerHTML = ENABLED.map(([m, role]) => `<option value="${m}">${role}</option>`).join('');
+  ['#an-email', '#an-reason'].forEach(s => { $(s).value = ''; $(s).removeAttribute('aria-invalid'); });
+  $('#an-email-hint').className = 'hint'; $('#an-email-hint').textContent = 'Empezá a escribir para ver las cuentas existentes.';
+  $('#an-reason-hint').className = 'hint'; $('#an-reason-hint').textContent = 'Queda registrado en la auditoría.';
+  $('#dialog-adm-new').showModal();
+});
+$('#an-save').addEventListener('click', () => {
+  const em = $('#an-email'), rs = $('#an-reason'), v = em.value.trim().toLowerCase();
+  const prev = ADMINS.find(a => a.email === v);
+  const eErr = !v ? 'Escribí el email de la cuenta.' : prev?.active ? 'Esa cuenta ya es administradora.' : !prev && !ENABLED.some(([m]) => m === v) ? 'No encontramos una cuenta con ese email.' : '';
+  const rErr = rs.value.trim().length < 5 ? 'Contá brevemente por qué.' : '';
+  [[em, eErr, '#an-email-hint', 'Empezá a escribir para ver las cuentas existentes.'], [rs, rErr, '#an-reason-hint', 'Queda registrado en la auditoría.']].forEach(([el, err, h, ok]) => {
+    el.setAttribute('aria-invalid', String(!!err)); $(h).className = err ? 'err' : 'hint'; $(h).textContent = err || ok;
+  });
+  if (eErr || rErr) { (eErr ? em : rs).focus(); return; }
+  if (prev) { prev.active = true; prev.since = nowISO(); }
+  else ADMINS.unshift({ id: `${hex(8)}-${hex(4)}-4${hex(3)}-${hex(4)}-${hex(12)}`, name: nameFromEmail(v), email: v, since: nowISO(), active: true });
+  logAudit('ADMIN_ASSIGNED', v, `Asignó el rol de administrador. Motivo: ${rs.value.trim()}`);
+  $('#dialog-adm-new').close(); renderAdmins();
+  showToast(`${v} ahora es administrador`, 'success', 'i-tick');
+});
+$('#adm-table').addEventListener('click', e => {
+  const b = e.target.closest('[data-adm-revoke]'); if (!b || b.disabled) return;
+  revoking = ADMINS.find(a => a.id === b.dataset.admRevoke);
+  $('#h-ar-desc').textContent = `${revoking.name} · ${revoking.email}`;
+  $('#ar-reason').value = ''; $('#ar-reason').removeAttribute('aria-invalid');
+  $('#ar-reason-hint').className = 'hint'; $('#ar-reason-hint').textContent = 'Queda registrado en la auditoría.';
+  $('#dialog-adm-revoke').showModal();
+});
+$('#ar-save').addEventListener('click', () => {
+  const rs = $('#ar-reason');
+  if (rs.value.trim().length < 5) { rs.setAttribute('aria-invalid', 'true'); $('#ar-reason-hint').className = 'err'; $('#ar-reason-hint').textContent = 'Contá brevemente por qué.'; rs.focus(); return; }
+  if (ADMINS.filter(a => a.active).length <= 1) { showToast('Tiene que quedar al menos un administrador activo.', 'danger', 'i-alert'); return; }
+  revoking.active = false;
+  logAudit('ADMIN_REVOKED', revoking.email, `Revocó el rol de administrador. Motivo: ${rs.value.trim()}`);
+  $('#dialog-adm-revoke').close(); renderAdmins();
+  showToast(`Se revocó el rol de ${revoking.name}`, 'info', 'i-x');
+});
+
+/* ---- exportar (100% en el navegador) ---- */
+const csvCell = v => `"${String(v).replace(/"/g, '""')}"`;
+function downloadFile(name, text, type) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([text], { type }));
+  a.download = name; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-export]'); if (!b) return;
+  const [what, fmt] = b.dataset.export.split('-');
+  const rows = what === 'params'
+    ? PARAMS.map(p => ({ clave: p.key, nombre: p.name, estado: PARAM_STATES[p.state].label, tipo: PARAM_TYPES[p.type], valor: fmt === 'json' ? p.value : paramValueText(p), version: p.history.length, usado_por: p.consumers.join(' ') }))
+    : AUDIT.map(a => ({ cuando: a.at, actor: a.actor, evento: a.type, recurso: a.resource, detalle: a.detail, traceparent: a.trace }));
+  const file = `${what === 'params' ? 'parametros' : 'auditoria'}-${nowISO().slice(0, 10)}.${fmt}`;
+  if (fmt === 'json') downloadFile(file, JSON.stringify(rows, null, 2), 'application/json');
+  else downloadFile(file, [Object.keys(rows[0]).join(','), ...rows.map(r => Object.values(r).map(csvCell).join(','))].join('\n'), 'text/csv');
+  showToast(`Descargaste ${file}`, 'success', 'i-download');
+});
+
+/* ---- reportes dinámicos ---- */
+const REP_METRICS = [
+  ['completed', 'Desafíos completados', '', 'sum'],
+  ['approval', 'Tasa de aprobación', '%', 'avg'],
+  ['xp', 'XP otorgada', 'XP', 'sum'],
+  ['late', 'Entregas tardías', '', 'sum'],
+  ['active', 'Estudiantes activos', '', 'avg'],
+  ['tutor', 'Consultas al Tutor IA', '', 'sum'],
+  ['coins', 'Monedas acreditadas', '', 'sum'],
+];
+const REP_GROUPS = [['week', 'Semana', 'por semana'], ['unit', 'Unidad', 'por unidad'], ['kind', 'Tipo de desafío', 'por tipo de desafío'], ['diff', 'Dificultad', 'por dificultad']];
+const REP_RISKS = [['high', 'Riesgo alto', .15], ['mid', 'Riesgo medio', .3], ['low', 'Riesgo bajo', .55]];
+const REP_TEMPLATES = [
+  { name: 'Seguimiento semanal de riesgo', metrics: ['completed', 'approval'], group: 'week', risks: ['high'] },
+  { name: 'Cierre de unidad', metrics: ['xp', 'late', 'approval'], group: 'unit', risks: [] },
+];
+const repState = { metrics: ['completed', 'approval'], group: 'week', risks: [] };
+let lastReport = null;
+const repCourses = Object.entries(COURSES).map(([k, c]) => ({ key: k, code: c.code || k, name: c.name, students: c.students || 30, units: c.units || [] }));
+/* Same inputs, same numbers: a seeded generator keeps the mock stable between runs. */
+const seeded = str => { let h = 2166136261; for (const ch of str) h = Math.imul(h ^ ch.charCodeAt(0), 16777619); return () => ((h = Math.imul(h ^ (h >>> 15), 2246822507) ^ Math.imul(h ^ (h >>> 13), 3266489909)) >>> 0) / 4294967296; };
+
+function renderRepOptions() {
+  $('#rep-tpl').innerHTML = `<option value="">Elegí una para cargarla</option>${REP_TEMPLATES.map((t, i) => `<option value="${i}">${esc(t.name)}</option>`).join('')}`;
+  if (!$('#rep-course').options.length) $('#rep-course').innerHTML = repCourses.map(c => `<option value="${c.key}">${esc(c.name)} (${c.code})</option>`).join('');
+  $('#rep-metrics').innerHTML = REP_METRICS.map(([k, l]) => `<label class="toggle"><input type="checkbox" name="rep-m" value="${k}" ${repState.metrics.includes(k) ? 'checked' : ''} />${l}</label>`).join('');
+  $('#rep-groups').innerHTML = REP_GROUPS.map(([k, l]) => `<label class="toggle"><input type="radio" name="rep-g" value="${k}" ${repState.group === k ? 'checked' : ''} />${l}</label>`).join('');
+  $('#rep-risks').innerHTML = REP_RISKS.map(([k, l]) => `<label class="toggle"><input type="checkbox" name="rep-r" value="${k}" ${repState.risks.includes(k) ? 'checked' : ''} />${l}</label>`).join('');
+  renderRepSummary();
+}
+function renderRepSummary() {
+  const g = REP_GROUPS.find(([k]) => k === repState.group);
+  const c = repCourses.find(x => x.key === $('#rep-course').value);
+  const risk = repState.risks.length ? REP_RISKS.filter(([k]) => repState.risks.includes(k)).map(([, l]) => l.replace('Riesgo ', '')).join(' y ') : 'todos';
+  $('#rep-met-n').textContent = repState.metrics.length;
+  $('#rep-grp-n').textContent = g[1].toLowerCase();
+  $('#rep-risk-n').textContent = risk;
+  $('#rep-summary').textContent = `${repState.metrics.length} ${repState.metrics.length === 1 ? 'métrica' : 'métricas'} · ${g[2]} · ${repState.risks.length ? 'riesgo ' + risk : 'todos los niveles de riesgo'} · ${c ? c.code : ''}`;
+}
+$('#rep-form').addEventListener('change', e => {
+  if (e.target.name === 'rep-m') {
+    repState.metrics = $$('[name="rep-m"]:checked').map(i => i.value);
+    const none = !repState.metrics.length;
+    $('#rep-met-hint').className = none ? 'rep-req is-error' : 'rep-req';
+    $('#rep-met-hint').textContent = none ? 'Elegí al menos una métrica para generar el reporte.' : 'Elegí al menos una métrica.';
+  }
+  if (e.target.name === 'rep-g') repState.group = e.target.value;
+  if (e.target.name === 'rep-r') repState.risks = $$('[name="rep-r"]:checked').map(i => i.value);
+  if (e.target.id === 'rep-tpl' && e.target.value !== '') {
+    const idx = e.target.value, t = REP_TEMPLATES[idx];
+    Object.assign(repState, { metrics: [...t.metrics], group: t.group, risks: [...t.risks] });
+    renderRepOptions(); $('#rep-tpl').value = idx;
+    showToast(`Plantilla "${t.name}" cargada`, 'info', 'i-list');
+    return;
+  }
+  renderRepSummary();
+});
+
+function repRows(course, from, to) {
+  const g = repState.group;
+  if (g === 'week') {
+    const rows = [], DAY = 86400000;
+    for (let d = new Date(from + 'T00:00'), i = 1; d <= new Date(to + 'T00:00'); d = new Date(d.getTime() + 7 * DAY), i++) {
+      const end = new Date(Math.min(d.getTime() + 6 * DAY, new Date(to + 'T00:00').getTime()));
+      const f = x => `${pad2(x.getDate())}/${pad2(x.getMonth() + 1)}`;
+      rows.push(`Semana ${i} · ${f(d)}–${f(end)}`);
+    }
+    return rows;
+  }
+  if (g === 'unit') return course.units.length ? course.units.map(u => `Unidad ${u.num}`) : ['Unidad 1', 'Unidad 2', 'Unidad 3'];
+  if (g === 'kind') return ['Teórico', 'Práctico', 'Quiz'];
+  return ['Fácil', 'Media', 'Difícil'];
+}
+function repValues(course, row, period) {
+  const rnd = seeded(`${course.key}|${row}|${period}|${repState.risks.join()}`);
+  const share = repState.risks.length ? REP_RISKS.filter(([k]) => repState.risks.includes(k)).reduce((a, [, , s]) => a + s, 0) : 1;
+  const base = Math.max(1, course.students * share);
+  const completed = Math.round(base * (1.1 + rnd() * 1.4));
+  const riskPenalty = repState.risks.length === 1 && repState.risks[0] === 'high' ? 25 : 0;
+  return {
+    completed,
+    approval: Math.round(58 + rnd() * 34 - riskPenalty),
+    xp: completed * Math.round(140 + rnd() * 90),
+    late: Math.round(completed * (.04 + rnd() * .14)),
+    active: Math.round(base * (.6 + rnd() * .35)),
+    tutor: Math.round(base * (.8 + rnd() * 2.2)),
+    coins: completed * Math.round(7 + rnd() * 6),
+  };
+}
+const repFmt = (k, v) => { const m = REP_METRICS.find(([x]) => x === k); return m[2] === '%' ? `${v} %` : `${fmtN(v)}${m[2] ? ' ' + m[2] : ''}`; };
+
+$('#rep-form').addEventListener('submit', () => {
+  const from = $('#rep-from').value, to = $('#rep-to').value, err = $('#rep-date-err');
+  const days = (new Date(to) - new Date(from)) / 86400000;
+  const dErr = !from || !to ? 'Completá las dos fechas.' : days < 0 ? '"Hasta" tiene que ser posterior a "Desde".' : days > 183 ? 'Elegí un período de hasta 6 meses.' : '';
+  err.hidden = !dErr; err.textContent = dErr;
+  [$('#rep-from'), $('#rep-to')].forEach(i => i.setAttribute('aria-invalid', String(!!dErr)));
+  if (dErr) { $('#rep-to').focus(); return; }
+  if (!repState.metrics.length) { selectSubtab($('[data-subtab="rep-met"]')); $('#rep-met-hint').className = 'rep-req is-error'; $('#rep-met-hint').textContent = 'Elegí al menos una métrica para generar el reporte.'; return; }
+
+  const btn = $('#rep-run');
+  btn.classList.add('is-loading'); btn.innerHTML = `<span class="spinner spinner-sm"></span><span class="btn-text">Generando…</span>`;
+  setTimeout(() => {
+    btn.classList.remove('is-loading'); btn.textContent = 'Generar reporte';
+    const course = repCourses.find(c => c.key === $('#rep-course').value);
+    const mets = REP_METRICS.filter(([k]) => repState.metrics.includes(k));
+    const rows = repRows(course, from, to).map(label => ({ label, v: repValues(course, label, from + to) }));
+    const total = Object.fromEntries(mets.map(([k, , , kind]) => {
+      const s = rows.reduce((a, r) => a + r.v[k], 0);
+      return [k, kind === 'avg' ? Math.round(s / rows.length) : s];
+    }));
+    const lead = mets.find(([, , , kind]) => kind === 'sum') || mets[0];
+    const max = Math.max(...rows.map(r => r.v[lead[0]]), 1);
+    const g = REP_GROUPS.find(([k]) => k === repState.group);
+    lastReport = { course, from, to, mets, rows, total, group: g };
+
+    const parts = $('#rep-summary').textContent.split(' · ');
+    $('#rep-res-sub').textContent = `${course.name} · ${fmtAt(from)} al ${fmtAt(to)} · ${parts[1]} · ${parts[2]}`;
+    $('#rep-totals').innerHTML = mets.map(([k, l, , kind]) => `<div><span class="k">${l}${kind === 'avg' ? ' (promedio)' : ''}</span><div class="v num">${repFmt(k, total[k])}</div></div>`).join('');
+    $('#rep-table').innerHTML = `<thead><tr><th>${g[1]}</th>${mets.map(([, l]) => `<th>${l}</th>`).join('')}</tr></thead><tbody>${
+      rows.map(r => `<tr><td class="cell-title nowrap">${r.label}</td>${mets.map(([k]) => k === lead[0]
+        ? `<td><div class="rep-bar-cell"><span class="num">${repFmt(k, r.v[k])}</span><span class="bar" aria-hidden="true"><span style="width:${Math.round(r.v[k] / max * 100)}%"></span></span></div></td>`
+        : `<td class="num">${repFmt(k, r.v[k])}</td>`).join('')}</tr>`).join('')
+    }<tr class="rep-total"><td class="cell-title">Total</td>${mets.map(([k]) => `<td class="num cell-title">${repFmt(k, total[k])}</td>`).join('')}</tr></tbody>`;
+    $('#rep-result').hidden = false;
+    $('#rep-result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 450);
+});
+$('#rep-csv').addEventListener('click', () => {
+  if (!lastReport) return;
+  const { mets, rows, total, group, course, from } = lastReport;
+  const lines = [[group[1], ...mets.map(([, l]) => l)], ...rows.map(r => [r.label, ...mets.map(([k]) => r.v[k])]), ['Total', ...mets.map(([k]) => total[k])]];
+  const file = `reporte-${course.code}-${from}.csv`;
+  downloadFile(file, lines.map(l => l.map(csvCell).join(',')).join('\n'), 'text/csv');
+  showToast(`Descargaste ${file}`, 'success', 'i-download');
+});
+$('#rep-save-tpl').addEventListener('click', () => {
+  if (!repState.metrics.length) { showToast('Elegí al menos una métrica antes de guardar la plantilla.', 'danger', 'i-alert'); return; }
+  $('#rt-name').value = ''; $('#rt-name').removeAttribute('aria-invalid');
+  $('#rt-hint').className = 'hint'; $('#rt-hint').textContent = 'Aparece en "Plantilla guardada".';
+  $('#dialog-rep-tpl').showModal();
+});
+$('#rt-save').addEventListener('click', () => {
+  const inp = $('#rt-name'), v = inp.value.trim();
+  const err = !v ? 'Poné un nombre.' : REP_TEMPLATES.some(t => t.name.toLowerCase() === v.toLowerCase()) ? 'Ya hay una plantilla con ese nombre.' : '';
+  inp.setAttribute('aria-invalid', String(!!err)); $('#rt-hint').className = err ? 'err' : 'hint'; $('#rt-hint').textContent = err || 'Aparece en "Plantilla guardada".';
+  if (err) { inp.focus(); return; }
+  REP_TEMPLATES.push({ name: v, metrics: [...repState.metrics], group: repState.group, risks: [...repState.risks] });
+  renderRepOptions(); $('#rep-tpl').value = String(REP_TEMPLATES.length - 1);
+  $('#dialog-rep-tpl').close();
+  showToast(`Plantilla "${v}" guardada`, 'success', 'i-tick');
+});
+renderRepOptions();
+
+/* Accesos: the tab in the URL keeps the subpanel in sync. */
+$('#acc-tabs').addEventListener('click', e => {
+  const t = e.target.closest('[data-subtab]'); if (!t) return;
+  history.replaceState(null, '', `#accesos?tab=${t.dataset.subtab}`);
+  updateSubpanel('accesos', location.hash.slice(1));
+});
+
+renderParams(); renderCreds(); renderAudit(); renderIngest(); renderAdmins(); renderBackoffice();
 
 /* ======================= view toggle: cards | grilla ======================= */
 // Natural layout of each list; the viewer's choice per list is remembered.
@@ -7934,7 +8829,7 @@ const NAV_TABS = {
     ['chat', 'i-chat', 'Comunidad'],
   ],
   admin: [
-    ['backoffice', 'i-shield', 'Backoffice'],
+    ['backoffice', 'i-sliders', 'Backoffice'],
     ['accesos', 'i-key', 'Accesos', 1],
     ['cursos', 'i-book', 'Cursos'],
     ['desafios', 'i-flame', 'Desafíos'],
@@ -7957,7 +8852,7 @@ const BOTTOM_NAV_ITEMS = {
     ['perfil', 'i-user', 'Perfil'],
   ],
   admin: [
-    ['backoffice', 'i-shield', 'Admin'],
+    ['backoffice', 'i-sliders', 'Backoffice'],
     ['accesos', 'i-key', 'Accesos'],
     ['cursos', 'i-book', 'Cursos'],
     ['desafios', 'i-flame', 'Desafíos'],
@@ -7991,6 +8886,14 @@ const PARENT = {
   // Insignias profesor
   insignias: 'ranking',
 
+  // Admin: configuración global (Backoffice) y roles (Accesos)
+  parametros: 'backoffice',
+  parametro: 'backoffice',
+  llm: 'backoffice',
+  auditoria: 'backoffice',
+  ingesta: 'backoffice',
+  reportes: 'backoffice',
+  administradores: 'accesos',
   // Mercado profesor
   vitrina: 'vitrinas',
   'oferta-nueva': 'vitrinas',
@@ -8080,23 +8983,43 @@ const SUBMENUS = {
       title: 'Backoffice',
       sections: [
         {
-          label: 'Gestión Institucional',
+          label: 'Configuración global',
           items: [
-            { id: 'sub-aback-main', href: '#backoffice', label: 'Panel Institucional', icon: 'i-shield', match: h => h === 'backoffice' },
-            { id: 'sub-aback-acc', href: '#accesos', label: 'Solicitudes de Acceso', badge: '1', icon: 'i-key', match: h => h === 'accesos' }
+            { id: 'sub-abo-panel', href: '#backoffice', label: 'Panel de control', meta: 'Resumen y alertas', icon: 'i-cards', match: h => h === 'backoffice' },
+            { id: 'sub-abo-par', href: '#parametros', label: 'Parámetros globales', meta: 'XP, monedas, plazos', icon: 'i-sliders', match: h => h === 'parametros' || h.startsWith('parametro/') },
+            { id: 'sub-abo-llm', href: '#llm', label: 'Proveedores LLM', meta: 'Credenciales del Tutor IA', icon: 'i-cpu', match: h => h === 'llm' }
+          ]
+        },
+        {
+          label: 'Observabilidad',
+          items: [
+            { id: 'sub-abo-aud', href: '#auditoria', label: 'Auditoría', meta: 'Quién cambió qué', icon: 'i-file', match: h => h === 'auditoria' },
+            { id: 'sub-abo-ing', href: '#ingesta', label: 'Monitor de datos', meta: 'Eventos de Cursos y Desafíos', icon: 'i-database', badge: () => INGEST_EVENTS.filter(e => e.result === 'dlt').length || '', match: h => h === 'ingesta' }
+          ]
+        },
+        {
+          label: 'Análisis',
+          items: [
+            { id: 'sub-abo-rep', href: '#reportes', label: 'Reportes dinámicos', meta: 'Métricas agregadas por curso', icon: 'i-table', match: h => h === 'reportes' }
           ]
         }
       ]
     },
     accesos: {
       tag: 'Seguridad',
-      title: 'Control de Accesos',
+      title: 'Accesos',
       sections: [
         {
-          label: 'Solicitudes',
+          label: 'Habilitación de docentes',
           items: [
-            { id: 'sub-aacc-pend', href: '#accesos', label: 'Pendientes de Revisión', badge: '1', icon: 'i-key', match: h => h === 'accesos' },
-            { id: 'sub-aacc-bo', href: '#backoffice', label: 'Panel Backoffice', icon: 'i-shield', match: h => h === 'backoffice' }
+            { id: 'sub-aacc-pend', href: '#accesos?tab=acc-pend', label: 'Solicitudes pendientes', icon: 'i-clock', badge: () => REQUESTS.filter(r => r.state === 'pending').length || '', match: (h, f) => h === 'accesos' && !/tab=acc-ok/.test(f) },
+            { id: 'sub-aacc-ok', href: '#accesos?tab=acc-ok', label: 'Emails habilitados', meta: 'Profesores y gestores', icon: 'i-check', match: (h, f) => h === 'accesos' && /tab=acc-ok/.test(f) }
+          ]
+        },
+        {
+          label: 'Roles de plataforma',
+          items: [
+            { id: 'sub-aacc-adm', href: '#administradores', label: 'Administradores', meta: 'Asignar y revocar', icon: 'i-lock', match: h => h === 'administradores' }
           ]
         }
       ]
@@ -8152,7 +9075,8 @@ function buildSubpanelHTML(menuConfig, hashFull, activeCourseCode) {
     <div class="subpanel-section">
       ${sec.label ? `<span class="subpanel-section-label">${sec.label}</span>` : ''}
       ${sec.items.map(item => {
-        const isActive = (item.code && item.code === activeCourseCode) || (item.match ? item.match(cleanHash) : false);
+        const isActive = (item.code && item.code === activeCourseCode) || (item.match ? item.match(cleanHash, hashFull) : false);
+        const badge = typeof item.badge === 'function' ? item.badge() : item.badge;
         const iconHTML = item.color
           ? `<span class="subpanel-course-icon" style="--course-accent:${item.color}; --course-accent-bg:${item.color}22;">${icon(item.icon, 'icon')}</span>`
           : icon(item.icon, 'icon');
@@ -8164,7 +9088,7 @@ function buildSubpanelHTML(menuConfig, hashFull, activeCourseCode) {
               <span class="subpanel-item-text">${item.label}</span>
               ${item.meta ? `<span class="subpanel-item-meta">${item.meta}</span>` : ''}
             </div>
-            ${item.badge ? `<span class="subpanel-badge">${item.badge}</span>` : ''}
+            ${badge ? `<span class="subpanel-badge">${badge}</span>` : ''}
           </a>
         `;
       }).join('')}
@@ -8448,7 +9372,7 @@ function updateSubpanel(navId, hashFull, forceOpen = false) {
       const allItems = menuConfig.sections.flatMap(s => s.items);
       $$('.subpanel-item', bodyEl).forEach((a, i) => {
         const item = allItems[i];
-        const isActive = item && item.match ? item.match(cleanHash) : false;
+        const isActive = item && item.match ? item.match(cleanHash, hashFull) : false;
         a.classList.toggle('active', Boolean(isActive));
         if (isActive) a.setAttribute('aria-current', 'true');
         else a.removeAttribute('aria-current');
@@ -8607,7 +9531,7 @@ function applyError(el) {
 }
 
 function route() {
-  const defaultScreen = currentRole === 'alumno' ? 'dashboard' : 'desafios';
+  const defaultScreen = currentRole === 'alumno' ? 'dashboard' : currentRole === 'admin' ? 'backoffice' : 'desafios';
   const fullHash = location.hash.slice(1) || defaultScreen;
   const [routePath, queryString] = fullHash.split('?');
   const [id, arg] = routePath.split('/');
@@ -8652,6 +9576,9 @@ function route() {
   let el = screenEl(id);
   if (id === 'curso') fillCourseDetail(decodeURIComponent(arg || 'MSI'), currentActiveUnit);
   if (id === 'ranking') renderRanking();
+  if (id === 'parametro') renderParamHistory(decodeURIComponent(arg || ''));
+  if (id === 'parametros' && queryString) { parState.f = new URLSearchParams(queryString).get('f') || ''; parState.page = 0; renderParams(); }
+  if (id === 'backoffice') renderBackoffice();
   if (id === 'vitrinas') renderVitrinas();
   if (id === 'marketplace') renderShopCourses();
   if (id === 'uikit') renderUikitSamples();
@@ -8674,6 +9601,7 @@ function route() {
     $('#pending-title').textContent = link ? link.getAttribute('data-tooltip') || link.textContent.trim() : 'Página';
   }
   el.hidden = false;
+  if (id === 'accesos') selectSubtab($(`[data-subtab="${new URLSearchParams(queryString || '').get('tab') || 'acc-pend'}"]`, el));
   el.style.animation = 'none'; el.offsetHeight; el.style.animation = '';
   applyError(el);
   window.scrollTo(0, 0);
@@ -8870,7 +9798,7 @@ function setRole(r) {
   // Check the screen in the URL, not the boot default, so deep links survive a role reset.
   const screen = location.hash.slice(1).split(/[/?]/)[0] || currentScreen;
   const target = PARENT[screen] || screen;
-  if (!allowed.includes(target)) location.hash = allowed.includes('desafios') ? 'desafios' : 'perfil';
+  if (!allowed.includes(target)) location.hash = r === 'admin' ? 'backoffice' : allowed.includes('desafios') ? 'desafios' : 'perfil';
   route();
 }
 $$('[data-theme-btn]').forEach(b => b.addEventListener('click', () => setTheme(b.dataset.themeBtn)));
