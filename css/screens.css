@@ -6154,3 +6154,34 @@ fieldset.group.rep-panel { padding: 20px 22px 22px; gap: 14px; }
 .rep-req { font-size: var(--fs-small); font-weight: 600; color: var(--urgent); }
 .rep-req::before { content: '* '; }
 .rep-req.is-error { text-decoration: underline; text-underline-offset: 3px; }
+
+/* Catálogo del profesor agrupado por materia */
+.cat-group + .cat-group { margin-top:12px; }
+.cat-group > summary .count { margin-left:auto; padding:2px 9px; border-radius:999px; font-size:var(--fs-micro); font-weight:700; background:var(--bg-surface-alt); border:1px solid var(--border-subtle); color:var(--text-muted); }
+details.disclosure.cat-group > summary::after { margin-left:12px; }
+.cat-group > .pager { margin-top:12px; }
+
+/* Elegir tipo de desafío */
+.type-pick { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.type-card {
+  display:flex; flex-direction:column; align-items:flex-start; gap:8px; padding:18px; text-align:left; cursor:pointer; font:inherit; color:inherit;
+  background:var(--bg-surface); border:var(--border-width) solid var(--border-subtle); border-radius:var(--radius-card);
+  transition:border-color .15s ease, background-color .15s ease;
+}
+.type-card:hover { border-color:var(--accent-primary-fill); background:color-mix(in srgb, var(--accent-primary-fill) 8%, var(--bg-surface)); }
+.type-ic { width:40px; height:40px; display:flex; align-items:center; justify-content:center; border-radius:var(--radius-control); background:var(--bg-surface-alt); border:1px solid var(--border-subtle); color:var(--accent-primary); }
+.type-name { font-size:var(--fs-h3); font-weight:700; }
+[data-skin='gamer'] .type-name { font-family:var(--font-display); font-weight:400; font-size:var(--fs-h3-px); line-height:1.5; }
+.type-desc { font-size:var(--fs-small); color:var(--text-muted); line-height:1.45; }
+.type-go { margin-top:auto; padding-top:6px; display:inline-flex; align-items:center; gap:6px; font-size:var(--fs-small); font-weight:700; color:var(--accent-primary); }
+@media (max-width: 600px) { .type-pick { grid-template-columns:1fr; } }
+
+/* UI Kit: muestras nuevas */
+.uikit-demo { display:flex; flex-direction:column; gap:12px; }
+.uikit-demo .tabs { margin-bottom:0; }
+.item-sheet { display:flex; flex-wrap:wrap; gap:12px; margin-top:16px; }
+.item-sheet figure { margin:0; width:76px; display:flex; flex-direction:column; align-items:center; gap:4px; padding:8px 4px; border:1px solid var(--border-subtle); border-radius:var(--radius-control); background:var(--bg-surface-alt); }
+.item-sheet .item-icon { width:36px; height:36px; }
+.item-sheet figcaption { font-size:11px; color:var(--text-muted); font-family:var(--font-mono, monospace); }
+.uikit-inventory td:nth-child(2), .uikit-inventory td:nth-child(3) { font-size:var(--fs-small); }
+.uikit-inventory td:last-child { font-size:var(--fs-small); color:var(--text-muted); max-width:320px; }

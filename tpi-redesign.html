@@ -27,6 +27,7 @@
   <symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></symbol>
   <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
   <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></symbol>
   <symbol id="i-survey" viewBox="0 0 24 24"><rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></symbol>
   <symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
   <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
@@ -209,7 +210,7 @@
         <div class="account-menu" id="account-menu" hidden>
           <a class="nav-item" href="#perfil"><svg class="icon"><use href="#i-user"/></svg>Mi perfil</a>
           <a class="nav-item" href="#personaje" data-alumno-only><svg class="icon"><use href="#i-shirt"/></svg>Mi personaje</a>
-          <a class="nav-item" href="#inventario" data-alumno-only><svg class="icon"><use href="#i-backpack"/></svg>Inventario</a>
+          <a class="nav-item" href="#inventario" data-alumno-only><svg class="icon"><use href="#i-backpack"/></svg>Equipar ítems</a>
           <a class="nav-item" href="#encuestas"><svg class="icon"><use href="#i-survey"/></svg>Encuestas <span class="badge badge-secondary sm" style="margin-left:auto">1</span></a>
           <a class="nav-item" href="#banco"><svg class="icon"><use href="#i-coin"/></svg>Billetera</a>
           <hr />
@@ -1762,7 +1763,7 @@
     <section class="screen" id="screen-desafios-profesor" aria-labelledby="h-cat" data-error="Ocurrió un error al consultar los desafíos con el servidor.">
       <div class="page-head">
         <div><h1 class="display" id="h-cat">Desafíos</h1><p>El catálogo de todas tus cohortes: desafíos prácticos, cuestionarios teóricos y el banco de preguntas.</p></div>
-        <button class="btn btn-primary" type="button" data-open="drawer-desafio"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Crear desafío</button>
+        <button class="btn btn-primary" type="button" data-open="dialog-nuevo-desafio"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Nuevo desafío</button>
       </div>
       <div class="tabs" role="tablist" aria-label="Sección">
         <button class="tab" role="tab" aria-selected="true" data-subtab="cat-practicos">Catálogo <span class="count num">14</span></button>
@@ -1776,7 +1777,7 @@
             <div class="quick-links">
               <a class="btn btn-ghost btn-sm" href="#quiz"><svg class="icon icon-sm"><use href="#i-eye"/></svg>Vista previa como alumno</a>
               <span data-view-toggle="cuestionarios"></span>
-              <a class="btn btn-primary btn-sm" href="#cuestionario-nuevo"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Armar cuestionario</a>
+              <a class="btn btn-ghost btn-sm" href="#cuestionario-nuevo"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Nuevo cuestionario</a>
             </div>
           </div>
           <div class="table-wrap" data-view-target="cuestionarios"><table class="data">
@@ -1789,7 +1790,7 @@
           </table></div>
         </div>
         <div data-subpanel="cat-banco" hidden>
-          <div class="section-head"><p>Preguntas reutilizables. Se agregan a un cuestionario desde "Armar cuestionario".</p><div class="quick-links"><span data-view-toggle="banco"></span><button class="btn btn-ghost btn-sm" type="button"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Nueva pregunta</button></div></div>
+          <div class="section-head"><p>Preguntas reutilizables. Se suman a un cuestionario teórico al armarlo.</p><div class="quick-links"><span data-view-toggle="banco"></span><button class="btn btn-ghost btn-sm" type="button"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Nueva pregunta</button></div></div>
           <div class="table-wrap" data-view-target="banco"><table class="data">
             <thead><tr><th>Pregunta</th><th>Tema</th><th>Corrección</th><th class="r">Usada en</th></tr></thead>
             <tbody>
@@ -1807,7 +1808,7 @@
     <section class="screen" id="screen-cuestionario-nuevo-profesor" aria-labelledby="h-build" data-error="No pudimos cargar el banco de preguntas.">
       <a class="back" href="#desafios"><svg class="icon icon-sm"><use href="#i-left"/></svg>Desafíos</a>
       <div class="page-head">
-        <div><h1 class="display" id="h-build">Armar cuestionario</h1><p>Agregá preguntas nuevas o de tu banco, ordenalas y repartí el puntaje hasta llegar a 100.</p></div>
+        <div><h1 class="display" id="h-build">Nuevo cuestionario teórico</h1><p>Agregá preguntas nuevas o de tu banco, ordenalas y repartí el puntaje hasta llegar a 100.</p></div>
       </div>
       <div class="data builder">
         <aside>
@@ -2592,6 +2593,157 @@
           </table>
         </div>
       </section>
+
+      <!-- 11. Navegación -->
+      <section class="card studs uikit-section">
+        <h2>11. Navegación (.tabs, .seg, .view-toggle, .back, .campus-breadcrumb)</h2>
+        <p class="hint" style="margin-bottom:14px;">Pestañas con contador, pestañas de curso con scroll horizontal, segmentado de filtros, alternador cards/grilla, volver y miga de pan.</p>
+        <div class="uikit-demo">
+          <div class="tabs" role="tablist" aria-label="Ejemplo de pestañas">
+            <button class="tab" role="tab" type="button" aria-selected="true">Catálogo <span class="count num">14</span></button>
+            <button class="tab" role="tab" type="button" aria-selected="false">Cuestionarios teóricos <span class="count num">3</span></button>
+            <button class="tab" role="tab" type="button" aria-selected="false">Banco de preguntas <span class="count num">24</span></button>
+          </div>
+          <div class="tabs course-tabs" role="tablist" aria-label="Ejemplo de pestañas de curso">
+            <button class="tab" role="tab" type="button" aria-selected="true">Programación IV</button>
+            <button class="tab" role="tab" type="button" aria-selected="false">Metodología de Sistemas II</button>
+            <button class="tab" role="tab" type="button" aria-selected="false">Gestión de Desarrollo de Software</button>
+            <button class="tab" role="tab" type="button" aria-selected="false">Introducción al Análisis de Datos</button>
+          </div>
+          <div class="uikit-row">
+            <div class="seg" role="group" aria-label="Filtro de estado"><button type="button" aria-pressed="true">Todas <span class="num">7</span></button><button type="button" aria-pressed="false">Activas <span class="num">6</span></button><button type="button" aria-pressed="false">Pausadas <span class="num">1</span></button></div>
+            <span data-view-toggle="uikit-demo"></span>
+          </div>
+          <div class="uikit-row">
+            <a class="back" href="#uikit" style="margin:0"><svg class="icon icon-sm"><use href="#i-left"/></svg>Volver</a>
+            <nav class="campus-breadcrumb" aria-label="Miga de pan de ejemplo" style="margin:0"><a href="#uikit"><svg class="icon icon-sm"><use href="#i-home"/></svg>Inicio</a><span class="sep">/</span><span>Cursos</span><span class="sep">/</span><span class="current">Programación IV</span></nav>
+          </div>
+        </div>
+      </section>
+
+      <!-- 12. Pasos -->
+      <section class="card studs uikit-section">
+        <h2>12. Asistente por pasos (.wizard-steps)</h2>
+        <p class="hint" style="margin-bottom:14px;">Pasos completados con tilde, paso actual resaltado y pasos futuros deshabilitados. Los pasos completados se pueden tocar para volver.</p>
+        <ol class="wizard-steps offer-steps" style="border:1px solid var(--border-subtle); border-radius:var(--radius-card);">
+          <li class="wizard-step completed"><button type="button" class="step-btn"><span class="wizard-step-num"><svg class="icon icon-sm"><use href="#i-tick"/></svg></span><span class="step-label">Tipo</span></button></li>
+          <li class="wizard-step-line" aria-hidden="true"></li>
+          <li class="wizard-step active" aria-current="step"><button type="button" class="step-btn"><span class="wizard-step-num">2</span><span class="step-label">Información</span></button></li>
+          <li class="wizard-step-line" aria-hidden="true"></li>
+          <li class="wizard-step"><button type="button" class="step-btn" disabled><span class="wizard-step-num">3</span><span class="step-label">Precio y stock</span></button></li>
+          <li class="wizard-step-line" aria-hidden="true"></li>
+          <li class="wizard-step"><button type="button" class="step-btn" disabled><span class="wizard-step-num">4</span><span class="step-label">Mecánica</span></button></li>
+        </ol>
+      </section>
+
+      <!-- 13. Contenedores -->
+      <section class="card studs uikit-section">
+        <h2>13. Contenedores (.stat-strip, details.disclosure, .empty, .progress-line)</h2>
+        <p class="hint" style="margin-bottom:14px;">Franja de métricas (también como botones que filtran), desplegable con resumen y contador, estado vacío y barra de progreso.</p>
+        <div class="stat-strip wallet-strip">
+          <button type="button" class="stat-btn" aria-pressed="true"><span class="k">Monedas<span class="stat-filter">Filtrar movimientos</span></span><span class="v coin num">1.240</span><span class="sub">Métrica que además filtra (activa)</span></button>
+          <button type="button" class="stat-btn" aria-pressed="false"><span class="k">XP<span class="stat-filter">Filtrar movimientos</span></span><span class="v num">320<span class="of">/ 500</span></span><span class="bar" aria-hidden="true"><span style="width:64%"></span></span></button>
+        </div>
+        <details class="card studs disclosure cat-group" open>
+          <summary><h2><span>Programación IV</span><span class="disc-sum">6 desafíos · 5 publicados</span></h2><span class="count num">6</span></summary>
+          <p class="muted">Contenido del desplegable. Cerrado muestra el resumen debajo del título.</p>
+        </details>
+        <div class="uikit-row" style="margin-top:16px; align-items:stretch;">
+          <div class="empty" style="flex:1 1 260px;"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg><p>Nada coincide con esos filtros.</p><button class="btn btn-ghost btn-sm" type="button">Limpiar filtros</button></div>
+          <div class="empty offer-empty" style="flex:1 1 260px;"><img class="item-icon" src="assets/items/chest.svg" alt="" width="56" height="56" /><p><b>Esta vitrina está vacía.</b> Estado vacío con ilustración y acción principal.</p><button class="btn btn-primary btn-sm" type="button"><svg class="icon icon-sm"><use href="#i-plus"/></svg>Publicar la primera oferta</button></div>
+        </div>
+        <div class="progress-line" style="max-width:420px; margin-top:12px;"><div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="64" aria-label="Avance"><span style="width:64%"></span></div><span class="num">64%</span></div>
+      </section>
+
+      <!-- 14. Selección -->
+      <section class="card studs uikit-section">
+        <h2>14. Selección (.type-card, .tpl-card, .switch, .combobox)</h2>
+        <p class="hint" style="margin-bottom:14px;">Tarjetas para elegir entre opciones que necesitan explicación, opción con ícono tipo radio, interruptor y combobox con lista.</p>
+        <div class="type-pick" style="max-width:640px;">
+          <button type="button" class="type-card"><span class="type-ic"><svg class="icon"><use href="#i-code"/></svg></span><span class="type-name">Desafío práctico</span><span class="type-desc">Opción grande con explicación. Para decisiones que cambian todo el flujo.</span><span class="type-go">Elegir<svg class="icon icon-sm"><use href="#i-right"/></svg></span></button>
+          <button type="button" class="type-card"><span class="type-ic"><svg class="icon"><use href="#i-survey"/></svg></span><span class="type-name">Cuestionario teórico</span><span class="type-desc">Segunda opción del mismo grupo.</span><span class="type-go">Elegir<svg class="icon icon-sm"><use href="#i-right"/></svg></span></button>
+        </div>
+        <div class="tpl-grid" role="radiogroup" aria-label="Ejemplo de opciones" style="max-width:640px; margin-top:16px;">
+          <label class="tpl-card" style="--offer:#2f7fd0"><input type="radio" name="uikit-tpl" checked /><img class="item-icon" src="assets/items/shield2.svg" alt="" width="44" height="44" /><span class="tpl-name">Escudo base</span><span class="tpl-blurb">Elegida</span><span class="badge badge-primary sm">Escudo</span></label>
+          <label class="tpl-card" style="--offer:#c03ad0"><input type="radio" name="uikit-tpl" /><img class="item-icon" src="assets/items/xp-boost2.svg" alt="" width="44" height="44" /><span class="tpl-name">Elixir</span><span class="tpl-blurb">Sin elegir</span><span class="badge badge-secondary sm">Potenciador de XP</span></label>
+          <label class="tpl-card" style="--offer:#d8343a"><input type="radio" name="uikit-tpl" disabled /><img class="item-icon" src="assets/items/heart1.svg" alt="" width="44" height="44" /><span class="tpl-name">Poción</span><span class="tpl-blurb">Deshabilitada</span><span class="badge badge-danger sm">Vida extra</span></label>
+        </div>
+        <div class="uikit-row" style="margin-top:16px;">
+          <label class="switch-row"><input type="checkbox" class="switch" checked /><span>Interruptor (.switch)</span></label>
+          <div class="combobox sm" data-value="">
+            <button type="button" class="combobox-trigger" aria-haspopup="listbox" aria-expanded="false" aria-label="Combobox de ejemplo"><span class="combobox-label">Permiso:</span><span class="combobox-selected-text">Todos</span><svg class="icon icon-xs combobox-chevron"><use href="#i-chevron"/></svg></button>
+            <ul class="combobox-options" role="listbox" hidden><li class="combobox-option is-selected" role="option" data-value="" aria-selected="true">Todos</li><li class="combobox-option" role="option" data-value="Gestor" aria-selected="false">Gestor</li><li class="combobox-option" role="option" data-value="Profesor" aria-selected="false">Profesor</li></ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 15. Superposiciones -->
+      <section class="card studs uikit-section">
+        <h2>15. Superposiciones (modal, drawer, toast)</h2>
+        <p class="hint" style="margin-bottom:14px;">Modal centrado para decisiones o confirmaciones que no se pueden deshacer, drawer lateral para formularios largos y toast para confirmar acciones.</p>
+        <div class="uikit-row">
+          <button class="btn btn-secondary" type="button" data-open="dialog-nuevo-desafio">Abrir modal</button>
+          <button class="btn btn-secondary" type="button" data-open="drawer-desafio">Abrir drawer</button>
+          <button class="btn btn-ghost" type="button" onclick="showToast('Guardaste los cambios.', 'success')">Toast de éxito</button>
+          <button class="btn btn-ghost" type="button" onclick="showToast('Se sacó de la tienda.', 'info')">Toast informativo</button>
+        </div>
+      </section>
+
+      <!-- 16. Economía e ítems -->
+      <section class="card studs uikit-section">
+        <h2>16. Economía e ítems (.wallet, .offer-card, .item-tile, .slot, íconos pixel)</h2>
+        <p class="hint" style="margin-bottom:14px;">Saldo, tarjeta de oferta, ítem de inventario con cantidad y color de tipo, ranuras de la maleta y el set de íconos pixel del equipo (el nivel crece con la potencia).</p>
+        <div class="uikit-row">
+          <span class="wallet"><img class="coin-icon" src="assets/items/coin.svg" alt="" width="20" height="20" /><span><span class="num">1.240</span> monedas</span></span>
+          <span class="pos"><b class="num">+20</b> monedas</span><span class="neg"><b class="num">−350</b> monedas</span>
+        </div>
+        <div class="offer-grid" style="max-width:640px;" id="uikit-offer"></div>
+        <div class="uikit-row" style="margin-top:16px;" id="uikit-items"></div>
+        <ul class="scope-legend" aria-label="Colores por tipo"><li><span class="scope-dot" data-scope=""></span>General</li><li><span class="scope-dot" data-scope="practicos"></span>Práctico</li><li><span class="scope-dot" data-scope="teoricos"></span>Teórico</li><li><span class="scope-dot" data-scope="llm"></span>LLM</li></ul>
+        <div class="bag-slots" style="margin-top:16px;">
+          <div class="slot filled"><img class="item-icon" src="assets/items/shield2.svg" alt="" width="36" height="36" /><button type="button" class="slot-x" aria-label="Sacar"><svg class="icon icon-sm"><use href="#i-x"/></svg></button></div>
+          <button type="button" class="slot ready" aria-label="Ranura lista"><svg class="icon"><use href="#i-plus"/></svg></button>
+          <button type="button" class="slot" aria-label="Ranura libre"><svg class="icon"><use href="#i-plus"/></svg></button>
+          <button type="button" class="slot off" disabled aria-label="Ranura apagada"><svg class="icon"><use href="#i-plus"/></svg></button>
+        </div>
+        <div class="item-sheet" id="uikit-sprites"></div>
+      </section>
+
+      <!-- 17. Inventario para migrar -->
+      <section class="card studs uikit-section">
+        <h2>17. Inventario para migrar a la librería</h2>
+        <p class="hint" style="margin-bottom:14px;">Componentes genéricos del mock, con su clase actual, variantes y dónde se usan. Las notas marcan lo que conviene unificar antes de pasarlo a la librería.</p>
+        <div class="table-wrap"><table class="data uikit-inventory">
+          <thead><tr><th>Componente</th><th>Clase actual</th><th>Variantes y estados</th><th>Se usa en</th><th>Nota para migrar</th></tr></thead>
+          <tbody>
+            <tr><td>Botón</td><td><code>.btn</code></td><td>primary, secondary, ghost, quiet, danger, gold, success · sm, lg, icon</td><td>Todas las pantallas</td><td><code>.btn-success</code> se sumó en Mercado: agregarlo a la escala.</td></tr>
+            <tr><td>Badge</td><td><code>.badge</code></td><td>primary, secondary, success, gold, danger, outline · sm</td><td>Todas</td><td>—</td></tr>
+            <tr><td>Tarjeta</td><td><code>.card</code> + <code>.studs</code></td><td>con remaches en arcade</td><td>Todas</td><td>Los remaches usan <code>background-image</code>: cualquier fondo propio tiene que apilarse con ellos.</td></tr>
+            <tr><td>Campo de formulario</td><td><code>.field</code>, <code>.control</code>, <code>.form-grid</code></td><td>requerido, hint, error, inválido</td><td>Formularios</td><td>—</td></tr>
+            <tr><td>Buscador</td><td><code>.search-bar</code></td><td>sm, lg, con atajo, con limpiar</td><td>Listas y filtros</td><td>—</td></tr>
+            <tr><td>Combobox</td><td><code>.combobox</code></td><td>sm, abierto</td><td>Equipo docente</td><td>—</td></tr>
+            <tr><td>Segmentado</td><td><code>.seg</code></td><td>sm, con contador</td><td>Filtros, tema, estilo</td><td>—</td></tr>
+            <tr><td>Alternador de vista</td><td><code>.view-toggle</code></td><td>cards / grilla</td><td>Todas las listas</td><td>—</td></tr>
+            <tr><td>Pestañas</td><td><code>.tabs</code>, <code>.tab</code></td><td>con contador, de curso con scroll</td><td>Desafíos, Mercado, Billetera</td><td>—</td></tr>
+            <tr><td>Asistente por pasos</td><td><code>.wizard-steps</code></td><td>completado, actual, futuro</td><td>Publicar oferta, crear cohorte</td><td>Hay dos versiones (modal y en página): unificar en una.</td></tr>
+            <tr><td>Desplegable</td><td><code>details.disclosure</code></td><td>con resumen, con contador</td><td>Personaje, desafíos, configuración</td><td>—</td></tr>
+            <tr><td>Franja de métricas</td><td><code>.stat-strip</code></td><td>estática o como filtro (<code>.stat-btn</code>)</td><td>Inventario, Mercado, Billetera</td><td>—</td></tr>
+            <tr><td>Estado vacío</td><td><code>.empty</code></td><td>con ícono, con ilustración, con acción</td><td>Listas</td><td><code>.empty</code> también se usaba como modificador en otros lados: evitar ese nombre genérico.</td></tr>
+            <tr><td>Barra de progreso</td><td><code>.progress-line</code>, <code>.bar</code></td><td>con porcentaje</td><td>Cursos, Vitrinas, XP</td><td>—</td></tr>
+            <tr><td>Paginación</td><td><code>.pager</code>, <code>.pg</code></td><td>con salto de páginas</td><td>Listas largas</td><td>—</td></tr>
+            <tr><td>Tabla</td><td><code>table.data</code></td><td>vista tabla y cards</td><td>Catálogos, auditoría</td><td>—</td></tr>
+            <tr><td>Modal / Drawer</td><td><code>dialog.modal</code>, <code>dialog.drawer</code></td><td>sm, md, lg</td><td>Confirmaciones y formularios</td><td>—</td></tr>
+            <tr><td>Toast</td><td><code>showToast()</code></td><td>success, info</td><td>Acciones guardadas</td><td>—</td></tr>
+            <tr><td>Opción grande</td><td><code>.type-card</code>, <code>.tpl-card</code></td><td>elegida, deshabilitada</td><td>Nuevo desafío, publicar oferta</td><td>Son el mismo patrón: unificar en uno.</td></tr>
+            <tr><td>Interruptor</td><td><code>.switch</code></td><td>activo, foco</td><td>Publicar oferta</td><td>Existe otro (<code>.edit-mode-switch</code>) en la página del curso: unificar.</td></tr>
+            <tr><td>Saldo</td><td><code>.wallet</code>, <code>.pos</code>, <code>.neg</code></td><td>chip, montos con signo</td><td>Mercado, Billetera</td><td>—</td></tr>
+            <tr><td>Tarjeta de oferta</td><td><code>.offer-card</code></td><td>gestión, tienda, vista previa, pausada</td><td>Mercado</td><td>—</td></tr>
+            <tr><td>Ítem y ranura</td><td><code>.item-tile</code>, <code>.slot</code></td><td>cantidad, elegido, agotado · libre, lista, apagada, ocupada</td><td>Billetera, Equipar ítems</td><td>—</td></tr>
+            <tr><td>Íconos pixel</td><td><code>assets/items/*.svg</code></td><td>escudo 1–4, corazón 1–3, pociones 1–3, moneda, cofre</td><td>Mercado, Billetera</td><td>Los SVG originales no traen <code>xmlns</code>: agregarlo en la librería.</td></tr>
+            <tr><td>Íconos de interfaz</td><td><code>&lt;use href="#i-…"&gt;</code></td><td>icon, icon-sm, icon-xs</td><td>Todas</td><td>Hay emojis en el mock (barra del mock, títulos del UI Kit): reemplazarlos por íconos.</td></tr>
+          </tbody>
+        </table></div>
+      </section>
     </section>
 
     <!-- ================= LOGIN / REGISTRO (mock de acceso) ================= -->
@@ -2803,10 +2955,36 @@
 
 
 <!-- ================= Drawer: crear desafío ================= -->
+<!-- ================= Modal: elegir tipo de desafío ================= -->
+<dialog class="modal modal-md studs" id="dialog-nuevo-desafio" aria-labelledby="h-nd">
+  <div class="buy">
+    <div class="modal-head">
+      <div><h2 id="h-nd">Nuevo desafío</h2><p>Elegí qué vas a evaluar. Después completás la consigna y la recompensa.</p></div>
+      <button class="icon-btn sm" type="button" data-nd-close aria-label="Cerrar"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="type-pick">
+        <button type="button" class="type-card" data-nd="practico">
+          <span class="type-ic"><svg class="icon"><use href="#i-code"/></svg></span>
+          <span class="type-name">Desafío práctico</span>
+          <span class="type-desc">El alumno escribe código y lo corrigen pruebas automáticas. Sirve para algoritmos y refactorizaciones.</span>
+          <span class="type-go">Elegir<svg class="icon icon-sm"><use href="#i-right"/></svg></span>
+        </button>
+        <button type="button" class="type-card" data-nd="teorico">
+          <span class="type-ic"><svg class="icon"><use href="#i-survey"/></svg></span>
+          <span class="type-name">Cuestionario teórico</span>
+          <span class="type-desc">Preguntas nuevas o de tu banco, con puntaje que suma 100. Sirve para evaluar conceptos.</span>
+          <span class="type-go">Elegir<svg class="icon icon-sm"><use href="#i-right"/></svg></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
 <dialog class="drawer" id="drawer-desafio" aria-labelledby="h-dd">
   <form method="dialog" style="display:contents" id="form-desafio" novalidate>
     <div class="drawer-head">
-      <div><h2 id="h-dd" class="display">Crear desafío</h2><p>Definí la consigna y cómo se evalúa.</p></div>
+      <div><h2 id="h-dd" class="display">Nuevo desafío práctico</h2><p>El alumno escribe código y lo corrigen pruebas automáticas.</p></div>
       <button class="icon-btn sm" value="cancel" aria-label="Cerrar"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
     </div>
     <div class="drawer-body">
@@ -2816,7 +2994,7 @@
       </fieldset>
       <fieldset class="group"><legend>Evaluación</legend>
         <div class="form-grid">
-          <label class="field"><span class="req">Tipo</span><select class="control" name="tipo"><option>Algoritmo con pruebas automáticas</option><option>Refactorización</option><option>Cuestionario teórico</option></select></label>
+          <label class="field"><span class="req">Tipo</span><select class="control" name="tipo"><option>Algoritmo con pruebas automáticas</option><option>Refactorización</option></select></label>
           <label class="field"><span class="req">Dificultad</span><select class="control" name="dif"><option>Básica</option><option>Media</option><option>Avanzada</option></select></label>
           <label class="field"><span class="req">Reintentos</span><input class="control num" type="number" min="0" max="3" value="2" name="reint" /><span class="hint">De 0 a 3.</span></label>
           <label class="field"><span class="req">Aprobación</span><input class="control num" type="number" min="0" max="100" value="70" name="aprob" /><span class="hint">Porcentaje mínimo, de 0 a 100.</span></label>
@@ -2834,7 +3012,7 @@
     </div>
     <div class="drawer-foot">
       <button class="btn btn-quiet" value="cancel">Cancelar</button>
-      <button class="btn btn-primary" id="dd-submit" type="button">Crear desafío</button>
+      <button class="btn btn-primary" id="dd-submit" type="button">Crear desafío práctico</button>
     </div>
   </form>
 </dialog>
@@ -3713,8 +3891,9 @@ function ChallengeList(root) {
 const catalogInstances = [];
 function Catalog(root) {
   const locked = root.hasAttribute('data-locked-course');
-  const st = { q: '', course: '', type: '', diff: '', state: '', req: false, page: 0 };
+  const st = { q: '', course: '', type: '', diff: '', state: '', req: false, page: 0, pages: {}, open: null };
   const SIZE = 8;
+  const COURSE_ORDER = ['ProgIV', 'MSI', 'InglesII', 'BDII'];
   root.innerHTML = `
     ${filterBar("cat" + catalogInstances.length, "Buscar por título del desafío", `
       ${locked ? '' : '<label class="field">Cohorte<select class="control" name="course"><option value="">Todas</option><option value="ProgIV">Programación IV</option><option value="InglesII">Inglés II</option><option value="BDII">BD II</option><option value="MSI">MSI</option></select></label>'}
@@ -3734,22 +3913,49 @@ function Catalog(root) {
     $('[data-count]', root).textContent = `${list.length} ${list.length === 1 ? 'desafío' : 'desafíos'}`;
     syncFilterCount(root, [!locked && st.course, st.type, st.diff, st.state, st.req].filter(Boolean).length);
     if (!list.length) { res.innerHTML = `<div class="empty">${icon('i-filter-off')}<p>Ningún desafío coincide con estos filtros.</p></div>`; pagerEl.innerHTML = ''; return; }
-    st.page = Math.min(st.page, Math.ceil(list.length / SIZE) - 1);
-    pagerEl.innerHTML = list.length > SIZE ? pagerHTML(st.page, SIZE, list.length) : '';
-    const pageItems = list.slice(st.page * SIZE, st.page * SIZE + SIZE);
-    res.innerHTML = `<div class="table-wrap"><table class="data">
-      <thead><tr><th>Desafío</th>${locked ? '' : '<th>Cohorte</th>'}<th>Dificultad</th><th>Vence</th><th>Evaluación</th><th>Recompensa</th><th>Estado</th><th><span class="sr-only">Acciones</span></th></tr></thead>
-      <tbody>${pageItems.map(c => `<tr>
+    const rowsHTML = (items, showCourse) => items.map(c => `<tr>
         <td class="cell-main"><div class="cell-title">${c.title}</div><div class="cell-sub">${c.req ? '<span class="badge badge-required">Obligatorio</span>' : ''}<span>${c.type}</span></div></td>
-        ${locked ? '' : `<td>${c.course}</td>`}
+        ${showCourse ? `<td>${c.course}</td>` : ''}
         <td><span class="diff"><span class="pips" data-level="${c.diff}" aria-hidden="true"><i></i><i></i><i></i></span>${DIFF[c.diff]}</span></td>
         <td class="num" style="white-space:nowrap">${c.due ? short(c.due) : c.done ? '—' : 'Sin fecha'}</td>
         <td class="reward-cell"><span>${c.pass}% para aprobar</span><span>${c.retries} ${c.retries === 1 ? 'reintento' : 'reintentos'}</span></td><td class="reward-cell"><span class="xp-text">+${c.xp} XP</span><span>${c.coins} monedas</span></td>
         <td>${c.published ? '<span class="badge badge-success">Publicado</span>' : '<span class="badge badge-outline">Borrador</span>'}</td>
         <td><div class="row-actions"><button class="icon-btn sm" aria-label="Editar ${c.title}"><svg class="icon icon-sm"><use href="#i-pencil"/></svg></button><button class="icon-btn sm" aria-label="Vista previa de ${c.title}"><svg class="icon icon-sm"><use href="#i-eye"/></svg></button></div></td>
-      </tr>`).join('')}</tbody></table></div>`;
+      </tr>`).join('');
+    const tableHTML = (items, showCourse) => `<div class="table-wrap"><table class="data">
+      <thead><tr><th>Desafío</th>${showCourse ? '<th>Cohorte</th>' : ''}<th>Dificultad</th><th>Vence</th><th>Evaluación</th><th>Recompensa</th><th>Estado</th><th><span class="sr-only">Acciones</span></th></tr></thead>
+      <tbody>${rowsHTML(items, showCourse)}</tbody></table></div>`;
+    if (locked) {
+      st.page = Math.min(st.page, Math.ceil(list.length / SIZE) - 1);
+      pagerEl.innerHTML = list.length > SIZE ? pagerHTML(st.page, SIZE, list.length) : '';
+      res.innerHTML = tableHTML(list.slice(st.page * SIZE, st.page * SIZE + SIZE), false);
+      return;
+    }
+    // One disclosure per course (materia); each keeps its own page so long courses don't push the rest away.
+    pagerEl.innerHTML = '';
+    const groups = [...new Set(list.map(c => c.course))].sort((x, y) => (COURSE_ORDER.indexOf(x) + 99) % 99 - (COURSE_ORDER.indexOf(y) + 99) % 99);
+    if (st.open === null) st.open = new Set(groups.slice(0, 1));
+    res.innerHTML = groups.map(code => {
+      const items = list.filter(c => c.course === code);
+      const pages = Math.ceil(items.length / SIZE);
+      const page = Math.min(st.pages[code] || 0, pages - 1);
+      const pub = items.filter(c => c.published).length, req = items.filter(c => c.req).length;
+      const name = COURSES[code]?.name || { BDII: 'Bases de Datos II' }[code] || code;
+      return `<details class="card studs disclosure cat-group" data-group="${code}" ${st.open.has(code) || st.course ? 'open' : ''}>
+        <summary><h2><span>${name}</span><span class="disc-sum"><span class="num">${items.length}</span> ${items.length === 1 ? 'desafío' : 'desafíos'} · <span class="num">${pub}</span> ${pub === 1 ? 'publicado' : 'publicados'}${items.length - pub ? ` · <span class="num">${items.length - pub}</span> en borrador` : ''}${req ? ` · <span class="num">${req}</span> ${req === 1 ? 'obligatorio' : 'obligatorios'}` : ''}</span></h2><span class="count num" aria-label="${items.length} desafíos">${items.length}</span></summary>
+        ${tableHTML(items.slice(page * SIZE, page * SIZE + SIZE), false)}
+        ${pages > 1 ? `<div class="pager" data-group-pager="${code}">${pagerHTML(page, SIZE, items.length, 'desafíos')}</div>` : ''}
+      </details>`;
+    }).join('');
   }
-  form.addEventListener('input', e => { const { name, value, checked, type } = e.target; st[name] = type === 'checkbox' ? checked : value; st.page = 0; render(); });
+  res.addEventListener('toggle', e => { const d = e.target.closest?.('[data-group]'); if (d && st.open) d.open ? st.open.add(d.dataset.group) : st.open.delete(d.dataset.group); }, true);
+  res.addEventListener('click', e => {
+    const b = e.target.closest('[data-group-pager] [data-pg-to]'); if (!b || b.disabled) return;
+    const code = b.closest('[data-group-pager]').dataset.groupPager;
+    st.pages[code] = Number(b.dataset.pgTo); render();
+    res.querySelector(`[data-group-pager="${code}"] [aria-current="page"]`)?.focus();
+  });
+  form.addEventListener('input', e => { const { name, value, checked, type } = e.target; st[name] = type === 'checkbox' ? checked : value; st.page = 0; st.pages = {}; render(); });
   onPager(pagerEl, n => { st.page = n; render(); });
   const api = { render, setCourse(c) { st.course = c; st.page = 0; render(); } };
   catalogInstances.push(api);
@@ -6953,6 +7159,13 @@ $('#nb-cancel').addEventListener('click', () => { nbForm.reset(); nbForm.hidden 
 
 /* ======================= drawers ======================= */
 document.addEventListener('click', e => { const t = e.target.closest('[data-open]'); if (t) $('#' + t.dataset.open).showModal(); });
+/* One "Nuevo desafío" entry point: the type is the first decision, then each type opens its own editor. */
+$('#dialog-nuevo-desafio').addEventListener('click', e => {
+  if (e.target.closest('[data-nd-close]')) { $('#dialog-nuevo-desafio').close(); return; }
+  const b = e.target.closest('[data-nd]'); if (!b) return;
+  $('#dialog-nuevo-desafio').close();
+  if (b.dataset.nd === 'practico') $('#drawer-desafio').showModal(); else location.hash = 'cuestionario-nuevo';
+});
 $('#dd-submit').addEventListener('click', () => {
   const t = $('#form-desafio [name="titulo"]');
   const bad = !t.value.trim();
@@ -8589,6 +8802,16 @@ $('#screen-inventario-alumno').addEventListener('dragover', e => { const sl = e.
 $('#screen-inventario-alumno').addEventListener('drop', e => { const sl = e.target.closest('button.slot[data-slot]'); if (!sl) return; e.preventDefault(); equip(e.dataTransfer.getData('text/plain'), sl.dataset.slot); });
 $('#screen-inventario-alumno').addEventListener('dragend', () => { if (bagPick) { bagPick = null; renderInventory(); } });
 
+
+/* UI Kit: live samples rendered with the same helpers the screens use, so the kit can't drift from them. */
+function renderUikitSamples() {
+  const o = OFFERS.ProgIV[0];
+  $('#uikit-offer').innerHTML = offerCardHTML(o, 'preview') + offerCardHTML({ ...OFFERS.ProgIV[4] }, 'read');
+  $('#uikit-items').innerHTML = [['lab', 2], ['sab', 1], ['iman', 1], ['reani', 3], ['muro', 0]]
+    .map(([k, n]) => itemTile(INVENTORY.ProgIV.find(i => i.key === k), n, n ? '' : '')).join('');
+  $('#uikit-sprites').innerHTML = ['shield1', 'shield2', 'shield3', 'shield4', 'heart1', 'heart2', 'heart3', 'xp-boost1', 'xp-boost2', 'xp-boost3', 'coins-boost1', 'coins-boost2', 'coins-boost3', 'coin', 'chest', 'fire', 'trophy']
+    .map(n => `<figure>${itemImg(n, n)}<figcaption>${n}</figcaption></figure>`).join('');
+}
 /* ======================= role / nav / routing ======================= */
 const NAV_TABS = {
   alumno: [
@@ -8708,13 +8931,6 @@ const SUBMENUS = {
             { id: 'sub-eco-banco', href: '#banco', label: 'Billetera', meta: 'Vidas, monedas y XP', icon: 'i-coin', match: h => h === 'banco' },
             { id: 'sub-eco-market', href: '#marketplace', label: 'Mercado', meta: 'Vitrina de cada curso', icon: 'i-bag', match: h => h === 'marketplace' || h.startsWith('mercado') }
           ]
-        },
-        {
-          label: 'Tu Personaje',
-          items: [
-            { id: 'sub-eco-inv', href: '#inventario', label: 'Equipar ítems', icon: 'i-briefcase', match: h => h === 'inventario' },
-            { id: 'sub-eco-pj', href: '#personaje', label: 'Personalizar Avatar', icon: 'i-user', match: h => h === 'personaje' }
-          ]
         }
       ]
     },
@@ -8734,19 +8950,6 @@ const SUBMENUS = {
     }
   },
   profesor: {
-    desafios: {
-      tag: 'Evaluaciones',
-      title: 'Desafíos Docente',
-      sections: [
-        {
-          label: 'Gestión de Retos',
-          items: [
-            { id: 'sub-pdesafios-all', href: '#desafios', label: 'Lista de Desafíos', icon: 'i-flame', match: h => h === 'desafios' },
-            { id: 'sub-pdesafios-new', href: '#cuestionario-nuevo', label: 'Nuevo Cuestionario', meta: 'Editor interactivo', icon: 'i-plus', match: h => h === 'cuestionario-nuevo' }
-          ]
-        }
-      ]
-    },
     ranking: {
       tag: 'Gamificación',
       title: 'Alumnos & Logros',
@@ -8817,19 +9020,6 @@ const SUBMENUS = {
           label: 'Roles de plataforma',
           items: [
             { id: 'sub-aacc-adm', href: '#administradores', label: 'Administradores', meta: 'Asignar y revocar', icon: 'i-lock', match: h => h === 'administradores' }
-          ]
-        }
-      ]
-    },
-    desafios: {
-      tag: 'Evaluaciones',
-      title: 'Desafíos',
-      sections: [
-        {
-          label: 'Gestión',
-          items: [
-            { id: 'sub-ades-all', href: '#desafios', label: 'Lista de Desafíos', icon: 'i-flame', match: h => h === 'desafios' },
-            { id: 'sub-ades-new', href: '#cuestionario-nuevo', label: 'Nuevo Cuestionario', icon: 'i-plus', match: h => h === 'cuestionario-nuevo' }
           ]
         }
       ]
@@ -9391,6 +9581,7 @@ function route() {
   if (id === 'backoffice') renderBackoffice();
   if (id === 'vitrinas') renderVitrinas();
   if (id === 'marketplace') renderShopCourses();
+  if (id === 'uikit') renderUikitSamples();
   if (id === 'banco' && currentRole === 'alumno') renderWallet();
   if (id === 'inventario') renderInventory();
   if (id === 'mercado') {
