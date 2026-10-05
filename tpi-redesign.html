@@ -3851,7 +3851,7 @@ function Catalog(root) {
     syncFilterCount(root, [!locked && st.course, st.type, st.diff, st.state, st.req].filter(Boolean).length);
     if (!list.length) { res.innerHTML = `<div class="empty">${icon('i-filter-off')}<p>Ningún desafío coincide con estos filtros.</p></div>`; pagerEl.innerHTML = ''; return; }
     const rowsHTML = (items, showCourse) => items.map(c => `<tr>
-        <td class="cell-main"><div class="cell-title">${c.title}</div><div class="cell-sub">${c.req ? '<span class="badge badge-required">Obligatorio</span>' : ''}<span>${c.type}</span></div></td>
+        <td class="cell-main"><div class="cell-title" title="${c.title}">${c.title}</div><div class="cell-sub">${c.req ? '<span class="badge badge-required">Obligatorio</span>' : ''}<span>${c.type}</span></div></td>
         ${showCourse ? `<td>${c.course}</td>` : ''}
         <td><span class="diff"><span class="pips" data-level="${c.diff}" aria-hidden="true"><i></i><i></i><i></i></span>${DIFF[c.diff]}</span></td>
         <td class="num" style="white-space:nowrap">${c.due ? short(c.due) : c.done ? '—' : 'Sin fecha'}</td>
@@ -3859,7 +3859,7 @@ function Catalog(root) {
         <td>${c.published ? '<span class="badge badge-success">Publicado</span>' : '<span class="badge badge-outline">Borrador</span>'}</td>
         <td><div class="row-actions"><button class="icon-btn sm" aria-label="Editar ${c.title}"><svg class="icon icon-sm"><use href="#i-pencil"/></svg></button><button class="icon-btn sm" aria-label="Vista previa de ${c.title}"><svg class="icon icon-sm"><use href="#i-eye"/></svg></button></div></td>
       </tr>`).join('');
-    const tableHTML = (items, showCourse) => `<div class="table-wrap"><table class="data">
+    const tableHTML = (items, showCourse) => `<div class="table-wrap"><table class="data ch-table">
       <thead><tr><th>Desafío</th>${showCourse ? '<th>Cohorte</th>' : ''}<th>Dificultad</th><th>Vence</th><th>Evaluación</th><th>Recompensa</th><th>Estado</th><th><span class="sr-only">Acciones</span></th></tr></thead>
       <tbody>${rowsHTML(items, showCourse)}</tbody></table></div>`;
     if (locked) {
