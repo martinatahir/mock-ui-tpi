@@ -6558,9 +6558,10 @@ details.disclosure.cat-group > summary::after { margin-left:12px; }
   font-size:var(--fs-small); color:var(--text-muted); line-height:1.4; text-align:center;
 }
 [data-view="cards"] table.data.ch-table .cell-sub > .badge-required { grid-area:req; justify-self:end; align-self:center; }
-/* bloques de datos: etiqueta arriba, valor abajo, centrados en su columna */
+/* bloques de datos: caja centrada en su columna, etiqueta y valor alineados a la izquierda dentro de la caja */
 [data-view="cards"] table.data.ch-table td:nth-child(n+2):nth-child(-n+5) {
-  display:flex; flex-direction:column; align-items:center; justify-content:flex-start; gap:3px; text-align:center; min-width:0;
+  display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-start; gap:3px; text-align:left; min-width:0;
+  justify-self:center; width:min(100%, 9.75rem); /* mismo ancho en las dos filas: comparten borde izquierdo */
 }
 [data-view="cards"] table.data.ch-table td:nth-child(n+2):nth-child(-n+5)::before { font-size:var(--fs-micro); line-height:1.2; }
 [data-view="cards"] table.data.ch-table td:nth-child(2) { grid-area:diff; }
@@ -6568,7 +6569,7 @@ details.disclosure.cat-group > summary::after { margin-left:12px; }
 [data-view="cards"] table.data.ch-table td:nth-child(4) { grid-area:eval; }
 [data-view="cards"] table.data.ch-table td:nth-child(5) { grid-area:reward; }
 [data-view="cards"] table.data.ch-table td.reward-cell { display:flex; white-space:normal; }
-[data-view="cards"] table.data.ch-table td.reward-cell::before { grid-row:auto; align-self:center; }
+[data-view="cards"] table.data.ch-table td.reward-cell::before { grid-row:auto; align-self:flex-start; }
 [data-view="cards"] table.data.ch-table td.reward-cell > span { justify-self:auto; }
 [data-view="cards"] table.data.ch-table td:nth-child(3) { font-size:var(--fs-ui); line-height:1.4; }
 /* estado arriba a la izquierda, acciones en el pie */
