@@ -2835,6 +2835,11 @@
             </div>
           </div>
         </div>
+
+        <span class="meta" style="display:block; margin:18px 0 6px;">Insignias (.badge-tile):</span>
+        <div class="badge-grid" id="uikit-badges"></div>
+        <span class="meta" style="display:block; margin:18px 0 0;">Íconos de insignia (BADGE_ART, pixel 8×8 teñido con un color). No son los íconos del mercado de la sección 16:</span>
+        <div class="item-sheet" id="uikit-badge-icons"></div>
       </section>
 
       <!-- 8. Sistema Universal de Paginado -->
@@ -3061,7 +3066,7 @@
       <!-- 16. Economía e ítems -->
       <section class="card studs uikit-section">
         <h2>16. Economía e ítems (.wallet, .offer-card, .item-tile, .slot, íconos pixel)</h2>
-        <p class="hint" style="margin-bottom:14px;">Saldo, tarjeta de oferta, ítem de inventario con cantidad y color de tipo, ranuras de la maleta y el set de íconos pixel del equipo (el nivel crece con la potencia).</p>
+        <p class="hint" style="margin-bottom:14px;">Saldo, tarjeta de oferta, ítem de inventario con cantidad y color de tipo, ranuras de la maleta y el set de íconos pixel del equipo del mercado (el nivel crece con la potencia). Las insignias usan otro set, en la sección 7.</p>
         <div class="uikit-row">
           <span class="wallet"><img class="coin-icon" src="assets/items/coin.svg" alt="" width="20" height="20" /><span><span class="num">1.240</span> monedas</span></span>
           <span class="pos"><b class="num">+20</b> monedas</span><span class="neg"><b class="num">−350</b> monedas</span>
@@ -3078,9 +3083,110 @@
         <div class="item-sheet" id="uikit-sprites"></div>
       </section>
 
-      <!-- 17. Inventario para migrar -->
+
+      <!-- 17. Texto -->
       <section class="card studs uikit-section">
-        <h2>17. Inventario para migrar a la librería</h2>
+        <h2>17. Texto (.t-title, .t-subtitle, .t-text)</h2>
+        <p class="hint" style="margin-bottom:14px;">Títulos en la fuente display (pixel en arcade), subtítulo y cuerpo. Cada nivel usa la escala de tamaños del sistema.</p>
+        <div class="type-specimen">
+          <h3 class="t-title" data-level="1">Panel principal</h3>
+          <h3 class="t-title" data-level="2">Título de sección</h3>
+          <h3 class="t-title" data-level="3">Título de tarjeta</h3>
+          <p class="t-subtitle">Subtítulo: resumen de la actividad de los 12 grupos</p>
+          <p class="t-text" data-size="lg">Texto grande para introducciones.</p>
+          <p class="t-text">Texto de cuerpo. El ranking se actualiza cada noche.</p>
+          <p class="t-text" data-size="sm" data-muted>Texto chico y apagado. Sin datos todavía.</p>
+        </div>
+      </section>
+
+      <!-- 18. Casillas y opciones -->
+      <section class="card studs uikit-section">
+        <h2>18. Casillas y opciones (.check, .radio-group)</h2>
+        <p class="hint" style="margin-bottom:14px;">Checkbox con descripción y error, y grupo de opciones con descripción por opción y opciones deshabilitadas.</p>
+        <div class="uikit-cols">
+          <div class="stack">
+            <label class="check"><input type="checkbox" checked /><span class="check-box" aria-hidden="true"></span><span class="check-text"><span>Acepto el reglamento</span><span class="check-desc">Lo podés leer en la sección de la cátedra.</span></span></label>
+            <label class="check"><input type="checkbox" /><span class="check-box" aria-hidden="true"></span><span class="check-text"><span>Recibir avisos por mail</span></span></label>
+            <label class="check" data-invalid><input type="checkbox" aria-invalid="true" aria-describedby="uk-chk-err" /><span class="check-box" aria-hidden="true"></span><span class="check-text"><span>Confirmo que el trabajo es mío</span><span class="err" id="uk-chk-err">Tenés que confirmarlo para entregar.</span></span></label>
+            <label class="check"><input type="checkbox" disabled /><span class="check-box" aria-hidden="true"></span><span class="check-text"><span>Deshabilitado</span></span></label>
+          </div>
+          <fieldset class="radio-group">
+            <legend>Elegí tu plan</legend>
+            <label class="radio"><input type="radio" name="uk-plan" value="free" checked /><span class="radio-dot" aria-hidden="true"></span><span class="check-text"><span>Gratis</span></span></label>
+            <label class="radio"><input type="radio" name="uk-plan" value="pro" /><span class="radio-dot" aria-hidden="true"></span><span class="check-text"><span>Pro</span><span class="check-desc">Acceso completo a todos los desafíos.</span></span></label>
+            <label class="radio"><input type="radio" name="uk-plan" value="team" disabled /><span class="radio-dot" aria-hidden="true"></span><span class="check-text"><span>Equipo</span><span class="check-desc">Próximamente.</span></span></label>
+          </fieldset>
+        </div>
+      </section>
+
+      <!-- 19. Tooltip -->
+      <section class="card studs uikit-section">
+        <h2>19. Tooltip ([data-tooltip-text])</h2>
+        <p class="hint" style="margin-bottom:14px;">Ayuda corta al pasar el mouse o llegar con el teclado, en cuatro posiciones. Para descripciones largas usá una tarjeta de detalle que se abra al tocar (funciona también en celulares).</p>
+        <div class="uikit-row">
+          <button class="btn btn-ghost" type="button" data-tooltip-text="Guarda los cambios" data-pos="top">Arriba</button>
+          <button class="btn btn-ghost" type="button" data-tooltip-text="Se abre debajo" data-pos="bottom">Abajo</button>
+          <button class="btn btn-ghost" type="button" data-tooltip-text="A la izquierda" data-pos="left">Izquierda</button>
+          <button class="btn btn-ghost" type="button" data-tooltip-text="A la derecha" data-pos="right">Derecha</button>
+          <button class="icon-btn" type="button" aria-label="Descargar" data-tooltip-text="Descargar CSV"><svg class="icon icon-sm"><use href="#i-download"/></svg></button>
+        </div>
+      </section>
+
+      <!-- 20. Datos -->
+      <section class="card studs uikit-section">
+        <h2>20. Datos (.chart, .stars, .countdown)</h2>
+        <p class="hint" style="margin-bottom:14px;">Gráficos SVG propios (barras, línea y dona, sin librerías), calificación con estrellas y cuenta regresiva que se pone roja en el último 10%.</p>
+        <div class="chart-grid">
+          <figure class="chart" data-chart="bar" data-caption="Entregas por semana"></figure>
+          <figure class="chart" data-chart="line" data-caption="XP acumulada"></figure>
+          <figure class="chart" data-chart="donut" data-caption="Estado de los desafíos"></figure>
+        </div>
+        <div class="uikit-row" style="margin-top:16px;">
+          <div class="stars" role="slider" tabindex="0" aria-label="Calificación del curso" aria-valuemin="0" aria-valuemax="5" aria-valuenow="3" data-value="3"></div>
+          <div class="stars" data-size="sm" data-readonly aria-label="Calificación promedio: 4 de 5" data-value="4"></div>
+          <div class="countdown" data-seconds="75" role="timer" aria-label="Tiempo restante"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-clock"/></svg><span class="num" data-cd-time>01:15</span><button class="btn btn-ghost btn-sm" type="button" data-cd-toggle>Pausar</button><button class="btn btn-quiet btn-sm" type="button" data-cd-reset>Reiniciar</button></div>
+        </div>
+      </section>
+
+      <!-- 21. Contenido técnico -->
+      <section class="card studs uikit-section">
+        <h2>21. Contenido técnico (.code-block, .math)</h2>
+        <p class="hint" style="margin-bottom:14px;">Bloque de código con lenguaje, archivo y botón de copiar (sin resaltado de sintaxis), y expresiones matemáticas en bloque o en línea.</p>
+        <div class="code-block">
+          <div class="code-head"><span class="code-lang">TypeScript</span><span class="code-file">app.component.ts</span><button class="btn btn-quiet btn-sm" type="button" data-copy><svg class="icon icon-sm"><use href="#i-copy"/></svg><span>Copiar</span></button></div>
+          <pre><code>export class AppComponent {
+  readonly title = signal('TPI 2026');
+}</code></pre>
+        </div>
+        <div class="math" style="margin-top:14px;">a² + b² = c²</div>
+        <p class="t-text" style="margin-top:10px;">La fórmula <span class="math" data-inline>E = m·c²</span> también puede ir dentro del texto.</p>
+      </section>
+
+      <!-- 22. Archivos -->
+      <section class="card studs uikit-section">
+        <h2>22. Archivos (.import-btn, dialog.file-modal)</h2>
+        <p class="hint" style="margin-bottom:14px;">Botón que abre el selector nativo de archivos y modal con zona para arrastrar. Ninguno sube nada: entregan la lista de archivos a la pantalla que los usa.</p>
+        <div class="uikit-row">
+          <label class="btn btn-secondary import-btn"><svg class="icon icon-sm"><use href="#i-download"/></svg>Importar CSV<input type="file" accept=".csv,.xlsx" data-import /></label>
+          <span class="muted" data-import-out>Ningún archivo elegido.</span>
+          <button class="btn btn-ghost" type="button" data-open="dialog-archivos">Subir archivos…</button>
+        </div>
+      </section>
+
+      <!-- 23. Footer -->
+      <section class="card studs uikit-section">
+        <h2>23. Pie de página (.site-footer)</h2>
+        <p class="hint" style="margin-bottom:14px;">Marca, enlaces y copyright.</p>
+        <footer class="site-footer">
+          <span class="site-footer-brand">TUP</span>
+          <nav aria-label="Enlaces del pie"><a href="#uikit">Ayuda</a><a href="#uikit">Reglamento</a><a href="#uikit">Contacto con la cátedra</a></nav>
+          <span class="site-footer-copy">© 2026 UTN FRC · Programación IV</span>
+        </footer>
+      </section>
+
+      <!-- 24. Inventario para migrar -->
+      <section class="card studs uikit-section">
+        <h2>24. Inventario para migrar a la librería</h2>
         <p class="hint" style="margin-bottom:14px;">Componentes genéricos del mock, con su clase actual, variantes y dónde se usan. Las notas marcan lo que conviene unificar antes de pasarlo a la librería.</p>
         <div class="table-wrap"><table class="data uikit-inventory">
           <thead><tr><th>Componente</th><th>Clase actual</th><th>Variantes y estados</th><th>Se usa en</th><th>Nota para migrar</th></tr></thead>
@@ -3108,7 +3214,17 @@
             <tr><td>Saldo</td><td><code>.wallet</code>, <code>.pos</code>, <code>.neg</code></td><td>chip, montos con signo</td><td>Mercado, Billetera</td><td>—</td></tr>
             <tr><td>Tarjeta de oferta</td><td><code>.offer-card</code></td><td>gestión, tienda, vista previa, pausada</td><td>Mercado</td><td>—</td></tr>
             <tr><td>Ítem y ranura</td><td><code>.item-tile</code>, <code>.slot</code></td><td>cantidad, elegido, agotado · libre, lista, apagada, ocupada</td><td>Billetera, Equipar ítems</td><td>—</td></tr>
-            <tr><td>Íconos pixel</td><td><code>assets/items/*.svg</code></td><td>escudo 1–4, corazón 1–3, pociones 1–3, moneda, cofre</td><td>Mercado, Billetera</td><td>Los SVG originales no traen <code>xmlns</code>: agregarlo en la librería.</td></tr>
+            <tr><td>Íconos pixel del mercado</td><td><code>assets/items/*.svg</code></td><td>escudo 1–4, corazón 1–3, pociones 1–3, moneda, cofre</td><td>Mercado, Billetera</td><td>Los SVG originales no traen <code>xmlns</code>: agregarlo en la librería.</td></tr>
+            <tr><td>Insignia e íconos de insignia</td><td><code>.badge-tile</code>, <code>BADGE_ART</code> + <code>pixel()</code></td><td>shield, target, heart, trophy, up, crown, flag, bolt · teñidos con un color base</td><td>Insignias (catálogo y selector de ícono)</td><td>Set distinto del de mercado: en la librería es <code>generic-insignia-icon</code>, no <code>generic-item-icon</code>.</td></tr>
+            <tr><td>Texto</td><td><code>.t-title</code>, <code>.t-subtitle</code>, <code>.t-text</code></td><td>título 1–3, tamaños sm/md/lg, apagado</td><td>UI Kit (el mock usa h1/h2 por pantalla)</td><td>Equivale a title, subtitle y text de la librería.</td></tr>
+            <tr><td>Checkbox y opciones</td><td><code>.check</code>, <code>.radio-group</code></td><td>con descripción, error, deshabilitado</td><td>Formularios</td><td><code>.toggle</code> es un checkbox viejo: reemplazarlo por <code>.check</code>.</td></tr>
+            <tr><td>Tooltip</td><td><code>[data-tooltip-text]</code></td><td>arriba, abajo, izquierda, derecha</td><td>Botones de ícono</td><td>El sidebar tiene su propio tooltip (<code>data-tooltip</code>): unificar.</td></tr>
+            <tr><td>Gráfico</td><td><code>.chart</code></td><td>barras, línea, dona</td><td>Estadísticas</td><td>SVG propio, sin librerías.</td></tr>
+            <tr><td>Estrellas</td><td><code>.stars</code></td><td>interactivo, solo lectura, sm</td><td>Encuestas</td><td>—</td></tr>
+            <tr><td>Cuenta regresiva</td><td><code>.countdown</code></td><td>normal, crítico, pausado</td><td>Quiz cronometrado</td><td>—</td></tr>
+            <tr><td>Código y matemática</td><td><code>.code-block</code>, <code>.math</code></td><td>con copiar · bloque, en línea</td><td>Consignas de desafíos</td><td>—</td></tr>
+            <tr><td>Archivos</td><td><code>.import-btn</code>, <code>dialog.file-modal</code></td><td>selector, zona para arrastrar, límite de tamaño</td><td>Padrón, entregas</td><td>—</td></tr>
+            <tr><td>Pie de página</td><td><code>.site-footer</code></td><td>marca, enlaces, copyright</td><td>Login y páginas públicas</td><td>—</td></tr>
             <tr><td>Íconos de interfaz</td><td><code>&lt;use href="#i-…"&gt;</code></td><td>icon, icon-sm, icon-xs</td><td>Todas</td><td>Hay emojis en el mock (barra del mock, títulos del UI Kit): reemplazarlos por íconos.</td></tr>
           </tbody>
         </table></div>
@@ -3316,6 +3432,23 @@
 <nav class="bottom-nav" id="bottom-nav" aria-label="Navegación móvil"></nav>
 
 
+<!-- ================= Modal: subir archivos (UI Kit) ================= -->
+<dialog class="modal modal-md studs file-modal" id="dialog-archivos" aria-labelledby="h-files">
+  <div class="buy">
+    <div class="modal-head">
+      <div><h2 id="h-files">Subir archivos</h2><p>Arrastrá o elegí archivos. Hasta 10 MB cada uno.</p></div>
+      <button class="icon-btn sm" type="button" data-files-close aria-label="Cerrar"><svg class="icon icon-sm"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <label class="dropzone"><input type="file" multiple accept=".pdf,.png,.jpg,.zip" data-drop-input /><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg><span><b>Soltá los archivos acá</b> o tocá para elegirlos</span><span class="muted">PDF, PNG, JPG o ZIP</span></label>
+      <ul class="file-list" data-file-list></ul>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-quiet" type="button" data-files-close>Cancelar</button>
+      <button class="btn btn-primary" type="button" data-files-ok disabled>Subir</button>
+    </div>
+  </div>
+</dialog>
 
 
 <!-- ================= Modal: Gestionar Vitrina ================= -->
@@ -7394,10 +7527,11 @@ const BADGES = [
   ['Primeros pasos', 'Completaste tu primer nodo obligatorio.', 'flag', 'var(--accent-primary-fill)'],
 ];
 const artFor = (kind, col, label) => pixel(BADGE_ART[kind], { a: col, b: shade(col, 50), c: tint(col, 55), d: 'var(--accent-gold-fill)' }, label);
-function renderBadges() {
-  $('#badge-grid').innerHTML = BADGES.map(([n, d, k, col, pending]) => `
+const badgeTile = ([n, d, k, col, pending]) => `
     <article class="card studs badge-tile">${artFor(k, col, '')}<h3>${n}</h3><p>${d}</p>
-      <div class="chips"><span class="badge badge-outline">Transversal</span><span class="badge badge-outline">Sistema</span>${pending ? '<span class="badge badge-gold">Ícono pendiente</span>' : ''}</div></article>`).join('');
+      <div class="chips"><span class="badge badge-outline">Transversal</span><span class="badge badge-outline">Sistema</span>${pending ? '<span class="badge badge-gold">Ícono pendiente</span>' : ''}</div></article>`;
+function renderBadges() {
+  $('#badge-grid').innerHTML = BADGES.map(badgeTile).join('');
   const picks = Object.keys(BADGE_ART);
   $('#nb-icons').insertAdjacentHTML('beforeend', picks.map((k, i) =>
     `<label class="icon-opt"><input type="radio" name="nb-icon" value="${k}" aria-label="Ícono ${k}${i % 3 === 2 ? ', arte pendiente' : ''}"><span>${artFor(k, 'var(--accent-secondary-fill)', '')}${i % 3 === 2 ? '<small>pendiente</small>' : ''}</span></label>`).join(''));
@@ -9172,6 +9306,100 @@ $('#screen-inventario-alumno').addEventListener('drop', e => { const sl = e.targ
 $('#screen-inventario-alumno').addEventListener('dragend', () => { if (bagPick) { bagPick = null; renderInventory(); } });
 
 
+
+/* ---- Componentes genéricos del UI Kit: tooltip, gráficos, estrellas, cuenta regresiva, copiar y archivos ---- */
+const uiTip = document.body.appendChild(Object.assign(document.createElement('div'), { id: 'ui-tooltip', className: 'ui-tooltip', role: 'tooltip', hidden: true }));
+function showUiTip(el) {
+  uiTip.textContent = el.dataset.tooltipText; uiTip.hidden = false; uiTip.dataset.pos = el.dataset.pos || 'top';
+  el.setAttribute('aria-describedby', 'ui-tooltip');
+  const r = el.getBoundingClientRect(), t = uiTip.getBoundingClientRect(), gap = 8, pos = uiTip.dataset.pos;
+  const x = pos === 'left' ? r.left - t.width - gap : pos === 'right' ? r.right + gap : r.left + r.width / 2 - t.width / 2;
+  const y = pos === 'top' ? r.top - t.height - gap : pos === 'bottom' ? r.bottom + gap : r.top + r.height / 2 - t.height / 2;
+  uiTip.style.left = `${Math.max(8, Math.min(innerWidth - t.width - 8, x))}px`; uiTip.style.top = `${Math.max(8, y)}px`;
+}
+const hideUiTip = () => { uiTip.hidden = true; $$('[aria-describedby="ui-tooltip"]').forEach(x => x.removeAttribute('aria-describedby')); };
+['mouseover', 'focusin'].forEach(ev => document.addEventListener(ev, e => { const t = e.target.closest?.('[data-tooltip-text]'); if (t) showUiTip(t); }));
+['mouseout', 'focusout'].forEach(ev => document.addEventListener(ev, e => { if (e.target.closest?.('[data-tooltip-text]')) hideUiTip(); }));
+document.addEventListener('keydown', e => { if (e.key === 'Escape') hideUiTip(); });
+
+const CHART_DATA = {
+  bar: [['Lun', 12], ['Mar', 8], ['Mié', 15], ['Jue', 6], ['Vie', 10]],
+  line: [['S1', 120], ['S2', 260], ['S3', 310], ['S4', 480], ['S5', 520], ['S6', 690]],
+  donut: [['Publicados', 14, 'var(--accent-success-fill)'], ['Borradores', 4, 'var(--border-highlight)'], ['Vencidos', 3, 'var(--accent-danger-fill)']],
+};
+function chartSVG(type, data) {
+  const W = 300, H = 160, max = Math.max(...data.map(d => d[1]));
+  if (type === 'donut') {
+    const total = data.reduce((n, d) => n + d[1], 0), R = 56, C = 2 * Math.PI * R; let off = 0;
+    const arcs = data.map(([l, v, c]) => { const len = v / total * C; const el = `<circle r="${R}" cx="80" cy="80" fill="none" stroke="${c}" stroke-width="22" stroke-dasharray="${len} ${C - len}" stroke-dashoffset="${-off}"><title>${l}: ${v}</title></circle>`; off += len; return el; }).join('');
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${data.map(d => `${d[0]} ${d[1]}`).join(', ')}"><g transform="rotate(-90 80 80)">${arcs}</g><text x="80" y="86" text-anchor="middle" class="chart-total">${total}</text>${data.map(([l, v, c], i) => `<rect x="172" y="${40 + i * 28}" width="12" height="12" fill="${c}"/><text x="192" y="${51 + i * 28}" class="chart-label">${l} · ${v}</text>`).join('')}</svg>`;
+  }
+  const pad = 24, bw = (W - pad * 2) / data.length;
+  const y = v => H - pad - (v / max) * (H - pad * 2);
+  const labels = data.map((d, i) => `<text x="${pad + bw * i + bw / 2}" y="${H - 6}" text-anchor="middle" class="chart-label">${d[0]}</text>`).join('');
+  if (type === 'line') {
+    const pts = data.map((d, i) => `${pad + bw * i + bw / 2},${y(d[1])}`).join(' ');
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${data.map(d => `${d[0]} ${d[1]}`).join(', ')}"><line x1="${pad}" x2="${W - pad}" y1="${H - pad}" y2="${H - pad}" class="chart-axis"/><polyline points="${pts}" class="chart-line"/>${data.map((d, i) => `<circle cx="${pad + bw * i + bw / 2}" cy="${y(d[1])}" r="4" class="chart-dot"><title>${d[0]}: ${d[1]}</title></circle>`).join('')}${labels}</svg>`;
+  }
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${data.map(d => `${d[0]} ${d[1]}`).join(', ')}"><line x1="${pad}" x2="${W - pad}" y1="${H - pad}" y2="${H - pad}" class="chart-axis"/>${data.map((d, i) => `<rect x="${pad + bw * i + bw * 0.18}" y="${y(d[1])}" width="${bw * 0.64}" height="${H - pad - y(d[1])}" class="chart-bar"><title>${d[0]}: ${d[1]}</title></rect><text x="${pad + bw * i + bw / 2}" y="${y(d[1]) - 5}" text-anchor="middle" class="chart-value">${d[1]}</text>`).join('')}${labels}</svg>`;
+}
+function renderStars(el, preview) {
+  const v = preview ?? Number(el.dataset.value), max = 5;
+  el.innerHTML = Array.from({ length: max }, (_, i) => `<svg class="icon star${i < v ? ' on' : ''}" aria-hidden="true" data-star="${i + 1}"><use href="#i-star"/></svg>`).join('');
+  if (!el.hasAttribute('data-readonly')) el.setAttribute('aria-valuenow', el.dataset.value);
+}
+function renderKitWidgets() {
+  $$('#screen-uikit [data-chart]').forEach(f => { f.innerHTML = chartSVG(f.dataset.chart, CHART_DATA[f.dataset.chart]) + `<figcaption>${f.dataset.caption}</figcaption>`; });
+  $$('#screen-uikit .stars').forEach(el => renderStars(el));
+}
+document.addEventListener('mouseover', e => { const s = e.target.closest('.stars:not([data-readonly]) [data-star]'); if (s) renderStars(s.closest('.stars'), Number(s.dataset.star)); });
+document.addEventListener('mouseout', e => { const st = e.target.closest?.('.stars:not([data-readonly])'); if (st && !st.contains(e.relatedTarget)) renderStars(st); });
+document.addEventListener('click', e => { const s = e.target.closest('.stars:not([data-readonly]) [data-star]'); if (s) { const st = s.closest('.stars'); st.dataset.value = s.dataset.star; renderStars(st); } });
+document.addEventListener('keydown', e => {
+  const st = e.target.closest?.('.stars:not([data-readonly])'); if (!st || !['ArrowLeft', 'ArrowRight'].includes(e.key)) return;
+  e.preventDefault(); st.dataset.value = Math.max(0, Math.min(5, Number(st.dataset.value) + (e.key === 'ArrowRight' ? 1 : -1))); renderStars(st);
+});
+// Countdown: one interval for every timer on the page; pausing skips the decrement instead of clearing it.
+setInterval(() => $$('.countdown').forEach(cd => {
+  if (cd.dataset.paused || cd.closest('[hidden]')) return;
+  const total = Number(cd.dataset.seconds), left = Math.max(0, Number(cd.dataset.left ?? total) - 1);
+  cd.dataset.left = left;
+  $('[data-cd-time]', cd).textContent = `${String(Math.floor(left / 60)).padStart(2, '0')}:${String(left % 60).padStart(2, '0')}`;
+  cd.toggleAttribute('data-critical', left <= total * 0.1);
+  cd.toggleAttribute('data-expired', left === 0);
+}), 1000);
+document.addEventListener('click', e => {
+  const cd = e.target.closest('.countdown'); if (!cd) return;
+  if (e.target.closest('[data-cd-toggle]')) { cd.toggleAttribute('data-paused'); $('[data-cd-toggle]', cd).textContent = cd.dataset.paused !== undefined ? 'Seguir' : 'Pausar'; }
+  if (e.target.closest('[data-cd-reset]')) { delete cd.dataset.left; cd.removeAttribute('data-critical'); cd.removeAttribute('data-expired'); }
+});
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-copy]'); if (!b) return;
+  try { await navigator.clipboard.writeText(b.closest('.code-block').querySelector('code').textContent); b.querySelector('span').textContent = 'Copiado'; }
+  catch { b.querySelector('span').textContent = 'No se pudo copiar'; }
+  setTimeout(() => { b.querySelector('span').textContent = 'Copiar'; }, 1500);
+});
+document.addEventListener('change', e => {
+  if (e.target.matches('[data-import]')) { const f = [...e.target.files]; $('[data-import-out]').textContent = f.length ? f.map(x => x.name).join(', ') : 'Ningún archivo elegido.'; }
+  if (e.target.matches('[data-drop-input]')) addFiles([...e.target.files]);
+});
+let queuedFiles = [];
+function addFiles(files) {
+  const MAX = 10 * 1024 * 1024;
+  queuedFiles = [...queuedFiles, ...files];
+  $('[data-file-list]').innerHTML = queuedFiles.map((f, i) => `<li${f.size > MAX ? ' data-invalid' : ''}><span class="file-name">${f.name}</span><span class="num muted">${(f.size / 1024 / 1024).toFixed(1)} MB</span>${f.size > MAX ? '<span class="err">Supera los 10 MB</span>' : ''}<button class="icon-btn sm" type="button" data-file-rm="${i}" aria-label="Quitar ${f.name}">${icon('i-x', 'icon icon-sm')}</button></li>`).join('');
+  $('[data-files-ok]').disabled = !queuedFiles.length || queuedFiles.some(f => f.size > MAX);
+}
+$('#dialog-archivos').addEventListener('click', e => {
+  const rm = e.target.closest('[data-file-rm]'); if (rm) { queuedFiles.splice(Number(rm.dataset.fileRm), 1); addFiles([]); return; }
+  if (e.target.closest('[data-files-close]')) $('#dialog-archivos').close();
+  if (e.target.closest('[data-files-ok]')) { $('#dialog-archivos').close(); showToast(`${queuedFiles.length} ${queuedFiles.length === 1 ? 'archivo listo' : 'archivos listos'} para subir.`, 'success'); queuedFiles = []; addFiles([]); }
+});
+const dz = $('#dialog-archivos .dropzone');
+['dragenter', 'dragover'].forEach(ev => dz.addEventListener(ev, e => { e.preventDefault(); dz.dataset.over = ''; }));
+['dragleave', 'drop'].forEach(ev => dz.addEventListener(ev, () => delete dz.dataset.over));
+dz.addEventListener('drop', e => { e.preventDefault(); addFiles([...e.dataTransfer.files]); });
+
 /* UI Kit: live samples rendered with the same helpers the screens use, so the kit can't drift from them. */
 function renderUikitSamples() {
   const o = OFFERS.ProgIV[0];
@@ -9180,6 +9408,9 @@ function renderUikitSamples() {
     .map(([k, n]) => itemTile(INVENTORY.ProgIV.find(i => i.key === k), n, n ? '' : '')).join('');
   $('#uikit-sprites').innerHTML = ['shield1', 'shield2', 'shield3', 'shield4', 'heart1', 'heart2', 'heart3', 'xp-boost1', 'xp-boost2', 'xp-boost3', 'coins-boost1', 'coins-boost2', 'coins-boost3', 'coin', 'chest', 'fire', 'trophy']
     .map(n => `<figure>${itemImg(n, n)}<figcaption>${n}</figcaption></figure>`).join('');
+  $('#uikit-badges').innerHTML = [0, 1, 2, 5].map(i => badgeTile(BADGES[i])).join('');
+  $('#uikit-badge-icons').innerHTML = Object.keys(BADGE_ART)
+    .map(k => `<figure>${artFor(k, 'var(--accent-secondary-fill)', k)}<figcaption>${k}</figcaption></figure>`).join('');
 }
 /* ======================= role / nav / routing ======================= */
 const NAV_TABS = {
@@ -10171,7 +10402,7 @@ function route() {
   if (id === 'backoffice') renderBackoffice();
   if (id === 'vitrinas') renderVitrinas();
   if (id === 'marketplace') renderShopCourses();
-  if (id === 'uikit') renderUikitSamples();
+  if (id === 'uikit') { renderUikitSamples(); renderKitWidgets(); }
   if (id === 'banco' && currentRole === 'alumno') {
     if (arg) {
       const decoded = decodeURIComponent(arg);

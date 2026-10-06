@@ -7090,7 +7090,7 @@ details.disclosure.cat-group > summary::after { margin-left:12px; }
 .uikit-demo .tabs { margin-bottom:0; }
 .item-sheet { display:flex; flex-wrap:wrap; gap:12px; margin-top:16px; }
 .item-sheet figure { margin:0; width:76px; display:flex; flex-direction:column; align-items:center; gap:4px; padding:8px 4px; border:1px solid var(--border-subtle); border-radius:var(--radius-control); background:var(--bg-surface-alt); }
-.item-sheet .item-icon { width:36px; height:36px; }
+.item-sheet .item-icon, .item-sheet .pixel { width:36px; height:36px; }
 .item-sheet figcaption { font-size:11px; color:var(--text-muted); font-family:var(--font-mono, monospace); }
 .uikit-inventory td:nth-child(2), .uikit-inventory td:nth-child(3) { font-size:var(--fs-small); }
 .uikit-inventory td:last-child { font-size:var(--fs-small); color:var(--text-muted); max-width:320px; }
